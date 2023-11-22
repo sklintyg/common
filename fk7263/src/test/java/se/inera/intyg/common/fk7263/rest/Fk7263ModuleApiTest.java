@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -32,19 +32,17 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import jakarta.xml.bind.JAXBElement;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
@@ -64,6 +62,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
@@ -79,7 +78,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 /**
  * @author andreaskaltenbach
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith({MockitoExtension.class})
 public class Fk7263ModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
@@ -87,34 +86,34 @@ public class Fk7263ModuleApiTest {
 
     @Mock
     private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
-
     @Spy
     private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory = new WebcertModelFactoryImpl();
+    @Spy
+    private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @InjectMocks
     private Fk7263ModuleApi fk7263ModuleApi;
 
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
-
     @Test
-    public void updateChangesHosPersonalInfo() throws IOException, ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-
-        Vardgivare vardgivare = new Vardgivare();
+    void updateChangesHosPersonalInfo() throws IOException, ModuleException {
+        final var utlatande = getUtlatandeFromFile();
+        final var vardgivare = new Vardgivare();
         vardgivare.setVardgivarid("vardgivarId");
         vardgivare.setVardgivarnamn("vardgivarNamn");
-        Vardenhet vardenhet = new Vardenhet();
+
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("enhetId");
         vardenhet.setEnhetsnamn("enhetNamn");
-        HoSPersonal hosPerson = new HoSPersonal();
+
+        final var hosPerson = new HoSPersonal();
         hosPerson.setPersonId("nyId");
         hosPerson.setFullstandigtNamn("nyNamn");
         hosPerson.setForskrivarKod("nyForskrivarkod");
         hosPerson.setVardenhet(vardenhet);
-        LocalDateTime signingDate = LocalDate.parse("2014-08-01").atStartOfDay();
-        String updatedHolder = fk7263ModuleApi.updateBeforeSigning(toJsonString(utlatande), hosPerson, signingDate);
-        Fk7263Utlatande updatedIntyg = objectMapper.readValue(updatedHolder, Fk7263Utlatande.class);
+
+        final var signingDate = LocalDate.parse("2014-08-01").atStartOfDay();
+        final var updatedHolder = fk7263ModuleApi.updateBeforeSigning(toJsonString(utlatande), hosPerson, signingDate);
+        final var updatedIntyg = objectMapper.readValue(updatedHolder, Fk7263Utlatande.class);
 
         assertEquals(signingDate, updatedIntyg.getGrundData().getSigneringsdatum());
         assertEquals("nyId", updatedIntyg.getGrundData().getSkapadAv().getPersonId());
@@ -125,243 +124,228 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void updatePatientBeforeSave() throws IOException, ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-        Patient updatedPatient = createUpdatedPatient();
-
-        String res = fk7263ModuleApi.updateBeforeSave(toJsonString(utlatande), updatedPatient);
+    void updatePatientBeforeSave() throws IOException, ModuleException {
+        final var utlatande = getUtlatandeFromFile();
+        final var updatedPatient = createUpdatedPatient();
+        final var res = fk7263ModuleApi.updateBeforeSave(toJsonString(utlatande), updatedPatient);
         assertNotNull(res);
         assertEquals(updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
     }
 
     @Test
-    public void testUpdatePatientBeforeViewing() throws Exception {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-        Patient updatedPatient = createUpdatedPatient();
+    void testUpdatePatientBeforeViewing() throws Exception {
+        final var utlatande = getUtlatandeFromFile();
+        final var updatedPatient = createUpdatedPatient();
 
-        String res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient);
+        final var res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient);
         assertNotNull(res);
         assertEquals(updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
     }
 
     @Test
-    public void copyContainsOriginalData() throws IOException, ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
+    void copyContainsOriginalData() throws IOException, ModuleException {
+        final var utlatande = getUtlatandeFromFile();
 
-        Patient patient = new Patient();
+        final var patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
         patient.setPersonId(createPnr("19121212-1212"));
-        CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
+        final var copyHolder = createDraftCopyHolder(patient);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
+        final var holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
 
         assertNotNull(holder);
-        Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
+        final var creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
         assertEquals("2011-03-07", creatededUtlatande.getNedsattMed50().getFrom().getDate());
         assertNull(creatededUtlatande.getGrundData().getPatient().getFornamn());
         assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
     }
 
     @Test
-    public void copyContainsOriginalPersondetails() throws IOException, ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
+    void copyContainsOriginalPersondetails() throws IOException, ModuleException {
+        final var utlatande = getUtlatandeFromFile();
 
         // create copyholder without Patient in it
-        CreateDraftCopyHolder copyHolder = createDraftCopyHolder(null);
+        final var copyHolder = createDraftCopyHolder(null);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
+        final var holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
 
         assertNotNull(holder);
-        Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
+        final var creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
         assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
         assertEquals("191212121212", creatededUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
     }
 
     @Test
-    public void copyContainsNewPersonnummer() throws IOException, ModuleException {
-
-        Personnummer newSSN = createPnr("19121212-1414");
-
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-
-        Patient patient = new Patient();
+    void copyContainsNewPersonnummer() throws IOException, ModuleException {
+        final var newSSN = createPnr("19121212-1414");
+        final var utlatande = getUtlatandeFromFile();
+        final var patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
         patient.setPersonId(createPnr("19121212-1212"));
-        CreateDraftCopyHolder copyHolder = createDraftCopyHolder(patient);
+
+        final var copyHolder = createDraftCopyHolder(patient);
         copyHolder.setNewPersonnummer(newSSN);
 
-        String holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
+        final var holder = fk7263ModuleApi.createNewInternalFromTemplate(copyHolder, utlatande);
         assertNotNull(holder);
 
-        Fk7263Utlatande creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
+        final var creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
         assertNull(creatededUtlatande.getGrundData().getPatient().getFornamn());
         assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
         assertEquals(newSSN, creatededUtlatande.getGrundData().getPatient().getPersonId());
     }
 
     @Test
-    public void testSendCertificateWhenRecipientIsOtherThanFk() throws Exception {
-        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
-
-        AttributedURIType address = new AttributedURIType();
+    void testSendCertificateWhenRecipientIsOtherThanFk() throws Exception {
+        final var xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
 
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+        final var response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.okResult());
 
-        // Wen
         when(registerMedicalCertificateClient.registerMedicalCertificate(
             any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
-        // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null);
 
-        // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address), Mockito.any(RegisterMedicalCertificateType.class));
     }
 
     @Test
-    public void testSendFullCertificateWhenRecipientIsFk() throws Exception {
-        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
-
-        AttributedURIType address = new AttributedURIType();
+    void testSendFullCertificateWhenRecipientIsFk() throws Exception {
+        final var xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
 
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+        final var response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
             any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
-        // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
 
-        // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(Mockito.eq(address), any(RegisterMedicalCertificateType.class));
     }
 
     @Test
-    public void testSendMinimalCertificateWhenRecipientIsFk() throws Exception {
-        String xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8));
+    void testSendMinimalCertificateWhenRecipientIsFk() throws Exception {
+        final var xml = marshall(Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8));
 
-        AttributedURIType address = new AttributedURIType();
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
 
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+        final var response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
             any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
-        // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
 
-        // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address), any(RegisterMedicalCertificateType.class));
     }
 
-    @Test(expected = ModuleException.class)
-    public void whenFkIsRecipientAndBadCertificateThenThrowException() throws Exception {
-
-        AttributedURIType address = new AttributedURIType();
+    @Test
+    void whenFkIsRecipientAndBadCertificateThenThrowException() {
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
-
-        // Then
-        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA");
+        assertThrows(ModuleException.class, () ->
+            fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA")
+        );
     }
 
     @Test
-    public void whenFkIsRecipientThenSetCodeSystemToICD10() throws Exception {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
+    void whenFkIsRecipientThenSetCodeSystemToICD10() throws Exception {
+        final var utlatande = getUtlatandeFromFile();
         RegisterMedicalCertificateType request = InternalToTransport.getJaxbObject(utlatande);
-
         request = fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request);
 
         assertEquals("ICD-10", request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod().getCodeSystemName());
     }
 
-    @Test(expected = ModuleException.class)
-    public void whenFkIsRecipientAndNotSmittskyddAndNoMedicinsktTillstandThenThrowException() throws Exception {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-        RegisterMedicalCertificateType request = InternalToTransport.getJaxbObject(utlatande);
-
+    @Test
+    void whenFkIsRecipientAndNotSmittskyddAndNoMedicinsktTillstandThenThrowException() throws IOException, ConverterException {
+        final var utlatande = getUtlatandeFromFile();
+        final var request = InternalToTransport.getJaxbObject(utlatande);
         request.getLakarutlatande().setMedicinsktTillstand(null);
-
-        fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void whenFkIsRecipientAndNotSmittskyddAndNoTillstandskodThenThrowException() throws Exception {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-        RegisterMedicalCertificateType request = InternalToTransport.getJaxbObject(utlatande);
-
-        request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(null);
-
-        fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request);
+        assertThrows(ModuleException.class, () ->
+            fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request)
+        );
     }
 
     @Test
-    public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        Fk7263Utlatande utlatande = getUtlatandeFromFile();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+    void whenFkIsRecipientAndNotSmittskyddAndNoTillstandskodThenThrowException() throws IOException, ConverterException {
+        final var utlatande = getUtlatandeFromFile();
+        final var request = InternalToTransport.getJaxbObject(utlatande);
+        request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(null);
+        assertThrows(ModuleException.class, () ->
+            fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request)
+        );
+    }
 
-        String result = fk7263ModuleApi.getAdditionalInfo(intyg);
+    @Test
+    void getAdditionalInfoFromUtlatandeTest() throws Exception {
+        final var utlatande = getUtlatandeFromFile();
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
+        final var result = fk7263ModuleApi.getAdditionalInfo(intyg);
 
         assertEquals("2011-01-26 - 2011-05-31", result);
     }
 
     @Test
-    public void getAdditionalInfoOneTimePeriodTest() throws ModuleException {
-        final String fromString = "2015-12-12";
-        final String toString = "2016-03-02";
-        LocalDate from = LocalDate.parse(fromString);
-        LocalDate to = LocalDate.parse(toString);
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoOneTimePeriodTest() throws ModuleException {
+        final var fromString = "2015-12-12";
+        final var toString = "2016-03-02";
+        final var from = LocalDate.parse(fromString);
+        final var to = LocalDate.parse(toString);
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygsId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("32");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("32.2");
         delsvar.getContent().add(aDatePeriod(from, to));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = fk7263ModuleApi.getAdditionalInfo(intyg);
+        final var result = fk7263ModuleApi.getAdditionalInfo(intyg);
 
         assertEquals(fromString + " - " + toString, result);
     }
 
     @Test
-    public void getAdditionalInfoMultiplePeriodsTest() throws ModuleException {
-        final String fromString = "2015-12-12";
-        final String middleDate1 = "2015-12-13";
-        final String middleDate2 = "2015-12-14";
-        final String middleDate3 = "2015-12-15";
-        final String middleDate4 = "2015-12-16";
-        final String toString = "2016-03-02";
-        LocalDate from = LocalDate.parse(fromString);
-        LocalDate to = LocalDate.parse(toString);
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoMultiplePeriodsTest() throws ModuleException {
+        final var fromString = "2015-12-12";
+        final var middleDate1 = "2015-12-13";
+        final var middleDate2 = "2015-12-14";
+        final var middleDate3 = "2015-12-15";
+        final var middleDate4 = "2015-12-16";
+        final var toString = "2016-03-02";
+        final var from = LocalDate.parse(fromString);
+        final var to = LocalDate.parse(toString);
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygsId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("32");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("32.2");
         delsvar.getContent().add(aDatePeriod(LocalDate.parse(middleDate2), LocalDate.parse(middleDate3)));
         s.getDelsvar().add(delsvar);
-        Svar s2 = new Svar();
+        final var s2 = new Svar();
         s2.setId("32");
-        Delsvar delsvar2 = new Delsvar();
+        final var delsvar2 = new Delsvar();
         delsvar2.setId("32.2");
         delsvar2.getContent().add(aDatePeriod(LocalDate.parse(middleDate4), to));
         s2.getDelsvar().add(delsvar2);
-        Svar s3 = new Svar();
+        final var s3 = new Svar();
         s3.setId("32");
-        Delsvar delsvar3 = new Delsvar();
+        final var delsvar3 = new Delsvar();
         delsvar3.setId("32.2");
         delsvar3.getContent().add(aDatePeriod(from, LocalDate.parse(middleDate1)));
         s3.getDelsvar().add(delsvar3);
@@ -375,57 +359,57 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
-        final String fromString = "2015-12-12";
-        final String toString = "2016-03-02";
-        LocalDate from = LocalDate.parse(fromString);
-        LocalDate to = LocalDate.parse(toString);
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
+        final var fromString = "2015-12-12";
+        final var toString = "2016-03-02";
+        final var from = LocalDate.parse(fromString);
+        final var to = LocalDate.parse(toString);
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygsId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("30"); // wrong SvarId
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("32.2");
         delsvar.getContent().add(aDatePeriod(from, to));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = fk7263ModuleApi.getAdditionalInfo(intyg);
+        final var result = fk7263ModuleApi.getAdditionalInfo(intyg);
 
         assertNull(result);
     }
 
     @Test
-    public void getAdditionalInfoDelSvarNotFoundTest() throws ModuleException {
-        final String fromString = "2015-12-12";
-        final String toString = "2016-03-02";
-        LocalDate from = LocalDate.parse(fromString);
-        LocalDate to = LocalDate.parse(toString);
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoDelSvarNotFoundTest() throws ModuleException {
+        final var fromString = "2015-12-12";
+        final var toString = "2016-03-02";
+        final var from = LocalDate.parse(fromString);
+        final var to = LocalDate.parse(toString);
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygsId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("32");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("32.1"); // wrong delsvarId
         delsvar.getContent().add(aDatePeriod(from, to));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = fk7263ModuleApi.getAdditionalInfo(intyg);
+        final var result = fk7263ModuleApi.getAdditionalInfo(intyg);
 
         assertNull(result);
     }
 
     @Test
-    public void testRegisterCertificateAlreadyExists() throws Exception {
-        String json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
+    void testRegisterCertificateAlreadyExists() throws Exception {
+        final var json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
-        AttributedURIType address = new AttributedURIType();
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
 
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+        final var response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.infoResult(RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
@@ -441,13 +425,13 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void testRegisterCertificateGenericInfoResult() throws Exception {
-        String json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
+    void testRegisterCertificateGenericInfoResult() throws Exception {
+        final var json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
-        AttributedURIType address = new AttributedURIType();
+        final var address = new AttributedURIType();
         address.setValue("logicalAddress");
 
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+        final var response = new RegisterMedicalCertificateResponseType();
         response.setResult(ResultOfCallUtil.infoResult("INFO"));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
@@ -463,21 +447,21 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void getCertficateMessagesProviderGetExistingKey() {
+    void getCertficateMessagesProviderGetExistingKey() {
         final var certificateMessagesProvider = fk7263ModuleApi.getMessagesProvider();
 
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
-    public void getCertficateMessagesProviderGetMissingKey() {
+    void getCertficateMessagesProviderGetMissingKey() {
         final var certificateMessagesProvider = fk7263ModuleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     @Test
-    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, IOException {
+    void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, IOException {
         final var utlatande = getUtlatandeFromFile();
         final var expectedJsonString = toJsonString(utlatande);
         final var actualJsonString = fk7263ModuleApi.getJsonFromUtlatande(utlatande);
@@ -486,19 +470,19 @@ public class Fk7263ModuleApiTest {
     }
 
     @Test
-    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+    void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> fk7263ModuleApi.getJsonFromUtlatande(null));
     }
 
     @Test
-    public void shouldReturnAdditionalInfoLabel() {
+    void shouldReturnAdditionalInfoLabel() {
         final var response = fk7263ModuleApi.getAdditionalInfoLabel();
 
         assertEquals("Gäller intygsperiod", response);
     }
 
     @Test
-    public void shouldReturnPreambleForCitizens() {
+    void shouldReturnPreambleForCitizens() {
         final var expectedResult = CertificateText
             .builder()
             .type(CertificateTextType.PREAMBLE_TEXT)
@@ -523,7 +507,7 @@ public class Fk7263ModuleApiTest {
     }
 
     private String toJsonString(Fk7263Utlatande utlatande) throws ModuleException {
-        StringWriter writer = new StringWriter();
+        final var writer = new StringWriter();
         try {
             objectMapper.writeValue(writer, utlatande);
         } catch (IOException e) {
@@ -533,21 +517,21 @@ public class Fk7263ModuleApiTest {
     }
 
     private CreateDraftCopyHolder createDraftCopyHolder(Patient patient) {
-        Vardgivare vardgivare = new Vardgivare();
+        final var vardgivare = new Vardgivare();
         vardgivare.setVardgivarid("hsaId0");
         vardgivare.setVardgivarnamn("vardgivare");
-        Vardenhet vardenhet = new Vardenhet();
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId1");
         vardenhet.setEnhetsnamn("namn");
         vardenhet.setVardgivare(vardgivare);
-        HoSPersonal hosPersonal = new HoSPersonal();
+        final var hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId("Id1");
         hosPersonal.setFullstandigtNamn("Grodan Boll");
         hosPersonal.setForskrivarKod("forskrivarkod");
         hosPersonal.getBefattningar().add("befattning");
         hosPersonal.setVardenhet(vardenhet);
 
-        CreateDraftCopyHolder holder = new CreateDraftCopyHolder("Id1", hosPersonal);
+        final var holder = new CreateDraftCopyHolder("Id1", hosPersonal);
 
         if (patient != null) {
             holder.setPatient(patient);
@@ -557,7 +541,7 @@ public class Fk7263ModuleApiTest {
     }
 
     private Patient createUpdatedPatient() {
-        Patient updatedPatient = new Patient();
+        final var updatedPatient = new Patient();
         updatedPatient.setEfternamn("updated lastName");
         updatedPatient.setMellannamn("updated middle-name");
         updatedPatient.setFornamn("updated firstName");
@@ -571,16 +555,14 @@ public class Fk7263ModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
     private String marshall(String jsonString) throws Exception {
-        Fk7263Utlatande internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
-        RegisterMedicalCertificateType external = InternalToTransport.getJaxbObject(internal);
-        JAXBElement<RegisterMedicalCertificateType> el =
-            new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
+        final var internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
+        final var external = InternalToTransport.getJaxbObject(internal);
+        final var el = new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
                 .ObjectFactory().createRegisterMedicalCertificate(external);
         return XmlMarshallerHelper.marshal(el);
     }
-
 }
