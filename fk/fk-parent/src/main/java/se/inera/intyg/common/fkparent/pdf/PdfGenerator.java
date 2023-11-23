@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
@@ -29,7 +25,9 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 
 /**
@@ -44,7 +42,7 @@ public final class PdfGenerator {
     private PdfGenerator() {
     }
 
-    public static byte[] generatePdf(FkPdfDefinition model) throws PdfGeneratorException {
+    public static byte[] generatePdf(FkPdfDefinition model, String documentTitle) throws PdfGeneratorException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -53,7 +51,6 @@ public final class PdfGenerator {
             Document document = new Document();
             document.setPageSize(PageSize.A4);
             document.setMargins(model.getPageMargins()[0], model.getPageMargins()[1], model.getPageMargins()[2], model.getPageMargins()[3]);
-
             PdfWriter writer = PdfWriter.getInstance(document, bos);
 
             //Add preference to viewer applications to NOT scale when printing (it's just a hint, the user can change this)
@@ -65,6 +62,7 @@ public final class PdfGenerator {
             }
 
             document.open();
+            document.addTitle(generatePdfFilename(LocalDateTime.now(), documentTitle));
 
             //Leave actual rendering to the model, giving it starting x/y offset of top-left corner.
             model.render(document, writer, 0f, Utilities.pointsToMillimeters(document.getPageSize().getTop()));

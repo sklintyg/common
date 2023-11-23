@@ -248,7 +248,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
                 pdfMinaIntygMarginText);
 
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition, filePrefix),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), filePrefix));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

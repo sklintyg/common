@@ -109,7 +109,8 @@ public class PdfGenerator {
                 .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts,
+                buildFilename(optionalFields != null && optionalFields.size() > 0));
             return new PdfResponse(data, buildFilename(optionalFields != null && optionalFields.size() > 0));
         } catch (IOException e) {
             LOG.error("Error generating PDF for AG7804: " + e.getMessage());

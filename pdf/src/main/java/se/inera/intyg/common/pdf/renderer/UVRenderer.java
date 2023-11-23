@@ -111,7 +111,7 @@ public class UVRenderer {
     private PdfImageXObject observandumIcon;
     private PdfImageXObject observandumInfoIcon;
 
-    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
+    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts, String documentTitle) {
         this.intygTexts = intygTexts;
         this.printConfig = printConfig;
 
@@ -128,6 +128,7 @@ public class UVRenderer {
 
             // Initialize PDF document
             PdfDocument pdf = new PdfDocument(writer);
+            pdf.getDocumentInfo().setTitle(documentTitle);
 
             // Load icons for observandum
             this.observandumIcon = new PdfImageXObject(

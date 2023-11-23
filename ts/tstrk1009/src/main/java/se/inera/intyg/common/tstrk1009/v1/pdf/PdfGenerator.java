@@ -91,7 +91,7 @@ public class PdfGenerator {
                 .build();
 
             //use printconfig to create pdf binary
-            pdfBinaryData = new UVRenderer().startRendering(printConfig, intygTexts);
+            pdfBinaryData = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
             filename = buildFilename();
         } catch (IOException e) {
             LOG.error("Error generating PDF for ts-diabetes: " + e.getMessage());

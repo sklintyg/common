@@ -48,6 +48,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
     protected static final String TEXT_VERSION_1_2 = "1.2";
+    private static final String TITLE = "title";
     private final String electronicCopyWatermarkSubtitle = "subTitle";
     private final DefaultLisjpPdfDefinitionBuilder lisjpPdfDefinitionBuilder = new DefaultLisjpPdfDefinitionBuilder(
         electronicCopyWatermarkSubtitle);
@@ -122,7 +123,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
         FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
             .buildPdfDefinition(utlatandeV1, statuses, origin,
                 intygTextsService.getIntygTextsPojo("lisjp", textVersion), utkastStatus, "printedByText");
-        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition);
+        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition, TITLE);
 
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId(), textVersion);
