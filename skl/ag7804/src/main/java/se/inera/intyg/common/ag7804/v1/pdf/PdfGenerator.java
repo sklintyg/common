@@ -108,10 +108,10 @@ public class PdfGenerator {
                 .withModelPropReplacements(modelPropReplacements)
                 .withFooterAppName(footerAppName)
                 .build();
-
+            final var isPdfEmployer = optionalFields != null && !optionalFields.isEmpty();
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts,
-                buildFilename(optionalFields != null && optionalFields.size() > 0));
-            return new PdfResponse(data, buildFilename(optionalFields != null && optionalFields.size() > 0));
+                buildFilename(isPdfEmployer));
+            return new PdfResponse(data, buildFilename(isPdfEmployer));
         } catch (IOException e) {
             LOG.error("Error generating PDF for AG7804: " + e.getMessage());
             throw new ModuleException("Error generating PDF for AG7804: " + e.getMessage());
