@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
@@ -158,6 +159,10 @@ public class Fk7263ModuleApi implements ModuleApi {
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
+
     private Map<String, String> validationMessages;
 
     public Fk7263ModuleApi() {
@@ -216,7 +221,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus);
+            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus,
+                pdfMinaIntygMarginText);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(), false));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

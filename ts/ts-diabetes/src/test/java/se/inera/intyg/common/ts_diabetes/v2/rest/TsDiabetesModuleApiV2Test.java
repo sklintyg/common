@@ -60,6 +60,7 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -191,8 +192,10 @@ public class TsDiabetesModuleApiV2Test {
 
     @Test
     public void testPdf() throws Exception {
+        ReflectionTestUtils.setField(moduleApi, "pdfMinaIntygMarginText", "minaIntygMarginText");
         when(pdfGenerator
-            .generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
+            .generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED),
+                eq("minaIntygMarginText")))
             .thenReturn(new byte[]{});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatandeV2.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {

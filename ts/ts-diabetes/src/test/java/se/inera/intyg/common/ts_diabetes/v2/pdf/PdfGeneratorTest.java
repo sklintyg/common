@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
 import static org.junit.Assert.assertNotNull;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +38,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -59,6 +55,7 @@ public class PdfGeneratorTest {
 
     private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
     private static final String HSVARD_RECIPIENT_ID = "HSVARD";
+    private static final String MARGIN_TEXT = "marginText";
     @InjectMocks
     private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl();
 
@@ -81,7 +78,8 @@ public class PdfGeneratorTest {
     @Test
     public void testGeneratePdf() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED);
+            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED,
+                MARGIN_TEXT);
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario);
         }
@@ -91,7 +89,8 @@ public class PdfGeneratorTest {
     public void testGenerateDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
             .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE,
+            MARGIN_TEXT);
         writePdfToFile(pdf, "webcert-utkast");
     }
 
@@ -99,7 +98,8 @@ public class PdfGeneratorTest {
     public void testGenerateLockedDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
             .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED,
+            MARGIN_TEXT);
         writePdfToFile(pdf, "webcert-locked");
     }
 
@@ -112,10 +112,10 @@ public class PdfGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
         statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, MARGIN_TEXT);
         writePdfToFile(pdf, "webcert-makulerat");
 
-        pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED);
+        pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, MARGIN_TEXT);
         writePdfToFile(pdf, "minaintyg-makulerat");
     }
 
