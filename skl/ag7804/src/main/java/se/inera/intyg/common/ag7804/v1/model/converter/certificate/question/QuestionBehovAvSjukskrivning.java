@@ -50,7 +50,7 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
                 convertValues(list)),
             BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
             CATEGORY_BEDOMNING, index,
-            texts, relation);
+            texts);
     }
 
     private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {

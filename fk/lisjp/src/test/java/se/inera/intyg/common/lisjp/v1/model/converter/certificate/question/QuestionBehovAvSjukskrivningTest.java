@@ -175,6 +175,25 @@ class QuestionBehovAvSjukskrivningTest {
         }
 
         @Test
+        void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNoPeriodOfValidityDate() {
+            final String expectedPreviousSickLeavePeriod = null;
+
+            internalCertificate.getGrundData().setRelation(new Relation());
+            internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.FRLANG);
+            internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+            internalCertificate.getGrundData().getRelation().setSistaGiltighetsDatum(null);
+
+            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+            final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+        }
+
+        @Test
         void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNoRelation() {
             final String expectedPreviousSickLeavePeriod = null;
 
@@ -478,7 +497,7 @@ class QuestionBehovAvSjukskrivningTest {
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
             final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
-            assertTrue(certificateDataValueDateRangeList.getList().size() == 0);
+            assertEquals(0, certificateDataValueDateRangeList.getList().size());
         }
 
         @Test

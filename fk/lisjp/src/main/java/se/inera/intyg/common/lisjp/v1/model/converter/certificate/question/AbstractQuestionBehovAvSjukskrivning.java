@@ -49,13 +49,11 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public abstract class AbstractQuestionBehovAvSjukskrivning {
-
+    
     public static CertificateDataElement toCertificate(QuestionBehovAvSjukskrivningConfigProvider configProvider, String questionId,
-        String parent, int index,
-        CertificateTextProvider texts, Relation relation) {
+        String parent, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
@@ -115,6 +113,10 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
     }
 
     private static String getPreviousSickLeavePeriodText(String sickLeaveText, LocalDate expirationalDate) {
+        if (expirationalDate == null) {
+            return null;
+        }
+
         return String.format(
             "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s och sjukskrivningsgraden var %s.",
             DateTimeFormatter.ofPattern("yyyy-MM-dd").format(expirationalDate),
