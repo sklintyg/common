@@ -63,6 +63,7 @@ public class LusePdfDefinitionBuilderTest {
 
     private static final String FKASSA_RECIPIENT_ID = "FKASSA";
     private static final String HSVARD_RECIPIENT_ID = "HSVARD";
+    private static final String TITLE = "title";
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     private IntygTextsServiceImpl intygTextsService;
@@ -177,7 +178,7 @@ public class LusePdfDefinitionBuilderTest {
         FkPdfDefinition pdfDefinition = lusePdfDefinitionBuilder
             .buildPdfDefinition(utlatandeV1, statuses, origin,
                 intygTextsService.getIntygTextsPojo("luse", textVersion), utkastStatus, "printedByText");
-        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition);
+        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition, TITLE);
 
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId());

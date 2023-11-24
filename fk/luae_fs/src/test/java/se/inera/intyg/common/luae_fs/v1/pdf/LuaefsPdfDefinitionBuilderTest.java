@@ -59,6 +59,7 @@ public class LuaefsPdfDefinitionBuilderTest {
 
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
+    private static final String TITLE = "title";
 
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
@@ -160,7 +161,7 @@ public class LuaefsPdfDefinitionBuilderTest {
         FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder
             .buildPdfDefinition(utlatandeV1, statuses, origin,
                 intygTextsService.getIntygTextsPojo("luae_fs", textVersion), utkastStatus, "printedByText");
-        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition);
+        byte[] generatorResult = PdfGenerator.generatePdf(pdfDefinition, TITLE);
 
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId());

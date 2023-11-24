@@ -65,6 +65,7 @@ public class UVRendererTest {
         "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
             + "redan har skickats till Försäkringskassan.";
     private static final String INFO_TEXT_AF = "Detta är en utskrift av ett elektroniskt intyg.";
+    private static final String TITLE = "title";
 
     @Test
     public void testMinimalAg7804() throws IOException {
@@ -93,7 +94,7 @@ public class UVRendererTest {
             .withSignatureLine(true)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-minimal-v1.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -128,7 +129,7 @@ public class UVRendererTest {
             .withSignatureLine(true)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-maximal-v1.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -167,7 +168,7 @@ public class UVRendererTest {
             .withModelPropReplacements(replacementConfig)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-maximal-optionalfields-v1.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -203,7 +204,7 @@ public class UVRendererTest {
             .withSignatureLine(true)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic-tomt-utkast.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -238,7 +239,7 @@ public class UVRendererTest {
             .withSignatureLine(true)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -277,7 +278,7 @@ public class UVRendererTest {
             .withModelPropReplacements(replacementConfig)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-employer-no-diagnose.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -310,7 +311,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -343,7 +344,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-empty-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -376,7 +377,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -409,7 +410,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-empty.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -443,7 +444,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/lisjp-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -476,7 +477,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -508,7 +509,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-no-summary.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -541,7 +542,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-noovrigt.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -574,7 +575,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-tecken.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -607,7 +608,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-langasvar.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -640,7 +641,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-makulerad.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -672,7 +673,7 @@ public class UVRendererTest {
             .withApplicationOrigin(ApplicationOrigin.WEBCERT)
             .build();
 
-        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, TITLE);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tstrk1009.pdf")) {
             fos.write(data);
         } catch (IOException e) {

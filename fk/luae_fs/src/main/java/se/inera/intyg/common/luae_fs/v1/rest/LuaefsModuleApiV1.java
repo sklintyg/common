@@ -121,7 +121,7 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin,
                 texts, utkastStatus, pdfMinaIntygMarginText);
 
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition, CERTIFICATE_FILE_PREFIX),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

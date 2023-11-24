@@ -105,7 +105,7 @@ public class PdfGenerator {
                 .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for AG1-14: " + e.getMessage());

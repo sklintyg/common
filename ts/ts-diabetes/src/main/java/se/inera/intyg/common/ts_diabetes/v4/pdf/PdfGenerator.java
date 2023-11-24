@@ -97,7 +97,7 @@ public class PdfGenerator {
                 .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTextsDeepCopy);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTextsDeepCopy, buildFilename());
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for ts-diabetes: " + e.getMessage());

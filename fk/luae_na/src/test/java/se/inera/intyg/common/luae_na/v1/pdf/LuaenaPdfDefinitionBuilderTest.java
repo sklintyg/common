@@ -58,6 +58,7 @@ public class LuaenaPdfDefinitionBuilderTest {
 
     protected static final String TEXT_VERSION_1_0 = "1.0";
     protected static final String TEXT_VERSION_1_1 = "1.1";
+    private static final String TITLE = "title";
 
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
@@ -157,7 +158,7 @@ public class LuaenaPdfDefinitionBuilderTest {
         throws PdfGeneratorException, IOException {
         byte[] generatorResult = PdfGenerator
             .generatePdf(luaenaPdfDefinitionBuilder.buildPdfDefinition(utlatandeV1, statuses, origin,
-                intygTextsService.getIntygTextsPojo("luae_na", textVersion), utkastStatus, "printedByText"));
+                intygTextsService.getIntygTextsPojo("luae_na", textVersion), utkastStatus, "printedByText"), TITLE);
 
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, origin, scenarioName, utlatandeV1.getId());
