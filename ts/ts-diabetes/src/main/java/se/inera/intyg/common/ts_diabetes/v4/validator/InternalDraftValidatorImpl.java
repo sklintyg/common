@@ -130,7 +130,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final String D_11 = "common.validation.d-11";
     private static final String D_12 = "common.validation.d-12";
 
-    private static final Set<KorkortsbehorighetKod> HIGHER_LICENCE_TYPES = ImmutableSet.of(
+    private static final Set<KorkortsbehorighetKod> HIGHER_LICENCE_TYPES = Set.of(
         KorkortsbehorighetKod.C1,
         KorkortsbehorighetKod.C1E,
         KorkortsbehorighetKod.C,

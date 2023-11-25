@@ -18,12 +18,15 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -31,35 +34,34 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
 import jakarta.xml.soap.SOAPBody;
 import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringReader;
-import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -79,7 +81,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
@@ -121,144 +122,124 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
  * response headers and response statuses etc are correct.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = BefattningService.class)
-public class TsDiabetesModuleApiV2Test {
+class TsDiabetesModuleApiV2Test {
 
     private static final String INTYG_TYPE_VERSION_2_8 = "2.8";
-    private final String INTYG_ID = "test-id";
-    private final String LOGICAL_ADDRESS = "logicalAddress";
-
+    private static final String INTYG_ID = "test-id";
+    private static final String LOGICAL_ADDRESS = "logicalAddress";
     private static ClassPathResource revokeCertificateFile;
 
     @Mock
-    InternalToCertificate internalToCertificate;
-    @InjectMocks
-    private TsDiabetesModuleApiV2 moduleApi;
-
+    private InternalToCertificate internalToCertificate;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
-
     @Mock
     private RegisterTSDiabetesResponderInterface registerTSDiabetesResponderInterface;
-
     @Mock
     private GetTSDiabetesResponderInterface getTSDiabetesResponderInterface;
-
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
-
     @Mock
     private PdfGeneratorImpl pdfGenerator;
-
     @Mock
     private IntygTextsService intygTexts;
-
     @Mock
     private XslTransformer xslTransformer;
-
     @Mock
     private SendTSClient sendTsDiabetesClient;
-
     @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-
     @Mock
     private SummaryConverter summaryConverter;
 
+    @InjectMocks
+    private TsDiabetesModuleApiV2 moduleApi;
 
-    public TsDiabetesModuleApiV2Test() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    void init() {
         revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
-        // use reflection to set IntygTextsService mock in webcertModelFactory
-        Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
-        field.setAccessible(true);
-        field.set(webcertModelFactory, intygTexts);
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+        ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTexts);
     }
 
     @Test
-    public void createNewInternal() throws ModuleException {
-        CreateNewDraftHolder holder = createNewDraftHolder();
-
-        String response = moduleApi.createNewInternal(holder);
-
+    void createNewInternal() throws ModuleException {
+        final var holder = createNewDraftHolder();
+        final var response = moduleApi.createNewInternal(holder);
         assertNotNull(response);
     }
 
     @Test
-    public void testPdf() throws Exception {
+    void testPdf() throws Exception {
         when(pdfGenerator
-            .generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
+            .generatePDF(any(TsDiabetesUtlatandeV2.class), anyList(), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
             .thenReturn(new byte[]{});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatandeV2.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi
-                .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
-                    UtkastStatus.SIGNED);
+            assertDoesNotThrow(() ->
+                moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(),
+                    ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED)
+            );
         }
     }
 
     @Test
-    public void copyContainsOriginalData() throws Exception {
-        Scenario scenario = ScenarioFinder.getTransportScenario("valid-minimal");
-
-        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
-
+    void copyContainsOriginalData() throws Exception {
+        final var scenario = ScenarioFinder.getTransportScenario("valid-minimal");
+        final var holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
         assertNotNull(holder);
-        TsDiabetesUtlatandeV2 utlatande = objectMapper.readValue(holder, TsDiabetesUtlatandeV2.class);
-        assertEquals(true, utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.A1));
+
+        final var utlatande = objectMapper.readValue(holder, TsDiabetesUtlatandeV2.class);
+        assertTrue(utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.A1));
     }
 
     @Test
-    public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-
-        String result = moduleApi.getAdditionalInfo(intyg);
+    void getAdditionalInfoFromUtlatandeTest() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("AM, A1, A2, A, B, BE, Traktor, C1, C1E, C, CE, D1, D1E, D, DE, Taxi", result);
     }
 
     @Test
-    public void getAdditionalInfoOneResultTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoOneResultTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV17", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("Traktor", result);
     }
 
     @Test
-    public void getAdditionalInfoMultipleResultsTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoMultipleResultsTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV1", null));
         s.getDelsvar().add(delsvar);
-        Svar s2 = new Svar();
+        final var s2 = new Svar();
         s2.setId("1");
-        Delsvar delsvar2 = new Delsvar();
+        final var delsvar2 = new Delsvar();
         delsvar2.setId("1.1");
         delsvar2.getContent().add(aCV(null, "IAV3", null));
         s2.getDelsvar().add(delsvar2);
-        Svar s3 = new Svar();
+        final var s3 = new Svar();
         s3.setId("1");
-        Delsvar delsvar3 = new Delsvar();
+        final var delsvar3 = new Delsvar();
         delsvar3.setId("1.1");
         delsvar3.getContent().add(aCV(null, "IAV9", null));
         s3.getDelsvar().add(delsvar3);
@@ -266,51 +247,51 @@ public class TsDiabetesModuleApiV2Test {
         intyg.getSvar().add(s2);
         intyg.getSvar().add(s3);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("C1, C, Taxi", result);
     }
 
     @Test
-    public void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("2"); // wrong svarId
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV6", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
     }
 
     @Test
-    public void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.3"); // wrong delsvarId
         delsvar.getContent().add(aCV(null, "IAV6", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
     }
 
     @Test
-    public void testRegisterCertificateAlreadyExists() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = objectMapper
-            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+    void testRegisterCertificateAlreadyExists() throws Exception {
+        final var logicalAddress = "logicalAddress";
+        final var registerResponse = new RegisterTSDiabetesResponseType();
+        final var internalModel = objectMapper.writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal")
+            .asInternalModel());
 
-        RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult(RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
             .thenReturn(registerResponse);
@@ -325,12 +306,12 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     @Test
-    public void testRegisterCertificateGenericInfoResult() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = objectMapper
-            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+    void testRegisterCertificateGenericInfoResult() throws Exception {
+        final var logicalAddress = "logicalAddress";
+        final var registerResponse = new RegisterTSDiabetesResponseType();
+        final var internalModel = objectMapper.writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal")
+            .asInternalModel());
 
-        RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult("INFO"));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
             .thenReturn(registerResponse);
@@ -344,28 +325,29 @@ public class TsDiabetesModuleApiV2Test {
         }
     }
 
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRegisterCertificateErrorResult() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = objectMapper
-            .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+    @Test
+    void testRegisterCertificateErrorResult() throws ScenarioNotFoundException, JsonProcessingException {
+        final var logicalAddress = "logicalAddress";
+        final var registerResponse = new RegisterTSDiabetesResponseType();
+        final var internalModel = objectMapper.writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal")
+            .asInternalModel());
 
-        RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
             .thenReturn(registerResponse);
-
-        moduleApi.registerCertificate(internalModel, logicalAddress);
+        assertThrows(ExternalServiceCallException.class, () ->
+            moduleApi.registerCertificate(internalModel, logicalAddress)
+        );
     }
 
     @Test
-    public void testSendCertificateToRecipient() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-        final String transformedXml = "transformedXml";
+    void testSendCertificateToRecipient() throws Exception {
+        final var xmlBody = "xmlBody";
+        final var logicalAddress = "logicalAddress";
+        final var recipientId = "recipient";
+        final var transformedXml = "transformedXml";
         when(xslTransformer.transform(xmlBody)).thenReturn(transformedXml);
-        SOAPMessage response = mock(SOAPMessage.class);
+        final var response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
@@ -378,139 +360,142 @@ public class TsDiabetesModuleApiV2Test {
         verify(sendTsDiabetesClient).registerCertificate(transformedXml, logicalAddress);
     }
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientFault() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-        final String transformedXml = "transformedXml";
+    @Test
+    void testSendCertificateToRecipientFault() throws SOAPException {
+        final var xmlBody = "xmlBody";
+        final var logicalAddress = "logicalAddress";
+        final var recipientId = "recipient";
+        final var transformedXml = "transformedXml";
         when(xslTransformer.transform(xmlBody)).thenReturn(transformedXml);
-        SOAPMessage response = mock(SOAPMessage.class);
+        final var response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsDiabetesClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
-
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId)
+        );
     }
 
     @Test
-    public void testGetCertificate() throws ModuleException, ScenarioNotFoundException {
-        GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
+    void testGetCertificate() throws ModuleException, ScenarioNotFoundException {
+        final var result = new GetTSDiabetesResponseType();
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
             .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        final var internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
     @Test
-    public void testGetCertificateRevokedReturnsCertificate() throws Exception {
-        GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
+    void testGetCertificateRevokedReturnsCertificate() throws Exception {
+        final var result = new GetTSDiabetesResponseType();
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
             .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        final var internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
-    @Test(expected = ModuleException.class)
-    public void testGetCertificateRevokedValidationError() throws Exception {
-        GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
+    @Test
+    void testGetCertificateRevokedValidationError() {
+        final var result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
             .thenReturn(result);
-
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testGetCertificateRevokedApplicationError() throws Exception {
-        GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
-        result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-            .thenReturn(result);
-
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        assertThrows(ModuleException.class, () ->
+            moduleApi.getCertificate("cert-id", "TS", "INVANA")
+        );
     }
 
     @Test
-    public void testGetUtlatandeFromXml() throws Exception {
-        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        TsDiabetesUtlatandeV2 res = moduleApi.getUtlatandeFromXml(xml);
+    void testGetCertificateRevokedApplicationError() {
+        final var result = new GetTSDiabetesResponseType();
+        result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
+        when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+            .thenReturn(result);
+        assertThrows(ModuleException.class, () ->
+            moduleApi.getCertificate("cert-id", "TS", "INVANA")
+        );
+    }
 
+    @Test
+    void testGetUtlatandeFromXml() throws Exception {
+        final var xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
+        final var res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
 
-    @Test(expected = ModuleException.class)
-    public void testGetUtlatandeFromXmlConverterException() throws Exception {
-        String xml = xmlToString(new RegisterTSDiabetesType());
-        moduleApi.getUtlatandeFromXml(xml);
+    @Test
+    void testGetUtlatandeFromXmlConverterException() {
+        final var xml = xmlToString(new RegisterTSDiabetesType());
+        assertThrows(ModuleException.class, () ->
+            moduleApi.getUtlatandeFromXml(xml)
+        );
     }
 
     @Test
-    public void testRevokeCertificate() throws Exception {
-        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
-        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
+    void testRevokeCertificate() throws Exception {
+        final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        final var revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.okResult());
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
             .thenReturn(revokeResponse);
 
         moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
-        ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
-        ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
-            .forClass(RevokeMedicalCertificateRequestType.class);
+        final var attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
+        final var parametersCaptor = ArgumentCaptor.forClass(RevokeMedicalCertificateRequestType.class);
         verify(revokeCertificateClient).revokeMedicalCertificate(attributedUriCaptor.capture(), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
         assertEquals(LOGICAL_ADDRESS, attributedUriCaptor.getValue().getValue());
         assertEquals(INTYG_ID, parametersCaptor.getValue().getRevoke().getLakarutlatande().getLakarutlatandeId());
     }
 
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRevokeCertificateResponseError() throws Exception {
-        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
-        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
+    @Test
+    void testRevokeCertificateResponseError() throws IOException {
+        final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        final var revokeResponse = new RevokeMedicalCertificateResponseType();
         revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
             .thenReturn(revokeResponse);
-
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        assertThrows(ExternalServiceCallException.class, () ->
+            moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS)
+        );
     }
 
     @Test
-    public void testCreateRevokeRequest() throws Exception {
-        final String meddelande = "meddelande";
-
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getTransportScenario("valid-minimal").asInternalModel();
+    void testCreateRevokeRequest() throws Exception {
+        final var meddelande = "meddelande";
+        final var utlatande = ScenarioFinder.getTransportScenario("valid-minimal").asInternalModel();
         utlatande.setId(INTYG_ID);
 
-        String res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
-        RevokeMedicalCertificateRequestType resultObject = JAXB.unmarshal(new StringReader(res), RevokeMedicalCertificateRequestType.class);
+        final var res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
+        final var resultObject = JAXB.unmarshal(new StringReader(res), RevokeMedicalCertificateRequestType.class);
         assertNotNull(resultObject);
         assertEquals(meddelande, resultObject.getRevoke().getMeddelande());
         assertEquals(INTYG_ID, resultObject.getRevoke().getLakarutlatande().getLakarutlatandeId());
     }
 
     @Test
-    public void testUpdateBeforeViewing() throws Exception {
-        Patient updatedPatient = new Patient();
+    void testUpdateBeforeViewing() throws Exception {
+        final var updatedPatient = new Patient();
         updatedPatient.setEfternamn("updated lastName");
         updatedPatient.setMellannamn("updated middle-name");
         updatedPatient.setFornamn("updated firstName");
         updatedPatient.setFullstandigtNamn("updated full name");
-        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
 
-        final String validMinimalJson = getResourceAsString(new ClassPathResource("v2/scenarios/internal/valid-minimal.json"));
+        final var validMinimalJson = getResourceAsString(new ClassPathResource("v2/scenarios/internal/valid-minimal.json"));
         when(objectMapper.readValue(validMinimalJson, TsDiabetesUtlatandeV2.class)).thenReturn(
             ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
@@ -520,7 +505,7 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     @Test
-    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, ScenarioNotFoundException {
+    void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException, ScenarioNotFoundException {
         final TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
         final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
@@ -529,12 +514,12 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     @Test
-    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+    void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
     @Test
-    public void shallConvertInternalToCertificate() throws Exception {
+    void shallConvertInternalToCertificate() throws Exception {
         final var expectedCertificate = CertificateBuilder.create()
             .metadata(
                 CertificateMetadata.builder()
@@ -556,7 +541,7 @@ public class TsDiabetesModuleApiV2Test {
         internalCertificate.setGrundData(getGrundData());
 
         doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsDiabetesUtlatandeV2.class));
+            .when(objectMapper).readValue(certificateAsJson, TsDiabetesUtlatandeV2.class);
 
         doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
@@ -569,16 +554,14 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     @Test
-    public void getCertficateMessagesProviderGetExistingKey() {
+    void getCertficateMessagesProviderGetExistingKey() {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
-
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
-    public void getCertficateMessagesProviderGetMissingKey() {
+    void getCertficateMessagesProviderGetMissingKey() {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
-
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
@@ -592,11 +575,11 @@ public class TsDiabetesModuleApiV2Test {
 
 
     private CreateNewDraftHolder createNewDraftHolder() {
-        HoSPersonal hosPersonal = createHosPersonal();
-        Patient patient = new Patient();
+        final var hosPersonal = createHosPersonal();
+        final var patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_2_8, hosPersonal, patient);
     }
 
@@ -605,7 +588,7 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
+        final var hosPerson = new HoSPersonal();
         hosPerson.setPersonId("hsaId1");
         hosPerson.setFullstandigtNamn("Doktor A");
         hosPerson.setVardenhet(createVardenhet());
@@ -613,7 +596,7 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId");
         vardenhet.setEnhetsnamn("ve1");
         vardenhet.setVardgivare(new Vardgivare());
@@ -622,8 +605,8 @@ public class TsDiabetesModuleApiV2Test {
         return vardenhet;
     }
 
-    private IntygMeta createMeta() throws ScenarioNotFoundException {
-        IntygMeta meta = new IntygMeta();
+    private IntygMeta createMeta() {
+        final var meta = new IntygMeta();
         meta.setAdditionalInfo("C");
         meta.setAvailable("true");
         return meta;
@@ -633,8 +616,8 @@ public class TsDiabetesModuleApiV2Test {
         return Resources.toString(cpr.getURL(), Charsets.UTF_8);
     }
 
-    private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {
-        JAXBElement<RegisterTSDiabetesType> el = new ObjectFactory().createRegisterTSDiabetes(registerTsDiabetes);
+    private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) {
+        final var el = new ObjectFactory().createRegisterTSDiabetes(registerTsDiabetes);
         return XmlMarshallerHelper.marshal(el);
     }
 
