@@ -69,8 +69,9 @@ public class RoundTripTest {
 
     static {
         try {
-            marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class, DatePeriodType.class,
-                    PartialDateType.class, se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
+            marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class,
+                    DatePeriodType.class, PartialDateType.class,
+                    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
                 .createMarshaller();
             transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
         } catch (JAXBException e) {
