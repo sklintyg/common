@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -84,8 +84,8 @@ import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;

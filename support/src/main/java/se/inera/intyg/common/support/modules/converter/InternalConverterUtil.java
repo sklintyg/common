@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,7 +19,17 @@
 package se.inera.intyg.common.support.modules.converter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static se.inera.intyg.common.support.Constants.*;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_NAME;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_USER_CODE;
+import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_USER_NAME;
+import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
+import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import com.google.common.base.Strings;
 import java.time.LocalDate;
@@ -44,7 +54,22 @@ import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.KallaAdressuppgifterType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.ObjectFactory;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -72,8 +97,6 @@ public final class InternalConverterUtil {
 
     /**
      * Constructs a @{@link TypAvIntyg} from a {@link KvIntygstyp} type.
-     * @param intygstyp
-     * @return
      */
     public static TypAvIntyg getTypAvIntyg(KvIntygstyp intygstyp) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
@@ -86,10 +109,8 @@ public final class InternalConverterUtil {
     /**
      * Converts the internal (Utlatande) to transport (Intyg).
      *
-     * @param source
-     *            the source Utlatande
-     * @param patientInfo
-     *            detail level of patient information
+     * @param source the source Utlatande
+     * @param patientInfo detail level of patient information
      * @return the converted Intyg
      */
     public static Intyg getIntyg(Utlatande source, PatientInfo patientInfo) {
@@ -107,8 +128,7 @@ public final class InternalConverterUtil {
     /**
      * Converts a internal representation of hosPersonal to transport.
      *
-     * @param hoSPersonal
-     *            the interal version of the hosPersonal
+     * @param hoSPersonal the interal version of the hosPersonal
      * @return the converted transport representation
      */
     public static HosPersonal getSkapadAv(HoSPersonal hoSPersonal) {
@@ -140,8 +160,7 @@ public final class InternalConverterUtil {
     /**
      * Converts a internal version of a personnummer to transport.
      *
-     * @param pnr
-     *            the internal version
+     * @param pnr the internal version
      * @return a transport representation of the personnummer
      */
     public static PersonId getPersonId(Personnummer pnr) {
@@ -154,8 +173,7 @@ public final class InternalConverterUtil {
     /**
      * Returns a transport version of the id of the certificate.
      *
-     * @param source
-     *            the source Utlatande
+     * @param source the source Utlatande
      * @return a transport representation of the id
      */
     public static IntygId getIntygsId(Utlatande source) {
@@ -168,8 +186,7 @@ public final class InternalConverterUtil {
     /**
      * Returns a transport representation of a String as a HSA-id.
      *
-     * @param id
-     *            the String containing the code of the HsaId
+     * @param id the String containing the code of the HsaId
      * @return the transport version of the HsaId
      */
     public static HsaId getHsaId(String id) {
@@ -186,8 +203,7 @@ public final class InternalConverterUtil {
     /**
      * Returns an internalDate as a String.
      *
-     * @param internalDate
-     *            the source date
+     * @param internalDate the source date
      * @return a safe String to use as a date in transport
      */
     public static String getInternalDateContent(InternalDate internalDate) {
@@ -197,8 +213,7 @@ public final class InternalConverterUtil {
     /**
      * Returns an internalDate as a String where unfilled information is completed with zeros.
      *
-     * @param internalDate
-     *            the source date
+     * @param internalDate the source date
      * @return the String representation of the date
      */
     public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
@@ -227,8 +242,7 @@ public final class InternalConverterUtil {
     /**
      * Wrap the code in transport layer object.
      *
-     * @param sourceArbetsplatsKod
-     *            the code
+     * @param sourceArbetsplatsKod the code
      * @return the resulting transport layer object
      */
     public static ArbetsplatsKod getArbetsplatsKod(String sourceArbetsplatsKod) {
@@ -241,10 +255,8 @@ public final class InternalConverterUtil {
     /**
      * Returns a MeddelandeReferens which contain the relation information.
      *
-     * @param utlatande
-     *            the source Utlatande
-     * @param type
-     *            the type of the relation
+     * @param utlatande the source Utlatande
+     * @param type the type of the relation
      * @return the transport version of the reference in Ärendekommunikation
      */
     public static MeddelandeReferens getMeddelandeReferensOfType(Utlatande utlatande, RelationKod type) {
@@ -263,14 +275,10 @@ public final class InternalConverterUtil {
     /**
      * Only add a svar if it is neither empty String or null.
      *
-     * @param svars
-     *            the object where the svar will be saved
-     * @param svarsId
-     *            the id of the svar
-     * @param delsvarsId
-     *            the id of the delsvar
-     * @param content
-     *            the content which should be checked
+     * @param svars the object where the svar will be saved
+     * @param svarsId the id of the svar
+     * @param delsvarsId the id of the delsvar
+     * @param content the content which should be checked
      */
     public static void addIfNotBlank(List<Svar> svars, String svarsId, String delsvarsId, String content) {
         if (!Strings.nullToEmpty(content).trim().isEmpty()) {
@@ -281,14 +289,10 @@ public final class InternalConverterUtil {
     /**
      * Only add a svar if it is not null.
      *
-     * @param svars
-     *            the object where the svar will be saved
-     * @param svarsId
-     *            the id of the svar
-     * @param delsvarsId
-     *            the id of the delsvar
-     * @param content
-     *            the content which should be checked
+     * @param svars the object where the svar will be saved
+     * @param svarsId the id of the svar
+     * @param delsvarsId the id of the delsvar
+     * @param content the content which should be checked
      */
     public static void addIfNotNull(List<Svar> svars, String svarsId, String delsvarsId, Boolean content) {
         if (content != null) {
@@ -299,10 +303,8 @@ public final class InternalConverterUtil {
     /**
      * Creates a DatePeriodType from a from and to date.
      *
-     * @param from
-     *            the beginning of the period
-     * @param tom
-     *            the end of the period
+     * @param from the beginning of the period
+     * @param tom the end of the period
      * @return the DatePeriodType which contain the from and to date
      */
     public static JAXBElement<DatePeriodType> aDatePeriod(LocalDate from, LocalDate tom) {
@@ -317,10 +319,8 @@ public final class InternalConverterUtil {
      * <p>
      * A Temporal is the new superclass of timerelated objects in Java 8.
      *
-     * @param format
-     *            the desired format
-     * @param partial
-     *            the source Temporal
+     * @param format the desired format
+     * @param partial the source Temporal
      * @return the PartialDateType which contain the Temporal
      */
     public static JAXBElement<PartialDateType> aPartialDate(PartialDateTypeFormatEnum format, Temporal partial) {
@@ -333,12 +333,9 @@ public final class InternalConverterUtil {
     /**
      * Constructs a CVType.
      *
-     * @param codeSystem
-     *            the CodeSystem of the CVType
-     * @param code
-     *            the Code of the CVType
-     * @param displayName
-     *            the DisplayName of the CVType (optional)
+     * @param codeSystem the CodeSystem of the CVType
+     * @param code the Code of the CVType
+     * @param displayName the DisplayName of the CVType (optional)
      * @return the CVType
      */
     public static JAXBElement<CVType> aCV(String codeSystem, String code, String displayName) {
@@ -352,10 +349,8 @@ public final class InternalConverterUtil {
     /**
      * Construct a PQType.
      *
-     * @param unitOfMeasure
-     *            the unit of measure eg. %, cm, kg etc
-     * @param value
-     *            the value as double.
+     * @param unitOfMeasure the unit of measure eg. %, cm, kg etc
+     * @param value the value as double.
      * @return the PQType
      */
     public static JAXBElement<PQType> aPQ(String unitOfMeasure, double value) {
@@ -368,8 +363,7 @@ public final class InternalConverterUtil {
     /**
      * Construct a SvarBuilder.
      *
-     * @param id
-     *            the id of the Svar to be constructed
+     * @param id the id of the Svar to be constructed
      * @return the builder which are to be filled with additional information
      */
     public static SvarBuilder aSvar(String id) {
@@ -379,10 +373,8 @@ public final class InternalConverterUtil {
     /**
      * Construct a SvarBuilder with an additional instance number.
      *
-     * @param id
-     *            the id of the Svar to be constructed
-     * @param instans
-     *            the instance number of Svar to be constructed
+     * @param id the id of the Svar to be constructed
+     * @param instans the instance number of Svar to be constructed
      * @return the builder which are to be filled with additional information
      */
     public static SvarBuilder aSvar(String id, Integer instans) {
@@ -393,10 +385,8 @@ public final class InternalConverterUtil {
      * Constructs a SignatureType from a Base64-encoded string. If signature is null or empty, null is returned as
      * signatures are optional.
      *
-     * @param utlatande
-     *            Utlatande that may or may not contain a signature. If yes, signature must be base64-encoded.
-     * @return
-     *         UnderskriftType containing the SignatureType, if present on the utlatande.
+     * @param utlatande Utlatande that may or may not contain a signature. If yes, signature must be base64-encoded.
+     * @return UnderskriftType containing the SignatureType, if present on the utlatande.
      */
     public static UnderskriftType base64StringToUnderskriftType(Utlatande utlatande) {
         if (utlatande == null) {
@@ -442,7 +432,7 @@ public final class InternalConverterUtil {
     }
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
-            PatientInfo patientInfo) {
+        PatientInfo patientInfo) {
 
         String pnr = sourcePatient.getPersonId().getPersonnummer();
         Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
@@ -544,6 +534,7 @@ public final class InternalConverterUtil {
      * and then chain {@link SvarBuilder#withDelsvar(String, Object)} and then finally calling {@link SvarBuilder#build()}.
      */
     public static class SvarBuilder {
+
         public List<Delsvar> delSvars = new ArrayList<>();
         private String id;
         private Integer instans;
@@ -566,10 +557,8 @@ public final class InternalConverterUtil {
          * If the content is null or empty, the method does not add
          * the delsvar to DelsvarsList
          *
-         * @param delsvarsId
-         *            the id of the delsvar.
-         * @param content
-         *            the content to add to the Delsvar.
+         * @param delsvarsId the id of the delsvar.
+         * @param content the content to add to the Delsvar.
          * @return SvarBuilder
          */
         public SvarBuilder withDelsvar(String delsvarsId, Object content) {

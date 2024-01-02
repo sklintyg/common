@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,24 +25,22 @@ import com.google.common.base.Charsets;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -53,6 +51,8 @@ import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.tstrk1009.v1.validator.internal.InternalValidatorInstance;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
@@ -154,7 +154,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
                 name), ValidationStatus.INVALID, internalValidationResponse.getStatus());
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                name),
+                    name),
                 SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertEquals(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",

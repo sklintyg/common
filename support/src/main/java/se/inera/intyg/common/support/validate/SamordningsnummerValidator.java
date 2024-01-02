@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import se.inera.intyg.schemas.contract.Personnummer;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * Performs validation of a 'Samordningsnummer'.
@@ -38,6 +37,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
     /**
      * Controls if a civic registration number is a 'samordningsnummer' or not.
+     *
      * @param personnummer the civic registration number
      * @return true if the civic registration number is a 'samordningsnummer', otherwise false
      */

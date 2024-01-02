@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,12 +20,12 @@ package se.inera.intyg.common.support.validate;
 
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import com.helger.schematron.xslt.SchematronResourceSCH;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
 public class RegisterCertificateValidator {
+
     private SchematronResourceSCH schematronResource;
 
     public RegisterCertificateValidator(@Nonnull final String location) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
 public class QuestionHarAktivitetsbegransning {
+
     public static CertificateDataElement toCertificate(Boolean harAktivitetsbegransning, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()

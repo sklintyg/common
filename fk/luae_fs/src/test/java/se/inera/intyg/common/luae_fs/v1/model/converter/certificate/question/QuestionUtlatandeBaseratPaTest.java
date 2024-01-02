@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -74,7 +74,7 @@ class QuestionUtlatandeBaseratPaTest {
 
         @Override
         protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null,null,null, null, getIndex(), textProvider);
+            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, getIndex(), textProvider);
         }
 
         @Override

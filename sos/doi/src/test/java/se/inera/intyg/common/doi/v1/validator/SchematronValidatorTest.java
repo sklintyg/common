@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
 import org.junit.Test;
 import se.inera.intyg.common.doi.v1.rest.DoiModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;

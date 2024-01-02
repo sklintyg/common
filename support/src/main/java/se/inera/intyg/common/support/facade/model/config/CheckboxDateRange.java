@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,6 +28,7 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange.Check
 @Value
 @Builder
 public class CheckboxDateRange {
+
     String id;
     String label;
 

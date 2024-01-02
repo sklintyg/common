@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,7 +51,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 public abstract class AbstractQuestionBehovAvSjukskrivning {
-    
+
     public static CertificateDataElement toCertificate(QuestionBehovAvSjukskrivningConfigProvider configProvider, String questionId,
         String parent, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()

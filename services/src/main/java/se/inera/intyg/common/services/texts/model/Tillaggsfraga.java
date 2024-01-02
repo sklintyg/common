@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,7 +51,7 @@ public class Tillaggsfraga implements Comparable<Tillaggsfraga> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof  Tillaggsfraga)) {
+        if (!(obj instanceof Tillaggsfraga)) {
             return false;
         }
         Tillaggsfraga other = (Tillaggsfraga) obj;

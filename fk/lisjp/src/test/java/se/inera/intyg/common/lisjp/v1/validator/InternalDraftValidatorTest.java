@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,6 +18,19 @@
  */
 package se.inera.intyg.common.lisjp.v1.validator;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +41,6 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
@@ -36,6 +48,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -48,20 +61,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -540,8 +539,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(LocalDate.now().plusDays(4))))))
             .setArbetstidsforlaggning(false)
@@ -557,8 +556,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
@@ -580,8 +579,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
@@ -603,8 +602,8 @@ public class InternalDraftValidatorTest {
         LisjpUtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                        new InternalDate(LocalDate.now().plusDays(2)))),
+                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
                     Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                         new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)

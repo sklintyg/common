@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,7 +44,6 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionPsykiskUtvecklingsstorningTest {
-
 
 
     @Mock
@@ -168,6 +167,7 @@ class QuestionPsykiskUtvecklingsstorningTest {
 
     @Nested
     class ToInternal {
+
         @Nested
         @TestInstance(PER_CLASS)
         class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {

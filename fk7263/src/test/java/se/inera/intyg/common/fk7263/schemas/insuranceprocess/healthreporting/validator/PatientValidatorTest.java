@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,12 +21,10 @@ package se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.va
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import iso.v21090.dt.v1.II;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 
 public class PatientValidatorTest {

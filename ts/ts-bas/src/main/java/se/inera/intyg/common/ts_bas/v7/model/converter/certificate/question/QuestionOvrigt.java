@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,6 +33,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
 
 public class QuestionOvrigt {
+
     private static final short TEXT_LIMIT = 500;
 
     public static CertificateDataElement toCertificate(String komentar, int index, CertificateTextProvider textProvider) {

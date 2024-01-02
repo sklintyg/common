@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,6 +19,7 @@
 package se.inera.intyg.common.fk7263.validator;
 
 import com.google.common.base.Strings;
+import java.util.List;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
@@ -42,8 +43,6 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.validator.PatientValidator;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-
-import java.util.List;
 
 /**
  * Validates presence and validity of formal external model properties such as OID's. Preferably this validation should

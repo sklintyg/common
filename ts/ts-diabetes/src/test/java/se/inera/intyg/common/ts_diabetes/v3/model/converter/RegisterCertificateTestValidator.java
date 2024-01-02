@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,17 +19,16 @@
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
 import com.google.common.base.Charsets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
-import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
+import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 /**
  * Created by marced on 2018-08-31.

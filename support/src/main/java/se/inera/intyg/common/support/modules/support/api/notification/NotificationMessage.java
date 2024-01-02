@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,14 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
-
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
 
 public class NotificationMessage {
 

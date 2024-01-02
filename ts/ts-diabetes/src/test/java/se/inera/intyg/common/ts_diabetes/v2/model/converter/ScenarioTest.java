@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,10 +21,8 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;

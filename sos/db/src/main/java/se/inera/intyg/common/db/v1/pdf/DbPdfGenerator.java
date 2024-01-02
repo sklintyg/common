@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,15 +21,14 @@ package se.inera.intyg.common.db.v1.pdf;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfNumber;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.model.internal.Undersokning;
+import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
@@ -330,7 +329,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
                 return FIELD_SARSKILT_BOENDE;
             case ANNAN:
                 return FIELD_ANNAN_OKANT;
-            default :
+            default:
                 return "";
         }
     }

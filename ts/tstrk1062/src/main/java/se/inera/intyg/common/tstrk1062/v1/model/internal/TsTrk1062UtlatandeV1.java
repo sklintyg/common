@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,17 +18,28 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.internal;
 
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
-
-import java.util.List;
-
-import javax.annotation.Nullable;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_INMATNING_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.GRUNDDATA_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.KOMMENTAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SIGNATURE_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_DELSVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_JSON_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.TEXT_VERSION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-
+import java.util.List;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;

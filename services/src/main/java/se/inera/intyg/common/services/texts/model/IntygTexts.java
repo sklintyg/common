@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,9 @@
  */
 package se.inera.intyg.common.services.texts.model;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Ints;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,9 +28,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
-
-import com.google.common.base.Splitter;
-import com.google.common.primitives.Ints;
 
 /**
  * Data container for the texts used in certificates.
@@ -45,7 +44,7 @@ public final class IntygTexts {
     private final List<Tillaggsfraga> tillaggsfragor;
 
     public IntygTexts(String version, String intygsTyp, LocalDate validFrom, LocalDate validTo, SortedMap<String, String> texts,
-            List<Tillaggsfraga> tillaggsfragor, Properties properties) {
+        List<Tillaggsfraga> tillaggsfragor, Properties properties) {
 
         // Validate input
         validateVersion(version);

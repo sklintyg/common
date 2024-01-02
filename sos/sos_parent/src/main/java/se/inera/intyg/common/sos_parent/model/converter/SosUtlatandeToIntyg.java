@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,13 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.sos_parent.model.converter;
-
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -43,6 +36,12 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContentFillWithZeros;
+
+import java.util.ArrayList;
+import java.util.List;
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 /**
  * Converters for shared svar between DB and DOI.

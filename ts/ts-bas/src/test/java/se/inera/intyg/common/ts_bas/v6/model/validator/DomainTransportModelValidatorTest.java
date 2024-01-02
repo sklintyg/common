@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -30,10 +29,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;

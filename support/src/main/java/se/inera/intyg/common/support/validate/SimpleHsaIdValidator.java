@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,12 +36,16 @@ import java.util.regex.Pattern;
  */
 public class SimpleHsaIdValidator implements RootValidator {
 
-    /** Regex pattern HSA-ids should conform to. */
+    /**
+     * Regex pattern HSA-ids should conform to.
+     */
     private static final Pattern HSA_VALID_PATTERN = Pattern.compile("[A-Z]{2,4}(?:16)?([0-9]{10})\\-(.*)");
 
-    /** Regex validating that a local id only got characters from the PRINTABLE_STRING class. */
+    /**
+     * Regex validating that a local id only got characters from the PRINTABLE_STRING class.
+     */
     private static final Pattern LOCAL_ID_VALID_PATTERN = Pattern
-            .compile("[0-9A-Za-z \\'\\(\\)\\+\\,\\-\\.\\/\\:\\=\\?]*");
+        .compile("[0-9A-Za-z \\'\\(\\)\\+\\,\\-\\.\\/\\:\\=\\?]*");
     public static final int MAX_EXTENSION_LENGTH = 31;
 
     /**
@@ -77,10 +81,8 @@ public class SimpleHsaIdValidator implements RootValidator {
     /**
      * Check that the total length of the HSA id doesn't exceed 31 characters.
      *
-     * @param extension
-     *            The id to check.
-     * @param result
-     *            List that validation messages are added to.
+     * @param extension The id to check.
+     * @param result List that validation messages are added to.
      */
     private void checkHSALength(String extension, List<String> result) {
         if (extension.length() > MAX_EXTENSION_LENGTH) {
@@ -91,10 +93,8 @@ public class SimpleHsaIdValidator implements RootValidator {
     /**
      * Check that the local id only contain accepted characters.
      *
-     * @param localId
-     *            The local id to check.
-     * @param result
-     *            List that validation messages are added to.
+     * @param localId The local id to check.
+     * @param result List that validation messages are added to.
      */
     private void checkLocalId(String localId, List<String> result) {
         if (!LOCAL_ID_VALID_PATTERN.matcher(localId).matches()) {

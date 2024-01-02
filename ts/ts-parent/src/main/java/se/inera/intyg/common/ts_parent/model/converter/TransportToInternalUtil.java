@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,17 +18,20 @@
  */
 package se.inera.intyg.common.ts_parent.model.converter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
 import se.inera.intygstjanster.ts.services.v1.SkapadAv;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.stream.Collectors;
 
 public final class TransportToInternalUtil {
 

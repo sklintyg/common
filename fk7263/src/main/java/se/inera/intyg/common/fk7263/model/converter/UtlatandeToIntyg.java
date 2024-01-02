@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,8 +18,17 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getIntyg;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import java.util.ArrayList;
+import java.util.List;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
@@ -32,16 +41,6 @@ import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.Sva
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getIntyg;
 
 public final class UtlatandeToIntyg {
 
@@ -202,14 +201,14 @@ public final class UtlatandeToIntyg {
             .withDelsvar(AVSTANGNING_SMITTSKYDD_DELSVAR_27_1, String.valueOf(source.isAvstangningSmittskydd())).build());
         if (source.isArbetsloshet()) {
             svars.add(aSvar(SYSSELSATTNING_SVAR_28).withDelsvar(SYSSELSATTNING_DELSVAR_28_1,
-                aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, Sysselsattning.ARBETSSOKANDE.getTransportId(),
-                    Sysselsattning.ARBETSSOKANDE.getLabel()))
+                    aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, Sysselsattning.ARBETSSOKANDE.getTransportId(),
+                        Sysselsattning.ARBETSSOKANDE.getLabel()))
                 .build());
         }
         if (source.isForaldrarledighet()) {
             svars.add(aSvar(SYSSELSATTNING_SVAR_28).withDelsvar(SYSSELSATTNING_DELSVAR_28_1, aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM,
-                Sysselsattning.FORADLRARLEDIGHET_VARD_AV_BARN.getTransportId(),
-                Sysselsattning.FORADLRARLEDIGHET_VARD_AV_BARN.getLabel()))
+                    Sysselsattning.FORADLRARLEDIGHET_VARD_AV_BARN.getTransportId(),
+                    Sysselsattning.FORADLRARLEDIGHET_VARD_AV_BARN.getLabel()))
                 .build());
         }
         if (source.isNuvarandeArbete()) {
@@ -320,7 +319,7 @@ public final class UtlatandeToIntyg {
     private static Svar createBehovAvSjukskrivningSvar(SjukskrivningsGrad sjukskrivningsgrad, int instans,
         InternalLocalDateInterval interval) {
         return aSvar(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, instans).withDelsvar(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
-            aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivningsgrad.getTransportId(), sjukskrivningsgrad.getLabel()))
+                aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivningsgrad.getTransportId(), sjukskrivningsgrad.getLabel()))
             .withDelsvar(BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32,
                 aDatePeriod(interval.fromAsLocalDate(), interval.tomAsLocalDate()))
             .build();

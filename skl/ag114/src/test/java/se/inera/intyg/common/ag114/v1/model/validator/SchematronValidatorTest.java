@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,14 +21,11 @@ package se.inera.intyg.common.ag114.v1.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
-
-import java.nio.charset.StandardCharsets;
-import org.junit.Test;
-
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
@@ -55,7 +52,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnInvalidSjukskrivningsgrad() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
@@ -64,7 +62,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnInvalidSjukskrivningsPeriod() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsperiod.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsperiod.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0).contains("'from' måste vara mindre än eller lika med 'to'"));
@@ -98,7 +97,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingOnskarFormedlaDiagnos() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedling.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedling.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0).contains("Ett 'AG1-14' måste innehålla 1 'Önskar förmedla diagnoser'."));
@@ -115,7 +115,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingKontaktanledning() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
@@ -124,7 +125,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingNuvarandeArbete() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-nuvarandearbete.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-nuvarandearbete.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
@@ -144,7 +146,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingSjukskrivningsgrad() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
@@ -153,7 +156,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingSjukskrivningsperiod() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"), StandardCharsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"),
+            StandardCharsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)

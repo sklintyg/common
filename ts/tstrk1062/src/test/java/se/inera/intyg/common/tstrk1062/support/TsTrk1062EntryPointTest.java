@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,11 @@
  */
 package se.inera.intyg.common.tstrk1062.support;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -26,12 +30,10 @@ import static se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint.MODULE
 
 import java.util.Optional;
 import java.util.SortedMap;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,18 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.db.v1.model.converter;
-
-import se.inera.intyg.common.db.model.internal.Undersokning;
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.common.enumerations.PatientInfo;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -53,6 +41,18 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
+import se.inera.intyg.common.db.model.internal.Undersokning;
+import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
 public final class TransportToInternal {
 
     private TransportToInternal() {
@@ -63,7 +63,7 @@ public final class TransportToInternal {
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg,
-                PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
+            PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intyg.getUnderskrift()));
         setSvar(utlatande, intyg);
         return utlatande.build();

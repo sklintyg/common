@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,10 +30,8 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
-
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
-
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
 /**
@@ -60,11 +58,11 @@ public class SignBox implements IEventHandler {
         if (!printConfig.showSignBox()) {
             return;
         }
-        final var  docEvent = (PdfDocumentEvent) event;
-        final var  pdf = docEvent.getDocument();
-        final var  page = docEvent.getPage();
-        final var  pageSize = page.getPageSize();
-        final var  pdfCanvas = new PdfCanvas(
+        final var docEvent = (PdfDocumentEvent) event;
+        final var pdf = docEvent.getDocument();
+        final var page = docEvent.getPage();
+        final var pageSize = page.getPageSize();
+        final var pdfCanvas = new PdfCanvas(
             page.newContentStreamBefore(), page.getResources(), pdf);
 
         try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {

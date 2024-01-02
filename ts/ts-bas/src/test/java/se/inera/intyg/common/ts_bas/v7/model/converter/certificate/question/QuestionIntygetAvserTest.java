@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -198,20 +198,20 @@ class QuestionIntygetAvserTest {
                     new InputExpectedValuePair<>(IntygAvser.create(
                         EnumSet.copyOf(Set.of(IntygAvserKategori.IAV3, IntygAvserKategori.IAV2, IntygAvserKategori.IAV1))),
                         CertificateDataValueCodeList.builder().list(
-                            List.of(
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.IAV1.name())
-                                    .code(IntygAvserKategori.IAV1.name())
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.IAV2.name())
-                                    .code(IntygAvserKategori.IAV2.name())
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.IAV3.name())
-                                    .code(IntygAvserKategori.IAV3.name())
-                                    .build()
-                            ))
+                                List.of(
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.IAV1.name())
+                                        .code(IntygAvserKategori.IAV1.name())
+                                        .build(),
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.IAV2.name())
+                                        .code(IntygAvserKategori.IAV2.name())
+                                        .build(),
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.IAV3.name())
+                                        .code(IntygAvserKategori.IAV3.name())
+                                        .build()
+                                ))
                             .build()
                     ));
             }
