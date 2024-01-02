@@ -60,8 +60,10 @@ public class RoundTripTest {
 
     private CustomObjectMapper objectMapper = new CustomObjectMapper();
     private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
+    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
+        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
+    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory =
+        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
     private static Marshaller marshaller;
     private static XslTransformer transformer;
 
