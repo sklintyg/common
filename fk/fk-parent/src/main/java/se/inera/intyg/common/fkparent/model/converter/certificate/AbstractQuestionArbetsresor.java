@@ -37,10 +37,6 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public abstract class AbstractQuestionArbetsresor {
 
-    private AbstractQuestionArbetsresor() {
-
-    }
-
     public static CertificateDataElement toCertificate(Boolean value, String id, String parent, String jsonId, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
