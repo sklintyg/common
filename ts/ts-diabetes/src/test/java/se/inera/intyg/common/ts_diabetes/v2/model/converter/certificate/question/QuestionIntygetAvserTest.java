@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -114,7 +114,7 @@ class QuestionIntygetAvserTest {
             final var intygAvserWithMultipleValues = new IntygAvser();
             intygAvserWithMultipleValues.getKorkortstyp().add(IntygAvserKategori.C1);
             intygAvserWithMultipleValues.getKorkortstyp().add(IntygAvserKategori.D1E);
-            
+
             return List.of(
                 new InputExpectedValuePair<>(new IntygAvser(),
                     CertificateDataValueViewText.builder().text("Ej angivet").build()),

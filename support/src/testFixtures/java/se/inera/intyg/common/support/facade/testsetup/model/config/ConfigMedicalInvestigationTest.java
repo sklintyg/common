@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,11 +34,17 @@ import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
 public abstract class ConfigMedicalInvestigationTest extends ConfigTest {
 
     protected abstract String getTypeText();
+
     protected abstract String getDateText();
+
     protected abstract String getInformationSourceText();
+
     protected abstract String getInformationSourceDescription();
+
     protected abstract List<MedicalInvestigation> getMedicalInvestigations();
+
     protected abstract List<LocalDate> getMaxDates();
+
     protected abstract List<LocalDate> getMinDates();
 
     @Override

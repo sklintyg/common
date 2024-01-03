@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,13 +18,11 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import java.io.IOException;
-import java.time.temporal.Temporal;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
+import java.io.IOException;
+import java.time.temporal.Temporal;
 import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
 
 /**

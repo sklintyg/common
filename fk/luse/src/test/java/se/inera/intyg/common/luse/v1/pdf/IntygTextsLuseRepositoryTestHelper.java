@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,13 +57,13 @@ public class IntygTextsLuseRepositoryTestHelper extends IntygTextsRepositoryImpl
             Properties prop = new Properties();
             prop.putAll(ImmutableMap
                 .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan",
-                        "blankettId", "7800",
-                        "blankettVersion", "01"));
+                    "blankettId", "7800",
+                    "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
 
             e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.1.xml").getInputStream());
+                .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.1.xml").getInputStream());
             root = e.getDocumentElement();
             version = root.getAttribute("version");
             intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -74,14 +74,14 @@ public class IntygTextsLuseRepositoryTestHelper extends IntygTextsRepositoryImpl
 
             prop = new Properties();
             prop.putAll(ImmutableMap
-                    .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan",
-                            "blankettId", "7800",
-                            "blankettVersion", "01"));
+                .of("formId", "FK 7800 (001 F 001) Fastställd av Försäkringskassan",
+                    "blankettId", "7800",
+                    "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
 
             e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.2.xml").getInputStream());
+                .parse(new ClassPathResource("v1/text/texterMU_LUSE_v1.2.xml").getInputStream());
             root = e.getDocumentElement();
             version = root.getAttribute("version");
             intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -92,10 +92,10 @@ public class IntygTextsLuseRepositoryTestHelper extends IntygTextsRepositoryImpl
 
             prop = new Properties();
             prop.putAll(ImmutableMap
-                    .of("formId", "FK 7800 (006 F 001) Fastställd av Försäkringskassan",
-                            "formIdRow2", "i samråd med Socialstyrelsen",
-                            "blankettId", "7800",
-                            "blankettVersion", "02"));
+                .of("formId", "FK 7800 (006 F 001) Fastställd av Försäkringskassan",
+                    "formIdRow2", "i samråd med Socialstyrelsen",
+                    "blankettId", "7800",
+                    "blankettVersion", "02"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

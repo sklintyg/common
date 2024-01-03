@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,28 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.doi.v1.model.converter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import se.inera.intyg.common.doi.model.internal.Dodsorsak;
-import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.doi.model.internal.Specifikation;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.common.enumerations.PatientInfo;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -81,6 +59,27 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.model.internal.Specifikation;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.common.enumerations.PatientInfo;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
 public final class TransportToInternal {
 
     private TransportToInternal() {
@@ -91,7 +90,7 @@ public final class TransportToInternal {
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg,
-                PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
+            PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intyg.getUnderskrift()));
         setSvar(utlatande, intyg);
         return utlatande.build();

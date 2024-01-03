@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,7 +30,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIVT_I
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import se.inera.intyg.common.db.v1.model.converter.certificate.category.CategoryExplosivtImplantat;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
 class CategoryExplosivtImplantatTest {

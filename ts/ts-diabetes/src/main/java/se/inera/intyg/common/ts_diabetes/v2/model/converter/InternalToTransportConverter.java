@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import java.util.List;
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import java.util.List;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
@@ -46,8 +47,6 @@ import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
-
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
 public final class InternalToTransportConverter {
 

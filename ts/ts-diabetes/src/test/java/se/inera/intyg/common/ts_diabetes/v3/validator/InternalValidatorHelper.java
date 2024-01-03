@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
-import se.inera.intyg.common.support.model.InternalDate;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 

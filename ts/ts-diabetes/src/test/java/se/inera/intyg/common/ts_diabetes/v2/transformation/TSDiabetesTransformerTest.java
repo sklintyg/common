@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,22 +21,18 @@ package se.inera.intyg.common.ts_diabetes.v2.transformation;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.List;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 
 public class TSDiabetesTransformerTest {
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,15 +26,17 @@ import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getNumberOfTransportValidationErrors;
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.transform.stream.StreamSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,24 +45,18 @@ import org.junit.runners.Parameterized.Parameters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
-import se.inera.intyg.common.luae_na.v1.utils.Scenario;
-import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
-import se.inera.intyg.common.luae_na.v1.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.v1.rest.LuaenaModuleApiV1;
+import se.inera.intyg.common.luae_na.v1.utils.Scenario;
+import se.inera.intyg.common.luae_na.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.luae_na.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.luae_na.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
@@ -187,18 +183,18 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
                 getNumberOfTransportValidationErrors(result),
                 getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                name),
+                    name),
                 internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                name),
+                    name),
                 SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                name, internalValidationErrors),
+                    name, internalValidationErrors),
                 internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
             assertTrue(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                name, transportValidationErrors),
+                    name, transportValidationErrors),
                 SVRLHelper.getAllFailedAssertions(result).size() == 0);
         }
     }

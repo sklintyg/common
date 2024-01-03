@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,16 +18,14 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-
-import static org.junit.Assert.assertEquals;
 
 public class PatientValidatorTest {
 
@@ -93,7 +91,7 @@ public class PatientValidatorTest {
         assertEquals("patient", validations.get(0).getCategory());
     }
 
-    @Test(expected=RuntimeException.class)
+    @Test(expected = RuntimeException.class)
     public void exceptionThrownWithNullPatient() {
         PatientValidator.validate(null, new ArrayList<>());
     }

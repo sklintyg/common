@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,13 +23,11 @@ import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializer
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.THREE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.TWO;
 
-import java.util.EnumSet;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import java.util.EnumSet;
+import org.junit.Test;
 
 public class EnumSetSerializerDeserializerTest {
 

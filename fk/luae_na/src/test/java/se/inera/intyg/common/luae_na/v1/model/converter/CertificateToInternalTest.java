@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -60,8 +60,8 @@ import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.Que
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskBehandlingSubstansintag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMedicinskaForutsattningarForArbete;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionMotiveringTillInteBaseratPaUndersokning;
-import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionNyBedomningDiagnosgrund;
+import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionOvrigt;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionSjukdomsforlopp;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlag;
 import se.inera.intyg.common.luae_na.v1.model.converter.certificate.question.QuestionUnderlagBaseratPa;
@@ -338,12 +338,13 @@ class CertificateToInternalTest {
             assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
                 expectedInternalCertificate.getSjukdomsforlopp());
         }
+
         @Test
         void shallIncludeDiagnoser() {
             when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
             final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
             for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
-                assertEquals(actualInternalCertificate.getDiagnoser().get(i),expectedInternalCertificate.getDiagnoser().get(i));
+                assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
             }
         }
 

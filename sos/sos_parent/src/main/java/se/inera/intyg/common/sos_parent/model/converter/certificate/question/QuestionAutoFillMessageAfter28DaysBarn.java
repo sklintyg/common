@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,7 +27,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.moreThan;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithAttribute;
 

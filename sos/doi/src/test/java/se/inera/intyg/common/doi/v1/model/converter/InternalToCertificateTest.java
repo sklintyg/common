@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -52,8 +52,8 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_A
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_OM_DELSVAR_ID;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -237,6 +237,7 @@ class InternalToCertificateTest {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
         assertEquals(15, actualCertificate.getData().get(TERMINAL_DODSORSAK_CATEGORY_ID).getIndex());
     }
+
     @Test
     void shallIncludeQuestionTerminalDodsorsakSjukdom() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
@@ -248,11 +249,13 @@ class InternalToCertificateTest {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
         assertEquals(17, actualCertificate.getData().get(DODSORSAK_DELSVAR_ID).getIndex());
     }
+
     @Test
     void shallIncludeQuestionTerminalDodsorsakFoljdAvB() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
         assertEquals(18, actualCertificate.getData().get(FOLJD_OM_DELSVAR_B_ID).getIndex());
     }
+
     @Test
     void shallIncludeQuestionTerminalDodsorsakFoljdAvC() {
         final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);

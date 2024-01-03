@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -98,7 +98,7 @@ class QuestionFunktionsnedsattningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-            
+
             if (expectedValue == null || expectedValue.isEmpty()) {
                 assertNull(updatedCertificate.getFunktionsnedsattning());
             } else {

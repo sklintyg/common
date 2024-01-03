@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,10 +20,8 @@ package se.inera.intyg.common.support.xml;
 
 import com.helger.xml.transform.StringStreamResult;
 import java.io.StringReader;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
-
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 //import com.helger.commons.xml.transform.StringStreamResult;

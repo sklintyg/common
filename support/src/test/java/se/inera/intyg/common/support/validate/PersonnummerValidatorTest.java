@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import com.google.common.base.Joiner;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test the {@link PersonnummerValidator}.
@@ -34,7 +33,9 @@ import static org.junit.Assert.assertEquals;
  */
 public class PersonnummerValidatorTest {
 
-    /** The validator to test. */
+    /**
+     * The validator to test.
+     */
     private PersonnummerValidator validator;
 
     @Before
@@ -46,8 +47,6 @@ public class PersonnummerValidatorTest {
 
     /**
      * Test that only personnummer on the form <code>yyyyMMdd-nnnn</code> are accepted.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerParser() throws Exception {
@@ -60,8 +59,6 @@ public class PersonnummerValidatorTest {
 
     /**
      * Test that only valid dates are accepted by the validator.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerDate() throws Exception {
@@ -73,8 +70,6 @@ public class PersonnummerValidatorTest {
 
     /**
      * Test that only dates in the supported range are ok.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerDateRange() throws Exception {
@@ -87,8 +82,6 @@ public class PersonnummerValidatorTest {
 
     /**
      * Test that the separator is validated correctly.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerSeparator() throws Exception {
@@ -101,8 +94,6 @@ public class PersonnummerValidatorTest {
 
     /**
      * Test that the checksum is validated correctly.
-     *
-     * @throws Exception
      */
     @Test
     public void testPersonnummerChecksum() throws Exception {

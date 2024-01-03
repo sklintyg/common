@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,5 +45,6 @@ public final class Constants {
     public static final String ADDRESS_DETAILS_SOURCE_USER_NAME = "Person som använder systemet";
     public static final String KV_VARDNIVA_CODE_SYSTEM = "1.2.752.129.5.1.28";
 
-    private Constants() { }
+    private Constants() {
+    }
 }

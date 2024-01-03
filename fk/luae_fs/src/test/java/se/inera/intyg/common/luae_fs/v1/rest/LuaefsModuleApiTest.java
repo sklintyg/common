@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -519,7 +519,7 @@ public class LuaefsModuleApiTest {
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
-    
+
     @Test
     public void shallConvertInternalToCertificate() throws Exception {
         final var expectedCertificate = CertificateBuilder.create()

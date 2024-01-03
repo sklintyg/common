@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,6 +18,35 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.AKTIVITETSBEGRANSNING_SVAR_17;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SVAR_10006;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ATGARD_INOM_SJUKVARDEN_SVAR_10004;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.AVSTANGNING_SMITTSKYDD_SVAR_27;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.DIAGNOS_FRITEXT_SVAR_10001;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.DIAGNOS_SVAR_6;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.FUNKTIONSNEDSATTNING_SVAR_35;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.KONTAKT_MED_FK_SVAR_26;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.NUVARANDE_ARBETSUPPGIFTER_SVAR_29;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.OVRIGA_UPPLYSNINGAR_SVAR_25;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.REHABILITERING_SVAR_10005;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.REKOMMENDATION_KONTAKT_SVAR_10003;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.SJUKDOMSFORLOPP_SVAR_10002;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.SYSSELSATTNING_SVAR_28;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
@@ -27,24 +56,18 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import javax.xml.bind.JAXBElement;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.*;
-import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.*;
 
 public class UtlatandeToIntygTest {
 

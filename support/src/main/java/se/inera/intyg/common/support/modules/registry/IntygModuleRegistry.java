@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,11 +19,11 @@
 package se.inera.intyg.common.support.modules.registry;
 
 import java.util.List;
-
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public interface IntygModuleRegistry {
+
     String resolveVersionFromUtlatandeJson(String intygType, String internalModel) throws ModuleNotFoundException;
 
     ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException;

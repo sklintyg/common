@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.MetaDataGrundData;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryDiagnos;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryFunktionsnedsattning;
-import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryOvrigt;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryKontakt;
+import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryOvrigt;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionAnnatBeskrivning;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionDiagnoser;
-import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category.CategoryGrundForMU;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningDebut;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionFunktionsnedsattningPaverkan;
 import se.inera.intyg.common.luae_fs.v1.model.converter.certificate.question.QuestionKannedomOmPatient;

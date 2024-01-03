@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,7 +23,6 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
@@ -46,15 +45,15 @@ public class UVKategori extends UVComponent {
 
         Div borderDiv = new Div();
         borderDiv.add(new Paragraph(kategori.toUpperCase())
-            .setMarginTop(0f)
-            .setMarginBottom(0f)
-            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-            .setFont(renderer.kategoriFont)
-            .setFontSize(KATEGORI_FONT_SIZE)
-            .setFontColor(WC_COLOR_07)
-            .setPaddingTop(1f)
-            .setPaddingBottom(1f))
+                .setMarginTop(0f)
+                .setMarginBottom(0f)
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.kategoriFont)
+                .setFontSize(KATEGORI_FONT_SIZE)
+                .setFontColor(WC_COLOR_07)
+                .setPaddingTop(1f)
+                .setPaddingBottom(1f))
             .setKeepTogether(true);
         borderDiv.setBorderBottom(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH));
         parent.add(borderDiv);

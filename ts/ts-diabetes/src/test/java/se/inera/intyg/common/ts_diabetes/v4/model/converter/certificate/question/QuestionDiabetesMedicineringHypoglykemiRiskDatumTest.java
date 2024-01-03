@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -121,7 +121,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskDatumTest {
         }
 
         @Override
-        protected  LocalDate getMaxDate() {
+        protected LocalDate getMaxDate() {
             return LocalDate.now();
         }
     }
@@ -134,7 +134,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskDatumTest {
             final var allmant = Allmant.builder()
                 .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-12-15"))
                 .build();
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(allmant,null,  0, textProvider);
+            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(allmant, null, 0, textProvider);
         }
 
         @Override
@@ -202,7 +202,7 @@ class QuestionDiabetesMedicineringHypoglykemiRiskDatumTest {
 
         @Override
         protected CertificateDataElement getElement(Allmant input) {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(input,null,  0, textProvider);
+            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(input, null, 0, textProvider);
         }
 
         @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,12 +22,11 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
-
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
 public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 

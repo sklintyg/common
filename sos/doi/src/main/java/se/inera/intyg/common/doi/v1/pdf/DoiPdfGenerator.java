@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,20 +30,19 @@ import com.itextpdf.text.pdf.GrayColor;
 import com.itextpdf.text.pdf.PdfArray;
 import com.itextpdf.text.pdf.PdfDictionary;
 import com.itextpdf.text.pdf.PdfName;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.itextpdf.text.pdf.PdfReader;
-import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
@@ -422,43 +421,43 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     private String getFieldToCheckForAccomodation(DodsplatsBoende accomodation) {
         switch (accomodation) {
-            case SJUKHUS :
+            case SJUKHUS:
                 return FIELD_DODSPLATS_SJUKUS;
-            case ORDINART_BOENDE :
+            case ORDINART_BOENDE:
                 return FIELD_DODSPLATS_ORDINART_BOENDE;
-            case SARSKILT_BOENDE :
+            case SARSKILT_BOENDE:
                 return FIELD_DODSPLATS_SARSKILT_BOENDE;
-            case ANNAN :
+            case ANNAN:
                 return FIELD_DODSPLATS_ANNAN_OKAND;
-            default :
+            default:
                 return "";
         }
     }
 
     private String getFieldToCheckForCauseOfInjury(ForgiftningOrsak causeOfInjury) {
         switch (causeOfInjury) {
-            case OLYCKSFALL :
+            case OLYCKSFALL:
                 return FIELD_OLYCKSFALL;
-            case SJALVMORD :
+            case SJALVMORD:
                 return FIELD_SJALVMORD;
-            case AVSIKTLIGT_VALLAD :
+            case AVSIKTLIGT_VALLAD:
                 return FIELD_AVSIKTLIGT_VALLAD_AV_ANNAN;
             case OKLART:
                 return FIELD_OKLART_OM_AVSIKT_FORELEGAT;
-            default :
+            default:
                 return "";
         }
     }
 
     private String getFieldToCheckForSurgery(OmOperation operation) {
         switch (operation) {
-            case JA :
+            case JA:
                 return FIELD_OPERERAD_JA;
-            case NEJ :
+            case NEJ:
                 return FIELD_OPERERAD_NEJ;
-            case UPPGIFT_SAKNAS :
+            case UPPGIFT_SAKNAS:
                 return FIELD_OPERERAD_UPPGIFT_SAKNAS;
-            default :
+            default:
                 return "";
         }
     }

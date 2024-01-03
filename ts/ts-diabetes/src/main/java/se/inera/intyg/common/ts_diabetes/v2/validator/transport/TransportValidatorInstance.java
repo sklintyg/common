@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,7 +20,6 @@ package se.inera.intyg.common.ts_diabetes.v2.validator.transport;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.inera.intyg.common.support.Constants;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 

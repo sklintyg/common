@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,9 +41,9 @@ import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UND
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import com.google.common.base.Strings;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
@@ -253,7 +253,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         }
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattningPaverkan()).trim().isEmpty()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16,  ValidationMessageType.EMPTY,
+                FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16, ValidationMessageType.EMPTY,
                 "luae_fs.validation.funktionsnedsattning.paverkan.missing", FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16);
         }
     }

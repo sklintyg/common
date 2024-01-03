@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,11 +20,9 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.List;
-
-import org.junit.Test;
-
 import com.google.common.collect.ImmutableList;
+import java.util.List;
+import org.junit.Test;
 
 public class PatientDetailResolveOrderTest {
 
@@ -39,11 +37,11 @@ public class PatientDetailResolveOrderTest {
     @Test
     public void disallowUsingPredecessorStrategyWithoutPredecessor() {
         List<PatientDetailResolveOrder.ResolveOrder> predecessorStrat = ImmutableList
-                .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
+            .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
         List<PatientDetailResolveOrder.ResolveOrder> other = ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PU);
 
         assertThatThrownBy(() -> new PatientDetailResolveOrder("", predecessorStrat, other))
-                .isExactlyInstanceOf(IllegalArgumentException.class);
+            .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 
 }

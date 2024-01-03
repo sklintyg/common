@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,11 +24,6 @@ import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
-import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
-import com.itextpdf.kernel.pdf.xobject.PdfXObject;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import com.google.common.base.Strings;
 import com.itextpdf.io.font.otf.Glyph;
 import com.itextpdf.io.font.otf.GlyphLine;
@@ -41,12 +36,15 @@ import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
+import com.itextpdf.kernel.pdf.xobject.PdfXObject;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
 /**
@@ -93,11 +91,11 @@ public class IntygHeader implements IEventHandler {
 
         final var docEvent = (PdfDocumentEvent) event;
         final var pdf = docEvent.getDocument();
-        final var  page = docEvent.getPage();
+        final var page = docEvent.getPage();
 
-        final var  pageSize = page.getPageSize();
-        final var  pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
-        final var  canvas = new Canvas(pdfCanvas, pageSize);
+        final var pageSize = page.getPageSize();
+        final var pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
+        final var canvas = new Canvas(pdfCanvas, pageSize);
 
         renderLogotype(pageSize, pdfCanvas);
         renderUtskriftsDatum(pageSize, canvas);

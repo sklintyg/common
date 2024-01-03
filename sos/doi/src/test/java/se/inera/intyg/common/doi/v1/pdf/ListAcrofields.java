@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,15 +18,13 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
-import java.io.File;
-import java.util.Set;
-
-import org.springframework.core.io.ClassPathResource;
+import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
 
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
-
-import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
+import java.io.File;
+import java.util.Set;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * Created by marced on 2017-10-11.

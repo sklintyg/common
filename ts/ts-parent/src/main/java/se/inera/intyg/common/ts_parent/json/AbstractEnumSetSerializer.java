@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
-import java.io.IOException;
-import java.util.EnumSet;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import java.io.IOException;
+import java.util.EnumSet;
 
 /**
  * Helper class that instructs Jackson to parse {@link EnumSet}s to JSON as follows.
