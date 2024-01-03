@@ -25,7 +25,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.binaryBooleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -36,6 +36,10 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
 public abstract class AbstractQuestionArbetsresor {
+
+    private AbstractQuestionArbetsresor() {
+
+    }
 
     public static CertificateDataElement toCertificate(Boolean value, String id, String parent, String jsonId, int index,
         CertificateTextProvider texts) {
@@ -69,6 +73,6 @@ public abstract class AbstractQuestionArbetsresor {
     }
 
     public static Boolean toInternal(Certificate certificate, String questionId, String jsonId) {
-        return booleanValue(certificate.getData(), questionId, jsonId);
+        return binaryBooleanValue(certificate.getData(), questionId, jsonId);
     }
 }

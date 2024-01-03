@@ -21,9 +21,9 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
@@ -121,13 +121,12 @@ class QuestionKontaktTest {
 
             final var certificateDataConfigCheckboxBoolean = (CertificateDataConfigCheckboxBoolean) question.getConfig();
             assertAll("Validating question configuration",
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getText().trim().length() > 0, "Missing text"),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getLabel().trim().length() > 0, "Missing label"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getText().trim().isEmpty(), "Missing text"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getLabel().trim().isEmpty(), "Missing label"),
                 () -> assertNull(certificateDataConfigCheckboxBoolean.getDescription(), "Should not have description"),
                 () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataConfigCheckboxBoolean.getId()),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().length() > 0,
-                    "Missing unselected text")
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getSelectedText().trim().isEmpty(), "Missing selected text"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().isEmpty(), "Missing unselected text")
             );
         }
 
@@ -222,7 +221,7 @@ class QuestionKontaktTest {
         }
 
         Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
+            return Stream.of(true, null);
         }
 
         @ParameterizedTest
@@ -238,6 +237,20 @@ class QuestionKontaktTest {
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getKontaktMedAg());
+        }
+
+        @Test
+        void shouldIncludeKontaktValueFalseAsNull() {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(
+                    QuestionKontakt.toCertificate(false, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertNull(updatedCertificate.getKontaktMedAg());
         }
     }
 }
