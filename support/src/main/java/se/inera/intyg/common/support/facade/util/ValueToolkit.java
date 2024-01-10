@@ -66,12 +66,6 @@ public final class ValueToolkit {
         return booleanDataValue.getSelected();
     }
 
-    public static Boolean binaryBooleanValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var value = booleanValue(data, questionId, valueId);
-
-        return Boolean.TRUE.equals(value) ? true : null;
-    }
-
     public static String textValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
         final var dataValue = getValue(data, questionId);
         if (!(dataValue instanceof CertificateDataTextValue)) {

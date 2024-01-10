@@ -151,7 +151,7 @@ class QuestionArbetsresorTest {
         }
 
         @Test
-        void shouldIncludeQuestionValueFalse() {
+        void shouldIncludeQuestionValueFalseAsNull() {
             internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(grundData)
                 .setId("id")
@@ -166,7 +166,7 @@ class QuestionArbetsresorTest {
             final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
-                () -> assertEquals(internalCertificate.getArbetsresor(), certificateDataValueBoolean.getSelected())
+                () -> assertNull(certificateDataValueBoolean.getSelected())
             );
         }
 

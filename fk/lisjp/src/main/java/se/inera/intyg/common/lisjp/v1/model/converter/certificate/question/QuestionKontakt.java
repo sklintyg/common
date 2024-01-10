@@ -30,7 +30,7 @@ import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTA
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_TEXT;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
-import static se.inera.intyg.common.support.facade.util.ValueToolkit.binaryBooleanValue;
+import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -65,7 +65,7 @@ public class QuestionKontakt {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(value)
+                    .selected(Boolean.TRUE.equals(value) ? true : null)
                     .build()
             )
             .validation(
@@ -80,6 +80,6 @@ public class QuestionKontakt {
     }
 
     public static Boolean toInternal(Certificate certificate) {
-        return binaryBooleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
+        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
     }
 }
