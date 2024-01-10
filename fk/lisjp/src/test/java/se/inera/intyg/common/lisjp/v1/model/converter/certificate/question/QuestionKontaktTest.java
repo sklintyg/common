@@ -154,7 +154,7 @@ class QuestionKontaktTest {
                 .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
-                .setAvstangningSmittskydd(false)
+                .setKontaktMedFk(false)
                 .build();
 
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
@@ -164,7 +164,7 @@ class QuestionKontaktTest {
             final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_26, certificateDataValueBoolean.getId()),
-                () -> assertEquals(internalCertificate.getKontaktMedFk(), certificateDataValueBoolean.getSelected())
+                () -> assertNull(certificateDataValueBoolean.getSelected())
             );
         }
 

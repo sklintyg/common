@@ -150,12 +150,12 @@ class QuestionKontaktTest {
         }
 
         @Test
-        void shouldIncludeQuestionValueFalse() {
+        void shouldIncludeQuestionValueFalseAsEmpty() {
             internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
-                .setAvstangningSmittskydd(false)
+                .setKontaktMedAg(false)
                 .build();
 
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
@@ -165,7 +165,7 @@ class QuestionKontaktTest {
             final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValueBoolean.getId()),
-                () -> assertEquals(internalCertificate.getKontaktMedAg(), certificateDataValueBoolean.getSelected())
+                () -> assertNull(certificateDataValueBoolean.getSelected())
             );
         }
 
