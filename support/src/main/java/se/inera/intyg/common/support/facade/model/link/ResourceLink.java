@@ -16,20 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model;
+package se.inera.intyg.common.support.facade.model.link;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import lombok.Data;
-import se.inera.intyg.common.support.facade.model.link.ResourceLink;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.link.ResourceLink.ResourceLinkBuilder;
 
-@Data
-public class Certificate {
+@JsonDeserialize(builder = ResourceLinkBuilder.class)
+@Value
+@Builder
+public class ResourceLink {
 
-    private CertificateMetadata metadata;
-    private Map<String, CertificateDataElement> data = new HashMap<>();
-    private List<ResourceLink> links;
+    ResourceLinkTypeEnum type;
+    String name;
+    String description;
+    String body;
+    boolean enabled;
+    String title;
 
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class ResourceLinkBuilder {
+
+    }
 }
