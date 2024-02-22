@@ -57,6 +57,7 @@ public class CertificateMetadata {
     private String responsibleHospName;
     private CertificateRecipient recipient;
     private CertificateSummary summary;
+    private boolean validForSign;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
