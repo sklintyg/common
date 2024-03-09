@@ -16,58 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.subscriptionService', [ 'common.UserModel', function(UserModel) {
-      'use strict';
+angular.module('common').factory('common.subscriptionService', ['common.UserModel', function(UserModel) {
+  'use strict';
 
-      function _getSubscriptionAdaptationStartDate() {
-        return UserModel.user.subscriptionInfo.subscriptionAdaptationStartDate;
+  function _missingSubscriptionWhenRequired(careProviderId) {
+    return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId,
+        UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
+  }
+
+  function _acknowledgeSubscriptionModal() {
+    if (UserModel.user.valdVardgivare) {
+      var index = UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.indexOf(UserModel.user.valdVardgivare.id);
+      if (index > -1) {
+        UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.splice(index, 1);
       }
-
-      function _getRequireSubscriptionStartDate() {
-        return UserModel.user.subscriptionInfo.requireSubscriptionStartDate;
-      }
-
-      function _missingSubscriptionWhenRequired(careProviderId) {
-        return UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' && missingSubscription(careProviderId,
-            UserModel.user.subscriptionInfo.careProvidersMissingSubscription);
-      }
-
-      function _acknowledgeSubscriptionModal() {
-        if (UserModel.user.valdVardgivare) {
-          var index = UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.indexOf(UserModel.user.valdVardgivare.id);
-          if (index > -1) {
-            UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal.splice(index, 1);
-          }
-        }
-      }
-
-      function _shouldDisplayWarning() {
-        return UserModel.user && UserModel.user.hasOwnProperty('valdVardgivare') &&
-            UserModel.user.subscriptionInfo.subscriptionAction === 'WARN' &&
-            missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
-      }
-
-      function _shouldDisplayMissingSubscriptionBanner() {
-        return UserModel.user && UserModel.user.hasOwnProperty('valdVardgivare') &&
-            _missingSubscriptionWhenRequired(UserModel.user.valdVardgivare.id);
-      }
-
-    function _shouldDisplayMissingSubscriptionModal() {
-      return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' &&
-          missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
     }
+  }
 
-      function missingSubscription(careProviderId, careProviders) {
-        return careProviders.indexOf(careProviderId) > -1;
-      }
+  function _shouldDisplayMissingSubscriptionBanner() {
+    return UserModel.user && UserModel.user.hasOwnProperty('valdVardgivare') &&
+        _missingSubscriptionWhenRequired(UserModel.user.valdVardgivare.id);
+  }
 
-      return {
-        getSubscriptionAdaptationStartDate: _getSubscriptionAdaptationStartDate,
-        getRequireSubscriptionStartDate: _getRequireSubscriptionStartDate,
-        missingSubscriptionWhenRequired: _missingSubscriptionWhenRequired,
-        acknowledgeSubscriptionModal: _acknowledgeSubscriptionModal,
-        shouldDisplayWarning: _shouldDisplayWarning,
-        shouldDisplayMissingSubscriptionBanner: _shouldDisplayMissingSubscriptionBanner,
-        shouldDisplayMissingSubscriptionModal: _shouldDisplayMissingSubscriptionModal
-      };
-    }]);
+  function _shouldDisplayMissingSubscriptionModal() {
+    return UserModel.user.hasOwnProperty('valdVardgivare') && UserModel.user.subscriptionInfo.subscriptionAction === 'BLOCK' &&
+        missingSubscription(UserModel.user.valdVardgivare.id, UserModel.user.subscriptionInfo.careProvidersForSubscriptionModal);
+  }
+
+  function missingSubscription(careProviderId, careProviders) {
+    return careProviders.indexOf(careProviderId) > -1;
+  }
+
+  return {
+    missingSubscriptionWhenRequired: _missingSubscriptionWhenRequired,
+    acknowledgeSubscriptionModal: _acknowledgeSubscriptionModal,
+    shouldDisplayMissingSubscriptionBanner: _shouldDisplayMissingSubscriptionBanner,
+    shouldDisplayMissingSubscriptionModal: _shouldDisplayMissingSubscriptionModal
+  };
+}]);
