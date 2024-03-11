@@ -130,8 +130,7 @@
       'common.modal.copy-from-candidate.title': 'Hjälp med ifyllnad?',
 
       'common.modal.copy.title': 'Kopiera låst utkast',
-      'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>'
-          +
+      'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>' +
           '<p>Det nya utkastet skapas på den enhet du är inloggat på.</p>',
       'common.modal.copy.body_go': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>',
 
@@ -158,8 +157,7 @@
       // Text in copy and fornya (renew) modal dialogs
       'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
 
-      'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>'
-          +
+      'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>' +
           'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
           '<ul><li>Information om sjukskrivningsperiod.</li>' +
           '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
@@ -169,8 +167,7 @@
 
       // Messages for user survey
       'wc.modal.survey.title': 'Användarundersökning',
-      'wc.modal.survey.text': 'Vi genomför en användarundersökning för intygsapplikationen Webcert och vore mycket tacksamma om du kan tänka dig att dela dina synpunkter med oss. Undersökningen tar några minuter att fylla i och är helt anonym. Du kan närsomhelst avbryta undersökningen om så önskas. \n'
-          +
+      'wc.modal.survey.text': 'Vi genomför en användarundersökning för intygsapplikationen Webcert och vore mycket tacksamma om du kan tänka dig att dela dina synpunkter med oss. Undersökningen tar några minuter att fylla i och är helt anonym. Du kan närsomhelst avbryta undersökningen om så önskas. \n' +
           'Vill du hjälpa oss att förbättra tjänsten genom ditt deltagande?',
 
       // common intyg view messages
