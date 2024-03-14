@@ -32,21 +32,22 @@ import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuil
 @Builder
 public class Question {
 
-    private String id;
-    private QuestionType type;
-    private String subject;
-    private String message;
-    private String author;
-    private LocalDateTime sent;
-    private Complement[] complements;
-    private boolean isHandled;
-    private boolean isForwarded;
-    private Answer answer;
-    private CertificateRelation answeredByCertificate;
-    private Reminder[] reminders;
-    private LocalDateTime lastUpdate;
-    private LocalDate lastDateToReply;
-    private String[] contactInfo;
+    String id;
+    QuestionType type;
+    String subject;
+    String message;
+    String author;
+    LocalDateTime sent;
+    Complement[] complements;
+    boolean isHandled;
+    boolean isForwarded;
+    Answer answer;
+    CertificateRelation answeredByCertificate;
+    Reminder[] reminders;
+    LocalDateTime lastUpdate;
+    LocalDate lastDateToReply;
+    String[] contactInfo;
+    String certificateId;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class QuestionBuilder {
