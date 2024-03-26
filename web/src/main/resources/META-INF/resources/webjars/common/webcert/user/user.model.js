@@ -133,6 +133,7 @@ angular.module('common').factory('common.UserModel', [
         LAKARE: 'Läkare',
         PRIVATLAKARE: 'Privatläkare',
         TANDLAKARE: 'Tandläkare',
+        SJUKSKOTERSKA: 'Sjuksköterska',
 
         getRole: function(roles) {
           var rs = '';
@@ -150,6 +151,10 @@ angular.module('common').factory('common.UserModel', [
 
           if (roles.TANDLAKARE !== undefined) {
             rs += roles.TANDLAKARE.desc;
+          }
+          
+          if (roles.SJUKSKOTERSKA !== undefined) {
+            rs += roles.SJUKSKOTERSKA.desc;
           }
 
           return rs;
