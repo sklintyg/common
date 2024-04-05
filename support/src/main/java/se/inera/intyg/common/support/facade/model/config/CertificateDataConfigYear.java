@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigYe
 public class CertificateDataConfigYear implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_YEAR;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_YEAR;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

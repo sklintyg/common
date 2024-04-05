@@ -22,7 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
@@ -80,7 +80,7 @@ public final class FkDataValueUtil {
                     .build()
             )
             .informationSource(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(jsonId + "[" + id + "].hamtasFran")
                     .text(text)
                     .build()

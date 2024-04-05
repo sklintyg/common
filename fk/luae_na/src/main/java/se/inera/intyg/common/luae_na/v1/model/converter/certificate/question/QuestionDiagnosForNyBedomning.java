@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionDiagnosForNyBedomning {
@@ -50,7 +50,7 @@ public class QuestionDiagnosForNyBedomning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
                     .text(nyBedomning)
                     .build()

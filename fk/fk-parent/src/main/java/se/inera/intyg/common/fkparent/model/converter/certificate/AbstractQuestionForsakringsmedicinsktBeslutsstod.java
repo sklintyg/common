@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public abstract class AbstractQuestionForsakringsmedicinsktBeslutsstod {
 
@@ -50,7 +50,7 @@ public abstract class AbstractQuestionForsakringsmedicinsktBeslutsstod {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(jsonId)
                     .text(value)
                     .build()

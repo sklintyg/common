@@ -22,11 +22,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
+import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType.UE_MESSAGE;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public abstract class ConfigMessageTest extends ConfigTest {
@@ -36,7 +36,7 @@ public abstract class ConfigMessageTest extends ConfigTest {
     protected abstract MessageLevel getMessageLevel();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
+    protected CertificateDataConfigType getType() {
         return UE_MESSAGE;
     }
 

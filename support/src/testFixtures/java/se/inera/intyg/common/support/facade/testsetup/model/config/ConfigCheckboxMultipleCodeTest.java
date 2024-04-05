@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleCode;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleCode;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 
@@ -35,8 +35,8 @@ public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
     protected abstract Layout getLayout();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_CODE;
     }
 
     @Test

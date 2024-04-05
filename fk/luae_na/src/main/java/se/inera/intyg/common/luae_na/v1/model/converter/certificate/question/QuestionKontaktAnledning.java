@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionKontaktAnledning {
 
@@ -51,7 +51,7 @@ public class QuestionKontaktAnledning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
                     .text(kontaktAnledning)
                     .build()

@@ -50,7 +50,7 @@ import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -125,7 +125,7 @@ class QuestionDiagnoserTest {
 
             final var question = certificate.getData().get(DIAGNOS_SVAR_ID_6);
 
-            assertEquals(CertificateDataConfigTypes.UE_DIAGNOSES, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DIAGNOSES, question.getConfig().getType());
 
             final var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) question.getConfig();
             assertAll("Validating question configuration",

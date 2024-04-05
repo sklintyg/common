@@ -16,11 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.config;
+package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataConfigTypes {
-    CATEGORY, UE_RADIO_BOOLEAN, UE_CHECKBOX_BOOLEAN, UE_CHECKBOX_MULTIPLE_DATE, UE_CHECKBOX_MULTIPLE_CODE, UE_RADIO_MULTIPLE_CODE,
-    UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, UE_DIAGNOSES, UE_CHECKBOX_DATE_RANGE_LIST, UE_TEXTAREA, UE_DROPDOWN, UE_ICF, UE_DATE,
-    UE_UNCERTAIN_DATE, UE_MESSAGE, UE_TEXTFIELD, UE_TYPE_AHEAD, UE_HEADER, UE_CAUSE_OF_DEATH, UE_MEDICAL_INVESTIGATION,
-    UE_VISUAL_ACUITY, UE_VIEW_TEXT, UE_VIEW_LIST, UE_VIEW_TABLE, UE_YEAR, UE_INTEGER, UE_DATE_RANGE, UE_CAUSE_OF_DEATH_LIST
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+
+@JsonDeserialize(builder = CertificateDataValueText.CertificateDataTextValueBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueText implements CertificateDataValue {
+
+    @Getter(onMethod = @__(@Override))
+    CertificateDataValueType type = CertificateDataValueType.TEXT;
+    String id;
+    String text;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateDataTextValueBuilder {
+
+    }
 }

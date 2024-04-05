@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 public class CertificateDataConfigViewList implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_VIEW_LIST;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_VIEW_LIST;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

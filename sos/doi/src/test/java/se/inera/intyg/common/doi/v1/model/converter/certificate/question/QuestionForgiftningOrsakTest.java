@@ -48,7 +48,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
@@ -107,7 +107,7 @@ class QuestionForgiftningOrsakTest {
         @Test
         void shouldIncludeRadioMultipleCodeConfigType() {
             final var question = QuestionForgiftningOrsak.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
         }
 
         @Test

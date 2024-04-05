@@ -50,11 +50,11 @@ import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CauseOfDeath;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -140,7 +140,7 @@ class QuestionBidragandeSjukdomarTest {
         void shouldIncludeTerminalCauseOfDeathConfigType() {
             final var question = QuestionBidragandeSjukdomar.toCertificate(
                 bidragandeSjukdomar, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_CAUSE_OF_DEATH_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CAUSE_OF_DEATH_LIST, question.getConfig().getType());
         }
 
         @Test
@@ -296,7 +296,7 @@ class QuestionBidragandeSjukdomarTest {
             final var expectedValue = CertificateDataValueCauseOfDeath.builder()
                 .id("0")
                 .description(
-                    CertificateDataTextValue.builder()
+                    CertificateDataValueText.builder()
                         .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].beskrivning")
                         .text(bidragandeSjukdom.getBeskrivning())
                         .build()

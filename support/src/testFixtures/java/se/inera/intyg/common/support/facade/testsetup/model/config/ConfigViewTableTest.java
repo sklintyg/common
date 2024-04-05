@@ -29,7 +29,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewTable;
 import se.inera.intyg.common.support.facade.model.config.ViewColumn;
 
@@ -42,8 +42,8 @@ public abstract class ConfigViewTableTest extends ConfigTest {
     protected abstract List<ViewColumn> getColumns();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_VIEW_TABLE;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_VIEW_TABLE;
     }
 
     @Override

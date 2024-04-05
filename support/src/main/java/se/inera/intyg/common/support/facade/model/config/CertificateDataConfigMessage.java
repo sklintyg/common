@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 public class CertificateDataConfigMessage implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MESSAGE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_MESSAGE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

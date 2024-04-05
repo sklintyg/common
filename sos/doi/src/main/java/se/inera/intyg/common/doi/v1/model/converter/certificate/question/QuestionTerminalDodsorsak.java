@@ -43,7 +43,7 @@ import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
@@ -93,7 +93,7 @@ public class QuestionTerminalDodsorsak {
             .value(
                 CertificateDataValueCauseOfDeath.builder()
                     .description(
-                        CertificateDataTextValue.builder()
+                        CertificateDataValueText.builder()
                             .id(TERMINAL_DODSORSAK_JSON_ID)
                             .text(dodsorsak.getBeskrivning())
                             .build()

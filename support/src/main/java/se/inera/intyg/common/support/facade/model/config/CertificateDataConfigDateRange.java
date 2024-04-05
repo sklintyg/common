@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDa
 public class CertificateDataConfigDateRange implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_DATE_RANGE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_DATE_RANGE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

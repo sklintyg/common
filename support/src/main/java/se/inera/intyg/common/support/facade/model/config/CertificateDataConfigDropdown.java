@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDr
 public class CertificateDataConfigDropdown implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_DROPDOWN;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_DROPDOWN;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

@@ -48,10 +48,10 @@ import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -167,7 +167,7 @@ class QuestionFunktionsnedsattningTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+                assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
 
                 final var certificateDataConfigBoolean = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
@@ -183,7 +183,7 @@ class QuestionFunktionsnedsattningTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12, certificateDataTextValue.getId()),
                     () -> assertEquals(internalCertificate.getFunktionsnedsattning(), certificateDataTextValue.getText())
@@ -202,7 +202,7 @@ class QuestionFunktionsnedsattningTest {
 
                 final var question = certificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12, certificateDataTextValue.getId()),
                     () -> assertNull(certificateDataTextValue.getText())

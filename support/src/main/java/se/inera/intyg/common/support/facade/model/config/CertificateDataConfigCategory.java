@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 public class CertificateDataConfigCategory implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.CATEGORY;
+    CertificateDataConfigType type = CertificateDataConfigType.CATEGORY;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

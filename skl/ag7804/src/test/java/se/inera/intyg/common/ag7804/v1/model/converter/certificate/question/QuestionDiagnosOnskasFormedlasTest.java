@@ -45,7 +45,7 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHighlight;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -117,7 +117,7 @@ class QuestionDiagnosOnskasFormedlasTest {
 
             final var question = certificate.getData().get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
 
             final var certificateDataConfigRadioCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
             assertAll("Validating question configuration",

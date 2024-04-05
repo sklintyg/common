@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigViewListTest extends ConfigTest {
 
@@ -36,8 +36,8 @@ public abstract class ConfigViewListTest extends ConfigTest {
     protected abstract String getMessageId();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_VIEW_LIST;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_VIEW_LIST;
     }
 
     @Override

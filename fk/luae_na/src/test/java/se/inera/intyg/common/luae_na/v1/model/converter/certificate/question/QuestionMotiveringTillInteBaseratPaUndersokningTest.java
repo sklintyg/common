@@ -49,10 +49,10 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
@@ -97,7 +97,7 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         void shouldIncludeConfigCertificateDataConfigTextArea() {
             final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
 
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -134,7 +134,7 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, value.getId());
         }
@@ -143,7 +143,7 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
             final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(expectedText, value.getText());
         }

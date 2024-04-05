@@ -46,9 +46,9 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -117,7 +117,7 @@ class QuestionForsakringsmedicinsktBeslutsstodTest {
 
             final var question = certificate.getData().get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37);
 
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
 
             final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
             assertAll("Validating question configuration",
@@ -142,7 +142,7 @@ class QuestionForsakringsmedicinsktBeslutsstodTest {
 
             final var question = certificate.getData().get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37);
 
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+            final var certificateDataValueText = (CertificateDataValueText) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37, certificateDataValueText.getId()),
                 () -> assertEquals(expectedText, certificateDataValueText.getText())
@@ -161,7 +161,7 @@ class QuestionForsakringsmedicinsktBeslutsstodTest {
 
             final var question = certificate.getData().get(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37);
 
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+            final var certificateDataValueText = (CertificateDataValueText) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37, certificateDataValueText.getId()),
                 () -> assertNull(certificateDataValueText.getText())

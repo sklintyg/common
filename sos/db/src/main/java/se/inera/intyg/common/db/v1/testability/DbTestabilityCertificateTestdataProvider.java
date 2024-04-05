@@ -48,7 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -66,7 +66,7 @@ public class DbTestabilityCertificateTestdataProvider implements TestabilityCert
     public Map<String, CertificateDataValue> getMinimumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
-        final CertificateDataTextValue identitetStyrkt = CertificateDataTextValue.builder()
+        final CertificateDataValueText identitetStyrkt = CertificateDataValueText.builder()
             .id(IDENTITET_STYRKT_JSON_ID)
             .text(identitetStyrktText)
             .build();
@@ -84,7 +84,7 @@ public class DbTestabilityCertificateTestdataProvider implements TestabilityCert
             .build();
         values.put(DODSDATUM_DELSVAR_ID, antraffadDod);
 
-        final CertificateDataTextValue dodsplatsKommun = CertificateDataTextValue.builder()
+        final CertificateDataValueText dodsplatsKommun = CertificateDataValueText.builder()
             .id(DODSPLATS_KOMMUN_JSON_ID)
             .text(kommun)
             .build();
@@ -127,7 +127,7 @@ public class DbTestabilityCertificateTestdataProvider implements TestabilityCert
     public Map<String, CertificateDataValue> getMaximumValues() {
         final var values = new HashMap<String, CertificateDataValue>();
 
-        final CertificateDataTextValue identitetStyrkt = CertificateDataTextValue.builder()
+        final CertificateDataValueText identitetStyrkt = CertificateDataValueText.builder()
             .id(IDENTITET_STYRKT_JSON_ID)
             .text(identitetStyrktText)
             .build();
@@ -151,7 +151,7 @@ public class DbTestabilityCertificateTestdataProvider implements TestabilityCert
             .build();
         values.put(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, antraffadDod);
 
-        final CertificateDataTextValue dodsplatsKommun = CertificateDataTextValue.builder()
+        final CertificateDataValueText dodsplatsKommun = CertificateDataValueText.builder()
             .id(DODSPLATS_KOMMUN_JSON_ID)
             .text(kommun)
             .build();

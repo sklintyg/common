@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.facade.util;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -65,8 +65,8 @@ public final class DataValueUtil {
             .build();
     }
 
-    public static CertificateDataTextValue getDataValueText(String id, String text) {
-        return CertificateDataTextValue.builder()
+    public static CertificateDataValueText getDataValueText(String id, String text) {
+        return CertificateDataValueText.builder()
             .id(id)
             .text(text)
             .build();

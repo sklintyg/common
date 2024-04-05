@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
 public class QuestionStadigvarandeMedicineringBeskrivning {
@@ -56,7 +56,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                     .text(beskrivning)
                     .build()

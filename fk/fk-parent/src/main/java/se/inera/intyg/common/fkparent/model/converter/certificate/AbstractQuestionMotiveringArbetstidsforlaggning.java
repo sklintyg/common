@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public abstract class AbstractQuestionMotiveringArbetstidsforlaggning {
 
@@ -51,7 +51,7 @@ public abstract class AbstractQuestionMotiveringArbetstidsforlaggning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(jsonId)
                     .text(value)
                     .build()

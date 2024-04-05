@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionUtredningBehandling {
 
@@ -52,7 +52,7 @@ public class QuestionUtredningBehandling {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
                     .text(utredningBehandling)
                     .build()

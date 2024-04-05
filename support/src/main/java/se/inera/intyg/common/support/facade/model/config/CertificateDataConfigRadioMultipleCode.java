@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 public class CertificateDataConfigRadioMultipleCode implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

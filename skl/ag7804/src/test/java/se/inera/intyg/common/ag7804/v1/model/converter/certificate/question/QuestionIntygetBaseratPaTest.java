@@ -50,7 +50,7 @@ import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
@@ -123,7 +123,7 @@ class QuestionIntygetBaseratPaTest {
 
             final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxMultipleDate = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
             assertAll("Validating question configuration",
@@ -140,7 +140,7 @@ class QuestionIntygetBaseratPaTest {
 
             final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxMultipleDate = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
             assertAll("Validating question configuration",
@@ -157,7 +157,7 @@ class QuestionIntygetBaseratPaTest {
 
             final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxMultipleDate = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
             assertAll("Validating question configuration",
@@ -174,7 +174,7 @@ class QuestionIntygetBaseratPaTest {
 
             final var question = certificate.getData().get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxMultipleDate = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
             assertAll("Validating question configuration",

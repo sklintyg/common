@@ -36,7 +36,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionForgiftningUppkommelse {
 
@@ -55,7 +55,7 @@ public class QuestionForgiftningUppkommelse {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
                     .text(forgiftningUppkommelse)
                     .build()

@@ -29,7 +29,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_PRINT_MESSAGE_ID;
-import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
+import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType.UE_MESSAGE;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

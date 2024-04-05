@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaOrdineratLakamedel {
@@ -57,7 +57,7 @@ public class QuestionAlkoholNarkotikaOrdineratLakamedel {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
                     .text(lakemedelOchDos)
                     .build()

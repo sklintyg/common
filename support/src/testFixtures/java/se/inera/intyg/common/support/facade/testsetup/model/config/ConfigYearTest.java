@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.facade.testsetup.model.config;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigYear;
 
 public abstract class ConfigYearTest extends ConfigTest {
@@ -33,8 +33,8 @@ public abstract class ConfigYearTest extends ConfigTest {
     protected abstract Integer getMaxYear();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_YEAR;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_YEAR;
     }
 
     @Test

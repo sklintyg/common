@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigRadioBooleanTest extends ConfigTest {
 
@@ -34,8 +34,8 @@ public abstract class ConfigRadioBooleanTest extends ConfigTest {
     protected abstract String getUnselectedText();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_RADIO_BOOLEAN;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_RADIO_BOOLEAN;
     }
 
     @Test

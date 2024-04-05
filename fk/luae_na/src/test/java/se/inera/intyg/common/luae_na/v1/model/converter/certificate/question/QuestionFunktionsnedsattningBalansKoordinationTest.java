@@ -45,10 +45,10 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.config.AccordionTest;
 
@@ -88,7 +88,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
         @Test
         void shouldIncludeConfigCertificateDataConfigTextfield() {
             final var question = QuestionFunktionsnedsattningBalansKoordination.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -150,7 +150,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionFunktionsnedsattningBalansKoordination.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
             assertEquals(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13, value.getId());
         }
 
@@ -158,7 +158,7 @@ class QuestionFunktionsnedsattningBalansKoordinationTest {
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
             final var question = QuestionFunktionsnedsattningBalansKoordination.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
             assertEquals(expectedText, value.getText());
         }
 

@@ -37,7 +37,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 
 public class QuestionHypoglykemiKontrollSjukdomstillstandVarfor {
@@ -59,7 +59,7 @@ public class QuestionHypoglykemiKontrollSjukdomstillstandVarfor {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
                     .text(kontrollVarfor)
                     .build()

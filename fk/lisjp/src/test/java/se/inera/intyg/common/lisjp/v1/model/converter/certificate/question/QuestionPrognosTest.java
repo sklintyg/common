@@ -49,7 +49,7 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCodeOptionalDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -120,7 +120,7 @@ class QuestionPrognosTest {
 
             final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
                 .getConfig();
@@ -140,7 +140,7 @@ class QuestionPrognosTest {
 
             final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
                 .getConfig();
@@ -158,7 +158,7 @@ class QuestionPrognosTest {
 
             final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
                 .getConfig();
@@ -179,7 +179,7 @@ class QuestionPrognosTest {
 
             final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
                 .getConfig();
@@ -197,7 +197,7 @@ class QuestionPrognosTest {
 
             final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigMultipleCodeOptionalDropdown = (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question
                 .getConfig();

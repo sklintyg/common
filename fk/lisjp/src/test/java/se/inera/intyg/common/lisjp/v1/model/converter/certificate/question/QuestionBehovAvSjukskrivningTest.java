@@ -50,7 +50,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -124,7 +124,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
@@ -148,7 +148,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
@@ -168,7 +168,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
@@ -187,7 +187,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
@@ -201,7 +201,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
@@ -213,7 +213,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
@@ -230,7 +230,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
@@ -247,7 +247,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
@@ -263,7 +263,7 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
             final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",

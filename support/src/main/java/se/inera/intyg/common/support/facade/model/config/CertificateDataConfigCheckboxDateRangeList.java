@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 public class CertificateDataConfigCheckboxDateRangeList implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_DATE_RANGE_LIST;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

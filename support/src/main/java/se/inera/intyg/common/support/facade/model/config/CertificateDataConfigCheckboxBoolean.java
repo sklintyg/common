@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 public class CertificateDataConfigCheckboxBoolean implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_BOOLEAN;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

@@ -40,7 +40,7 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 
 import java.util.HashMap;
 import java.util.Map;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
@@ -84,7 +84,7 @@ public class Af00213TestabilityCertificateTestdataProvider implements Testabilit
             .build();
         values.put(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, harFunktionsnedsattning);
 
-        final var funktionsnedsattning = CertificateDataTextValue.builder()
+        final var funktionsnedsattning = CertificateDataValueText.builder()
             .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
             .text(EXAMPLE_TEXT)
             .build();
@@ -96,7 +96,7 @@ public class Af00213TestabilityCertificateTestdataProvider implements Testabilit
             .build();
         values.put(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, harAktivitetsbegransning);
 
-        final var aktivitetsbegransning = CertificateDataTextValue.builder()
+        final var aktivitetsbegransning = CertificateDataValueText.builder()
             .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
             .text(EXAMPLE_TEXT)
             .build();
@@ -108,7 +108,7 @@ public class Af00213TestabilityCertificateTestdataProvider implements Testabilit
             .build();
         values.put(UTREDNING_BEHANDLING_DELSVAR_ID_31, harUtredningBehandling);
 
-        final var utredningBehandling = CertificateDataTextValue.builder()
+        final var utredningBehandling = CertificateDataValueText.builder()
             .id(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
             .text(EXAMPLE_TEXT)
             .build();
@@ -120,13 +120,13 @@ public class Af00213TestabilityCertificateTestdataProvider implements Testabilit
             .build();
         values.put(ARBETETS_PAVERKAN_DELSVAR_ID_41, harArbetspaverkan);
 
-        final var arbetspaverkan = CertificateDataTextValue.builder()
+        final var arbetspaverkan = CertificateDataValueText.builder()
             .id(ARBETETS_PAVERKAN_SVAR_JSON_ID_42)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(ARBETETS_PAVERKAN_DELSVAR_ID_42, arbetspaverkan);
 
-        final var ovrigt = CertificateDataTextValue.builder()
+        final var ovrigt = CertificateDataValueText.builder()
             .id(OVRIGT_SVAR_JSON_ID_5)
             .text(EXAMPLE_TEXT)
             .build();

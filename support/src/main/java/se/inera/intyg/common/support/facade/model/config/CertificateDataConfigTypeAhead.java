@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 public class CertificateDataConfigTypeAhead implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_TYPE_AHEAD;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_TYPE_AHEAD;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

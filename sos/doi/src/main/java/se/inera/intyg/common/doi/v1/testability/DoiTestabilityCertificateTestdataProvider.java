@@ -76,7 +76,7 @@ import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
@@ -240,7 +240,7 @@ public class DoiTestabilityCertificateTestdataProvider implements TestabilityCer
         return CertificateDataValueCauseOfDeath.builder()
             .id(id)
             .description(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(descriptionId)
                     .text(descriptionText)
                     .build()

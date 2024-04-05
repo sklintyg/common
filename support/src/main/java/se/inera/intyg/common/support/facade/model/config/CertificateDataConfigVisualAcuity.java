@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 public class CertificateDataConfigVisualAcuity implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_VISUAL_ACUITY;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_VISUAL_ACUITY;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
