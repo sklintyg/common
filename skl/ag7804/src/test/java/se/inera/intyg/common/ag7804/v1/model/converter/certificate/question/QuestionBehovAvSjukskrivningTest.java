@@ -21,6 +21,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -518,6 +519,17 @@ class QuestionBehovAvSjukskrivningTest {
                         + " || $" + SjukskrivningsGrad.HELT_NEDSATT.getId(),
                     certificateDataValidationMandatory.getExpression())
             );
+        }
+
+        @Test
+        void shouldNotHideWorkingHours() {
+            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+            final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+            final var config = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+
+            assertFalse(config.isHideWorkingHours());
         }
     }
 
