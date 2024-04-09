@@ -24,7 +24,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 
-@JsonDeserialize(builder = CertificateDataValueText.CertificateDataTextValueBuilder.class)
+@JsonDeserialize(builder = CertificateDataValueText.CertificateDataValueTextBuilder.class)
 @Value
 @Builder
 public class CertificateDataValueText implements CertificateDataValue {
@@ -35,7 +35,7 @@ public class CertificateDataValueText implements CertificateDataValue {
     String text;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataTextValueBuilder {
+    public static class CertificateDataValueTextBuilder {
 
     }
 }
