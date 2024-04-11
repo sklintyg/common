@@ -33,6 +33,7 @@ public class CertificateDataValueDateRangeList implements CertificateDataValue {
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.DATE_RANGE_LIST;
+    String id;
     List<CertificateDataValueDateRange> list;
 
     @JsonPOJOBuilder(withPrefix = "")
