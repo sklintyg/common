@@ -55,6 +55,7 @@ public class CertificateMetadata {
     private boolean latestMajorVersion;
     private LocalDateTime readyForSign;
     private LocalDateTime signed;
+    private LocalDateTime modified;
     private String responsibleHospName;
     private CertificateRecipient recipient;
     private CertificateSummary summary;
