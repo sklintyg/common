@@ -22,16 +22,27 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULE
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.ws.WebServiceProvider;
 import org.apache.cxf.annotations.SchemaValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.w3._2000._09.xmldsig_.SignatureType;
+import org.w3._2002._06.xmldsig_filter2.XPathType;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
@@ -66,12 +77,28 @@ public final class RegisterCertificateResponderStub implements RegisterCertifica
             properties.put(PERSONNUMMER, pnr);
             store.addCertificate(certificateteId, properties);
             resultType.setResultCode(ResultCodeType.OK);
+
+            final var out = new PrintWriter(certificateteId);
+            out.write(xmlToString(parameters));
+            out.close();
+
         } catch (Exception e) {
             LOGGER.debug("fk-parent RegisterCertificate got exception: ", e);
             resultType.setResultCode(ResultCodeType.ERROR);
         }
         response.setResult(resultType);
         return response;
+    }
+
+    private String xmlToString(RegisterCertificateType registerCertificate) throws JAXBException {
+        final var jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, SignatureType.class,
+            XPathType.class, PartialDateType.class, PQType.class);
+        final var objectFactory = new ObjectFactory();
+
+        StringWriter stringWriter = new StringWriter();
+        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(registerCertificate);
+        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
+        return stringWriter.toString();
     }
 
 }
