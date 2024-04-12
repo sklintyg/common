@@ -45,9 +45,9 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -115,7 +115,7 @@ class QuestionKontaktBeskrivningTest {
 
             final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
 
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
 
             final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
             assertAll("Validating question configuration",
@@ -142,7 +142,7 @@ class QuestionKontaktBeskrivningTest {
 
             final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
 
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+            final var certificateDataValueText = (CertificateDataValueText) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, certificateDataValueText.getId()),
                 () -> assertEquals(expectedText, certificateDataValueText.getText())
@@ -161,7 +161,7 @@ class QuestionKontaktBeskrivningTest {
 
             final var question = certificate.getData().get(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26);
 
-            final var certificateDataValueText = (CertificateDataTextValue) question.getValue();
+            final var certificateDataValueText = (CertificateDataValueText) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, certificateDataValueText.getId()),
                 () -> assertNull(certificateDataValueText.getText())

@@ -67,10 +67,10 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMedicalInvestigation;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
@@ -121,7 +121,7 @@ class QuestionUnderlagTest {
             final var question = QuestionUnderlag.toCertificate(List.of(), 0, texts);
             final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
 
-            assertEquals(CertificateDataConfigTypes.UE_MEDICAL_INVESTIGATION, config.getType());
+            assertEquals(CertificateDataConfigType.UE_MEDICAL_INVESTIGATION, config.getType());
         }
 
 
@@ -632,7 +632,7 @@ class QuestionUnderlagTest {
                                                 CertificateDataValueDate.builder().build()
                                             )
                                             .informationSource(
-                                                CertificateDataTextValue.builder().build()
+                                                CertificateDataValueText.builder().build()
                                             )
                                             .build()
                                     )

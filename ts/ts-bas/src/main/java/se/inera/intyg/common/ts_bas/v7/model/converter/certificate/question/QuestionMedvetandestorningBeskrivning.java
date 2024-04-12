@@ -34,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 
 public class QuestionMedvetandestorningBeskrivning {
@@ -56,7 +56,7 @@ public class QuestionMedvetandestorningBeskrivning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
                     .text(medvetandestorningBeskrivning)
                     .build()

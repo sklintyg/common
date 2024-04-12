@@ -39,10 +39,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,7 +81,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingTest {
         void shouldIncludeConfigCertificateDataConfigTextArea() {
             final var question = QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(null, 0, texts);
 
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -109,7 +109,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingTest {
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(AVSLUTADBEHANDLING_SVAR_JSON_ID_18, value.getId());
         }
@@ -118,7 +118,7 @@ class QuestionMedicinskBehandlingAvslutadBehandlingTest {
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
             final var question = QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(expectedText, value.getText());
         }

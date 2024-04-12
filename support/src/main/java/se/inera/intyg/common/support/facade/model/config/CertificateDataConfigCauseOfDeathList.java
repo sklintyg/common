@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 public class CertificateDataConfigCauseOfDeathList implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CAUSE_OF_DEATH_LIST;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CAUSE_OF_DEATH_LIST;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

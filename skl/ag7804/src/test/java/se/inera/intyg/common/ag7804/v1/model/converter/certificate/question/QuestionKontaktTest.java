@@ -46,7 +46,7 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -117,7 +117,7 @@ class QuestionKontaktTest {
 
             final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxBoolean = (CertificateDataConfigCheckboxBoolean) question.getConfig();
             assertAll("Validating question configuration",

@@ -16,26 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.value;
+package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList.CertificateDataConfigCheckboxDateRangeListBuilder;
 
-@JsonDeserialize(builder = CertificateDataTextValue.CertificateDataTextValueBuilder.class)
+@JsonDeserialize(builder = CertificateDataConfigCheckboxDateRangeListBuilder.class)
 @Value
 @Builder
-public class CertificateDataTextValue implements CertificateDataValue {
+public class CertificateDataConfigCheckboxDateRangeList implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.TEXT;
-    String id;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST;
+    @Getter(onMethod = @__(@Override))
+    String header;
+    @Getter(onMethod = @__(@Override))
+    String label;
+    @Getter(onMethod = @__(@Override))
+    String icon;
+    @Getter(onMethod = @__(@Override))
     String text;
+    @Getter(onMethod = @__(@Override))
+    String description;
+    @Getter(onMethod = @__(@Override))
+    Accordion accordion;
+    List<CheckboxDateRange> list;
+    String previousDateRangeText;
+    boolean hideWorkingHours;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataTextValueBuilder {
+    public static class CertificateDataConfigCheckboxDateRangeListBuilder {
 
     }
 }

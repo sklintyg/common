@@ -44,11 +44,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextField;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
@@ -95,7 +95,7 @@ class QuestionIdentitetenStyrktTest {
         @Test
         void shouldIncludeTextConfigType() {
             final var question = QuestionIdentitetenStyrkt.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTFIELD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTFIELD, question.getConfig().getType());
         }
 
         @Test
@@ -114,7 +114,7 @@ class QuestionIdentitetenStyrktTest {
         @Test
         void shouldIncludeTextValueId() {
             final var question = QuestionIdentitetenStyrkt.toCertificate("Text value", 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(IDENTITET_STYRKT_JSON_ID, certificateDataTextValue.getId());
         }
 
@@ -122,14 +122,14 @@ class QuestionIdentitetenStyrktTest {
         void shouldIncludeTextValue() {
             final var expectedTextValue = "Text value";
             final var question = QuestionIdentitetenStyrkt.toCertificate(expectedTextValue, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(expectedTextValue, certificateDataTextValue.getText());
         }
 
         @Test
         void shouldIncludeTextValueEmpty() {
             final var question = QuestionIdentitetenStyrkt.toCertificate(null, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertNull(certificateDataTextValue.getText());
         }
 

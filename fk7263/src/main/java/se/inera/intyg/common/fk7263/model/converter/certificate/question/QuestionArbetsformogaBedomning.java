@@ -38,7 +38,7 @@ import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewTable;
 import se.inera.intyg.common.support.facade.model.config.ViewColumn;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewRow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewTable;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -116,18 +116,18 @@ public class QuestionArbetsformogaBedomning {
         return rows;
     }
 
-    private static List<CertificateDataTextValue> getColumnNedsatt(InternalLocalDateInterval nedsattMed, String textId,
+    private static List<CertificateDataValueText> getColumnNedsatt(InternalLocalDateInterval nedsattMed, String textId,
         CertificateMessagesProvider messagesProvider) {
         return List.of(
-            CertificateDataTextValue.builder()
+            CertificateDataValueText.builder()
                 .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
                 .text(messagesProvider.get(textId))
                 .build(),
-            CertificateDataTextValue.builder()
+            CertificateDataValueText.builder()
                 .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
                 .text(nedsattMed.fromAsLocalDate().toString())
                 .build(),
-            CertificateDataTextValue.builder()
+            CertificateDataValueText.builder()
                 .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
                 .text(nedsattMed.tomAsLocalDate().toString())
                 .build());

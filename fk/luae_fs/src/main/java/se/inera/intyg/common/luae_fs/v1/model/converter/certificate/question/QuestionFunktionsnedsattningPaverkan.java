@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTe
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionFunktionsnedsattningPaverkan {
 
@@ -49,7 +49,7 @@ public class QuestionFunktionsnedsattningPaverkan {
                 .text(textProvider.get(FUNKTIONSNEDSATTNING_PAVERKAN_TEXT_ID))
                 .build()
             )
-            .value(CertificateDataTextValue.builder()
+            .value(CertificateDataValueText.builder()
                 .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
                 .text(debut)
                 .build()

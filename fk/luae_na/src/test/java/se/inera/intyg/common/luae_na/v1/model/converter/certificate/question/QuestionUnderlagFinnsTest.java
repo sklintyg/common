@@ -43,7 +43,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -90,7 +90,7 @@ class QuestionUnderlagFinnsTest {
         void shouldIncludeConfigCertificateDataConfigDate() {
             final var question = QuestionUnderlagFinns.toCertificate(null, 0, texts);
 
-            assertEquals(CertificateDataConfigTypes.UE_RADIO_BOOLEAN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
         }
 
         @Test

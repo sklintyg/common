@@ -30,7 +30,7 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionMedicinskBehandlingPlaneradBehandling {
 
@@ -48,7 +48,7 @@ public class QuestionMedicinskBehandlingPlaneradBehandling {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(PLANERADBEHANDLING_SVAR_JSON_ID)
                     .text(textValue)
                     .build()

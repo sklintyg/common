@@ -28,7 +28,7 @@ import se.inera.intyg.common.support.facade.model.config.Accordion;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public abstract class AbstractQuestionFunktionsnedsattning {
 
@@ -55,7 +55,7 @@ public abstract class AbstractQuestionFunktionsnedsattning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(jsonId)
                     .text(textValue)
                     .build()

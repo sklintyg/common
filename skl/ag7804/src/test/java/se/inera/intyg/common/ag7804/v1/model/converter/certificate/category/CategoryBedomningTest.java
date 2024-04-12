@@ -34,7 +34,7 @@ import org.mockito.Mockito;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -102,7 +102,7 @@ class CategoryBedomningTest {
 
             final var category = certificate.getData().get(CATEGORY_BEDOMNING);
 
-            assertEquals(CertificateDataConfigTypes.CATEGORY, category.getConfig().getType());
+            assertEquals(CertificateDataConfigType.CATEGORY, category.getConfig().getType());
 
             assertAll("Validating category configuration",
                 () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing selected text"),

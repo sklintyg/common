@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigUn
 public class CertificateDataConfigUncertainDate implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_UNCERTAIN_DATE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_UNCERTAIN_DATE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

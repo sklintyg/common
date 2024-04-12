@@ -28,7 +28,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_AUTO_F
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_CATEGORY_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
-import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
+import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType.UE_MESSAGE;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

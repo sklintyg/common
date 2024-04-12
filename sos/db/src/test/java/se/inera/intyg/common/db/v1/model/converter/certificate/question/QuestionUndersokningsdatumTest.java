@@ -44,7 +44,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDate;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
@@ -96,7 +96,7 @@ class QuestionUndersokningsdatumTest {
         @Test
         void shouldIncludeDateConfigType() {
             final var question = QuestionUndersokningsdatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DATE, question.getConfig().getType());
         }
 
         @Test

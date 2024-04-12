@@ -37,7 +37,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionMedicinskBehandlingPlaneradBehandlingHeaderTest {
@@ -88,7 +88,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingHeaderTest {
         void shouldIncludeHeaderConfigType() {
             final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
                 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_HEADER, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
         }
     }
 }

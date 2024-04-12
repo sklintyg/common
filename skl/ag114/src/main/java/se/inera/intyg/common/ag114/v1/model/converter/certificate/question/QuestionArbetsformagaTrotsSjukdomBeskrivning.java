@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionArbetsformagaTrotsSjukdomBeskrivning {
 
@@ -54,7 +54,7 @@ public class QuestionArbetsformagaTrotsSjukdomBeskrivning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID)
                     .text(arbetsformagaTrotsSjukdomBeskrivning)
                     .build()

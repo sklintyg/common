@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 public class CertificateDataConfigCheckboxMultipleCode implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_CODE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

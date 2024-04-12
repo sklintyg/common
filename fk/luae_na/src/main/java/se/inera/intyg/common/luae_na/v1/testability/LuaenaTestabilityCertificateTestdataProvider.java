@@ -92,7 +92,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
@@ -283,7 +283,7 @@ public class LuaenaTestabilityCertificateTestdataProvider implements Testability
                     .build()
             )
             .informationSource(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
                     .text(text)
                     .build()

@@ -39,7 +39,7 @@ import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -95,7 +95,7 @@ class ValueToolkitTest {
         @Test
         void booleanValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataValueBoolean.builder().id(VALUE_ID_2).build())
@@ -130,10 +130,10 @@ class ValueToolkitTest {
         void textValueTest() {
             String text = "text 1";
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).text(text).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).text(text).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -148,7 +148,7 @@ class ValueToolkitTest {
                 .value(CertificateDataValueBoolean.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -160,10 +160,10 @@ class ValueToolkitTest {
         @Test
         void textValueWrongValueIdTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(WRONG_VALUE_ID).build())
+                .value(CertificateDataValueText.builder().id(WRONG_VALUE_ID).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -177,7 +177,7 @@ class ValueToolkitTest {
             CertificateDataElement certificateDataElement = CertificateDataElement.builder()
                 .id(QUESTION_ID_1)
                 .value(
-                    CertificateDataTextValue.builder()
+                    CertificateDataValueText.builder()
                         .id(VALUE_ID_1)
                         .text("")
                         .build())
@@ -192,7 +192,7 @@ class ValueToolkitTest {
             CertificateDataElement certificateDataElement = CertificateDataElement.builder()
                 .id(QUESTION_ID_1)
                 .value(
-                    CertificateDataTextValue.builder()
+                    CertificateDataValueText.builder()
                         .id(VALUE_ID_1)
                         .build())
                 .build();
@@ -224,7 +224,7 @@ class ValueToolkitTest {
         @Test
         void uncertainDateValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataUncertainDateValue.builder().id(VALUE_ID_2).build())
@@ -515,7 +515,7 @@ class ValueToolkitTest {
         @Test
         void codeValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataValueCode.builder().id(VALUE_ID_2).build())

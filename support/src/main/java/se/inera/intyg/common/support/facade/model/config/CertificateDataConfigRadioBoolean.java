@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 public class CertificateDataConfigRadioBoolean implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_RADIO_BOOLEAN;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_RADIO_BOOLEAN;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))

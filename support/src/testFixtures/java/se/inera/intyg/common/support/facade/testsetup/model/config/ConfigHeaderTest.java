@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigHeaderTest extends ConfigTest {
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_HEADER;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_HEADER;
     }
 }

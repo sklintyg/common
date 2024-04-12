@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigInteger;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigIntegerTest extends ConfigTest {
 
@@ -35,8 +35,8 @@ public abstract class ConfigIntegerTest extends ConfigTest {
     protected abstract String getUnitOfMeasurement();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_INTEGER;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_INTEGER;
     }
 
     @Test

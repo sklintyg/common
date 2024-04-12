@@ -42,7 +42,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -59,7 +59,7 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             .index(index)
             .parent(parent)
             .config(
-                CertificateDataConfigSickLeavePeriod.builder()
+                CertificateDataConfigCheckboxDateRangeList.builder()
                     .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT))
                     .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
                     .list(
@@ -82,9 +82,12 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                                 .build()
                         )
                     )
-                    .previousSickLeavePeriod(
-                        getPreviousSickLeavePeriod(configProvider.getRenewalRelation(), configProvider.getSickLeaveText(),
-                            configProvider.getExpirationalDate()))
+                    .previousDateRangeText(
+                        hasRenewalRelation(configProvider.getRenewalRelation()) ? getPreviousDateRangeText(
+                            configProvider.getSickLeaveText(),
+                            configProvider.getExpirationalDate()
+                        ) : null
+                    )
                     .build()
             )
             .value(
@@ -108,11 +111,7 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             .build();
     }
 
-    private static String getPreviousSickLeavePeriod(RelationKod relationCode, String sickLeaveText, LocalDate expirationalDate) {
-        return hasRenewalRelation(relationCode) ? getPreviousSickLeavePeriodText(sickLeaveText, expirationalDate) : null;
-    }
-
-    private static String getPreviousSickLeavePeriodText(String sickLeaveText, LocalDate expirationalDate) {
+    private static String getPreviousDateRangeText(String sickLeaveText, LocalDate expirationalDate) {
         if (expirationalDate == null) {
             return null;
         }

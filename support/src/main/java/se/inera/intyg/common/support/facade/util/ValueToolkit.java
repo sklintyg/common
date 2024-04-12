@@ -26,7 +26,7 @@ import java.util.Objects;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -68,11 +68,11 @@ public final class ValueToolkit {
 
     public static String textValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
         final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataTextValue)) {
+        if (!(dataValue instanceof CertificateDataValueText)) {
             return null;
         }
 
-        final var textDataValue = (CertificateDataTextValue) dataValue;
+        final var textDataValue = (CertificateDataValueText) dataValue;
         if (!Objects.equals(textDataValue.getId(), valueId)) {
             return null;
         }

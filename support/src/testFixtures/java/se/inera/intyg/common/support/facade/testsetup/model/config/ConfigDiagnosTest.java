@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDiagnoses;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 
 public abstract class ConfigDiagnosTest extends ConfigTest {
@@ -36,8 +36,8 @@ public abstract class ConfigDiagnosTest extends ConfigTest {
     protected abstract List<String> getDiagnosListItemIds();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_DIAGNOSES;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_DIAGNOSES;
     }
 
     @Test

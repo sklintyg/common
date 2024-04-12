@@ -26,15 +26,15 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigCategoryWithMessageProviderTest extends ConfigTest {
 
     protected abstract CertificateMessagesProvider getMessageProviderMock();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.CATEGORY;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.CATEGORY;
     }
 
     @Override

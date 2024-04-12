@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 
 public class QuestionDiagnosgrundForNyBedomning {
 
@@ -54,7 +54,7 @@ public class QuestionDiagnosgrundForNyBedomning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(DIAGNOSGRUND_FOR_NY_BEDOMNING_DELSVAR_JSON_ID)
                     .text(nyBedomning)
                     .build()
