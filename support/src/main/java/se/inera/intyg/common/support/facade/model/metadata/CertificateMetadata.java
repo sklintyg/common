@@ -60,6 +60,7 @@ public class CertificateMetadata {
     private CertificateRecipient recipient;
     private CertificateSummary summary;
     private boolean validForSign;
+    private String externalReference;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
