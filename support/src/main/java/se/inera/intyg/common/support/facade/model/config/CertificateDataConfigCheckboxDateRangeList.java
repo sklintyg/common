@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,6 +49,8 @@ public class CertificateDataConfigCheckboxDateRangeList implements CertificateDa
     List<CheckboxDateRange> list;
     String previousDateRangeText;
     boolean hideWorkingHours;
+    LocalDate min;
+    LocalDate max;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigCheckboxDateRangeListBuilder {
