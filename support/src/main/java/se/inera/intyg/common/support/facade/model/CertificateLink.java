@@ -18,18 +18,23 @@
  */
 package se.inera.intyg.common.support.facade.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.CertificateLink.CertificateLinkBuilder;
 
-@Data
+@JsonDeserialize(builder = CertificateLinkBuilder.class)
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CertificateLink {
 
-    private String name;
-    private String url;
-    private String id;
+    String name;
+    String url;
+    String id;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateLinkBuilder {
+
+    }
 }

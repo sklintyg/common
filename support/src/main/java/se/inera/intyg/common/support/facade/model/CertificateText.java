@@ -18,19 +18,24 @@
  */
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.CertificateText.CertificateTextBuilder;
 
-@Data
+@JsonDeserialize(builder = CertificateTextBuilder.class)
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CertificateText {
 
-    private String text;
-    private CertificateTextType type;
-    private List<CertificateLink> links;
+    String text;
+    CertificateTextType type;
+    List<CertificateLink> links;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateTextBuilder {
+
+    }
 }
