@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.link.ResourceLink;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation;
 import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
 
@@ -46,6 +48,7 @@ public class Question {
     Reminder[] reminders;
     LocalDateTime lastUpdate;
     LocalDate lastDateToReply;
+    List<ResourceLink> links;
     String[] contactInfo;
     String certificateId;
 
