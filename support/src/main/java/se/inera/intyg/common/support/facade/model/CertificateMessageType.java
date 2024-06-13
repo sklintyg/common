@@ -16,44 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.facade.model.question;
+
+package se.inera.intyg.common.support.facade.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.link.ResourceLink;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation;
-import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
+import se.inera.intyg.common.support.facade.model.CertificateMessageType.CertificateMessageTypeBuilder;
 
-@JsonDeserialize(builder = QuestionBuilder.class)
+@JsonDeserialize(builder = CertificateMessageTypeBuilder.class)
 @Value
 @Builder
-public class Question {
+public class CertificateMessageType {
 
-    String id;
-    QuestionType type;
+    MessageType type;
     String subject;
-    String message;
-    String author;
-    LocalDateTime sent;
-    Complement[] complements;
-    boolean isHandled;
-    boolean isForwarded;
-    Answer answer;
-    CertificateRelation answeredByCertificate;
-    Reminder[] reminders;
-    LocalDateTime lastUpdate;
-    LocalDate lastDateToReply;
-    List<ResourceLink> links;
-    String[] contactInfo;
-    String certificateId;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class QuestionBuilder {
+    public static class CertificateMessageTypeBuilder {
 
     }
 }
