@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model;
 
 public enum MessageType {
-    CONTACT, COORDINATION, OTHER
+    CONTACT, COORDINATION, OTHER, MISSING
 }
