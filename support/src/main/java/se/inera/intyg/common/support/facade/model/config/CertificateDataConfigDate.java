@@ -45,6 +45,8 @@ public class CertificateDataConfigDate implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     String id;
     LocalDate minDate;
     LocalDate maxDate;

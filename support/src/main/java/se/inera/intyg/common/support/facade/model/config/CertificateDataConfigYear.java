@@ -44,6 +44,8 @@ public class CertificateDataConfigYear implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     String id;
     Integer maxYear;
     Integer minYear;

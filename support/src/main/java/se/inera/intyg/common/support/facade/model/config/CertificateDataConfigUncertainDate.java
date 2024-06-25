@@ -45,6 +45,8 @@ public class CertificateDataConfigUncertainDate implements CertificateDataConfig
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     String id;
     List<String> allowedYears;
     boolean unknownYear;

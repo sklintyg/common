@@ -44,8 +44,8 @@ public class CertificateDataConfigMessage implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    String message;
-    MessageLevel level;
+    @Getter(onMethod = @__(@Override))
+    Message message;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigMessageBuilder {

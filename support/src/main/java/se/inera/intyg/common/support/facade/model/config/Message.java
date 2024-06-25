@@ -20,39 +20,20 @@ package se.inera.intyg.common.support.facade.model.config;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import java.util.List;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCauseOfDeathList.CertificateDataConfigCauseOfDeathListBuilder;
+import se.inera.intyg.common.support.facade.model.config.Message.MessageBuilder;
 
-@JsonDeserialize(builder = CertificateDataConfigCauseOfDeathListBuilder.class)
+@JsonDeserialize(builder = MessageBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigCauseOfDeathList implements CertificateDataConfig {
+public class Message {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_CAUSE_OF_DEATH_LIST;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    List<CauseOfDeath> list;
-
+    String content;
+    MessageLevel level;
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCauseOfDeathListBuilder {
+    public static class MessageBuilder {
 
     }
-
 }

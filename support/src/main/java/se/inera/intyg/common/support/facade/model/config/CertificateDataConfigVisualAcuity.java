@@ -45,6 +45,8 @@ public class CertificateDataConfigVisualAcuity implements CertificateDataConfig 
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     String withoutCorrectionLabel;
     String withCorrectionLabel;
     String contactLensesLabel;
