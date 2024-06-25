@@ -33,6 +33,7 @@ import java.time.temporal.ChronoUnit;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -51,8 +52,12 @@ public class QuestionSjukskrivningsperiodMessage {
             .visible(moreThanOrEqualFourteenDays(sjukskrivningsperiod))
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.INFO)
+                    .message(
+                        Message.builder()
+                            .content(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.INFO)
+                            .build()
+                    )
                     .build()
             )
             .validation(

@@ -25,6 +25,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDIGARE_UTF
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public class QuestionTidigareUtfordUndersokningMessage {
@@ -37,8 +38,12 @@ public class QuestionTidigareUtfordUndersokningMessage {
             .index(index)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .message(
+                        Message.builder()
+                            .content(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.OBSERVE)
+                            .build()
+                    )
                     .build()
             )
             .build();

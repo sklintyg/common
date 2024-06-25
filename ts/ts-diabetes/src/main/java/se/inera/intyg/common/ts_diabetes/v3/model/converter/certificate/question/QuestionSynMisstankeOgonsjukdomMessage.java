@@ -26,6 +26,7 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 
@@ -41,8 +42,12 @@ public class QuestionSynMisstankeOgonsjukdomMessage {
             .visible(misstankeOgonsjukdom)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(textProvider.get(SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.INFO)
+                    .message(
+                        Message.builder()
+                            .content(textProvider.get(SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.INFO)
+                            .build()
+                    )
                     .build()
             )
             .build();

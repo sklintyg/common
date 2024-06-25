@@ -27,6 +27,7 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public class QuestionSynSynskarpaMessage {
@@ -40,8 +41,12 @@ public class QuestionSynSynskarpaMessage {
             .config(
                 CertificateDataConfigMessage.builder()
                     .text(textProvider.get(SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID))
-                    .message(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .message(
+                        Message.builder()
+                            .content(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.OBSERVE)
+                            .build()
+                    )
                     .build()
             )
             .build();

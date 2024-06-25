@@ -28,6 +28,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -42,8 +43,12 @@ public class QuestionPrintMessagePolisanmalan {
             .visible(polisanmalan)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))
-                    .level(MessageLevel.INFO)
+                    .message(
+                        Message.builder()
+                            .content(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))
+                            .level(MessageLevel.INFO)
+                            .build()
+                    )
                     .build()
             )
             .validation(
