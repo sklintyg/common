@@ -45,6 +45,8 @@ public class CertificateDataConfigRadioMultipleCode implements CertificateDataCo
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     Layout layout;
     List<RadioMultipleCode> list;
 

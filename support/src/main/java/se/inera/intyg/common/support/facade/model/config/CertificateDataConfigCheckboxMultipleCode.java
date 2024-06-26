@@ -45,6 +45,8 @@ public class CertificateDataConfigCheckboxMultipleCode implements CertificateDat
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     Layout layout;
     List<CheckboxMultipleCode> list;
 

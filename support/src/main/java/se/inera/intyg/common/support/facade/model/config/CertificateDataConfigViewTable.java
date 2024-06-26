@@ -46,6 +46,8 @@ public class CertificateDataConfigViewTable implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     List<ViewColumn> columns;
 
     @JsonPOJOBuilder(withPrefix = "")

@@ -19,7 +19,7 @@
 package se.inera.intyg.common.sos_parent.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -92,7 +92,7 @@ class QuestionAutoFillMessageAfter28DaysBarnTest {
         void shouldIncludeConfigMessage() {
             final var certificateDataElement = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
             final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-            assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
+            assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
             verify(texts, atLeastOnce()).get(BARN_AUTO_FILL_AFTER_MESSAGE_ID);
         }
 
@@ -100,7 +100,7 @@ class QuestionAutoFillMessageAfter28DaysBarnTest {
         void shouldIncludeConfigLevelInfo() {
             final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
             final var config = (CertificateDataConfigMessage) question.getConfig();
-            assertEquals(MessageLevel.OBSERVE, config.getLevel());
+            assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
         }
 
         @Nested

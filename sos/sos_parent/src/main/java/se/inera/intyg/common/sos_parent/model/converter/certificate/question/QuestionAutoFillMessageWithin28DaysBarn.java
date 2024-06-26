@@ -33,6 +33,7 @@ import static se.inera.intyg.common.support.facade.util.ValidationExpressionTool
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -48,8 +49,12 @@ public class QuestionAutoFillMessageWithin28DaysBarn {
             .visible(false)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .message(
+                        Message.builder()
+                            .content(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
+                            .level(MessageLevel.OBSERVE)
+                            .build()
+                    )
                     .build()
             )
             .validation(

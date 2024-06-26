@@ -28,6 +28,7 @@ import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -42,8 +43,12 @@ public class QuestionPrefillMessagePolisanmalan {
             .visible(false)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .level(MessageLevel.OBSERVE)
-                    .message(texts.get(POLISANMALAN_PREFILL_MESSAGE_ID))
+                    .message(
+                        Message.builder()
+                            .content(texts.get(POLISANMALAN_PREFILL_MESSAGE_ID))
+                            .level(MessageLevel.OBSERVE)
+                            .build()
+                    )
                     .build()
             )
             .validation(

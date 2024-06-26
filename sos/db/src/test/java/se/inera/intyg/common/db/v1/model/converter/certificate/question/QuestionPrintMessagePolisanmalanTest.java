@@ -19,8 +19,8 @@
 package se.inera.intyg.common.db.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -90,7 +90,7 @@ class QuestionPrintMessagePolisanmalanTest {
         void shouldIncludeConfigMessage() {
             final var certificateDataElement = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-            assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
+            assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
             verify(texts, atLeastOnce()).get(POLISANMALAN_PRINT_MESSAGE_ID);
         }
 
@@ -98,7 +98,7 @@ class QuestionPrintMessagePolisanmalanTest {
         void shouldIncludeConfigLevelInfo() {
             final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
             final var config = (CertificateDataConfigMessage) question.getConfig();
-            assertEquals(MessageLevel.INFO, config.getLevel());
+            assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
         }
 
         @Nested

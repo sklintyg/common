@@ -45,6 +45,8 @@ public class CertificateDataConfigViewList implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigViewListBuilder {
