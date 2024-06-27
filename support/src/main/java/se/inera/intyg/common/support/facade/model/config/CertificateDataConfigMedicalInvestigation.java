@@ -47,6 +47,7 @@ public class CertificateDataConfigMedicalInvestigation implements CertificateDat
     Accordion accordion;
     @Getter(onMethod = @__(@Override))
     Message message;
+    String id;
     String typeText;
     String dateText;
     String informationSourceText;
