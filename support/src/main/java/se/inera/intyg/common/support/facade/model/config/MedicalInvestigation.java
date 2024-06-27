@@ -31,7 +31,6 @@ import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation.Me
 @Builder
 public class MedicalInvestigation {
 
-    String id;
     String investigationTypeId;
     String informationSourceId;
     String dateId;
