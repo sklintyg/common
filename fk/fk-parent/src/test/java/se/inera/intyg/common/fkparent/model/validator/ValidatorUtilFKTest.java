@@ -186,7 +186,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser[0].diagnosbeskrivning", validationMessages.get(0).getField());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.description.missing", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);

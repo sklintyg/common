@@ -123,12 +123,13 @@ public class ValidatorUtil {
                         "common.validation.diagnos.length-5", DIAGNOS_SVAR_ID_6);
                 } else {
                     validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                        "common.validation.diagnos.invalid", validationMessages);
+                        "common.validation.diagnos.invalid", validationMessages,
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod");
                 }
             }
             if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnosbeskrivning",
+                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
                     ValidationMessageType.EMPTY,
                     "common.validation.diagnos.description.missing", DIAGNOS_SVAR_ID_6);
             }
@@ -143,7 +144,7 @@ public class ValidatorUtil {
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-        List<ValidationMessage> validationMessages) {
+        List<ValidationMessage> validationMessages, String fieldId) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -152,8 +153,8 @@ public class ValidatorUtil {
 
         if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6,
-                ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_ID_6);
+                validationMessages, CATEGORY_DIAGNOS, fieldId,
+                ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_JSON_ID_6);
         }
 
     }
