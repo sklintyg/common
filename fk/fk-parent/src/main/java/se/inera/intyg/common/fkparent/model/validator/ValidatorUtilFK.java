@@ -128,18 +128,19 @@ public class ValidatorUtilFK {
                         ValidationMessageType.INVALID_FORMAT, "common.validation.diagnos.length-5", DIAGNOS_SVAR_ID_6);
                 } else {
                     validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                        "common.validation.diagnos.invalid", validationMessages);
+                        "common.validation.diagnos.invalid", validationMessages,
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod");
                 }
             }
             if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnosbeskrivning",
+                    DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
                     ValidationMessageType.EMPTY, "common.validation.diagnos.description.missing", DIAGNOS_SVAR_ID_6);
             }
             if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
                 && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
                 ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                    DIAGNOS_SVAR_JSON_ID_6 + ".diagnoskodsystem", ValidationMessageType.INCORRECT_COMBINATION,
+                    DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod", ValidationMessageType.INCORRECT_COMBINATION,
                     "common.validation.diagnos.invalid_combination", DIAGNOS_SVAR_ID_6);
             }
         }
@@ -152,7 +153,7 @@ public class ValidatorUtilFK {
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-        List<ValidationMessage> validationMessages) {
+        List<ValidationMessage> validationMessages, String fieldId) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -161,7 +162,7 @@ public class ValidatorUtilFK {
 
         if (!moduleService.validateDiagnosisCodeFormat(diagnosKod)
             || !moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6,
+            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, fieldId,
                 ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_ID_6);
         }
 
