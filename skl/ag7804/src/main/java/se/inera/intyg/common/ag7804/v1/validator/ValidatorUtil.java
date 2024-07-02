@@ -154,7 +154,7 @@ public class ValidatorUtil {
         if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
                 validationMessages, CATEGORY_DIAGNOS, fieldId,
-                ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_JSON_ID_6);
+                ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_ID_6);
         }
 
     }
