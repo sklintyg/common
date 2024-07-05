@@ -113,7 +113,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser", validationMessages.get(0).getField());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(INVALID_CODE, ICD_CODE_SYSTEM);
@@ -130,7 +130,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser", validationMessages.get(0).getField());
+        assertEquals("diagnoser[1].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCodeFormat(VALID_CODE_1);
