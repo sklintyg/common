@@ -46,6 +46,7 @@ public class User {
     private List<CareProvider> careProviders;
     private String launchId;
     private String launchFromOrigin;
+    private String origin;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {
