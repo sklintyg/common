@@ -61,6 +61,7 @@ public class CertificateMetadata {
     private String responsibleHospName;
     private CertificateRecipient recipient;
     private CertificateSummary summary;
+    private CertificateConfirmationModal confirmationModal;
     private boolean validForSign;
     private String externalReference;
     private List<CertificateMessageType> messageTypes;
