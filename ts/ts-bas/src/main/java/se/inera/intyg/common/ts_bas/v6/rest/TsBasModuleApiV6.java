@@ -124,9 +124,8 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     private void initMessages() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
-            final var inputStream2
-                = new ClassPathResource("/META-INF/resources/webjars/ts-bas/webcert/views/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+            final var inputStream2 = new ClassPathResource("ts-bas-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");

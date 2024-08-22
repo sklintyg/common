@@ -1,8 +1,0 @@
-<div ng-attr-id="{{config.modelProp | uvDomIdFilter}}">
-  <span ng-repeat="labelKey in labelKeys">
-    <span ng-attr-id="{{labelKey.modelProp | uvDomIdFilter}}" class="value" dynamic-label key="{{labelKey.key}}"></span>
-  </span>
-
-  <!-- handle no value -->
-  <uv-no-value ng-if="labelKeys.length < 1"></uv-no-value>
-</div>
