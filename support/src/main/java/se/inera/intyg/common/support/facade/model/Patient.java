@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 
 @JsonDeserialize(builder = PatientBuilder.class)
@@ -30,6 +31,7 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 public class Patient {
 
     private PersonId personId;
+    @With
     private PersonId previousPersonId;
     private String firstName;
     private String lastName;
@@ -42,7 +44,9 @@ public class Patient {
     private boolean testIndicated;
     private boolean protectedPerson;
     private boolean deceased;
+    @With
     private boolean differentNameFromEHR;
+    @With
     private boolean personIdChanged;
     private boolean reserveId;
     private boolean addressFromPU;
