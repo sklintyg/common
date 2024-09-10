@@ -48,6 +48,7 @@ public class Patient {
     private boolean differentNameFromEHR;
     @With
     private boolean personIdChanged;
+    @With
     private boolean reserveId;
     private boolean addressFromPU;
 
