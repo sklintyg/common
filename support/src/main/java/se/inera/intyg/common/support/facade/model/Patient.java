@@ -30,6 +30,7 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 @Builder
 public class Patient {
 
+    @With
     private PersonId personId;
     @With
     private PersonId previousPersonId;
