@@ -31,30 +31,40 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 public class Patient {
 
     @With
-    private PersonId personId;
+    PersonId personId;
     @With
-    private PersonId previousPersonId;
-    private String firstName;
-    private String lastName;
-    private String middleName;
-    private String fullName;
-    private String street;
-    private String city;
-    private String zipCode;
-    private boolean coordinationNumber;
-    private boolean testIndicated;
-    private boolean protectedPerson;
-    private boolean deceased;
+    PersonId previousPersonId;
+    String firstName;
+    String lastName;
+    String middleName;
+    String fullName;
+    String street;
+    String city;
+    String zipCode;
+    boolean coordinationNumber;
+    boolean testIndicated;
+    boolean protectedPerson;
+    boolean deceased;
     @With
-    private boolean differentNameFromEHR;
+    boolean differentNameFromEHR;
     @With
-    private boolean personIdChanged;
+    boolean personIdChanged;
     @With
-    private boolean reserveId;
-    private boolean addressFromPU;
+    boolean reserveId;
+    boolean addressFromPU;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
 
+    }
+
+
+    /**
+     * Handles logic for deep integration when alternateSSN is set to a reserve id.
+     *
+     * @return PersonId of type 'PERSON_NUMMER'
+     */
+    public PersonId getActualPersonId() {
+        return reserveId ? previousPersonId : personId;
     }
 }
