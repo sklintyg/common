@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 
 @JsonDeserialize(builder = PatientBuilder.class)
@@ -29,26 +30,40 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 @Builder
 public class Patient {
 
-    private PersonId personId;
-    private PersonId previousPersonId;
-    private String firstName;
-    private String lastName;
-    private String middleName;
-    private String fullName;
-    private String street;
-    private String city;
-    private String zipCode;
-    private boolean coordinationNumber;
-    private boolean testIndicated;
-    private boolean protectedPerson;
-    private boolean deceased;
-    private boolean differentNameFromEHR;
-    private boolean personIdChanged;
-    private boolean reserveId;
-    private boolean addressFromPU;
+    @With
+    PersonId personId;
+    @With
+    PersonId previousPersonId;
+    String firstName;
+    String lastName;
+    String middleName;
+    String fullName;
+    String street;
+    String city;
+    String zipCode;
+    boolean coordinationNumber;
+    boolean testIndicated;
+    boolean protectedPerson;
+    boolean deceased;
+    @With
+    boolean differentNameFromEHR;
+    @With
+    boolean personIdChanged;
+    @With
+    boolean reserveId;
+    boolean addressFromPU;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class PatientBuilder {
 
+    }
+
+    /**
+     * Handles logic for deep integration when alternateSSN is set to a reserve id.
+     *
+     * @return PersonId of type 'PERSON_NUMMER'
+     */
+    public PersonId getActualPersonId() {
+        return reserveId ? previousPersonId : personId;
     }
 }
