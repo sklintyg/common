@@ -58,7 +58,6 @@ public class Patient {
 
     }
 
-
     /**
      * Handles logic for deep integration when alternateSSN is set to a reserve id.
      *
