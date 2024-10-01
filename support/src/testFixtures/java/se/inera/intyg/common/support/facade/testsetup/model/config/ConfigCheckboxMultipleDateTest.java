@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,18 +28,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxMultipleDate;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 
 public abstract class ConfigCheckboxMultipleDateTest extends ConfigTest {
 
     protected abstract List<CheckboxMultipleDate> getCheckboxMultipleDates();
+
     protected abstract List<LocalDate> getMaxDates();
+
     protected abstract List<LocalDate> getMinDates();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_DATE;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE;
     }
 
     @Test

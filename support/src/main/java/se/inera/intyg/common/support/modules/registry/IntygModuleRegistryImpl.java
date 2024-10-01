@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -70,11 +70,11 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
             moduleApiMap.put(entryPoint.getModuleId(), entryPoint);
             externalIdToModuleId.put(entryPoint.getExternalId(), entryPoint.getModuleId());
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
-                    entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
-                    entryPoint.getIssuerTypeId(), entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
-                    entryPoint.getModuleDependencyDefinitionPath(origin), entryPoint.getDefaultRecipient(),
-                    entryPoint.isDeprecated(),
-                    entryPoint.displayDeprecated());
+                entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
+                entryPoint.getIssuerTypeId(), entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
+                entryPoint.getModuleDependencyDefinitionPath(origin), entryPoint.getDefaultRecipient(),
+                entryPoint.isDeprecated(),
+                entryPoint.displayDeprecated());
 
             intygModuleMap.put(module.getId(), module);
         }
@@ -92,9 +92,9 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
     @Override
     public ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException {
 
-        if (Strings.isNullOrEmpty(intygType) || Strings.isNullOrEmpty(intygTypeVersion))  {
+        if (Strings.isNullOrEmpty(intygType) || Strings.isNullOrEmpty(intygTypeVersion)) {
             throw new ModuleNotFoundException(
-                    "intygType and intygTypeVersion is required, got '" + intygType + "' and '" + intygTypeVersion + "'");
+                "intygType and intygTypeVersion is required, got '" + intygType + "' and '" + intygTypeVersion + "'");
         }
         // Make sure this is a known intygType before return a wrapper for it..
         ModuleEntryPoint api = moduleApiMap.get(intygType);
@@ -165,13 +165,13 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
 
             if (Strings.isNullOrEmpty(version)) {
                 throw new ModuleNotFoundException(
-                        "Could not extract version for " + intygType + " type utlatande json model string");
+                    "Could not extract version for " + intygType + " type utlatande json model string");
             }
 
             return version;
         } catch (IOException e) {
             throw new ModuleNotFoundException(
-                    "Could not extract version for " + intygType + " utlatande json model string", e);
+                "Could not extract version for " + intygType + " utlatande json model string", e);
         }
     }
 
@@ -181,7 +181,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
             // Majorversion defines model version, we dont really care about the minor (text) version in this context.
             if (Strings.isNullOrEmpty(intygTypeVersion)) {
                 throw new ModuleNotFoundException(
-                        "Can not resolve ModuleApiBean without intygTypeVersion - got '" + intygTypeVersion + "'");
+                    "Can not resolve ModuleApiBean without intygTypeVersion - got '" + intygTypeVersion + "'");
             }
 
             final String majorVersion = getMajorVersion(intygTypeVersion);
@@ -190,7 +190,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
             final String beanName = String.format(VERSIONED_MODULE_API_BEANID_TEMPLATE, intygType, majorVersion);
 
             final Object bean = applicationContext
-                    .getBean(beanName);
+                .getBean(beanName);
             if (bean instanceof ModuleApi) {
                 LOG.debug(String.format("Resolved bean named '%s' as instance of %s", beanName, bean.getClass().getName()));
                 return (ModuleApi) bean;
@@ -199,7 +199,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
             }
         } catch (BeansException e) {
             throw new ModuleNotFoundException("Exception while trying to look up ModuleApi bean with for intygType '" + intygType
-                    + "', intygTypeVersion '" + intygTypeVersion + "'", e);
+                + "', intygTypeVersion '" + intygTypeVersion + "'", e);
         }
     }
 

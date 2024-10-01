@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,8 +22,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.link.ResourceLink;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation;
 import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuilder;
 
@@ -32,21 +34,23 @@ import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuil
 @Builder
 public class Question {
 
-    private String id;
-    private QuestionType type;
-    private String subject;
-    private String message;
-    private String author;
-    private LocalDateTime sent;
-    private Complement[] complements;
-    private boolean isHandled;
-    private boolean isForwarded;
-    private Answer answer;
-    private CertificateRelation answeredByCertificate;
-    private Reminder[] reminders;
-    private LocalDateTime lastUpdate;
-    private LocalDate lastDateToReply;
-    private String[] contactInfo;
+    String id;
+    QuestionType type;
+    String subject;
+    String message;
+    String author;
+    LocalDateTime sent;
+    Complement[] complements;
+    boolean isHandled;
+    boolean isForwarded;
+    Answer answer;
+    CertificateRelation answeredByCertificate;
+    Reminder[] reminders;
+    LocalDateTime lastUpdate;
+    LocalDate lastDateToReply;
+    List<ResourceLink> links;
+    String[] contactInfo;
+    String certificateId;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class QuestionBuilder {

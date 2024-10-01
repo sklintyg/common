@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,7 +37,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigUncertainDate;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
@@ -78,7 +78,7 @@ class QuestionOsakertDodsdatumTest {
         @Test
         void shouldIncludeUncertainDateConfigType() {
             final var question = QuestionOsakertDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_UNCERTAIN_DATE, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_UNCERTAIN_DATE, question.getConfig().getType());
         }
 
         @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -125,8 +125,8 @@ public final class UtlatandeToIntyg {
                     source.getArbetsformagaTrotsSjukdom().toString()).build());
             } else if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
                 svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                    source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
-                    source.getArbetsformagaTrotsSjukdomBeskrivning())
+                        source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
+                        source.getArbetsformagaTrotsSjukdomBeskrivning())
                     .build());
             }
         }
@@ -148,11 +148,11 @@ public final class UtlatandeToIntyg {
         if (source.getKontaktMedArbetsgivaren() != null) {
             if (source.getKontaktMedArbetsgivaren() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                    source.getKontaktMedArbetsgivaren().toString())
+                        source.getKontaktMedArbetsgivaren().toString())
                     .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt()).build());
             } else {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                    source.getKontaktMedArbetsgivaren().toString())
+                        source.getKontaktMedArbetsgivaren().toString())
                     .build());
             }
         }

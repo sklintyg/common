@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 public class CertificateDataConfigMessage implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MESSAGE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_MESSAGE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -44,8 +44,8 @@ public class CertificateDataConfigMessage implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
-    String message;
-    MessageLevel level;
+    @Getter(onMethod = @__(@Override))
+    Message message;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigMessageBuilder {

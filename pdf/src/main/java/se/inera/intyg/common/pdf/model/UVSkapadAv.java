@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,7 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 import com.google.common.base.Strings;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
@@ -31,8 +28,6 @@ import com.itextpdf.layout.element.Paragraph;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.support.services.BefattningService;
-
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders a uv-skapad-av component.

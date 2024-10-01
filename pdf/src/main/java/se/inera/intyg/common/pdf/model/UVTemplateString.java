@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import java.util.List;
-import java.util.stream.Stream;
-
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;;
+import java.util.List;
+import java.util.stream.Stream;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**

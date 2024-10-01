@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import java.util.Map;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.util.Map;
 
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.
@@ -31,11 +30,8 @@ import java.util.Map;
 public class PrintConfig {
 
     public static final String UTSK001_HEADER = "Skicka intyg till mottagare";
-    public static final String UTSK001_BODY = "Du som fått ett intyg utfärdat kan snabbt och säkert hantera detta "
-        + "intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren."
-        + "\n\n"
-        + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. "
-        + "Det enda du behöver för att logga in är e-legitimation.";
+    public static final String UTSK001_BODY = " Du kan hantera ditt intyg genom att logga in på 1177.se."
+        + " Där kan du till exempel skicka intyget till mottagaren.";
 
     private String intygJsonModel;
     private String upJsModel;
@@ -57,6 +53,7 @@ public class PrintConfig {
     private boolean isMakulerad;
     private boolean showSignBox;
     private boolean showSignatureLine;
+    private String footerAppName;
 
     //Defines a override (String) value to be rendered instead of actual modelProp.
     // This is used when creating a employer print where certain values are not to be included
@@ -140,6 +137,10 @@ public class PrintConfig {
         return applicationOrigin;
     }
 
+    public String getFooterAppName() {
+        return footerAppName;
+    }
+
     public static final class PrintConfigBuilder {
 
         private String intygJsonModel;
@@ -160,6 +161,7 @@ public class PrintConfig {
         private boolean showSignatureLine;
         private ApplicationOrigin applicationOrigin;
         private Map<String, String> modelPropReplacements;
+        private String footerAppName;
 
         private PrintConfigBuilder() {
         }
@@ -258,6 +260,11 @@ public class PrintConfig {
             return this;
         }
 
+        public PrintConfigBuilder withFooterAppName(String footerAppName) {
+            this.footerAppName = footerAppName;
+            return this;
+        }
+
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
             printConfig.isUtkast = this.isUtkast;
@@ -278,6 +285,7 @@ public class PrintConfig {
             printConfig.showSignBox = this.showSignBox;
             printConfig.showSignatureLine = this.showSignatureLine;
             printConfig.modelPropReplacements = this.modelPropReplacements;
+            printConfig.footerAppName = this.footerAppName;
             return printConfig;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,8 +46,8 @@ import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -163,7 +163,7 @@ class QuestionOvrigtTest {
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+                assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
 
                 final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
@@ -179,7 +179,7 @@ class QuestionOvrigtTest {
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(OVRIGT_CATEGORY_ID, certificateDataTextValue.getId()),
                     () -> assertEquals(internalCertificate.getOvrigt(), certificateDataTextValue.getText())
@@ -198,7 +198,7 @@ class QuestionOvrigtTest {
 
                 final var question = certificate.getData().get(OVRIGT_DELSVAR_ID_5);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(OVRIGT_SVAR_JSON_ID_5, certificateDataTextValue.getId()),
                     () -> assertNull(certificateDataTextValue.getText())

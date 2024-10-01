@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -67,7 +67,7 @@ public class PdfGenerator {
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, String footerAppName) throws ModuleException {
 
         try {
             String intygsVersion = "v" + intygTexts.getVersion();
@@ -97,9 +97,10 @@ public class PdfGenerator {
                 .withIsLockedUtkast(isLockedUtkast)
                 .withIsMakulerad(isMakulerad)
                 .withApplicationOrigin(applicationOrigin)
+                .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for ts-bas: " + e.getMessage());

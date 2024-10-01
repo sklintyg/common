@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,14 +25,19 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.GrundData;
+import se.inera.intygstjanster.ts.services.v1.IntygMeta;
+import se.inera.intygstjanster.ts.services.v1.IntygStatus;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
 public class TsBasMetaDataConverterTest {
 

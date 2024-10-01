@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
@@ -85,6 +86,9 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public Ag7804ModuleApiV1() {
         super(Ag7804UtlatandeV1.class);
         init();
@@ -92,8 +96,8 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     private void init() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("/META-INF/resources/webjars/ag7804/webcert/views/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+            final var inputStream2 = new ClassPathResource("ag7804-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -113,7 +117,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
                 texts, statuses,
-                applicationOrigin, utkastStatus, null);
+                applicationOrigin, utkastStatus, null, pdfFooterAppName);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
@@ -129,7 +133,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
                 texts, statuses,
-                applicationOrigin, utkastStatus, optionalFields);
+                applicationOrigin, utkastStatus, optionalFields, pdfFooterAppName);
         } catch (Exception e) {
             LOG.error("Failed to generate pdfEmployer for certificate!", e);
             throw new ModuleSystemException("Failed to generate (pdfEmployer) PDF for certificate!", e);

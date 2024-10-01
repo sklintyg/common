@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,6 +21,7 @@ package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -49,8 +50,8 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -124,9 +125,9 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertTrue(certificateDataConfigSickLeavePeriod.getText().trim().length() > 0, "Missing text"),
                 () -> assertTrue(certificateDataConfigSickLeavePeriod.getDescription().trim().length() > 0, "Missing description")
@@ -148,10 +149,10 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
-            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
         }
 
         @Test
@@ -168,10 +169,29 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
-            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
+        }
+
+        @Test
+        void shouldNotIncludeQuestionConfigPreviousSickLeavePeriodIfNoPeriodOfValidityDate() {
+            final String expectedPreviousSickLeavePeriod = null;
+
+            internalCertificate.getGrundData().setRelation(new Relation());
+            internalCertificate.getGrundData().getRelation().setRelationKod(RelationKod.FRLANG);
+            internalCertificate.getGrundData().getRelation().setSistaSjukskrivningsgrad("75%");
+            internalCertificate.getGrundData().getRelation().setSistaGiltighetsDatum(null);
+
+            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+            final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
+
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
         }
 
         @Test
@@ -182,10 +202,10 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
-            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousSickLeavePeriod());
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+            assertEquals(expectedPreviousSickLeavePeriod, certificateDataConfigSickLeavePeriod.getPreviousDateRangeText());
         }
 
         @Test
@@ -194,9 +214,9 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(certificateDataConfigSickLeavePeriod.getList().get(0).getId(), SjukskrivningsGrad.NEDSATT_1_4.getId()
                 ),
@@ -211,9 +231,9 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(certificateDataConfigSickLeavePeriod.getList().get(1).getId(),
                     SjukskrivningsGrad.NEDSATT_HALFTEN.getId()),
@@ -228,9 +248,9 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(certificateDataConfigSickLeavePeriod.getList().get(2).getId(),
                     SjukskrivningsGrad.NEDSATT_3_4.getId()),
@@ -244,9 +264,9 @@ class QuestionBehovAvSjukskrivningTest {
 
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-            assertEquals(CertificateDataConfigTypes.UE_SICK_LEAVE_PERIOD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST, question.getConfig().getType());
 
-            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigSickLeavePeriod) question.getConfig();
+            final var certificateDataConfigSickLeavePeriod = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
             assertAll("Validating question configuration",
                 () -> assertEquals(certificateDataConfigSickLeavePeriod.getList().get(3).getId(),
                     SjukskrivningsGrad.HELT_NEDSATT.getId()),
@@ -478,7 +498,7 @@ class QuestionBehovAvSjukskrivningTest {
             final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
             final var certificateDataValueDateRangeList = (CertificateDataValueDateRangeList) question.getValue();
-            assertTrue(certificateDataValueDateRangeList.getList().size() == 0);
+            assertEquals(0, certificateDataValueDateRangeList.getList().size());
         }
 
         @Test
@@ -496,6 +516,18 @@ class QuestionBehovAvSjukskrivningTest {
                         + " || $" + SjukskrivningsGrad.HELT_NEDSATT.getId(),
                     certificateDataValidationMandatory.getExpression())
             );
+        }
+
+
+        @Test
+        void shouldNotHideWorkingHours() {
+            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+            final var question = certificate.getData().get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+
+            final var config = (CertificateDataConfigCheckboxDateRangeList) question.getConfig();
+
+            assertFalse(config.isHideWorkingHours());
         }
     }
 

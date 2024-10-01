@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDateRange;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigDateRangeTest extends ConfigTest {
 
@@ -35,8 +35,8 @@ public abstract class ConfigDateRangeTest extends ConfigTest {
     protected abstract String getToLabel();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_DATE_RANGE;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_DATE_RANGE;
     }
 
     @Test

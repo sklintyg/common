@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVi
 public class CertificateDataConfigViewTable implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_VIEW_TABLE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_VIEW_TABLE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -46,6 +46,8 @@ public class CertificateDataConfigViewTable implements CertificateDataConfig {
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     List<ViewColumn> columns;
 
     @JsonPOJOBuilder(withPrefix = "")

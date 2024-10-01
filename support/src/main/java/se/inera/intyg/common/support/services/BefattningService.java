@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -69,7 +69,7 @@ public class BefattningService {
             LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
 
             instance = this;
-       } finally {
+        } finally {
             Closeables.closeQuietly(reader);
         }
     }

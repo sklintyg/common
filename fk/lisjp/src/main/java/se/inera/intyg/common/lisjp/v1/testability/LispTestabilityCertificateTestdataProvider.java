@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,7 +36,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -87,13 +87,13 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, baseratPa);
 
-        final var motiveringAnnat = CertificateDataTextValue.builder()
+        final var motiveringAnnat = CertificateDataValueText.builder()
             .id(RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1, motiveringAnnat);
 
-        final var motiveringEjUndersokning = CertificateDataTextValue.builder()
+        final var motiveringEjUndersokning = CertificateDataValueText.builder()
             .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
             .text(EXAMPLE_TEXT)
             .build();
@@ -111,7 +111,7 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28, sysselsattning);
 
-        final var arbetsuppgifter = CertificateDataTextValue.builder()
+        final var arbetsuppgifter = CertificateDataValueText.builder()
             .id(RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29)
             .text(EXAMPLE_TEXT)
             .build();
@@ -132,13 +132,13 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17, aktivitetsbegransning);
 
-        final var pagaendeBehandling = CertificateDataTextValue.builder()
+        final var pagaendeBehandling = CertificateDataValueText.builder()
             .id(RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(RespConstants.PAGAENDEBEHANDLING_SVAR_ID_19, pagaendeBehandling);
 
-        final var planeradBehandling = CertificateDataTextValue.builder()
+        final var planeradBehandling = CertificateDataValueText.builder()
             .id(RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20)
             .text(EXAMPLE_TEXT)
             .build();
@@ -147,13 +147,13 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
         final CertificateDataValueDateRangeList bedomning = getCertificateDataValueDateRangeListWithSeveralPeriods(true);
         values.put(RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, bedomning);
 
-        final var motiveringTidigtStartdatum = CertificateDataTextValue.builder()
+        final var motiveringTidigtStartdatum = CertificateDataValueText.builder()
             .id(RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(RespConstants.BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32, motiveringTidigtStartdatum);
 
-        final var forsakringsMedicinsktBeslutsstod = CertificateDataTextValue.builder()
+        final var forsakringsMedicinsktBeslutsstod = CertificateDataValueText.builder()
             .id(RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
             .text(EXAMPLE_TEXT)
             .build();
@@ -165,7 +165,7 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33, arbetstidsforlaggning);
 
-        final var motiveringArbetstidsforlaggning = CertificateDataTextValue.builder()
+        final var motiveringArbetstidsforlaggning = CertificateDataValueText.builder()
             .id(RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
             .text(EXAMPLE_TEXT)
             .build();
@@ -201,13 +201,13 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, atgarder);
 
-        final var atgarderBeskrivning = CertificateDataTextValue.builder()
+        final var atgarderBeskrivning = CertificateDataValueText.builder()
             .id(RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, atgarderBeskrivning);
 
-        final var ovrigt = CertificateDataTextValue.builder()
+        final var ovrigt = CertificateDataValueText.builder()
             .id(RespConstants.OVRIGT_SVAR_JSON_ID_25)
             .text(EXAMPLE_TEXT)
             .build();
@@ -219,7 +219,7 @@ public class LispTestabilityCertificateTestdataProvider implements TestabilityCe
             .build();
         values.put(KONTAKT_ONSKAS_SVAR_ID_26, kontakt);
 
-        final var kontaktMotivering = CertificateDataTextValue.builder()
+        final var kontaktMotivering = CertificateDataValueText.builder()
             .id(RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
             .text(EXAMPLE_TEXT)
             .build();

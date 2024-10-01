@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -72,6 +72,7 @@ public class TransportConverterUtilTest {
 
     @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
     public static class XmlRoot<T> {
+
         @XmlElement
         private T data;
 
@@ -87,10 +88,11 @@ public class TransportConverterUtilTest {
     }
 
     JAXBContext jaxbContext;
+
     {
         try {
             jaxbContext = JAXBContext.newInstance(XmlRoot.class, PQType.class, CVType.class, DatePeriodType.class,
-                        PartialDateType.class);
+                PartialDateType.class);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -114,7 +116,6 @@ public class TransportConverterUtilTest {
 
         Intyg intyg = buildIntyg(intygId, intygstyp, skapadAvFullstandigtNamn, enhetsnamn, signeringstidpunkt, List.of(status));
 
-
         CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
         assertNotNull(res);
         assertEquals(intygId, res.getCertificateId());
@@ -129,6 +130,7 @@ public class TransportConverterUtilTest {
         assertEquals(additionalInfo, res.getAdditionalInfo());
         assertTrue(res.isAvailable());
     }
+
     @Test
     public void testGetMetaDataAvailableStatuses() {
         final LocalDateTime time = LocalDateTime.now();
@@ -142,22 +144,22 @@ public class TransportConverterUtilTest {
         assertFalse("Should have been unavailable with just a single DELETE", res.isAvailable());
 
         //Add a restored event
-        intyg.getStatus().add(buildStatus(time.plusHours(2),"", StatusKod.RESTOR));
+        intyg.getStatus().add(buildStatus(time.plusHours(2), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
         assertTrue("Should have been available with a later RESTOR", res.isAvailable());
 
         //Add another archive  event
-        intyg.getStatus().add(buildStatus(time.plusHours(3),"", StatusKod.DELETE));
+        intyg.getStatus().add(buildStatus(time.plusHours(3), "", StatusKod.DELETE));
         res = TransportConverterUtil.getMetaData(intyg, "");
         assertFalse("Should have been unavailable with a later DELETE", res.isAvailable());
 
         //Add another (to early) restored event
-        intyg.getStatus().add(buildStatus(time.minusHours(2),"", StatusKod.RESTOR));
+        intyg.getStatus().add(buildStatus(time.minusHours(2), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
         assertFalse("Should have been unavailable with a to early RESTOR", res.isAvailable());
 
         //Finally, add add another restored event
-        intyg.getStatus().add(buildStatus(time.plusHours(5),"", StatusKod.RESTOR));
+        intyg.getStatus().add(buildStatus(time.plusHours(5), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
         assertTrue("Should have been available with a RESTOR as lastest event", res.isAvailable());
     }
@@ -174,10 +176,11 @@ public class TransportConverterUtilTest {
 
 
     private Intyg buildIntyg(List<IntygsStatus> statuses) {
-        return buildIntyg("1","fk7263", "Doctor No", "enhet1", LocalDateTime.now(), statuses);
+        return buildIntyg("1", "fk7263", "Doctor No", "enhet1", LocalDateTime.now(), statuses);
     }
 
-    private Intyg buildIntyg(String intygId, String intygstyp, String skapadAvFullstandigtNamn, String enhetsnamn, LocalDateTime signeringstidpunkt, List<IntygsStatus> statuses) {
+    private Intyg buildIntyg(String intygId, String intygstyp, String skapadAvFullstandigtNamn, String enhetsnamn,
+        LocalDateTime signeringstidpunkt, List<IntygsStatus> statuses) {
         Intyg intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension(intygId);
@@ -349,7 +352,7 @@ public class TransportConverterUtilTest {
     public void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
         Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
         Exception exception =
-            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
         assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
@@ -358,7 +361,7 @@ public class TransportConverterUtilTest {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(1);
         Exception exception =
-            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
         assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
@@ -367,7 +370,7 @@ public class TransportConverterUtilTest {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
         Exception exception =
-            assertThrows(ConverterException.class,() -> TransportConverterUtil.getCVSvarContent(delsvar));
+            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
         assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
     }
 
@@ -431,23 +434,27 @@ public class TransportConverterUtilTest {
     }
 
     private CVType buildCVType(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
-            String originalText) {
+        String originalText) {
         CVType cvType = new CVType();
         cvType.setCode(code);
         cvType.setCodeSystem(codeSystem);
-        if (codeSystemName != null)
+        if (codeSystemName != null) {
             cvType.setCodeSystemName(codeSystemName);
-        if (codeSystemVersion != null)
+        }
+        if (codeSystemVersion != null) {
             cvType.setCodeSystemVersion(codeSystemVersion);
-        if (displayName != null)
+        }
+        if (displayName != null) {
             cvType.setDisplayName(displayName);
-        if (originalText != null)
+        }
+        if (originalText != null) {
             cvType.setOriginalText(originalText);
+        }
         return cvType;
     }
 
     private Delsvar buildCVTypeDelsvar(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
-            String originalText) throws Exception {
+        String originalText) throws Exception {
         CVType cvType = buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
         return buildDelsvar(toNode((cvType)));
     }

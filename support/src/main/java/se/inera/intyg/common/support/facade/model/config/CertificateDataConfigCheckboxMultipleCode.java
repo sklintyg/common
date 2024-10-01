@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 public class CertificateDataConfigCheckboxMultipleCode implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_CHECKBOX_MULTIPLE_CODE;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_CODE;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -45,6 +45,8 @@ public class CertificateDataConfigCheckboxMultipleCode implements CertificateDat
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     Layout layout;
     List<CheckboxMultipleCode> list;
 

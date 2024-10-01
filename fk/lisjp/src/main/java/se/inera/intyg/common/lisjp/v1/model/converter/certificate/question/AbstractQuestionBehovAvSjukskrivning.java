@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,26 +42,24 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigSickLeavePeriod;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
 import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public abstract class AbstractQuestionBehovAvSjukskrivning {
 
     public static CertificateDataElement toCertificate(QuestionBehovAvSjukskrivningConfigProvider configProvider, String questionId,
-        String parent, int index,
-        CertificateTextProvider texts, Relation relation) {
+        String parent, int index, CertificateTextProvider texts) {
         return CertificateDataElement.builder()
             .id(questionId)
             .index(index)
             .parent(parent)
             .config(
-                CertificateDataConfigSickLeavePeriod.builder()
+                CertificateDataConfigCheckboxDateRangeList.builder()
                     .text(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_TEXT))
                     .description(texts.get(BEHOV_AV_SJUKSKRIVNING_SVAR_BESKRIVNING))
                     .list(
@@ -84,9 +82,12 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
                                 .build()
                         )
                     )
-                    .previousSickLeavePeriod(
-                        getPreviousSickLeavePeriod(configProvider.getRenewalRelation(), configProvider.getSickLeaveText(),
-                            configProvider.getExpirationalDate()))
+                    .previousDateRangeText(
+                        hasRenewalRelation(configProvider.getRenewalRelation()) ? getPreviousDateRangeText(
+                            configProvider.getSickLeaveText(),
+                            configProvider.getExpirationalDate()
+                        ) : null
+                    )
                     .build()
             )
             .value(
@@ -110,11 +111,11 @@ public abstract class AbstractQuestionBehovAvSjukskrivning {
             .build();
     }
 
-    private static String getPreviousSickLeavePeriod(RelationKod relationCode, String sickLeaveText, LocalDate expirationalDate) {
-        return hasRenewalRelation(relationCode) ? getPreviousSickLeavePeriodText(sickLeaveText, expirationalDate) : null;
-    }
+    private static String getPreviousDateRangeText(String sickLeaveText, LocalDate expirationalDate) {
+        if (expirationalDate == null) {
+            return null;
+        }
 
-    private static String getPreviousSickLeavePeriodText(String sickLeaveText, LocalDate expirationalDate) {
         return String.format(
             "På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden %s och sjukskrivningsgraden var %s.",
             DateTimeFormatter.ofPattern("yyyy-MM-dd").format(expirationalDate),

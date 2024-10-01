@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,7 +50,7 @@ public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskr
                 convertValues(list)),
             BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
             CATEGORY_BEDOMNING, index,
-            texts, relation);
+            texts);
     }
 
     private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {

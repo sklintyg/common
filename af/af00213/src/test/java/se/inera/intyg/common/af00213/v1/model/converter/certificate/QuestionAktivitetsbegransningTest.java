@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,10 +47,10 @@ import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -97,7 +97,7 @@ class QuestionAktivitetsbegransningTest {
                 .build();
 
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-            
+
             if (expectedValue == null || expectedValue.isEmpty()) {
                 assertNull(updatedCertificate.getAktivitetsbegransning());
             } else {
@@ -166,7 +166,7 @@ class QuestionAktivitetsbegransningTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
-                assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+                assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
 
                 final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
                 assertAll("Validating question configuration",
@@ -182,7 +182,7 @@ class QuestionAktivitetsbegransningTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22, certificateDataTextValue.getId()),
                     () -> assertEquals(internalCertificate.getAktivitetsbegransning(), certificateDataTextValue.getText())
@@ -201,7 +201,7 @@ class QuestionAktivitetsbegransningTest {
 
                 final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22);
 
-                final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
                 assertAll("Validating question value",
                     () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22, certificateDataTextValue.getId()),
                     () -> assertNull(certificateDataTextValue.getText())

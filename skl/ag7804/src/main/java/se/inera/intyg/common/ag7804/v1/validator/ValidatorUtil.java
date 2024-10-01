@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,26 +19,23 @@
 package se.inera.intyg.common.ag7804.v1.validator;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_ID_6;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
+import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -126,12 +123,13 @@ public class ValidatorUtil {
                         "common.validation.diagnos.length-5", DIAGNOS_SVAR_ID_6);
                 } else {
                     validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                        "common.validation.diagnos.invalid", validationMessages);
+                        "common.validation.diagnos.invalid", validationMessages,
+                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod");
                 }
             }
             if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnosbeskrivning",
+                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
                     ValidationMessageType.EMPTY,
                     "common.validation.diagnos.description.missing", DIAGNOS_SVAR_ID_6);
             }
@@ -146,7 +144,7 @@ public class ValidatorUtil {
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-        List<ValidationMessage> validationMessages) {
+        List<ValidationMessage> validationMessages, String fieldId) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -155,7 +153,7 @@ public class ValidatorUtil {
 
         if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6,
+                validationMessages, CATEGORY_DIAGNOS, fieldId,
                 ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_ID_6);
         }
 

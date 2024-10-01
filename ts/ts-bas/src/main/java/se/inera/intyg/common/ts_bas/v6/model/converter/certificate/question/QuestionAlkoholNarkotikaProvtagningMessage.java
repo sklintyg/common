@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,6 +26,7 @@ import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.PROVTAGNING_
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
 
@@ -39,8 +40,12 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
             .visible(setVisibility(narkotikaLakemedel))
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.INFO)
+                    .message(
+                        Message.builder()
+                            .content(texts.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.INFO)
+                            .build()
+                    )
                     .build()
             )
             .build();

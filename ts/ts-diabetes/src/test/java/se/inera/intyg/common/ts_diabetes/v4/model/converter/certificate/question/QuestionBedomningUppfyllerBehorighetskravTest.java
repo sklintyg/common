@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -205,24 +205,24 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
                         BedomningKorkortstyp.VAR3, BedomningKorkortstyp.VAR2, BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR12
                     ),
                     CertificateDataValueCodeList.builder().list(
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR12.name())
-                                .code(BedomningKorkortstyp.VAR12.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR1.name())
-                                .code(BedomningKorkortstyp.VAR1.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR2.name())
-                                .code(BedomningKorkortstyp.VAR2.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR3.name())
-                                .code(BedomningKorkortstyp.VAR3.name())
-                                .build()
-                        ))
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR12.name())
+                                    .code(BedomningKorkortstyp.VAR12.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR1.name())
+                                    .code(BedomningKorkortstyp.VAR1.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR2.name())
+                                    .code(BedomningKorkortstyp.VAR2.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR3.name())
+                                    .code(BedomningKorkortstyp.VAR3.name())
+                                    .build()
+                            ))
                         .build()
                 ));
         }
@@ -360,7 +360,7 @@ class QuestionBedomningUppfyllerBehorighetskravTest {
                         Bedomning.builder()
                             .setUppfyllerBehorighetskrav(EnumSet.of(BedomningKorkortstyp.VAR3, BedomningKorkortstyp.VAR2,
                                 BedomningKorkortstyp.VAR1)).build(),
-                            Set.of(BedomningKorkortstyp.VAR3, BedomningKorkortstyp.VAR2, BedomningKorkortstyp.VAR1)
+                        Set.of(BedomningKorkortstyp.VAR3, BedomningKorkortstyp.VAR2, BedomningKorkortstyp.VAR1)
                     )
                 );
             }

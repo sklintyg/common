@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -33,6 +29,9 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -43,7 +42,6 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public abstract class BasePdfGenerator<T extends Utlatande> {
 
-    public static final String MINA_INTYG_MARGIN_TEXT = "Intyget är utskrivet från Mina Intyg.";
     public static final String WEBCERT_MARGIN_TEXT = "Intyget är utskrivet från Webcert.";
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
@@ -96,14 +94,15 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
         }
     }
 
-    protected void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, ApplicationOrigin applicationOrigin)
+    protected void createLeftMarginText(PdfStamper pdfStamper, int numberOfPages, String id, ApplicationOrigin applicationOrigin,
+        String minaIntygMarginText)
         throws DocumentException, IOException {
         PdfContentByte addOverlay;
         BaseFont bf = BaseFont.createFont();
 
         String text = WEBCERT_MARGIN_TEXT;
         if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
-            text = MINA_INTYG_MARGIN_TEXT;
+            text = minaIntygMarginText;
         }
         // Do text
         for (int i = 1; i <= numberOfPages; i++) {

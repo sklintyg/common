@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,10 +46,10 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.config.AccordionTest;
 
@@ -89,7 +89,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
         @Test
         void shouldIncludeConfigCertificateDataConfigTextfield() {
             final var question = QuestionFunktionsnedsattningPsykisk.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -152,7 +152,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionFunktionsnedsattningPsykisk.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
             assertEquals(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11, value.getId());
         }
 
@@ -160,7 +160,7 @@ class QuestionFunktionsnedsattningPsykiskTest {
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
             final var question = QuestionFunktionsnedsattningPsykisk.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
             assertEquals(expectedText, value.getText());
         }
 

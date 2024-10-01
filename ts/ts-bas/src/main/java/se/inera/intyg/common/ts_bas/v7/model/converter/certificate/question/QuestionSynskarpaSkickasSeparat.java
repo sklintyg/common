@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter.certificate.question;
 
+import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.booleanValue;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.BINOKULART_MED_KORREKTION_JSON_ID;
@@ -74,11 +75,19 @@ public class QuestionSynskarpaSkickasSeparat {
                         .expression(
                             multipleOrExpressionWithExists(
                                 VANSTER_OGA_UTAN_KORREKTION_JSON_ID, VANSTER_OGA_MED_KORREKTION_JSON_ID,
-                                KONTAKTLINSER_VANSTER_OGA_JSON_ID, HOGER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_MED_KORREKTION_JSON_ID,
-                                KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID, BINOKULART_UTAN_KORREKTION_JSON_ID,
+                                HOGER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_MED_KORREKTION_JSON_ID,
+                                BINOKULART_UTAN_KORREKTION_JSON_ID,
                                 BINOKULART_MED_KORREKTION_JSON_ID))
+                        .build(),
+                    CertificateDataValidationDisable.builder()
+                        .questionId(VARDEN_FOR_SYNSKARPA_ID)
+                        .expression(
+                            multipleOrExpression(
+                                KONTAKTLINSER_VANSTER_OGA_JSON_ID,
+                                KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID))
                         .build()
                 }
+
             )
             .build();
     }

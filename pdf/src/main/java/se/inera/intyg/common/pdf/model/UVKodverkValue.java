@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,6 +26,8 @@ import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**
  * Renders a Kodverk value.

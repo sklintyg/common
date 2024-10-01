@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import com.itextpdf.text.BaseColor;
-import java.io.IOException;
+import static com.itextpdf.text.pdf.BaseFont.createFont;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
-
-import static com.itextpdf.text.pdf.BaseFont.createFont;
+import java.io.IOException;
 
 /**
  * Common constants and fonts that is used in FK SIT-type PDFs.
@@ -39,8 +38,7 @@ public final class PdfConstants {
     public static final String ELECTRONIC_COPY_WATERMARK_TEXT_SIGNATURE = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
     public static final String MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
 
-    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_TITLE = "Detta intyg har skickats in digitalt till försäkringskassan";
-    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_SUBTITLE = "Du kan se intyget genom att logga in på www.minaintyg.se";
+    public static final String ELECTRONIC_COPY_WATERMARK_TEXT_TITLE = "Intyget har skickats digitalt till Försäkringskassan";
     /**
      * * Fonts that will be used in FK SIT-type PDFs.
      */
@@ -116,7 +114,8 @@ public final class PdfConstants {
             FONT_BOLD_9 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f, Font.NORMAL);
             FONT_BOLD_8 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8f, Font.NORMAL);
 
-            FONT_ELECTRONICALLY_SIGNED_SIGNATURE = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
+            FONT_ELECTRONICALLY_SIGNED_SIGNATURE = new Font(
+                createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
                 8f, Font.NORMAL, BaseColor.GRAY);
 
             FONT_ELECTRONICALLY_SIGNED_TITLE = new Font(

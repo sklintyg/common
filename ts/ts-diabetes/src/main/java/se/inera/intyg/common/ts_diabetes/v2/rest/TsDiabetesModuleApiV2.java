@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
@@ -142,6 +143,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
 
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
+
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
         initMessages();
@@ -149,9 +153,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     private void initMessages() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
-            final var inputStream2
-                = new ClassPathResource("/META-INF/resources/webjars/ts-diabetes/webcert/views/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+            final var inputStream2 = new ClassPathResource("ts-diabetes-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -332,7 +335,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
         throws ModuleException {
         try {
-            return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus),
+            return new PdfResponse(
+                pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus, pdfMinaIntygMarginText),
                 pdfGenerator.generatePdfFilename(getInternal(internalModel)));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

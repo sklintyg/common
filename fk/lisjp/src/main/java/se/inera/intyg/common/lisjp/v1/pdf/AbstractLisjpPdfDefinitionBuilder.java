@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -102,12 +102,17 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_INLASNING = "label.fk.inlasning";
     private static final String PROPERTY_KEY_BLANKETT_LABEL_FK_ADRESS = "label.fk.adress";
     private static final String PROPERTY_KEY_BLANKETT_FORTSATTNINGSBLAD = "label.fk.fortsattningsblad";
+    private String pdfWatermarkDescription;
+
+    public AbstractLisjpPdfDefinitionBuilder(String pdfWatermarkDescription) {
+        this.pdfWatermarkDescription = pdfWatermarkDescription;
+    }
 
     abstract void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
         List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
 
     public FkPdfDefinition buildPdfDefinition(LisjpUtlatandeV1 intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        IntygTexts intygTexts, UtkastStatus utkastStatus)
+        IntygTexts intygTexts, UtkastStatus utkastStatus, String printedByText)
         throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -132,7 +137,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                 intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             if (!isUtkast && !isLockedUtkast) {
-                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin, printedByText)));
             }
 
             def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses), isLockedUtkast));
@@ -922,7 +927,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
         allElements.add(elektroniskKopiaTitle);
 
-        FkLabel elektroniskKopiaSubTitle = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT_SUBTITLE)
+        FkLabel elektroniskKopiaSubTitle = new FkLabel(pdfWatermarkDescription)
             .offset(14, 65)
             .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
             .withVerticalAlignment(Element.ALIGN_LEFT)

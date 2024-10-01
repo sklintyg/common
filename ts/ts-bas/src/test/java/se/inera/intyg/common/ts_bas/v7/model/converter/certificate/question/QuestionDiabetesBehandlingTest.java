@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -167,20 +167,20 @@ class QuestionDiabetesBehandlingTest {
                         .setInsulin(true)
                         .build(),
                     CertificateDataValueCodeList.builder().list(
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                                .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                                .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                                .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                                .build()
-                        ))
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                                    .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                                    .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                                    .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                                    .build()
+                            ))
                         .build()
                 ));
         }

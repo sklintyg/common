@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -68,7 +68,7 @@ import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -139,7 +139,7 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
             .build();
         values.put(se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, baseratPa);
 
-        final var motiveringAnnat = CertificateDataTextValue.builder()
+        final var motiveringAnnat = CertificateDataValueText.builder()
             .id(se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
             .text(EXAMPLE_TEXT)
             .build();
@@ -157,7 +157,7 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
             .build();
         values.put(TYP_AV_SYSSELSATTNING_SVAR_ID_28, sysselsattning);
 
-        final var arbetsuppgifter = CertificateDataTextValue.builder()
+        final var arbetsuppgifter = CertificateDataValueText.builder()
             .id(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
             .text(EXAMPLE_TEXT)
             .build();
@@ -166,25 +166,25 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
         final var diagnos = getCertificateDataValueDiagnosisList();
         values.put(DIAGNOS_SVAR_ID_6, diagnos);
 
-        final var funktionsnedsattning = CertificateDataTextValue.builder()
+        final var funktionsnedsattning = CertificateDataValueText.builder()
             .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(FUNKTIONSNEDSATTNING_SVAR_ID_35, funktionsnedsattning);
 
-        final var aktivitetsbegransning = CertificateDataTextValue.builder()
+        final var aktivitetsbegransning = CertificateDataValueText.builder()
             .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(AKTIVITETSBEGRANSNING_SVAR_ID_17, aktivitetsbegransning);
 
-        final var pagaendeBehandling = CertificateDataTextValue.builder()
+        final var pagaendeBehandling = CertificateDataValueText.builder()
             .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(PAGAENDEBEHANDLING_SVAR_ID_19, pagaendeBehandling);
 
-        final var planeradBehandling = CertificateDataTextValue.builder()
+        final var planeradBehandling = CertificateDataValueText.builder()
             .id(PLANERADBEHANDLING_SVAR_JSON_ID_20)
             .text(EXAMPLE_TEXT)
             .build();
@@ -193,7 +193,7 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
         final CertificateDataValueDateRangeList bedomning = getCertificateDataValueDateRangeListWithSeveralPeriods(true);
         values.put(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, bedomning);
 
-        final var forsakringsMedicinsktBeslutsstod = CertificateDataTextValue.builder()
+        final var forsakringsMedicinsktBeslutsstod = CertificateDataValueText.builder()
             .id(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
             .text(EXAMPLE_TEXT)
             .build();
@@ -205,7 +205,7 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
             .build();
         values.put(ARBETSTIDSFORLAGGNING_SVAR_ID_33, arbetstidsforlaggning);
 
-        final var motiveringArbetstidsforlaggning = CertificateDataTextValue.builder()
+        final var motiveringArbetstidsforlaggning = CertificateDataValueText.builder()
             .id(ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33)
             .text(EXAMPLE_TEXT)
             .build();
@@ -241,13 +241,13 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
             .build();
         values.put(ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40, atgarder);
 
-        final var atgarderBeskrivning = CertificateDataTextValue.builder()
+        final var atgarderBeskrivning = CertificateDataValueText.builder()
             .id(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44)
             .text(EXAMPLE_TEXT)
             .build();
         values.put(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44, atgarderBeskrivning);
 
-        final var ovrigt = CertificateDataTextValue.builder()
+        final var ovrigt = CertificateDataValueText.builder()
             .id(OVRIGT_SVAR_JSON_ID_25)
             .text(EXAMPLE_TEXT)
             .build();
@@ -259,7 +259,7 @@ public class Ag7804TestabilityCertificateTestdataProvider implements Testability
             .build();
         values.put(KONTAKT_ONSKAS_SVAR_ID_103, kontakt);
 
-        final var kontaktMotivering = CertificateDataTextValue.builder()
+        final var kontaktMotivering = CertificateDataValueText.builder()
             .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103)
             .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103)
             .text(EXAMPLE_TEXT)

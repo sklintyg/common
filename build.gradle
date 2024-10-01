@@ -4,26 +4,19 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 plugins {
-    id "se.inera.intyg.plugin.common" version "3.3.2-SNAPSHOT" apply false
+    id "se.inera.intyg.plugin.common" version "3.3.3" apply false
     id "com.netflix.nebula.node" version "3.0.0" apply false
     id "io.spring.dependency-management" version "1.1.3" apply false
     id 'test-report-aggregation'
 }
 
 ext {
-//    intygClinicalprocessSchemasVersion = "1.0.24.1"
-//    intygClinicalprocessSchematronVersion = "1.0.57.1"
-//    intygTransportstyrelsenSchemasVersion = "1.0.5.1"
-//    rivtaClinicalprocessSchemasVersion = "4.0.5.2"
-//    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.1"
-//    schemasContractVersion = "2.1.8.1"
-
-    intygClinicalprocessSchemasVersion = "0-SNAPSHOT"
-    intygClinicalprocessSchematronVersion = "0-SNAPSHOT"
-    intygTransportstyrelsenSchemasVersion = "0-SNAPSHOT"
-    rivtaClinicalprocessSchemasVersion = "0-SNAPSHOT"
-    rivtaInsuranceprocessSchemasVersion = "0-SNAPSHOT"
-    schemasContractVersion = "0-SNAPSHOT"
+    intygClinicalprocessSchemasVersion = "1.0.24.1"
+    intygClinicalprocessSchematronVersion = "1.0.57.1"
+    intygTransportstyrelsenSchemasVersion = "1.0.5.1"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.2"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.1"
+    schemasContractVersion = "2.1.8.1"
 
     autovalueVersion = "1.10.4"
     cxfVersion = "4.0.3"
@@ -43,10 +36,7 @@ ext {
     saxonVersion = "12.3"
     spotbugsAnnotationVersion = "4.8.0"
 
-    nodeJsVersion = "12.22.12"
-    npmVersion = "6.14.16"
-
-    springbootMavenBomVersion = "3.1.5"
+    springbootMavenBomVersion = "3.3.4"
 }
 
 allprojects {
@@ -118,14 +108,6 @@ allprojects {
         dependencies { spotbugsSlf4j "org.slf4j:slf4j-simple" }
     }
 
-    if (project.name in ["luse", "db", "af-parent", "lisjp", "luae_fs", "luae_na", "fk7263", "ag114", "ts-bas", "ts-diabetes"]) {
-        compileJava.dependsOn(":common-web:jsInclude")
-    }
-
-    if (project.name == "doi") {
-        compileJava.dependsOn(":db:jsInclude")
-    }
-
     artifacts.archives packageTests
     compileJava.options.encoding = 'UTF-8'
     compileTestJava.dependsOn createVersionPropertyFile
@@ -159,8 +141,6 @@ allprojects {
 
     idea {
         module {
-            excludeDirs += file('bower_components')
-            excludeDirs += file('node_modules')
             downloadJavadoc = true
         }
     }
@@ -169,113 +149,6 @@ allprojects {
         // Remove these due to conflict with Spring SAML which uses bcprov-jdk15.
         implementation.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
         implementation.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
-    }
-}
-
-configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'tstrk1062', 'lisjp', 'luse', 'luae_fs', 'luae_na',
-                                 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name) }) {
-
-    apply plugin: 'com.netflix.nebula.grunt'
-
-    grunt { colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true  }
-
-    node {
-        version = "${nodeJsVersion}"
-        npmVersion = "${npmVersion}"
-        download = true
-        distBaseUrl = 'https://nodejs.org/dist/'
-        workDir = file("${projectDir}/.gradle/nodejs")
-        npmWorkDir = file("${projectDir}/.gradle/npm")
-        nodeModulesDir = rootProject.projectDir
-    }
-
-    tasks.register('jsInclude', NodeTask) {
-        dependsOn npmInstall
-        doNotTrackState "Declaring input or output directories on tasks which contain unreadable content has been deprecated."
-
-        def webappOutputDir = 'build/'
-        inputs.dir("$projectDir/src/main/resources")
-        inputs.files(fileTree(projectDir).include('*.js'))
-        inputs.files(fileTree(projectDir).include('*.json'))
-        inputs.files(fileTree(rootProject.projectDir).include('package.json'))
-        inputs.files(configurations.compileClasspath)
-        outputs.dir(webappOutputDir)
-
-        script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
-                "--outputDir=${webappOutputDir}", "--npmDir=${rootProject.projectDir}", 'default']
-    }
-
-    tasks.register('jsCodeQuality', NodeTask) {
-        dependsOn npmInstall, ':unzipBuildTools'
-        outputs.upToDateWhen { false }
-
-        script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
-                "--npmDir=${rootProject.projectDir}", 'lint']
-    }
-
-    jar {
-        exclude '**/*.scss'
-        exclude '**/*.spec.js'
-        exclude '**/*.test.js'
-        exclude '**/karma*.conf.js'
-        exclude '**/karma*.conf.ci.js'
-    }
-
-    if (project.name in ["luse", "db", "af-parent", "lisjp", "luae_fs", "luae_na", "fk7263", "ag114", "ts-bas", "ts-diabetes"]) {
-        jsInclude.dependsOn(":common-web:jsInclude")
-    }
-
-    if (project.name == "doi") {
-        jsInclude.dependsOn(":db:jsInclude")
-    }
-
-    if (project.hasProperty('codeQuality')) {
-        spotbugsMain.dependsOn('jsInclude')
-        jacocoTestReport.mustRunAfter(":db:jsInclude")
-    }
-
-    afterEvaluate { checkstyleMain.dependsOn jsCodeQuality }
-    compileTestJava.dependsOn('jsInclude')
-    checkstyleMain.dependsOn('jsInclude')
-    jar.dependsOn(jsInclude)
-    jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
-}
-
-configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name) }) {
-
-    configurations { jstests }
-    dependencies { jstests project(':common-web') }
-
-    tasks.register('unzipWebjars', Copy) {
-        dependsOn ":common-web:build"
-        description 'Copies common-web from the classpath and expands it so that we can use their static resources with karma'
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        into "${project.layout.buildDirectory.get().asFile}/webjars/"
-        from {
-            configurations.jstests.collect { zipTree(it) }
-        }
-    }
-
-    // Disable all jsTests due to issues with gradle 8.4
-    if (false) {
-        tasks.register('jsTests', NodeTask) {
-            dependsOn npmInstall, unzipWebjars
-
-            def webappTestOutputDir = 'build/karma/'
-            inputs.dir("${projectDir}/src/main/resources")
-            inputs.files(fileTree(projectDir).include('*.js'))
-            inputs.files(fileTree(projectDir).include('*.json'))
-            inputs.files(fileTree(rootProject.projectDir).include('package.json'))
-            inputs.files(configurations.compile)
-            outputs.dir(webappTestOutputDir)
-
-            script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-            args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
-                    "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
-        }
-        test.dependsOn(jsTests)
     }
 }
 

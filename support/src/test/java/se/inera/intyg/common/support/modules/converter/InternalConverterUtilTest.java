@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -60,74 +60,75 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class InternalConverterUtilTest {
+
     @Test
     public void testConvert() throws Exception {
-       final String intygsId = "intygsid";
-       final String enhetsId = "enhetsid";
-       final String enhetsnamn = "enhetsnamn";
-       final String patientPersonId = "191212121212";
-       final String skapadAvFullstandigtNamn = "fullständigt namn";
-       final String skapadAvPersonId = "skapad av pid";
-       final LocalDateTime signeringsdatum = LocalDateTime.now();
-       final String arbetsplatsKod = "arbetsplatsKod";
-       final String postadress = "postadress";
-       final String postNummer = "postNummer";
-       final String postOrt = "postOrt";
-       final String epost = "epost";
-       final String telefonNummer = "telefonNummer";
-       final String vardgivarid = "vardgivarid";
-       final String vardgivarNamn = "vardgivarNamn";
-       final String forskrivarKod = "forskrivarKod";
-       final String fornamn = "fornamn";
-       final String efternamn = "efternamn";
-       final String mellannamn = "mellannamn";
-       final String patientPostadress = "patientPostadress";
-       final String patientPostnummer = "patientPostnummer";
-       final String patientPostort = "patientPostort";
+        final String intygsId = "intygsid";
+        final String enhetsId = "enhetsid";
+        final String enhetsnamn = "enhetsnamn";
+        final String patientPersonId = "191212121212";
+        final String skapadAvFullstandigtNamn = "fullständigt namn";
+        final String skapadAvPersonId = "skapad av pid";
+        final LocalDateTime signeringsdatum = LocalDateTime.now();
+        final String arbetsplatsKod = "arbetsplatsKod";
+        final String postadress = "postadress";
+        final String postNummer = "postNummer";
+        final String postOrt = "postOrt";
+        final String epost = "epost";
+        final String telefonNummer = "telefonNummer";
+        final String vardgivarid = "vardgivarid";
+        final String vardgivarNamn = "vardgivarNamn";
+        final String forskrivarKod = "forskrivarKod";
+        final String fornamn = "fornamn";
+        final String efternamn = "efternamn";
+        final String mellannamn = "mellannamn";
+        final String patientPostadress = "patientPostadress";
+        final String patientPostnummer = "patientPostnummer";
+        final String patientPostort = "patientPostort";
 
-       Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-               skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod,
-               postadress, postNummer, postOrt, epost, telefonNummer, vardgivarid, vardgivarNamn,
-               forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
-               patientPostort,null, null);
+        Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod,
+            postadress, postNummer, postOrt, epost, telefonNummer, vardgivarid, vardgivarNamn,
+            forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+            patientPostort, null, null);
 
-       Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
 
-       assertEquals(enhetsId, intyg.getIntygsId().getRoot());
-       assertEquals(intygsId, intyg.getIntygsId().getExtension());
-       assertNotNull(intyg.getVersion());
-       assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-       assertEquals("1.2.752.129.2.1.3.1", intyg.getPatient().getPersonId().getRoot());
-       assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
-       assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
-       assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
-       assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
-       assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
-       assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-       assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-       assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
-       assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
-       assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-       assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
-       assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
-       assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
-       assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
-       assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
-       assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
-       assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
-       assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
-       assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-       assertEquals(fornamn, intyg.getPatient().getFornamn());
-       assertEquals(efternamn, intyg.getPatient().getEfternamn());
-       assertEquals(mellannamn, intyg.getPatient().getMellannamn());
-       assertEquals(patientPostadress, intyg.getPatient().getPostadress());
-       assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
-       assertEquals(patientPostort, intyg.getPatient().getPostort());
-       assertEquals(ADDRESS_DETAILS_SOURCE_CODE_SYSTEM, intyg.getPatient().getKallaAdressuppgifter().getCodeSystem());
-       assertEquals(ADDRESS_DETAILS_SOURCE_USER_CODE, intyg.getPatient().getKallaAdressuppgifter().getCode());
-       assertEquals(ADDRESS_DETAILS_SOURCE_USER_NAME, intyg.getPatient().getKallaAdressuppgifter().getDisplayName());
-       assertTrue(intyg.getRelation().isEmpty());
-   }
+        assertEquals(enhetsId, intyg.getIntygsId().getRoot());
+        assertEquals(intygsId, intyg.getIntygsId().getExtension());
+        assertNotNull(intyg.getVersion());
+        assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
+        assertEquals("1.2.752.129.2.1.3.1", intyg.getPatient().getPersonId().getRoot());
+        assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
+        assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
+        assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
+        assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
+        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
+        assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+        assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
+        assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
+        assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
+        assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
+        assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
+        assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
+        assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
+        assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
+        assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
+        assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
+        assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+        assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
+        assertEquals(fornamn, intyg.getPatient().getFornamn());
+        assertEquals(efternamn, intyg.getPatient().getEfternamn());
+        assertEquals(mellannamn, intyg.getPatient().getMellannamn());
+        assertEquals(patientPostadress, intyg.getPatient().getPostadress());
+        assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
+        assertEquals(patientPostort, intyg.getPatient().getPostort());
+        assertEquals(ADDRESS_DETAILS_SOURCE_CODE_SYSTEM, intyg.getPatient().getKallaAdressuppgifter().getCodeSystem());
+        assertEquals(ADDRESS_DETAILS_SOURCE_USER_CODE, intyg.getPatient().getKallaAdressuppgifter().getCode());
+        assertEquals(ADDRESS_DETAILS_SOURCE_USER_NAME, intyg.getPatient().getKallaAdressuppgifter().getDisplayName());
+        assertTrue(intyg.getRelation().isEmpty());
+    }
 
     @Test
     public void testConvertNoPatientInfo() throws Exception {
@@ -155,9 +156,10 @@ public class InternalConverterUtilTest {
         final String patientPostort = "patientPostort";
 
         Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
 
@@ -212,9 +214,10 @@ public class InternalConverterUtilTest {
     @Test
     public void testConvertUnitAdddressInformationMissing() {
         Utlatande utlatande = buildUtlatande("intygsid", "enhetsid", "enhetsnamn", "191212121212",
-                "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
-                "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer", "patientPostort",
-                null, null);
+            "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
+            "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer",
+            "patientPostort",
+            null, null);
 
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
 
@@ -371,6 +374,7 @@ public class InternalConverterUtilTest {
         assertEquals(pnr.getPersonnummer(), res.getExtension());
         assertEquals("1.2.752.129.2.1.3.1", res.getRoot());
     }
+
     @Test
     public void testSamordningsRoot() {
         final Personnummer pnr = Personnummer.createPersonnummer("19800191-0002").get();
@@ -387,7 +391,7 @@ public class InternalConverterUtilTest {
 
     @Test
     public void testNothingSuppliedFillWithZeros() {
-       InternalDate date = new InternalDate("");
+        InternalDate date = new InternalDate("");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
         assertEquals("0000-00-00", testString);
     }
@@ -416,17 +420,18 @@ public class InternalConverterUtilTest {
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "19121212-1212",
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod",
-                "postadress", "postNummer", "postOrt", "epost", "telefonNummer", "vardgivarid",
-                "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-                "patientPostadress", "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod",
+            "postadress", "postNummer", "postOrt", "epost", "telefonNummer", "vardgivarid",
+            "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress", "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
         Utlatande utlatande = mock(Utlatande.class);
         when(utlatande.getId()).thenReturn(intygsId);
         GrundData grundData = new GrundData();

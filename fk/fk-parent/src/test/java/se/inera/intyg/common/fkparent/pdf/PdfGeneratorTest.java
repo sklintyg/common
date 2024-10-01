@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,22 +18,22 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
-import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
-import se.inera.intyg.common.fkparent.pdf.model.FkPage;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
+import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
+import se.inera.intyg.common.fkparent.pdf.model.FkPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.support.services.BefattningService;
 
 /**
  * Created 24/11-16
@@ -41,6 +41,8 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
+
+    private static final String TITLE = "title";
 
     private FkPdfDefinition buildPdfDefinition() throws java.lang.Exception {
         FkPdfDefinition def = new FkPdfDefinition();
@@ -58,7 +60,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGeneratePdf() throws Exception {
         FkPdfDefinition def = buildPdfDefinition();
-        byte[] pdfFileBytes = PdfGenerator.generatePdf(def);
+        byte[] pdfFileBytes = PdfGenerator.generatePdf(def, TITLE);
         assertNotNull(pdfFileBytes);
         assertFalse(Arrays.equals(pdfFileBytes, new byte[0]));
     }

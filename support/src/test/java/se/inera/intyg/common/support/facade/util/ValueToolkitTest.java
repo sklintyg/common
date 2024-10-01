@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.support.facade.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -28,11 +28,9 @@ import static org.mockito.Mockito.verify;
 import static se.inera.intyg.common.support.facade.util.ValueToolkit.grundData;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -41,7 +39,7 @@ import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -97,7 +95,7 @@ class ValueToolkitTest {
         @Test
         void booleanValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataValueBoolean.builder().id(VALUE_ID_2).build())
@@ -132,10 +130,10 @@ class ValueToolkitTest {
         void textValueTest() {
             String text = "text 1";
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).text(text).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).text(text).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -150,7 +148,7 @@ class ValueToolkitTest {
                 .value(CertificateDataValueBoolean.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -162,10 +160,10 @@ class ValueToolkitTest {
         @Test
         void textValueWrongValueIdTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(WRONG_VALUE_ID).build())
+                .value(CertificateDataValueText.builder().id(WRONG_VALUE_ID).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_2).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_2).build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement1);
             data.put(QUESTION_ID_2, certificateDataElement2);
@@ -179,14 +177,14 @@ class ValueToolkitTest {
             CertificateDataElement certificateDataElement = CertificateDataElement.builder()
                 .id(QUESTION_ID_1)
                 .value(
-                    CertificateDataTextValue.builder()
+                    CertificateDataValueText.builder()
                         .id(VALUE_ID_1)
                         .text("")
                         .build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement);
             var response = ValueToolkit.textValue(data, QUESTION_ID_1, VALUE_ID_1);
-            Assertions.assertNull(response);
+            assertNull(response);
         }
 
         @Test
@@ -194,13 +192,13 @@ class ValueToolkitTest {
             CertificateDataElement certificateDataElement = CertificateDataElement.builder()
                 .id(QUESTION_ID_1)
                 .value(
-                    CertificateDataTextValue.builder()
+                    CertificateDataValueText.builder()
                         .id(VALUE_ID_1)
                         .build())
                 .build();
             data.put(QUESTION_ID_1, certificateDataElement);
             var response = ValueToolkit.textValue(data, QUESTION_ID_1, VALUE_ID_1);
-            Assertions.assertNull(response);
+            assertNull(response);
         }
     }
 
@@ -226,7 +224,7 @@ class ValueToolkitTest {
         @Test
         void uncertainDateValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataUncertainDateValue.builder().id(VALUE_ID_2).build())
@@ -309,9 +307,8 @@ class ValueToolkitTest {
 
         @Test
         void icfCodeValueTest() {
-            String text = "text 1";
-            List list = new ArrayList();
-            list.add(text);
+            final var text = "text 1";
+            final var list = List.of(text);
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
                 .value(CertificateDataIcfValue.builder().id(VALUE_ID_1).icfCodes(list).build())
                 .build();
@@ -365,10 +362,8 @@ class ValueToolkitTest {
                 CertificateDataValueDate.builder().id(VALUE_ID_1).date(LocalDate.now()).build();
             CertificateDataValueDate certificateDataValueDate2 =
                 CertificateDataValueDate.builder().id(VALUE_ID_2).date(LocalDate.now().plusDays(1)).build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list1 = List.of(certificateDataValueDate1);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder().id(VALUE_ID_1)
                 .value(CertificateDataValueDateList.builder().list(list1).build())
@@ -385,14 +380,9 @@ class ValueToolkitTest {
 
         @Test
         void dateListValueNotInstanceofTest() {
-            CertificateDataValueDate certificateDataValueDate1 =
-                CertificateDataValueDate.builder().id(VALUE_ID_1).date(LocalDate.now()).build();
             CertificateDataValueDate certificateDataValueDate2 =
                 CertificateDataValueDate.builder().id(VALUE_ID_2).date(LocalDate.now().plusDays(1)).build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
                 .value(CertificateDataIcfValue.builder().id(VALUE_ID_1).build())
@@ -413,10 +403,8 @@ class ValueToolkitTest {
                 CertificateDataValueDate.builder().id(WRONG_VALUE_ID).date(LocalDate.now()).build();
             CertificateDataValueDate certificateDataValueDate2 =
                 CertificateDataValueDate.builder().id(VALUE_ID_2).date(LocalDate.now().plusDays(1)).build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list1 = List.of(certificateDataValueDate1);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder().id(VALUE_ID_1)
                 .value(CertificateDataValueDateList.builder().list(list1).build())
@@ -527,7 +515,7 @@ class ValueToolkitTest {
         @Test
         void codeValueNotInstanceofTest() {
             certificateDataElement1 = CertificateDataElement.builder().id(QUESTION_ID_1)
-                .value(CertificateDataTextValue.builder().id(VALUE_ID_1).build())
+                .value(CertificateDataValueText.builder().id(VALUE_ID_1).build())
                 .build();
             certificateDataElement2 = CertificateDataElement.builder().id(QUESTION_ID_2)
                 .value(CertificateDataValueCode.builder().id(VALUE_ID_2).build())
@@ -549,10 +537,8 @@ class ValueToolkitTest {
                 CertificateDataValueCode.builder().id(VALUE_ID_1).code("code 1").build();
             CertificateDataValueCode certificateDataValueDate2 =
                 CertificateDataValueCode.builder().id(VALUE_ID_2).code("code 2").build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list1 = List.of(certificateDataValueDate1);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataValueCodeList.builder().list(list1).build())
@@ -571,8 +557,7 @@ class ValueToolkitTest {
         void codeListValueNotInstanceofTest() {
             CertificateDataValueCode certificateDataValueDate2 =
                 CertificateDataValueCode.builder().id(VALUE_ID_2).code("code 2").build();
-            List list2 = new ArrayList();
-            list2.add(certificateDataValueDate2);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataIcfValue.builder().id(VALUE_ID_1).build())
@@ -597,10 +582,8 @@ class ValueToolkitTest {
                 CertificateDataValueDiagnosis.builder().id(VALUE_ID_1).code("code 1").build();
             CertificateDataValueDiagnosis certificateDataValueDate2 =
                 CertificateDataValueDiagnosis.builder().id(VALUE_ID_2).code("code 2").build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list1 = List.of(certificateDataValueDate1);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataValueDiagnosisList.builder().list(list1).build())
@@ -619,8 +602,7 @@ class ValueToolkitTest {
         void diagnosisListValueNotInstanceofTest() {
             CertificateDataValueDiagnosis certificateDataValueDate2 =
                 CertificateDataValueDiagnosis.builder().id(VALUE_ID_2).code("code 2").build();
-            List list2 = new ArrayList();
-            list2.add(certificateDataValueDate2);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataIcfValue.builder().id(VALUE_ID_1).build())
@@ -645,10 +627,8 @@ class ValueToolkitTest {
                 CertificateDataValueDateRange.builder().id(VALUE_ID_1).build();
             CertificateDataValueDateRange certificateDataValueDate2 =
                 CertificateDataValueDateRange.builder().id(VALUE_ID_2).build();
-            List list1 = new ArrayList();
-            List list2 = new ArrayList();
-            list1.add(certificateDataValueDate1);
-            list2.add(certificateDataValueDate2);
+            final var list1 = List.of(certificateDataValueDate1);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataValueDateRangeList.builder().list(list1).build())
@@ -667,8 +647,7 @@ class ValueToolkitTest {
         void dateRangeListValueNotInstanceofTest() {
             CertificateDataValueDateRange certificateDataValueDate2 =
                 CertificateDataValueDateRange.builder().id(VALUE_ID_2).build();
-            List list2 = new ArrayList();
-            list2.add(certificateDataValueDate2);
+            final var list2 = List.of(certificateDataValueDate2);
 
             certificateDataElement1 = CertificateDataElement.builder()
                 .value(CertificateDataIcfValue.builder().id(VALUE_ID_1).build())
@@ -745,7 +724,7 @@ class ValueToolkitTest {
                 .patient(Patient.builder().build())
                 .build();
 
-            var result = grundData(metadata, grundData);
+            grundData(metadata, grundData);
 
             verify(grundData, times(1)).getSkapadAv();
             verify(hoSPersonal, never()).getVardenhet();
@@ -760,7 +739,7 @@ class ValueToolkitTest {
                 .patient(Patient.builder().build())
                 .build();
 
-            var result = grundData(metadata, grundData);
+            grundData(metadata, grundData);
 
             verify(grundData, times(2)).getSkapadAv();
             verify(hoSPersonal, times(1)).getVardenhet();

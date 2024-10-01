@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,7 +33,7 @@ public class CertificateDataValueViewRow implements CertificateDataValue {
 
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.VIEW_ROW;
-    List<CertificateDataTextValue> columns;
+    List<CertificateDataValueText> columns;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataValueViewRowBuilder {

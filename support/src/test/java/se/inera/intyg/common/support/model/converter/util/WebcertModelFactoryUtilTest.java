@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
+
 import org.junit.Test;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
 
 public class WebcertModelFactoryUtilTest {
 

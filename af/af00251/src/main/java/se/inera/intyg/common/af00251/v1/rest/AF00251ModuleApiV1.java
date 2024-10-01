@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00251.pdf.PdfGenerator;
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
@@ -60,6 +61,9 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(AF00251ModuleApiV1.class);
     public static final String SCHEMATRON_FILE = "af00251.v1.sch";
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public AF00251ModuleApiV1() {
         super(AF00251UtlatandeV1.class);
     }
@@ -82,7 +86,7 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
             .getPatient()
             .getPersonId();
         return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses,
-            applicationOrigin, utkastStatus);
+            applicationOrigin, utkastStatus, pdfFooterAppName);
     }
 
     @Override

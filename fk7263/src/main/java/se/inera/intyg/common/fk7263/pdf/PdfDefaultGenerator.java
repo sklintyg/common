@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -35,14 +34,15 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, utkastStatus, true);
+    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
+        String minaIntygMarginText)
+        throws PdfGeneratorException {
+        this(intyg, statuses, applicationOrigin, utkastStatus, true, minaIntygMarginText);
     }
 
     PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
-            boolean flatten)
-            throws PdfGeneratorException {
+        boolean flatten, String minaIntygMarginText)
+        throws PdfGeneratorException {
         try {
             this.intyg = intyg;
 
@@ -61,28 +61,28 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
             generatePdf();
 
             switch (applicationOrigin) {
-            case MINA_INTYG:
-                // perform additional decoration for MI originated pdf (no need to check isUtkast in MI)
-                maskSendToFkInformation(pdfStamper);
-                markAsElectronicCopy(pdfStamper);
-                createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), MINA_INTYG_MARGIN_TEXT);
-                break;
-            case WEBCERT:
-                // perform additional decoration for WC originated pdf
-                if (isCertificateSentToFK(statuses)) {
+                case MINA_INTYG:
+                    // perform additional decoration for MI originated pdf (no need to check isUtkast in MI)
                     maskSendToFkInformation(pdfStamper);
                     markAsElectronicCopy(pdfStamper);
-                }
+                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), minaIntygMarginText);
+                    break;
+                case WEBCERT:
+                    // perform additional decoration for WC originated pdf
+                    if (isCertificateSentToFK(statuses)) {
+                        maskSendToFkInformation(pdfStamper);
+                        markAsElectronicCopy(pdfStamper);
+                    }
 
-                if (!isUtkast && !isLocked) {
-                    // Only signed intyg prints should have these decorations
-                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
-                    createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
-                }
+                    if (!isUtkast && !isLocked) {
+                        // Only signed intyg prints should have these decorations
+                        createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+                        createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
+                    }
 
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
             }
 
             // Add applicable watermarks

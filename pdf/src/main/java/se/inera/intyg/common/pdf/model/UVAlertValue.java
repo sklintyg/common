@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,8 +19,6 @@
 package se.inera.intyg.common.pdf.model;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
-
-import java.util.stream.Stream;
 
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,6 +53,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -142,6 +143,7 @@ public class TsTrk1062ModuleApiV1Test {
         final UtkastStatus mockUtkastStatus = UtkastStatus.SIGNED;
         final PdfResponse expectedPdfResponse = mock(PdfResponse.class);
         final List<Status> statuses = new ArrayList<>();
+        ReflectionTestUtils.setField(moduleApi, "pdfFooterAppName", "footerAppName");
 
         doReturn(mockUtlatande).when(objectMapper).readValue(INTERNAL_MODEL, TsTrk1062UtlatandeV1.class);
         doReturn(TEXT_VERSION).when(mockUtlatande).getTextVersion();
@@ -151,7 +153,7 @@ public class TsTrk1062ModuleApiV1Test {
         doReturn(mockIntygTexts).when(intygTextsService).getIntygTextsPojo(TsTrk1062EntryPoint.MODULE_ID, TEXT_VERSION);
         doReturn(expectedPdfResponse).when(pdfGenerator).generatePdf(INTYGS_ID, INTERNAL_MODEL, grundData.getPatient().getPersonId(),
             mockIntygTexts,
-            statuses, mockApplicationOrigin, mockUtkastStatus);
+            statuses, mockApplicationOrigin, mockUtkastStatus, "footerAppName");
 
         final PdfResponse actualPdfResponse = moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
 

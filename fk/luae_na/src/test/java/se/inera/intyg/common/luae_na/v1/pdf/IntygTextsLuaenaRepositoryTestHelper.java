@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,18 +19,17 @@
 package se.inera.intyg.common.luae_na.v1.pdf;
 
 import com.google.common.collect.ImmutableMap;
-import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
 /**
  * Created by eriklupander on 2016-10-03.
@@ -58,13 +57,13 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
             Properties prop = new Properties();
             prop.putAll(ImmutableMap
                 .of("formId", "FK 7801 (001 F 001) Fastställd av Försäkringskassan",
-                        "blankettId", "7801",
-                        "blankettVersion", "01"));
+                    "blankettId", "7801",
+                    "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
 
             e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new ClassPathResource("v1/text/texterMU_LUAE_NA_v1.1.xml").getInputStream());
+                .parse(new ClassPathResource("v1/text/texterMU_LUAE_NA_v1.1.xml").getInputStream());
             root = e.getDocumentElement();
             version = root.getAttribute("version");
             intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -75,10 +74,10 @@ public class IntygTextsLuaenaRepositoryTestHelper extends IntygTextsRepositoryIm
 
             prop = new Properties();
             prop.putAll(ImmutableMap
-                    .of("formId", "FK 7801 (003 F 001) Fastställd av Försäkringskassan",
-                            "formIdRow2", "i samråd med Socialstyrelsen",
-                            "blankettId", "7801",
-                            "blankettVersion", "01"));
+                .of("formId", "FK 7801 (003 F 001) Fastställd av Försäkringskassan",
+                    "formIdRow2", "i samråd med Socialstyrelsen",
+                    "blankettId", "7801",
+                    "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

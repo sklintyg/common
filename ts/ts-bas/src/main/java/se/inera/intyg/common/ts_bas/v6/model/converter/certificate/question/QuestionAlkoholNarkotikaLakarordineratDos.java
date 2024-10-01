@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,7 +22,7 @@ package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -39,7 +39,7 @@ public class QuestionAlkoholNarkotikaLakarordineratDos {
 
         return CertificateDataElement.builder()
             .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)
-            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
+            .parent(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()

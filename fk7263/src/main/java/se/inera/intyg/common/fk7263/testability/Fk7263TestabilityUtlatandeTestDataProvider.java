@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,7 +32,7 @@ public class Fk7263TestabilityUtlatandeTestDataProvider implements TestabilityUt
 
     @Override
     public Fk7263Utlatande getMinimumValues(Fk7263Utlatande utlatande) {
-        utlatande.setAvstangningSmittskydd(false);
+        utlatande.setAvstangningSmittskydd(true);
         utlatande.setDiagnosKod("diagnoskod");
         utlatande.setDiagnosBeskrivning("beskrivning");
         utlatande.setSjukdomsforlopp("aktuellt sjukdomsförlopp");
@@ -50,17 +50,17 @@ public class Fk7263TestabilityUtlatandeTestDataProvider implements TestabilityUt
 
     @Override
     public Fk7263Utlatande getMaximumValues(Fk7263Utlatande utlatande) {
-        utlatande.setAvstangningSmittskydd(true);
-        utlatande.setDiagnosKod("diagnoskod");
+        utlatande.setAvstangningSmittskydd(false);
+        utlatande.setDiagnosKod("A01");
         utlatande.setDiagnosBeskrivning("beskrivning");
         utlatande.setDiagnosBeskrivning1("beskrivning1");
         utlatande.setDiagnosBeskrivning2("beskrivning2");
         utlatande.setDiagnosBeskrivning3("beskrivning3");
-        utlatande.setDiagnosKod2("diagnoskod2");
-        utlatande.setDiagnosKod3("diagnoskod3");
-        utlatande.setDiagnosKodsystem1("diagnoskodsystem1");
-        utlatande.setDiagnosKodsystem2("diagnoskodsystem2");
-        utlatande.setDiagnosKodsystem3("diagnoskodsystem3");
+        utlatande.setDiagnosKod2("B01");
+        utlatande.setDiagnosKod3("C01");
+        utlatande.setDiagnosKodsystem1("ICD_10_SE");
+        utlatande.setDiagnosKodsystem2("ICD_10_SE");
+        utlatande.setDiagnosKodsystem3("ICD_10_SE");
         utlatande.setSjukdomsforlopp("aktuellt sjukdomsförlopp");
         utlatande.setFunktionsnedsattning("funktionsnedsättning");
         utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
@@ -94,7 +94,7 @@ public class Fk7263TestabilityUtlatandeTestDataProvider implements TestabilityUt
         utlatande.setGiltighet(new LocalDateInterval(LocalDate.now(), LocalDate.now().plusDays(1)));
         utlatande.setSamsjuklighet(true);
         utlatande.setRessattTillArbeteAktuellt(true);
-        utlatande.setRessattTillArbeteEjAktuellt(true);
+        utlatande.setRessattTillArbeteEjAktuellt(false);
         utlatande.setKontaktMedFk(true);
         utlatande.setTjanstgoringstid("tjänstgörningstid");
         utlatande.setAnnanReferensBeskrivning("annan referens");

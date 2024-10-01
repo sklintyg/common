@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,15 +18,24 @@
  */
 package se.inera.intyg.common.support.facade.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.CertificateText.CertificateTextBuilder;
 
-@Data
+@JsonDeserialize(builder = CertificateTextBuilder.class)
+@Value
 @Builder
 public class CertificateText {
 
-    private String text;
-    private CertificateTextType type;
-    private List<CertificateLink> links;
+    String text;
+    CertificateTextType type;
+    List<CertificateLink> links;
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class CertificateTextBuilder {
+
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigCheckboxBooleanTest extends ConfigTest {
 
@@ -38,8 +38,8 @@ public abstract class ConfigCheckboxBooleanTest extends ConfigTest {
     protected abstract String getUnselectedTextId();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_CHECKBOX_BOOLEAN;
     }
 
     @Test

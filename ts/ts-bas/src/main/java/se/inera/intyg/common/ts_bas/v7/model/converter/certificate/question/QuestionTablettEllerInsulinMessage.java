@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,6 +29,7 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TABLETTBEHAN
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -44,8 +45,12 @@ public class QuestionTablettEllerInsulinMessage {
             .visible(getVisibility(diabetes))
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
-                    .level(MessageLevel.INFO)
+                    .message(
+                        Message.builder()
+                            .content(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
+                            .level(MessageLevel.INFO)
+                            .build()
+                    )
                     .build()
             )
             .validation(

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,6 +42,10 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionKontakt {
 
+    private QuestionKontakt() {
+
+    }
+
     public static CertificateDataElement toCertificate(Boolean value, int index,
         CertificateTextProvider texts) {
         return CertificateDataElement.builder()
@@ -61,7 +65,7 @@ public class QuestionKontakt {
             .value(
                 CertificateDataValueBoolean.builder()
                     .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(value)
+                    .selected(Boolean.TRUE.equals(value) ? true : null)
                     .build()
             )
             .validation(

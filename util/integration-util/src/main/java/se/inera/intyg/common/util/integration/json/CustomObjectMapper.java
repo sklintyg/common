@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,12 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import org.springframework.stereotype.Component;
-import se.inera.intyg.common.support.model.InternalDate;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
+import org.springframework.stereotype.Component;
+import se.inera.intyg.common.support.model.InternalDate;
 
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,7 +43,7 @@ import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElementStyleEnum;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigDropdown;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationEnable;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -115,7 +115,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -133,7 +133,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -152,7 +152,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -169,7 +169,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -186,7 +186,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -203,7 +203,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",
@@ -220,7 +220,7 @@ class QuestionPrognosTimePeriodTest {
 
             final var question = certificate.getData().get(PROGNOS_BESKRIVNING_DELSVAR_ID_39);
 
-            assertEquals(CertificateDataConfigTypes.UE_DROPDOWN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_DROPDOWN, question.getConfig().getType());
 
             final var certificateDataConfigDropdown = (CertificateDataConfigDropdown) question.getConfig();
             assertAll("Validating question configuration",

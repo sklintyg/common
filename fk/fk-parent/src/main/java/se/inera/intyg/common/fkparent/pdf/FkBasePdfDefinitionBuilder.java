@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,12 +56,12 @@ public class FkBasePdfDefinitionBuilder {
         return this.intygTexts.getProperties().getProperty(propertyName, "");
     }
 
-    protected String getPrintedByText(ApplicationOrigin applicationOrigin) {
+    protected String getPrintedByText(ApplicationOrigin applicationOrigin, String printedFromMinaIntyg) {
         switch (applicationOrigin) {
             case WEBCERT:
                 return "Intyget är utskrivet från Webcert";
             case MINA_INTYG:
-                return "Intyget är utskrivet från Mina intyg";
+                return printedFromMinaIntyg;
             default:
                 throw new IllegalArgumentException("Unknown ApplicationOrigin " + applicationOrigin);
         }

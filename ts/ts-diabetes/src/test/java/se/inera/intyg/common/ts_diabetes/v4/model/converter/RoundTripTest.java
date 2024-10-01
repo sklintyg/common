@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -79,7 +79,8 @@ public class RoundTripTest {
     @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(scenario.asInternalModel());
+        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(
+            scenario.asInternalModel());
 
         JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
@@ -98,7 +99,8 @@ public class RoundTripTest {
             .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
-        JsonNode tree = objectMapper.valueToTree(se.inera.intyg.common.ts_diabetes.v4.model.converter.TransportToInternal.convert(transport.getIntyg()));
+        JsonNode tree = objectMapper.valueToTree(
+            se.inera.intyg.common.ts_diabetes.v4.model.converter.TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }

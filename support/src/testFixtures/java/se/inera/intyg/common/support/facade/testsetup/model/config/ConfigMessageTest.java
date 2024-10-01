@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,14 +19,14 @@
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
-import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes.UE_MESSAGE;
+import static se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType.UE_MESSAGE;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public abstract class ConfigMessageTest extends ConfigTest {
@@ -36,7 +36,7 @@ public abstract class ConfigMessageTest extends ConfigTest {
     protected abstract MessageLevel getMessageLevel();
 
     @Override
-    protected CertificateDataConfigTypes getType() {
+    protected CertificateDataConfigType getType() {
         return UE_MESSAGE;
     }
 
@@ -44,7 +44,7 @@ public abstract class ConfigMessageTest extends ConfigTest {
     void shouldIncludeConfigMessage() {
         final var certificateDataElement = getElement();
         final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-        assertTrue(certificateDataElementConfig.getMessage().trim().length() > 0, "Missing message");
+        assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
         verify(getTextProviderMock(), atLeastOnce()).get(getMessageId());
     }
 
@@ -52,6 +52,6 @@ public abstract class ConfigMessageTest extends ConfigTest {
     void shouldIncludeConfigMessageLevel() {
         final var question = getElement();
         final var config = (CertificateDataConfigMessage) question.getConfig();
-        assertEquals(getMessageLevel(), config.getLevel());
+        assertEquals(getMessageLevel(), config.getMessage().getLevel());
     }
 }

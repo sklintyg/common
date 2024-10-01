@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_ST
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -35,7 +34,7 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
 public class QuestionStadigvarandeMedicineringBeskrivning {
@@ -48,7 +47,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
 
         return CertificateDataElement.builder()
             .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
+            .parent(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextArea.builder()
@@ -57,7 +56,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
                     .text(beskrivning)
                     .build()

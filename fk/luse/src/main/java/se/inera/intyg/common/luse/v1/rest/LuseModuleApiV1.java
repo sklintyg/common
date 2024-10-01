@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -80,11 +81,12 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     private CertificateToInternal certificateToInternal;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
     private Map<String, String> validationMessages;
-
 
     public LuseModuleApiV1() {
         super(LuseUtlatandeV1.class);
@@ -93,9 +95,9 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     private void init() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
             final var inputStream2
-                = new ClassPathResource("/META-INF/resources/webjars/luse/webcert/views/messages.js").getInputStream();
+                = new ClassPathResource("luse-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -114,9 +116,10 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
             LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuseEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
+                pdfMinaIntygMarginText);
 
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition, CERTIFICATE_FILE_PREFIX),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

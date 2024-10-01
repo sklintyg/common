@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,9 +23,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 public abstract class ValueTextTest extends ValueTest {
@@ -41,14 +41,14 @@ public abstract class ValueTextTest extends ValueTest {
     @Test
     void shouldIncludeValueId() {
         final var question = getElement();
-        final var value = (CertificateDataTextValue) question.getValue();
+        final var value = (CertificateDataValueText) question.getValue();
         assertEquals(getJsonId(), value.getId());
     }
 
     @Test
     void shouldIncludeValueText() {
         final var question = getElement();
-        final var value = (CertificateDataTextValue) question.getValue();
+        final var value = (CertificateDataValueText) question.getValue();
         assertEquals(getText(), value.getText());
     }
 }

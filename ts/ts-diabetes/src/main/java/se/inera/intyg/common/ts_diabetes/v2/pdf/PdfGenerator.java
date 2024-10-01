@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
+import java.util.List;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.util.List;
 
 public interface PdfGenerator<T extends Utlatande> {
 
@@ -31,7 +30,8 @@ public interface PdfGenerator<T extends Utlatande> {
 
     String generatePdfFilename(T utlatande);
 
-    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
+    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
+        String minaIntygMarginText)
         throws PdfGeneratorException;
 
 }

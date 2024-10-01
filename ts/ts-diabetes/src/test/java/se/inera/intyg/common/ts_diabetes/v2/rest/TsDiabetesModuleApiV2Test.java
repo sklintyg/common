@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,6 +47,7 @@ import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -173,8 +174,10 @@ class TsDiabetesModuleApiV2Test {
 
     @Test
     void testPdf() throws Exception {
+        ReflectionTestUtils.setField(moduleApi, "pdfMinaIntygMarginText", "minaIntygMarginText");
         when(pdfGenerator
-            .generatePDF(any(TsDiabetesUtlatandeV2.class), anyList(), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
+            .generatePDF(any(TsDiabetesUtlatandeV2.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED),
+                eq("minaIntygMarginText")))
             .thenReturn(new byte[]{});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatandeV2.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {

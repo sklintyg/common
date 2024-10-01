@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,15 +24,15 @@ import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRadioMultipleCode;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.Layout;
 import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 
 public abstract class ConfigRadioMultipleCodeTest extends ConfigTest {
 
     @Override
-    protected CertificateDataConfigTypes getType() {
-        return CertificateDataConfigTypes.UE_RADIO_MULTIPLE_CODE;
+    protected CertificateDataConfigType getType() {
+        return CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
     }
 
     protected abstract List<RadioMultipleCode> getExpectedRadioMultipleCodes();

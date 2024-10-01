@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,7 @@ class QuestionAlkoholNarkotikaLakarordineratDosTest {
 
         @Override
         protected String getParent() {
-            return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+            return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
         }
 
         @Override

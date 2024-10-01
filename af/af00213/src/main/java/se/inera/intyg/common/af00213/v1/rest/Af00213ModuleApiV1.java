@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,6 +24,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
@@ -69,6 +70,9 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     public static final String SCHEMATRON_FILE = "af00213.v1.sch";
     private Map<String, String> validationMessages;
 
+    @Value("${pdf.footer.app.name.text:1177 intyg}")
+    private String pdfFooterAppName;
+
     public Af00213ModuleApiV1() {
         super(Af00213UtlatandeV1.class);
         init();
@@ -76,9 +80,9 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     private void init() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
             final var inputStream2
-                = new ClassPathResource("/META-INF/resources/webjars/af00213/webcert/views/messages.js").getInputStream();
+                = new ClassPathResource("af00213-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -98,7 +102,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, getMajorVersion(af00213Intyg.getTextVersion()), personId,
             texts, statuses, applicationOrigin,
-            utkastStatus);
+            utkastStatus, pdfFooterAppName);
     }
 
     private String getMajorVersion(String textVersion) {

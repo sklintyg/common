@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -195,16 +195,16 @@ class QuestionBedomningKorkortsTypTest {
                         .setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
                         .build(),
                     CertificateDataValueCodeList.builder().list(
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR1.name())
-                                .code(BedomningKorkortstyp.VAR1.name())
-                                .build(),
-                            CertificateDataValueCode.builder()
-                                .id(BedomningKorkortstyp.VAR2.name())
-                                .code(BedomningKorkortstyp.VAR2.name())
-                                .build()
-                        ))
+                            List.of(
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR1.name())
+                                    .code(BedomningKorkortstyp.VAR1.name())
+                                    .build(),
+                                CertificateDataValueCode.builder()
+                                    .id(BedomningKorkortstyp.VAR2.name())
+                                    .code(BedomningKorkortstyp.VAR2.name())
+                                    .build()
+                            ))
                         .build()
                 ));
         }
@@ -221,7 +221,7 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected String getExpression() {
             return
-                    "exists(" + BedomningKorkortstyp.VAR1.name()
+                "exists(" + BedomningKorkortstyp.VAR1.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR2.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR3.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR4.name()
@@ -296,7 +296,7 @@ class QuestionBedomningKorkortsTypTest {
         @Override
         protected String getExpression() {
             return
-                    "exists(" + BedomningKorkortstyp.VAR1.name()
+                "exists(" + BedomningKorkortstyp.VAR1.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR2.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR3.name()
                     + ") || exists(" + BedomningKorkortstyp.VAR4.name()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,21 +28,23 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK.GrundForMu;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK.GrundForMu;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidatorUtilFKTest {
@@ -111,7 +113,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser", validationMessages.get(0).getField());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(INVALID_CODE, ICD_CODE_SYSTEM);
@@ -121,14 +123,14 @@ public class ValidatorUtilFKTest {
     @Test
     public void testDiagnosesOneInvalid() {
         List<Diagnos> source = Arrays
-                .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"),
-                        buildDiagnos(INVALID_CODE_DOT, ICD_CODE_SYSTEM, "besk"));
+            .asList(buildDiagnos(VALID_CODE_1, ICD_CODE_SYSTEM, "besk"),
+                buildDiagnos(INVALID_CODE_DOT, ICD_CODE_SYSTEM, "besk"));
         List<ValidationMessage> validationMessages = new ArrayList<>();
         validatorUtil.validateDiagnose(source, validationMessages);
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser", validationMessages.get(0).getField());
+        assertEquals("diagnoser[1].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.invalid", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCodeFormat(VALID_CODE_1);
@@ -184,7 +186,7 @@ public class ValidatorUtilFKTest {
 
         assertEquals(1, validationMessages.size());
         assertEquals("diagnos", validationMessages.get(0).getCategory());
-        assertEquals("diagnoser[0].diagnosbeskrivning", validationMessages.get(0).getField());
+        assertEquals("diagnoser[0].diagnoskod", validationMessages.get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, validationMessages.get(0).getType());
         assertEquals("common.validation.diagnos.description.missing", validationMessages.get(0).getMessage());
         verify(moduleService).validateDiagnosisCode(VALID_CODE_1, ICD_CODE_SYSTEM);

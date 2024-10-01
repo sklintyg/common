@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -70,7 +70,8 @@ public class PdfGenerator {
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
         List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields, String footerAppName)
+        throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -101,9 +102,10 @@ public class PdfGenerator {
                 .withSignBox(true)
                 .withSignatureLine(true)
                 .withModelPropReplacements(modelPropReplacements)
+                .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for AG1-14: " + e.getMessage());

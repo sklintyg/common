@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,10 +18,8 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.Objects;
-
 import java.time.LocalDate;
-
+import java.util.Objects;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 
 public class Relation {

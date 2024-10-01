@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -137,7 +137,8 @@ public final class MessagesParser {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
             mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-            TypeReference<HashMap<String,String>> typeRef = new TypeReference<>() {};
+            TypeReference<HashMap<String, String>> typeRef = new TypeReference<>() {
+            };
             return mapper.readValue(json, typeRef);
         } catch (JsonProcessingException exception) {
             LOG.error("Could not convert json to map");

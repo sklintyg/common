@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,7 +59,7 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
@@ -285,7 +285,7 @@ class QuestionUnderlagTest {
                 .date(CertificateDataValueDate.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
                     .date(LocalDate.parse(date)).build())
-                .informationSource(CertificateDataTextValue.builder()
+                .informationSource(CertificateDataValueText.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
                     .text(text).build())
                 .investigationType(CertificateDataValueCode.builder()
@@ -298,7 +298,7 @@ class QuestionUnderlagTest {
             return CertificateDataValueMedicalInvestigation.builder()
                 .date(CertificateDataValueDate.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum").build())
-                .informationSource(CertificateDataTextValue.builder()
+                .informationSource(CertificateDataValueText.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran").build())
                 .investigationType(CertificateDataValueCode.builder()
                     .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ").build())

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -111,7 +111,7 @@ public class UVRenderer {
     private PdfImageXObject observandumIcon;
     private PdfImageXObject observandumInfoIcon;
 
-    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
+    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts, String documentTitle) {
         this.intygTexts = intygTexts;
         this.printConfig = printConfig;
 
@@ -128,6 +128,7 @@ public class UVRenderer {
 
             // Initialize PDF document
             PdfDocument pdf = new PdfDocument(writer);
+            pdf.getDocumentInfo().setTitle(documentTitle);
 
             // Load icons for observandum
             this.observandumIcon = new PdfImageXObject(
@@ -139,7 +140,7 @@ public class UVRenderer {
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
                 new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
+                new IntygFooter(svarFont, printConfig.getApplicationOrigin(), printConfig.getFooterAppName()));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
                 new MarginTexts(printConfig, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,

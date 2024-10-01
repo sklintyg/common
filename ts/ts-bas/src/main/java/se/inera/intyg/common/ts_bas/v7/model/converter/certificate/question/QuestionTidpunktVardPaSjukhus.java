@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,7 +25,6 @@ import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.FOREKOMST_VA
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v7.codes.RespConstantsV7.VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -35,10 +34,11 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
 public class QuestionTidpunktVardPaSjukhus {
+
     private static final short TEXT_LIMIT = 40;
 
     public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
@@ -47,7 +47,7 @@ public class QuestionTidpunktVardPaSjukhus {
 
         return CertificateDataElement.builder()
             .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-            .parent(VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID)
+            .parent(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigTextField.builder()
@@ -56,7 +56,7 @@ public class QuestionTidpunktVardPaSjukhus {
                     .build()
             )
             .value(
-                CertificateDataTextValue.builder()
+                CertificateDataValueText.builder()
                     .id(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
                     .text(tidpunkt)
                     .build()

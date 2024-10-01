@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,6 +35,10 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * Contains all information.
  */
 public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
+
+    public DefaultLisjpPdfDefinitionBuilder(String pdfWatermarkDescription) {
+        super(pdfWatermarkDescription);
+    }
 
     @Override
     void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,

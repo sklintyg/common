@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,6 +21,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.AKTIVITETSBEGRANSNINGAR_CATEGORY_ID;
@@ -91,6 +92,7 @@ class InternalToCertificateTest {
     @BeforeEach
     void setUp() {
         internalCertificate = new Fk7263Utlatande();
+        internalCertificate.setAnnanReferensBeskrivning("TEST");
         internalCertificate.setId("certificateId");
         internalCertificate.setGrundData(getGrundData());
         when(messagesProvider.get(any(String.class))).thenReturn("test string!");
@@ -202,6 +204,20 @@ class InternalToCertificateTest {
     void shallIncludeQuestionIntygetBaserasPaAnnanReferensBeskrivning() {
         final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
         assertEquals(14, actualCertificate.getData().get(ANNAT_BESKRIVNING_DELSVAR_ID).getIndex());
+    }
+
+    @Test
+    void shallNotIncludeQuestionIntygetBaserasPaAnnanReferensBeskrivningIfValueIsNull() {
+        internalCertificate.setAnnanReferensBeskrivning(null);
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertNull(actualCertificate.getData().get(ANNAT_BESKRIVNING_DELSVAR_ID));
+    }
+
+    @Test
+    void shallNotIncludeQuestionIntygetBaserasPaAnnanReferensBeskrivningIfValueIsEmpty() {
+        internalCertificate.setAnnanReferensBeskrivning("");
+        final var actualCertificate = InternalToCertificate.convert(internalCertificate, messagesProvider);
+        assertNull(actualCertificate.getData().get(ANNAT_BESKRIVNING_DELSVAR_ID));
     }
 
     @Test

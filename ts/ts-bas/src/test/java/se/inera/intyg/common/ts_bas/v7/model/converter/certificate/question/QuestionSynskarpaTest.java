@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -60,7 +60,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVisualAcuity;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisualAcuities;
@@ -116,7 +116,7 @@ class QuestionSynskarpaTest {
             void shouldIncludeConfigTypeVisualAcuity() {
                 final var question = QuestionSynskarpa.toCertificate(Syn.builder().build(), 0, textProvider);
                 final var config = question.getConfig().getType();
-                assertEquals(CertificateDataConfigTypes.UE_VISUAL_ACUITY, config);
+                assertEquals(CertificateDataConfigType.UE_VISUAL_ACUITY, config);
             }
 
             @Test

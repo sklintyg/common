@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,19 +33,20 @@ import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
 @Builder
 public class User {
 
-    private String hsaId;
-    private String name;
-    private String role;
-    private SigningMethod signingMethod;
-    private LoginMethod loginMethod;
-    private Unit loggedInUnit;
-    private Unit loggedInCareUnit;
-    private Unit loggedInCareProvider;
-    private Map<String, String> preferences;
-    private boolean protectedPerson;
-    private List<CareProvider> careProviders;
-    private String launchId;
-    private String launchFromOrigin;
+    String hsaId;
+    String name;
+    String role;
+    SigningMethod signingMethod;
+    LoginMethod loginMethod;
+    Unit loggedInUnit;
+    Unit loggedInCareUnit;
+    Unit loggedInCareProvider;
+    Map<String, String> preferences;
+    boolean protectedPerson;
+    List<CareProvider> careProviders;
+    String launchId;
+    String launchFromOrigin;
+    String origin;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserBuilder {

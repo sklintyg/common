@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -136,7 +136,8 @@ public class RoundTripTest {
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
+                "RegisterCertificate"),
             RegisterCertificateType.class, ws);
         return jaxbElement;
     }

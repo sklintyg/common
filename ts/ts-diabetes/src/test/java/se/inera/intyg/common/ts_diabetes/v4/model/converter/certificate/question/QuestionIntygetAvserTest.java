@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -231,20 +231,20 @@ class QuestionIntygetAvserTest {
                     new InputExpectedValuePair<>(IntygAvser.create(
                         EnumSet.copyOf(Set.of(IntygAvserKategori.VAR3, IntygAvserKategori.VAR2, IntygAvserKategori.VAR1))),
                         CertificateDataValueCodeList.builder().list(
-                            List.of(
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.VAR1.name())
-                                    .code(IntygAvserKategori.VAR1.name())
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.VAR2.name())
-                                    .code(IntygAvserKategori.VAR2.name())
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(IntygAvserKategori.VAR3.name())
-                                    .code(IntygAvserKategori.VAR3.name())
-                                    .build()
-                            ))
+                                List.of(
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.VAR1.name())
+                                        .code(IntygAvserKategori.VAR1.name())
+                                        .build(),
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.VAR2.name())
+                                        .code(IntygAvserKategori.VAR2.name())
+                                        .build(),
+                                    CertificateDataValueCode.builder()
+                                        .id(IntygAvserKategori.VAR3.name())
+                                        .code(IntygAvserKategori.VAR3.name())
+                                        .build()
+                                ))
                             .build()
                     ));
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,7 +37,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionMedicinskBehandlingPagaendeBehandlingHeaderTest {
@@ -88,7 +88,7 @@ class QuestionMedicinskBehandlingPagaendeBehandlingHeaderTest {
         void shouldIncludeHeaderConfigType() {
             final var question = QuestionMedicinskBehandlingPagaendeBehandlingHeader.toCertificate(
                 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_HEADER, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
         }
     }
 }

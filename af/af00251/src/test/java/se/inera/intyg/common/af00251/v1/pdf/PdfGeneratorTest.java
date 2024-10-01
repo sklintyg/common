@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,7 +22,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -63,7 +62,7 @@ public class PdfGeneratorTest {
             StandardCharsets.UTF_8);
         PdfResponse pdfResponse = testee
             .generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, "footerAppName");
 
         final Path path = Paths.get(PDF_PATH, pdfResponse.getFilename());
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,10 +39,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
@@ -81,7 +81,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
         void shouldIncludeConfigCertificateDataConfigTextArea() {
             final var question = QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(null, 0, texts);
 
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -109,7 +109,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
         @Test
         void shouldIncludeValueId() {
             final var question = QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(null, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(PLANERADBEHANDLING_SVAR_JSON_ID_20, value.getId());
         }
@@ -118,7 +118,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
         void shouldIncludeValueText() {
             final var expectedText = "Annan text";
             final var question = QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataTextValue) question.getValue();
+            final var value = (CertificateDataValueText) question.getValue();
 
             assertEquals(expectedText, value.getText());
         }
@@ -157,7 +157,7 @@ class QuestionMedicinskBehandlingPlaneradBehandlingTest {
                 .build();
 
             final var actualValue = QuestionMedicinskBehandlingPlaneradBehandling.toInternal(certificate);
-            
+
             if (expectedValue == null || expectedValue.isEmpty()) {
                 assertNull(actualValue);
             } else {

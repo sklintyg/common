@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,11 +45,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypeAhead;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 
 @ExtendWith(MockitoExtension.class)
@@ -98,7 +98,7 @@ class QuestionDodsplatsKommunTest {
         @Test
         void shouldIncludeTypeAheadConfigType() {
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "", 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TYPE_AHEAD, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TYPE_AHEAD, question.getConfig().getType());
         }
 
         @Test
@@ -124,7 +124,7 @@ class QuestionDodsplatsKommunTest {
         @Test
         void shouldIncludeTextValueId() {
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, "Text value", 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(DODSPLATS_KOMMUN_JSON_ID, certificateDataTextValue.getId());
         }
 
@@ -132,14 +132,14 @@ class QuestionDodsplatsKommunTest {
         void shouldIncludeTextValue() {
             final var expectedTextValue = "Text value";
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, expectedTextValue, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(expectedTextValue, certificateDataTextValue.getText());
         }
 
         @Test
         void shouldIncludeTextValueEmpty() {
             final var question = QuestionDodsplatsKommun.toCertificate(typeAhead, null, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertNull(certificateDataTextValue.getText());
         }
 

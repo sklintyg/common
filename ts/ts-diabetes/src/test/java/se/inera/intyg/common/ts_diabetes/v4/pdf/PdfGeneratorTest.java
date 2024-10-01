@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -58,7 +58,7 @@ public class PdfGeneratorTest {
             Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee
             .generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, "footerAppName");
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());

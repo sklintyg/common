@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,17 +18,16 @@
  */
 package se.inera.intyg.common.luae_na.v1.pdf;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
@@ -90,7 +89,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
     public FkPdfDefinition buildPdfDefinition(LuaenaUtlatandeV1 intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        IntygTexts intygTexts, UtkastStatus utkastStatus)
+        IntygTexts intygTexts, UtkastStatus utkastStatus, String printedByText)
         throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -106,17 +105,17 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler(180.3f, 6.4f));
             def.addPageEvent(new FkFormIdentityEventHandler(
-                    intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
-                    intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID_ROW2),
-                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
-                    intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
+                intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
+                intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID_ROW2),
+                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_ID),
+                intygTexts.getProperties().getProperty(PROPERTY_KEY_BLANKETT_VERSION)));
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer(),
                 -2.0f, 0.0f));
             def.addPageEvent(
                 new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
 
             if (!isUtkast && !isLocked) {
-                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
+                def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin, printedByText)));
             }
 
             def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses), isLocked));

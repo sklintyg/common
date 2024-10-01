@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -110,22 +110,41 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDINSATSER_M
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30;
 
+import java.util.EnumSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
-import se.inera.intyg.common.ts_bas.v6.model.internal.*;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
+import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
+import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Neurologi;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Njurar;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Psykiskt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.v6.model.internal.SomnVakenhet;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Synskarpevarden;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Utvecklingsstorning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.EnumSet;
 
 public final class TransportToInternal {
 

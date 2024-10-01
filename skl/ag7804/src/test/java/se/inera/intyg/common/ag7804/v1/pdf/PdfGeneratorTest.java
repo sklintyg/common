@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,12 +27,10 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.core.io.ClassPathResource;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
@@ -63,7 +61,7 @@ public class PdfGeneratorTest {
             Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, "1",
             Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, null);
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, null, "footerAppName");
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_BASE_NAME + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
@@ -79,7 +77,7 @@ public class PdfGeneratorTest {
             Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, "1",
             Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, null);
+            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, null, "footerAppName");
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_BASE_NAME + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());

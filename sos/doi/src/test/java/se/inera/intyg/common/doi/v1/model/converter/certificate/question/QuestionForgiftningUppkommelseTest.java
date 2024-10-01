@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,11 +48,11 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTextArea;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationShowTest;
 
@@ -107,7 +107,7 @@ class QuestionForgiftningUppkommelseTest {
         @Test
         void shouldIncludeTextConfigType() {
             final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_TEXTAREA, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
         }
 
         @Test
@@ -126,7 +126,7 @@ class QuestionForgiftningUppkommelseTest {
         @Test
         void shouldIncludeTextValueId() {
             final var question = QuestionForgiftningUppkommelse.toCertificate("Text value", 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataTextValue.getId());
         }
 
@@ -134,14 +134,14 @@ class QuestionForgiftningUppkommelseTest {
         void shouldIncludeTextValue() {
             final var expectedTextValue = "Text value";
             final var question = QuestionForgiftningUppkommelse.toCertificate(expectedTextValue, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertEquals(expectedTextValue, certificateDataTextValue.getText());
         }
 
         @Test
         void shouldIncludeTextValueEmpty() {
             final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataTextValue = (CertificateDataTextValue) question.getValue();
+            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
             assertNull(certificateDataTextValue.getText());
         }
 

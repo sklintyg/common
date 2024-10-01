@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,10 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.util.Objects;
-import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
-
+import java.util.Objects;
+import java.util.Optional;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -79,8 +77,8 @@ public class Patient {
     @Override
     public int hashCode() {
         return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-                this.postadress, this.postnummer, this.postort, this.addressDetailsSourcePU, this.sekretessmarkering,
-                this.avliden, this.testIndicator);
+            this.postadress, this.postnummer, this.postort, this.addressDetailsSourcePU, this.sekretessmarkering,
+            this.avliden, this.testIndicator);
     }
 
     public boolean isSamordningsNummer() {

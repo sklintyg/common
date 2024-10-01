@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 public class CertificateDataConfigMedicalInvestigation implements CertificateDataConfig {
 
     @Getter(onMethod = @__(@Override))
-    CertificateDataConfigTypes type = CertificateDataConfigTypes.UE_MEDICAL_INVESTIGATION;
+    CertificateDataConfigType type = CertificateDataConfigType.UE_MEDICAL_INVESTIGATION;
     @Getter(onMethod = @__(@Override))
     String header;
     @Getter(onMethod = @__(@Override))
@@ -45,6 +45,8 @@ public class CertificateDataConfigMedicalInvestigation implements CertificateDat
     String description;
     @Getter(onMethod = @__(@Override))
     Accordion accordion;
+    @Getter(onMethod = @__(@Override))
+    Message message;
     String typeText;
     String dateText;
     String informationSourceText;

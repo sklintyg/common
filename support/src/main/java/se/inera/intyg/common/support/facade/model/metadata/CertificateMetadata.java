@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,8 +21,10 @@ package se.inera.intyg.common.support.facade.model.metadata;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
+import se.inera.intyg.common.support.facade.model.CertificateMessageType;
 import se.inera.intyg.common.support.facade.model.CertificateStatus;
 import se.inera.intyg.common.support.facade.model.Patient;
 import se.inera.intyg.common.support.facade.model.Staff;
@@ -44,6 +46,7 @@ public class CertificateMetadata {
     private boolean testCertificate;
     private boolean forwarded;
     private boolean sent;
+    private boolean availableForCitizen;
     private String sentTo;
     private CertificateRelations relations;
     private Unit unit;
@@ -54,9 +57,15 @@ public class CertificateMetadata {
     private long version;
     private boolean latestMajorVersion;
     private LocalDateTime readyForSign;
+    private LocalDateTime signed;
+    private LocalDateTime modified;
     private String responsibleHospName;
     private CertificateRecipient recipient;
     private CertificateSummary summary;
+    private CertificateConfirmationModal confirmationModal;
+    private boolean validForSign;
+    private String externalReference;
+    private List<CertificateMessageType> messageTypes;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {

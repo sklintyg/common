@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,53 +19,17 @@
 package se.inera.intyg.common.support.facade.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import lombok.Data;
+import se.inera.intyg.common.support.facade.model.link.ResourceLink;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 
+@Data
 public class Certificate {
 
     private CertificateMetadata metadata;
     private Map<String, CertificateDataElement> data = new HashMap<>();
+    private List<ResourceLink> links;
 
-    public CertificateMetadata getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(CertificateMetadata metadata) {
-        this.metadata = metadata;
-    }
-
-    public Map<String, CertificateDataElement> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, CertificateDataElement> data) {
-        this.data = data;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final Certificate that = (Certificate) o;
-        return Objects.equals(metadata, that.metadata) && Objects.equals(data, that.data);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(metadata, data);
-    }
-
-    @Override
-    public String toString() {
-        return "Certificate{"
-            + "metadata=" + metadata
-            + ", data=" + data
-            + '}';
-    }
 }

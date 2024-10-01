@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,13 +24,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import se.inera.intyg.common.support.model.InternalDate;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -38,6 +31,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import java.io.IOException;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.util.integration.json.InternalDateDeserializer;
 
 public final class InternalDateDeserializerTest {

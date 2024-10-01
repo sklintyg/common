@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -143,18 +143,18 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
                 getNumberOfTransportValidationErrors(result),
                 getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                name),
+                    name),
                 internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                name),
+                    name),
                 SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                name, internalValidationErrors),
+                    name, internalValidationErrors),
                 internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
             assertTrue(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                name, transportValidationErrors),
+                    name, transportValidationErrors),
                 SVRLHelper.getAllFailedAssertions(result).size() == 0);
         }
     }

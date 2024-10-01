@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
-
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
 
 public class NotificationMessage {
 
@@ -60,6 +59,8 @@ public class NotificationMessage {
     private Amneskod amne;
 
     private LocalDate sistaSvarsDatum;
+
+    private byte[] statusUpdateXml;
 
     public NotificationMessage() {
         // Needed for deserialization
@@ -109,6 +110,7 @@ public class NotificationMessage {
             + ", reference='" + reference + '\''
             + ", amne=" + amne
             + ", sistaSvarsDatum=" + sistaSvarsDatum
+            + ", statusUpdateXml=" + Arrays.toString(statusUpdateXml)
             + '}';
     }
 
@@ -217,4 +219,11 @@ public class NotificationMessage {
         this.sistaSvarsDatum = sistaSvarsDatum;
     }
 
+    public byte[] getStatusUpdateXml() {
+        return statusUpdateXml;
+    }
+
+    public void setStatusUpdateXml(byte[] statusUpdateXml) {
+        this.statusUpdateXml = statusUpdateXml;
+    }
 }

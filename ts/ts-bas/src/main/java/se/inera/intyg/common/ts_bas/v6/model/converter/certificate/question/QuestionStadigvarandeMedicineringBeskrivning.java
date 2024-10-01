@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,9 +20,9 @@
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
+import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.STADIGVARANDE_MEDICINERING_CATEGORY_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -36,7 +36,7 @@ public class QuestionStadigvarandeMedicineringBeskrivning {
         final var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
         return CertificateDataElement.builder()
             .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
+            .parent(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
             .index(index)
             .config(
                 CertificateDataConfigViewText.builder()

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,13 +27,13 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.TO_EPOCH_DA
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TWENTY_EIGHT_DAYS;
 import static se.inera.intyg.common.support.facade.util.PatientToolkit.birthDate;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.lessThanOrEqual;
-import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.withCitation;
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.wrapWithAttribute;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMessage;
+import se.inera.intyg.common.support.facade.model.config.Message;
 import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
@@ -49,8 +49,12 @@ public class QuestionAutoFillMessageWithin28DaysBarn {
             .visible(false)
             .config(
                 CertificateDataConfigMessage.builder()
-                    .message(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
-                    .level(MessageLevel.OBSERVE)
+                    .message(
+                        Message.builder()
+                            .content(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
+                            .level(MessageLevel.OBSERVE)
+                            .build()
+                    )
                     .build()
             )
             .validation(
@@ -59,7 +63,7 @@ public class QuestionAutoFillMessageWithin28DaysBarn {
                         .questionId(DODSDATUM_DELSVAR_ID)
                         .expression(
                             lessThanOrEqual(
-                                    wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
+                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
                                 birthDate(personId)
                                     .plusDays(TWENTY_EIGHT_DAYS)
                                     .toEpochDay()

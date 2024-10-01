@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,21 +18,21 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.pdf;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -45,9 +45,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 public class PdfGenerator {
 
@@ -65,7 +62,7 @@ public class PdfGenerator {
     protected static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, String footerAppName) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -93,9 +90,10 @@ public class PdfGenerator {
                 .withIsLockedUtkast(isLockedUtkast)
                 .withIsMakulerad(isMakulerad)
                 .withApplicationOrigin(applicationOrigin)
+                .withFooterAppName(footerAppName)
                 .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
             return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for ts-diabetes: " + e.getMessage());

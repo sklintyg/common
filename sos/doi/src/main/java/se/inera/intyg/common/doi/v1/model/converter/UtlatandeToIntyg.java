@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -210,7 +210,7 @@ public final class UtlatandeToIntyg {
             for (Dodsorsaksgrund grund : utlatande.getGrunder()) {
                 svar.add(aSvar(
                     GRUNDER_SVAR_ID).withDelsvar(
-                    GRUNDER_DELSVAR_ID, aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))
+                        GRUNDER_DELSVAR_ID, aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))
                     .build());
             }
         }

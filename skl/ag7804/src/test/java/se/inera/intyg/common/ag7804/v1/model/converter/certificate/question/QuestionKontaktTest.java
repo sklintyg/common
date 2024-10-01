@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,9 +21,9 @@ package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
@@ -46,7 +46,7 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxBoolean;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -117,17 +117,16 @@ class QuestionKontaktTest {
 
             final var question = certificate.getData().get(KONTAKT_ONSKAS_SVAR_ID_103);
 
-            assertEquals(CertificateDataConfigTypes.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
 
             final var certificateDataConfigCheckboxBoolean = (CertificateDataConfigCheckboxBoolean) question.getConfig();
             assertAll("Validating question configuration",
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getText().trim().length() > 0, "Missing text"),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getLabel().trim().length() > 0, "Missing label"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getText().trim().isEmpty(), "Missing text"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getLabel().trim().isEmpty(), "Missing label"),
                 () -> assertNull(certificateDataConfigCheckboxBoolean.getDescription(), "Should not have description"),
                 () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataConfigCheckboxBoolean.getId()),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
-                () -> assertTrue(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().length() > 0,
-                    "Missing unselected text")
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getSelectedText().trim().isEmpty(), "Missing selected text"),
+                () -> assertFalse(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().isEmpty(), "Missing unselected text")
             );
         }
 
@@ -151,12 +150,12 @@ class QuestionKontaktTest {
         }
 
         @Test
-        void shouldIncludeQuestionValueFalse() {
+        void shouldIncludeQuestionValueFalseAsEmpty() {
             internalCertificate = Ag7804UtlatandeV1.builder()
                 .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
-                .setAvstangningSmittskydd(false)
+                .setKontaktMedAg(false)
                 .build();
 
             final var certificate = InternalToCertificate.convert(internalCertificate, texts);
@@ -166,7 +165,7 @@ class QuestionKontaktTest {
             final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
             assertAll("Validating question value",
                 () -> assertEquals(KONTAKT_ONSKAS_SVAR_JSON_ID_103, certificateDataValueBoolean.getId()),
-                () -> assertEquals(internalCertificate.getKontaktMedAg(), certificateDataValueBoolean.getSelected())
+                () -> assertNull(certificateDataValueBoolean.getSelected())
             );
         }
 
@@ -222,7 +221,7 @@ class QuestionKontaktTest {
         }
 
         Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
+            return Stream.of(true, null);
         }
 
         @ParameterizedTest
@@ -238,6 +237,20 @@ class QuestionKontaktTest {
             final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
             assertEquals(expectedValue, updatedCertificate.getKontaktMedAg());
+        }
+
+        @Test
+        void shouldIncludeKontaktValueFalseAsNull() {
+            final var index = 1;
+
+            final var certificate = CertificateBuilder.create()
+                .addElement(
+                    QuestionKontakt.toCertificate(false, index, texts))
+                .build();
+
+            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+            assertNull(updatedCertificate.getKontaktMedAg());
         }
     }
 }

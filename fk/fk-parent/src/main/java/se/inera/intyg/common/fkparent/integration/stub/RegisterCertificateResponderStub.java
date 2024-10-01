@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.fkparent.integration.stub;
 
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
+
+import java.util.HashMap;
+import javax.xml.ws.WebServiceProvider;
 import org.apache.cxf.annotations.SchemaValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

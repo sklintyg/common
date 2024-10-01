@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidationMessageTest {

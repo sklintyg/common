@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,14 +18,12 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import java.time.Year;
-
 import com.google.common.base.Strings;
+import java.time.Year;
 
 /**
  * Validator intended for use in draft validation,
  * performs validation of strings against various conditions.
- *
  */
 public class StringValidator {
 
@@ -38,8 +36,7 @@ public class StringValidator {
      * and that the year it contains is in the general vicinity of current date i.e 19xx-20xx,<br/>
      * and that the year if otherwise valid is not set in the future.
      *
-     * @param source
-     *            the string, should not be null
+     * @param source the string, should not be null
      * @return true if the string is a valid year, false otherwise
      */
     public boolean validateStringIsYear(String source) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,6 +32,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
+import se.inera.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponseType;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
@@ -39,8 +41,6 @@ import se.inera.intyg.common.support.integration.module.exception.InvalidCertifi
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
-import se.inera.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetMedicalCertificateResponderImplTest {

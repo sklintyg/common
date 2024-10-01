@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,6 +39,13 @@ public final class CertificateBuilder {
 
     public CertificateBuilder addElement(CertificateDataElement element) {
         this.data.put(element.getId(), element);
+        return this;
+    }
+
+    public CertificateBuilder conditionalAddElement(CertificateDataElement element, boolean condition) {
+        if (condition) {
+            this.data.put(element.getId(), element);
+        }
         return this;
     }
 

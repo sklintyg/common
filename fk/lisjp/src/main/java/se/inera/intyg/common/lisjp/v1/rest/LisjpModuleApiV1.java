@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -93,6 +94,11 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Value("${pdf.watermark.description.text:Du kan se intyget genom att logga in på 1177.se}")
+    private String pdfWatermarkDescription;
+
+    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+    private String pdfMinaIntygMarginText;
 
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
@@ -101,8 +107,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     private void init() {
         try {
-            final var inputStream1 = new ClassPathResource("/META-INF/resources/webjars/common/webcert/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("/META-INF/resources/webjars/lisjp/webcert/views/messages.js").getInputStream();
+            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+            final var inputStream2 = new ClassPathResource("lisjp-messages.js").getInputStream();
             validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
         } catch (IOException exception) {
             LOG.error("Error during initialization. Could not read messages files");
@@ -117,7 +123,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
         throws ModuleException {
         LisjpUtlatandeV1 luseIntyg = getInternal(internalModel);
-        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, luseIntyg, applicationOrigin, CERTIFICATE_FILE_PREFIX,
+        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(pdfWatermarkDescription), statuses, luseIntyg, applicationOrigin,
+            CERTIFICATE_FILE_PREFIX,
             utkastStatus);
     }
 
@@ -238,9 +245,10 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         try {
             IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
+                pdfMinaIntygMarginText);
 
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
+            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition, filePrefix),
                 PdfGenerator.generatePdfFilename(LocalDateTime.now(), filePrefix));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

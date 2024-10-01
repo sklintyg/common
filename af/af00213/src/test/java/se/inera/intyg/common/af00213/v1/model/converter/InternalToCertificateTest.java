@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,7 +66,7 @@ class InternalToCertificateTest {
         grundData = new GrundData();
         grundData.setSkapadAv(skapadAv);
         grundData.setPatient(patient);
-        
+
         internalCertificate = Af00213UtlatandeV1.builder()
             .setGrundData(grundData)
             .setId("id")

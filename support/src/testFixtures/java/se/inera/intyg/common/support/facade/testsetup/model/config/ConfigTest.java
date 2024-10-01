@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 public abstract class ConfigTest {
 
@@ -34,7 +34,7 @@ public abstract class ConfigTest {
 
     protected abstract CertificateDataElement getElement();
 
-    protected abstract CertificateDataConfigTypes getType();
+    protected abstract CertificateDataConfigType getType();
 
     protected String getHeaderId() {
         return null;

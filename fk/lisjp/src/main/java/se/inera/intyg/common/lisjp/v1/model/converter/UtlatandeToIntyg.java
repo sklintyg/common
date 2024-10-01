@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -171,16 +171,16 @@ public final class UtlatandeToIntyg {
         if (source.getPrognos() != null && source.getPrognos().getTyp() != null) {
             if (source.getPrognos().getDagarTillArbete() != null) {
                 svars.add(aSvar(PROGNOS_SVAR_ID_39).withDelsvar(PROGNOS_BESKRIVNING_DELSVAR_ID_39,
-                    aCV(PROGNOS_CODE_SYSTEM, source.getPrognos().getTyp().getId(),
-                        source.getPrognos().getTyp().getLabel()))
+                        aCV(PROGNOS_CODE_SYSTEM, source.getPrognos().getTyp().getId(),
+                            source.getPrognos().getTyp().getLabel()))
                     .withDelsvar(PROGNOS_DAGAR_TILL_ARBETE_DELSVAR_ID_39,
                         aCV(PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM, source.getPrognos().getDagarTillArbete().getId(),
                             source.getPrognos().getDagarTillArbete().getLabel()))
                     .build());
             } else {
                 svars.add(aSvar(PROGNOS_SVAR_ID_39).withDelsvar(PROGNOS_BESKRIVNING_DELSVAR_ID_39,
-                    aCV(PROGNOS_CODE_SYSTEM, source.getPrognos().getTyp().getId(),
-                        source.getPrognos().getTyp().getLabel()))
+                        aCV(PROGNOS_CODE_SYSTEM, source.getPrognos().getTyp().getId(),
+                            source.getPrognos().getTyp().getLabel()))
                     .build());
             }
         }

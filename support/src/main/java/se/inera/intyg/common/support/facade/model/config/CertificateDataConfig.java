@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @Type(value = CertificateDataConfigRadioMultipleCodeOptionalDropdown.class, name = "UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN"),
     @Type(value = CertificateDataConfigCheckboxMultipleDate.class, name = "UE_CHECKBOX_MULTIPLE_DATE"),
     @Type(value = CertificateDataConfigCheckboxMultipleCode.class, name = "UE_CHECKBOX_MULTIPLE_CODE"),
-    @Type(value = CertificateDataConfigSickLeavePeriod.class, name = "UE_SICK_LEAVE_PERIOD"),
+    @Type(value = CertificateDataConfigCheckboxDateRangeList.class, name = "UE_CHECKBOX_DATE_RANGE_LIST"),
     @Type(value = CertificateDataConfigDiagnoses.class, name = "UE_DIAGNOSES"),
     @Type(value = CertificateDataConfigDropdown.class, name = "UE_DROPDOWN"),
     @Type(value = CertificateDataConfigIcf.class, name = "UE_ICF"),
@@ -58,7 +58,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public interface CertificateDataConfig {
 
-    CertificateDataConfigTypes getType();
+    CertificateDataConfigType getType();
 
     String getHeader();
 
@@ -71,5 +71,7 @@ public interface CertificateDataConfig {
     String getDescription();
 
     Accordion getAccordion();
+
+    Message getMessage();
 
 }

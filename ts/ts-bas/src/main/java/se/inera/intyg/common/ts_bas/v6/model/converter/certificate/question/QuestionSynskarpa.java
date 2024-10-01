@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,7 +40,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigViewTable;
 import se.inera.intyg.common.support.facade.model.config.ViewColumn;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataTextValue;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewRow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueViewTable;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
@@ -88,19 +88,19 @@ public class QuestionSynskarpa {
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     List.of(
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(SYNSKARPA_TYP_ID)
                                             .text(textProvider.get(HOGER_OGA_LABEL_ID))
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(UTAN_KORREKTION_ID)
                                             .text(hogerOga != null ? doubleValue(hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(MED_KORREKTION_ID)
                                             .text(hogerOga != null ? doubleValue(hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(KONTAKTLINSER_ID)
                                             .text(hogerOga != null ? booleanValue(hogerOga.getKontaktlins()) : NOT_SPECIFIED)
                                             .build()
@@ -109,19 +109,19 @@ public class QuestionSynskarpa {
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     List.of(
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(SYNSKARPA_TYP_ID)
                                             .text(textProvider.get(VANSTER_OGA_LABEL_ID))
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(UTAN_KORREKTION_ID)
                                             .text(vansterOga != null ? doubleValue(vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(MED_KORREKTION_ID)
                                             .text(vansterOga != null ? doubleValue(vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(KONTAKTLINSER_ID)
                                             .text(vansterOga != null ? booleanValue(vansterOga.getKontaktlins()) : NOT_SPECIFIED)
                                             .build()
@@ -130,19 +130,19 @@ public class QuestionSynskarpa {
                             CertificateDataValueViewRow.builder()
                                 .columns(
                                     List.of(
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(SYNSKARPA_TYP_ID)
                                             .text(textProvider.get(BINOKULART_LABEL_ID))
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(UTAN_KORREKTION_ID)
                                             .text(binokulart != null ? doubleValue(binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(MED_KORREKTION_ID)
                                             .text(binokulart != null ? doubleValue(binokulart.getMedKorrektion()) : NOT_SPECIFIED)
                                             .build(),
-                                        CertificateDataTextValue.builder()
+                                        CertificateDataValueText.builder()
                                             .id(KONTAKTLINSER_ID)
                                             .text("-")
                                             .build()

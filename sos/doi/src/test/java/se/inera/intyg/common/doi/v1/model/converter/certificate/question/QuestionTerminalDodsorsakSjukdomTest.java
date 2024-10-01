@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_CATEGORY_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
-import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTypes;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionTerminalDodsorsakSjukdomTest {
@@ -80,7 +80,7 @@ class QuestionTerminalDodsorsakSjukdomTest {
         @Test
         void shouldIncludeHeaderConfigType() {
             final var question = QuestionTerminalDodsorsakSjukdom.toCertificate(0, texts);
-            assertEquals(CertificateDataConfigTypes.UE_HEADER, question.getConfig().getType());
+            assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Inera AB (http://www.inera.se)
+ * Copyright (C) 2024 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,7 +24,6 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import java.util.List;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;

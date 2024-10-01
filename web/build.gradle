@@ -1,58 +1,3 @@
-apply plugin: 'com.netflix.nebula.grunt'
-
-def webappOutputDir = 'build/'
-def webappTestOutputDir = 'build/karma/'
-def gruntBinary = rootProject.projectDir.path + '/node_modules/grunt-cli/bin/grunt'
-
-grunt {
-    colors = System.properties['gruntColors'] ? System.properties['gruntColors'].toBoolean() : true
-}
-
-node {
-    version = "${nodeJsVersion}"
-    npmVersion = "${npmVersion}"
-    download = true
-    distBaseUrl = 'https://nodejs.org/dist/'
-    workDir = file("${projectDir}/.gradle/nodejs")
-    npmWorkDir = file("${projectDir}/.gradle/npm")
-    nodeModulesDir = rootProject.projectDir
-}
-
-sourceSets {
-    main {
-        resources {
-            exclude '**/*.scss'
-            exclude '**/*.spec.js'
-        }
-    }
-}
-
-tasks.register('jsTests', NodeTask) {
-    dependsOn npmInstall
-    inputs.dir("$projectDir/src/main/resources")
-    inputs.files(fileTree(projectDir).include('*.js'))
-    inputs.files(fileTree(projectDir).include('*.json'))
-    inputs.files(configurations.compileClasspath)
-    outputs.dir(webappTestOutputDir)
-
-    script = file(gruntBinary)
-    args = ['test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
-            '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '')]
-}
-
-tasks.register('jsInclude', NodeTask) {
-    dependsOn npmInstall
-    doNotTrackState "Declaring input or output directories on tasks which contain unreadable content has been deprecated."
-    inputs.dir("$projectDir/src/main/resources")
-    inputs.files(fileTree(projectDir).include('*.js'))
-    inputs.files(fileTree(projectDir).include('*.json'))
-    inputs.files(configurations.compileClasspath)
-    outputs.dir(webappOutputDir)
-
-    script = file(gruntBinary)
-    args = ['default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
-}
-
 tasks.register('unzipBuildTools', Copy) {
     into "${project.layout.buildDirectory.get().asFile}/build-tools/"
     from {
@@ -60,17 +5,3 @@ tasks.register('unzipBuildTools', Copy) {
         zipTree(intygJar)
     }
 }
-
-tasks.register('jsCodeQuality', NodeTask) {
-    dependsOn npmInstall, unzipBuildTools
-    outputs.upToDateWhen { false }
-
-    script = file(gruntBinary)
-    args = ['lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
-}
-
-checkstyleMain.dependsOn jsCodeQuality
-jar.dependsOn(jsInclude)
-packageTests.dependsOn(":common-web:jsInclude")
-test.dependsOn(jsTests)
-jsCodeQuality.onlyIf { project.hasProperty('codeQuality') }
