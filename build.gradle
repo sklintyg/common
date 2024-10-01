@@ -2,6 +2,9 @@ plugins {
     id "com.netflix.nebula.node" version "3.0.0" apply false
     id "io.spring.dependency-management" version "1.1.6" apply false
     id 'test-report-aggregation'
+    id 'org.sonarqube' version '4.4.1.3373'
+    id "org.owasp.dependencycheck" version "10.0.4"
+    id 'jacoco'
 }
 
 ext {
@@ -13,16 +16,16 @@ ext {
     schemasContractVersion = "2.1.8.2"
 
     autovalueVersion = "1.10.4"
-    cxfVersion = "4.0.3"
+    cxfVersion = "4.0.5"
     commonsCollectionsVersion = "4.4"
     commonsTextVersion = "1.10.0"
     commonsCsvVersion = "1.10.0"
     commonsIoVersion = "2.14.0"
     equalsVerifierVersion = "3.15.2"
     guavaVersion = "32.1.3-jre"
-    itextVersion = "5.5.13.3"
-    itext7Version = "7.2.5"
-    itextPdfHtmlVersion = "4.0.5"
+    itextVersion = "5.5.13.4"
+    itext7Version = "7.2.6"
+    itextPdfHtmlVersion = "5.0.5"
     jakartaJwsApiVersion = "3.0.0"
     jaxb2Version = "3.0.0"
     nashornVersion = "15.4"
@@ -31,6 +34,8 @@ ext {
     spotbugsAnnotationVersion = "4.8.0"
 
     springbootMavenBomVersion = "3.3.4"
+
+    nvdMirror = 'https://vulnz-nvd-mirror-devtest.intyg.nordicmedtest.se'
 }
 
 allprojects {
@@ -38,6 +43,9 @@ allprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'java-library'
     apply plugin: 'idea'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.sonarqube'
+    apply plugin: 'org.owasp.dependencycheck'
 
     group = 'se.inera.intyg.common'
     version = System.properties['buildVersion'] ?: '4.0.0-SNAPSHOT'
@@ -123,8 +131,73 @@ allprojects {
         implementation.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
         implementation.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
     }
+
+    jacocoTestReport {
+        dependsOn test
+
+        reports {
+            xml.required = true
+            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/testability/**",
+                        "**/integrationtest/**"
+                ])
+            }))
+        }
+    }
 }
 
 subprojects.collect {subproject -> subproject.name }.each { subprojectName ->
     dependencies { testReportAggregation project(":${subprojectName}") }
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "intyg-common"
+        property "sonar.projectName", "intyg-common"
+        property "sonar.dependencyCheck.htmlReportPath", layout.buildDirectory.file("reports/dependency-check-report.html")
+        property "sonar.dependencyCheck.htmlReportPath", layout.buildDirectory.file("reports/dependency-check-report.json")
+    }
+}
+
+dependencyCheck {
+    formats = List.of("HTML", "JSON")
+    nvd {
+        datafeedUrl = "${nvdMirror}"
+    }
+}
+
+reporting {
+    dependencies {
+        testReportAggregation project(':logging-util')
+        testReportAggregation project(':common-support')
+        testReportAggregation project(':common-web')
+        testReportAggregation project(':integration-util')
+        testReportAggregation project(':common-schemas')
+        testReportAggregation project(':common-services')
+        testReportAggregation project(':common-pdf')
+        testReportAggregation project(':fk-parent')
+        testReportAggregation project(':luse')
+        testReportAggregation project(':lisjp')
+        testReportAggregation project(':luae_na')
+        testReportAggregation project(':luae_fs')
+        testReportAggregation project(':af-parent')
+        testReportAggregation project(':af00213')
+        testReportAggregation project(':af00251')
+        testReportAggregation project(':ts-parent')
+        testReportAggregation project(':ts-bas')
+        testReportAggregation project(':ts-diabetes')
+        testReportAggregation project(':tstrk1062')
+        testReportAggregation project(':tstrk1009')
+        testReportAggregation project(':sos_parent')
+        testReportAggregation project(':db')
+        testReportAggregation project(':doi')
+        testReportAggregation project(':ag-parent')
+        testReportAggregation project(':ag114')
+        testReportAggregation project(':ag7804')
+    }
 }
