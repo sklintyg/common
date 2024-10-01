@@ -24,6 +24,14 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.Validator;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;

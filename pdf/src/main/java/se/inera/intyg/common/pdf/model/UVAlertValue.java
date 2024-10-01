@@ -29,6 +29,7 @@ import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 
+import java.util.stream.Stream;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;

@@ -58,7 +58,7 @@ public final class InternalDateDeserializerTest {
         setJsonParserAtCorrectToken(jp);
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
-        when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
+        when(ctxt.wrongTokenException(any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString())).
             thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
                 + ": expected JSON Array, Number or String"));    // Mock implementation
 
@@ -79,7 +79,7 @@ public final class InternalDateDeserializerTest {
         setJsonParserAtCorrectToken(jp);
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
-        when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
+        when(ctxt.wrongTokenException(any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString())).
             thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
                 + ": expected JSON Array, Number or String"));    // Mock implementation
 
@@ -100,7 +100,7 @@ public final class InternalDateDeserializerTest {
         setJsonParserAtCorrectToken(jp);
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
-        when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
+        when(ctxt.wrongTokenException(any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString())).
             thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
                 + ": expected JSON Array, Number or String"));    // Mock implementation
 
@@ -121,7 +121,7 @@ public final class InternalDateDeserializerTest {
         setJsonParserAtCorrectToken(jp);
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
-        when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
+        when(ctxt.wrongTokenException(any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString())).
             thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
                 + ": expected JSON Array, Number or String"));    // Mock implementation
 
@@ -142,7 +142,7 @@ public final class InternalDateDeserializerTest {
         setJsonParserAtCorrectToken(jp);
 
         DeserializationContext ctxt = mock(DeserializationContext.class);
-        when(ctxt.wrongTokenException(any(JsonParser.class), any(JsonToken.class), anyString())).
+        when(ctxt.wrongTokenException(any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString())).
             thenReturn(JsonMappingException.from(jp, "Unexpected token (" + jp.getCurrentToken() + "), expected " + JsonToken.START_ARRAY
                 + ": expected JSON Array, Number or String"));    // Mock implementation
 
