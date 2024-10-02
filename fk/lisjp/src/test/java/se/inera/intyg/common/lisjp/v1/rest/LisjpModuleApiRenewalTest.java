@@ -18,20 +18,24 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static com.helger.commons.mock.CommonsAssert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
+import java.util.Objects;
 import org.apache.cxf.helpers.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.lisjp.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -42,29 +46,33 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
+
 /**
  * Specifically tests the renewal of LISJP where certain fields are nulled out.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LisjpModuleApiRenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "v1/LisjpModelCompareUtil/utlatande.json";
-
+    @Spy
+    private WebcertModelFactoryImpl webcertModelFactory;
 
     @Spy
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
-
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+    private ObjectMapper objectMapper;
 
     @InjectMocks
     private LisjpModuleApiV1 moduleApi;
 
+    public static final String TESTFILE_UTLATANDE = "v1/LisjpModelCompareUtil/utlatande.json";
+
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-            TESTFILE_UTLATANDE).getInputStream());
+        IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
         LisjpUtlatandeV1 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -73,7 +81,7 @@ public class LisjpModuleApiRenewalTest {
         LisjpUtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, LisjpUtlatandeV1.class);
 
         // Blanked out values:
-        assertFalse(renewCopy.getKontaktMedFk());
+        assertNotEquals(Boolean.TRUE, renewCopy.getKontaktMedFk());
         assertEquals(0, renewCopy.getSjukskrivningar().size());
         assertNull(renewCopy.getAnledningTillKontakt());
         assertNull(renewCopy.getUndersokningAvPatienten());
@@ -101,9 +109,9 @@ public class LisjpModuleApiRenewalTest {
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
         // Relation
-        assertEquals(original.getSjukskrivningar().get(0).getPeriod().getTom().asLocalDate(),
+        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getPeriod()).getTom().asLocalDate(),
             renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(original.getSjukskrivningar().get(0).getSjukskrivningsgrad().getLabel(),
+        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getSjukskrivningsgrad()).getLabel(),
             renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 

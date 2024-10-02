@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
+import jakarta.xml.bind.JAXB;
 import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import javax.xml.bind.JAXB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

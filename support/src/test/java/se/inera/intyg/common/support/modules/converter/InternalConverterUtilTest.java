@@ -28,11 +28,11 @@ import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_COD
 import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_USER_CODE;
 import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_USER_NAME;
 
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

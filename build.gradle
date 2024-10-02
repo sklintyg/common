@@ -1,53 +1,56 @@
-import se.inera.intyg.IntygPluginKt
-
-import java.nio.file.Files
-import java.nio.file.Paths
-
 plugins {
-    id "se.inera.intyg.plugin.common" version "3.3.3" apply false
-    id "io.spring.dependency-management" version "1.1.3" apply false
+    id "com.netflix.nebula.node" version "3.0.0" apply false
+    id "io.spring.dependency-management" version "1.1.6" apply false
     id 'test-report-aggregation'
+    id 'org.sonarqube' version '4.4.1.3373'
+    id "org.owasp.dependencycheck" version "10.0.4"
+    id 'jacoco'
 }
 
 ext {
-    intygClinicalprocessSchemasVersion = "1.0.24.1"
-    intygClinicalprocessSchematronVersion = "1.0.57.1"
-    intygTransportstyrelsenSchemasVersion = "1.0.5.1"
-    rivtaClinicalprocessSchemasVersion = "4.0.5.2"
-    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.1"
-    schemasContractVersion = "2.1.8.1"
+    intygClinicalprocessSchemasVersion = "1.0.24.2"
+    intygClinicalprocessSchematronVersion = "1.0.57.2"
+    intygTransportstyrelsenSchemasVersion = "1.0.5.2"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.3"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.2"
+    schemasContractVersion = "2.1.8.2"
 
     autovalueVersion = "1.10.4"
-    cxfVersion = "3.6.2"
+    cxfVersion = "4.0.5"
     commonsCollectionsVersion = "4.4"
     commonsTextVersion = "1.10.0"
     commonsCsvVersion = "1.10.0"
     commonsIoVersion = "2.14.0"
     equalsVerifierVersion = "3.15.2"
     guavaVersion = "32.1.3-jre"
-    itextVersion = "5.5.13.3"
-    itext7Version = "7.2.5"
-    itextPdfHtmlVersion = "4.0.5"
-    jakartaJwsApiVersion = "2.1.0" // version 3.0.0 -> warning: "class file for javax.jws.soap.SOAPBinding$ParameterStyle not found"
-    jaxb2Version = "0.13.1"
-    phSchematronVersion = "5.6.5"
+    itextVersion = "5.5.13.4"
+    itext7Version = "7.2.6"
+    itextPdfHtmlVersion = "5.0.5"
+    jakartaJwsApiVersion = "3.0.0"
+    jaxb2Version = "3.0.0"
+    nashornVersion = "15.4"
+    phSchematronVersion = "7.1.2"
     saxonVersion = "12.3"
     spotbugsAnnotationVersion = "4.8.0"
 
-    springbootMavenBomVersion = "2.7.17"
+    springbootMavenBomVersion = "3.3.4"
+
+    nvdMirror = 'https://vulnz-nvd-mirror-devtest.intyg.nordicmedtest.se'
 }
 
 allprojects {
-    apply plugin: 'se.inera.intyg.plugin.common'
     apply plugin: "io.spring.dependency-management"
     apply plugin: 'maven-publish'
     apply plugin: 'java-library'
     apply plugin: 'idea'
+    apply plugin: 'jacoco'
+    apply plugin: 'org.sonarqube'
+    apply plugin: 'org.owasp.dependencycheck'
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '3.21.0-SNAPSHOT'
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    version = System.properties['buildVersion'] ?: '4.0.0-SNAPSHOT'
+    sourceCompatibility = 21
+    targetCompatibility = 21
 
     dependencyManagement {
         imports {
@@ -61,6 +64,7 @@ allprojects {
         implementation "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api"
 
+        testImplementation "com.sun.xml.messaging.saaj:saaj-impl"
         testImplementation "junit:junit"
         testImplementation "org.assertj:assertj-core"
         testImplementation "org.glassfish.jaxb:jaxb-runtime"
@@ -86,28 +90,8 @@ allprojects {
         dependsOn(publishToMavenLocal)
     }
 
-    tasks.register('createVersionPropertyFile', VersionPropertyFileTask)
-
-    if (project.hasProperty('codeQuality')) {
-        tasks.register('spotbugsIncludesAndExcludes') {
-            dependsOn ":unzipBuildTools"
-            def spotbugsToolDir = "${rootProject.layout.buildDirectory.get().asFile}/build-tools/spotbugs"
-            spotbugsMain {
-                includeFilter.set(file("${spotbugsToolDir}/spotbugsIncludeFilter.xml"))
-                excludeFilter.set(file("${spotbugsToolDir}/spotbugsExcludeFilter.xml"))
-            }
-        }
-
-        checkstyleMain.dependsOn createVersionPropertyFile
-        jacocoTestReport.mustRunAfter createVersionPropertyFile
-        spotbugsMain.dependsOn('spotbugsIncludesAndExcludes')
-        spotbugsTest.enabled(false)
-        dependencies { spotbugsSlf4j "org.slf4j:slf4j-simple" }
-    }
-
     artifacts.archives packageTests
     compileJava.options.encoding = 'UTF-8'
-    compileTestJava.dependsOn createVersionPropertyFile
     jar { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
     test { useJUnitPlatform() }
 
@@ -147,32 +131,73 @@ allprojects {
         implementation.exclude group: "org.bouncycastle", module: "bcpkix-jdk15on"
         implementation.exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
     }
+
+    jacocoTestReport {
+        dependsOn test
+
+        reports {
+            xml.required = true
+            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+
+        afterEvaluate {
+            classDirectories.setFrom(files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: [
+                        "**/testability/**",
+                        "**/integrationtest/**"
+                ])
+            }))
+        }
+    }
 }
 
 subprojects.collect {subproject -> subproject.name }.each { subprojectName ->
     dependencies { testReportAggregation project(":${subprojectName}") }
 }
 
-tasks.register('tagRelease', TagReleaseTask)
-
-tasks.register('unzipBuildTools', Copy) {
-    into "${rootProject.layout.buildDirectory.get().asFile}/build-tools/"
-    from { zipTree(rootProject.buildscript.configurations.classpath.find { it.name.contains("se.inera.intyg.plugin.common") }) }
-}
-
-tasks.register('applyGitHooks') {
-    dependsOn unzipBuildTools
-    doLast {
-        def repository = IntygPluginKt.findGitRepository(project.rootProject.projectDir)
-        def gitHooksDir = "${rootProject.layout.buildDirectory.get().asFile}/build-tools/git_hooks"
-        def commitMsg = file("${gitHooksDir}/commit-msg")
-        def preCommit = file("${gitHooksDir}/pre-commit")
-        def toDir = Paths.get(repository.directory.path, "hooks")
-
-        if (!Files.exists(toDir)) { Files.createDirectory(toDir) }
-        IntygPluginKt.copyFile(commitMsg, toDir)
-        IntygPluginKt.copyFile(preCommit, toDir)
+sonar {
+    properties {
+        property "sonar.projectKey", "intyg-common"
+        property "sonar.projectName", "intyg-common"
+        property "sonar.dependencyCheck.htmlReportPath", layout.buildDirectory.file("reports/dependency-check-report.html")
+        property "sonar.dependencyCheck.htmlReportPath", layout.buildDirectory.file("reports/dependency-check-report.json")
     }
 }
 
-createVersionPropertyFile.dependsOn(applyGitHooks)
+dependencyCheck {
+    formats = List.of("HTML", "JSON")
+    nvd {
+        datafeedUrl = "${nvdMirror}"
+    }
+}
+
+reporting {
+    dependencies {
+        testReportAggregation project(':logging-util')
+        testReportAggregation project(':common-support')
+        testReportAggregation project(':common-web')
+        testReportAggregation project(':integration-util')
+        testReportAggregation project(':common-schemas')
+        testReportAggregation project(':common-services')
+        testReportAggregation project(':common-pdf')
+        testReportAggregation project(':fk-parent')
+        testReportAggregation project(':luse')
+        testReportAggregation project(':lisjp')
+        testReportAggregation project(':luae_na')
+        testReportAggregation project(':luae_fs')
+        testReportAggregation project(':af-parent')
+        testReportAggregation project(':af00213')
+        testReportAggregation project(':af00251')
+        testReportAggregation project(':ts-parent')
+        testReportAggregation project(':ts-bas')
+        testReportAggregation project(':ts-diabetes')
+        testReportAggregation project(':tstrk1062')
+        testReportAggregation project(':tstrk1009')
+        testReportAggregation project(':sos_parent')
+        testReportAggregation project(':db')
+        testReportAggregation project(':doi')
+        testReportAggregation project(':ag-parent')
+        testReportAggregation project(':ag114')
+        testReportAggregation project(':ag7804')
+    }
+}

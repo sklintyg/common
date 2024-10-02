@@ -40,13 +40,13 @@ import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.RESS
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.SJUKDOMSFORLOPP_SVAR_10002;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.SYSSELSATTNING_SVAR_28;
 
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
@@ -71,8 +71,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public class UtlatandeToIntygTest {
 
-    private final String PNR_TOLVAN = "19121212-1212";
-    private final String PNR_TOLVAN_EXPECTED = "191212121212";
+    private static final String PNR_TOLVAN = "19121212-1212";
+    private static final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
     public void testConvert() throws Exception {

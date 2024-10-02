@@ -21,12 +21,12 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 import static org.junit.Assert.assertFalse;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -52,33 +52,36 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
+@SuppressWarnings("checkstyle:EmptyCatchBlock")
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class RoundTripTest {
 
-    private Scenario scenario;
+    private final Scenario scenario;
 
-    private CustomObjectMapper objectMapper = new CustomObjectMapper();
-    private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
+    private final CustomObjectMapper objectMapper = new CustomObjectMapper();
+    private final ObjectFactory objectFactory = new ObjectFactory();
+    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
         new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory =
+    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory =
         new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
-    private static Marshaller marshaller;
-    private static XslTransformer transformer;
+    private static final Marshaller marshaller;
+    private static final XslTransformer transformer;
 
     static {
         try {
-            marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class,
-                    DatePeriodType.class, PartialDateType.class,
+            marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class, DatePeriodType.class,
+                    PartialDateType.class,
                     se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
                 .createMarshaller();
             transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
+
         } catch (JAXBException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private String name;
+        private final String name;
 
     public RoundTripTest(String name, Scenario scenario) throws Exception {
         new TestContextManager(getClass()).prepareTestInstance(this);

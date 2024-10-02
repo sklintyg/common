@@ -20,9 +20,9 @@ package se.inera.intyg.common.tstrk1009.v1.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.bind.JAXB;
 import java.io.IOException;
 import java.io.StringWriter;
-import javax.xml.bind.JAXB;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;

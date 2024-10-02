@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.ag114.v1.utils;
 
+import jakarta.xml.bind.JAXBElement;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
 import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;

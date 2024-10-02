@@ -23,10 +23,10 @@ import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValida
 import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
 
 import iso.v21090.dt.v1.II;
+import jakarta.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import javax.xml.bind.JAXB;
 import org.junit.Test;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;

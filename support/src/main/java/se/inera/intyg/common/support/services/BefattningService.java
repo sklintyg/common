@@ -22,14 +22,15 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.io.Closeables;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import jakarta.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import org.apache.commons.csv.CSVFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,7 @@ public class BefattningService {
     @PostConstruct
     @SuppressFBWarnings
     void initialize() throws IOException {
-        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
+        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
         try {
             final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 

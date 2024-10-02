@@ -14,7 +14,7 @@ dependencies {
   implementation "commons-io:commons-io:${commonsIoVersion}"
   implementation "jakarta.ws.rs:jakarta.ws.rs-api"
   implementation "org.apache.commons:commons-lang3"
-  implementation "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+  implementation "codes.rafael.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
   implementation "org.springframework:spring-beans"
   implementation "org.springframework:spring-context"
   implementation "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
@@ -27,7 +27,7 @@ dependencies {
   annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
   testImplementation testFixtures(project(":common-support"))
-  testImplementation ("com.helger:ph-schematron:${phSchematronVersion}") { exclude group: "com.helger", module: "ph-jaxb-pom" }
+  testImplementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
   testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
   testImplementation "org.springframework:spring-oxm"
 }

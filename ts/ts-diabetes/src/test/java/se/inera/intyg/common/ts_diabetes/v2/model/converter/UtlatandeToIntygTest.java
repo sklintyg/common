@@ -23,8 +23,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
-import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -42,8 +42,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 
-    private final String PNR_TOLVAN = "19121212-1212";
-    private final String PNR_TOLVAN_EXPECTED = "191212121212";
+    private static final String PNR_TOLVAN = "19121212-1212";
+    private static final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
     public void testConvert() throws Exception {

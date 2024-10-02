@@ -50,7 +50,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
-    private final String PNR_TOLVAN = "191212121212";
+    private static final String PNR_TOLVAN = "191212121212";
 
     @Mock
     private WebcertModuleService webcertModuleService;

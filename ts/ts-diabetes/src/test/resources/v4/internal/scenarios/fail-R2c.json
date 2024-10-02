@@ -48,7 +48,7 @@
   },
   "allmant":{
     "patientenFoljsAv": "VN1",
-    "diabetesDiagnosAr":"21002",
+    "diabetesDiagnosAr":"2100T",
     "typAvDiabetes":"TYP1",
     "medicineringForDiabetes":false
   },

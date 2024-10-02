@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.ts_bas.v7.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,26 +37,25 @@ import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CE
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.Objects;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -81,18 +80,15 @@ import se.inera.intyg.common.ts_bas.v7.model.converter.InternalToCertificate;
 import se.inera.intyg.common.ts_bas.v7.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v7.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
-import se.inera.intyg.common.ts_bas.v7.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
@@ -101,29 +97,22 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
- * response headers and response statuses etc are correct.
+ * response headers and response statuses etc. are correct.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = {BefattningService.class})
-public class TsBasModuleApiTest {
+class TsBasModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_7_0 = "7.0";
-    @InjectMocks
-    @Spy
-    private final TsBasModuleApiV7 moduleApi = new TsBasModuleApiV7();
 
     @Spy
     private final ObjectMapper objectMapper = new CustomObjectMapper();
-
     @Spy
     private final WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
-
     @Mock
     private IntygTextsService intygTexts;
-
     @Mock
     private SendTSClient sendTsBasClient;
-
     @Mock
     private RevokeCertificateResponderInterface revokeCertificateClient;
     @Mock
@@ -131,55 +120,45 @@ public class TsBasModuleApiTest {
     @Mock
     private CertificateToInternal certificateToInternal;
     @Mock
-    CertificateTextProvider certificateTextProvider;
-    @Mock
     private SummaryConverter summaryConverter;
 
+    @InjectMocks
+    private final TsBasModuleApiV7 moduleApi = new TsBasModuleApiV7();
 
-    public TsBasModuleApiTest() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Before
-    public void setup() throws Exception {
-        // Init the default beahviour
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
-
-        // use reflection to set IntygTextsService mock in webcertModelFactory
-        Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
-        field.setAccessible(true);
-        field.set(webcertModelFactory, intygTexts);
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+        ReflectionTestUtils.setField(moduleApi, "registerCertificateVersion", REGISTER_CERTIFICATE_VERSION1);
+        ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTexts);
     }
 
     @Test
-    public void copyContainsOriginalData() throws Exception {
-        Scenario scenario = ScenarioFinder.getInternalScenario("valid-maximal");
-        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
+    void copyContainsOriginalData() throws Exception {
+        final var scenario = ScenarioFinder.getInternalScenario("valid-maximal");
+        final var holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
 
         assertNotNull(holder);
-        TsBasUtlatandeV7 utlatande = objectMapper.readValue(holder, TsBasUtlatandeV7.class);
-        assertEquals(true, utlatande.getSyn().getSynfaltsdefekter());
+        final var utlatande = objectMapper.readValue(holder, TsBasUtlatandeV7.class);
+        assertEquals(true, Objects.requireNonNull(utlatande.getSyn()).getSynfaltsdefekter());
     }
 
     @Test
-    public void createNewInternal() throws ModuleException {
-        CreateNewDraftHolder holder = createNewDraftHolder();
-        String response = moduleApi.createNewInternal(holder);
+    void createNewInternal() throws ModuleException {
+        final var holder = createNewDraftHolder();
+        final var response = moduleApi.createNewInternal(holder);
         assertNotNull(response);
     }
 
     @Test
-    public void testSendCertificateToRecipient() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-
-        SOAPMessage response = mock(SOAPMessage.class);
+    void testSendCertificateToRecipient() throws Exception {
+        final var xmlBody = "xmlBody";
+        final var logicalAddress = "logicalAddress";
+        final var recipientId = "recipient";
+        final var response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
-
         when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
 
         moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
@@ -187,76 +166,74 @@ public class TsBasModuleApiTest {
         verify(sendTsBasClient).registerCertificate(xmlBody, logicalAddress);
     }
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientFault() throws Exception {
-        final String xmlBody = "xmlBody";
-        final String logicalAddress = "logicalAddress";
-        final String recipientId = "recipient";
-
-        SOAPMessage response = mock(SOAPMessage.class);
+    @Test
+    void testSendCertificateToRecipientFault() throws SOAPException {
+        final var xmlBody = "xmlBody";
+        final var logicalAddress = "logicalAddress";
+        final var recipientId = "recipient";
+        final var response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsBasClient.registerCertificate(xmlBody, logicalAddress)).thenReturn(response);
-
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        assertThrows(ModuleException.class, () ->
+            moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId)
+        );
     }
 
     @Test
-    public void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
-        final String xml = getResourceAsString(new ClassPathResource("v7/scenarios/rivtav3/valid-minimal.xml"));
-
-        TsBasUtlatandeV7 res = moduleApi.getUtlatandeFromXml(xml);
+    void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
+        final var xml = getResourceAsString(new ClassPathResource("v7/scenarios/rivtav3/valid-minimal.xml"));
+        final var res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
 
     @Test
-    public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-
-        String result = moduleApi.getAdditionalInfo(intyg);
+    void getAdditionalInfoFromUtlatandeTest() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var intyg = UtlatandeToIntyg.convert(utlatande);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("C1, C1E, C, CE, D1, D1E, D, DE, Taxi, Annat", result);
     }
 
     @Test
-    public void getAdditionalInfoOneResultTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoOneResultTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV6", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("D1E", result);
     }
 
     @Test
-    public void getAdditionalInfoMultipleResultsTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoMultipleResultsTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV1", null));
         s.getDelsvar().add(delsvar);
-        Svar s2 = new Svar();
+        final var s2 = new Svar();
         s2.setId("1");
-        Delsvar delsvar2 = new Delsvar();
+        final var delsvar2 = new Delsvar();
         delsvar2.setId("1.1");
         delsvar2.getContent().add(aCV(null, "IAV3", null));
         s2.getDelsvar().add(delsvar2);
-        Svar s3 = new Svar();
+        final var s3 = new Svar();
         s3.setId("1");
-        Delsvar delsvar3 = new Delsvar();
+        final var delsvar3 = new Delsvar();
         delsvar3.setId("1.1");
         delsvar3.getContent().add(aCV(null, "IAV9", null));
         s3.getDelsvar().add(delsvar3);
@@ -264,84 +241,82 @@ public class TsBasModuleApiTest {
         intyg.getSvar().add(s2);
         intyg.getSvar().add(s3);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertEquals("C1, C, Taxi", result);
     }
 
     @Test
-    public void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("2"); // wrong svarId
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV6", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
     }
 
     @Test
-    public void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
-        Intyg intyg = new Intyg();
+    void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
+        final var intyg = new Intyg();
         intyg.setIntygsId(new IntygId());
         intyg.getIntygsId().setExtension("intygId");
-        Svar s = new Svar();
+        final var s = new Svar();
         s.setId("1");
-        Delsvar delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.3"); // wrong delsvarId
         delsvar.getContent().add(aCV(null, "IAV6", null));
         s.getDelsvar().add(delsvar);
         intyg.getSvar().add(s);
 
-        String result = moduleApi.getAdditionalInfo(intyg);
+        final var result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
     }
 
     @Test
-    public void testUpdateBeforeViewing() throws Exception {
-        Patient updatedPatient = new Patient();
+    void testUpdateBeforeViewing() throws Exception {
+        final var updatedPatient = new Patient();
         updatedPatient.setEfternamn("updated lastName");
         updatedPatient.setMellannamn("updated middle-name");
         updatedPatient.setFornamn("updated firstName");
         updatedPatient.setFullstandigtNamn("updated full name");
-        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
 
-        final String validMinimalJson = getResourceAsString(new ClassPathResource("v7/scenarios/internal/valid-minimal.json"));
+        final var validMinimalJson = getResourceAsString(new ClassPathResource("v7/scenarios/internal/valid-minimal.json"));
         when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV7.class)).thenReturn(
             ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
-        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
 
     @Test
-    public void testRevokeCertificateResponseOK() throws Exception {
-        final TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
-        final HoSPersonal skapatAv = createHosPersonal();
-        final String meddelande = "Revoke message";
+    void testRevokeCertificateResponseOK() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var skapatAv = createHosPersonal();
+        final var meddelande = "Revoke message";
 
-        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
-
-        ResultType result = mock(ResultType.class);
+        final var xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+        final var result = mock(ResultType.class);
         doReturn(ResultCodeType.OK).when(result).getResultCode();
 
-        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
+        final var response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
-
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
             any(RevokeCertificateType.class));
 
-        final String logicalAddress = "Logical address";
+        final var logicalAddress = "Logical address";
         moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
         verify(revokeCertificateClient, times(1)).revokeCertificate(anyString(),
@@ -349,25 +324,21 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testRevokeCertificateResponseINFO() throws Exception {
-        final TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
-        final HoSPersonal skapatAv = createHosPersonal();
-        final String meddelande = "Revoke message";
-
-        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
-
-        ResultType result = mock(ResultType.class);
+    void testRevokeCertificateResponseINFO() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var skapatAv = createHosPersonal();
+        final var meddelande = "Revoke message";
+        final var xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+        final var result = mock(ResultType.class);
         doReturn(ResultCodeType.INFO).when(result).getResultCode();
 
-        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
+        final var response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
-
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
             any(RevokeCertificateType.class));
 
-        final String logicalAddress = "Logical address";
-
-        final String expectedMessage = "Could not send revoke to " + logicalAddress;
+        final var logicalAddress = "Logical address";
+        final var expectedMessage = "Could not send revoke to " + logicalAddress;
         try {
             moduleApi.revokeCertificate(xmlBody, logicalAddress);
             fail();
@@ -380,26 +351,21 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testRevokeCertificateResponseERROR() throws Exception {
-        final TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
-        final HoSPersonal skapatAv = createHosPersonal();
-        final String meddelande = "Revoke message";
-
-        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
-
-        ResultType result = mock(ResultType.class);
+    void testRevokeCertificateResponseERROR() throws Exception {
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var skapatAv = createHosPersonal();
+        final var meddelande = "Revoke message";
+        final var xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+        final var result = mock(ResultType.class);
         doReturn(ResultCodeType.ERROR).when(result).getResultCode();
-        doReturn(ErrorIdType.APPLICATION_ERROR).when(result).getErrorId();
 
-        RevokeCertificateResponseType response = mock(RevokeCertificateResponseType.class);
+        final var response = mock(RevokeCertificateResponseType.class);
         doReturn(result).when(response).getResult();
-
         doReturn(response).when(revokeCertificateClient).revokeCertificate(anyString(),
             any(RevokeCertificateType.class));
 
-        final String logicalAddress = "Logical address";
-
-        final String expectedMessage = "Could not send revoke to " + logicalAddress;
+        final var logicalAddress = "Logical address";
+        final var expectedMessage = "Could not send revoke to " + logicalAddress;
         try {
             moduleApi.revokeCertificate(xmlBody, logicalAddress);
             fail();
@@ -412,7 +378,7 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void shallConvertInternalToCertificate() throws Exception {
+    void shallConvertInternalToCertificate() throws Exception {
         final var expectedCertificate = CertificateBuilder.create()
             .metadata(
                 CertificateMetadata.builder()
@@ -435,7 +401,7 @@ public class TsBasModuleApiTest {
             .build();
 
         doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV7.class));
+            .when(objectMapper).readValue(certificateAsJson, TsBasUtlatandeV7.class);
 
         doReturn(convertedCertificate)
             .when(internalToCertificate).convert(eq(internalCertificate), any(CertificateTextProvider.class));
@@ -448,7 +414,7 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void shallConvertCertificateToInternal() throws Exception {
+    void shallConvertCertificateToInternal() throws Exception {
         final var expectedJson = "expectedJson";
         final var certificate = CertificateBuilder.create().build();
         final var certificateAsJson = "certificateAsJson";
@@ -460,7 +426,7 @@ public class TsBasModuleApiTest {
             .build();
 
         doReturn(internalCertificate)
-            .when(objectMapper).readValue(eq(certificateAsJson), eq(TsBasUtlatandeV7.class));
+            .when(objectMapper).readValue(certificateAsJson, TsBasUtlatandeV7.class);
 
         doReturn(expectedJson)
             .when(objectMapper).writeValueAsString(internalCertificate);
@@ -473,23 +439,23 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+    void getCertficateMessagesProviderGetExistingKey() {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-        assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+        assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
     }
 
     @Test
-    public void getCertficateMessagesProviderGetMissingKey() throws ModuleException {
+    void getCertficateMessagesProviderGetMissingKey() {
         final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
         assertNull(certificateMessagesProvider.get("not.existing"));
     }
 
     @Test
-    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+    void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
         throws ModuleException, ScenarioNotFoundException {
-        final TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final var utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         final var expectedJsonString = toJsonString(utlatande);
         final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
 
@@ -497,7 +463,7 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+    void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
         assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
     }
 
@@ -510,11 +476,11 @@ public class TsBasModuleApiTest {
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {
-        HoSPersonal hosPersonal = createHosPersonal();
-        Patient patient = new Patient();
+        final var hosPersonal = createHosPersonal();
+        final var patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_7_0, hosPersonal, patient);
     }
 
@@ -523,7 +489,7 @@ public class TsBasModuleApiTest {
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
+        final var hosPerson = new HoSPersonal();
         hosPerson.setPersonId("hsaId1");
         hosPerson.setFullstandigtNamn("Doktor A");
         hosPerson.setVardenhet(createVardenhet());
@@ -531,7 +497,7 @@ public class TsBasModuleApiTest {
     }
 
     private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
+        final var vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId");
         vardenhet.setEnhetsnamn("ve1");
         vardenhet.setVardgivare(new Vardgivare());
@@ -542,16 +508,6 @@ public class TsBasModuleApiTest {
 
     private String getResourceAsString(ClassPathResource cpr) throws IOException {
         return Resources.toString(cpr.getURL(), Charsets.UTF_8);
-    }
-
-    private void setRegisterCertificateVersion(String version) {
-        ReflectionTestUtils.setField(moduleApi, "registerCertificateVersion", version);
-    }
-
-    private String xmlToString(RegisterCertificateType registerCertificateType) {
-        StringWriter stringWriter = new StringWriter();
-        JAXB.marshal(registerCertificateType, stringWriter);
-        return stringWriter.toString();
     }
 
     private static GrundData getGrundData() {

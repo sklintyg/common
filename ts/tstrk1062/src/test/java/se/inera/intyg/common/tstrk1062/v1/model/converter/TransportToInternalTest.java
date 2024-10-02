@@ -24,10 +24,10 @@ import static junit.framework.TestCase.assertNull;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.bind.JAXB;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
-import javax.xml.bind.JAXB;
 import org.junit.Test;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;

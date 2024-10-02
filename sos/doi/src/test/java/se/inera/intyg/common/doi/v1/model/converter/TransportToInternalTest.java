@@ -24,10 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import jakarta.xml.bind.JAXB;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import javax.xml.bind.JAXB;
 import org.junit.Test;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
