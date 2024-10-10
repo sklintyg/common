@@ -44,8 +44,6 @@ allprojects {
     apply plugin: 'java-library'
     apply plugin: 'idea'
     apply plugin: 'jacoco'
-    apply plugin: 'org.sonarqube'
-    apply plugin: 'org.owasp.dependencycheck'
 
     group = 'se.inera.intyg.common'
     version = System.properties['buildVersion'] ?: '4.0.0-SNAPSHOT'
