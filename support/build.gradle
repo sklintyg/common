@@ -2,7 +2,6 @@ apply plugin: "java-test-fixtures"
 
 components.java.withVariantsFromConfiguration(configurations.testFixturesApiElements) { skip() }
 components.java.withVariantsFromConfiguration(configurations.testFixturesRuntimeElements) { skip() }
-if (project.hasProperty("codeQuality")) { spotbugsTestFixtures.enabled(false) }
 
 dependencies {
   implementation project(':logging-util')
