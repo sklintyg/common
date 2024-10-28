@@ -31,8 +31,16 @@ public final class PatientToolkit {
         return LocalDate.of(
             Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
             Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
-            Integer.parseInt(personId.getOriginalPnr().substring(6, 8))
+            getDayOfMonth(personId)
         );
+    }
+
+    private static int getDayOfMonth(Personnummer personId) {
+        final var dayOfMonth = Integer.parseInt(personId.getOriginalPnr().substring(6, 8));
+        if (dayOfMonth > 60) {
+            return dayOfMonth - 60;
+        }
+        return dayOfMonth;
     }
 
     public static Integer birthYear(Personnummer personId) {
