@@ -22,22 +22,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
-import se.inera.intyg.common.support.facade.model.metadata.CertificateConfirmationModal.CertificateConfirmationModalBuilder;
+import se.inera.intyg.common.support.facade.model.metadata.Alert.AlertBuilder;
 
-@JsonDeserialize(builder = CertificateConfirmationModalBuilder.class)
+@JsonDeserialize(builder = AlertBuilder.class)
 @Value
 @Builder
-public class CertificateConfirmationModal {
+public class Alert {
 
-    String title;
+    AlertType type;
     String text;
-    Alert alert;
-    String checkboxText;
-    CertificateModalActionType primaryAction;
-    CertificateModalActionType secondaryAction;
+
 
     @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateConfirmationModalBuilder {
+    public static class AlertBuilder {
 
     }
 }
