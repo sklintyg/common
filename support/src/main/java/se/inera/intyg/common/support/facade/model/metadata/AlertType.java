@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model.metadata;
 
 public enum AlertType {
-    INFO, WARNING, ERROR
+    INFO, OBSERVE, ERROR
 }
