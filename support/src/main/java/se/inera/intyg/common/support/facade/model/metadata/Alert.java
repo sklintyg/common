@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 import se.inera.intyg.common.support.facade.model.metadata.Alert.AlertBuilder;
 
 @JsonDeserialize(builder = AlertBuilder.class)
@@ -29,7 +30,7 @@ import se.inera.intyg.common.support.facade.model.metadata.Alert.AlertBuilder;
 @Builder
 public class Alert {
 
-    AlertType type;
+    MessageLevel type;
     String text;
 
 

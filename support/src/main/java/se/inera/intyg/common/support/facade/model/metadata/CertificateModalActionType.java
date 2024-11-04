@@ -20,5 +20,5 @@
 package se.inera.intyg.common.support.facade.model.metadata;
 
 public enum CertificateModalActionType {
-    DELETE, READ, CANCEL
+    DELETE, READ, CANCEL, SIGN
 }
