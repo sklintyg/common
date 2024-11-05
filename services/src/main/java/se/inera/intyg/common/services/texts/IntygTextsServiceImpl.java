@@ -19,27 +19,25 @@
 package se.inera.intyg.common.services.texts;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 @Component
 public class IntygTextsServiceImpl implements IntygTextsService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IntygTextsService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IntygTextsServiceImpl.class);
 
     @Autowired
     private IntygTextsRepository repo;
 
     @Autowired
-    @Qualifier("customObjectMapper")
-    private CustomObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @Override
     public boolean isVersionSupported(final String intygsTyp, final String stringVersion) {
