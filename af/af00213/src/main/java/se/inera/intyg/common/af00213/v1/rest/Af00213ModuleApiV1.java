@@ -63,11 +63,12 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.af00213.v1")
 public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
+    @Autowired(required = false)
+    private SummaryConverter summaryConverter;
+
     private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
     public static final String SCHEMATRON_FILE = "af00213.v1.sch";
     private Map<String, String> validationMessages;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
 
     @Value("${pdf.footer.app.name.text:1177 intyg}")
     private String pdfFooterAppName;
@@ -110,7 +111,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) {
         return null;
     }
 
@@ -130,7 +131,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     }
 
     @Override
-    protected Intyg utlatandeToIntyg(Af00213UtlatandeV1 utlatande) throws ConverterException {
+    protected Intyg utlatandeToIntyg(Af00213UtlatandeV1 utlatande) {
         return UtlatandeToIntyg.convert(utlatande);
     }
 
@@ -140,7 +141,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     }
 
     @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    public String getAdditionalInfo(Intyg intyg) {
         return null;
     }
 

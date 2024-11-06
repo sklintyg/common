@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import javax.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBElement;
 import javax.xml.transform.dom.DOMResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

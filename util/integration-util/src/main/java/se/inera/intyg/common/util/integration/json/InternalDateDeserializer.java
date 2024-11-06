@@ -65,7 +65,7 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
                 return InternalDateAdapter.parseInternalDate(str);
             default:
-                throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
+                throw ctxt.wrongTokenException(jp, InternalDate.class, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
         }
     }
 }

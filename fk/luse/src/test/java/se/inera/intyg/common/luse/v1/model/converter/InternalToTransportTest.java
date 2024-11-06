@@ -25,9 +25,9 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBElement;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

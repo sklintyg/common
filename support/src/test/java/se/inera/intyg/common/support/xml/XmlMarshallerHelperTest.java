@@ -20,8 +20,8 @@ package se.inera.intyg.common.support.xml;
 
 import static org.junit.Assert.assertEquals;
 
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
-import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;

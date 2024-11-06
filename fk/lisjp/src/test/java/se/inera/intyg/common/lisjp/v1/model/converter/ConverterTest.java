@@ -26,18 +26,22 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import jakarta.xml.bind.JAXB;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
+import java.io.ByteArrayInputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.Before;
 import org.junit.Test;
@@ -126,9 +130,9 @@ public class ConverterTest {
     private String getErrorString(SchematronOutputType result) {
         StringBuilder errorMsg = new StringBuilder();
         SVRLHelper.getAllFailedAssertions(result).stream()
-            .map(e -> e.getText())
+            .map(AbstractSVRLMessage::getText)
             .collect(Collectors.toList())
-            .forEach(e -> errorMsg.append(e));
+            .forEach(errorMsg::append);
         return errorMsg.toString();
     }
 
@@ -136,7 +140,7 @@ public class ConverterTest {
         return Thread.currentThread().getContextClassLoader().getResource(href);
     }
 
-    private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
+    private String getXmlFromModel(RegisterCertificateType transport) throws JAXBException {
         StringWriter sw = new StringWriter();
         JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
         ObjectFactory objectFactory = new ObjectFactory();

@@ -18,20 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.apache.cxf.helpers.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -45,28 +47,32 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 /**
  * Specifically tests the renewal of FK7263 where certain fields are nulled out.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class Fk7263ModuleApiRenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
 
     @Spy
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
-
+    private WebcertModelFactoryImpl webcertModelFactory;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @InjectMocks
     private Fk7263ModuleApi moduleApi;
 
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+    }
+
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
         // This modifies the template for some bizarre reason.
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
 
         // Create two instances to compare field by field.
-        Fk7263Utlatande original = getUtlatandeFromFile();
-        Fk7263Utlatande renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Fk7263Utlatande.class);
+        final var original = getUtlatandeFromFile();
+        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Fk7263Utlatande.class);
 
         assertNotNull(renewalFromTemplate);
 
@@ -129,14 +135,14 @@ public class Fk7263ModuleApiRenewalTest {
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
-        CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
+        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
             createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
+        final var hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId("hsaId");
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());
@@ -145,9 +151,8 @@ public class Fk7263ModuleApiRenewalTest {
     }
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
+        final var internalModelHolder = IOUtils.toString(new ClassPathResource(
             TESTFILE_UTLATANDE).getInputStream());
         return new CustomObjectMapper().readValue(internalModelHolder, Fk7263Utlatande.class);
     }
-
 }

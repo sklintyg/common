@@ -25,7 +25,7 @@ import com.itextpdf.layout.element.Paragraph;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.springframework.util.StringUtils;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 

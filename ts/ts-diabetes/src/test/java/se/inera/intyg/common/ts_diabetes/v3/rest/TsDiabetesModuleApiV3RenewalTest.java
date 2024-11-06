@@ -18,19 +18,20 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.rest;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import org.apache.cxf.helpers.IOUtils;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -44,7 +45,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 /**
  * Specifically tests the renewal of LISJP where certain fields are nulled out.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class TsDiabetesModuleApiV3RenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "v3/TsDiabetesV3ModelCompareUtil/utlatande.json";
@@ -58,36 +59,39 @@ public class TsDiabetesModuleApiV3RenewalTest {
     @InjectMocks
     private TsDiabetesModuleApiV3 moduleApi;
 
+    @BeforeEach
+    void init() {
+        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+    }
+
     @Test
-    public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-            TESTFILE_UTLATANDE).getInputStream());
-        TsDiabetesUtlatandeV3 original = getUtlatandeFromFile();
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+    void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
+        final var original = getUtlatandeFromFile();
+        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
 
         // Create two instances to compare field by field.
-        TsDiabetesUtlatandeV3 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, TsDiabetesUtlatandeV3.class);
+        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, TsDiabetesUtlatandeV3.class);
 
         // Blanked out values:
         assertNull(renewCopy.getSignature());
 
         // Retained values
         // TODO: only tests ovrigt for now
-        Assert.assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        Assert.assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+        assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
+        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
-        CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
+        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
             createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
 
     private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
+        final var hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId("hsaId");
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());
@@ -99,5 +103,4 @@ public class TsDiabetesModuleApiV3RenewalTest {
         return new CustomObjectMapper().readValue(new ClassPathResource(
             TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
     }
-
 }

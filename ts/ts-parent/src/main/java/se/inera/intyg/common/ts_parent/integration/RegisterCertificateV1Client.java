@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.ts_parent.integration;
 
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.ws.Dispatch;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.Dispatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateResponderService;

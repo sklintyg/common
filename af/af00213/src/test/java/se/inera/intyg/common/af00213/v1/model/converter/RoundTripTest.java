@@ -21,12 +21,12 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 import static org.junit.Assert.assertFalse;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import org.junit.Test;
 import org.junit.runner.RunWith;

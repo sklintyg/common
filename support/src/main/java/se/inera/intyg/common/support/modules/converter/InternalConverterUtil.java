@@ -32,6 +32,7 @@ import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import com.google.common.base.Strings;
+import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.Temporal;
@@ -40,7 +41,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import javax.xml.bind.JAXBElement;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;

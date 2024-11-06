@@ -23,7 +23,7 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULE
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
 import java.util.HashMap;
-import javax.xml.ws.WebServiceProvider;
+import jakarta.xml.ws.WebServiceProvider;
 import org.apache.cxf.annotations.SchemaValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,13 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+
+import jakarta.xml.ws.WebServiceProvider;
+import java.util.HashMap;
+
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
 @SchemaValidation
 @WebServiceProvider(targetNamespace = "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3")

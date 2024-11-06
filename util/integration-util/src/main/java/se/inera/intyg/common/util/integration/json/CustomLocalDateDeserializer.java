@@ -104,6 +104,6 @@ public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
             default:
         }
 
-        throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
+        throw ctxt.wrongTokenException(jp, LocalDate.class, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
     }
 }

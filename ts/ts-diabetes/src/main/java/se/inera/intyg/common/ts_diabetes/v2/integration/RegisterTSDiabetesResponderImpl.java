@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
+import jakarta.annotation.PostConstruct;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

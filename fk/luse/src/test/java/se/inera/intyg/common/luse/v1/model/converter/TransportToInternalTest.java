@@ -26,12 +26,12 @@ import static org.mockito.Mockito.when;
 
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.JAXBException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.Before;
 import org.junit.Test;

@@ -24,7 +24,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.helger.collection.pair.Pair;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,6 +32,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
@@ -96,14 +96,14 @@ public class TSBasTransportToV3TransformerTest {
         for (String xmlFile : testFiles) {
             System.out.println("xmlFile = " + xmlFile);
             String xmlContents = Resources.toString(getResource("v6/scenarios/transport/" + xmlFile), Charsets.UTF_8);
-            List intygstjansterResult = validate(intygstjansterSchema, xmlContents);
+            final var intygstjansterResult = validate(intygstjansterSchema, xmlContents);
             if (!intygstjansterResult.isEmpty()) {
                 fail(xmlFile + " failed to validate against transport schema with errors " + intygstjansterResult.toString());
             }
 
             String result = transformer.transform(xmlContents);
 
-            List v3Results = validate(v3Schema, result);
+            final var v3Results = validate(v3Schema, result);
             if (!v3Results.isEmpty()) {
                 System.err.println(result);
                 fail(xmlFile + " failed to validate against schema v3 with errors " + v3Results.toString());
@@ -128,8 +128,8 @@ public class TSBasTransportToV3TransformerTest {
         StreamSource xmlSource = new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
 
         Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
-        Validator validator = validatorObject.getFirst();
-        ArrayList<SAXParseException> exceptions = validatorObject.getSecond();
+        Validator validator = validatorObject.getLeft();
+        ArrayList<SAXParseException> exceptions = validatorObject.getRight();
         try {
             validator.validate(xmlSource);
         } catch (Exception ex) {
@@ -142,7 +142,7 @@ public class TSBasTransportToV3TransformerTest {
     private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v3Schema) {
         Validator validator = v3Schema.newValidator();
         final ArrayList<SAXParseException> exceptions = new ArrayList<>();
-        Pair<Validator, ArrayList<SAXParseException>> ret = new Pair<>(validator, exceptions);
+        Pair<Validator, ArrayList<SAXParseException>> ret = Pair.of(validator, exceptions);
         validator.setErrorHandler(new ErrorHandler() {
             @Override
             public void warning(SAXParseException exception) {

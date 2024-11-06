@@ -25,6 +25,8 @@ import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHO
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import iso.v21090.dt.v1.CD;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -33,8 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,6 +22,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
 
 import com.google.common.base.Strings;
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.ws.Holder;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
@@ -34,8 +36,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import javax.xml.bind.JAXBElement;
-import javax.xml.ws.Holder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
@@ -88,7 +88,7 @@ public final class TransportConverterUtil {
      * @return if delsvar can be parsed as string content
      */
     public static boolean isStringContent(Delsvar delsvar) {
-        return delsvar.getContent().stream().allMatch(a -> a instanceof String);
+        return delsvar.getContent().stream().allMatch(String.class::isInstance);
     }
 
     /**

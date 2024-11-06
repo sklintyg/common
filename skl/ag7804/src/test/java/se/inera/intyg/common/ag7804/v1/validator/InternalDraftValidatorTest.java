@@ -47,6 +47,7 @@ import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -82,16 +83,16 @@ public class InternalDraftValidatorTest {
             .setId("intygsId")
             .setGrundData(buildGrundData(LocalDateTime.now()))
             .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
             .setOnskarFormedlaDiagnos(true)
             .setDiagnoser(buildDiagnoser("J22"))
             .setFunktionsnedsattning("funktionsnedsattning")
             .setAktivitetsbegransning("aktivitetsbegransning")
             .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null))
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
                 new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(7))))))
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
+                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
             .setArbetslivsinriktadeAtgarderBeskrivning("arbetslivsinriktadeAtgarderAktuelltBeskrivning")
             .setTextVersion("");
 
@@ -290,9 +291,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningTypMissing() throws Exception {
+    public void validateSysselsattningTypMissing()  {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(null)))
+            .setSysselsattning(List.of(Sysselsattning.create(null)))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -303,9 +304,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningNuvarandeArbete() throws Exception {
+    public void validateSysselsattningNuvarandeArbete() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
@@ -315,9 +316,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningNuvarandeArbeteBeskrivingMissing() throws Exception {
+    public void validateSysselsattningNuvarandeArbeteBeskrivingMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -329,9 +330,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningNuvarandeArbeteBeskrivingOnly() throws Exception {
+    public void validateSysselsattningNuvarandeArbeteBeskrivingOnly() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
@@ -343,7 +344,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSysselsattningTooMany() throws Exception {
+    public void validateSysselsattningTooMany() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
                 Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
@@ -356,7 +357,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        List<String> errorMessages = res.getValidationErrors().stream().map(it -> it.getMessage()).collect(Collectors.toList());
+        List<String> errorMessages = res.getValidationErrors().stream().map(ValidationMessage::getMessage).collect(Collectors.toList());
 
         assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.too-many"));
         assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.invalid_combination"));
@@ -376,7 +377,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateDiagnosisNotWantedButPresent() throws Exception {
+    public void validateDiagnosisNotWantedButPresent() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setOnskarFormedlaDiagnos(false)
             .build();
@@ -390,9 +391,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateDiagnosis() throws Exception {
+    public void validateDiagnosis() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(Arrays.asList(Diagnos.create(null, null, null, null)))
+            .setDiagnoser(List.of(Diagnos.create(null, null, null, null)))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -405,7 +406,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateFunktionsnedsattningMissing() throws Exception {
+    public void validateFunktionsnedsattningMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setFunktionsnedsattning(null)
             .build();
@@ -431,7 +432,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAktivitetsbegransningMissing() throws Exception {
+    public void validateAktivitetsbegransningMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setAktivitetsbegransning(null)
             .build();
@@ -445,7 +446,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAktivitetsbegransningBlank() throws Exception {
+    public void validateAktivitetsbegransningBlank() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setAktivitetsbegransning(" ")
             .build();
@@ -472,9 +473,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningSjukskrivingsgradMissing() throws Exception {
+    public void validateSjukskrivningSjukskrivingsgradMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(null,
+            .setSjukskrivningar(List.of(Sjukskrivning.create(null,
                 new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
             .build();
 
@@ -487,7 +488,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() throws Exception {
+    public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() {
         InternalLocalDateInterval date1 = new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
             new InternalDate(LocalDate.now().plusDays(2)));
         InternalLocalDateInterval date2 = new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(4)),
@@ -506,9 +507,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodMissing() throws Exception {
+    public void validateSjukskrivningPeriodMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -520,12 +521,12 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodInvalidAvoidsNullpointer() throws Exception {
+    public void validateSjukskrivningPeriodInvalidAvoidsNullpointer()  {
         InternalLocalDateInterval intervalMissingTom = new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate());
         // work-around for constructor not allowing null values (but might exist in json)
         intervalMissingTom.setTom(null);
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -537,9 +538,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodFromDateOutOfRange() throws Exception {
+    public void validateSjukskrivningPeriodFromDateOutOfRange() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
                 new InternalLocalDateInterval(new InternalDate(LocalDate.parse("1800-01-01")), new InternalDate(LocalDate.now())))))
             .build();
 
@@ -551,9 +552,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodTomDateOutOfRange() throws Exception {
+    public void validateSjukskrivningPeriodTomDateOutOfRange() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
                 new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.parse("2100-01-01"))))))
             .build();
 
@@ -582,7 +583,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() throws Exception {
+    public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
@@ -605,7 +606,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() throws Exception {
+    public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
@@ -628,7 +629,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningPeriodOverlapSameStartDate() throws Exception {
+    public void validateSjukskrivningPeriodOverlapSameStartDate() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setSjukskrivningar(
                 Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
@@ -657,9 +658,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningFalse() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningFalse() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
             .build();
@@ -670,9 +671,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningTrue() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningTrue() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(true)
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
@@ -684,9 +685,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningMissing() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .build();
 
@@ -699,9 +700,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(true)
             .build();
@@ -715,9 +716,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
@@ -732,9 +733,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
             .build();
@@ -748,9 +749,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() throws Exception {
+    public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
+            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
                 new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggningMotivering(null)
             .build();
@@ -761,7 +762,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningFMB() throws Exception {
+    public void validateBedomningFMB() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setForsakringsmedicinsktBeslutsstod("forskningsmedicinsktBeslutsstod")
             .build();
@@ -772,7 +773,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningFMBNull() throws Exception {
+    public void validateBedomningFMBNull() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setForsakringsmedicinsktBeslutsstod(null)
             .build();
@@ -783,7 +784,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningFMBBlank() throws Exception {
+    public void validateBedomningFMBBlank() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setForsakringsmedicinsktBeslutsstod(" ")
             .build();
@@ -796,7 +797,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningPrognosMissing() throws Exception {
+    public void validateBedomningPrognosMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setPrognos(null)
             .build();
@@ -810,7 +811,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningPrognosTypMissing() throws Exception {
+    public void validateBedomningPrognosTypMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setPrognos(Prognos.create(null, null))
             .build();
@@ -824,7 +825,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBedomningPrognosAterXAntalDagar() throws Exception {
+    public void validateBedomningPrognosAterXAntalDagar() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30))
             .build();
@@ -863,7 +864,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAtgarderMissing() throws Exception {
+    public void validateAtgarderMissing() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setArbetslivsinriktadeAtgarder(new ArrayList<>())
             .build();
@@ -877,10 +878,10 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAtgarderInteAktuell() throws Exception {
+    public void validateAtgarderInteAktuell() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning(null)
             .build();
 
@@ -890,7 +891,7 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateAtgarderInteAktuellCombined() throws Exception {
+    public void validateAtgarderInteAktuellCombined() {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setArbetslivsinriktadeAtgarder(
                 Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
@@ -910,7 +911,7 @@ public class InternalDraftValidatorTest {
     public void validateAtgarderInteAktuellBeskrivning() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning("beskrivning")
             .build();
 
@@ -925,7 +926,7 @@ public class InternalDraftValidatorTest {
     public void validateAtgarderAktuell() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
             .setArbetslivsinriktadeAtgarderBeskrivning("Beskrivning arbetsanpassning")
             .build();
 
@@ -1249,7 +1250,7 @@ public class InternalDraftValidatorTest {
         skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

@@ -18,13 +18,14 @@
  */
 package se.inera.intyg.common.util.integration.interceptor;
 
+import jakarta.xml.bind.UnmarshalException;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -39,7 +40,6 @@ import se.inera.intyg.common.util.logging.LogMarkers;
 
 /**
  * CXF interceptor which turns SOAP faults into valid SOAP responses.
- *
  * Transformation is performed using XSLTs which transform the <soap:Fault> element to a proper response element containing a <result>
  * element giving more specifics about the error.
  *
@@ -58,7 +58,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends CustomXSLTInt
     public void handleMessage(Message message) {
         final var exception = message.getContent(Exception.class);
         final var cause = exception.getCause();
-        if (cause instanceof javax.xml.bind.UnmarshalException) {
+        if (cause instanceof UnmarshalException) {
             LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
         } else {
             LOGGER.error(exception.getMessage(), exception);
