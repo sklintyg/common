@@ -16,9 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.model.metadata;
 
-public enum CertificateModalActionType {
-    DELETE, READ, CANCEL, SIGN
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.Builder;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.config.MessageLevel;
+import se.inera.intyg.common.support.facade.model.metadata.Alert.AlertBuilder;
+
+@JsonDeserialize(builder = AlertBuilder.class)
+@Value
+@Builder
+public class Alert {
+
+    MessageLevel type;
+    String text;
+
+
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class AlertBuilder {
+
+    }
 }
