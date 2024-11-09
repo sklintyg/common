@@ -38,7 +38,7 @@ import se.inera.intyg.common.support.model.InternalDate;
  *
  * @author andreaskaltenbach
  */
-@Component
+@Component("objectMapper")
 public class CustomObjectMapper extends ObjectMapper {
 
     private static final long serialVersionUID = 1L;
