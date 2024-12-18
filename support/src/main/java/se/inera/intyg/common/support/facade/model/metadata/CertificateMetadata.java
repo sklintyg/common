@@ -56,6 +56,7 @@ public class CertificateMetadata {
     private Staff issuedBy;
     private long version;
     private boolean latestMajorVersion;
+    private boolean inactiveCertificateType;
     private LocalDateTime readyForSign;
     private LocalDateTime signed;
     private LocalDateTime modified;
