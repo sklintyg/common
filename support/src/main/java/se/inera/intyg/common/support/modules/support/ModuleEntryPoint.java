@@ -97,25 +97,6 @@ public interface ModuleEntryPoint {
     String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
 
     /**
-     * Flag indicating this intyg is marked for removal in the near future.
-     *
-     * @return true if the intyg is marked for removal.
-     */
-    default boolean isDeprecated() {
-        return false;
-    }
-
-    /**
-     * Flag which decides if deprecated intyg should be displayed.
-     * Is ignored if intyg is not deprecated.
-     *
-     * @return true if the intyg should show.
-     */
-    default boolean displayDeprecated() {
-        return false;
-    }
-
-    /**
      * For legacy reasons, some intyg types (e.g fk7263) do not always specify an version in persisted module
      * utlatande json. This method provided a fallback version to be overridden in each module implementation.
      *

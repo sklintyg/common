@@ -32,8 +32,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     // CHECKSTYLE:OFF LineLength
     public static final String MODULE_DETAILED_DESCRIPTION = "Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.";
     // CHECKSTYLE:ON LineLength
-    private static final boolean DEPRECATED = true;
-    private static final boolean DISPLAY_DEPRECATED = false;
     public static final String DEFAULT_LOCKED_TYPE_VERSION = "1.0";
 
     @Override
@@ -105,16 +103,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public String getIssuerTypeId() {
         return ISSUER_TYPE_ID;
-    }
-
-    @Override
-    public boolean isDeprecated() {
-        return DEPRECATED;
-    }
-
-    @Override
-    public boolean displayDeprecated() {
-        return DISPLAY_DEPRECATED;
     }
 
     @Override
