@@ -38,14 +38,9 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String defaultRecipient;
 
-    private boolean deprecated;
-
-    private boolean displayDeprecated;
-
     // CHECKSTYLE:OFF ParameterNumber
     public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
-        String scriptPath, String dependencyDefinitionPath, String defaultRecipient,
-        boolean deprecated, boolean displayDeprecated) {
+        String scriptPath, String dependencyDefinitionPath, String defaultRecipient) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -55,14 +50,6 @@ public class IntygModule implements Comparable<IntygModule> {
         this.scriptPath = scriptPath;
         this.dependencyDefinitionPath = dependencyDefinitionPath;
         this.defaultRecipient = defaultRecipient;
-        this.deprecated = deprecated;
-        this.displayDeprecated = displayDeprecated;
-    }
-
-    public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
-        String scriptPath, String dependencyDefinitionPath, String defaultRecipient, boolean deprecated) {
-        this(id, label, description, detailedDescription, issuerTypeId, cssPath,
-            scriptPath, dependencyDefinitionPath, defaultRecipient, deprecated, false);
     }
     // CHECKSTYLE:ON ParameterNumber
 
@@ -89,7 +76,6 @@ public class IntygModule implements Comparable<IntygModule> {
         this.detailedDescription = detailedDescription;
     }
 
-
     public String getIssuerTypeId() {
         return issuerTypeId;
     }
@@ -108,14 +94,6 @@ public class IntygModule implements Comparable<IntygModule> {
 
     public String getDefaultRecipient() {
         return defaultRecipient;
-    }
-
-    public boolean isDeprecated() {
-        return deprecated;
-    }
-
-    public boolean getDisplayDeprecated() {
-        return displayDeprecated;
     }
 
     @Override
