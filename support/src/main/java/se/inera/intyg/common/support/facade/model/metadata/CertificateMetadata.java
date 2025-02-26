@@ -69,7 +69,8 @@ public class CertificateMetadata {
     private String externalReference;
     private List<CertificateMessageType> messageTypes;
     private Staff createdBy;
-    private LocalDateTime revoked;
+    private LocalDateTime revokedAt;
+    private Staff revokedBy;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateMetadataBuilder {
