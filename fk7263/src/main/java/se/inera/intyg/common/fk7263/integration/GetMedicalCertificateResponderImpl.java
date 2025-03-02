@@ -34,6 +34,7 @@ import se.inera.intyg.common.support.integration.module.exception.InvalidCertifi
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
+import se.inera.intyg.common.util.logging.HashUtility;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
@@ -45,6 +46,8 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
     private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
+    @Autowired
+    private HashUtility hashUtility;
 
     @Override
     public GetMedicalCertificateResponseType getMedicalCertificate(String logicalAddress,
@@ -62,7 +65,8 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
         try {
             certificate = moduleContainer.getCertificate(certificateId, nationalIdentityNumber, false);
             if (!Fk7263EntryPoint.MODULE_ID.equalsIgnoreCase(certificate.getType())) {
-                throw new InvalidCertificateException(certificateId, nationalIdentityNumber);
+                throw new InvalidCertificateException(certificateId, nationalIdentityNumber != null
+                    ? hashUtility.hash(nationalIdentityNumber.getPersonnummer()) : null);
             }
             if (nationalIdentityNumber != null && !certificate.getCivicRegistrationNumber().equals(nationalIdentityNumber)) {
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
