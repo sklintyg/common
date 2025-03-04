@@ -62,7 +62,7 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
         try {
             certificate = moduleContainer.getCertificate(certificateId, nationalIdentityNumber, false);
             if (!Fk7263EntryPoint.MODULE_ID.equalsIgnoreCase(certificate.getType())) {
-                throw new InvalidCertificateException(certificateId, nationalIdentityNumber);
+                throw new InvalidCertificateException(certificateId, null);
             }
             if (nationalIdentityNumber != null && !certificate.getCivicRegistrationNumber().equals(nationalIdentityNumber)) {
                 response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));

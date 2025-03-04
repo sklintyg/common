@@ -18,19 +18,19 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
@@ -42,22 +42,22 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GetMedicalCertificateResponderImplTest {
+@ExtendWith(MockitoExtension.class)
+class GetMedicalCertificateResponderImplTest {
 
-    private static final String PERSON_ID = "19121212-1212";
+    private static final String PERSON_ID = "191212121212";
     private static final String INTYG_ID = "123456";
     private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     private static final String INVANA_RECIPIENT_ID = "INVANA";
 
-    @InjectMocks
-    private GetMedicalCertificateResponderImpl responder;
-
     @Mock
     private ModuleContainerApi moduleContainer;
 
+    @InjectMocks
+    private GetMedicalCertificateResponderImpl responder;
+
     @Test
-    public void getMedicalCertificate() throws Exception {
+    void getMedicalCertificate() throws Exception {
         CertificateHolder certificateHolder = createCertificateHolder();
         when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificateHolder);
 
@@ -79,22 +79,22 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     @Test
-    public void getMedicalCertificateWithUnknownCertificateId() throws Exception {
-        Personnummer pnr = createPnr(PERSON_ID);
-        when(moduleContainer.getCertificate(INTYG_ID, pnr, false)).thenThrow(new InvalidCertificateException("123456", pnr));
+    void getMedicalCertificateWithUnknownCertificateId() throws Exception {
+        final var pnr = createPnr(PERSON_ID);
+        when(moduleContainer.getCertificate(INTYG_ID, pnr, false)).thenThrow(new InvalidCertificateException("123456",
+            null));
 
         GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, createGetMedicalCertificateRequest());
 
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Certificate '123456' does not exist for user '9a8b138a666f84da32e9383b49a15f46f6e08d2c492352aa0dfcc3f993773b0d'",
-            response.getResult().getResultText());
+        assertEquals("Unknown certificate ID: 123456", response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
 
     @Test
-    public void getMedicalCertificateWrongType() throws Exception {
+    void getMedicalCertificateWrongType() throws Exception {
         CertificateHolder certificateHolder = new CertificateHolder();
         certificateHolder.setType("luse");
         when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificateHolder);
@@ -103,14 +103,13 @@ public class GetMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Certificate '123456' does not exist for user '9a8b138a666f84da32e9383b49a15f46f6e08d2c492352aa0dfcc3f993773b0d'",
-            response.getResult().getResultText());
+        assertEquals("Unknown certificate ID: 123456", response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
 
     @Test
-    public void getMedicalCertificateWrongCivicRegistrationNumber() throws Exception {
+    void getMedicalCertificateWrongCivicRegistrationNumber() throws Exception {
         CertificateHolder certificateHolder = new CertificateHolder();
         certificateHolder.setType("fk7263");
         certificateHolder.setCivicRegistrationNumber(createPnr("19010101-0101"));
@@ -126,7 +125,7 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     @Test
-    public void getMedicalCertificateDeletedByCareGiverForCare() throws Exception {
+    void getMedicalCertificateDeletedByCareGiverForCare() throws Exception {
         CertificateHolder certificateHolder = createCertificateHolder();
         certificateHolder.setDeletedByCareGiver(true);
         when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificateHolder);
@@ -143,7 +142,7 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     @Test
-    public void getMedicalCertificateDeletedByCareGiverForCitizen() throws Exception {
+    void getMedicalCertificateDeletedByCareGiverForCitizen() throws Exception {
         CertificateHolder certificateHolder = createCertificateHolder();
         certificateHolder.setDeletedByCareGiver(true);
         when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificateHolder);
@@ -165,7 +164,7 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     @Test
-    public void getMedicalCertificateRevoked() throws Exception {
+    void getMedicalCertificateRevoked() throws Exception {
         CertificateHolder certificate = createCertificateHolder();
         certificate.setRevoked(true);
         when(moduleContainer.getCertificate(INTYG_ID, createPnr(PERSON_ID), false)).thenReturn(certificate);
@@ -186,7 +185,7 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     @Test
-    public void getMedicalCertificateNoCivicRegistrationNumber() throws Exception {
+    void getMedicalCertificateNoCivicRegistrationNumber() throws Exception {
         when(moduleContainer.getCertificate(INTYG_ID, null, false)).thenReturn(createCertificateHolder());
 
         GetMedicalCertificateRequestType request = createGetMedicalCertificateRequest();
@@ -224,7 +223,7 @@ public class GetMedicalCertificateResponderImplTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
     }
 
 }
