@@ -26,15 +26,12 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
@@ -43,7 +40,6 @@ import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
-import se.inera.intyg.common.util.logging.HashUtility;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,16 +52,9 @@ class GetMedicalCertificateResponderImplTest {
 
     @Mock
     private ModuleContainerApi moduleContainer;
-    @Spy
-    private HashUtility hashUtility;
 
     @InjectMocks
     private GetMedicalCertificateResponderImpl responder;
-
-    @BeforeEach
-    public void setup() {
-        ReflectionTestUtils.setField(hashUtility, "salt", "salt");
-    }
 
     @Test
     void getMedicalCertificate() throws Exception {
@@ -92,15 +81,14 @@ class GetMedicalCertificateResponderImplTest {
     @Test
     void getMedicalCertificateWithUnknownCertificateId() throws Exception {
         final var pnr = createPnr(PERSON_ID);
-        final var hashedPnr = hashUtility.hash(pnr.getPersonnummer());
         when(moduleContainer.getCertificate(INTYG_ID, pnr, false)).thenThrow(new InvalidCertificateException("123456",
-            hashedPnr));
+            null));
 
         GetMedicalCertificateResponseType response = responder.getMedicalCertificate(null, createGetMedicalCertificateRequest());
 
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Certificate '123456' does not exist for user '%s'".formatted(hashedPnr), response.getResult().getResultText());
+        assertEquals("Unknown certificate ID: 123456", response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
@@ -115,8 +103,7 @@ class GetMedicalCertificateResponderImplTest {
 
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
-        assertEquals("Certificate '123456' does not exist for user '%s'".formatted(hashUtility.hash(PERSON_ID)),
-            response.getResult().getResultText());
+        assertEquals("Unknown certificate ID: 123456", response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
