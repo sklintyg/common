@@ -296,7 +296,7 @@ public class CertificateHolder {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type + ", typeVersion="
             + typeVersion + ", signingDoctorId=" + signingDoctorId
             + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
-            + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
+            + ", signedDate=" + signedDate
             + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
             + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
             + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + ", additionalMetaData=" + additionalMetaData + "]";
