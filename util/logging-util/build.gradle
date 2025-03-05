@@ -1,5 +1,4 @@
 dependencies {
-  implementation "com.google.guava:guava:${guavaVersion}"
   implementation "org.springframework:spring-context"
   compileOnly "jakarta.servlet:jakarta.servlet-api"
 }
