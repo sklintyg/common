@@ -19,9 +19,9 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_DELSVAR_ID;
 
@@ -29,16 +29,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
@@ -49,9 +52,9 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class InternalToTransportTest {
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class InternalToTransportTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -70,11 +73,11 @@ public class InternalToTransportTest {
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
 
-    public static Tstrk1009UtlatandeV1 getUtlatande() throws Exception {
+     static Tstrk1009UtlatandeV1 getUtlatande() throws Exception {
         return getUtlatande(null, null, null);
     }
 
-    public static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId)
+     static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId)
         throws Exception {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal());
@@ -91,7 +94,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testInternalToTransportConversion() throws Exception {
+     void testInternalToTransportConversion() throws Exception {
         Tstrk1009UtlatandeV1 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected);
         Tstrk1009UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -101,14 +104,14 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testInternalToTransportSourceNullShouldThrow() {
+     void testInternalToTransportSourceNullShouldThrow() {
         assertThatThrownBy(() -> InternalToTransport.convert(null))
             .isExactlyInstanceOf(ConverterException.class)
             .hasMessage("Source utlatande was null, cannot convert");
     }
 
     @Test
-    public void convertDecorateSvarPaTest() throws Exception {
+     void convertDecorateSvarPaTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -119,7 +122,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+     void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -129,21 +132,21 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
+     void convertDecorateSvarPaNoRelationTest() throws Exception {
         Tstrk1009UtlatandeV1 utlatande = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
+     void convertDecorateSvarPaNotKompltTest() throws Exception {
         Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-    public void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
+     void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
         String specialistkompetens1 = "Kirurgi";
         String specialistkompetens2 = "Allergi";
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-specialitet").asInternalModel();
@@ -155,7 +158,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
+     void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
         final String befattning = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-befattning").asInternalModel();
@@ -167,14 +170,14 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
+     void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         assertEquals("1.0", res.getIntyg().getVersion());
     }
 
     @Test
-    public void testConvertToTransportSetsCorrectBehorighetDisplayName() throws ScenarioNotFoundException, ConverterException {
+     void testConvertToTransportSetsCorrectBehorighetDisplayName() throws ScenarioNotFoundException, ConverterException {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         final Svar.Delsvar taxiDelsvar = res.getIntyg().getSvar().stream()
@@ -193,7 +196,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
+     void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);

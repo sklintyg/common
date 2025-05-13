@@ -19,14 +19,16 @@
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -34,6 +36,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Bedomning;
@@ -47,12 +52,15 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class UtlatandeToIntygTest {
+
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class UtlatandeToIntygTest {
 
     private static final String PNR_TOLVAN = "191212121212";
 
     @Test
-    public void testConvert() throws Exception {
+     void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
@@ -91,7 +99,7 @@ public class UtlatandeToIntygTest {
         assertEquals(textVersion, intyg.getVersion());
         assertEquals(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
         assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
-        Assert.assertEquals(TsDiabetesEntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
+        assertEquals(TsDiabetesEntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
         assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
         assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
@@ -123,7 +131,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+     void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
@@ -138,7 +146,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void emptyUtlatandeShouldHaveNoIncompleteSvar() {
+     void emptyUtlatandeShouldHaveNoIncompleteSvar() {
         // Given
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande().build();
 
@@ -150,7 +158,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
+     void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
         // Given
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))

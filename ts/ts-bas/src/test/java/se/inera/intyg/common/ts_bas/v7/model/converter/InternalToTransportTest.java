@@ -4,38 +4,43 @@
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
  * sklintyg is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU General  License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * sklintyg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * GNU General  License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General  License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
@@ -49,9 +54,10 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
  *
  * @author erik
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class InternalToTransportTest {
+
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class InternalToTransportTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -70,11 +76,11 @@ public class InternalToTransportTest {
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
 
-    public static TsBasUtlatandeV7 getUtlatande() throws Exception {
+     static TsBasUtlatandeV7 getUtlatande() throws Exception {
         return getUtlatande(null, null, null);
     }
 
-    public static TsBasUtlatandeV7 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
+     static TsBasUtlatandeV7 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
 
@@ -93,7 +99,7 @@ public class InternalToTransportTest {
         Waiting for INTYG-6650
 
         @Test
-        public void doSchematronValidationTsBas() throws Exception {
+         void doSchematronValidationTsBas() throws Exception {
             String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
 
             RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
@@ -107,7 +113,7 @@ public class InternalToTransportTest {
         }
     */
     @Test
-    public void testInternalToTransportConversion() throws Exception {
+     void testInternalToTransportConversion() throws Exception {
         TsBasUtlatandeV7 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected);
         TsBasUtlatandeV7 actual = TransportToInternal.convert(transport.getIntyg());
@@ -117,13 +123,13 @@ public class InternalToTransportTest {
         assertEquals(objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
     }
 
-    @Test(expected = ConverterException.class)
-    public void testInternalToTransportSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+    @Test
+     void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class,()->InternalToTransport.convert(null));
     }
 
     @Test
-    public void convertDecorateSvarPaTest() throws Exception {
+     void convertDecorateSvarPaTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         TsBasUtlatandeV7 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -134,7 +140,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+     void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         TsBasUtlatandeV7 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -144,21 +150,21 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
+     void convertDecorateSvarPaNoRelationTest() throws Exception {
         TsBasUtlatandeV7 utlatande = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
+     void convertDecorateSvarPaNotKompltTest() throws Exception {
         TsBasUtlatandeV7 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-    public void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
+     void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
         String specialistkompetens1 = "Kirurgi";
         String specialistkompetens2 = "Allergi";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -173,7 +179,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
+     void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
         final String befattning = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -187,7 +193,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
+     void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
         String befattningskod = "kod";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
@@ -199,7 +205,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
+     void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
         final String version = "07";
         final String utgava = "08";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -209,7 +215,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
+     void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
         final String defaultVersion = "7";
         final String defaultUtgava = "0";
         TsBasUtlatandeV7 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();

@@ -4,16 +4,16 @@
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
  * sklintyg is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU General  License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * sklintyg is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * GNU General  License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU General  License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
@@ -26,10 +26,12 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
@@ -44,12 +46,17 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-@RunWith(MockitoJUnitRunner.class)
-public class UtlatandeToIntygTest {
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
 
@@ -57,7 +64,7 @@ public class UtlatandeToIntygTest {
     private WebcertModuleService webcertModuleService;
 
     @Test
-    public void testConvert() throws Exception {
+     void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
@@ -127,7 +134,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+     void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         LuaefsUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -142,7 +149,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
+     void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
         Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
 
@@ -151,7 +158,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertUnderlagEmptyUnderlagsTyp() {
+     void testConvertUnderlagEmptyUnderlagsTyp() {
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder()
             .setUnderlagFinns(true)
             .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
@@ -162,7 +169,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertUnderlagUnfinishedDate() {
+     void testConvertUnderlagUnfinishedDate() {
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder()
             .setUnderlagFinns(true)
             .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
