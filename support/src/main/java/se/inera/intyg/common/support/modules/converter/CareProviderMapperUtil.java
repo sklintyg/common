@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.config.CareProviderMapping;
 import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
 
@@ -30,19 +29,22 @@ import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoa
 @Component
 @RequiredArgsConstructor
 public class CareProviderMapperUtil {
+
   private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
 
-  public MappedCareProvider getMappedCareprovider(Vardgivare originalCareProvider) {
-    String mappedId = originalCareProvider.getVardgivarid();
-    String mappedName = originalCareProvider.getVardgivarnamn();
+  public MappedCareProvider getMappedCareprovider(String originalCareProviderId,
+      String originalCareProviderName) {
+    String mappedId = originalCareProviderId;
+    String mappedName = originalCareProviderName;
 
     for (CareProviderMapping mappingConfig : careProviderMappingConfigLoader.getCareProviderMappings()) {
-      if (LocalDateTime.now().isAfter(mappingConfig.datetime()) && mappingConfig.originalCareProviderIds().contains(originalCareProvider.getVardgivarid())) {
+      if (LocalDateTime.now().isAfter(mappingConfig.datetime())
+          && mappingConfig.originalCareProviderIds().contains(originalCareProviderId)) {
         mappedId = mappingConfig.careProviderId();
         mappedName = mappingConfig.careProviderName();
         break;
       }
     }
-    return new MappedCareProvider(mappedId,mappedName);
+    return new MappedCareProvider(mappedId, mappedName);
   }
 }

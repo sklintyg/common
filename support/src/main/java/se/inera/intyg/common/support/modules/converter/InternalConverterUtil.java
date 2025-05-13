@@ -87,7 +87,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public final class InternalConverterUtil {
@@ -448,7 +447,9 @@ public final class InternalConverterUtil {
     }
 
     private  Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
-        var mapped = careProviderMapperUtil.getMappedCareprovider(sourceCareProvider);
+        var mapped = careProviderMapperUtil.getMappedCareprovider(
+            sourceCareProvider.getVardgivarid(),
+            sourceCareProvider.getVardgivarnamn());
 
         Vardgivare careProvider = new Vardgivare();
         careProvider.setVardgivareId(getHsaId(mapped.id()));

@@ -72,7 +72,9 @@ class CareProviderMapperUtilTest {
     originalCareProvider.setVardgivarid(originalId);
     originalCareProvider.setVardgivarnamn(originalName);
 
-    var mappedCareProvider = careProviderMapperUtil.getMappedCareprovider(originalCareProvider);
+    var mappedCareProvider = careProviderMapperUtil.getMappedCareprovider(
+        originalCareProvider.getVardgivarid(),
+        originalCareProvider.getVardgivarnamn());
 
     assertEquals(expectedId, mappedCareProvider.id());
     assertEquals(expectedName, mappedCareProvider.name());

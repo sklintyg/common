@@ -18,7 +18,8 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -56,11 +57,17 @@ class InternalConverterUtilCareProviderMappingTest {
     careProvider.setVardgivarnamn("Beta Regionen");
 
     internalConverterUtil.initialize();
-    when(careProviderMapperUtil.getMappedCareprovider(careProvider)).thenReturn(
+    when(careProviderMapperUtil.getMappedCareprovider(
+        careProvider.getVardgivarid(),
+        careProvider.getVardgivarnamn()))
+        .thenReturn(
         new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
 
-    InternalConverterUtil.getSkapadAv(skapadAv);
-    verify(careProviderMapperUtil).getMappedCareprovider(careProvider);
+    var result = InternalConverterUtil.getSkapadAv(skapadAv);
+    assertAll(()->{
+      assertEquals("TSTNMT2321000156-BETA", result.getEnhet().getVardgivare().getVardgivareId().getExtension());
+      assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
+    });
   }
 
 }
