@@ -6,6 +6,7 @@ components.java.withVariantsFromConfiguration(configurations.testFixturesRuntime
 dependencies {
   implementation project(':logging-util')
 
+  implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
   implementation "com.fasterxml.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
