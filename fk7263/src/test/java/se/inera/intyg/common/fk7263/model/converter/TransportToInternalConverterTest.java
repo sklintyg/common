@@ -37,8 +37,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 /**

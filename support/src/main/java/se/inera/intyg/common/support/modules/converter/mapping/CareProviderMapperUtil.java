@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.modules.converter;
+package se.inera.intyg.common.support.modules.converter.mapping;
 
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.support.modules.config.CareProviderMapping;
-import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
 
 @Slf4j
 @Component

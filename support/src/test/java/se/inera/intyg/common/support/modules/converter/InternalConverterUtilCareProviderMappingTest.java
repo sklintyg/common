@@ -30,6 +30,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 
 @ExtendWith(MockitoExtension.class)
 class InternalConverterUtilCareProviderMappingTest {

@@ -41,8 +41,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})

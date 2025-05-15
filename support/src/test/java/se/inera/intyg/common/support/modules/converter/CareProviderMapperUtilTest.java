@@ -32,9 +32,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.config.CareProviderMapping;
 import java.util.stream.Stream;
-import se.inera.intyg.common.support.modules.config.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapping;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 
 @ExtendWith(MockitoExtension.class)
 class CareProviderMapperUtilTest {

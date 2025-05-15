@@ -30,6 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapping;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 
 @ExtendWith(MockitoExtension.class)
 class CareProviderMappingConfigLoaderTest {
