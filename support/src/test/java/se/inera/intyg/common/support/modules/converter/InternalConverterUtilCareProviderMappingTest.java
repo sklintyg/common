@@ -36,12 +36,11 @@ import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvide
 @ExtendWith(MockitoExtension.class)
 class InternalConverterUtilCareProviderMappingTest {
 
-
   @Mock
-  CareProviderMapperUtil careProviderMapperUtil;
+  private CareProviderMapperUtil careProviderMapperUtil;
 
   @InjectMocks
-  InternalConverterUtil internalConverterUtil;
+  private InternalConverterUtil internalConverterUtil;
 
 
   @Test
@@ -63,11 +62,12 @@ class InternalConverterUtilCareProviderMappingTest {
         careProvider.getVardgivarid(),
         careProvider.getVardgivarnamn()))
         .thenReturn(
-        new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
+            new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
 
     var result = InternalConverterUtil.getSkapadAv(skapadAv);
-    assertAll(()->{
-      assertEquals("TSTNMT2321000156-BETA", result.getEnhet().getVardgivare().getVardgivareId().getExtension());
+    assertAll(() -> {
+      assertEquals("TSTNMT2321000156-BETA",
+          result.getEnhet().getVardgivare().getVardgivareId().getExtension());
       assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
     });
   }

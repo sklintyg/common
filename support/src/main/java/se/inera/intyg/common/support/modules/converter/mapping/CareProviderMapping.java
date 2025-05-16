@@ -27,4 +27,5 @@ public record CareProviderMapping(
     LocalDateTime datetime,
     Set<String> originalCareProviderIds
 ) {
+
 }

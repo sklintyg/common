@@ -31,6 +31,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -53,6 +55,8 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     private Unmarshaller unmarshaller;
     private ObjectMapper objectMapper;
     private static final String RESOURCE_ROOT = "TransportToInternalConverterTest/";
+    @Autowired
+    private ApplicationContext applicationContext;
 
     private JAXBElement<LakarutlatandeType> readUtlatandeTypeFromFile(String file)
         throws JAXBException, IOException {
@@ -63,10 +67,11 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @BeforeEach
-     void setUp() throws JAXBException, IOException {
+     void setUp() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(LakarutlatandeType.class);
         unmarshaller = jaxbContext.createUnmarshaller();
         objectMapper = new CustomObjectMapper();
+        applicationContext.getBean(TransportToInternal.class).initialize();
     }
 
     @Test

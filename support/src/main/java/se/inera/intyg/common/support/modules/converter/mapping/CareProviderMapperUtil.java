@@ -23,6 +23,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+
+/**
+ * Utility class for mapping care provider IDs and names based on a configuration file.
+ * The configuration file is loaded at startup and contains mappings for care providers as well as a timestamp for when this mapping should go into effect.
+ * This is enabling avbolagisering in the case of old certificate that were created directly in intygstjänster without interacting with webcert.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

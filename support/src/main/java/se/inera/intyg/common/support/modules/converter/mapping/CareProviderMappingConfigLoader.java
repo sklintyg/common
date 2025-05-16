@@ -38,30 +38,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CareProviderMappingConfigLoader {
 
-    @Value("${care.provider.mapping.config.path:}")
-    private String careProviderMappingConfigPath;
-    @Getter
-    private List<CareProviderMapping> careProviderMappings;
+  @Value("${care.provider.mapping.config.path:}")
+  private String careProviderMappingConfigPath;
+  @Getter
+  private List<CareProviderMapping> careProviderMappings;
 
-    @PostConstruct
-    public void init() {
-            careProviderMappings = new ArrayList<>();
-            final var objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            try (final var resourceAsStream = new FileInputStream(careProviderMappingConfigPath)) {
-                careProviderMappings = objectMapper.readValue(
-                    resourceAsStream,
-                    new TypeReference<>() {
-                    });
-                log.info("CareProvider mapping configuration was loaded successfully: {}",
-                    careProviderMappings);
-            } catch (FileNotFoundException e) {
-                log.warn("File not found: {}. Returning empty configuration.",
-                    careProviderMappingConfigPath);
-            } catch (Exception e) {
-                log.error(
-                    String.format("Failed to load CareProvider mapping configuration. Reason: %s", e.getMessage()), e
-                );
-            }
+  @PostConstruct
+  public void init() {
+    careProviderMappings = new ArrayList<>();
+    final var objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+    try (final var resourceAsStream = new FileInputStream(careProviderMappingConfigPath)) {
+      careProviderMappings = objectMapper.readValue(
+          resourceAsStream,
+          new TypeReference<>() {
+          });
+      log.info("CareProvider mapping configuration was loaded successfully: {}",
+          careProviderMappings);
+    } catch (FileNotFoundException e) {
+      log.warn("File not found: {}. Returning empty configuration.",
+          careProviderMappingConfigPath);
+    } catch (Exception e) {
+      log.error(
+          String.format("Failed to load CareProvider mapping configuration. Reason: %s",
+              e.getMessage()), e
+      );
     }
+  }
 }

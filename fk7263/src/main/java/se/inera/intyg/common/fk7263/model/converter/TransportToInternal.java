@@ -67,7 +67,7 @@ public final class TransportToInternal {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportToInternal.class);
 
     private final CareProviderMapperUtil careProviderMapperUtil;
-    static TransportToInternal instance = null;
+    private static TransportToInternal instance = null;
 
     public TransportToInternal(CareProviderMapperUtil careProviderMapperUtil) {
         this.careProviderMapperUtil = careProviderMapperUtil;
@@ -75,7 +75,7 @@ public final class TransportToInternal {
 
     @PostConstruct
     public void initialize(){
-        instance = this;
+        this.instance = this;
     }
 
 

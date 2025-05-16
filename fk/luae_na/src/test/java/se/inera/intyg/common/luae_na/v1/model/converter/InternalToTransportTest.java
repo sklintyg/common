@@ -137,11 +137,8 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
         assertNull(transport.getSvarPa());
     }
 
-    @Nested
-    class TestNullSource{
-        @Test
-         void testConvertSourceNull()  {
-             assertThrows(ConverterException.class,()->InternalToTransport.convert(null, webcertModuleService));
-        }
+    @Test
+    void testConvertSourceNull()  {
+        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
     }
 }

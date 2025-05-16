@@ -33,8 +33,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;
@@ -62,6 +65,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
  class InternalConverterUtilTest {
+
+   @Autowired
+   private ApplicationContext applicationContext;
+
+   @BeforeEach
+   void init(){
+      applicationContext.getBean(InternalConverterUtil.class).initialize();
+   }
 
     @Test
      void testConvert() {

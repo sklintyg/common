@@ -88,7 +88,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
  * Provides utility methods for converting domain objects from internal Java format to transport format.
  */
 @Component
-@RequiredArgsConstructor
 public final class InternalConverterUtil {
 
     private static final String NOT_AVAILABLE = "N/A";
@@ -97,13 +96,17 @@ public final class InternalConverterUtil {
     private static final int MIN_YEAR = 1000;
 
     private final CareProviderMapperUtil careProviderMapperUtil;
-    static InternalConverterUtil instance = null;
+    private static InternalConverterUtil instance = null;
 
     static ObjectFactory objectFactory = new ObjectFactory();
 
+    public InternalConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
+        this.careProviderMapperUtil = careProviderMapperUtil;
+    }
+
     @PostConstruct
     public void initialize(){
-        instance=this;
+        this.instance=this;
     }
 
     /**
