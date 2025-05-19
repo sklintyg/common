@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -77,8 +78,10 @@ class CareProviderMapperUtilTest {
         originalCareProvider.getVardgivarid(),
         originalCareProvider.getVardgivarnamn());
 
-    assertEquals(expectedId, mappedCareProvider.id());
-    assertEquals(expectedName, mappedCareProvider.name());
+    assertAll(
+        () -> assertEquals(expectedId, mappedCareProvider.id()),
+        () -> assertEquals(expectedName, mappedCareProvider.name())
+    );
   }
 
   private static Stream<Arguments> provideTestCases() {
@@ -87,7 +90,9 @@ class CareProviderMapperUtilTest {
             "Beta Regionen"),
         Arguments.of("TSTNMT2321000156-DELTA", "Original Name", "TSTNMT2321000156-DELTA",
             "Original Name"),
-        Arguments.of("UNKNOWN-ID", "Original Name", "UNKNOWN-ID", "Original Name")
+        Arguments.of("UNKNOWN-ID", "Original Name", "UNKNOWN-ID", "Original Name"),
+        Arguments.of("TSTNMT2321000156-GAMMA", null, "TSTNMT2321000156-GAMMA", null),
+        Arguments.of("", "", "", "")
     );
   }
 }

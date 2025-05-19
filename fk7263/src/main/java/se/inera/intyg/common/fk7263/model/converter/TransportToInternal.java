@@ -326,7 +326,7 @@ public final class TransportToInternal {
     }
 
     private  Vardgivare getMappedCareProvider(VardgivareType sourceCareProvider) {
-        var mapped = careProviderMapperUtil.getMappedCareprovider(
+       final var mapped = careProviderMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivareId().getExtension(),
             sourceCareProvider.getVardgivarnamn());
 

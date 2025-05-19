@@ -25,9 +25,11 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Utility class for mapping care provider IDs and names based on a configuration file.
- * The configuration file is loaded at startup and contains mappings for care providers as well as a timestamp for when this mapping should go into effect.
- * This is enabling avbolagisering in the case of old certificate that were created directly in intygstjänster without interacting with webcert.
+ * Utility class for mapping care provider IDs and names based on a configuration file. The
+ * configuration file is loaded at startup and contains mappings for care providers as well as a
+ * timestamp for when this mapping should go into effect. This is enabling avbolagisering in the
+ * case of old certificate that were created directly in intygstjänster without interacting with
+ * webcert.
  */
 @Slf4j
 @Component
@@ -36,19 +38,14 @@ public class CareProviderMapperUtil {
 
   private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
 
-  public MappedCareProvider getMappedCareprovider(String originalCareProviderId,
-      String originalCareProviderName) {
-    String mappedId = originalCareProviderId;
-    String mappedName = originalCareProviderName;
+  public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
+      final String originalCareProviderName) {
 
-    for (CareProviderMapping mappingConfig : careProviderMappingConfigLoader.getCareProviderMappings()) {
-      if (LocalDateTime.now().isAfter(mappingConfig.datetime())
-          && mappingConfig.originalCareProviderIds().contains(originalCareProviderId)) {
-        mappedId = mappingConfig.careProviderId();
-        mappedName = mappingConfig.careProviderName();
-        break;
-      }
-    }
-    return new MappedCareProvider(mappedId, mappedName);
+   return careProviderMappingConfigLoader.getCareProviderMappings().stream()
+        .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
+            && mappingConfig.originalCareProviderIds().contains(originalCareProviderId))
+        .findFirst()
+        .map(mappingConfig -> new MappedCareProvider(mappingConfig.careProviderId(), mappingConfig.careProviderName()))
+        .orElse(new MappedCareProvider(originalCareProviderId, originalCareProviderName));
   }
 }

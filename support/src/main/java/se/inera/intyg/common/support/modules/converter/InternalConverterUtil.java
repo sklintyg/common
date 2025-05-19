@@ -450,7 +450,7 @@ public final class InternalConverterUtil {
     }
 
     private  Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
-        var mapped = careProviderMapperUtil.getMappedCareprovider(
+        final var mapped = careProviderMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivarid(),
             sourceCareProvider.getVardgivarnamn());
 
