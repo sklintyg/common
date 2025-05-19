@@ -1,0 +1,14 @@
+[
+  {
+    "careProviderName": "Beta Regionen",
+    "careProviderId": "TSTNMT2321000156-BETA",
+    "datetime": "2025-05-09T08:00",
+    "originalCareProviderIds": ["TSTNMT2321000156-ALFA","TSTNMT2321000152-ALFA2"]
+  },
+  {
+    "careProviderName": "Gamma Regionen",
+    "careProviderId": "TSTNMT2321000156-GAMMA",
+    "datetime": "2026-06-10T09:00:00",
+    "originalCareProviderIds": ["TSTNMT2321000156-DELTA"]
+  }
+]

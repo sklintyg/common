@@ -19,27 +19,30 @@
 package se.inera.intyg.common.luse.v1.model.converter;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
@@ -48,25 +51,25 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class InternalToTransportTest {
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class InternalToTransportTest {
 
     private WebcertModuleService webcertModuleService;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+     void setup() {
         webcertModuleService = Mockito.mock(WebcertModuleService.class);
         when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
         when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
     }
 
 
-    public static LuseUtlatandeV1 getUtlatande() {
+     static LuseUtlatandeV1 getUtlatande() {
         return getUtlatande(null, null, null);
     }
 
-    public static LuseUtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
+     static LuseUtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
         LuseUtlatandeV1.Builder utlatande = LuseUtlatandeV1.builder();
         utlatande.setId("1234567");
         utlatande.setTextVersion("1.0");
@@ -93,7 +96,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testInternalToTransportConversion() throws Exception {
+     void testInternalToTransportConversion() throws Exception {
         LuseUtlatandeV1 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
         LuseUtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -133,7 +136,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaTest() throws Exception {
+     void convertDecorateSvarPaTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         LuseUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -144,7 +147,7 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+     void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         LuseUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
@@ -154,14 +157,14 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
+     void convertDecorateSvarPaNoRelationTest() throws Exception {
         LuseUtlatandeV1 utlatande = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
+     void convertDecorateSvarPaNotKompltTest() throws Exception {
         LuseUtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());

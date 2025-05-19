@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_CODE_SYSTEM;
@@ -33,10 +33,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -47,6 +50,8 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -57,12 +62,20 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class InternalConverterUtilTest {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class InternalConverterUtilTest {
+
+   @Autowired
+   private ApplicationContext applicationContext;
+
+   @BeforeEach
+   void init(){
+      applicationContext.getBean(InternalConverterUtil.class).initialize();
+   }
 
     @Test
-    public void testConvert() throws Exception {
+     void testConvert() {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -131,7 +144,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testConvertNoPatientInfo() throws Exception {
+     void testConvertNoPatientInfo()  {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -197,7 +210,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+     void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -212,7 +225,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testConvertUnitAdddressInformationMissing() {
+     void testConvertUnitAdddressInformationMissing() {
         Utlatande utlatande = buildUtlatande("intygsid", "enhetsid", "enhetsnamn", "191212121212",
             "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
             "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer",
@@ -229,7 +242,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void getMeddelandeReferensOfTypeTest() {
+     void getMeddelandeReferensOfTypeTest() {
         final RelationKod type = RelationKod.KOMPLT;
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
@@ -243,7 +256,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void getMeddelandeReferensOfTypeReferensIdNullTest() {
+     void getMeddelandeReferensOfTypeReferensIdNullTest() {
         final RelationKod type = RelationKod.KOMPLT;
         final String meddelandeId = "meddelandeId";
         Utlatande utlatande = buildUtlatande(type, "relationIntygsId");
@@ -255,7 +268,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void getMeddelandeReferensOfTypeNoRelationTest() {
+     void getMeddelandeReferensOfTypeNoRelationTest() {
         final RelationKod type = RelationKod.KOMPLT;
         Utlatande utlatande = buildUtlatande(null, null);
         MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
@@ -263,7 +276,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void getMeddelandeReferensOfTypeWrongTypeTest() {
+     void getMeddelandeReferensOfTypeWrongTypeTest() {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         Utlatande utlatande = buildUtlatande(RelationKod.FRLANG, "relationIntygsId");
@@ -274,7 +287,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void addIfNotBlankTest() {
+     void addIfNotBlankTest() {
         List<Svar> svars = new ArrayList<>();
         String svarsId = "1";
         String delsvarsId = "1.2";
@@ -289,7 +302,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void addIfNotBlankContentNullTest() {
+     void addIfNotBlankContentNullTest() {
         List<Svar> svars = new ArrayList<>();
         String content = null;
         InternalConverterUtil.addIfNotBlank(svars, "svarsId", "delsvarsId", content);
@@ -298,7 +311,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void addIfNotBlankContentEmptyStringTest() {
+     void addIfNotBlankContentEmptyStringTest() {
         List<Svar> svars = new ArrayList<>();
         String content = "";
         InternalConverterUtil.addIfNotBlank(svars, "svarsId", "delsvarsId", content);
@@ -307,7 +320,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void aDatePeriodTest() {
+     void aDatePeriodTest() {
         LocalDate from = LocalDate.now();
         LocalDate tom = LocalDate.now().plusDays(4);
         JAXBElement<DatePeriodType> result = InternalConverterUtil.aDatePeriod(from, tom);
@@ -318,7 +331,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void aCVTest() {
+     void aCVTest() {
         String codeSystem = "codesystem";
         String code = "code";
         String displayName = "displayname";
@@ -331,7 +344,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testSpecialistkompetensAppendsDisplayName() {
+     void testSpecialistkompetensAppendsDisplayName() {
         final String specialistkompetens = "Hörselrubbningar";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
@@ -343,7 +356,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testBefattningAppendsDisplayName() {
+     void testBefattningAppendsDisplayName() {
         final String befattningskod = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         Utlatande utlatande = buildUtlatande(null, null);
@@ -356,7 +369,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testBefattningDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
+     void testBefattningDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
         String befattning = "kod";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
@@ -368,7 +381,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testPersonnummerRoot() {
+     void testPersonnummerRoot() {
         final Personnummer pnr = Personnummer.createPersonnummer("19121212-1212").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
@@ -376,7 +389,7 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testSamordningsRoot() {
+     void testSamordningsRoot() {
         final Personnummer pnr = Personnummer.createPersonnummer("19800191-0002").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
@@ -384,34 +397,34 @@ public class InternalConverterUtilTest {
     }
 
     @Test
-    public void testNullFillWithZeros() {
+     void testNullFillWithZeros() {
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(null);
         assertEquals("0000-00-00", testString);
     }
 
     @Test
-    public void testNothingSuppliedFillWithZeros() {
+     void testNothingSuppliedFillWithZeros() {
         InternalDate date = new InternalDate("");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
         assertEquals("0000-00-00", testString);
     }
 
     @Test
-    public void testYearSuppliedFillRestWithZeros() {
+     void testYearSuppliedFillRestWithZeros() {
         InternalDate date = new InternalDate("2017");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
         assertEquals("2017-00-00", testString);
     }
 
     @Test
-    public void testYearMonthSuppliedFillRestWithZeros() {
+     void testYearMonthSuppliedFillRestWithZeros() {
         InternalDate date = new InternalDate("2017-01");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
         assertEquals("2017-01-00", testString);
     }
 
     @Test
-    public void testYearMonthDaySuppliedDontFill() {
+     void testYearMonthDaySuppliedDontFill() {
         InternalDate date = new InternalDate("2017-01-01");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
         assertEquals("2017-01-01", testString);

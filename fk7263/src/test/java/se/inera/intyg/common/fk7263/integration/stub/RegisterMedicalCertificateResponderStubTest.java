@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.integration.stub;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -27,20 +28,26 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import java.util.Map;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RegisterMedicalCertificateResponderStubTest {
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class})
+ class RegisterMedicalCertificateResponderStubTest {
 
     private static JAXBContext jaxbContext;
     private RegisterMedicalCertificateType request;
@@ -52,13 +59,13 @@ public class RegisterMedicalCertificateResponderStubTest {
     @InjectMocks
     RegisterMedicalCertificateResponderStub stub;
 
-    @BeforeClass
-    public static void setUpOnce() throws JAXBException {
+    @BeforeAll
+     static void setUpOnce() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
     }
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+     void setUp() throws Exception {
         logicalAddress.setValue("FK");
         // read request from file
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -69,7 +76,7 @@ public class RegisterMedicalCertificateResponderStubTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testName() throws Exception {
+     void testName() throws Exception {
 
         request.getLakarutlatande().setLakarutlatandeId("id-1234567890");
 
@@ -78,16 +85,16 @@ public class RegisterMedicalCertificateResponderStubTest {
         verify(store).addCertificate(eq("id-1234567890"), any(Map.class));
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testThrowsExceptionWhenIdIsError() throws Exception {
+    @Test
+     void testThrowsExceptionWhenIdIsError(){
 
         request.getLakarutlatande().setLakarutlatandeId("error");
 
-        stub.registerMedicalCertificate(logicalAddress, request);
+       assertThrows(RuntimeException.class, ()-> stub.registerMedicalCertificate(logicalAddress, request));
     }
 
 //    @Test
-//    public void testValidation() throws Exception {
+//     void testValidation() throws Exception {
 //        // Invalid p-nr
 //        request.getLakarutlatande().getPatient().getPersonId().setExtension("121212-1212");
 //

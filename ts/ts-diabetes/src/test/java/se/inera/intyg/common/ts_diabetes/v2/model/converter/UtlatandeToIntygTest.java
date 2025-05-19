@@ -18,14 +18,18 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -33,6 +37,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -40,13 +47,16 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class UtlatandeToIntygTest {
+
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class UtlatandeToIntygTest {
 
     private static final String PNR_TOLVAN = "19121212-1212";
     private static final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
-    public void testConvert() throws Exception {
+     void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -115,7 +125,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+     void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -131,7 +141,7 @@ public class UtlatandeToIntygTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testAddIntygAvserSvar() {
+     void testAddIntygAvserSvar() {
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A1);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TRAKTOR);
@@ -155,7 +165,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodIfNull() {
+     void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -164,7 +174,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodIfBlank() {
+     void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -173,7 +183,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodDoesNotOverride() {
+     void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -182,7 +192,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertSetsVersionFromTextVersion() {
+     void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "3.7";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.setTextVersion(textVersion);
@@ -192,7 +202,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
+     void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "2.6";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.setTextVersion(null);

@@ -18,15 +18,19 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.converter.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -34,6 +38,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
 import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
@@ -44,13 +51,15 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class UtlatandeToIntygTest {
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "19121212-1212";
     private final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
-    public void testConvert() throws Exception {
+     void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -119,7 +128,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+     void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsBasUtlatandeV6 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -135,7 +144,7 @@ public class UtlatandeToIntygTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testAddIntygAvserSvar() {
+     void testAddIntygAvserSvar() {
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
         utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
@@ -159,7 +168,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodIfNull() {
+     void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -168,7 +177,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodIfBlank() {
+     void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -177,7 +186,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertComplementsArbetsplatskodDoesNotOverride() {
+     void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -186,7 +195,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertSetsVersionFromTextVersion() {
+     void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "7.8";
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(textVersion).build();
@@ -196,7 +205,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
+     void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "6.7";
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();

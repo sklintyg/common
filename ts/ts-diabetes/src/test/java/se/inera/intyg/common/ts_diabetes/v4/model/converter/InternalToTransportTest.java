@@ -18,17 +18,22 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.URL;
 import java.time.LocalDateTime;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
@@ -38,8 +43,8 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ExtendWith({SpringExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
@@ -76,16 +81,16 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testInternalToTransportConversion() throws Exception {
+     void testInternalToTransportConversion() throws Exception {
         TsDiabetesUtlatandeV4 expected = getUtlatande();
         RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(expected);
         TsDiabetesUtlatandeV4 actual = TransportToInternal.convert(transport.getIntyg());
 
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
-    @Test(expected = ConverterException.class)
-    public void testInternalToTransportSourceNull() throws Exception {
-        se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null);
+    @Test
+     void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class,()->se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null));
     }
 }

@@ -18,15 +18,19 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -35,35 +39,40 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalToTransportTest {
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+ class InternalToTransportTest {
 
     @Mock
     private WebcertModuleService webcertModuleService;
 
-    @Test(expected = ConverterException.class)
-    public void testConvertSourceNull() throws Exception {
-        InternalToTransport.convert(null, webcertModuleService);
+    @Test
+     void testConvertSourceNull() {
+        assertThrows(ConverterException.class,()-> InternalToTransport.convert(null, webcertModuleService));
     }
 
     @Test
-    public void testConvertSourceWithoutMessage() throws Exception {
+     void testConvertSourceWithoutMessage() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
         RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
-        assertNotNull("RegisterCertificateType should not be null", tsTsrk1062);
-        assertNotNull("Intyg should not be null", tsTsrk1062.getIntyg());
-        assertNull("SvarPa should be null", tsTsrk1062.getSvarPa());
+        assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
+        Assertions.assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
+        assertNull( tsTsrk1062.getSvarPa(),"SvarPa should be null");
     }
 
     @Test
-    public void testConvertSourceWithMessage() throws Exception {
+     void testConvertSourceWithMessage() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
         final Relation relation = new Relation();
@@ -76,11 +85,11 @@ public class InternalToTransportTest {
 
         RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
-        assertNotNull("RegisterCertificateType should not be null", tsTsrk1062);
-        assertNotNull("Intyg should not be null", tsTsrk1062.getIntyg());
-        assertNotNull("SvarPa should not be null", tsTsrk1062.getSvarPa());
-        assertEquals("MeddelandeId not equal", relation.getMeddelandeId(), tsTsrk1062.getSvarPa().getMeddelandeId());
-        assertEquals("ReferensId not equal", relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId());
+        assertNotNull( tsTsrk1062,"RegisterCertificateType should not be null");
+        assertNotNull( tsTsrk1062.getIntyg(),"Intyg should not be null");
+        assertNotNull( tsTsrk1062.getSvarPa(),"SvarPa should not be null");
+        assertEquals( relation.getMeddelandeId(), tsTsrk1062.getSvarPa().getMeddelandeId(),"MeddelandeId not equal");
+        assertEquals( relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId(),"ReferensId not equal");
     }
 
     private TsTrk1062UtlatandeV1 getUtlatande() {

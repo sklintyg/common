@@ -27,24 +27,36 @@ import jakarta.xml.bind.Unmarshaller;
 import java.io.IOException;
 import javax.xml.transform.stream.StreamSource;
 import org.json.JSONException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 /**
  * @author marced
  */
-public class TransportToInternalConverterTest {
+
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class})
+ class TransportToInternalConverterTest {
 
     private JAXBContext jaxbContext;
     private Unmarshaller unmarshaller;
     private ObjectMapper objectMapper;
     private static final String RESOURCE_ROOT = "TransportToInternalConverterTest/";
+    @Autowired
+    private ApplicationContext applicationContext;
 
     private JAXBElement<LakarutlatandeType> readUtlatandeTypeFromFile(String file)
         throws JAXBException, IOException {
@@ -54,15 +66,16 @@ public class TransportToInternalConverterTest {
         return utlatandeElement;
     }
 
-    @Before
-    public void setUp() throws JAXBException, IOException {
+    @BeforeEach
+     void setUp() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(LakarutlatandeType.class);
         unmarshaller = jaxbContext.createUnmarshaller();
         objectMapper = new CustomObjectMapper();
+        applicationContext.getBean(TransportToInternal.class).initialize();
     }
 
     @Test
-    public void testConversionWithWhitespaces() throws Exception {
+     void testConversionWithWhitespaces() throws Exception {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "intyg-med-blanksteg.xml");
 
@@ -78,7 +91,7 @@ public class TransportToInternalConverterTest {
     }
 
     @Test
-    public void testConversionWithMaximalCertificate() throws JAXBException,
+     void testConversionWithMaximalCertificate() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -98,7 +111,7 @@ public class TransportToInternalConverterTest {
     }
 
     @Test
-    public void testConversionWithMinimalCertificate() throws JAXBException,
+     void testConversionWithMinimalCertificate() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -118,7 +131,7 @@ public class TransportToInternalConverterTest {
     }
 
     @Test
-    public void testConversionWithNoPrognosAngivelseButMotivering() throws JAXBException,
+     void testConversionWithNoPrognosAngivelseButMotivering() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -138,7 +151,7 @@ public class TransportToInternalConverterTest {
     }
 
     @Test
-    public void testConversionWithKSH97PAsCodeSystem() throws JAXBException,
+     void testConversionWithKSH97PAsCodeSystem() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -166,7 +179,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 1, with fields: 1, 8b, 14 - 17.
      */
     @Test
-    public void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario1.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -184,7 +197,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 2 with fields: 1, 8b, 10, 14-17.
      */
     @Test
-    public void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario2.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -202,7 +215,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 3 with fields: 1, 8b, 10, 13, 14-17.
      */
     @Test
-    public void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario3.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -220,7 +233,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 4 with fields: 2b, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-    public void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario4.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -238,7 +251,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 5 with fields: 2a, 2b, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-    public void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario5.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -256,7 +269,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 6 with fields: 2a, 2b, 3, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-    public void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario6.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -274,7 +287,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 7 with fields: 2b, 4a, 4b, 5, 6b, 8a, 8b, 11, 13, 14-17.
      */
     @Test
-    public void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario7.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -292,7 +305,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 8 with fields: 2b, 4a, 4b, 5, 8a, 8b, 11, 14-17.
      */
     @Test
-    public void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario8.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -311,7 +324,7 @@ public class TransportToInternalConverterTest {
      * 14-17.
      */
     @Test
-    public void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario9.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -329,7 +342,7 @@ public class TransportToInternalConverterTest {
      * 10, 12, 14-17.
      */
     @Test
-    public void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario10.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -348,7 +361,7 @@ public class TransportToInternalConverterTest {
      * 9, 10, 14-17.
      */
     @Test
-    public void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario11.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -367,7 +380,7 @@ public class TransportToInternalConverterTest {
      * 9, 10, 12, 13, 14-17.
      */
     @Test
-    public void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario12.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -386,7 +399,7 @@ public class TransportToInternalConverterTest {
      * 9, 10, 11, 12, 13, 14-17.
      */
     @Test
-    public void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario13.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -404,7 +417,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 14, arbetsloshet.
      */
     @Test
-    public void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario14.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -422,7 +435,7 @@ public class TransportToInternalConverterTest {
      * Tests scenario 15, foraldraledighet.
      */
     @Test
-    public void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario15.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -441,7 +454,7 @@ public class TransportToInternalConverterTest {
      * This case caused bug INTYG-1413.
      */
     @Test
-    public void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
+     void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario16.xml");
         Fk7263Utlatande internalModel = TransportToInternal

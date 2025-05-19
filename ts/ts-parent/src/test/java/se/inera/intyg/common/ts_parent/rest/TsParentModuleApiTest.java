@@ -22,8 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -43,19 +43,20 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.facade.model.CertificateTextType;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
@@ -67,6 +68,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -98,9 +102,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class TsParentModuleApiTest {
+@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+class TsParentModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
@@ -133,7 +137,7 @@ public class TsParentModuleApiTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void set() throws Exception {
         getCertificateFile = new ClassPathResource("getCertificate.xml");
         registerCertificateFile = new ClassPathResource("registerCertificate.xml");
@@ -142,8 +146,8 @@ public class TsParentModuleApiTest {
         utlatande = new CustomObjectMapper().readValue(json, TestUtlatande.class);
     }
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+    void setup() throws Exception {
         Field field = TsParentModuleApi.class.getDeclaredField("type");
         field.setAccessible(true);
         field.set(moduleApi, TestUtlatande.class);
@@ -171,10 +175,10 @@ public class TsParentModuleApiTest {
         verify(webcertModelFactory).createNewWebcertDraft(draftCertificateHolder);
     }
 
-    @Test(expected = ModuleConverterException.class)
+    @Test
     public void testCreateNewInternalConverterException() throws Exception {
         when(webcertModelFactory.createNewWebcertDraft(any(CreateNewDraftHolder.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient()));
+        assertThrows(ModuleConverterException.class, ()-> moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient())));
     }
 
     @Test
@@ -186,10 +190,10 @@ public class TsParentModuleApiTest {
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
     }
 
-    @Test(expected = ModuleConverterException.class)
+    @Test
     public void testCreateNewInternalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
+        assertThrows(ModuleConverterException.class, ()-> moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande));
     }
 
     @Test
@@ -201,15 +205,15 @@ public class TsParentModuleApiTest {
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
     }
 
-    @Test(expected = ModuleConverterException.class)
+    @Test
     public void testCreateRenewalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
+        assertThrows(ModuleConverterException.class, ()-> moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande));
     }
 
-    @Test(expected = ModuleException.class)
-    public void testPdfEmployer() throws Exception {
-        moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, UtkastStatus.SIGNED);
+    @Test()
+    public void testPdfEmployer() {
+        assertThrows(ModuleException.class, ()-> moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, UtkastStatus.SIGNED));
     }
 
     @Test
@@ -224,9 +228,9 @@ public class TsParentModuleApiTest {
         assertNull(moduleApi.getInternal(res).getGrundData().getSigneringsdatum());
     }
 
-    @Test(expected = ModuleException.class)
+    @Test
     public void testUpdateBeforeSaveInvalidJson() throws Exception {
-        moduleApi.updateBeforeSave("invalidJson", new HoSPersonal());
+        assertThrows(ModuleException.class, ()-> moduleApi.updateBeforeSave("invalidJson", new HoSPersonal()));
     }
 
     @Test
@@ -251,9 +255,9 @@ public class TsParentModuleApiTest {
         assertEquals(signDate, moduleApi.getInternal(res).getGrundData().getSigneringsdatum());
     }
 
-    @Test(expected = ModuleException.class)
+    @Test
     public void testUpdateBeforeSigningInvalidJson() throws Exception {
-        moduleApi.updateBeforeSigning("invalidJson", new HoSPersonal(), LocalDateTime.now());
+        assertThrows(ModuleException.class, ()-> moduleApi.updateBeforeSigning("invalidJson", new HoSPersonal(), LocalDateTime.now()));
     }
 
     @Test
@@ -273,9 +277,9 @@ public class TsParentModuleApiTest {
         assertNotNull(res.getGrundData());
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void testGetUtlatandeFromJsonInvalidJson() throws Exception {
-        moduleApi.getUtlatandeFromJson("invalidJson");
+        assertThrows(IOException.class, ()-> moduleApi.getUtlatandeFromJson("invalidJson"));
     }
 
     @Test
@@ -289,10 +293,10 @@ public class TsParentModuleApiTest {
         assertEquals(INTYG_ID, res.getIntygsId().getExtension());
     }
 
-    @Test(expected = ModuleException.class)
+    @Test
     public void testGetIntygFromUtlatandeConverterException() throws Exception {
         doThrow(new ConverterException()).when(moduleApi).utlatandeToIntyg(any(Utlatande.class));
-        moduleApi.getIntygFromUtlatande(new TestUtlatande());
+        assertThrows(ModuleException.class, ()-> moduleApi.getIntygFromUtlatande(new TestUtlatande()));
     }
 
     @Test
@@ -302,9 +306,9 @@ public class TsParentModuleApiTest {
         assertEquals(inputString, res);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testGetModuleSpecificArendeParameters() throws Exception {
-        moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), new ArrayList<>());
+        assertThrows(UnsupportedOperationException.class, ()-> moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), new ArrayList<>()));
     }
 
     @Test
@@ -339,11 +343,11 @@ public class TsParentModuleApiTest {
         moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
     }
 
-    @Test(expected = ModuleConverterException.class)
+    @Test
     public void testRegisterCertificateConverterException() throws Exception {
         doThrow(new ConverterException()).when(moduleApi).internalToTransport(any(Utlatande.class));
 
-        moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+        assertThrows(ModuleConverterException.class, ()-> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
     }
 
     @Test
@@ -387,22 +391,22 @@ public class TsParentModuleApiTest {
         verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class));
     }
 
-    @Test(expected = ModuleException.class)
+    @Test
     public void testGetCertificateConvertException() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
             .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        assertThrows(ModuleException.class, () -> moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA"));
     }
 
-    @Test(expected = ModuleException.class)
+    @Test
     public void testGetCertificateSoapFault() throws Exception {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
             .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        assertThrows(ModuleException.class, () -> moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA"));
     }
 
     @Test
@@ -414,12 +418,8 @@ public class TsParentModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
             .thenReturn(response);
 
-        try {
-            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
-            fail("should throw");
-        } catch (ExternalServiceCallException e) {
-            assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
-        }
+        ExternalServiceCallException exception = assertThrows(ExternalServiceCallException.class, () -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
+        assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, exception.getErroIdEnum());
     }
 
     @Test
@@ -431,12 +431,8 @@ public class TsParentModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
             .thenReturn(response);
 
-        try {
-            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
-            fail("should throw");
-        } catch (ExternalServiceCallException e) {
-            assertEquals(ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
-        }
+        ExternalServiceCallException exception = assertThrows(ExternalServiceCallException.class, () -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
+        assertEquals(ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR, exception.getErroIdEnum());
     }
 
     @Test
@@ -448,12 +444,8 @@ public class TsParentModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
             .thenReturn(response);
 
-        try {
-            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
-            fail("should throw");
-        } catch (ExternalServiceCallException e) {
-            assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
-        }
+        ExternalServiceCallException exception = assertThrows(ExternalServiceCallException.class, () -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
+        assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, exception.getErroIdEnum());
     }
 
     @Test
@@ -470,14 +462,14 @@ public class TsParentModuleApiTest {
         assertEquals(INTYG_ID, parametersCaptor.getValue().getIntygsId().getExtension());
     }
 
-    @Test(expected = ExternalServiceCallException.class)
+    @Test
     public void testRevokeCertificateResponseError() throws Exception {
         String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
         RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
         revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        assertThrows(ExternalServiceCallException.class, () -> moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS));
     }
 
     @Test
@@ -499,12 +491,12 @@ public class TsParentModuleApiTest {
         moduleApi.handleResponse(response, request);
     }
 
-    @Test(expected = ExternalServiceCallException.class)
+    @Test
     public void testHandleResponseError() throws Exception {
         RegisterCertificateResponseType response = createRegisterCertificateResponse(ResultCodeType.ERROR);
         RegisterCertificateType request = new RegisterCertificateType();
 
-        moduleApi.handleResponse(response, request);
+        assertThrows(ExternalServiceCallException.class, () -> moduleApi.handleResponse(response, request));
     }
 
     @Test
@@ -585,3 +577,4 @@ public class TsParentModuleApiTest {
     }
 
 }
+

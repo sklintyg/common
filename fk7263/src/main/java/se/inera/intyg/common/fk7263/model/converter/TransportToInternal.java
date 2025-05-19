@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaType;
@@ -50,6 +52,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
@@ -58,12 +61,23 @@ import se.inera.intyg.schemas.contract.Personnummer;
  *
  * @author marced
  */
+@Component
 public final class TransportToInternal {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportToInternal.class);
 
-    private TransportToInternal() {
+    private final CareProviderMapperUtil careProviderMapperUtil;
+    private static TransportToInternal instance = null;
+
+    public TransportToInternal(CareProviderMapperUtil careProviderMapperUtil) {
+        this.careProviderMapperUtil = careProviderMapperUtil;
     }
+
+    @PostConstruct
+    public void initialize(){
+        this.instance = this;
+    }
+
 
     public static Fk7263Utlatande convert(LakarutlatandeType source) throws ConverterException {
         LOGGER.debug("Converting transport to internal model");
@@ -308,11 +322,27 @@ public final class TransportToInternal {
      * @return Vardgivare
      */
     private static Vardgivare convertVardgivare(VardgivareType source) {
+        return instance().getMappedCareProvider(source);
+    }
+
+    private  Vardgivare getMappedCareProvider(VardgivareType sourceCareProvider) {
+       final var mapped = careProviderMapperUtil.getMappedCareprovider(
+            sourceCareProvider.getVardgivareId().getExtension(),
+            sourceCareProvider.getVardgivarnamn());
+
         Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(source.getVardgivareId().getExtension());
-        vardgivare.setVardgivarnamn(source.getVardgivarnamn());
+        vardgivare.setVardgivarid(mapped.id());
+        vardgivare.setVardgivarnamn(mapped.name());
         return vardgivare;
     }
+
+    static TransportToInternal instance() {
+        if (instance == null) {
+            throw new IllegalStateException("TransportToInternal is not properly initialized");
+        }
+        return instance;
+    }
+
 
     /**
      * Create Internal Patient from transport format.

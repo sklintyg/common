@@ -32,6 +32,7 @@ import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 import com.google.common.base.Strings;
+import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDate;
 import java.time.Year;
@@ -41,6 +42,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
 import se.inera.intyg.common.support.common.enumerations.PatientInfo;
@@ -50,6 +53,7 @@ import se.inera.intyg.common.support.model.ModelException;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -83,6 +87,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
  */
+@Component
 public final class InternalConverterUtil {
 
     private static final String NOT_AVAILABLE = "N/A";
@@ -90,9 +95,18 @@ public final class InternalConverterUtil {
     private static final Pattern GENERAL_DATE_FORMAT = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
     private static final int MIN_YEAR = 1000;
 
+    private final CareProviderMapperUtil careProviderMapperUtil;
+    private static InternalConverterUtil instance = null;
+
     static ObjectFactory objectFactory = new ObjectFactory();
 
-    private InternalConverterUtil() {
+    public InternalConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
+        this.careProviderMapperUtil = careProviderMapperUtil;
+    }
+
+    @PostConstruct
+    public void initialize(){
+        this.instance=this;
     }
 
     /**
@@ -424,12 +438,28 @@ public final class InternalConverterUtil {
         return vardenhet;
     }
 
-    private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivareId(getHsaId(sourceVardgivare.getVardgivarid()));
-        vardgivare.setVardgivarnamn(emptyStringIfNull(sourceVardgivare.getVardgivarnamn()));
-        return vardgivare;
+    static InternalConverterUtil instance() {
+        if (instance == null) {
+            throw new IllegalStateException("InternalConverterUtil is not properly initialized");
+        }
+        return instance;
     }
+
+    private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
+        return instance().getMappedCareProvider(sourceVardgivare);
+    }
+
+    private  Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
+        final var mapped = careProviderMapperUtil.getMappedCareprovider(
+            sourceCareProvider.getVardgivarid(),
+            sourceCareProvider.getVardgivarnamn());
+
+        Vardgivare careProvider = new Vardgivare();
+        careProvider.setVardgivareId(getHsaId(mapped.id()));
+        careProvider.setVardgivarnamn(emptyStringIfNull(mapped.name()));
+        return careProvider;
+    }
+
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
         PatientInfo patientInfo) {
