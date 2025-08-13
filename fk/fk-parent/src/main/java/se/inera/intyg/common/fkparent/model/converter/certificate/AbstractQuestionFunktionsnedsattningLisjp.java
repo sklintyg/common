@@ -36,6 +36,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
+import se.inera.intyg.common.support.facade.model.config.IcfCodesPropertyType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
@@ -53,6 +54,7 @@ public abstract class AbstractQuestionFunktionsnedsattningLisjp {
             .config(
                 CertificateDataConfigIcf.builder()
                     .id(jsonId)
+                    .icfCodesPropertyName(IcfCodesPropertyType.FUNKTIONSNEDSATTNINGAR)
                     .header(texts.get(FUNKTIONSNEDSATTNING_SVAR_TEXT))
                     .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
                     .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_BESKRIVNING))

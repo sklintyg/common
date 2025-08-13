@@ -53,6 +53,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
+import se.inera.intyg.common.support.facade.model.config.IcfCodesPropertyType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
@@ -133,7 +134,8 @@ class QuestionFunktionsnedsattningTest {
                 () -> assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, certificateDataConfigIcf.getId()),
                 () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
                 () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel()),
-                () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER, certificateDataConfigIcf.getPlaceholder())
+                () -> assertEquals(FUNKTIONSNEDSATTNING_ICF_PLACEHOLDER, certificateDataConfigIcf.getPlaceholder()),
+                () -> assertEquals(IcfCodesPropertyType.FUNKTIONSNEDSATTNINGAR, certificateDataConfigIcf.getIcfCodesPropertyName())
             );
 
         }
