@@ -24,6 +24,7 @@ import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import lombok.With;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange.CertificateDataValueDateRangeBuilder;
 
 @JsonDeserialize(builder = CertificateDataValueDateRangeBuilder.class)
@@ -34,6 +35,7 @@ public class CertificateDataValueDateRange implements CertificateDataValue {
     @Getter(onMethod = @__(@Override))
     CertificateDataValueType type = CertificateDataValueType.DATE_RANGE;
     String id;
+    @With
     LocalDate to;
     LocalDate from;
 
