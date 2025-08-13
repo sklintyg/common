@@ -53,6 +53,7 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.builder.CertificateBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIcf;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigType;
+import se.inera.intyg.common.support.facade.model.config.IcfCodesPropertyType;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationHide;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
@@ -133,7 +134,8 @@ class QuestionAktivitetsbegransningarTest {
                 () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, certificateDataConfigIcf.getId()),
                 () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_INFO, certificateDataConfigIcf.getModalLabel()),
                 () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_COLLECTION, certificateDataConfigIcf.getCollectionsLabel()),
-                () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER, certificateDataConfigIcf.getPlaceholder())
+                () -> assertEquals(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER, certificateDataConfigIcf.getPlaceholder()),
+                () -> assertEquals(IcfCodesPropertyType.AKTIVITETSBEGRANSNINGAR, certificateDataConfigIcf.getIcfCodesPropertyName())
             );
         }
 

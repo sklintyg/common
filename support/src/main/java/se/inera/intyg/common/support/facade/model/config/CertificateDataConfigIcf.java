@@ -50,7 +50,7 @@ public class CertificateDataConfigIcf implements CertificateDataConfig {
     String modalLabel;
     String collectionsLabel;
     String placeholder;
-    IcfCodesPropertyEnum icfCodesPropertyName;
+    IcfCodesPropertyType icfCodesPropertyName;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class CertificateDataConfigIcfBuilder {
