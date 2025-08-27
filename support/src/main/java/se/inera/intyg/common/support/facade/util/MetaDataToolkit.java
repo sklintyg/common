@@ -36,6 +36,7 @@ public final class MetaDataToolkit {
             .city(unit.getPostort())
             .email(unit.getEpost())
             .phoneNumber(unit.getTelefonnummer())
+            .workplaceCode(unit.getArbetsplatsKod())
             .build();
     }
 
@@ -46,7 +47,8 @@ public final class MetaDataToolkit {
             .build();
     }
 
-    public static Patient toCertificate(se.inera.intyg.common.support.model.common.internal.Patient patient) {
+    public static Patient toCertificate(
+        se.inera.intyg.common.support.model.common.internal.Patient patient) {
         return Patient.builder()
             .personId(
                 PersonId.builder()

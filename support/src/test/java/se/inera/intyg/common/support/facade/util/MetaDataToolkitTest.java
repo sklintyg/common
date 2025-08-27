@@ -110,6 +110,16 @@ class MetaDataToolkitTest {
 
             assertEquals(expectedUnitPhoneNumber, unit.getPhoneNumber());
         }
+
+        @Test
+        void shallIncludeWorkplaceCode() {
+            final var expectedWorkplaceCode = "WorkplaceCode";
+            unit.setArbetsplatsKod(expectedWorkplaceCode);
+
+            final var unit = toCertificate(this.unit);
+
+            assertEquals(expectedWorkplaceCode, unit.getWorkplaceCode());
+        }
     }
 
     @Nested
@@ -165,7 +175,8 @@ class MetaDataToolkitTest {
         @Test
         void shallIncludePersonId() {
             final var actualPatient = toCertificate(this.patient);
-            assertEquals(patient.getPersonId().getPersonnummerWithDash(), actualPatient.getPersonId().getId());
+            assertEquals(patient.getPersonId().getPersonnummerWithDash(),
+                actualPatient.getPersonId().getId());
         }
 
         @Test
