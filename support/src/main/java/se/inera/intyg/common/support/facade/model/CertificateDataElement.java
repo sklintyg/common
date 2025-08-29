@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement.CertificateDataElementBuilder;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfig;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
@@ -37,6 +38,7 @@ public class CertificateDataElement {
     private String id;
     private String parent;
     private int index;
+    @With
     private CertificateDataConfig config;
     private CertificateDataValue value;
     private CertificateDataValidation[] validation;

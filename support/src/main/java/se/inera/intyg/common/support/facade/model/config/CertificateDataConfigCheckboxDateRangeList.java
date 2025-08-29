@@ -25,6 +25,7 @@ import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
+import lombok.With;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList.CertificateDataConfigCheckboxDateRangeListBuilder;
 
 @JsonDeserialize(builder = CertificateDataConfigCheckboxDateRangeListBuilder.class)
@@ -49,6 +50,7 @@ public class CertificateDataConfigCheckboxDateRangeList implements CertificateDa
     @Getter(onMethod = @__(@Override))
     Message message;
     List<CheckboxDateRange> list;
+    @With
     String previousDateRangeText;
     boolean hideWorkingHours;
     LocalDate min;

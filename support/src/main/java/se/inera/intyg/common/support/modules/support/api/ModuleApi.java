@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -399,5 +401,8 @@ public interface ModuleApi extends ModuleFacadeApi {
      */
     default Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
         return Optional.empty();
+    }
+
+    default void decorate(Certificate certificate, Map<String, CertificateDataElement> data) {
     }
 }
