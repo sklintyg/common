@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,9 +56,13 @@ import se.inera.intyg.common.services.messages.DefaultCertificateMessagesProvide
 import se.inera.intyg.common.services.messages.MessagesParser;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateLink;
 import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.facade.model.CertificateTextType;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
+import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.facade.util.TestabilityToolkit;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -335,5 +341,42 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
                     .build()
             ))
             .build();
+    }
+
+    @Override
+    public void decorate(Certificate certificate, Map<String, CertificateDataElement> data) {
+        final var previousLastDateRange = data.entrySet().stream()
+            .filter(entry -> entry.getKey().equals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32))
+            .filter(entry -> entry.getValue().getValue() instanceof CertificateDataValueDateRangeList)
+            .map(entry -> (CertificateDataValueDateRangeList) entry.getValue().getValue())
+            .findFirst()
+            .orElse(null);
+
+        if (previousLastDateRange == null) {
+            return;
+        }
+
+        certificate.getData().entrySet().forEach(
+            entry -> {
+                if (!entry.getValue().getId().equals(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)) {
+                    return;
+                }
+
+                final var config = (CertificateDataConfigCheckboxDateRangeList) entry.getValue().getConfig();
+                final var configCheckboxDateRangeList = config.withPreviousDateRangeText(
+                    "På det ursprungliga intyget var slutdatumet för den sista perioden %s och omfattningen var %s."
+                        .formatted(
+                            previousLastDateRange.getList().getLast().getTo(),
+                            config.getList().stream()
+                                .filter(dateRange -> dateRange.getId().equals(previousLastDateRange.getList().getLast().getId()))
+                                .findFirst()
+                                .map(CheckboxDateRange::getLabel)
+                                .orElse("<saknas>")
+                        )
+                );
+
+                entry.setValue(entry.getValue().withConfig(configCheckboxDateRangeList));
+            }
+        );
     }
 }

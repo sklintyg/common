@@ -30,8 +30,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
@@ -40,6 +42,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
+import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,11 +53,15 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -73,9 +80,15 @@ import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.support.facade.model.Certificate;
+import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.CertificateLink;
 import se.inera.intyg.common.support.facade.model.CertificateText;
 import se.inera.intyg.common.support.facade.model.CertificateTextType;
+import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCheckboxDateRangeList;
+import se.inera.intyg.common.support.facade.model.config.CheckboxDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRangeList;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -88,9 +101,9 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -116,7 +129,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 public class LisjpModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "v1/internal/scenarios/pass-flera-sysselsattningar.json";
@@ -640,6 +654,74 @@ public class LisjpModuleApiTest {
             .build();
 
         assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
+    }
+
+    @Nested
+    class DecorateTests {
+
+        @Test
+        void shouldNotDecorateCertificateIfQuestionNotPresentInData() {
+            final var certificate = mock(Certificate.class);
+            moduleApi.decorate(certificate, Collections.emptyMap());
+            verifyNoInteractions(certificate);
+        }
+
+        @Test
+        void shouldDecorateCertificateWithPreviousLastDateRange() {
+            final var certificate = new Certificate();
+            final var id = "id";
+            final var date = LocalDate.now();
+            final var label = "label";
+            
+            final var expectedPreviousText = "På det ursprungliga intyget var slutdatumet för den sista perioden %s och omfattningen var %s.".formatted(
+                date, label);
+
+            final var certificateDataElement = CertificateDataElement.builder()
+                .id(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                .config(
+                    CertificateDataConfigCheckboxDateRangeList.builder()
+                        .list(
+                            List.of(
+                                CheckboxDateRange.builder()
+                                    .id(id)
+                                    .label(label)
+                                    .build()
+                            )
+                        )
+                        .previousDateRangeText(null)
+                        .build()
+                )
+                .build();
+
+            final var certificateDataElementMap = new HashMap<String, CertificateDataElement>();
+            certificateDataElementMap.put(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataElement);
+            certificate.setData(certificateDataElementMap);
+
+            final var certificateDataElementWithPreviousDateRange = CertificateDataElement.builder()
+                .value(
+                    CertificateDataValueDateRangeList.builder()
+                        .list(
+                            List.of(
+                                CertificateDataValueDateRange.builder()
+                                    .id(id)
+                                    .to(date)
+                                    .build()
+                            )
+                        )
+                        .build()
+                )
+                .build();
+
+            final var data = new HashMap<String, CertificateDataElement>();
+            data.put(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, certificateDataElementWithPreviousDateRange);
+
+            moduleApi.decorate(certificate, data);
+            final var config = (CertificateDataConfigCheckboxDateRangeList) certificate.getData()
+                .get(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32)
+                .getConfig();
+
+            assertEquals(expectedPreviousText, config.getPreviousDateRangeText());
+        }
     }
 
     private String toJsonString(LisjpUtlatandeV1 utlatande) throws ModuleException {
