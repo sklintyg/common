@@ -42,7 +42,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.KvIntygstyp;
@@ -105,8 +104,8 @@ public final class InternalConverterUtil {
     }
 
     @PostConstruct
-    public void initialize(){
-        this.instance=this;
+    public void initialize() {
+        this.instance = this;
     }
 
     /**
@@ -449,7 +448,7 @@ public final class InternalConverterUtil {
         return instance().getMappedCareProvider(sourceVardgivare);
     }
 
-    private  Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
+    private Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
         final var mapped = careProviderMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivarid(),
             sourceCareProvider.getVardgivarnamn());
