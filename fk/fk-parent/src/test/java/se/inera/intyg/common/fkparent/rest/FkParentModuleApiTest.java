@@ -39,7 +39,6 @@ import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -73,9 +72,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -86,6 +85,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
@@ -110,7 +110,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 public class FkParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";
@@ -468,11 +469,11 @@ public class FkParentModuleApiTest {
         assertNotNull(res.getGrundData());
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = ModuleSystemException.class)
     public void testGetUtlatandeFromJsonInvalidJson() throws Exception {
         moduleApi.getUtlatandeFromJson("invalidJson");
     }
-
+    
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
