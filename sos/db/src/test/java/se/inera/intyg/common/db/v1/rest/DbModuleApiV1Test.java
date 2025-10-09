@@ -35,6 +35,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
@@ -46,6 +47,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Properties;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,10 +80,11 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
@@ -105,7 +108,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 class DbModuleApiV1Test {
 
     private static final String LOGICAL_ADDRESS = "logical address";
@@ -126,14 +130,40 @@ class DbModuleApiV1Test {
     private IntygTextsService intygTexts;
     @Mock
     private SummaryConverter summaryConverter;
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     @InjectMocks
     private DbModuleApiV1 moduleApi;
+
+    @BeforeAll
+    static void initInternalConverterUtil() {
+        CareProviderMapperUtil mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
         ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
         ReflectionTestUtils.setField(moduleApi, "internalDraftValidator", internalDraftValidator);
+    }
+
+    @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException, JsonProcessingException {
+        final var json = "{}";
+        when(objectMapper.readValue(json, DbUtlatandeV1.class))
+            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+
+        moduleApi.getInternal(json);
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test

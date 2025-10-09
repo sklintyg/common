@@ -29,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,6 +51,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -71,8 +73,12 @@ import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
@@ -108,14 +114,40 @@ class LuaenaModuleApiTest {
     private IntygTextsService intygTexts;
     @Spy
     private SvarIdHelperImpl svarIdHelper;
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     @InjectMocks
     private LuaenaModuleApiV1 moduleApi;
+
+    @BeforeAll
+    static void initInternalConverterUtil() {
+        CareProviderMapperUtil mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
         ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
         ReflectionTestUtils.setField(moduleApi, "svarIdHelper", svarIdHelper);
+    }
+
+    @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException {
+        moduleApi.getInternal(
+            toJsonString(
+                ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()
+            )
+        );
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test

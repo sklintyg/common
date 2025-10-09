@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
@@ -85,7 +86,8 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
-
+    @Autowired(required = false)
+    private CareProviderMapperUtil careProviderMapperUtil;
     @Value("${pdf.footer.app.name.text:1177 intyg}")
     private String pdfFooterAppName;
 
@@ -121,6 +123,17 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
+        }
+    }
+
+    @Override
+    protected Ag7804UtlatandeV1 getInternal(String internalModel) throws ModuleException {
+        try {
+            final var ag7804UtlatandeV1 = objectMapper.readValue(internalModel, Ag7804UtlatandeV1.class);
+            careProviderMapperUtil.decorateWithMappedCareProvider(ag7804UtlatandeV1);
+            return ag7804UtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
         }
     }
 

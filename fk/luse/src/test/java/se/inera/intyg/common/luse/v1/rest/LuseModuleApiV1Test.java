@@ -159,7 +159,6 @@ class LuseModuleApiV1Test {
     static void initInternalConverterUtil() {
         CareProviderMapperUtil mapper = mock(CareProviderMapperUtil.class);
 
-        // Adjust return type to your actual mapped object type
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
                 inv.getArgument(0, String.class),
@@ -679,7 +678,7 @@ class LuseModuleApiV1Test {
 
         assertEquals("Avser diagnos", response);
     }
-    
+
     @Test
     void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException {
         moduleApi.getInternal(

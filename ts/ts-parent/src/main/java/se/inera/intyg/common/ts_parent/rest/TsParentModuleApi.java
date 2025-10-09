@@ -114,7 +114,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private WebcertModelFactory<T> webcertModelFactory;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    protected ObjectMapper objectMapper;
 
     @Autowired(required = false)
     private GetCertificateResponderInterface getCertificateResponderInterface;
