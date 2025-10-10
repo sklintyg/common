@@ -25,6 +25,9 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -38,12 +41,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import javax.xml.transform.dom.DOMResult;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Node;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
@@ -96,6 +102,20 @@ public class TransportConverterUtilTest {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+    }
+
+    @BeforeClass
+    public static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @Test

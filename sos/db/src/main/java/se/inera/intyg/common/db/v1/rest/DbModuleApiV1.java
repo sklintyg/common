@@ -49,6 +49,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -69,6 +70,8 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Autowired(required = false)
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     public DbModuleApiV1() {
         super(DbUtlatandeV1.class);
@@ -184,5 +187,16 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
         final var certificate = getCertificateFromJson(model, typeAheadProvider);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
+    }
+
+    @Override
+    protected DbUtlatandeV1 getInternal(String internalModel) throws ModuleException {
+        try {
+            final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
+            careProviderMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1);
+            return dbUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
     }
 }

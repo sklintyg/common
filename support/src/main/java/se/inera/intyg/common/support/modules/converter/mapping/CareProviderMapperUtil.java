@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 
 /**
@@ -36,16 +37,32 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CareProviderMapperUtil {
 
-  private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
+    private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
+    
+    public void decorateWithMappedCareProvider(Utlatande utlatande) {
+        if (utlatande == null
+            || utlatande.getGrundData() == null
+            || utlatande.getGrundData().getSkapadAv() == null
+            || utlatande.getGrundData().getSkapadAv().getVardenhet() == null
+            || utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare() == null
+            || utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid() == null) {
+            return;
+        }
 
-  public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
-      final String originalCareProviderName) {
+        final var vardgivare = utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare();
+        final var mappedVardgivare = getMappedCareprovider(vardgivare.getVardgivarid(), vardgivare.getVardgivarnamn());
+        vardgivare.setVardgivarid(mappedVardgivare.id());
+        vardgivare.setVardgivarnamn(mappedVardgivare.name());
+    }
 
-   return careProviderMappingConfigLoader.getCareProviderMappings().stream()
-        .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
-            && mappingConfig.originalCareProviderIds().contains(originalCareProviderId))
-        .findFirst()
-        .map(mappingConfig -> new MappedCareProvider(mappingConfig.careProviderId(), mappingConfig.careProviderName()))
-        .orElse(new MappedCareProvider(originalCareProviderId, originalCareProviderName));
-  }
+    public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
+        final String originalCareProviderName) {
+
+        return careProviderMappingConfigLoader.getCareProviderMappings().stream()
+            .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
+                && mappingConfig.originalCareProviderIds().contains(originalCareProviderId))
+            .findFirst()
+            .map(mappingConfig -> new MappedCareProvider(mappingConfig.careProviderId(), mappingConfig.careProviderName()))
+            .orElse(new MappedCareProvider(originalCareProviderId, originalCareProviderName));
+    }
 }

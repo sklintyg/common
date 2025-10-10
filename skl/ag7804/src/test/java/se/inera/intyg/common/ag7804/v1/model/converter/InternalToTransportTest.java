@@ -21,7 +21,9 @@ package se.inera.intyg.common.ag7804.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
@@ -32,6 +34,7 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,9 +49,11 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
@@ -56,10 +61,24 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 public class InternalToTransportTest {
 
     private WebcertModuleService webcertModuleService;
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     public void setup() {
@@ -125,7 +144,7 @@ public class InternalToTransportTest {
 
     @Test
     public void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class,()->InternalToTransport.convert(null, webcertModuleService));
+        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
     }
 
 }

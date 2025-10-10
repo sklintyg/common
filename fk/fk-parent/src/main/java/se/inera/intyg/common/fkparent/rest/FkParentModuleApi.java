@@ -110,8 +110,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     private IntygTextsService intygTexts;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
+    protected ObjectMapper objectMapper;
+    
     @Autowired
     protected WebcertModelFactory<T> webcertModelFactory;
 
@@ -285,8 +285,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
-        return objectMapper.readValue(utlatandeJson, type);
+    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException {
+        return getInternal(utlatandeJson);
     }
 
     @Override

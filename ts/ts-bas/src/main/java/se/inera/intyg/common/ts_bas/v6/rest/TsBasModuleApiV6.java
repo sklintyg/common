@@ -63,6 +63,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
@@ -116,6 +117,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @Value("${pdf.footer.app.name.text:1177 intyg}")
     private String pdfFooterAppName;
+
+    @Autowired(required = false)
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     public TsBasModuleApiV6() {
         super(TsBasUtlatandeV6.class);
@@ -235,6 +239,17 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Override
     protected TsBasUtlatandeV6 transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
+    }
+
+    @Override
+    protected TsBasUtlatandeV6 getInternal(String internalModel) throws ModuleException {
+        try {
+            final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
+            careProviderMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6);
+            return tsBasUtlatandeV6;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
     }
 
     String transformPayload(String xmlBody) throws ModuleException {

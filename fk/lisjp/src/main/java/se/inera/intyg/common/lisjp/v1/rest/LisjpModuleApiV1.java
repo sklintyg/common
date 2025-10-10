@@ -71,6 +71,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -100,6 +101,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private Map<String, String> validationMessages;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Autowired(required = false)
+    private CareProviderMapperUtil careProviderMapperUtil;
     @Value("${pdf.watermark.description.text:Du kan se intyget genom att logga in på 1177.se}")
     private String pdfWatermarkDescription;
 
@@ -132,6 +135,17 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
         return generatePdf(new DefaultLisjpPdfDefinitionBuilder(pdfWatermarkDescription), statuses, luseIntyg, applicationOrigin,
             CERTIFICATE_FILE_PREFIX,
             utkastStatus);
+    }
+
+    @Override
+    protected LisjpUtlatandeV1 getInternal(String internalModel) throws ModuleException {
+        try {
+            final var lisjpUtlatandeV1 = objectMapper.readValue(internalModel, LisjpUtlatandeV1.class);
+            careProviderMapperUtil.decorateWithMappedCareProvider(lisjpUtlatandeV1);
+            return lisjpUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
     }
 
     @Override

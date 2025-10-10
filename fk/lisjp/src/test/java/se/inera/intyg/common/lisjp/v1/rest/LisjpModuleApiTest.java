@@ -60,6 +60,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -102,8 +103,10 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -162,14 +165,42 @@ public class LisjpModuleApiTest {
     @Spy
     private SvarIdHelperImpl svarIdHelper;
 
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
+
     @InjectMocks
     private LisjpModuleApiV1 moduleApi;
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
         ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
         ReflectionTestUtils.setField(moduleApi, "internalDraftValidator", internalDraftValidator);
         ReflectionTestUtils.setField(moduleApi, "svarIdHelper", svarIdHelper);
+    }
+
+    @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException {
+        moduleApi.getInternal(
+            toJsonString(
+                ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()
+            )
+        );
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test
@@ -672,7 +703,7 @@ public class LisjpModuleApiTest {
             final var id = "id";
             final var date = LocalDate.now();
             final var label = "label";
-            
+
             final var expectedPreviousText = "På det ursprungliga intyget var slutdatumet för den sista perioden %s och omfattningen var %s.".formatted(
                 date, label);
 

@@ -20,9 +20,13 @@ package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,9 +35,11 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
@@ -44,7 +50,8 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
@@ -80,8 +87,21 @@ public class InternalToTransportTest {
         return utlatande.build();
     }
 
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
+    }
+
     @Test
-     void testInternalToTransportConversion() throws Exception {
+    void testInternalToTransportConversion() throws Exception {
         TsDiabetesUtlatandeV4 expected = getUtlatande();
         RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(expected);
         TsDiabetesUtlatandeV4 actual = TransportToInternal.convert(transport.getIntyg());
@@ -90,7 +110,8 @@ public class InternalToTransportTest {
     }
 
     @Test
-     void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class,()->se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null));
+    void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class,
+            () -> se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null));
     }
 }

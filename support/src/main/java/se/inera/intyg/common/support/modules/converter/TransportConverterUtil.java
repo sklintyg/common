@@ -22,6 +22,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static se.inera.intyg.common.support.Constants.ADDRESS_DETAILS_SOURCE_PU_CODE;
 
 import com.google.common.base.Strings;
+import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.Holder;
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import org.w3c.dom.Node;
@@ -53,6 +55,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -73,12 +76,28 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
  */
+@Component
 public final class TransportConverterUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
 
+    private final CareProviderMapperUtil careProviderMapperUtil;
+    private static TransportConverterUtil instance = null;
 
-    private TransportConverterUtil() {
+    public TransportConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
+        this.careProviderMapperUtil = careProviderMapperUtil;
+    }
+
+    @PostConstruct
+    public void initialize() {
+        this.instance = this;
+    }
+
+    static TransportConverterUtil instance() {
+        if (instance == null) {
+            throw new IllegalStateException("TransportConverterUtil is not properly initialized");
+        }
+        return instance;
     }
 
     /**
@@ -409,10 +428,20 @@ public final class TransportConverterUtil {
      * @param source the transport representation
      * @return the converted Vardgivare
      */
-    public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare source) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(source.getVardgivareId().getExtension());
-        vardgivare.setVardgivarnamn(source.getVardgivarnamn());
+    private static Vardgivare getVardgivare(
+        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceVardgivare) {
+        return instance().getMappedCareProvider(sourceVardgivare);
+    }
+
+    private Vardgivare getMappedCareProvider(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider) {
+        final var mapped = careProviderMapperUtil.getMappedCareprovider(
+            sourceCareProvider.getVardgivareId().getExtension(),
+            sourceCareProvider.getVardgivarnamn()
+        );
+
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(mapped.id());
+        vardgivare.setVardgivarnamn(mapped.name());
         return vardgivare;
     }
 

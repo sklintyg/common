@@ -61,6 +61,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -79,6 +80,7 @@ import se.inera.intyg.common.luae_fs.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_fs.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.luae_fs.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.luae_fs.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -90,9 +92,14 @@ import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -122,10 +129,10 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 @ContextConfiguration(classes = {BefattningService.class})
 class LuaefsModuleApiTest {
 
-    private static final  String LOGICAL_ADDRESS = "logical address";
-    private static final  String TEST_HSA_ID = "hsaId";
-    private static final  String TEST_PATIENT_PERSONNR = "191212121212";
-    private static final  String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String TEST_HSA_ID = "hsaId";
+    private static final String TEST_PATIENT_PERSONNR = "191212121212";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     @Mock
     private CertificateToInternal certificateToInternal;
@@ -151,15 +158,42 @@ class LuaefsModuleApiTest {
     private SummaryConverter summaryConverter;
     @Spy
     private SvarIdHelperImpl svarIdHelper;
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     @InjectMocks
     private LuaefsModuleApiV1 moduleApi;
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
         ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
         ReflectionTestUtils.setField(moduleApi, "svarIdHelper", svarIdHelper);
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
+    }
+
+    @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException {
+        moduleApi.getInternal(
+            toJsonString(
+                ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()
+            )
+        );
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test
@@ -300,7 +334,7 @@ class LuaefsModuleApiTest {
             .thenReturn(INTYG_TYPE_VERSION_1);
 
         final var createNewDraftHolder = new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(),
-                createPatient());
+            createPatient());
         final var renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
         final var copy = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(renewalFromTemplate);
         assertEquals(TEST_HSA_ID, copy.getGrundData().getSkapadAv().getPersonId());

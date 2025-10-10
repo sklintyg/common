@@ -23,11 +23,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,9 +42,11 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
@@ -55,8 +61,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
  * @author erik
  */
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class InternalToTransportTest {
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class InternalToTransportTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -75,11 +82,11 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
 
-     static TsBasUtlatandeV6 getUtlatande() throws Exception {
+    static TsBasUtlatandeV6 getUtlatande() throws Exception {
         return getUtlatande(null, null, null);
     }
 
-     static TsBasUtlatandeV6 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
+    static TsBasUtlatandeV6 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
 
@@ -92,6 +99,19 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
         }
 
         return utlatande;
+    }
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
     }
 
     /*
@@ -112,7 +132,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
         }
     */
     @Test
-     void testInternalToTransportConversion() throws Exception {
+    void testInternalToTransportConversion() throws Exception {
         TsBasUtlatandeV6 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected);
         TsBasUtlatandeV6 actual = TransportToInternal.convert(transport.getIntyg());
@@ -123,12 +143,12 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class,()->InternalToTransport.convert(null));
+    void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
     }
 
     @Test
-     void convertDecorateSvarPaTest() throws Exception {
+    void convertDecorateSvarPaTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         TsBasUtlatandeV6 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -139,7 +159,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+    void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         TsBasUtlatandeV6 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -149,21 +169,21 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void convertDecorateSvarPaNoRelationTest() throws Exception {
+    void convertDecorateSvarPaNoRelationTest() throws Exception {
         TsBasUtlatandeV6 utlatande = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-     void convertDecorateSvarPaNotKompltTest() throws Exception {
+    void convertDecorateSvarPaNotKompltTest() throws Exception {
         TsBasUtlatandeV6 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-     void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
+    void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
         String specialistkompetens1 = "Kirurgi";
         String specialistkompetens2 = "Allergi";
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -178,7 +198,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
+    void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
         final String befattning = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -192,7 +212,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
+    void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
         String befattningskod = "kod";
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
@@ -204,7 +224,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
+    void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
         final String version = "07";
         final String utgava = "08";
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -214,7 +234,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
     }
 
     @Test
-     void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
+    void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
         final String defaultVersion = "6";
         final String defaultUtgava = "7";
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();

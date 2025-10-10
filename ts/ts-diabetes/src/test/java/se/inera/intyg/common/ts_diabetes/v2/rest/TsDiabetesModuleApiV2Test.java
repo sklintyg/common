@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -48,6 +47,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -77,9 +77,14 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -154,15 +159,41 @@ class TsDiabetesModuleApiV2Test {
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
     @Mock
     private SummaryConverter summaryConverter;
-
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
     @InjectMocks
     private TsDiabetesModuleApiV2 moduleApi;
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
         revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
         ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTexts);
+    }
+
+    @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException {
+        moduleApi.getInternal(
+            toJsonString(
+                ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel()
+            )
+        );
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test

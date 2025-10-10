@@ -53,6 +53,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
@@ -97,6 +98,9 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Value("${pdf.footer.app.name.text:1177 intyg}")
     private String pdfFooterAppName;
+
+    @Autowired(required = false)
+    private CareProviderMapperUtil careProviderMapperUtil;
 
     public TsDiabetesModuleApiV3() {
         super(TsDiabetesUtlatandeV3.class);
@@ -278,6 +282,17 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
             return getJsonFromUtlatande(updatedUtlatande);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    protected TsDiabetesUtlatandeV3 getInternal(String internalModel) throws ModuleException {
+        try {
+            final var tsDiabetesUtlatandeV3 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV3.class);
+            careProviderMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV3);
+            return tsDiabetesUtlatandeV3;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
         }
     }
 }

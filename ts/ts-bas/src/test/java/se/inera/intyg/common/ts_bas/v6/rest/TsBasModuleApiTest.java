@@ -35,6 +35,7 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -47,6 +48,7 @@ import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Objects;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,9 +76,14 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -131,9 +138,26 @@ class TsBasModuleApiTest {
     @Mock
     private SummaryConverter summaryConverter;
 
+    @Mock
+    private CareProviderMapperUtil careProviderMapperUtil;
+
     @Spy
     @InjectMocks
     private TsBasModuleApiV6 moduleApi = new TsBasModuleApiV6();
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
 
     @BeforeEach
     void init() {
@@ -143,8 +167,19 @@ class TsBasModuleApiTest {
     }
 
     @Test
+    void shouldDecorateWithMappedCareProvider() throws ScenarioNotFoundException, ModuleException, JsonProcessingException {
+        final var json = "{}";
+        when(objectMapper.readValue(json, TsBasUtlatandeV6.class))
+            .thenReturn(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
+
+        moduleApi.getInternal(json);
+
+        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
+    }
+
+    @Test
     void copyContainsOriginalData() throws Exception {
-        final var  scenario = ScenarioFinder.getInternalScenario("valid-maximal");
+        final var scenario = ScenarioFinder.getInternalScenario("valid-maximal");
         final var holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
         assertNotNull(holder);
 
@@ -278,7 +313,7 @@ class TsBasModuleApiTest {
         intyg.getIntygsId().setExtension("intygId");
         final var s = new Svar();
         s.setId("1");
-        final var  delsvar = new Delsvar();
+        final var delsvar = new Delsvar();
         delsvar.setId("1.1");
         delsvar.getContent().add(aCV(null, "IAV1", null));
         s.getDelsvar().add(delsvar);
