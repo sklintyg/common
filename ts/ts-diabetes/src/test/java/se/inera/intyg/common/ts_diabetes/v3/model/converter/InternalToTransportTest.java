@@ -22,10 +22,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,9 +38,11 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
@@ -47,18 +53,19 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class InternalToTransportTest {
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class InternalToTransportTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
     }
 
-     static TsDiabetesUtlatandeV3 getUtlatande() {
+    static TsDiabetesUtlatandeV3 getUtlatande() {
         return getUtlatande(null, null, null);
     }
 
-     static TsDiabetesUtlatandeV3 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
+    static TsDiabetesUtlatandeV3 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
         TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
         utlatande.setId("1234567");
         utlatande.setTextVersion("1.0");
@@ -85,8 +92,21 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
         return utlatande.build();
     }
 
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
+    }
+
     @Test
-     void testInternalToTransportConversion() throws Exception {
+    void testInternalToTransportConversion() throws Exception {
         TsDiabetesUtlatandeV3 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected);
         TsDiabetesUtlatandeV3 actual = TransportToInternal.convert(transport.getIntyg());
@@ -95,12 +115,12 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
     }
 
     @Test
-     void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class,()->InternalToTransport.convert(null));
+    void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
     }
 
     @Test
-     void convertDecorateSvarPaTest() throws Exception {
+    void convertDecorateSvarPaTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -111,7 +131,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
     }
 
     @Test
-     void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+    void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -121,14 +141,14 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
     }
 
     @Test
-     void convertDecorateSvarPaNoRelationTest() throws Exception {
+    void convertDecorateSvarPaNoRelationTest() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());
     }
 
     @Test
-     void convertDecorateSvarPaNotKompltTest() throws Exception {
+    void convertDecorateSvarPaNotKompltTest() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNull(transport.getSvarPa());

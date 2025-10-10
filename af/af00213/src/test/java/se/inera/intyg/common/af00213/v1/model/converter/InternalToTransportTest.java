@@ -22,6 +22,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -32,6 +35,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,16 +46,19 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
@@ -92,6 +99,19 @@ public class InternalToTransportTest {
         utlatande.setArbetetsPaverkan("Påverkas ja");
 
         return utlatande.build();
+    }
+
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @Test

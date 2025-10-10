@@ -103,6 +103,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
@@ -171,8 +172,8 @@ public class LisjpModuleApiTest {
     private LisjpModuleApiV1 moduleApi;
 
     @BeforeAll
-    static void initInternalConverterUtil() {
-        CareProviderMapperUtil mapper = mock(CareProviderMapperUtil.class);
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -181,6 +182,7 @@ public class LisjpModuleApiTest {
             ));
 
         new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @BeforeEach

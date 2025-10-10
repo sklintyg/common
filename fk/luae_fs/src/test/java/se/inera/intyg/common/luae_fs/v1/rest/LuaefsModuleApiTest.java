@@ -97,6 +97,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -164,8 +165,8 @@ class LuaefsModuleApiTest {
     private LuaefsModuleApiV1 moduleApi;
 
     @BeforeAll
-    static void initInternalConverterUtil() {
-        CareProviderMapperUtil mapper = mock(CareProviderMapperUtil.class);
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -174,6 +175,7 @@ class LuaefsModuleApiTest {
             ));
 
         new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @BeforeEach

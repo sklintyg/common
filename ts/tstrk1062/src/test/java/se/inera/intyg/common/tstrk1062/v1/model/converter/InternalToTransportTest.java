@@ -22,9 +22,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -39,9 +43,11 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
@@ -49,30 +55,44 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class InternalToTransportTest {
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class InternalToTransportTest {
 
     @Mock
     private WebcertModuleService webcertModuleService;
 
-    @Test
-     void testConvertSourceNull() {
-        assertThrows(ConverterException.class,()-> InternalToTransport.convert(null, webcertModuleService));
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @Test
-     void testConvertSourceWithoutMessage() throws Exception {
+    void testConvertSourceNull() {
+        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
+    }
+
+    @Test
+    void testConvertSourceWithoutMessage() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
         RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
         assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
         Assertions.assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
-        assertNull( tsTsrk1062.getSvarPa(),"SvarPa should be null");
+        assertNull(tsTsrk1062.getSvarPa(), "SvarPa should be null");
     }
 
     @Test
-     void testConvertSourceWithMessage() throws Exception {
+    void testConvertSourceWithMessage() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
         final Relation relation = new Relation();
@@ -85,11 +105,11 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
         RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
-        assertNotNull( tsTsrk1062,"RegisterCertificateType should not be null");
-        assertNotNull( tsTsrk1062.getIntyg(),"Intyg should not be null");
-        assertNotNull( tsTsrk1062.getSvarPa(),"SvarPa should not be null");
-        assertEquals( relation.getMeddelandeId(), tsTsrk1062.getSvarPa().getMeddelandeId(),"MeddelandeId not equal");
-        assertEquals( relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId(),"ReferensId not equal");
+        assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
+        assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
+        assertNotNull(tsTsrk1062.getSvarPa(), "SvarPa should not be null");
+        assertEquals(relation.getMeddelandeId(), tsTsrk1062.getSvarPa().getMeddelandeId(), "MeddelandeId not equal");
+        assertEquals(relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId(), "ReferensId not equal");
     }
 
     private TsTrk1062UtlatandeV1 getUtlatande() {
