@@ -150,13 +150,7 @@ public final class InternalConverterUtil {
         skapadAv.setFullstandigtNamn(hoSPersonal.getFullstandigtNamn());
         skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
         skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
-        for (String sourceBefattning : hoSPersonal.getBefattningar()) {
-            Befattning befattning = new Befattning();
-            befattning.setCodeSystem(BEFATTNING_KOD_OID);
-            befattning.setCode(sourceBefattning);
-            befattning.setDisplayName(BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null));
-            skapadAv.getBefattning().add(befattning);
-        }
+
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
             /*
@@ -167,7 +161,28 @@ public final class InternalConverterUtil {
             kompetens.setDisplayName(sourceKompetens);
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
+
+        List<Befattning> befattningar = Optional.of(hoSPersonal.getBefattningsKoder())
+            .map(list -> list.stream()
+                .map(paTitle -> createBefattning(paTitle.getPaTitleCode(), paTitle.getPaTitleName())))
+            .orElseGet(() ->
+                hoSPersonal.getBefattningar().stream()
+                    .map(sourceBefattning -> createBefattning(
+                        sourceBefattning,
+                        BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null))))
+            .toList();
+
+        skapadAv.getBefattning().addAll(befattningar);
         return skapadAv;
+    }
+
+
+    private static Befattning createBefattning(String code, String displayName) {
+        Befattning befattning = new Befattning();
+        befattning.setCodeSystem(BEFATTNING_KOD_OID);
+        befattning.setCode(code);
+        befattning.setDisplayName(displayName);
+        return befattning;
     }
 
     /**
