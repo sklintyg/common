@@ -151,18 +151,8 @@ public final class InternalConverterUtil {
         skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
         skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
 
-        for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
-            Specialistkompetens kompetens = new Specialistkompetens();
-            /*
-             * INTYG-2875: Due to HSA sending speciality codes and names in two incoherent lists we only keep speciality
-             * names, hence code is not available.
-             */
-            kompetens.setCode(NOT_AVAILABLE);
-            kompetens.setDisplayName(sourceKompetens);
-            skapadAv.getSpecialistkompetens().add(kompetens);
-        }
-
         List<Befattning> befattningar = Optional.of(hoSPersonal.getBefattningsKoder())
+            .filter(list -> !list.isEmpty())
             .map(list -> list.stream()
                 .map(paTitle -> createBefattning(paTitle.getPaTitleCode(), paTitle.getPaTitleName())))
             .orElseGet(() ->
@@ -173,6 +163,17 @@ public final class InternalConverterUtil {
             .toList();
 
         skapadAv.getBefattning().addAll(befattningar);
+
+        for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
+            Specialistkompetens kompetens = new Specialistkompetens();
+            /*
+             * INTYG-2875: Due to HSA sending speciality codes and names in two incoherent lists we only keep speciality
+             * names, hence code is not available.
+             */
+            kompetens.setCode(NOT_AVAILABLE);
+            kompetens.setDisplayName(sourceKompetens);
+            skapadAv.getSpecialistkompetens().add(kompetens);
+        }
         return skapadAv;
     }
 
