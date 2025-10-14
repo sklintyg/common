@@ -57,7 +57,7 @@ public class HoSPersonal {
         return befattningar;
     }
 
-    public List<PaTitle> getBefattningskoder() {
+    public List<PaTitle> getBefattningsKoder() {
         if (befattningskoder == null) {
             befattningskoder = new ArrayList<>();
         }
