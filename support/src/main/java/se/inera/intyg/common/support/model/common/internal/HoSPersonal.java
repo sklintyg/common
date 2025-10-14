@@ -37,6 +37,8 @@ public class HoSPersonal {
 
     private List<String> befattningar;
 
+    private List<PaTitle> befattningskoder;
+
     private List<String> specialiteter;
 
     private Vardenhet vardenhet;
@@ -53,6 +55,13 @@ public class HoSPersonal {
             befattningar = new ArrayList<>();
         }
         return befattningar;
+    }
+
+    public List<PaTitle> getBefattningskoder() {
+        if (befattningskoder == null) {
+            befattningskoder = new ArrayList<>();
+        }
+        return befattningskoder;
     }
 
     public String getPersonId() {
