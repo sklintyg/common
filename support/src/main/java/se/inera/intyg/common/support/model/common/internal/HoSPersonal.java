@@ -37,7 +37,7 @@ public class HoSPersonal {
 
     private List<String> befattningar;
 
-    private List<PaTitle> befattningskoder;
+    private List<PaTitle> befattningsKoder;
 
     private List<String> specialiteter;
 
@@ -58,10 +58,10 @@ public class HoSPersonal {
     }
 
     public List<PaTitle> getBefattningsKoder() {
-        if (befattningskoder == null) {
-            befattningskoder = new ArrayList<>();
+        if (befattningsKoder == null) {
+            befattningsKoder = new ArrayList<>();
         }
-        return befattningskoder;
+        return befattningsKoder;
     }
 
     public String getPersonId() {
