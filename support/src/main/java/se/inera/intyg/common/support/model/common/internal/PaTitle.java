@@ -1,9 +1,10 @@
 package se.inera.intyg.common.support.model.common.internal;
 
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class PaTitle {
-    String paTitleName;
+
     String paTitleCode;
+    String paTitleName;
 }
