@@ -154,7 +154,7 @@ public final class InternalConverterUtil {
         List<Befattning> befattningar = Optional.ofNullable(hoSPersonal.getBefattningsKoder())
             .filter(list -> !list.isEmpty())
             .map(list -> list.stream()
-                .map(paTitle -> createBefattning(paTitle.getPaTitleCode(), paTitle.getPaTitleName())))
+                .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
             .orElseGet(() ->
                 hoSPersonal.getBefattningar().stream()
                     .map(sourceBefattning -> createBefattning(
