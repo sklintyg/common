@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class PaTitle implements Serializable {
 
-    String paTitleCode;
-    String paTitleName;
+    String kod;
+    String klartext;
 }
