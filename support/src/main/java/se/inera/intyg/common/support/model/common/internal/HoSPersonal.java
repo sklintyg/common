@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class HoSPersonal {
 
@@ -53,6 +54,15 @@ public class HoSPersonal {
     public List<String> getBefattningar() {
         if (befattningar == null) {
             befattningar = new ArrayList<>();
+        }
+        return befattningar;
+    }
+
+    public List<String> getBefattningarAsCode() {
+        if (!getBefattningsKoder().isEmpty()) {
+            return befattningsKoder.stream()
+                .map(PaTitle::getKod)
+                .collect(Collectors.toCollection(ArrayList::new));
         }
         return befattningar;
     }
