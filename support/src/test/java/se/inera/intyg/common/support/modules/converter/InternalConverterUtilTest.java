@@ -33,9 +33,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -63,19 +67,20 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class InternalConverterUtilTest {
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class InternalConverterUtilTest {
 
-   @Autowired
-   private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-   @BeforeEach
-   void init(){
-      applicationContext.getBean(InternalConverterUtil.class).initialize();
-   }
+    @BeforeEach
+    void init() {
+        applicationContext.getBean(InternalConverterUtil.class).initialize();
+    }
 
     @Test
-     void testConvert() {
+    void testConvert() {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -144,7 +149,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testConvertNoPatientInfo()  {
+    void testConvertNoPatientInfo() {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -210,7 +215,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testConvertWithRelation() {
+    void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -225,7 +230,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testConvertUnitAdddressInformationMissing() {
+    void testConvertUnitAdddressInformationMissing() {
         Utlatande utlatande = buildUtlatande("intygsid", "enhetsid", "enhetsnamn", "191212121212",
             "fullständigt namn", "skapad av pid", LocalDateTime.now(), "arbetsplatsKod", null, null, null, "epost", null,
             "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress", "patientPostnummer",
@@ -242,7 +247,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void getMeddelandeReferensOfTypeTest() {
+    void getMeddelandeReferensOfTypeTest() {
         final RelationKod type = RelationKod.KOMPLT;
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
@@ -256,7 +261,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void getMeddelandeReferensOfTypeReferensIdNullTest() {
+    void getMeddelandeReferensOfTypeReferensIdNullTest() {
         final RelationKod type = RelationKod.KOMPLT;
         final String meddelandeId = "meddelandeId";
         Utlatande utlatande = buildUtlatande(type, "relationIntygsId");
@@ -268,7 +273,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void getMeddelandeReferensOfTypeNoRelationTest() {
+    void getMeddelandeReferensOfTypeNoRelationTest() {
         final RelationKod type = RelationKod.KOMPLT;
         Utlatande utlatande = buildUtlatande(null, null);
         MeddelandeReferens result = InternalConverterUtil.getMeddelandeReferensOfType(utlatande, type);
@@ -276,7 +281,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void getMeddelandeReferensOfTypeWrongTypeTest() {
+    void getMeddelandeReferensOfTypeWrongTypeTest() {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         Utlatande utlatande = buildUtlatande(RelationKod.FRLANG, "relationIntygsId");
@@ -287,7 +292,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void addIfNotBlankTest() {
+    void addIfNotBlankTest() {
         List<Svar> svars = new ArrayList<>();
         String svarsId = "1";
         String delsvarsId = "1.2";
@@ -302,7 +307,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void addIfNotBlankContentNullTest() {
+    void addIfNotBlankContentNullTest() {
         List<Svar> svars = new ArrayList<>();
         String content = null;
         InternalConverterUtil.addIfNotBlank(svars, "svarsId", "delsvarsId", content);
@@ -311,7 +316,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void addIfNotBlankContentEmptyStringTest() {
+    void addIfNotBlankContentEmptyStringTest() {
         List<Svar> svars = new ArrayList<>();
         String content = "";
         InternalConverterUtil.addIfNotBlank(svars, "svarsId", "delsvarsId", content);
@@ -320,7 +325,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void aDatePeriodTest() {
+    void aDatePeriodTest() {
         LocalDate from = LocalDate.now();
         LocalDate tom = LocalDate.now().plusDays(4);
         JAXBElement<DatePeriodType> result = InternalConverterUtil.aDatePeriod(from, tom);
@@ -331,7 +336,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void aCVTest() {
+    void aCVTest() {
         String codeSystem = "codesystem";
         String code = "code";
         String displayName = "displayname";
@@ -344,7 +349,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testSpecialistkompetensAppendsDisplayName() {
+    void testSpecialistkompetensAppendsDisplayName() {
         final String specialistkompetens = "Hörselrubbningar";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
@@ -356,7 +361,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testBefattningAppendsDisplayName() {
+    void testBefattningAppendsDisplayName() {
         final String befattningskod = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
         Utlatande utlatande = buildUtlatande(null, null);
@@ -369,7 +374,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testBefattningDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
+    void testBefattningDoNotAppendDisplayNameIfNoSpecialistkompetensKodMatch() {
         String befattning = "kod";
         Utlatande utlatande = buildUtlatande(null, null);
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
@@ -381,7 +386,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testPersonnummerRoot() {
+    void testPersonnummerRoot() {
         final Personnummer pnr = Personnummer.createPersonnummer("19121212-1212").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
@@ -389,7 +394,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testSamordningsRoot() {
+    void testSamordningsRoot() {
         final Personnummer pnr = Personnummer.createPersonnummer("19800191-0002").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
@@ -397,37 +402,26 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void testNullFillWithZeros() {
+    void testNullFillWithZeros() {
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(null);
         assertEquals("0000-00-00", testString);
     }
 
-    @Test
-     void testNothingSuppliedFillWithZeros() {
-        InternalDate date = new InternalDate("");
-        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
-        assertEquals("0000-00-00", testString);
+    @ParameterizedTest
+    @MethodSource("fillWithZerosArguments")
+    void testFillWithZeros(InternalDate input, String expected) {
+        String result = InternalConverterUtil.getInternalDateContentFillWithZeros(input);
+        assertEquals(expected, result);
     }
 
-    @Test
-     void testYearSuppliedFillRestWithZeros() {
-        InternalDate date = new InternalDate("2017");
-        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
-        assertEquals("2017-00-00", testString);
-    }
-
-    @Test
-     void testYearMonthSuppliedFillRestWithZeros() {
-        InternalDate date = new InternalDate("2017-01");
-        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
-        assertEquals("2017-01-00", testString);
-    }
-
-    @Test
-     void testYearMonthDaySuppliedDontFill() {
-        InternalDate date = new InternalDate("2017-01-01");
-        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
-        assertEquals("2017-01-01", testString);
+    static Stream<Arguments> fillWithZerosArguments() {
+        return Stream.of(
+            Arguments.of(null, "0000-00-00"),
+            Arguments.of(new InternalDate(""), "0000-00-00"),
+            Arguments.of(new InternalDate("2017"), "2017-00-00"),
+            Arguments.of(new InternalDate("2017-01"), "2017-01-00"),
+            Arguments.of(new InternalDate("2017-01-01"), "2017-01-01")
+        );
     }
 
 
