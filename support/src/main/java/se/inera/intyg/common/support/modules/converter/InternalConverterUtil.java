@@ -151,18 +151,7 @@ public final class InternalConverterUtil {
         skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
         skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
 
-        List<Befattning> befattningar = Optional.ofNullable(hoSPersonal.getBefattningsKoder())
-            .filter(list -> !list.isEmpty())
-            .map(list -> list.stream()
-                .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
-            .orElseGet(() ->
-                hoSPersonal.getBefattningar().stream()
-                    .map(sourceBefattning -> createBefattning(
-                        sourceBefattning,
-                        BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null))))
-            .toList();
-
-        skapadAv.getBefattning().addAll(befattningar);
+        skapadAv.getBefattning().addAll(getBefattningList(hoSPersonal));
 
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
@@ -175,6 +164,19 @@ public final class InternalConverterUtil {
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;
+    }
+
+    private static List<Befattning> getBefattningList(HoSPersonal hoSPersonal) {
+        return Optional.of(hoSPersonal.getBefattningsKoder())
+            .filter(list -> !list.isEmpty())
+            .map(list -> list.stream()
+                .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
+            .orElseGet(() ->
+                hoSPersonal.getBefattningar().stream()
+                    .map(sourceBefattning -> createBefattning(
+                        sourceBefattning,
+                        BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null))))
+            .toList();
     }
 
 
