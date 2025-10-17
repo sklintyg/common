@@ -91,7 +91,7 @@ public final class InternalToTransportUtil {
 
     private static SkapadAv buildSkapadAv(HoSPersonal source) {
         SkapadAv skapadAv = new SkapadAv();
-        skapadAv.setAtLakare(source.getBefattningar().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
+        skapadAv.setAtLakare(source.getBefattningarAsCode().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
         skapadAv.setFullstandigtNamn(source.getFullstandigtNamn());
         skapadAv.setPersonId(buildII(Constants.HSA_ID_OID, source.getPersonId()));
         skapadAv.setVardenhet(buildVardenhet(source.getVardenhet()));
@@ -110,7 +110,7 @@ public final class InternalToTransportUtil {
         return Optional.of(source.getBefattningsKoder())
             .filter(paTitles -> !paTitles.isEmpty())
             .map(paTitles -> paTitles.stream()
-                .map(PaTitle::getKod))
+                .map(PaTitle::getKlartext))
             .orElseGet(
                 () -> source.getBefattningar().stream()
                     .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))

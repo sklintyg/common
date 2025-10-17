@@ -770,7 +770,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
             .withTopLabel("Namnförtydligande"));
 
-        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
+        fraga11.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningarAsCode()))
             .offset(0f, 22f)
             .size(90f, 13f)
             .withValueTextAlignment(PdfPCell.ALIGN_TOP)

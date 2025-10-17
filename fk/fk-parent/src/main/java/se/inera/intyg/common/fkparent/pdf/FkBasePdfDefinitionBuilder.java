@@ -169,7 +169,7 @@ public class FkBasePdfDefinitionBuilder {
         skapadAv.setFullstandigtNamn("");
         skapadAv.setPersonId("");
         skapadAv.getVardenhet().setArbetsplatsKod("");
-        skapadAv.getBefattningar().clear();
+        skapadAv.clearAllBefattningsKoder();
         skapadAv.getSpecialiteter().clear();
     }
 }

@@ -773,7 +773,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             .withValueTextAlignment(PdfPCell.ALIGN_BOTTOM)
             .withTopLabel(getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_UNDERSKRIFT_NAMNFORTYDLIGANDE)));
 
-        fraga13.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningar()))
+        fraga13.addChild(new FkValueField(concatStringList(intyg.getGrundData().getSkapadAv().getBefattningarAsCode()))
             .offset(0f, 22f)
             .size(90f, 14f)
             .withValueTextAlignment(PdfPCell.ALIGN_TOP)

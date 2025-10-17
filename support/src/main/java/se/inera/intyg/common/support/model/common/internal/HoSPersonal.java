@@ -74,6 +74,15 @@ public class HoSPersonal {
         return befattningsKoder;
     }
 
+    public void clearAllBefattningsKoder() {
+        if (befattningsKoder != null) {
+            befattningsKoder.clear();
+        }
+        if (befattningar != null) {
+            befattningar.clear();
+        }
+    }
+
     public String getPersonId() {
         return personId;
     }
