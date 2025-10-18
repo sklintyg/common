@@ -170,12 +170,14 @@ public final class InternalConverterUtil {
         return Optional.of(hoSPersonal.getBefattningsKoder())
             .filter(list -> !list.isEmpty())
             .map(list -> list.stream()
+                .distinct()
                 .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
             .orElseGet(() ->
                 hoSPersonal.getBefattningar().stream()
+                    .distinct()
                     .map(code -> createBefattning(
                         code,
-                        BefattningService.getDescriptionFromCode(code).orElse(code))))
+                        BefattningService.getDescriptionFromCode(code).orElse(null))))
             .toList();
     }
 

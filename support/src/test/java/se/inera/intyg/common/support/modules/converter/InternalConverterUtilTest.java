@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,6 +50,7 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.PaTitle;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -412,6 +414,79 @@ class InternalConverterUtilTest {
     void testFillWithZeros(InternalDate input, String expected) {
         String result = InternalConverterUtil.getInternalDateContentFillWithZeros(input);
         assertEquals(expected, result);
+    }
+
+    @Nested
+    class GetBefattningsList {
+
+        @Test
+        void shouldReturnEmptyListWhenBothListsAreEmpty() {
+            final var hoSPersonal = buildHoSPerson();
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertTrue(result.getBefattning().isEmpty());
+        }
+
+        @Test
+        void shouldUseBefattningsKoderWhenPresent() {
+            final var hoSPersonal = buildHoSPerson();
+            hoSPersonal.getBefattningsKoder().add(buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring"));
+            hoSPersonal.getBefattningsKoder().add(buildPaTitle("222100", "Sjuksköterska legitimerad"));
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertEquals(2, result.getBefattning().size());
+        }
+
+        @Test
+        void shouldUseBefattningsKoderOverBefattningarWhenBothPresent() {
+            final var hoSPersonal = buildHoSPerson();
+            hoSPersonal.getBefattningsKoder().add(buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring"));
+            hoSPersonal.getBefattningar().add("222100");
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertEquals("203010", result.getBefattning().getFirst().getCode());
+        }
+
+        @Test
+        void shouldUseBefattningarWhenBefattningsKoderIsEmpty() {
+            final var hoSPersonal = buildHoSPerson();
+            hoSPersonal.getBefattningar().add("222100");
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertEquals("222100", result.getBefattning().getFirst().getCode());
+        }
+
+        @Test
+        void shouldHandleDuplicateBefattningsKoder() {
+            final var hoSPersonal = buildHoSPerson();
+            final var paTitle = buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring");
+            hoSPersonal.getBefattningsKoder().addAll(List.of(paTitle, paTitle));
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertEquals(1, result.getBefattning().size());
+        }
+
+        @Test
+        void shouldHandleDuplicateBefattningar() {
+            final var hoSPersonal = buildHoSPerson();
+            hoSPersonal.getBefattningar().addAll(List.of("203010", "203010"));
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            assertEquals(1, result.getBefattning().size());
+        }
+
+        private HoSPersonal buildHoSPerson() {
+            final var hoSPersonal = new HoSPersonal();
+            final var vardenhet = new Vardenhet();
+            final var vardgivare = new Vardgivare();
+            vardgivare.setVardgivarid("vardgivarid");
+            vardenhet.setEnhetsid("enhetsid");
+            vardenhet.setVardgivare(vardgivare);
+            hoSPersonal.setVardenhet(vardenhet);
+            hoSPersonal.setForskrivarKod("kod");
+            return hoSPersonal;
+        }
+
+        private PaTitle buildPaTitle(String code, String klartext) {
+            final var paTitle = new PaTitle();
+            paTitle.setKod(code);
+            paTitle.setKlartext(klartext);
+            return paTitle;
+        }
     }
 
     static Stream<Arguments> fillWithZerosArguments() {
