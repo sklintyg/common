@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_parent.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
@@ -145,7 +146,10 @@ class InternalToTransportUtilTest {
             final var befattning1 = "204010";
             grundData.getSkapadAv().getBefattningar().add(befattning1);
             final var result = InternalToTransportUtil.buildGrundData(grundData);
-            assertEquals(1, result.getSkapadAv().getBefattningar().size());
+            assertAll(
+                () -> assertEquals(1, result.getSkapadAv().getBefattningar().size()),
+                () -> assertEquals("Läkare ej legitimerad, allmäntjänstgöring", result.getSkapadAv().getBefattningar().getFirst())
+            );
         }
 
         @Test
