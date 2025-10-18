@@ -173,9 +173,9 @@ public final class InternalConverterUtil {
                 .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
             .orElseGet(() ->
                 hoSPersonal.getBefattningar().stream()
-                    .map(sourceBefattning -> createBefattning(
-                        sourceBefattning,
-                        BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null))))
+                    .map(code -> createBefattning(
+                        code,
+                        BefattningService.getDescriptionFromCode(code).orElse(code))))
             .toList();
     }
 
