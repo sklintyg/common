@@ -110,9 +110,11 @@ public final class InternalToTransportUtil {
         return Optional.of(source.getBefattningsKoder())
             .filter(paTitles -> !paTitles.isEmpty())
             .map(paTitles -> paTitles.stream()
+                .distinct()
                 .map(PaTitle::getKlartext))
             .orElseGet(
                 () -> source.getBefattningar().stream()
+                    .distinct()
                     .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
             ).toList();
     }
