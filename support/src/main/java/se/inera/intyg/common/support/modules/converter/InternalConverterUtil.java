@@ -181,7 +181,7 @@ public final class InternalConverterUtil {
 
 
     private static Befattning createBefattning(String code, String displayName) {
-        Befattning befattning = new Befattning();
+        final var befattning = new Befattning();
         befattning.setCodeSystem(BEFATTNING_KOD_OID);
         befattning.setCode(code);
         befattning.setDisplayName(displayName);
