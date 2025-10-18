@@ -65,6 +65,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "201010",
+          "klartext": "Överläkare"
+        },
+        {
+          "kod": "204510",
+          "klartext": "Psykolog"
+        }
+      ],
       "befattningar": [
         "201010",
         "204510"
