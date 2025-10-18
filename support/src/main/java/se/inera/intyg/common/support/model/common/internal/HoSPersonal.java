@@ -60,11 +60,11 @@ public class HoSPersonal {
 
     public List<String> getBefattningarAsCode() {
         if (!getBefattningsKoder().isEmpty()) {
-            return befattningsKoder.stream()
+            return getBefattningsKoder().stream()
                 .map(PaTitle::getKod)
                 .collect(Collectors.toCollection(ArrayList::new));
         }
-        return befattningar;
+        return getBefattningar();
     }
 
     public List<PaTitle> getBefattningsKoder() {
