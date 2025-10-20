@@ -17,12 +17,10 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<reg:RegisterCertificate xmlns:ns1="urn:local:se:intygstjanster:services:1"
-                         xmlns:ns2="urn:local:se:intygstjanster:services:RegisterTSBasResponder:1"
-                         xmlns:ns3="urn:local:se:intygstjanster:services:types:1"
-                         xmlns:p="urn:riv:clinicalprocess:healthcond:certificate:1"
-                         xmlns:p2="urn:riv:clinicalprocess:healthcond:certificate:ts-bas:1"
-                         xmlns:reg="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1">
+<reg:RegisterCertificate
+    xmlns:p="urn:riv:clinicalprocess:healthcond:certificate:1"
+    xmlns:p2="urn:riv:clinicalprocess:healthcond:certificate:ts-bas:1"
+    xmlns:reg="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1">
    <reg:utlatande>
       <p:utlatande-id root="1.2.752.129.2.1.2.1" extension="intygsId0"/>
       <p:typAvUtlatande codeSystem="f6fb361a-e31d-48b8-8657-99b63912dd9b"
@@ -42,7 +40,7 @@
       <p:skapadAv>
          <p:personal-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1333"/>
          <p:fullstandigtNamn>Doktor Thompson</p:fullstandigtNamn>
-         <p:befattning>ST_LAKARE</p:befattning>
+         <p:befattning>203010</p:befattning>
          <p:enhet>
             <p:enhets-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1337"/>
             <p:enhetsnamn>Vårdenhet Väst</p:enhetsnamn>

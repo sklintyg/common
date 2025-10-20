@@ -19,9 +19,8 @@
   -->
 
 <ns1:TSBasIntyg xmlns:ns1="urn:local:se:intygstjanster:services:1"
-        xmlns:ns2="urn:local:se:intygstjanster:services:RegisterTSBasResponder:1"
-        xmlns:ns3="urn:local:se:intygstjanster:services:types:1"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">>
+    xmlns:ns3="urn:local:se:intygstjanster:services:types:1"
+>>
         <ns1:intygsId>intygsId0</ns1:intygsId>
         <ns1:intygsTyp>TSTRK1007 (U06, V06)</ns1:intygsTyp>
         <ns1:version>06</ns1:version>
@@ -53,7 +52,7 @@
                     </ns1:vardgivare>
                 </ns1:vardenhet>
                 <ns1:specialiteter>SPECIALITET</ns1:specialiteter>
-                <ns1:befattningar>ST_LAKARE</ns1:befattningar>
+                <ns1:befattningar>203010</ns1:befattningar>
                 <ns1:atLakare>false</ns1:atLakare>
             </ns1:skapadAv>
             <ns1:patient>
