@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
@@ -26,19 +29,26 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.namespace.QName;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.Difference;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
@@ -47,32 +57,36 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
-@RunWith(Parameterized.class)
-public class RoundTripTest {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {BefattningService.class})
+class RoundTripTest {
 
-    private Scenario scenario;
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
 
-    @SuppressWarnings("unused") // It is used to name the test
-    private String name;
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
 
-    public RoundTripTest(String name, Scenario scenario) {
-        this.scenario = scenario;
-        this.name = name;
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-max*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+            .map(scenario -> Arguments.of(scenario.getName(), scenario));
     }
 
     /**
      * Test that no information is lost when mapping json -> xml -> json.
      * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
      */
-    @Test
-    public void testRoundTripInternalFirst() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTripInternalFirst(String name, Scenario scenario) throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
@@ -94,7 +108,7 @@ public class RoundTripTest {
         final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
             .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath()
                 .contains("patient")) //patientdetails should be trimmed
-            .collect(Collectors.toList());
+            .toList();
 
         assertTrue(differences.isEmpty());
 
@@ -108,8 +122,9 @@ public class RoundTripTest {
      * This represents the case where the certificate is from another medical journaling system and is read from
      * Intygstjansten.
      */
-    @Test
-    public void testRoundTripTransportFirst() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTripTransportFirst(String name, Scenario scenario) throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         Tstrk1009UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
@@ -135,14 +150,16 @@ public class RoundTripTest {
         final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
             .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath()
                 .contains("patient")) //patientdetails should be trimmed
-            .collect(Collectors.toList());
+            .toList();
 
-        assertTrue(differences.toString(), differences.isEmpty());
+        assertTrue(differences.isEmpty());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         return new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
+                "RegisterCertificate"),
             RegisterCertificateType.class, ws);
     }
 }
+

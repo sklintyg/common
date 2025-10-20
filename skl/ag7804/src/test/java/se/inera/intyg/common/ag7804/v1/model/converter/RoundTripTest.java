@@ -18,8 +18,10 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,18 +29,18 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.namespace.QName;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -48,49 +50,57 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.utils.Scenario;
 import se.inera.intyg.common.ag7804.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.ag7804.v1.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
-@RunWith(Parameterized.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class RoundTripTest {
-
-    private Scenario scenario;
-
-    @SuppressWarnings("unused") // It is actually used to name the test
-    private String name;
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class RoundTripTest {
 
     private WebcertModuleService webcertModuleService;
 
-    public RoundTripTest(String name, Scenario scenario) throws Exception {
-        new TestContextManager(getClass()).prepareTestInstance(this);
-        this.scenario = scenario;
-        this.name = name;
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         webcertModuleService = Mockito.mock(WebcertModuleService.class);
         when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
         when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
     }
 
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("pass-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+            .map(scenario -> Arguments.of(scenario.getName(), scenario));
     }
 
     /**
      * Test that no information is lost when mapping json -> xml -> json.
      * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
      */
-    @Test
-    public void testRoundTripInternalFirst() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTripInternalFirst(String name, Scenario scenario) throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel(), webcertModuleService);
 
@@ -109,7 +119,7 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -121,8 +131,9 @@ public class RoundTripTest {
      * This represents the case where the certificate is from another medical journaling system and is read from
      * Intygstjansten.
      */
-    @Test
-    public void testRoundTripTransportFirst() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTripTransportFirst(String name, Scenario scenario) throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         Ag7804UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
@@ -145,13 +156,14 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+        return new JAXBElement<>(
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
+                "RegisterCertificate"),
             RegisterCertificateType.class, ws);
-        return jaxbElement;
     }
 }
+

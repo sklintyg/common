@@ -18,7 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.xml.bind.JAXBContext;
@@ -26,21 +29,21 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.JSONCompareResult;
 import org.skyscreamer.jsonassert.comparator.DefaultComparator;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -53,23 +56,25 @@ import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.fk7263.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
-@RunWith(Parameterized.class)
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class, InternalConverterUtil.class})
-public class RoundTripTest {
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    TransportToInternal.class, InternalConverterUtil.class})
+class RoundTripTest {
 
-    private Scenario scenario;
-
-    private CustomObjectMapper objectMapper = new CustomObjectMapper();
-    private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
+    private final CustomObjectMapper objectMapper = new CustomObjectMapper();
+    private final ObjectFactory objectFactory = new ObjectFactory();
+    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
+        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
     private static Marshaller marshaller;
 
     private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
@@ -84,26 +89,32 @@ public class RoundTripTest {
                     PartialDateType.class)
                 .createMarshaller();
         } catch (JAXBException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private String name;
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
 
-    public RoundTripTest(String name, Scenario scenario) throws Exception {
-        new TestContextManager(getClass()).prepareTestInstance(this);
-        this.scenario = scenario;
-        this.name = name;
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+            .map(scenario -> Arguments.of(scenario.getName(), scenario));
     }
 
-    @Test
-    public void testRoundTrip() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTrip(String name, Scenario scenario) throws Exception {
         RegisterMedicalCertificateType transport = InternalToTransport.getJaxbObject(scenario.asInternalModel());
 
         StringWriter expected = new StringWriter();
@@ -119,15 +130,16 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), new IgnoreCertainValuesComparator(JSONCompareMode.LENIENT));
     }
 
-    @Test
-    public void testConvertToRivtaV3() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testConvertToRivtaV3(String name, Scenario scenario) throws Exception {
         Fk7263Utlatande internal = TransportToInternal.convert(scenario.asTransportModel().getLakarutlatande());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
@@ -145,7 +157,7 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
     }
 
     private class IgnoreCertainValuesComparator extends DefaultComparator {
@@ -157,7 +169,7 @@ public class RoundTripTest {
         @Override
         public void checkJsonObjectKeysExpectedInActual(String prefix, JSONObject expected, JSONObject actual, JSONCompareResult result)
             throws JSONException {
-            if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(p -> expected.has(p))) {
+            if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(expected::has)) {
                 super.checkJsonObjectKeysExpectedInActual(prefix, expected, actual, result);
             }
         }
