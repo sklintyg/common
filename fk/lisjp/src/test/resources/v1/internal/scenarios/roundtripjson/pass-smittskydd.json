@@ -25,6 +25,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"
@@ -35,20 +45,15 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "tillaggsfragor": [],
-  "arbetslivsinriktadeAtgarderBeskrivning": "Jobbar bra om man inte stör honom",
-  "arbetslivsinriktadeAtgarder": [
+  "tillaggsfragor" : [],
+  "avstangningSmittskydd" : "true",
+  "diagnoser": [
     {
-      "typ": "OVRIGA_ATGARDER"
+      "diagnosBeskrivning": "Klämskada skuldra",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S47"
     }
   ],
-  "prognos": {
-    "typ": "STOR_SANNOLIKHET"
-  },
-  "arbetsresor": true,
-  "arbetstidsforlaggningMotivering": "Kan bara jobba på nätterna.",
-  "arbetstidsforlaggning": true,
-  "forsakringsmedicinsktBeslutsstod": "överskrider inte FMB",
   "sjukskrivningar": [
     {
       "period": {
@@ -58,24 +63,6 @@
       "sjukskrivningsgrad": "TRE_FJARDEDEL"
     }
   ],
-  "aktivitetsbegransning": "Kommer inte in i bilen",
-  "funktionsnedsattning": "Haltar när han dansar",
-  "diagnoser": [
-    {
-      "diagnosBeskrivning": "Klämskada skuldra",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosKod": "S47"
-    }
-  ],
-  "nuvarandeArbete": "Smed",
-  "sysselsattning": [
-    {
-      "typ": "NUVARANDE_ARBETE"
-    }
-  ],
-  "telefonkontaktMedPatienten": "2015-12-08",
-  "undersokningAvPatienten" : "2015-12-09",
-  "journaluppgifter" : "2015-12-10",
-  "annatGrundForMU" : "2015-12-13",
-  "annatGrundForMUBeskrivning" : "Annat grund för MU"
+  "arbetslivsinriktadeAtgarder" : [],
+  "ovrigt" : "Övriga kommentarer"
 }

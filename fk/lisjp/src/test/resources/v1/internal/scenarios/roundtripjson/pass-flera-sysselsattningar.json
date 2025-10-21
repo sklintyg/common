@@ -25,6 +25,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"
@@ -43,7 +53,7 @@
     }
   ],
   "prognos": {
-    "typ": "STOR_SANNOLIKHET"
+    "typ": "PROGNOS_OKLAR"
   },
   "arbetsresor": true,
   "arbetstidsforlaggningMotivering": "Kan bara jobba på nätterna.",
@@ -71,11 +81,9 @@
   "sysselsattning": [
     {
       "typ": "NUVARANDE_ARBETE"
-    }
-  ],
-  "telefonkontaktMedPatienten": "2015-12-08",
-  "undersokningAvPatienten" : "2015-12-09",
-  "journaluppgifter" : "2015-12-10",
-  "annatGrundForMU" : "2015-12-13",
-  "annatGrundForMUBeskrivning" : "Annat grund för MU"
+    },
+    {
+      "typ": "STUDIER"
+    }],
+  "undersokningAvPatienten": "2015-12-08"
 }
