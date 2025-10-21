@@ -140,7 +140,8 @@ class RoundTripTest {
         Ag114UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+        JsonNode expectedTree = objectMapper.readTree(
+            getClass().getResourceAsStream("/v1/internal/scenarios/roundtripjson/" + name + ".json"));
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
