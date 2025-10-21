@@ -20,9 +20,9 @@
   "diagnosgrund": "Diagnoserna ställdes vid besök på AVC Södra \u00c4lvsborgs sjukhus i Borås 2014-07-09 och på Vårdenheten 2015-03-02.",
   "diagnoser": [
     {
-      "diagnosBeskrivning": "Skada på multipla böjmuskler och deras senor på handleds- och handnivå",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosKod": "S666"
+      "diagnosBeskrivning": "Kolera",
+      "diagnosKodSystem": "KSH_97_P",
+      "diagnosKod": "A00-"
     }
   ],
   "sjukdomsforlopp": "Arbetsplatsolycka där patienten fastnade med höger hand i en vals 2014-07-09. Omhändertogs initialt på akutmottagningen AVC Södra \u00c4lvsborgs sjukhus i Borås. Vävnadsförluster i 3:e och 4:e fingret. Nedsatt kraft, känsel och funktion i handen, smärtsyndom i hela höger arm. Sedan några månader depression som har varit svår att behandla medikamentellt.",
@@ -45,7 +45,7 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "personId": "19800191-0002"
+      "personId": "19270310-4321"
     },
     "skapadAv": {
       "vardenhet": {
@@ -62,8 +62,16 @@
         "enhetsnamn": "Vårdenheten",
         "enhetsid": "SE2321000016-H489"
       },
-      "specialiteter": [
-        "Kirurg"
+      "specialiteter": [],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
       ],
       "befattningar": [
         "204010",
