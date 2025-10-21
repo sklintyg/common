@@ -64,6 +64,16 @@
         "enhetsid": "SE2321000016-H489"
       },
       "specialiteter": [],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"

@@ -46,7 +46,7 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "personId": "19800191-0002"
+      "personId": "19270310-4321"
     },
     "skapadAv": {
       "vardenhet": {
@@ -64,10 +64,8 @@
         "enhetsid": "SE2321000016-H489"
       },
       "specialiteter": [],
-      "befattningar": [
-        "204010",
-        "206090"
-      ],
+      "befattningsKoder": [],
+      "befattningar": [],
       "forskrivarKod": "09874321",
       "fullstandigtNamn": "Karl Karlsson",
       "personId": "SE2321000016-6G5R"
