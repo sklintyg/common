@@ -25,19 +25,9 @@
       "specialiteter": [
         "Kirurg"
       ],
-      "befattningsKoder": [
-        {
-          "kod": "204010",
-          "klartext": "Klinikchef"
-        },
-        {
-          "kod": "121200",
-          "klartext": "Forskningsledare"
-        }
-      ],
       "befattningar": [
-        "204010",
-        "121200"
+        "Klinikchef",
+        "Forskningsledare"
       ],
       "forskrivarKod": "09874321",
       "fullstandigtNamn": "Karl Karlsson",
