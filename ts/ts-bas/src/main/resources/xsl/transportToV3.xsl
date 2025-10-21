@@ -207,7 +207,6 @@
           <xsl:value-of select="."/>
         </p2:code>
         <p2:codeSystem>1.2.752.129.2.2.1.4</p2:codeSystem>
-        <p2:displayName>Läkare legitimerad, specialiseringstjänstgöring</p2:displayName>
       </p1:befattning>
     </xsl:if>
   </xsl:template>
