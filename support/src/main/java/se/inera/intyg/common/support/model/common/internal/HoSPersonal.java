@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class HoSPersonal {
         return befattningar;
     }
 
+    @JsonIgnore
     public List<String> getBefattningarAsCode() {
         if (!getBefattningsKoder().isEmpty()) {
             return getBefattningsKoder().stream()
