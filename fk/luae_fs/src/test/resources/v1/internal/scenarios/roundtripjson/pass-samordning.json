@@ -5,7 +5,7 @@
   "grundData": {
     "patient": {
       "samordningsNummer": false,
-      "personId": "19270310-4321"
+      "personId": "19800191-0002"
     },
     "skapadAv": {
       "vardenhet": {
@@ -24,6 +24,16 @@
       },
       "specialiteter": [
         "Kirurg"
+      ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
       ],
       "befattningar": [
         "204010",
@@ -47,16 +57,6 @@
       "diagnosBeskrivning": "Klämskada skuldra",
       "diagnosKodSystem": "ICD_10_SE",
       "diagnosKod": "S47"
-    },
-    {
-      "diagnosBeskrivning": "Accentuering av personlighetsdrag",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosKod": "Z731"
-    },
-    {
-      "diagnosBeskrivning": "Shigellos, ospecificerad",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosKod": "A039"
     }
   ],
   "kontaktMedFk": false
