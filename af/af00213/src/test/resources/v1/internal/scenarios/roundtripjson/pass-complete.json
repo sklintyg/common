@@ -25,6 +25,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"
@@ -37,6 +47,11 @@
   },
   "harFunktionsnedsattning": true,
   "funktionsnedsattning": "Haltar när han dansar",
-  "harAktivitetsbegransning": false,
-  "harArbetetsPaverkan": false
+  "harAktivitetsbegransning": true,
+  "aktivitetsbegransning": "Detta är aktivitetsbegränsning",
+  "harUtredningBehandling": true,
+  "utredningBehandling": "Detta är utredning behandling",
+  "harArbetetsPaverkan": true,
+  "arbetetsPaverkan": "Detta är arbetets påverkan",
+  "ovrigt": "Detta är övrigt"
 }
