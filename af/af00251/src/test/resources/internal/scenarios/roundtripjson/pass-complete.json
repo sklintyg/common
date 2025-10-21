@@ -51,7 +51,7 @@
   "arbetsmarknadspolitisktProgram": {
     "medicinskBedomning": "Kan nästan jobba.",
     "omfattning": "DELTID",
-    "omfattningDeltid": 22
+    "omfattningDeltid": "22"
   },
   "funktionsnedsattning": "Ont i armen.",
   "aktivitetsbegransning": "Använd bara höger arm.",
@@ -59,7 +59,7 @@
   "sjukfranvaro": [
     {
       "checked": true,
-      "niva": 44,
+      "niva": "44",
       "period": {
         "from": "2018-09-01",
         "tom": "2018-09-30"
@@ -67,7 +67,7 @@
     },
     {
       "checked": true,
-      "niva": 33,
+      "niva": "33",
       "period": {
         "from": "2018-10-01",
         "tom": "2018-10-31"
@@ -75,7 +75,7 @@
     },
     {
       "checked": true,
-      "niva": 22,
+      "niva": "22",
       "period": {
         "from": "2018-11-01",
         "tom": "2018-11-30"
@@ -83,7 +83,7 @@
     },
     {
       "checked": true,
-      "niva": 11,
+      "niva": "11",
       "period": {
         "from": "2018-12-01",
         "tom": "2018-12-31"
