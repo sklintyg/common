@@ -20,8 +20,7 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
-            "befattningar" : ["ST_LAKARE"]
-
+            "befattningar": ["203010"]
         },
         "patient": {
             "personId": "19800191-0002"

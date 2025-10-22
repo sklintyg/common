@@ -1,0 +1,101 @@
+{
+  "typ": "af00251",
+  "id": "1234567",
+  "textVersion": "1",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "192703104321"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "VG1",
+          "vardgivarid": "12345678"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "VE1",
+        "enhetsid": "123456789"
+      },
+      "specialiteter": [
+        "Kirurg"
+      ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
+      "befattningar": [
+        "204010",
+        "206090"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "19650708-1234"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+  "undersokningsDatum": "2018-10-30",
+  "annatDatum": "2018-10-31",
+  "annatBeskrivning": "Vi fikade tillsammans, han bjöd på kaffet!",
+  "arbetsmarknadspolitisktProgram": {
+    "medicinskBedomning": "Kan nästan jobba.",
+    "omfattning": "DELTID",
+    "omfattningDeltid": "22"
+  },
+  "funktionsnedsattning": "Ont i armen.",
+  "aktivitetsbegransning": "Använd bara höger arm.",
+  "harForhinder": true,
+  "sjukfranvaro": [
+    {
+      "checked": true,
+      "niva": "44",
+      "period": {
+        "from": "2018-09-01",
+        "tom": "2018-09-30"
+      }
+    },
+    {
+      "checked": true,
+      "niva": "33",
+      "period": {
+        "from": "2018-10-01",
+        "tom": "2018-10-31"
+      }
+    },
+    {
+      "checked": true,
+      "niva": "22",
+      "period": {
+        "from": "2018-11-01",
+        "tom": "2018-11-30"
+      }
+    },
+    {
+      "checked": true,
+      "niva": "11",
+      "period": {
+        "from": "2018-12-01",
+        "tom": "2018-12-31"
+      }
+    }
+  ],
+  "begransningSjukfranvaro": {
+    "kanBegransas": true,
+    "beskrivning": "Många fikapauser."
+  },
+  "prognosAtergang": {
+    "prognos": "ATERGA_MED_ANPASSNING",
+    "anpassningar": "Behöver assistent."
+  }
+}

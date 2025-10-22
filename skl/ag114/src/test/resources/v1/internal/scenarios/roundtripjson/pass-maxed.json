@@ -1,0 +1,88 @@
+{
+  "typ": "ag114",
+  "id": "1234567",
+  "textVersion": "1",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "192703104321"
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "VG1",
+          "vardgivarid": "12345678"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "VE1",
+        "enhetsid": "123456789"
+      },
+      "specialiteter": [
+        "Kirurg"
+      ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
+      "befattningar": [
+        "204010",
+        "206090"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "19650708-1234"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+  "telefonkontaktMedPatienten": "2015-12-08",
+  "undersokningAvPatienten": "2015-12-09",
+  "journaluppgifter": "2015-12-10",
+  "annatGrundForMU": "2015-12-13",
+  "annatGrundForMUBeskrivning": "Annat grund för MU",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    }
+  ],
+  "nuvarandeArbete": "Inget",
+  "onskarFormedlaDiagnos": true,
+  "nedsattArbetsformaga": "Kan jobba halvtid numera.",
+  "arbetsformagaTrotsSjukdom": true,
+  "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
+  "sjukskrivningsgrad": "70",
+  "sjukskrivningsperiod": {
+    "from": "2018-11-10",
+    "tom": "2018-11-20"
+  },
+  "ovrigaUpplysningar": "text",
+  "diagnoser": [
+    {
+      "diagnosBeskrivning": "Klämskada skuldra",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S47"
+    },
+    {
+      "diagnosBeskrivning": "Diagnos S48",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S48"
+    },
+    {
+      "diagnosBeskrivning": "Diagnos S49",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S49"
+    }
+  ],
+  "kontaktMedArbetsgivaren": true,
+  "anledningTillKontakt": "Gillar kontakt"
+}

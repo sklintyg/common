@@ -103,7 +103,7 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
         skapadAv.setFullstandigtNamn("");
         skapadAv.setPersonId("");
         skapadAv.getVardenhet().setArbetsplatsKod("");
-        skapadAv.getBefattningar().clear();
+        skapadAv.clearAllBefattningsKoder();
         skapadAv.getSpecialiteter().clear();
     }
 

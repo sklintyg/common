@@ -18,7 +18,7 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
-            "befattningar": ["ST_LAKARE"],
+            "befattningar": ["203010"],
             "specialiteter" : ["SPECIALITET"]
         },
         "patient": {

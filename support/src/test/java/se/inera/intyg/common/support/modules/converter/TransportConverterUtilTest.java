@@ -19,12 +19,12 @@
 package se.inera.intyg.common.support.modules.converter;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,8 +41,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import javax.xml.transform.dom.DOMResult;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Node;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -71,7 +71,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
-public class TransportConverterUtilTest {
+class TransportConverterUtilTest {
 
     /* Exception messages */
     private static final String UNEXPECTED_CONVERSION_ERROR = "Unexpected error while converting data type, mandatory data is missing";
@@ -104,8 +104,8 @@ public class TransportConverterUtilTest {
         }
     }
 
-    @BeforeClass
-    public static void initUtils() {
+    @BeforeAll
+    static void initUtils() {
         final var mapper = mock(CareProviderMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
@@ -119,7 +119,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testGetMetaData() {
+    void testGetMetaData() {
         final String intygId = "intygId";
         final String intygstyp = "LUSE";
         String skapadAvFullstandigtNamn = "skapad av namn";
@@ -152,7 +152,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testGetMetaDataAvailableStatuses() {
+    void testGetMetaDataAvailableStatuses() {
         final LocalDateTime time = LocalDateTime.now();
         IntygsStatus skickad = buildStatus(time, "", StatusKod.RECEIV);
         IntygsStatus arkiverad = buildStatus(time.plusHours(1), "", StatusKod.DELETE);
@@ -161,27 +161,27 @@ public class TransportConverterUtilTest {
         Intyg intyg = buildIntyg(Arrays.asList(skickad, nullDate, arkiverad));
 
         CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse("Should have been unavailable with just a single DELETE", res.isAvailable());
+        assertFalse(res.isAvailable(), "Should have been unavailable with just a single DELETE");
 
         //Add a restored event
         intyg.getStatus().add(buildStatus(time.plusHours(2), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
-        assertTrue("Should have been available with a later RESTOR", res.isAvailable());
+        assertTrue(res.isAvailable(), "Should have been available with a later RESTOR");
 
         //Add another archive  event
         intyg.getStatus().add(buildStatus(time.plusHours(3), "", StatusKod.DELETE));
         res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse("Should have been unavailable with a later DELETE", res.isAvailable());
+        assertFalse(res.isAvailable(), "Should have been unavailable with a later DELETE");
 
         //Add another (to early) restored event
         intyg.getStatus().add(buildStatus(time.minusHours(2), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse("Should have been unavailable with a to early RESTOR", res.isAvailable());
+        assertFalse(res.isAvailable(), "Should have been unavailable with a to early RESTOR");
 
         //Finally, add add another restored event
         intyg.getStatus().add(buildStatus(time.plusHours(5), "", StatusKod.RESTOR));
         res = TransportConverterUtil.getMetaData(intyg, "");
-        assertTrue("Should have been available with a RESTOR as lastest event", res.isAvailable());
+        assertTrue(res.isAvailable(), "Should have been available with a RESTOR as lastest event");
     }
 
     private IntygsStatus buildStatus(LocalDateTime statustidpunkt, String partCode, StatusKod statusKod) {
@@ -216,7 +216,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testGetCVTypeContentSuccess() throws Exception {
+    void testGetCVTypeContentSuccess() throws Exception {
         String code = "1";
         String codeSystem = "TEST";
         Delsvar delsvar = buildCVTypeDelsvar(code, codeSystem, null, null, null, null);
@@ -227,7 +227,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testCVTypeContentSuccess() throws Exception {
+    void testCVTypeContentSuccess() throws Exception {
         CVType expected = new CVType();
         expected.setCode("code");
         expected.setCodeSystem("codeSystem");
@@ -241,15 +241,15 @@ public class TransportConverterUtilTest {
             .isEqualTo(expected);
     }
 
-    @Test(expected = ConverterException.class)
-    public void testCVTypeContentMissingCodeSystem() throws Exception {
+    @Test
+    void testCVTypeContentMissingCodeSystem() {
         CVType cvType = new CVType();
         cvType.setCode("code");
-        TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType)));
+        assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType))));
     }
 
     @Test
-    public void testPQTypeContentSuccess() throws Exception {
+    void testPQTypeContentSuccess() throws Exception {
         PQType expected = new PQType();
         expected.setUnit("cm");
         expected.setValue(100);
@@ -261,7 +261,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testDatePeriodSuccess() throws Exception {
+    void testDatePeriodSuccess() throws Exception {
         DatePeriodType expected = new DatePeriodType();
         expected.setStart(LocalDate.now());
         expected.setEnd(LocalDate.now().plusDays(2));
@@ -273,7 +273,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testPartialDateYearSuccess() throws Exception {
+    void testPartialDateYearSuccess() throws Exception {
         PartialDateType expected = new PartialDateType();
         expected.setValue(Year.parse("2019"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY);
@@ -285,7 +285,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testPartialDateYearMonthSuccess() throws Exception {
+    void testPartialDateYearMonthSuccess() throws Exception {
         PartialDateType expected = new PartialDateType();
         expected.setValue(YearMonth.parse("2019-01"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
@@ -297,7 +297,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testPartialDateFullSuccess() throws Exception {
+    void testPartialDateFullSuccess() throws Exception {
         PartialDateType expected = new PartialDateType();
         expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
@@ -308,15 +308,15 @@ public class TransportConverterUtilTest {
             .isEqualTo(expected);
     }
 
-    @Test(expected = ConverterException.class)
-    public void testPartialDateMissingFormat() throws Exception {
+    @Test
+    void testPartialDateMissingFormat() {
         PartialDateType type = new PartialDateType();
         type.setValue(YearMonth.parse("2019-01"));
-        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type)));
+        assertThrows(ConverterException.class, () -> TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type))));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testPartialDateInvalidData() throws Exception {
+    @Test
+    void testPartialDateInvalidData() throws Exception {
         PartialDateType type = new PartialDateType();
         type.setValue(Year.parse("2019"));
         type.setFormat(PartialDateTypeFormatEnum.YYYY);
@@ -324,12 +324,13 @@ public class TransportConverterUtilTest {
         for (Node n = pd.getFirstChild(); n != null; n = n.getNextSibling()) {
             n.setTextContent("XXX");
         }
-        TransportConverterUtil.getPartialDateContent(buildDelsvar(pd));
+        final var delsvar = buildDelsvar(pd);
+        assertThrows(IllegalArgumentException.class, () -> TransportConverterUtil.getPartialDateContent(delsvar));
     }
 
 
     @Test
-    public void testGetStringContentWithWhitespaceSuccess() {
+    void testGetStringContentWithWhitespaceSuccess() {
         String expected = "String with freetext";
         Delsvar delsvar = buildDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
         String actual = TransportConverterUtil.getStringContent(delsvar);
@@ -337,7 +338,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testGetCVTypeContentWithOptionalSuccess() throws Exception {
+    void testGetCVTypeContentWithOptionalSuccess() throws Exception {
         String code = "1";
         String codeSystem = "TEST";
         String codeSystemName = "NAME";
@@ -356,7 +357,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testGetCVTypeDifferentContentFails() throws Exception {
+    void testGetCVTypeDifferentContentFails() throws Exception {
         String code = "1";
 
         Delsvar delsvar = buildCVTypeDelsvar(code, "ANOTHER", null, null, null, null);
@@ -369,7 +370,7 @@ public class TransportConverterUtilTest {
 
     /* Breaking tests */
     @Test
-    public void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
+    void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
         Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
         Exception exception =
             assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
@@ -377,7 +378,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() {
+    void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(1);
         Exception exception =
@@ -386,7 +387,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() {
+    void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
         Exception exception =
@@ -395,7 +396,7 @@ public class TransportConverterUtilTest {
     }
 
     @Test
-    public void testSpecialistkompetensUsesDisplayName() {
+    void testSpecialistkompetensUsesDisplayName() {
         final String specialistkompetensKlartext = "klartext";
         HosPersonal source = new HosPersonal();
         source.setPersonalId(new HsaId());
@@ -414,11 +415,11 @@ public class TransportConverterUtilTest {
         source.getSpecialistkompetens().add(specialistkompetensWithNullKlartext);
         HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
         assertEquals(1, skapadAv.getSpecialiteter().size());
-        assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().get(0));
+        assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().getFirst());
     }
 
     @Test
-    public void testBefattningUsesCode() {
+    void testBefattningUsesCode() {
         final String befattningKod = "kod";
         HosPersonal source = new HosPersonal();
         source.setPersonalId(new HsaId());
@@ -433,7 +434,74 @@ public class TransportConverterUtilTest {
         source.getBefattning().add(befattning);
         HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
         assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(befattningKod, skapadAv.getBefattningar().get(0));
+        assertEquals(befattningKod, skapadAv.getBefattningar().getFirst());
+    }
+
+    @Test
+    void testBefattningsKoderContainsKod() {
+        final String befattningKod = "kod";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        Befattning befattning = new Befattning();
+        befattning.setCode(befattningKod);
+        befattning.setDisplayName("klartext");
+        source.getBefattning().add(befattning);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(befattningKod, skapadAv.getBefattningsKoder().getFirst().getKod());
+    }
+
+    @Test
+    void testBefattningsKoderContainsKlartext() {
+        final String befattningKlartext = "klartext";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        Befattning befattning = new Befattning();
+        befattning.setCode("kod");
+        befattning.setDisplayName(befattningKlartext);
+        source.getBefattning().add(befattning);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(befattningKlartext, skapadAv.getBefattningsKoder().getFirst().getKlartext());
+    }
+
+    @Test
+    void testBefattningsKoderNoDuplicates() {
+        final String befattningKlartext = "klartext";
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        Befattning befattning = new Befattning();
+        befattning.setCode("kod");
+        befattning.setDisplayName(befattningKlartext);
+        source.getBefattning().addAll(List.of(befattning, befattning));
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertEquals(1, skapadAv.getBefattningsKoder().size());
+    }
+
+    @Test
+    void testBefattningsKoderEmptyWhenNoBefattning() {
+        HosPersonal source = new HosPersonal();
+        source.setPersonalId(new HsaId());
+        source.setEnhet(new Enhet());
+        source.getEnhet().setEnhetsId(new HsaId());
+        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+        source.getEnhet().setVardgivare(new Vardgivare());
+        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        assertTrue(skapadAv.getBefattningsKoder().isEmpty(), "Should be empty when no Befattning in source");
     }
 
     // returns data node

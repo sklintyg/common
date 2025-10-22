@@ -18,27 +18,35 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import java.io.StringWriter;
-import java.util.Collection;
-import java.util.stream.Collectors;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContextManager;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
@@ -53,11 +61,10 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @SuppressWarnings("checkstyle:EmptyCatchBlock")
-@RunWith(Parameterized.class)
-@ContextConfiguration(classes = {BefattningService.class})
-public class RoundTripTest {
-
-    private final Scenario scenario;
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+    InternalConverterUtil.class})
+class RoundTripTest {
 
     private final CustomObjectMapper objectMapper = new CustomObjectMapper();
     private final ObjectFactory objectFactory = new ObjectFactory();
@@ -81,23 +88,28 @@ public class RoundTripTest {
         }
     }
 
-        private final String name;
+    @BeforeAll
+    static void initUtils() {
+        final var mapper = mock(CareProviderMapperUtil.class);
 
-    public RoundTripTest(String name, Scenario scenario) throws Exception {
-        new TestContextManager(getClass()).prepareTestInstance(this);
-        this.scenario = scenario;
-        this.name = name;
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("transform-valid-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+            .map(scenario -> Arguments.of(scenario.getName(), scenario));
     }
 
-    @Test
-    public void testRoundTrip() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testRoundTrip(String name, Scenario scenario) throws Exception {
         RegisterTSDiabetesType transport = InternalToTransportConverter.convert(scenario.asInternalModel());
 
         StringWriter expected = new StringWriter();
@@ -113,15 +125,20 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+
+        TsDiabetesUtlatandeV2 expectedInternal = objectMapper.readValue(
+            getClass().getResourceAsStream("/v2/scenarios/internal/roundtripjson/" + name + ".json"),
+            TsDiabetesUtlatandeV2.class);
+        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }
 
-    @Test
-    public void testConvertToRivtav3() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testConvertToRivtav3(String name, Scenario scenario) throws Exception {
         TsDiabetesUtlatandeV2 internal = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
         RegisterCertificateType actual = new RegisterCertificateType();
         actual.setIntyg(UtlatandeToIntyg.convert(internal));
@@ -139,11 +156,12 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
     }
 
-    @Test
-    public void testTransportTransform() throws Exception {
+    @ParameterizedTest(name = "{index}: Scenario: {0}")
+    @MethodSource("scenarioProvider")
+    void testTransportTransform(String name, Scenario scenario) throws Exception {
         StringWriter transformingString = new StringWriter();
         marshaller.marshal(objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), transformingString);
         String actual = transformer.transform(transformingString.toString());
@@ -159,6 +177,7 @@ public class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
+        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
     }
 }
+

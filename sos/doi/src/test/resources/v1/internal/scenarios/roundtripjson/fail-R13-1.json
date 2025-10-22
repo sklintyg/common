@@ -1,0 +1,135 @@
+{
+  "typ": "doi",
+  "identitetStyrkt": "körkort",
+  "dodsdatumSakert": false,
+  "dodsdatum": "2017-04-01",
+  "antraffatDodDatum": "2017-04-02",
+  "dodsplatsKommun": "kommun",
+  "dodsplatsBoende": "SJUKHUS",
+  "barn": true,
+  "terminalDodsorsak": {
+    "beskrivning": "terminal dödsorsak",
+    "datum": "2017-04-01",
+    "specifikation": "KRONISK"
+  },
+  "foljd": [
+    {
+      "beskrivning": "foljd 1",
+      "datum": "2016-05-01",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "foljd 2",
+      "datum": "2016-04-01",
+      "specifikation": "PLOTSLIG"
+    },
+    {
+      "beskrivning": "foljd 3",
+      "datum": "2016-03-01",
+      "specifikation": "KRONISK"
+    }
+  ],
+  "bidragandeSjukdomar": [
+    {
+      "beskrivning": "bidragande sjukdom 1",
+      "datum": "2017-03-01",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 2",
+      "datum": "2017-03-02",
+      "specifikation": "PLOTSLIG"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 3",
+      "datum": "2017-03-03",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 4",
+      "datum": "2017-03-04",
+      "specifikation": "PLOTSLIG"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 5",
+      "datum": "2017-03-05",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 6",
+      "datum": "2017-03-06",
+      "specifikation": "PLOTSLIG"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 7",
+      "datum": "2017-03-07",
+      "specifikation": "KRONISK"
+    },
+    {
+      "beskrivning": "bidragande sjukdom 8",
+      "datum": "2017-03-08",
+      "specifikation": "PLOTSLIG"
+    }
+  ],
+  "operation": "JA",
+  "operationAnledning": "anledning",
+  "forgiftning": "true",
+  "forgiftningOrsak": "SJALVMORD",
+  "forgiftningDatum": "2017-01-01",
+  "forgiftningUppkommelse": "uppkommelse",
+  "grunder": [
+    "KLINISK_OBDUKTION",
+    "UNDERSOKNING_FORE_DODEN"
+  ],
+  "land": "Sverige",
+  "textVersion": "1.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "efternamn": "Olsson",
+      "fornamn": "Olivia",
+      "fullstandigtNamn": "Olivia Olsson",
+      "postadress": "Testgatan 1",
+      "postnummer": "111 11",
+      "postort": "Teststaden",
+      "personId": "19270310-4321",
+      "addressDetailsSourcePU": false
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "Vårdgivaren",
+          "vardgivarid": "SE2321000016-39KJ"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "Vårdenheten",
+        "enhetsid": "SE2321000016-H489"
+      },
+      "specialiteter": [],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
+      "befattningar": [
+        "204010",
+        "206090"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "SE2321000016-6G5R"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+  "id": "1234567"
+}

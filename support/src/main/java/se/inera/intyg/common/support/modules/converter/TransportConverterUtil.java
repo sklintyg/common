@@ -50,6 +50,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.PaTitle;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -310,8 +311,8 @@ public final class TransportConverterUtil {
     //
     public static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser) throws ConverterException {
         for (Object o : delsvar.getContent()) {
-            if (o instanceof Node) {
-                T value = parser.apply((Node) o);
+            if (o instanceof Node node) {
+                T value = parser.apply(node);
                 if (Objects.isNull(value)) {
                     break;
                 } else {
@@ -391,15 +392,27 @@ public final class TransportConverterUtil {
         personal.setFullstandigtNamn(source.getFullstandigtNamn());
         personal.setForskrivarKod(source.getForskrivarkod());
         personal.setVardenhet(getVardenhet(source.getEnhet()));
-        for (Befattning befattning : source.getBefattning()) {
-            personal.getBefattningar().add(befattning.getCode());
-        }
+        personal.getBefattningsKoder().addAll(createPaTitles(source.getBefattning()));
+        personal.getBefattningar().addAll(source.getBefattning().stream().map(CVType::getCode).toList());
+
         for (Specialistkompetens kompetens : source.getSpecialistkompetens()) {
             if (kompetens.getDisplayName() != null) {
                 personal.getSpecialiteter().add(kompetens.getDisplayName());
             }
         }
         return personal;
+    }
+
+    private static List<PaTitle> createPaTitles(List<Befattning> befattningar) {
+        return befattningar.stream()
+            .map(befattning -> {
+                final var paTitle = new PaTitle();
+                paTitle.setKod(befattning.getCode());
+                paTitle.setKlartext(befattning.getDisplayName());
+                return paTitle;
+            })
+            .distinct()
+            .toList();
     }
 
     /**
@@ -425,7 +438,7 @@ public final class TransportConverterUtil {
     /**
      * Converts a Vardgivare to internal representation.
      *
-     * @param source the transport representation
+     * @param sourceVardgivare the transport representation
      * @return the converted Vardgivare
      */
     private static Vardgivare getVardgivare(

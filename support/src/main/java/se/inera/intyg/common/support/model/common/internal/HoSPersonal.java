@@ -18,10 +18,12 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class HoSPersonal {
 
@@ -36,6 +38,8 @@ public class HoSPersonal {
     private String medarbetarUppdrag;
 
     private List<String> befattningar;
+
+    private List<PaTitle> befattningsKoder;
 
     private List<String> specialiteter;
 
@@ -53,6 +57,32 @@ public class HoSPersonal {
             befattningar = new ArrayList<>();
         }
         return befattningar;
+    }
+
+    @JsonIgnore
+    public List<String> getBefattningarAsCode() {
+        if (!getBefattningsKoder().isEmpty()) {
+            return getBefattningsKoder().stream()
+                .map(PaTitle::getKod)
+                .collect(Collectors.toCollection(ArrayList::new));
+        }
+        return getBefattningar();
+    }
+
+    public List<PaTitle> getBefattningsKoder() {
+        if (befattningsKoder == null) {
+            befattningsKoder = new ArrayList<>();
+        }
+        return befattningsKoder;
+    }
+
+    public void clearAllBefattningsKoder() {
+        if (befattningsKoder != null) {
+            befattningsKoder.clear();
+        }
+        if (befattningar != null) {
+            befattningar.clear();
+        }
     }
 
     public String getPersonId() {

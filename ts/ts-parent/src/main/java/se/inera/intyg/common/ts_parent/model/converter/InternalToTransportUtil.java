@@ -23,11 +23,12 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.PaTitle;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
@@ -57,11 +58,10 @@ public final class InternalToTransportUtil {
     }
 
     public static DiabetesTypVarden convertDiabetesTyp(DiabetesKod kod) {
-        switch (kod) {
-            case DIABETES_TYP_1:
-                return DiabetesTypVarden.TYP_1;
-            case DIABETES_TYP_2:
-                return DiabetesTypVarden.TYP_2;
+        if (kod == DiabetesKod.DIABETES_TYP_1) {
+            return DiabetesTypVarden.TYP_1;
+        } else if (kod == DiabetesKod.DIABETES_TYP_2) {
+            return DiabetesTypVarden.TYP_2;
         }
         throw new IllegalArgumentException(kod.name());
     }
@@ -91,22 +91,32 @@ public final class InternalToTransportUtil {
 
     private static SkapadAv buildSkapadAv(HoSPersonal source) {
         SkapadAv skapadAv = new SkapadAv();
-        skapadAv.setAtLakare(source.getBefattningar().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
+        skapadAv.setAtLakare(source.getBefattningarAsCode().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
         skapadAv.setFullstandigtNamn(source.getFullstandigtNamn());
         skapadAv.setPersonId(buildII(Constants.HSA_ID_OID, source.getPersonId()));
         skapadAv.setVardenhet(buildVardenhet(source.getVardenhet()));
 
-        // try to convert befattning to klartext
-        if (!CollectionUtils.isEmpty(source.getBefattningar())) {
-            skapadAv.getBefattningar().addAll(source.getBefattningar().stream()
-                .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
-                .collect(Collectors.toList()));
-        }
+        List<String> befattningsKoder = getBefattningsKoder(source);
+        skapadAv.getBefattningar().addAll(befattningsKoder);
+
         if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
             skapadAv.getSpecialiteter().addAll(source.getSpecialiteter());
         }
 
         return skapadAv;
+    }
+
+    private static List<String> getBefattningsKoder(HoSPersonal source) {
+        return Optional.of(source.getBefattningsKoder())
+            .filter(paTitles -> !paTitles.isEmpty())
+            .map(paTitles -> paTitles.stream()
+                .distinct()
+                .map(PaTitle::getKlartext))
+            .orElseGet(
+                () -> source.getBefattningar().stream()
+                    .distinct()
+                    .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
+            ).toList();
     }
 
     private static Vardenhet buildVardenhet(se.inera.intyg.common.support.model.common.internal.Vardenhet source) {

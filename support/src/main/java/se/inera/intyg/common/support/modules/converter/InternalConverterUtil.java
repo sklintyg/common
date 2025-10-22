@@ -150,13 +150,9 @@ public final class InternalConverterUtil {
         skapadAv.setFullstandigtNamn(hoSPersonal.getFullstandigtNamn());
         skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
         skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
-        for (String sourceBefattning : hoSPersonal.getBefattningar()) {
-            Befattning befattning = new Befattning();
-            befattning.setCodeSystem(BEFATTNING_KOD_OID);
-            befattning.setCode(sourceBefattning);
-            befattning.setDisplayName(BefattningService.getDescriptionFromCode(sourceBefattning).orElse(null));
-            skapadAv.getBefattning().add(befattning);
-        }
+
+        skapadAv.getBefattning().addAll(getBefattningList(hoSPersonal));
+
         for (String sourceKompetens : hoSPersonal.getSpecialiteter()) {
             Specialistkompetens kompetens = new Specialistkompetens();
             /*
@@ -168,6 +164,30 @@ public final class InternalConverterUtil {
             skapadAv.getSpecialistkompetens().add(kompetens);
         }
         return skapadAv;
+    }
+
+    private static List<Befattning> getBefattningList(HoSPersonal hoSPersonal) {
+        return Optional.of(hoSPersonal.getBefattningsKoder())
+            .filter(list -> !list.isEmpty())
+            .map(list -> list.stream()
+                .distinct()
+                .map(paTitle -> createBefattning(paTitle.getKod(), paTitle.getKlartext())))
+            .orElseGet(() ->
+                hoSPersonal.getBefattningar().stream()
+                    .distinct()
+                    .map(code -> createBefattning(
+                        code,
+                        BefattningService.getDescriptionFromCode(code).orElse(null))))
+            .toList();
+    }
+
+
+    private static Befattning createBefattning(String code, String displayName) {
+        final var befattning = new Befattning();
+        befattning.setCodeSystem(BEFATTNING_KOD_OID);
+        befattning.setCode(code);
+        befattning.setDisplayName(displayName);
+        return befattning;
     }
 
     /**

@@ -210,7 +210,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
         skapadAv.setFullstandigtNamn("");
         skapadAv.setPersonId("");
         skapadAv.getVardenhet().setArbetsplatsKod("");
-        skapadAv.getBefattningar().clear();
+        skapadAv.clearAllBefattningsKoder();
         skapadAv.getSpecialiteter().clear();
     }
 

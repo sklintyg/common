@@ -1,0 +1,63 @@
+{
+  "typ": "db",
+  "identitetStyrkt": "körkort",
+  "dodsdatumSakert": true,
+  "dodsdatum": "1954-02-25",
+  "dodsplatsKommun": "kommun",
+  "dodsplatsBoende": "SJUKHUS",
+  "barn": true,
+  "explosivImplantat": true,
+  "explosivAvlagsnat": true,
+  "undersokningYttre": "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS",
+  "polisanmalan": true,
+  "textVersion": "1.0",
+  "grundData": {
+    "patient": {
+      "samordningsNummer": true,
+      "efternamn": "Samordningsson",
+      "fornamn": "Sam",
+      "fullstandigtNamn": "Sam Samordningsson",
+      "postadress": "Segemyhr, Segergatan 1, PL 1234",
+      "postnummer": "12345",
+      "postort": "Storholm",
+      "personId": "19540187-5769",
+      "addressDetailsSourcePU": false
+    },
+    "skapadAv": {
+      "vardenhet": {
+        "arbetsplatsKod": "45312",
+        "vardgivare": {
+          "vardgivarnamn": "Vårdgivaren",
+          "vardgivarid": "SE2321000016-39KJ"
+        },
+        "epost": "ve1@vg1.se",
+        "telefonnummer": "0812341234",
+        "postort": "Stadby",
+        "postnummer": "100 10",
+        "postadress": "Enhetsg. 1",
+        "enhetsnamn": "Vårdenheten",
+        "enhetsid": "SE2321000016-H489"
+      },
+      "specialiteter": [],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
+      "befattningar": [
+        "204010",
+        "206090"
+      ],
+      "forskrivarKod": "09874321",
+      "fullstandigtNamn": "Karl Karlsson",
+      "personId": "SE2321000016-6G5R"
+    },
+    "signeringsdatum": "2015-12-07T15:48:05.000"
+  },
+  "id": "1234567"
+}
