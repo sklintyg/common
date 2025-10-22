@@ -9,9 +9,8 @@
   "barn": true,
   "explosivImplantat": true,
   "explosivAvlagsnat": true,
-  "undersokningYttre": "DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN",
-  "undersokningDatum": "2016-12-31",
-  "polisanmalan": true,
+  "undersokningYttre": "DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS",
+  "polisanmalan": false,
   "textVersion": "1.0",
   "grundData": {
     "patient": {
@@ -41,6 +40,16 @@
         "enhetsid": "SE2321000016-H489"
       },
       "specialiteter": [],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"

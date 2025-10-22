@@ -41,7 +41,10 @@
         "enhetsid": "SE2321000016-H489"
       },
       "specialiteter": [],
-      "befattningar": ["201010", "204510"],
+      "befattningar": [
+        "204010",
+        "206090"
+      ],
       "forskrivarKod": "09874321",
       "fullstandigtNamn": "Karl Karlsson",
       "personId": "SE2321000016-6G5R"
