@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "4.0",
+  "textVersion": "3.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -25,6 +25,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"
@@ -38,7 +48,7 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "VAR15",
+        "type": "IAV14",
         "selected": true
       }
     ]
@@ -47,13 +57,17 @@
     "typ":"IDK6"
   },
   "allmant":{
-    "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"1990",
     "typAvDiabetes":"TYP1",
-    "medicineringForDiabetes":false
+    "behandling":{
+      "endastKost":true
+    }
   },
-  "ovrigt": {
-    "komplikationerAvSjukdomen": false
+  "hypoglykemier":{
+  },
+  "synfunktion":{
+    "misstankeOgonsjukdom":false,
+    "skickasSeparat":true
   },
   "bedomning":{
     "uppfyllerBehorighetskrav":[

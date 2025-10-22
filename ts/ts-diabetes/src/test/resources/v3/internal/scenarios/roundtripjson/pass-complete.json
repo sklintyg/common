@@ -1,7 +1,7 @@
 {
   "typ": "ts-diabetes",
   "id": "1234567",
-  "textVersion": "4.0",
+  "textVersion": "3.0",
   "grundData": {
     "patient": {
       "samordningsNummer": false,
@@ -25,6 +25,16 @@
       "specialiteter": [
         "Kirurg"
       ],
+      "befattningsKoder": [
+        {
+          "kod": "204010",
+          "klartext": "Läkare ej legitimerad, allmäntjänstgöring"
+        },
+        {
+          "kod": "206090",
+          "klartext": "Sjuksköterska, allmän"
+        }
+      ],
       "befattningar": [
         "204010",
         "206090"
@@ -39,67 +49,67 @@
   "intygAvser":{
     "kategorier":[
       {
-        "type":"VAR12",
+        "type":"IAV11",
         "selected":true
       },
       {
-        "type":"VAR13",
+        "type":"IAV12",
         "selected":true
       },
       {
-        "type":"VAR14",
+        "type":"IAV13",
         "selected":true
       },
       {
-        "type":"VAR15",
+        "type":"IAV14",
         "selected":true
       },
       {
-        "type":"VAR16",
+        "type":"IAV15",
         "selected":true
       },
       {
-        "type":"VAR17",
+        "type":"IAV16",
         "selected":true
       },
       {
-        "type":"VAR18",
+        "type":"IAV17",
         "selected":true
       },
       {
-        "type":"VAR1",
+        "type":"IAV1",
         "selected":true
       },
       {
-        "type":"VAR2",
+        "type":"IAV2",
         "selected":true
       },
       {
-        "type":"VAR3",
+        "type":"IAV3",
         "selected":true
       },
       {
-        "type":"VAR4",
+        "type":"IAV4",
         "selected":true
       },
       {
-        "type":"VAR5",
+        "type":"IAV5",
         "selected":true
       },
       {
-        "type":"VAR6",
+        "type":"IAV6",
         "selected":true
       },
       {
-        "type":"VAR7",
+        "type":"IAV7",
         "selected":true
       },
       {
-        "type":"VAR8",
+        "type":"IAV8",
         "selected":true
       },
       {
-        "type":"VAR9",
+        "type":"IAV9",
         "selected":true
       }
     ]
@@ -108,42 +118,48 @@
     "typ":"IDK1"
   },
   "allmant":{
-    "patientenFoljsAv": "VN1",
     "diabetesDiagnosAr":"2000",
     "typAvDiabetes":"ANNAN",
     "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
-    "medicineringForDiabetes":true,
-    "medicineringMedforRiskForHypoglykemi":true,
     "behandling":{
-      "insulin":true,
+      "endastKost":true,
       "tabletter":true,
-      "annan":true,
-      "annanAngeVilken":"Annan behandling"
+      "riskHypoglykemi":true,
+      "insulin":true,
+      "insulinSedanAr":"2010",
+      "annanBehandling":true,
+      "annanBehandlingBeskrivning":"Annan behandling"
+    }
+  },
+  "hypoglykemier":{
+    "egenkontrollBlodsocker":true,
+    "nedsattHjarnfunktion":true,
+    "sjukdomenUnderKontroll":true,
+    "formagaVarningstecken":true,
+    "aterkommandeSenasteAret":true,
+    "aterkommandeSenasteTidpunkt":"2018-09-10",
+    "aterkommandeSenasteKvartalet":true,
+    "senasteTidpunktVaken":"2018-09-10",
+    "forekomstTrafik":true,
+    "forekomstTrafikTidpunkt":"2018-09-10"
+  },
+  "synfunktion":{
+    "misstankeOgonsjukdom":true,
+    "skickasSeparat":false,
+    "vanster":{
+      "utanKorrektion":0.3,
+      "medKorrektion":0.4
     },
-    "medicineringMedforRiskForHypoglykemiTidpunkt": "2021-10-30"
+    "hoger":{
+      "utanKorrektion":0.1,
+      "medKorrektion":0.2
+    },
+    "binokulart":{
+      "utanKorrektion":0.5,
+      "medKorrektion":0.6
+    }
   },
-  "hypoglykemi": {
-    "kontrollSjukdomstillstand": false,
-    "kontrollSjukdomstillstandVarfor": "Varför inte kontroll sjukdomstillstand",
-    "forstarRiskerMedHypoglykemi": true,
-    "formagaKannaVarningstecken": true,
-    "vidtaAdekvataAtgarder": true,
-    "aterkommandeSenasteAret": true,
-    "aterkommandeSenasteAretTidpunkt": "2021-10-30",
-    "aterkommandeSenasteAretKontrolleras": true,
-    "aterkommandeSenasteAretTrafik": true,
-    "aterkommandeVaketSenasteTolv": true,
-    "aterkommandeVaketSenasteTre": true,
-    "aterkommandeVaketSenasteTreTidpunkt": "2021-10-30",
-    "allvarligSenasteTolvManaderna": true,
-    "allvarligSenasteTolvManadernaTidpunkt": "2021-10-30",
-    "regelbundnaBlodsockerkontroller": true
-  },
-  "ovrigt": {
-    "komplikationerAvSjukdomen": true,
-    "komplikationerAvSjukdomenAnges": "Komplikationer anges",
-    "borUndersokasAvSpecialist": "Bör undersökas av specialistläkare"
-  },
+  "ovrigt":"Övrigt",
   "bedomning":{
     "uppfyllerBehorighetskrav":[
       {
@@ -215,6 +231,7 @@
         "selected":false
       }
     ],
-    "ovrigaKommentarer": "Övriga kommentarer"
+    "lampligtInnehav":true,
+    "borUndersokasBeskrivning":"specialistkompetens"
   }
 }
