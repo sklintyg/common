@@ -109,7 +109,8 @@ public class TSBasTransportToV3TransformerTest {
                 fail(xmlFile + " failed to validate against schema v3 with errors " + v3Results.toString());
             }
 
-            String expectedXmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+            String expectedXmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/transportToV3xml/" + xmlFile),
+                Charsets.UTF_8);
 
             Diff diff = DiffBuilder
                 .compare(Input.fromString(expectedXmlContents))
