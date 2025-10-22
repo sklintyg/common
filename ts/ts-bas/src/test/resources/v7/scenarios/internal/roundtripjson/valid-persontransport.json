@@ -19,8 +19,7 @@
                     "vardgivarid": "SE0000000000-HAHAHHSAA",
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
-            },
-            "befattningar": ["203010"]
+            }
         },
         "patient": {
             "personId": "19121212-1212"
@@ -40,9 +39,7 @@
             {"type": "IAV6", "selected": false},
             {"type": "IAV7", "selected": false},
             {"type": "IAV8", "selected": false},
-            {"type": "IAV9", "selected": false},
-            {"type": "IAV10", "selected": false},
-            {"type": "ANNAT", "selected": false}
+            {"type": "IAV9", "selected": true}
         ]
     },
     "syn" : {
@@ -68,11 +65,13 @@
     },
     
     "horselBalans" : {
-    	"balansrubbningar" : false
+    	"balansrubbningar" : false,
+    	"svartUppfattaSamtal4Meter" : false
     },
     
     "funktionsnedsattning" : {
-    	"funktionsnedsattning" : false
+    	"funktionsnedsattning" : false,
+    	"otillrackligRorelseformaga" : false
     },
     
     "hjartKarl" : {
@@ -121,10 +120,7 @@
     },
     
     "sjukhusvard" : {
-    	"sjukhusEllerLakarkontakt" : true,
-    	"vardinrattning" : "Vårdcentralen i Trollhättan",
-    	"anledning" : "Spontan självantändning",
-    	"tidpunkt" : "2012-12-12"
+    	"sjukhusEllerLakarkontakt" : false
     },
     
     "medicinering" : {
@@ -141,7 +137,7 @@
             {"type": "VAR6", "selected": false},
             {"type": "VAR7", "selected": false},
             {"type": "VAR8", "selected": false},
-            {"type": "VAR9", "selected": false},
+            {"type": "VAR9", "selected": true},
             {"type": "VAR10", "selected": false}
         ]
     }

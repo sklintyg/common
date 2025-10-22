@@ -104,7 +104,11 @@ class RoundTripTest {
         assertFalse(diff.hasDifferences(), diff.toString());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+
+        TsBasUtlatandeV7 expectedInternal = objectMapper.readValue(
+            getClass().getResourceAsStream("/v7/scenarios/internal/roundtripjson/" + name + ".json"),
+            TsBasUtlatandeV7.class);
+        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }
 
@@ -120,7 +124,11 @@ class RoundTripTest {
         TsBasUtlatandeV7 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+
+        TsBasUtlatandeV7 expectedInternal = objectMapper.readValue(
+            getClass().getResourceAsStream("/v7/scenarios/internal/roundtripjson/" + name + ".json"),
+            TsBasUtlatandeV7.class);
+        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);

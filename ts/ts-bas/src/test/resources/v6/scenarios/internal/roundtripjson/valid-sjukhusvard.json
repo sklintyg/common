@@ -1,7 +1,7 @@
 {
     "id": "987654321",
     "typ": "ts-bas",
-    "textVersion": "7.0",
+    "textVersion": "6.7",
     "grundData": {
         "signeringsdatum": "2013-08-12T15:57:00.000",
         "skapadAv": {
@@ -20,28 +20,39 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
+            "befattningsKoder": [
+              {
+                "kod": "203010",
+                "klartext": "Läkare legitimerad, specialiseringstjänstgöring"
+              }
+            ],
             "befattningar": ["203010"]
         },
         "patient": {
-            "personId": "19121212-1212"
+            "personId": "19121212-1212",
+            "fullstandigtNamn": "Johnny Appleseed",
+            "fornamn": "Johnny",
+            "efternamn": "Appleseed",
+            "postadress": "Testvägen 12",
+            "postnummer": "12345",
+            "postort": "Testort"
         }
     },
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "IDK6"
+    	"idkontroll" : "PASS"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "IAV1", "selected": false},
-            {"type": "IAV2", "selected": false},
-            {"type": "IAV3", "selected": true},
-            {"type": "IAV4", "selected": false},
-            {"type": "IAV5", "selected": false},
-            {"type": "IAV6", "selected": false},
-            {"type": "IAV7", "selected": false},
-            {"type": "IAV8", "selected": false},
-            {"type": "IAV9", "selected": false},
-            {"type": "IAV10", "selected": false},
+            {"type": "C1", "selected": false},
+            {"type": "C1E", "selected": false},
+            {"type": "C", "selected": true},
+            {"type": "CE", "selected": false},
+            {"type": "D1", "selected": false},
+            {"type": "D1E", "selected": false},
+            {"type": "D", "selected": false},
+            {"type": "DE", "selected": false},
+            {"type": "TAXI", "selected": false},
             {"type": "ANNAT", "selected": false}
         ]
     },
@@ -51,7 +62,6 @@
         "progressivOgonsjukdom" : false,
         "diplopi" : false,
         "nystagmus" : false,
-        "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 1.0,
         	"kontaktlins" : false
@@ -133,16 +143,16 @@
     
     "bedomning" : {
         "korkortstyp" : [
-            {"type": "VAR1", "selected": false},
-            {"type": "VAR2", "selected": false},
-            {"type": "VAR3", "selected": true},
-            {"type": "VAR4", "selected": false},
-            {"type": "VAR5", "selected": false},
-            {"type": "VAR6", "selected": false},
-            {"type": "VAR7", "selected": false},
-            {"type": "VAR8", "selected": false},
-            {"type": "VAR9", "selected": false},
-            {"type": "VAR10", "selected": false}
+            {"type": "C1", "selected": false},
+            {"type": "C1E", "selected": false},
+            {"type": "C", "selected": true},
+            {"type": "CE", "selected": false},
+            {"type": "D1", "selected": false},
+            {"type": "D1E", "selected": false},
+            {"type": "D", "selected": false},
+            {"type": "DE", "selected": false},
+            {"type": "TAXI", "selected": false},
+            {"type": "ANNAT", "selected": false}
         ]
     }
     

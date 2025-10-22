@@ -40,7 +40,7 @@
       <p:skapadAv>
          <p:personal-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1333"/>
          <p:fullstandigtNamn>Doktor Thompson</p:fullstandigtNamn>
-         <p:befattning>203010</p:befattning>
+         <p:befattning>Läkare legitimerad, specialiseringstjänstgöring</p:befattning>
          <p:enhet>
             <p:enhets-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1337"/>
             <p:enhetsnamn>Vårdenhet Väst</p:enhetsnamn>

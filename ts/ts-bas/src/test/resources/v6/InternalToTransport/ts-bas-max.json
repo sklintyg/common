@@ -18,12 +18,6 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
-            "befattningsKoder": [
-              {
-                "kod": "203010",
-                "klartext": "Läkare legitimerad, specialiseringstjänstgöring"
-              }
-            ],
             "befattningar": ["203010"],
             "specialiteter" : ["SPECIALITET"]
         },

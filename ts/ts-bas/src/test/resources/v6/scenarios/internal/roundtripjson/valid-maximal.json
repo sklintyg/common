@@ -1,7 +1,7 @@
 {
     "id": "intygsId0",
     "typ": "ts-bas",
-    "textVersion": "7.0",
+    "textVersion": "6.7",
     "grundData": {
         "signeringsdatum": "2013-08-12T15:57:00.000",
         "skapadAv": {
@@ -19,30 +19,42 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
+            "befattningsKoder": [
+              {
+                "kod": "203010",
+                "klartext": "Läkare legitimerad, specialiseringstjänstgöring"
+              }
+            ],
             "befattningar": ["203010"],
             "specialiteter" : ["SPECIALITET"]
         },
         "patient": {
-            "personId": "19121212-1212"
+            "personId": "19121212-1212",
+            "fullstandigtNamn": "Herr Dundersjuk",
+            "fornamn": "Herr",
+            "efternamn": "Dundersjuk",
+            "postadress": "Testvägen 12",
+            "postnummer": "12345",
+            "postort": "Testort"
         }
     },
     "kommentar" : "Här kommer en övrig kommentar",
     "vardkontakt" : {
     	"typ" : "5880005", 
-    	"idkontroll" : "IDK6"
+    	"idkontroll" : "PASS"
     },
     "intygAvser" : {
         "korkortstyp" : [
-            {"type": "IAV1", "selected": true},
-            {"type": "IAV2", "selected": true},
-            {"type": "IAV3", "selected": true},
-            {"type": "IAV4", "selected": true},
-            {"type": "IAV5", "selected": true},
-            {"type": "IAV6", "selected": true},
-            {"type": "IAV7", "selected": true},
-            {"type": "IAV8", "selected": true},
-            {"type": "IAV9", "selected": true},
-            {"type": "IAV10", "selected": true}
+            {"type": "C1", "selected": true},
+            {"type": "C1E", "selected": true},
+            {"type": "C", "selected": true},
+            {"type": "CE", "selected": true},
+            {"type": "D1", "selected": true},
+            {"type": "D1E", "selected": true},
+            {"type": "D", "selected": true},
+            {"type": "DE", "selected": true},
+            {"type": "TAXI", "selected": true},
+            {"type": "ANNAT", "selected": true}
         ]
     },
     "syn" : {
@@ -51,7 +63,6 @@
         "progressivOgonsjukdom" : true,
         "diplopi" : true,
         "nystagmus" : true,
-      "synskarpaSkickasSeparat" : false,
         "hogerOga" : {
         	"utanKorrektion" : 0.0,
         	"medKorrektion" : 0.0,
@@ -148,16 +159,16 @@
     
     "bedomning" : {
         "korkortstyp" : [
-            {"type": "VAR1", "selected": true},
-            {"type": "VAR2", "selected": true},
-            {"type": "VAR3", "selected": true},
-            {"type": "VAR4", "selected": true},
-            {"type": "VAR5", "selected": true},
-            {"type": "VAR6", "selected": true},
-            {"type": "VAR7", "selected": true},
-            {"type": "VAR8", "selected": true},
-            {"type": "VAR9", "selected": true},
-            {"type": "VAR10", "selected": true}
+            {"type": "C1", "selected": true},
+            {"type": "C1E", "selected": true},
+            {"type": "C", "selected": true},
+            {"type": "CE", "selected": true},
+            {"type": "D1", "selected": true},
+            {"type": "D1E", "selected": true},
+            {"type": "D", "selected": true},
+            {"type": "DE", "selected": true},
+            {"type": "TAXI", "selected": true},
+            {"type": "ANNAT", "selected": true}
         ],
         "kanInteTaStallning" : false,
         "lakareSpecialKompetens" : "Spektralanalys"

@@ -19,12 +19,6 @@
                     "vardgivarnamn": "Vårdgivarnamn"
                 }
             },
-            "befattningsKoder": [
-              {
-                "kod": "203010",
-                "klartext": "Läkare legitimerad, specialiseringstjänstgöring"
-              }
-            ],
             "befattningar": ["203010"],
             "specialiteter" : ["SPECIALITET"]
         },
@@ -40,7 +34,7 @@
     },
     "kommentar" : "Här kommer en övrig kommentar",
     "vardkontakt" : {
-    	"typ" : "5880005", 
+    	"typ" : "5880005",
     	"idkontroll" : "PASS"
     },
     "intygAvser" : {
@@ -68,7 +62,7 @@
         	"medKorrektion" : 0.0,
         	"kontaktlins" : true
         },
-        
+
         "vansterOga" : {
         	"utanKorrektion" : 0.0,
         	"medKorrektion" : 0.0,
@@ -81,82 +75,82 @@
         },
         "korrektionsglasensStyrka" : true
     },
-    
+
     "horselBalans" : {
     	"balansrubbningar" : true,
     	"svartUppfattaSamtal4Meter" : true
     },
-    
+
     "funktionsnedsattning" : {
     	"funktionsnedsattning" : true,
     	"otillrackligRorelseformaga" : true,
     	"beskrivning" : "Spik i foten"
-    	
+
     },
-    
+
     "hjartKarl" : {
     	"hjartKarlSjukdom" : true,
     	"hjarnskadaEfterTrauma" : true,
     	"riskfaktorerStroke" : true,
     	"beskrivningRiskfaktorer" : "Förkärlek för Elvismackor"
     },
-    
+
     "diabetes" : {
     	"harDiabetes" : true,
     	"diabetesTyp" : "DIABETES_TYP_2",
     	"kost" : true
     },
-    
+
     "neurologi" : {
     	"neurologiskSjukdom" : true
     },
-    
+
     "medvetandestorning" : {
     	"medvetandestorning" : true,
     	"beskrivning" : "Beskrivning"
     },
-    
+
     "njurar" : {
     	"nedsattNjurfunktion" : true
     },
-    
+
     "kognitivt" : {
     	"sviktandeKognitivFunktion" : true
     },
-    
+
     "somnVakenhet" : {
     	"teckenSomnstorningar" : true
     },
-    
+
     "narkotikaLakemedel" : {
         "teckenMissbruk" : true,
-        "foremalForVardinsats" : true, 
+        "foremalForVardinsats" : true,
         "lakarordineratLakemedelsbruk" : true,
         "lakemedelOchDos" : "Läkemedel och dos",
         "provtagningBehovs" : true
     },
-    
+
     "psykiskt" : {
     	"psykiskSjukdom" : true
     },
-    
+
     "utvecklingsstorning" : {
     	"psykiskUtvecklingsstorning" : true,
     	"harSyndrom" : true
     },
-    
+
     "sjukhusvard" : {
     	"sjukhusEllerLakarkontakt" : true,
     	"tidpunkt" : "20 Januari",
     	"vardinrattning" : "Vårdcentralen",
     	"anledning" : "Akut lungsot"
     },
-    
+
     "medicinering" : {
     	"stadigvarandeMedicinering" : true,
     	"beskrivning" : "Alvedon"
     },
-    
+
     "bedomning" : {
         "korkortstyp" : [
             {"type": "C1", "selected": true},
@@ -173,5 +167,5 @@
         "kanInteTaStallning" : false,
         "lakareSpecialKompetens" : "Spektralanalys"
     }
-    
+
 }
