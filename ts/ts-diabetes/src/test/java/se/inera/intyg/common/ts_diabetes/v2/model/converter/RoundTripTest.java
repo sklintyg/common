@@ -128,7 +128,11 @@ class RoundTripTest {
         assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+
+        TsDiabetesUtlatandeV2 expectedInternal = objectMapper.readValue(
+            getClass().getResourceAsStream("/v2/scenarios/internal/roundtripjson/" + name + ".json"),
+            TsDiabetesUtlatandeV2.class);
+        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }
 

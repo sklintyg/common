@@ -54,7 +54,7 @@
                 </vardgivare>
             </vardenhet>
             <specialiteter>SPECIALITET</specialiteter>
-            <befattningar>ST_LAKARE</befattningar>
+            <befattningar>Läkare legitimerad, specialiseringstjänstgöring</befattningar>
         </skapadAv>
         <patient>
             <personId>
