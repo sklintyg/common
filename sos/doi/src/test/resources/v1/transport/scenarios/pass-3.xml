@@ -59,14 +59,14 @@
             <fullstandigtNamn>Karl Karlsson</fullstandigtNamn>
             <forskrivarkod>09874321</forskrivarkod>
             <befattning>
-                <ns3:code>201010</ns3:code>
-                <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
-                <ns3:displayName>Överläkare</ns3:displayName>
+              <ns3:code>204010</ns3:code>
+              <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
+              <ns3:displayName>Läkare ej legitimerad, allmäntjänstgöring</ns3:displayName>
             </befattning>
             <befattning>
-                <ns3:code>204510</ns3:code>
-                <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
-                <ns3:displayName>Psykolog</ns3:displayName>
+              <ns3:code>206090</ns3:code>
+              <ns3:codeSystem>1.2.752.129.2.2.1.4</ns3:codeSystem>
+              <ns3:displayName>Sjuksköterska, allmän</ns3:displayName>
             </befattning>
             <enhet>
                 <enhets-id>
