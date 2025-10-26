@@ -32,6 +32,11 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
 
     @Override
+    public String certificateServiceTypeId() {
+        return "fk7804";
+    }
+
+    @Override
     public String getModuleId() {
         return MODULE_ID;
     }

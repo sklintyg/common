@@ -78,7 +78,8 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
                 entryPoint.getModuleCssPath(origin),
                 entryPoint.getModuleScriptPath(origin),
                 entryPoint.getModuleDependencyDefinitionPath(origin),
-                entryPoint.getDefaultRecipient()
+                entryPoint.getDefaultRecipient(),
+                entryPoint.certificateServiceTypeId()
             );
 
             intygModuleMap.put(module.getId(), module);
