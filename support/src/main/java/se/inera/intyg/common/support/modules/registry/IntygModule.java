@@ -22,6 +22,8 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String id;
 
+    private String certificateServiceTypeId;
+
     private String label;
 
     private String description;
@@ -40,7 +42,7 @@ public class IntygModule implements Comparable<IntygModule> {
 
     // CHECKSTYLE:OFF ParameterNumber
     public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
-        String scriptPath, String dependencyDefinitionPath, String defaultRecipient) {
+        String scriptPath, String dependencyDefinitionPath, String defaultRecipient, String certificateServiceTypeId) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -50,11 +52,16 @@ public class IntygModule implements Comparable<IntygModule> {
         this.scriptPath = scriptPath;
         this.dependencyDefinitionPath = dependencyDefinitionPath;
         this.defaultRecipient = defaultRecipient;
+        this.certificateServiceTypeId = certificateServiceTypeId;
     }
     // CHECKSTYLE:ON ParameterNumber
 
     public String getId() {
         return id;
+    }
+
+    public String getCertificateServiceTypeId() {
+        return certificateServiceTypeId;
     }
 
     public String getLabel() {

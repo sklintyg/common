@@ -106,4 +106,26 @@ public interface ModuleEntryPoint {
         return null;
     }
 
+    /**
+     * Different certificate types handle identification of the type in different ways.
+     *
+     * MODULE_ID is used as the type to store in the database and to identify the module.
+     * ISSUER_TYPE_ID is used for displaying the type in GUI and on printed certificates.
+     * EXTERNAL_ID is used when exchanging the certificate in XML format and matches the code in the used code system.
+     *
+     * When aggregating and handling certificate types between webcert and certificate service it is not possible to always use MODULE_ID,
+     * because it differs between webcert and certificate service for some certificate types e.g. lisjp (wc) vs fk7804 (cs).
+     *
+     * It is not possible either to use ISSUER_TYPE_ID because it can be formatted differently and all certificate types do not have an
+     * issuer type id e.g. db and doi.
+     *
+     * Therefore, a new method is added to be able to identify the certificate type in integrations between webcert and
+     * certificate service.
+     *
+     * By default, the method returns MODULE_ID to keep the current behavior for all existing certificates and will be overridden when
+     * necessary e.g. for lisjp/fk7804.
+     */
+    default String certificateServiceTypeId() {
+        return getModuleId();
+    }
 }

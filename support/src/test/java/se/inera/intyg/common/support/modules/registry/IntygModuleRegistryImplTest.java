@@ -65,7 +65,6 @@ public class IntygModuleRegistryImplTest {
     private static final String INTYG_VERSION = "1.0";
     private static final String MODULE_ID_2_DEFAULT_FALLBACK_INTYG_VERSION = "4.0";
 
-
     @Mock
     private ModuleEntryPoint entryPointMock1;
 
@@ -139,7 +138,6 @@ public class IntygModuleRegistryImplTest {
         ModuleApi res = registry.getModuleApi(MODULE_ID_1, INTYG_VERSION);
 
         assertNotNull(res);
-        assertTrue(res instanceof ModuleApi);
     }
 
     @Test(expected = ModuleNotFoundException.class)
