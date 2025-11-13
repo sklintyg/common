@@ -19,6 +19,7 @@
 package se.inera.intyg.common.doi.v1.validator;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_DELSVAR_ID;
@@ -32,9 +33,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.OPERATION_D
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.utils.ScenarioFinder;
@@ -42,11 +46,16 @@ import se.inera.intyg.common.doi.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.doi.validator.InternalValidatorHelper;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorImplTest {
 
+    @Mock
+    private TypeAheadProvider typeAheadProvider;
+    
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;
 
@@ -66,13 +75,19 @@ public class InternalDraftValidatorImplTest {
         return utlatande;
     }
 
+    @Before
+    public void setup() {
+        when(typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES))
+            .thenReturn(List.of("kommun", "NACKA", "sdf"));
+    }
+
     @Test
     public void testValidateUtkast() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-1").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
@@ -81,7 +96,7 @@ public class InternalDraftValidatorImplTest {
         // bidragandeSjukdomar datum och specifikation (10.2 och 10.3) är ej obligatoriska
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-2").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(0, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
@@ -90,12 +105,12 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R1").asInternalModel();
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("dodsdatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(DODSDATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("dodsdatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(DODSDATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -103,13 +118,28 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals("doi.validation.antraffatDod.dodsdatumSakert", internalValidationResponse.getValidationErrors().get(0).getMessage());
-        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals("doi.validation.antraffatDod.dodsdatumSakert", internalValidationResponse.getValidationErrors().getFirst().getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
+    }
+
+
+    @Test
+    public void testR31() throws ScenarioNotFoundException {
+        DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-1").asInternalModel();
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
+        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
+        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("dodsplatsKommun", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals("common.validation.ue-typeahead.invalid", internalValidationResponse.getValidationErrors().getFirst().getMessage());
+        assertEquals("3.1", internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -117,13 +147,13 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R3-1").asInternalModel();
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.OTHER, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals("common.validation.date.today.or.earlier", internalValidationResponse.getValidationErrors().get(0).getMessage());
-        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.OTHER, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals("common.validation.date.today.or.earlier", internalValidationResponse.getValidationErrors().getFirst().getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -131,13 +161,13 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals("doi.validation.datum.innanDodsdatum", internalValidationResponse.getValidationErrors().get(0).getMessage());
-        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals("doi.validation.datum.innanDodsdatum", internalValidationResponse.getValidationErrors().getFirst().getMessage());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -146,12 +176,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("antraffatDodDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -159,12 +189,12 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-1").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("operation", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
 
     }
 
@@ -173,12 +203,12 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-2").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("operation", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -186,12 +216,12 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R13-3").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("operation", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("operationDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(OPERATION_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -200,12 +230,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("operation", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("operationAnledning", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("operation", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("operationAnledning", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
 
     }
 
@@ -215,12 +245,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("forgiftningOrsak", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("forgiftningOrsak", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
 
     }
 
@@ -230,14 +260,14 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(3, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getField());
         assertEquals("doi.validation.forgiftning.orsak.incorrect_combination",
-            internalValidationResponse.getValidationErrors().get(0).getMessage());
-        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+            internalValidationResponse.getValidationErrors().getFirst().getMessage());
+        assertEquals(FORGIFTNING_ORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(1).getType());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getCategory());
         assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(1).getField());
@@ -259,12 +289,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -274,12 +304,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getForgiftningDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("forgiftningDatum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(FORGIFTNING_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -288,12 +318,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("forgiftningUppkommelse", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("forgiftning", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("forgiftningUppkommelse", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -302,12 +332,12 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("grunder", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("grunder", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -316,36 +346,36 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("grunder", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("dodsorsakgrund", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("grunder", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(GRUNDER_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
     public void testR20_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel(), 29);
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("barn", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
     public void testR20_2() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel(), 10);
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("barn", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -353,12 +383,12 @@ public class InternalDraftValidatorImplTest {
         // Same as R20_1 but with samordningsnummer
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel(), 29);
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("barn", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -366,12 +396,12 @@ public class InternalDraftValidatorImplTest {
         // Same as R20_2 but with samordningsnummer
         DoiUtlatandeV1 utlatandeFromJson = setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel(), 10);
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("barn", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("barnSomAvlidit", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("barn", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(BARN_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -379,12 +409,12 @@ public class InternalDraftValidatorImplTest {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R22-1").asInternalModel();
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
     @Test
@@ -393,11 +423,11 @@ public class InternalDraftValidatorImplTest {
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getTerminalDodsorsak().getDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
-        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().get(0).getField());
-        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().get(0).getQuestionId());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().getFirst().getType());
+        assertEquals("utlatandeOrsak", internalValidationResponse.getValidationErrors().getFirst().getCategory());
+        assertEquals("terminalDodsorsak.datum", internalValidationResponse.getValidationErrors().getFirst().getField());
+        assertEquals(DODSORSAK_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 }
