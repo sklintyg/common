@@ -20,8 +20,13 @@ package se.inera.intyg.common.support.validate;
 
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 
 public interface InternalDraftValidator<T extends Utlatande> {
 
     ValidateDraftResponse validateDraft(T utlatande);
+
+    default ValidateDraftResponse validateDraft(T utlatande, TypeAheadProvider typeAheadProvider) {
+        return validateDraft(utlatande);
+    }
 }

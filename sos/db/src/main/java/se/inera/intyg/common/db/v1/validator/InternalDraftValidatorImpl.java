@@ -43,6 +43,7 @@ import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
@@ -54,13 +55,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
 
     @Override
     public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande) {
+        throw new UnsupportedOperationException("Use validateDraft with TypeAheadProvider");
+    }
+
+    @Override
+    public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande, TypeAheadProvider typeAheadProvider) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
         validateIdentitetStyrkt(utlatande, validationMessages);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
-        validateDodsplats(utlatande, validationMessages);
+        validateDodsplats(utlatande, validationMessages, typeAheadProvider);
         validateBarn(utlatande, validationMessages);
         validateExplosivtImplantat(utlatande, validationMessages);
         validateUndersokning(utlatande, validationMessages);

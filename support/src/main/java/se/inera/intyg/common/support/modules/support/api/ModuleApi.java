@@ -45,6 +45,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.facade.ModuleFacadeApi;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
@@ -66,6 +67,11 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return response the validation result.
      */
     ValidateDraftResponse validateDraft(String internalModel) throws ModuleException;
+
+
+    default ValidateDraftResponse validateDraft(String internalModel, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        return validateDraft(internalModel);
+    }
 
     /**
      * Generates a PDF from an internal model.
