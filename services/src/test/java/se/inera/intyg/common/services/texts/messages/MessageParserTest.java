@@ -43,7 +43,7 @@ class MessageParserTest {
 
         final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
 
-        assertEquals(710, map.keySet().size());
+        assertEquals(711, map.keySet().size());
     }
 
     @Test
@@ -54,7 +54,7 @@ class MessageParserTest {
 
         final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).parse(inputStream3).collect();
 
-        assertEquals(711, map.keySet().size());
+        assertEquals(712, map.keySet().size());
     }
 
     @Test
