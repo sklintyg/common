@@ -41,6 +41,8 @@ import java.util.List;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 public final class SosInternalDraftValidator {
@@ -142,10 +144,19 @@ public final class SosInternalDraftValidator {
         }
     }
 
-    public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages) {
+    public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages,
+        TypeAheadProvider typeAheadProvider) {
         if (Strings.nullToEmpty(utlatande.getDodsplatsKommun()).trim().isEmpty()) {
             ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSPLATS_KOMMUN_JSON_ID,
                 ValidationMessageType.EMPTY, DODSPLATS_KOMMUN_DELSVAR_ID);
+        } else if (typeAheadProvider != null) {
+            final var value = utlatande.getDodsplatsKommun();
+            final var validMunicipalityValues = typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES);
+
+            if (!validMunicipalityValues.contains(value)) {
+                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "dodsdatumOchdodsPlats", DODSPLATS_KOMMUN_JSON_ID,
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-typeahead.invalid", DODSPLATS_KOMMUN_DELSVAR_ID);
+            }
         }
 
         // R4

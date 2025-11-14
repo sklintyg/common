@@ -126,7 +126,15 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
      */
     @Override
     public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
-        return internalDraftValidator.validateDraft(getInternal(internalModel));
+        throw new UnsupportedOperationException("Not supported, use function with TypeaheadProvider.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ValidateDraftResponse validateDraft(String internalModel, TypeAheadProvider typeAheadProvider) throws ModuleException {
+        return internalDraftValidator.validateDraft(getInternal(internalModel), typeAheadProvider);
     }
 
     /**
