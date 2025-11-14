@@ -205,9 +205,10 @@ class DoiModuleApiV1Test {
 
     @Test
     void testValidateShouldUseValidator() throws Exception {
+        final var typeAheadProvider = mock(TypeAheadProvider.class);
         when(objectMapper.readValue("internal model", DoiUtlatandeV1.class)).thenReturn(null);
-        moduleApi.validateDraft("internal model");
-        verify(internalDraftValidator, times(1)).validateDraft(any());
+        moduleApi.validateDraft("internal model", typeAheadProvider);
+        verify(internalDraftValidator, times(1)).validateDraft(any(), any());
     }
 
     @Test

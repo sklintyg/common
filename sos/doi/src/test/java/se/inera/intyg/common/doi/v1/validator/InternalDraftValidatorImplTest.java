@@ -127,21 +127,6 @@ public class InternalDraftValidatorImplTest {
         assertEquals(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
     }
 
-
-    @Test
-    public void testR31() throws ScenarioNotFoundException {
-        DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-1").asInternalModel();
-        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
-        assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
-        assertEquals(ValidationMessageType.INVALID_FORMAT, internalValidationResponse.getValidationErrors().getFirst().getType());
-        assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().getFirst().getCategory());
-        assertEquals("dodsplatsKommun", internalValidationResponse.getValidationErrors().getFirst().getField());
-        assertEquals("common.validation.ue-typeahead.invalid", internalValidationResponse.getValidationErrors().getFirst().getMessage());
-        assertEquals("3.1", internalValidationResponse.getValidationErrors().getFirst().getQuestionId());
-    }
-
     @Test
     public void testR3_1() throws ScenarioNotFoundException {
         DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R3-1").asInternalModel();

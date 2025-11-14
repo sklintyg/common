@@ -29,6 +29,8 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.Test;
@@ -43,20 +45,21 @@ import se.inera.intyg.common.doi.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.doi.validator.InternalValidatorHelper;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
+import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
-    // Used for labeling tests.
     private static String name;
 
     private static InternalDraftValidatorImpl internalValidator = new InternalDraftValidatorImpl();
     private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
 
+    private static final TypeAheadProvider typeAheadProvider = typeAheadEnum -> List.of("NACKA", "kommun", "sdf");
+
     static {
-        // avoid com.helger debug log
         GlobalDebug.setDebugModeDirect(false);
     }
 
@@ -89,7 +92,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
             internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         }
 
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
 
         RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = getXmlFromModel(intyg);
