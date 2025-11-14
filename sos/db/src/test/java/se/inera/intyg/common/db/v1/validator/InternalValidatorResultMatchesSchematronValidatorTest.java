@@ -84,13 +84,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
-        DbUtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
-
-        if (!fail) {
-            internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getUndersokningDatum(), 4);
-            internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getDodsdatum(), 3);
-            internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getAntraffatDodDatum(), 2);
-        }
+        DbUtlatandeV1 utlatandeFromJson = fail ?
+            scenario.asInternalModel() :
+            InternalValidatorTest.setupUtlatandeDates(scenario.asInternalModel());
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
 
