@@ -34,6 +34,7 @@ import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
 public class User {
 
     String hsaId;
+    String personId;
     String name;
     String role;
     SigningMethod signingMethod;
