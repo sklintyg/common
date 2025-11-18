@@ -672,7 +672,7 @@
             'common.validation.ue-textarea.empty': 'Ange ett svar.',
             'common.validation.ue-textfield.empty': 'Ange ett svar.',
             'common.validation.ue-typeahead.empty': 'Ange ett svar.',
-            'common.validation.ue-typeahead.invalid': 'Du måste välja ett alternativ.',
+            'common.validation.ue-typeahead.invalid': 'Välj ett alternativ.',
             'common.validation.ue-year.empty': 'Ange ett svar.',
             'common.validation.ue-dropdown.empty': 'Välj ett alternativ.',
             'common.validation.ue-fraga.empty': 'Frågan är obligatorisk att besvara.',
