@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +41,7 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.converter.mapping.CareProviderInfo;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapping;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
@@ -50,16 +51,23 @@ class CareProviderMapperUtilTest {
 
     private static final List<CareProviderMapping> CARE_PROVIDER_MAPPINGS = List.of(
         new CareProviderMapping(
-            "Beta Regionen",
-            "TSTNMT2321000156-BETA",
+            "Region Stockholm",
+            "Avbolagisering av akutsjukhus",
             LocalDateTime.now(),
-            Set.of("TSTNMT2321000156-ALFA", "TSTNMT2321000152-ALFA2")
+            Map.of(
+                "TSTNMT2321000156-ALFA", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
+                "TSTNMT2321000152-ALFA2", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
+            ),
+            null
         ),
         new CareProviderMapping(
-            "Gamma Regionen",
-            "TSTNMT2321000156-GAMMA",
+            "Region Gävleborg",
+            "Bolagisering av primärvården",
             LocalDateTime.now().plusHours(1),
-            Set.of("TSTNMT2321000156-DELTA")
+            Map.of(
+                "TSTNMT2321000156-DELTA", new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
+            ),
+            null
         )
     );
 
@@ -134,7 +142,7 @@ class CareProviderMapperUtilTest {
         careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
         verifyNoInteractions(careProviderMappingConfigLoader);
     }
-    
+
     @Test
     void shouldDecorateWithMappedCareProvider() {
         final var expectedId = "TSTNMT2321000156-BETA";

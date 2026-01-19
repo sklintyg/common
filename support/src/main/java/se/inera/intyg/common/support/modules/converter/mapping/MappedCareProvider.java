@@ -19,6 +19,7 @@
 
 package se.inera.intyg.common.support.modules.converter.mapping;
 
+
 public record MappedCareProvider(String id, String name) {
 
 }

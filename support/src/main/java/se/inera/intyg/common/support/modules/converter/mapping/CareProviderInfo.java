@@ -16,17 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.support.modules.converter.mapping;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-public record CareProviderMapping(
-    String region,
-    String description,
-    LocalDateTime datetime,
-    Map<String, CareProviderInfo> careProviderMapping,
-    Map<String, IssuedUnitInfo> issuedUnitMapping
+public record CareProviderInfo(
+    String careProviderName,
+    String careProviderId
 ) {
 
 }

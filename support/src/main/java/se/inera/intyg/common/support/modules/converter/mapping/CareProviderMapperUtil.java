@@ -38,7 +38,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 public class CareProviderMapperUtil {
 
     private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
-    
+
     public void decorateWithMappedCareProvider(Utlatande utlatande) {
         if (utlatande == null
             || utlatande.getGrundData() == null
@@ -53,6 +53,7 @@ public class CareProviderMapperUtil {
         final var mappedVardgivare = getMappedCareprovider(vardgivare.getVardgivarid(), vardgivare.getVardgivarnamn());
         vardgivare.setVardgivarid(mappedVardgivare.id());
         vardgivare.setVardgivarnamn(mappedVardgivare.name());
+
     }
 
     public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
@@ -60,9 +61,13 @@ public class CareProviderMapperUtil {
 
         return careProviderMappingConfigLoader.getCareProviderMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
-                && mappingConfig.originalCareProviderIds().contains(originalCareProviderId))
+                && mappingConfig.careProviderMapping() != null
+                && mappingConfig.careProviderMapping().containsKey(originalCareProviderId))
             .findFirst()
-            .map(mappingConfig -> new MappedCareProvider(mappingConfig.careProviderId(), mappingConfig.careProviderName()))
+            .map(mappingConfig -> {
+                final var careProviderInfo = mappingConfig.careProviderMapping().get(originalCareProviderId);
+                return new MappedCareProvider(careProviderInfo.careProviderId(), careProviderInfo.careProviderName());
+            })
             .orElse(new MappedCareProvider(originalCareProviderId, originalCareProviderName));
     }
 }
