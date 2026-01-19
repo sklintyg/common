@@ -94,8 +94,8 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -151,14 +151,14 @@ class LuseModuleApiV1Test {
     @Spy
     private SvarIdHelperImpl svarIdHelper;
     @Mock
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     @InjectMocks
     private LuseModuleApiV1 moduleApi;
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -689,7 +689,7 @@ class LuseModuleApiV1Test {
             )
         );
 
-        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
+        verify(unitMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     private String toJsonString(LuseUtlatandeV1 utlatande) throws ModuleException {

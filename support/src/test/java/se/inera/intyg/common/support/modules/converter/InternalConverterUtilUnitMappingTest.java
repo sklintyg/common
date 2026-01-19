@@ -30,46 +30,46 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 
 @ExtendWith(MockitoExtension.class)
-class InternalConverterUtilCareProviderMappingTest {
+class InternalConverterUtilUnitMappingTest {
 
-  @Mock
-  private CareProviderMapperUtil careProviderMapperUtil;
+    @Mock
+    private UnitMapperUtil unitMapperUtil;
 
-  @InjectMocks
-  private InternalConverterUtil internalConverterUtil;
+    @InjectMocks
+    private InternalConverterUtil internalConverterUtil;
 
 
-  @Test
-  void shouldUseCareProviderMapperUtil() {
-    HoSPersonal skapadAv = new HoSPersonal();
-    Vardenhet vardenhet = new Vardenhet();
-    Vardgivare vardgivare = new Vardgivare();
-    vardgivare.setVardgivarid("TSTNMT2321000156-BETA");
-    vardgivare.setVardgivarnamn("Beta Regionen");
-    vardenhet.setVardgivare(vardgivare);
-    skapadAv.setVardenhet(vardenhet);
+    @Test
+    void shouldUseCareProviderMapperUtil() {
+        HoSPersonal skapadAv = new HoSPersonal();
+        Vardenhet vardenhet = new Vardenhet();
+        Vardgivare vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("TSTNMT2321000156-BETA");
+        vardgivare.setVardgivarnamn("Beta Regionen");
+        vardenhet.setVardgivare(vardgivare);
+        skapadAv.setVardenhet(vardenhet);
 
-    var careProvider = new Vardgivare();
-    careProvider.setVardgivarid("TSTNMT2321000156-BETA");
-    careProvider.setVardgivarnamn("Beta Regionen");
+        var careProvider = new Vardgivare();
+        careProvider.setVardgivarid("TSTNMT2321000156-BETA");
+        careProvider.setVardgivarnamn("Beta Regionen");
 
-    internalConverterUtil.initialize();
-    when(careProviderMapperUtil.getMappedCareprovider(
-        careProvider.getVardgivarid(),
-        careProvider.getVardgivarnamn()))
-        .thenReturn(
-            new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
+        internalConverterUtil.initialize();
+        when(unitMapperUtil.getMappedCareprovider(
+            careProvider.getVardgivarid(),
+            careProvider.getVardgivarnamn()))
+            .thenReturn(
+                new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
 
-    var result = InternalConverterUtil.getSkapadAv(skapadAv);
-    assertAll(() -> {
-      assertEquals("TSTNMT2321000156-BETA",
-          result.getEnhet().getVardgivare().getVardgivareId().getExtension());
-      assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
-    });
-  }
+        var result = InternalConverterUtil.getSkapadAv(skapadAv);
+        assertAll(() -> {
+            assertEquals("TSTNMT2321000156-BETA",
+                result.getEnhet().getVardgivare().getVardgivareId().getExtension());
+            assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
+        });
+    }
 
 }

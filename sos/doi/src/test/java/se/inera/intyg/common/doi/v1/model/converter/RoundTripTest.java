@@ -49,8 +49,8 @@ import se.inera.intyg.common.doi.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.doi.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -62,7 +62,7 @@ class RoundTripTest {
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -163,4 +163,3 @@ class RoundTripTest {
             RegisterCertificateType.class, ws);
     }
 }
-

@@ -36,9 +36,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Bedomning;
@@ -54,13 +54,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     private static final String PNR_TOLVAN = "191212121212";
 
     @Test
-     void testConvert() throws Exception {
+    void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
@@ -131,7 +131,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertWithRelation() {
+    void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
@@ -146,7 +146,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void emptyUtlatandeShouldHaveNoIncompleteSvar() {
+    void emptyUtlatandeShouldHaveNoIncompleteSvar() {
         // Given
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande().build();
 
@@ -158,7 +158,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
+    void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
         // Given
         TsDiabetesUtlatandeV3 utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))

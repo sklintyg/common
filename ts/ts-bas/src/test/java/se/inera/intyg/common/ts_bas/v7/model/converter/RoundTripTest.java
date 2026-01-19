@@ -43,8 +43,8 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 import se.inera.intyg.common.ts_bas.v7.utils.Scenario;
@@ -60,7 +60,7 @@ class RoundTripTest {
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -154,4 +154,3 @@ class RoundTripTest {
             RegisterCertificateType.class, ws);
     }
 }
-

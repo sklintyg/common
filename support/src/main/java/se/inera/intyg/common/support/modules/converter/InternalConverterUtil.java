@@ -52,7 +52,7 @@ import se.inera.intyg.common.support.model.ModelException;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -94,13 +94,13 @@ public final class InternalConverterUtil {
     private static final Pattern GENERAL_DATE_FORMAT = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
     private static final int MIN_YEAR = 1000;
 
-    private final CareProviderMapperUtil careProviderMapperUtil;
+    private final UnitMapperUtil unitMapperUtil;
     private static InternalConverterUtil instance = null;
 
     static ObjectFactory objectFactory = new ObjectFactory();
 
-    public InternalConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
-        this.careProviderMapperUtil = careProviderMapperUtil;
+    public InternalConverterUtil(UnitMapperUtil unitMapperUtil) {
+        this.unitMapperUtil = unitMapperUtil;
     }
 
     @PostConstruct
@@ -469,7 +469,7 @@ public final class InternalConverterUtil {
     }
 
     private Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
-        final var mapped = careProviderMapperUtil.getMappedCareprovider(
+        final var mapped = unitMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivarid(),
             sourceCareProvider.getVardgivarnamn());
 

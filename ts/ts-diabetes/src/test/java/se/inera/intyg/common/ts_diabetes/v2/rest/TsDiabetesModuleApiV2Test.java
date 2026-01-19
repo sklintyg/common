@@ -83,8 +83,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -160,13 +160,13 @@ class TsDiabetesModuleApiV2Test {
     @Mock
     private SummaryConverter summaryConverter;
     @Mock
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
     @InjectMocks
     private TsDiabetesModuleApiV2 moduleApi;
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -193,7 +193,7 @@ class TsDiabetesModuleApiV2Test {
             )
         );
 
-        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
+        verify(unitMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test

@@ -74,9 +74,9 @@ import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -101,7 +101,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
     InternalConverterUtil.class})
 public class Af00213ModuleApiV1Test {
 
@@ -129,7 +129,7 @@ public class Af00213ModuleApiV1Test {
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(

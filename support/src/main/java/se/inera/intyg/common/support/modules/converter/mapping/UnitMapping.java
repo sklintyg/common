@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.modules.converter.mapping;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-public record CareProviderMapping(
+public record UnitMapping(
     String region,
     String description,
     LocalDateTime datetime,

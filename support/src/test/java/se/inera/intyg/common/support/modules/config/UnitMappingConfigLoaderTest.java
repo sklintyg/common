@@ -32,31 +32,31 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderInfo;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapping;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.converter.mapping.IssuedUnitInfo;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapping;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 
 @ExtendWith(MockitoExtension.class)
-class CareProviderMappingConfigLoaderTest {
+class UnitMappingConfigLoaderTest {
 
     @InjectMocks
-    private CareProviderMappingConfigLoader careProviderMappingConfigLoader;
+    private UnitMappingConfigLoader unitMappingConfigLoader;
 
     @Test
     void shallReturnEmptyListIfPathIsInvalid() {
-        ReflectionTestUtils.setField(careProviderMappingConfigLoader, "careProviderMappingConfigPath",
+        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
             "InvalidPath");
-        careProviderMappingConfigLoader.init();
+        unitMappingConfigLoader.init();
 
-        assertTrue(careProviderMappingConfigLoader.getCareProviderMappings().isEmpty());
+        assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
     }
 
     @Test
     void shallReturnEmptyListIfPathIsMissing() {
-        ReflectionTestUtils.setField(careProviderMappingConfigLoader, "careProviderMappingConfigPath",
+        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
             null);
-        careProviderMappingConfigLoader.init();
-        assertTrue(careProviderMappingConfigLoader.getCareProviderMappings().isEmpty());
+        unitMappingConfigLoader.init();
+        assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
     }
 
     @Test
@@ -66,12 +66,12 @@ class CareProviderMappingConfigLoaderTest {
                 classLoader.getResource("care-provider-mapping-config-active-mapping.json").toURI())
             .toString();
 
-        ReflectionTestUtils.setField(careProviderMappingConfigLoader, "careProviderMappingConfigPath",
+        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
             filePath);
-        careProviderMappingConfigLoader.init();
+        unitMappingConfigLoader.init();
 
         var expected = List.of(
-            new CareProviderMapping(
+            new UnitMapping(
                 "Region Stockholm",
                 "Avbolagisering av akutsjukhus",
                 LocalDateTime.of(2025, 5, 9, 8, 0, 0),
@@ -80,7 +80,7 @@ class CareProviderMappingConfigLoaderTest {
                     "TSTNMT2321000152-ALFA2", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
                 ),
                 null),
-            new CareProviderMapping(
+            new UnitMapping(
                 "Region Gävleborg",
                 "Bolagisering av primärvården",
                 LocalDateTime.of(2026, 6, 10, 9, 0, 0),
@@ -90,9 +90,9 @@ class CareProviderMappingConfigLoaderTest {
                 null)
         );
 
-        assertEquals(expected, careProviderMappingConfigLoader.getCareProviderMappings());
+        assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
     }
-    
+
     @Test
     void shallMapIssuedUnitMappingConfigContent() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -100,12 +100,12 @@ class CareProviderMappingConfigLoaderTest {
                 classLoader.getResource("care-provider-mapping-config-issued-unit-mapping.json").toURI())
             .toString();
 
-        ReflectionTestUtils.setField(careProviderMappingConfigLoader, "careProviderMappingConfigPath",
+        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
             filePath);
-        careProviderMappingConfigLoader.init();
+        unitMappingConfigLoader.init();
 
         var expected = List.of(
-            new CareProviderMapping(
+            new UnitMapping(
                 "Region Gävleborg",
                 "Bolagisering av primärvården",
                 LocalDateTime.of(2026, 2, 2, 9, 0, 0),
@@ -126,7 +126,7 @@ class CareProviderMappingConfigLoaderTest {
                 ))
         );
 
-        assertEquals(expected, careProviderMappingConfigLoader.getCareProviderMappings());
+        assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
     }
 
 }

@@ -42,15 +42,15 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderInfo;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapping;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapping;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 
 @ExtendWith(MockitoExtension.class)
-class CareProviderMapperUtilTest {
+class UnitMapperUtilTest {
 
-    private static final List<CareProviderMapping> CARE_PROVIDER_MAPPINGS = List.of(
-        new CareProviderMapping(
+    private static final List<UnitMapping> CARE_PROVIDER_MAPPINGS = List.of(
+        new UnitMapping(
             "Region Stockholm",
             "Avbolagisering av akutsjukhus",
             LocalDateTime.now(),
@@ -60,7 +60,7 @@ class CareProviderMapperUtilTest {
             ),
             null
         ),
-        new CareProviderMapping(
+        new UnitMapping(
             "Region Gävleborg",
             "Bolagisering av primärvården",
             LocalDateTime.now().plusHours(1),
@@ -72,23 +72,23 @@ class CareProviderMapperUtilTest {
     );
 
     @Mock
-    private CareProviderMappingConfigLoader careProviderMappingConfigLoader;
+    private UnitMappingConfigLoader unitMappingConfigLoader;
 
     @InjectMocks
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     @Test
     void shouldNotTryToDecorateIfUtlatandeNull() {
-        careProviderMapperUtil.decorateWithMappedCareProvider(null);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(null);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
     void shouldNotTryToDecorateIfGrundDataNull() {
         final var utlatande = mock(Utlatande.class);
         when(utlatande.getGrundData()).thenReturn(null);
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
@@ -97,8 +97,8 @@ class CareProviderMapperUtilTest {
         final var grundData = mock(GrundData.class);
         when(utlatande.getGrundData()).thenReturn(grundData);
         when(utlatande.getGrundData().getSkapadAv()).thenReturn(null);
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
@@ -109,8 +109,8 @@ class CareProviderMapperUtilTest {
         when(utlatande.getGrundData()).thenReturn(grundData);
         when(utlatande.getGrundData().getSkapadAv()).thenReturn(skapadAv);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet()).thenReturn(null);
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
@@ -123,8 +123,8 @@ class CareProviderMapperUtilTest {
         when(utlatande.getGrundData().getSkapadAv()).thenReturn(skapadAv);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet()).thenReturn(vardenhet);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare()).thenReturn(null);
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
@@ -139,8 +139,8 @@ class CareProviderMapperUtilTest {
         when(utlatande.getGrundData().getSkapadAv().getVardenhet()).thenReturn(vardenhet);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare()).thenReturn(vardgivare);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid()).thenReturn(null);
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
-        verifyNoInteractions(careProviderMappingConfigLoader);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+        verifyNoInteractions(unitMappingConfigLoader);
     }
 
     @Test
@@ -159,9 +159,9 @@ class CareProviderMapperUtilTest {
         when(utlatande.getGrundData().getSkapadAv()).thenReturn(skapadAv);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet()).thenReturn(vardenhet);
         when(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare()).thenReturn(vardgivare);
-        when(careProviderMappingConfigLoader.getCareProviderMappings()).thenReturn(CARE_PROVIDER_MAPPINGS);
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(CARE_PROVIDER_MAPPINGS);
 
-        careProviderMapperUtil.decorateWithMappedCareProvider(utlatande);
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
 
         assertAll(
             () -> assertEquals(expectedId, vardgivare.getVardgivarid()),
@@ -173,14 +173,14 @@ class CareProviderMapperUtilTest {
     @MethodSource("provideTestCases")
     void shouldMapCareProviderCorrectly(String originalId, String originalName, String expectedId,
         String expectedName) {
-        when(careProviderMappingConfigLoader.getCareProviderMappings()).thenReturn(
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(
             CARE_PROVIDER_MAPPINGS);
 
         var originalCareProvider = new Vardgivare();
         originalCareProvider.setVardgivarid(originalId);
         originalCareProvider.setVardgivarnamn(originalName);
 
-        var mappedCareProvider = careProviderMapperUtil.getMappedCareprovider(
+        var mappedCareProvider = unitMapperUtil.getMappedCareprovider(
             originalCareProvider.getVardgivarid(),
             originalCareProvider.getVardgivarnamn());
 

@@ -47,7 +47,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
@@ -105,7 +105,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     private String pdfFooterAppName;
 
     @Autowired(required = false)
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     public TsBasModuleApiV7() {
         super(TsBasUtlatandeV7.class);
@@ -258,7 +258,7 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     protected TsBasUtlatandeV7 getInternal(String internalModel) throws ModuleException {
         try {
             final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
-            careProviderMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
+            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
             return tsBasUtlatandeV7;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

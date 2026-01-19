@@ -47,9 +47,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
@@ -57,7 +57,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 public class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";

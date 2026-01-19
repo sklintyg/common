@@ -41,13 +41,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class})
- class RegisterMedicalCertificateResponderStubTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
+class RegisterMedicalCertificateResponderStubTest {
 
     private static JAXBContext jaxbContext;
     private RegisterMedicalCertificateType request;
@@ -60,12 +60,12 @@ import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
     RegisterMedicalCertificateResponderStub stub;
 
     @BeforeAll
-     static void setUpOnce() throws JAXBException {
+    static void setUpOnce() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
     }
 
     @BeforeEach
-     void setUp() throws Exception {
+    void setUp() throws Exception {
         logicalAddress.setValue("FK");
         // read request from file
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -76,7 +76,7 @@ import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
     @SuppressWarnings("unchecked")
     @Test
-     void testName() throws Exception {
+    void testName() throws Exception {
 
         request.getLakarutlatande().setLakarutlatandeId("id-1234567890");
 
@@ -86,11 +86,11 @@ import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
     }
 
     @Test
-     void testThrowsExceptionWhenIdIsError(){
+    void testThrowsExceptionWhenIdIsError() {
 
         request.getLakarutlatande().setLakarutlatandeId("error");
 
-       assertThrows(RuntimeException.class, ()-> stub.registerMedicalCertificate(logicalAddress, request));
+        assertThrows(RuntimeException.class, () -> stub.registerMedicalCertificate(logicalAddress, request));
     }
 
 //    @Test

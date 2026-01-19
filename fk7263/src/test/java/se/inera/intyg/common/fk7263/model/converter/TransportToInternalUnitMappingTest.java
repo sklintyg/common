@@ -19,7 +19,8 @@
 
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import jakarta.xml.bind.JAXBContext;
@@ -35,40 +36,40 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 
 @ExtendWith(MockitoExtension.class)
-class TransportToInternalCareProviderMappingTest {
+class TransportToInternalUnitMappingTest {
 
-  private static final String RESOURCE = "TransportToInternalConverterTest/legacy-maximalt-fk7263-transport.xml";
+    private static final String RESOURCE = "TransportToInternalConverterTest/legacy-maximalt-fk7263-transport.xml";
 
-  @Mock
-  private CareProviderMapperUtil careProviderMapperUtil;
+    @Mock
+    private UnitMapperUtil unitMapperUtil;
 
-  @InjectMocks
-  private TransportToInternal transportToInternal;
+    @InjectMocks
+    private TransportToInternal transportToInternal;
 
 
-  @Test
-  void shouldUseCareProviderMapperUtil() throws ConverterException, JAXBException, IOException {
-    JAXBElement<LakarutlatandeType> utlatandeElement = JAXBContext.newInstance(
-            LakarutlatandeType.class).createUnmarshaller()
-        .unmarshal(new StreamSource(new ClassPathResource(RESOURCE).getInputStream()),
-            LakarutlatandeType.class);
+    @Test
+    void shouldUseCareProviderMapperUtil() throws ConverterException, JAXBException, IOException {
+        JAXBElement<LakarutlatandeType> utlatandeElement = JAXBContext.newInstance(
+                LakarutlatandeType.class).createUnmarshaller()
+            .unmarshal(new StreamSource(new ClassPathResource(RESOURCE).getInputStream()),
+                LakarutlatandeType.class);
 
-    transportToInternal.initialize();
-    when(careProviderMapperUtil.getMappedCareprovider("VardgivarId",
-        "Landstinget Norrland")).thenReturn(
-        new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
+        transportToInternal.initialize();
+        when(unitMapperUtil.getMappedCareprovider("VardgivarId",
+            "Landstinget Norrland")).thenReturn(
+            new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
 
-    var result = TransportToInternal.convert(utlatandeElement.getValue());
-    assertAll(() -> {
-      assertEquals("TSTNMT2321000156-BETA",
-          result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-      assertEquals("Beta Regionen",
-          result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
-    });
-  }
+        var result = TransportToInternal.convert(utlatandeElement.getValue());
+        assertAll(() -> {
+            assertEquals("TSTNMT2321000156-BETA",
+                result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+            assertEquals("Beta Regionen",
+                result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
+        });
+    }
 
 }

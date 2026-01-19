@@ -61,7 +61,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.AdditionalMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -83,7 +83,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
     @Autowired(required = false)
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
     @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
     private String pdfMinaIntygMarginText;
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
@@ -134,7 +134,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     protected LuseUtlatandeV1 getInternal(String internalModel) throws ModuleException {
         try {
             final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
-            careProviderMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1);
+            unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1);
             return luseUtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

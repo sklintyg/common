@@ -38,9 +38,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
 import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
@@ -52,14 +52,14 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "19121212-1212";
     private final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
-     void testConvert() throws Exception {
+    void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -128,7 +128,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertWithRelation() {
+    void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsBasUtlatandeV6 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -144,7 +144,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
     @SuppressWarnings("unchecked")
     @Test
-     void testAddIntygAvserSvar() {
+    void testAddIntygAvserSvar() {
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
         utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
@@ -168,7 +168,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodIfNull() {
+    void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -177,7 +177,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodIfBlank() {
+    void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -186,7 +186,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodDoesNotOverride() {
+    void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
         TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -195,7 +195,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertSetsVersionFromTextVersion() {
+    void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "7.8";
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(textVersion).build();
@@ -205,7 +205,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
+    void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "6.7";
         TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();

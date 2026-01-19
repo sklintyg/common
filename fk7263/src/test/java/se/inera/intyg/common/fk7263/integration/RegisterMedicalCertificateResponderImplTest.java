@@ -61,15 +61,15 @@ import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class})
- class RegisterMedicalCertificateResponderImplTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
+class RegisterMedicalCertificateResponderImplTest {
 
     @Mock
     private ModuleEntryPoint moduleEntryPoint = mock(ModuleEntryPoint.class);
@@ -89,12 +89,12 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     private RegisterMedicalCertificateResponderImpl responder = new RegisterMedicalCertificateResponderImpl();
 
     @BeforeEach
-     void initializeResponder() throws JAXBException {
+    void initializeResponder() throws JAXBException {
         responder.initializeJaxbContext();
     }
 
     @BeforeEach
-     void prepareRequest() throws Exception {
+    void prepareRequest() throws Exception {
 
         ClassPathResource file = new ClassPathResource(
             "RegisterMedicalCertificateResponderImplTest/fk7263.xml");
@@ -111,7 +111,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testReceiveCertificate() throws Exception {
+    void testReceiveCertificate() throws Exception {
 
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -121,7 +121,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtTypAvUtlatande() throws Exception {
+    void testRegisterMedicalCertificateTomtTypAvUtlatande() throws Exception {
         request.getLakarutlatande().setTypAvUtlatande("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -131,7 +131,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknarTypAvUtlatande() throws Exception {
+    void testRegisterMedicalCertificateSaknarTypAvUtlatande() throws Exception {
         request.getLakarutlatande().setTypAvUtlatande(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -141,7 +141,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateGodtyckligtTypAvUtlatande() throws Exception {
+    void testRegisterMedicalCertificateGodtyckligtTypAvUtlatande() throws Exception {
         request.getLakarutlatande().setTypAvUtlatande("godtycklig string");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -151,7 +151,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateUtanAktivitetsbegransningFalt5() throws Exception {
+    void testRegisterMedicalCertificateUtanAktivitetsbegransningFalt5() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -161,7 +161,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateUtanPrognosangivelseFalt10() throws Exception {
+    void testRegisterMedicalCertificateUtanPrognosangivelseFalt10() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream().filter(ft -> ft.getArbetsformaga() != null)
             .forEach(ft -> ft.getArbetsformaga().setPrognosangivelse(null));
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -172,7 +172,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadNedsattningsgrad() {
+    void testRegisterMedicalCertificateSaknadNedsattningsgrad() {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getArbetsformaga() != null && !ft.getArbetsformaga().getArbetsformagaNedsattning().isEmpty())
             .forEach(ft -> ft.getArbetsformaga().getArbetsformagaNedsattning().stream().forEach(n -> n.setNedsattningsgrad(null)));
@@ -187,7 +187,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatSigneringsdatum() {
+    void testRegisterMedicalCertificateSaknatSigneringsdatum() {
         request.getLakarutlatande().setSigneringsdatum(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -200,7 +200,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatSkickatDatum() {
+    void testRegisterMedicalCertificateSaknatSkickatDatum() {
         request.getLakarutlatande().setSkickatDatum(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -213,7 +213,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatPersonId() throws Exception {
+    void testRegisterMedicalCertificateSaknatPersonId() throws Exception {
         request.getLakarutlatande().getPatient().setPersonId(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -225,7 +225,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtPersonId() throws Exception {
+    void testRegisterMedicalCertificateTomtPersonId() throws Exception {
         request.getLakarutlatande().getPatient().getPersonId().setExtension("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -237,7 +237,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatReferensdatum() throws Exception {
+    void testRegisterMedicalCertificateSaknatReferensdatum() throws Exception {
         request.getLakarutlatande().getReferens().stream().forEach(r -> r.setDatum(null));
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -252,7 +252,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatReferensdatumSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknatReferensdatumSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -268,7 +268,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatIntygId() throws Exception {
+    void testRegisterMedicalCertificateSaknatIntygId() throws Exception {
         request.getLakarutlatande().setLakarutlatandeId(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -293,7 +293,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 //    }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigPersonIdKod() throws Exception {
+    void testRegisterMedicalCertificateFelaktigPersonIdKod() throws Exception {
         request.getLakarutlatande().getPatient().getPersonId().setRoot("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -307,7 +307,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigtPersonnr() throws Exception {
+    void testRegisterMedicalCertificateFelaktigtPersonnr() throws Exception {
         request.getLakarutlatande().getPatient().getPersonId().setExtension("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -321,7 +321,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificatePersonnrUtanSekelsiffror() throws Exception {
+    void testRegisterMedicalCertificatePersonnrUtanSekelsiffror() throws Exception {
         request.getLakarutlatande().getPatient().getPersonId().setExtension("121212-1212");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -335,7 +335,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificatePersonnrUtanBindestreckKorrigeras() throws Exception {
+    void testRegisterMedicalCertificatePersonnrUtanBindestreckKorrigeras() throws Exception {
         request.getLakarutlatande().getPatient().getPersonId().setExtension("191212121212");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -347,7 +347,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadHoSPersonal() throws Exception {
+    void testRegisterMedicalCertificateSaknadHoSPersonal() throws Exception {
         request.getLakarutlatande().setSkapadAvHosPersonal(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -360,7 +360,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadPersonalId() throws Exception {
+    void testRegisterMedicalCertificateSaknadPersonalId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().setPersonalId(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -373,7 +373,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigPersonalIdKod() throws Exception {
+    void testRegisterMedicalCertificateFelaktigPersonalIdKod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getPersonalId().setRoot("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -386,7 +386,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtPersonalId() throws Exception {
+    void testRegisterMedicalCertificateTomtPersonalId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getPersonalId().setExtension("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -398,7 +398,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatPersonalnamn() throws Exception {
+    void testRegisterMedicalCertificateSaknatPersonalnamn() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().setFullstandigtNamn(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -411,7 +411,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtPersonalnamn() throws Exception {
+    void testRegisterMedicalCertificateTomtPersonalnamn() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().setFullstandigtNamn("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -424,7 +424,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadEnhet() throws Exception {
+    void testRegisterMedicalCertificateSaknadEnhet() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().setEnhet(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -436,7 +436,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatEnhetId() throws Exception {
+    void testRegisterMedicalCertificateSaknatEnhetId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setEnhetsId(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -449,7 +449,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigEnhetIdKod() throws Exception {
+    void testRegisterMedicalCertificateFelaktigEnhetIdKod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId().setRoot("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -462,7 +462,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtEnhetId() throws Exception {
+    void testRegisterMedicalCertificateTomtEnhetId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId().setExtension("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -474,7 +474,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatEnhetnamn() throws Exception {
+    void testRegisterMedicalCertificateSaknatEnhetnamn() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setEnhetsnamn(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -486,7 +486,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtEnhetnamn() throws Exception {
+    void testRegisterMedicalCertificateTomtEnhetnamn() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setEnhetsnamn("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -498,7 +498,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadEnhetpostaddress() throws Exception {
+    void testRegisterMedicalCertificateSaknadEnhetpostaddress() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostadress(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -510,7 +510,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomEnhetpostaddress() throws Exception {
+    void testRegisterMedicalCertificateTomEnhetpostaddress() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostadress("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -522,7 +522,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatEnhetpostnummer() throws Exception {
+    void testRegisterMedicalCertificateSaknatEnhetpostnummer() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostnummer(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -534,7 +534,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtEnhetpostnummer() throws Exception {
+    void testRegisterMedicalCertificateTomtEnhetpostnummer() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostnummer("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -546,7 +546,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatEnhetpostort() throws Exception {
+    void testRegisterMedicalCertificateSaknatEnhetpostort() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostort(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -558,7 +558,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtEnhetpostort() throws Exception {
+    void testRegisterMedicalCertificateTomtEnhetpostort() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setPostort("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -570,7 +570,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatEnhettelefonnummer() throws Exception {
+    void testRegisterMedicalCertificateSaknatEnhettelefonnummer() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setTelefonnummer(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -582,7 +582,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtEnhettelefonnummer() throws Exception {
+    void testRegisterMedicalCertificateTomtEnhettelefonnummer() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setTelefonnummer("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -594,7 +594,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadVardgivare() throws Exception {
+    void testRegisterMedicalCertificateSaknadVardgivare() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setVardgivare(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -606,7 +606,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadVardgivareId() throws Exception {
+    void testRegisterMedicalCertificateSaknadVardgivareId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getVardgivare().setVardgivareId(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -619,7 +619,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigVardgivareIdKod() throws Exception {
+    void testRegisterMedicalCertificateFelaktigVardgivareIdKod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -632,7 +632,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtVardgivareId() throws Exception {
+    void testRegisterMedicalCertificateTomtVardgivareId() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getVardgivare().getVardgivareId().setExtension("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -644,7 +644,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknatVardgivarenamn() throws Exception {
+    void testRegisterMedicalCertificateSaknatVardgivarenamn() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getVardgivare().setVardgivarnamn(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -656,7 +656,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsplatskod() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsplatskod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().setArbetsplatskod(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -668,7 +668,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigArbetsplatskodKod() throws Exception {
+    void testRegisterMedicalCertificateFelaktigArbetsplatskodKod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getArbetsplatskod().setRoot("invalid");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -681,7 +681,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomArbetsplatskod() throws Exception {
+    void testRegisterMedicalCertificateTomArbetsplatskod() throws Exception {
         request.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getArbetsplatskod().setExtension("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -693,7 +693,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadFunktionstillstandAktivitet() throws Exception {
+    void testRegisterMedicalCertificateSaknadFunktionstillstandAktivitet() throws Exception {
         Optional<FunktionstillstandType> kroppsfunktion = request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.KROPPSFUNKTION).findFirst();
         request.getLakarutlatande().getFunktionstillstand().clear();
@@ -710,7 +710,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadMedicinsktTillstand() throws Exception {
+    void testRegisterMedicalCertificateSaknadMedicinsktTillstand() throws Exception {
         request.getLakarutlatande().setMedicinsktTillstand(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -723,7 +723,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadDiagnoskod() throws Exception {
+    void testRegisterMedicalCertificateSaknadDiagnoskod() throws Exception {
         request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -737,7 +737,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadDiagnoskodSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadDiagnoskodSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -750,7 +750,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadDiagnoskodSystem() throws Exception {
+    void testRegisterMedicalCertificateSaknadDiagnoskodSystem() throws Exception {
         request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(new CD());
         request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod().setCode("M25");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -765,7 +765,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateFelaktigDiagnoskodSystem() throws Exception {
+    void testRegisterMedicalCertificateFelaktigDiagnoskodSystem() throws Exception {
         request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(new CD());
         request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod().setCodeSystem("invalid");
         request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod().setCode("M25");
@@ -781,7 +781,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomtBedomtTillstandBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateTomtBedomtTillstandBeskrivning() throws Exception {
         request.getLakarutlatande().getBedomtTillstand().setBeskrivning("");
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -791,7 +791,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBedomtTillstandBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateSaknadBedomtTillstandBeskrivning() throws Exception {
         request.getLakarutlatande().getBedomtTillstand().setBeskrivning(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
 
@@ -804,7 +804,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktion() throws Exception {
+    void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktion() throws Exception {
         Optional<FunktionstillstandType> aktivitet = request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET).findFirst();
         request.getLakarutlatande().getFunktionstillstand().clear();
@@ -820,7 +820,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -836,7 +836,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomFunktionstillstandKroppsfunktionBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateTomFunktionstillstandKroppsfunktionBeskrivning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.KROPPSFUNKTION).forEach(ft -> ft.setBeskrivning(""));
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -850,7 +850,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomFunktionstillstandKroppsfunktionBeskrivningSmL() throws Exception {
+    void testRegisterMedicalCertificateTomFunktionstillstandKroppsfunktionBeskrivningSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -864,7 +864,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionBeskrivning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.KROPPSFUNKTION).forEach(ft -> ft.setBeskrivning(null));
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -878,7 +878,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionBeskrivningSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadFunktionstillstandKroppsfunktionBeskrivningSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -892,7 +892,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadeVardkontakterReferenser() throws Exception {
+    void testRegisterMedicalCertificateSaknadeVardkontakterReferenser() throws Exception {
         request.getLakarutlatande().getVardkontakt().clear();
         request.getLakarutlatande().getReferens().clear();
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -906,7 +906,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadeVardkontakterReferenserSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadeVardkontakterReferenserSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -920,7 +920,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadeVardkontaktTid() throws Exception {
+    void testRegisterMedicalCertificateSaknadeVardkontaktTid() throws Exception {
         request.getLakarutlatande().getVardkontakt().stream()
             .filter(vk -> vk.getVardkontakttyp() == Vardkontakttyp.MIN_UNDERSOKNING_AV_PATIENTEN)
             .forEach(vk -> vk.setVardkontaktstid(null));
@@ -935,7 +935,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomAktivitetsbegransningBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateTomAktivitetsbegransningBeskrivning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET).forEach(ft -> ft.setBeskrivning(""));
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
@@ -946,7 +946,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidRekommendationOvrigt() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidRekommendationOvrigt() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.OVRIGT);
@@ -961,7 +961,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidRekommendationOvrigtSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidRekommendationOvrigtSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.OVRIGT);
@@ -978,7 +978,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomBeskrivningVidRekommendationOvrigt() throws Exception {
+    void testRegisterMedicalCertificateTomBeskrivningVidRekommendationOvrigt() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.OVRIGT);
@@ -991,7 +991,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingVarden() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingVarden() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0)
@@ -1008,7 +1008,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingVardenSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingVardenSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0)
@@ -1027,7 +1027,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomBeskrivningVidBehandlingVarden() throws Exception {
+    void testRegisterMedicalCertificateTomBeskrivningVidBehandlingVarden() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0)
@@ -1041,7 +1041,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingAnnan() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidBehandlingAnnan() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.PLANERAD_ELLER_PAGAENDE_ANNAN_ATGARD);
@@ -1057,7 +1057,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadBeskrivningVidBehandningAnnanSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadBeskrivningVidBehandningAnnanSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.PLANERAD_ELLER_PAGAENDE_ANNAN_ATGARD);
@@ -1075,7 +1075,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomBeskrivningVidBehandlingAnnan() throws Exception {
+    void testRegisterMedicalCertificateTomBeskrivningVidBehandlingAnnan() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.PLANERAD_ELLER_PAGAENDE_ANNAN_ATGARD);
@@ -1088,7 +1088,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadKommentarReferensAnnat() throws Exception {
+    void testRegisterMedicalCertificateSaknadKommentarReferensAnnat() throws Exception {
         request.getLakarutlatande().getReferens().clear();
         request.getLakarutlatande().getReferens().add(new ReferensType());
         request.getLakarutlatande().getReferens().get(0).setReferenstyp(Referenstyp.ANNAT);
@@ -1105,7 +1105,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadKommentarPrognosGarEjAttBedomma() throws Exception {
+    void testRegisterMedicalCertificateSaknadKommentarPrognosGarEjAttBedomma() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().setPrognosangivelse(Prognosangivelse.DET_GAR_INTE_ATT_BEDOMMA));
@@ -1121,7 +1121,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsformaga() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsformaga() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.setArbetsformaga(null));
@@ -1136,7 +1136,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadSysselsattning() throws Exception {
+    void testRegisterMedicalCertificateSaknadSysselsattning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getSysselsattning().clear());
@@ -1152,7 +1152,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadSysselsattningSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadSysselsattningSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -1167,7 +1167,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsuppgift() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsuppgift() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().setArbetsuppgift(null));
@@ -1182,7 +1182,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsuppgiftSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsuppgiftSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -1197,7 +1197,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsuppgiftBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsuppgiftBeskrivning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getArbetsuppgift().setTypAvArbetsuppgift(null));
@@ -1212,7 +1212,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadArbetsuppgiftBeskrivningSmL() throws Exception {
+    void testRegisterMedicalCertificateSaknadArbetsuppgiftBeskrivningSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -1230,7 +1230,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomArbetsuppgiftBeskrivning() throws Exception {
+    void testRegisterMedicalCertificateTomArbetsuppgiftBeskrivning() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getArbetsuppgift().setTypAvArbetsuppgift(""));
@@ -1245,7 +1245,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateTomArbetsuppgiftBeskrivningSmL() throws Exception {
+    void testRegisterMedicalCertificateTomArbetsuppgiftBeskrivningSmL() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA);
@@ -1260,7 +1260,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadVaraktighet() throws Exception {
+    void testRegisterMedicalCertificateSaknadVaraktighet() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getArbetsformagaNedsattning().clear());
@@ -1275,7 +1275,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadVaraktighetFrom() throws Exception {
+    void testRegisterMedicalCertificateSaknadVaraktighetFrom() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getArbetsformagaNedsattning().get(0).setVaraktighetFrom(null));
@@ -1290,7 +1290,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateSaknadVaraktighetTom() throws Exception {
+    void testRegisterMedicalCertificateSaknadVaraktighetTom() throws Exception {
         request.getLakarutlatande().getFunktionstillstand().stream()
             .filter(ft -> ft.getTypAvFunktionstillstand() == TypAvFunktionstillstand.AKTIVITET)
             .forEach(ft -> ft.getArbetsformaga().getArbetsformagaNedsattning().get(0).setVaraktighetTom(null));
@@ -1305,7 +1305,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateOverlappandeVaraktigheter() throws Exception {
+    void testRegisterMedicalCertificateOverlappandeVaraktigheter() throws Exception {
         final LocalDate from = LocalDate.now().minusDays(1);
         final LocalDate to = LocalDate.now().plusDays(1);
         request.getLakarutlatande().getFunktionstillstand().stream()
@@ -1329,7 +1329,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testRegisterMedicalCertificateMultiplaRessatt() throws Exception {
+    void testRegisterMedicalCertificateMultiplaRessatt() throws Exception {
         request.getLakarutlatande().getAktivitet().clear();
         request.getLakarutlatande().getAktivitet().add(new AktivitetType());
         request.getLakarutlatande().getAktivitet().get(0).setAktivitetskod(Aktivitetskod.FORANDRAT_RESSATT_TILL_ARBETSPLATSEN_AR_AKTUELLT);
@@ -1347,7 +1347,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testWithExistingCertificate() throws Exception {
+    void testWithExistingCertificate() throws Exception {
         Mockito.doThrow(new CertificateAlreadyExistsException(request.getLakarutlatande().getLakarutlatandeId())).when(moduleContainer)
             .certificateReceived(any(CertificateHolder.class));
 
@@ -1356,7 +1356,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
     }
 
     @Test
-     void testWithInvalidCertificate() throws Exception {
+    void testWithInvalidCertificate() throws Exception {
         request.getLakarutlatande().setSkapadAvHosPersonal(null);
         RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
         assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());

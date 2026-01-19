@@ -71,9 +71,9 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -96,7 +96,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
     InternalConverterUtil.class})
 public class Ag7804ModuleApiTest {
 
@@ -119,14 +119,14 @@ public class Ag7804ModuleApiTest {
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
     @Mock
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     @InjectMocks
     private Ag7804ModuleApiV1 moduleApi;
 
     @BeforeAll
     static void initUtils() {
-        final var mapper = mock(CareProviderMapperUtil.class);
+        final var mapper = mock(UnitMapperUtil.class);
 
         when(mapper.getMappedCareprovider(any(), any()))
             .thenAnswer(inv -> new MappedCareProvider(
@@ -152,7 +152,7 @@ public class Ag7804ModuleApiTest {
             )
         );
 
-        verify(careProviderMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
+        verify(unitMapperUtil).decorateWithMappedCareProvider(any(Utlatande.class));
     }
 
     @Test

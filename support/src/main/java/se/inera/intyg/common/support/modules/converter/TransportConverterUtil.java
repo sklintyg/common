@@ -56,7 +56,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -82,11 +82,11 @@ public final class TransportConverterUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
 
-    private final CareProviderMapperUtil careProviderMapperUtil;
+    private final UnitMapperUtil unitMapperUtil;
     private static TransportConverterUtil instance = null;
 
-    public TransportConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
-        this.careProviderMapperUtil = careProviderMapperUtil;
+    public TransportConverterUtil(UnitMapperUtil unitMapperUtil) {
+        this.unitMapperUtil = unitMapperUtil;
     }
 
     @PostConstruct
@@ -447,7 +447,7 @@ public final class TransportConverterUtil {
     }
 
     private Vardgivare getMappedCareProvider(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider) {
-        final var mapped = careProviderMapperUtil.getMappedCareprovider(
+        final var mapped = unitMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivareId().getExtension(),
             sourceCareProvider.getVardgivarnamn()
         );

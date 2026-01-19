@@ -56,8 +56,8 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -69,7 +69,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {BefattningService.class, CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class,
+@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
     InternalConverterUtil.class})
 class InternalConverterUtilTest {
 

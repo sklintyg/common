@@ -52,7 +52,7 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
@@ -66,15 +66,15 @@ public final class TransportToInternal {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportToInternal.class);
 
-    private final CareProviderMapperUtil careProviderMapperUtil;
+    private final UnitMapperUtil unitMapperUtil;
     private static TransportToInternal instance = null;
 
-    public TransportToInternal(CareProviderMapperUtil careProviderMapperUtil) {
-        this.careProviderMapperUtil = careProviderMapperUtil;
+    public TransportToInternal(UnitMapperUtil unitMapperUtil) {
+        this.unitMapperUtil = unitMapperUtil;
     }
 
     @PostConstruct
-    public void initialize(){
+    public void initialize() {
         this.instance = this;
     }
 
@@ -325,8 +325,8 @@ public final class TransportToInternal {
         return instance().getMappedCareProvider(source);
     }
 
-    private  Vardgivare getMappedCareProvider(VardgivareType sourceCareProvider) {
-       final var mapped = careProviderMapperUtil.getMappedCareprovider(
+    private Vardgivare getMappedCareProvider(VardgivareType sourceCareProvider) {
+        final var mapped = unitMapperUtil.getMappedCareprovider(
             sourceCareProvider.getVardgivareId().getExtension(),
             sourceCareProvider.getVardgivarnamn());
 

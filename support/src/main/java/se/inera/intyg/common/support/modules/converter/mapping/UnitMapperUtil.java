@@ -26,18 +26,18 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 
 /**
- * Utility class for mapping care provider IDs and names based on a configuration file. The
- * configuration file is loaded at startup and contains mappings for care providers as well as a
- * timestamp for when this mapping should go into effect. This is enabling avbolagisering in the
+ * Utility class for mapping IDs and names based on a configuration file. The
+ * configuration file is loaded at startup and contains mappings for care providers, issuing unit as well as a
+ * timestamp for when this mapping should go into effect. This is enabling avbolagisering/bolagisering in the
  * case of old certificate that were created directly in intygstjänster without interacting with
  * webcert.
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CareProviderMapperUtil {
+public class UnitMapperUtil {
 
-    private final CareProviderMappingConfigLoader careProviderMappingConfigLoader;
+    private final UnitMappingConfigLoader unitMappingConfigLoader;
 
     public void decorateWithMappedCareProvider(Utlatande utlatande) {
         if (utlatande == null
@@ -53,13 +53,12 @@ public class CareProviderMapperUtil {
         final var mappedVardgivare = getMappedCareprovider(vardgivare.getVardgivarid(), vardgivare.getVardgivarnamn());
         vardgivare.setVardgivarid(mappedVardgivare.id());
         vardgivare.setVardgivarnamn(mappedVardgivare.name());
-
     }
 
     public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
         final String originalCareProviderName) {
 
-        return careProviderMappingConfigLoader.getCareProviderMappings().stream()
+        return unitMappingConfigLoader.getUnitMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.careProviderMapping() != null
                 && mappingConfig.careProviderMapping().containsKey(originalCareProviderId))
