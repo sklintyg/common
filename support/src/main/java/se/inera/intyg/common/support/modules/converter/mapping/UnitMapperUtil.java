@@ -112,20 +112,22 @@ public class UnitMapperUtil {
     }
 
     private Optional<IssuedUnitInfo> findIssuedUnitMapping(final String issuedUnitId) {
+        final var unitMappingKey = new UnitMappingKey(issuedUnitId);
         return unitMappingConfigLoader.getUnitMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.issuedUnitMapping() != null
-                && mappingConfig.issuedUnitMapping().containsKey(issuedUnitId))
+                && mappingConfig.issuedUnitMapping().containsKey(unitMappingKey))
             .findFirst()
-            .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(issuedUnitId));
+            .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(unitMappingKey));
     }
 
     private Optional<CareProviderInfo> findCareProviderMapping(final String careProviderId) {
+        final var unitMappingKey = new UnitMappingKey(careProviderId);
         return unitMappingConfigLoader.getUnitMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.careProviderMapping() != null
-                && mappingConfig.careProviderMapping().containsKey(careProviderId))
+                && mappingConfig.careProviderMapping().containsKey(unitMappingKey))
             .findFirst()
-            .map(mappingConfig -> mappingConfig.careProviderMapping().get(careProviderId));
+            .map(mappingConfig -> mappingConfig.careProviderMapping().get(unitMappingKey));
     }
 }

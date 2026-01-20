@@ -47,6 +47,7 @@ import se.inera.intyg.common.support.modules.converter.mapping.IssuedUnitInfo;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapping;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingKey;
 
 @ExtendWith(MockitoExtension.class)
 class UnitMapperUtilTest {
@@ -57,8 +58,8 @@ class UnitMapperUtilTest {
             "Avbolagisering av akutsjukhus",
             LocalDateTime.now(),
             Map.of(
-                "TSTNMT2321000156-ALFA", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
-                "TSTNMT2321000152-ALFA2", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
+                new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
+                new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
             ),
             null
         ),
@@ -67,7 +68,7 @@ class UnitMapperUtilTest {
             "Bolagisering av primärvården",
             LocalDateTime.now().plusHours(1),
             Map.of(
-                "TSTNMT2321000156-DELTA", new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
+                new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
             ),
             null
         )
@@ -80,7 +81,8 @@ class UnitMapperUtilTest {
             LocalDateTime.now().minusDays(1),
             null,
             Map.of(
-                "SE2321000016-5G8F", new IssuedUnitInfo(
+                new UnitMappingKey("SE2321000016-5G8F"),
+                new IssuedUnitInfo(
                     "Region Gävleborg - Primärvård",
                     "TSTNMT2321000156-ALFA",
                     "SE2321000016-1G8F",
@@ -290,6 +292,8 @@ class UnitMapperUtilTest {
                     "Beta Regionen"),
                 Arguments.of("TSTNMT2321000156-DELTA", "Original Name", "TSTNMT2321000156-DELTA",
                     "Original Name"),
+                Arguments.of("tstnmt2321000156-alfa", "Original Name", "TSTNMT2321000156-BETA",
+                    "Beta Regionen"),
                 Arguments.of("UNKNOWN-ID", "Original Name", "UNKNOWN-ID", "Original Name"),
                 Arguments.of("TSTNMT2321000156-GAMMA", null, "TSTNMT2321000156-GAMMA", null),
                 Arguments.of("", "", "", "")
@@ -304,6 +308,25 @@ class UnitMapperUtilTest {
                 "SE2321000016-5G8F",
                 "Original Vardgivare",
                 "SE2321000016-5G8F",
+                "Original Enhet"
+            );
+
+            assertAll(
+                () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+                () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldReturnIssuedUnitMappingWhenPresentAndOtherCasingUsed() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "se2321000016-5g8f",
                 "Original Enhet"
             );
 
@@ -352,6 +375,5 @@ class UnitMapperUtilTest {
                 () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
             );
         }
-
     }
 }

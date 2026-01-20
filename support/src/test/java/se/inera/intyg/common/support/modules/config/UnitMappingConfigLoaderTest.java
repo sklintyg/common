@@ -35,6 +35,7 @@ import se.inera.intyg.common.support.modules.converter.mapping.CareProviderInfo;
 import se.inera.intyg.common.support.modules.converter.mapping.IssuedUnitInfo;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapping;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingKey;
 
 @ExtendWith(MockitoExtension.class)
 class UnitMappingConfigLoaderTest {
@@ -76,8 +77,8 @@ class UnitMappingConfigLoaderTest {
                 "Avbolagisering av akutsjukhus",
                 LocalDateTime.of(2025, 5, 9, 8, 0, 0),
                 Map.of(
-                    "TSTNMT2321000156-ALFA", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
-                    "TSTNMT2321000152-ALFA2", new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
+                    new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
+                    new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
                 ),
                 null),
             new UnitMapping(
@@ -85,7 +86,7 @@ class UnitMappingConfigLoaderTest {
                 "Bolagisering av primärvården",
                 LocalDateTime.of(2026, 6, 10, 9, 0, 0),
                 Map.of(
-                    "TSTNMT2321000156-DELTA", new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
+                    new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
                 ),
                 null)
         );
@@ -111,13 +112,13 @@ class UnitMappingConfigLoaderTest {
                 LocalDateTime.of(2026, 2, 2, 9, 0, 0),
                 null,
                 Map.of(
-                    "SE2321000016-5G8F", new IssuedUnitInfo(
+                    new UnitMappingKey("SE2321000016-5G8F"), new IssuedUnitInfo(
                         "Region Gävleborg - Primärvård",
                         "SE2321000016-5G8F",
                         "SE2321000016-1G8F",
                         "Region Gävleborg - Enhet 1"
                     ),
-                    "SE2321000016-6G8F", new IssuedUnitInfo(
+                    new UnitMappingKey("SE2321000016-6G8F"), new IssuedUnitInfo(
                         "Region Gävleborg - Primärvård",
                         "SE2321000016-5G8F",
                         "SE2321000016-2G8F",
