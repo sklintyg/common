@@ -21,6 +21,9 @@ package se.inera.intyg.common.doi.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -28,6 +31,7 @@ import jakarta.xml.bind.JAXB;
 import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
@@ -37,11 +41,29 @@ import se.inera.intyg.common.doi.model.internal.Specifikation;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class TransportToInternalTest {
 
+    @BeforeClass
+    public static void setUp() {
+        final var mapper = mock(UnitMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
+    
     @Test
     public void testConvert() throws Exception {
         String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);

@@ -20,6 +20,9 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -37,6 +40,7 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -47,6 +51,10 @@ import se.inera.intyg.common.af00213.v1.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.af00213.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.af_parent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -71,6 +79,20 @@ public class ConverterTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    @BeforeClass
+    public static void setUp() {
+        final var mapper = mock(UnitMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
+    }
+    
     @Test
     public void doSchematronValidationAf00213() throws Exception {
         String xmlContents = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);

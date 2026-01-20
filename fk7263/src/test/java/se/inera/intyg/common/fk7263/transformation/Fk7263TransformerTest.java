@@ -21,6 +21,9 @@ package se.inera.intyg.common.fk7263.transformation;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -39,7 +42,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -65,19 +73,31 @@ public class Fk7263TransformerTest {
     private Fk7263ModuleApi fk7263ModuleApi;
 
     @BeforeClass
-    public static void initIntygstjansterSchema() throws Exception {
+    public static void setup() throws Exception {
+        // Initialize TransportConverterUtil and InternalConverterUtil
+        final var mapper = mock(UnitMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new TransportConverterUtil(mapper).initialize();
+        new InternalConverterUtil(mapper).initialize();
+        new TransportToInternal(mapper).initialize();
+
+        // Initialize Intygstjanster schema
         SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
         Source rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_UTLATANDE_SCHEMA);
         schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_SCHEMA);
         schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(ISO_TYPES_SCHEMA);
         lakarutlatandeInputSchema = schemaValidatorBuilder.build(rootSource);
-    }
 
-    @BeforeClass
-    public static void initGeneralSchema() throws Exception {
-        SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        Source rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263SIT_SCHEMA);
+        // Initialize General schema
+        schemaValidatorBuilder = new SchemaValidatorBuilder();
+        rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263SIT_SCHEMA);
         schemaValidatorBuilder.registerResource(CLINICAL_UTLATANDE_TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_GENERAL_SCHEMA);
         schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA_32);

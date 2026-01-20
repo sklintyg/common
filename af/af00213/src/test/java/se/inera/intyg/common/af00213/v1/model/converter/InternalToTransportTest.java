@@ -34,6 +34,7 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
@@ -99,6 +100,20 @@ public class InternalToTransportTest {
         utlatande.setArbetetsPaverkan("Påverkas ja");
 
         return utlatande.build();
+    }
+
+    @BeforeClass
+    public static void setUp() {
+        final var mapper = mock(UnitMapperUtil.class);
+
+        when(mapper.getMappedCareprovider(any(), any()))
+            .thenAnswer(inv -> new MappedCareProvider(
+                inv.getArgument(0, String.class),
+                inv.getArgument(1, String.class)
+            ));
+
+        new InternalConverterUtil(mapper).initialize();
+        new TransportConverterUtil(mapper).initialize();
     }
 
     @BeforeAll
