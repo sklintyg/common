@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.modules.converter.mapping;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -49,24 +50,90 @@ public class UnitMapperUtil {
             return;
         }
 
-        final var vardgivare = utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare();
-        final var mappedVardgivare = getMappedCareprovider(vardgivare.getVardgivarid(), vardgivare.getVardgivarnamn());
-        vardgivare.setVardgivarid(mappedVardgivare.id());
-        vardgivare.setVardgivarnamn(mappedVardgivare.name());
+        final var vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
+        final var vardgivare = vardenhet.getVardgivare();
+        final var mappedUnit = getMappedUnit(
+            vardgivare.getVardgivarid(),
+            vardgivare.getVardgivarnamn(),
+            vardenhet.getEnhetsid(),
+            vardenhet.getEnhetsnamn()
+        );
+
+        vardgivare.setVardgivarid(mappedUnit.careProviderId());
+        vardgivare.setVardgivarnamn(mappedUnit.careProviderName());
+
+        if (mappedUnit.hasIssuedUnitMapping()) {
+            vardenhet.setEnhetsid(mappedUnit.issuedUnitId());
+            vardenhet.setEnhetsnamn(mappedUnit.issuedUnitName());
+        }
     }
 
     public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
         final String originalCareProviderName) {
 
+        final var mappedUnit = getMappedUnit(originalCareProviderId, originalCareProviderName, null, null);
+        return new MappedCareProvider(mappedUnit.careProviderId(), mappedUnit.careProviderName());
+    }
+
+    /**
+     * Gets the mapped unit information based on either issued unit mapping or care provider mapping.
+     *
+     * @param originalCareProviderId the original care provider ID
+     * @param originalCareProviderName the original care provider name
+     * @param originalIssuedUnitId the original issued unit ID (can be null)
+     * @param originalIssuedUnitName the original issued unit name (can be null)
+     * @return MappedUnit containing the mapped values
+     */
+    public MappedUnit getMappedUnit(final String originalCareProviderId,
+        final String originalCareProviderName,
+        final String originalIssuedUnitId,
+        final String originalIssuedUnitName) {
+
+        if (originalIssuedUnitId != null) {
+            final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId);
+            if (issuedUnitMapping.isPresent()) {
+                final var issuedUnitInfo = issuedUnitMapping.get();
+                return new MappedUnit(
+                    issuedUnitInfo.careProviderId(),
+                    issuedUnitInfo.careProviderName(),
+                    issuedUnitInfo.issuedUnitIds(),
+                    issuedUnitInfo.issuedUnitName()
+                );
+            }
+        }
+
+        final var careProviderMapping = findCareProviderMapping(originalCareProviderId);
+        if (careProviderMapping.isPresent()) {
+            final var careProviderInfo = careProviderMapping.get();
+            return MappedUnit.careProviderOnly(
+                careProviderInfo.careProviderId(),
+                careProviderInfo.careProviderName()
+            );
+        }
+
+        return new MappedUnit(
+            originalCareProviderId,
+            originalCareProviderName,
+            originalIssuedUnitId,
+            originalIssuedUnitName
+        );
+    }
+
+    private Optional<IssuedUnitInfo> findIssuedUnitMapping(final String issuedUnitId) {
+        return unitMappingConfigLoader.getUnitMappings().stream()
+            .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
+                && mappingConfig.issuedUnitMapping() != null
+                && mappingConfig.issuedUnitMapping().containsKey(issuedUnitId))
+            .findFirst()
+            .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(issuedUnitId));
+    }
+
+    private Optional<CareProviderInfo> findCareProviderMapping(final String careProviderId) {
         return unitMappingConfigLoader.getUnitMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.careProviderMapping() != null
-                && mappingConfig.careProviderMapping().containsKey(originalCareProviderId))
+                && mappingConfig.careProviderMapping().containsKey(careProviderId))
             .findFirst()
-            .map(mappingConfig -> {
-                final var careProviderInfo = mappingConfig.careProviderMapping().get(originalCareProviderId);
-                return new MappedCareProvider(careProviderInfo.careProviderId(), careProviderInfo.careProviderName());
-            })
-            .orElse(new MappedCareProvider(originalCareProviderId, originalCareProviderName));
+            .map(mappingConfig -> mappingConfig.careProviderMapping().get(careProviderId));
     }
 }

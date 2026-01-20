@@ -20,6 +20,9 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -42,6 +45,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.converter.mapping.CareProviderInfo;
+import se.inera.intyg.common.support.modules.converter.mapping.IssuedUnitInfo;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapping;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
@@ -68,6 +72,23 @@ class UnitMapperUtilTest {
                 "TSTNMT2321000156-DELTA", new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
             ),
             null
+        )
+    );
+
+    private static final List<UnitMapping> ISSUED_UNIT_MAPPINGS = List.of(
+        new UnitMapping(
+            "Region Gävleborg",
+            "Bolagisering av primärvården",
+            LocalDateTime.now().minusDays(1),
+            null,
+            Map.of(
+                "SE2321000016-5G8F", new IssuedUnitInfo(
+                    "Region Gävleborg - Primärvård",
+                    "TSTNMT2321000156-ALFA",
+                    "SE2321000016-1G8F",
+                    "Region Gävleborg - Enhet 1"
+                )
+            )
         )
     );
 
@@ -199,6 +220,132 @@ class UnitMapperUtilTest {
             Arguments.of("UNKNOWN-ID", "Original Name", "UNKNOWN-ID", "Original Name"),
             Arguments.of("TSTNMT2321000156-GAMMA", null, "TSTNMT2321000156-GAMMA", null),
             Arguments.of("", "", "", "")
+        );
+    }
+
+    @Test
+    void shouldReturnIssuedUnitMappingWhenPresent() {
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
+
+        final var mappedUnit = unitMapperUtil.getMappedUnit(
+            "SE2321000016-5G8F",
+            "Original Vardgivare",
+            "SE2321000016-5G8F",
+            "Original Enhet"
+        );
+
+        assertAll(
+            () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+            () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+            () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+            () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName()),
+            () -> assertTrue(mappedUnit.hasIssuedUnitMapping())
+        );
+    }
+
+    @Test
+    void shouldFallBackToCareProviderMappingWhenNoIssuedUnitMapping() {
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(CARE_PROVIDER_MAPPINGS);
+
+        final var mappedUnit = unitMapperUtil.getMappedUnit(
+            "TSTNMT2321000156-ALFA",
+            "Original Vardgivare",
+            "Original-Unit-Id",
+            "Original Enhet"
+        );
+
+        assertAll(
+            () -> assertEquals("TSTNMT2321000156-BETA", mappedUnit.careProviderId()),
+            () -> assertEquals("Beta Regionen", mappedUnit.careProviderName()),
+            () -> assertNull(mappedUnit.issuedUnitId()),
+            () -> assertNull(mappedUnit.issuedUnitName()),
+            () -> assertFalse(mappedUnit.hasIssuedUnitMapping())
+        );
+    }
+
+    @Test
+    void shouldReturnOriginalValuesWhenNoMappingFound() {
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(CARE_PROVIDER_MAPPINGS);
+
+        final var mappedUnit = unitMapperUtil.getMappedUnit(
+            "UNKNOWN-ID",
+            "Original Vardgivare",
+            "Original-Unit-Id",
+            "Original Enhet"
+        );
+
+        assertAll(
+            () -> assertEquals("UNKNOWN-ID", mappedUnit.careProviderId()),
+            () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
+            () -> assertEquals("Original-Unit-Id", mappedUnit.issuedUnitId()),
+            () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName()),
+            () -> assertTrue(mappedUnit.hasIssuedUnitMapping())
+        );
+    }
+
+    @Test
+    void shouldDecorateWithMappedIssuedUnit() {
+        final var expectedCareProviderId = "TSTNMT2321000156-ALFA";
+        final var expectedCareProviderName = "Region Gävleborg - Primärvård";
+        final var expectedUnitId = "SE2321000016-1G8F";
+        final var expectedUnitName = "Region Gävleborg - Enhet 1";
+
+        final var utlatande = mock(Utlatande.class);
+        final var grundData = mock(GrundData.class);
+        final var skapadAv = mock(HoSPersonal.class);
+        final var vardenhet = new Vardenhet();
+        vardenhet.setEnhetsid("SE2321000016-5G8F");
+        vardenhet.setEnhetsnamn("Original Enhet");
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("Original Vardgivarid");
+        vardgivare.setVardgivarnamn("Original Name");
+        vardenhet.setVardgivare(vardgivare);
+
+        when(utlatande.getGrundData()).thenReturn(grundData);
+        when(grundData.getSkapadAv()).thenReturn(skapadAv);
+        when(skapadAv.getVardenhet()).thenReturn(vardenhet);
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
+
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+
+        assertAll(
+            () -> assertEquals(expectedCareProviderId, vardgivare.getVardgivarid()),
+            () -> assertEquals(expectedCareProviderName, vardgivare.getVardgivarnamn()),
+            () -> assertEquals(expectedUnitId, vardenhet.getEnhetsid()),
+            () -> assertEquals(expectedUnitName, vardenhet.getEnhetsnamn())
+        );
+    }
+
+    @Test
+    void shouldNotSetIssuedUnitWhenOnlyCareProviderMappingFound() {
+        final var expectedCareProviderId = "TSTNMT2321000156-BETA";
+        final var expectedCareProviderName = "Beta Regionen";
+        final var originalUnitId = "Original-Unit-Id";
+        final var originalUnitName = "Original Enhet";
+
+        final var utlatande = mock(Utlatande.class);
+        final var grundData = mock(GrundData.class);
+        final var skapadAv = mock(HoSPersonal.class);
+        final var vardenhet = new Vardenhet();
+        vardenhet.setEnhetsid(originalUnitId);
+        vardenhet.setEnhetsnamn(originalUnitName);
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid("TSTNMT2321000156-ALFA");
+        vardgivare.setVardgivarnamn("Original Name");
+        vardenhet.setVardgivare(vardgivare);
+
+        when(utlatande.getGrundData()).thenReturn(grundData);
+        when(grundData.getSkapadAv()).thenReturn(skapadAv);
+        when(skapadAv.getVardenhet()).thenReturn(vardenhet);
+        when(unitMappingConfigLoader.getUnitMappings()).thenReturn(CARE_PROVIDER_MAPPINGS);
+
+        unitMapperUtil.decorateWithMappedCareProvider(utlatande);
+
+        assertAll(
+            () -> assertEquals(expectedCareProviderId, vardgivare.getVardgivarid()),
+            () -> assertEquals(expectedCareProviderName, vardgivare.getVardgivarnamn()),
+            () -> assertEquals(originalUnitId, vardenhet.getEnhetsid()),
+            () -> assertEquals(originalUnitName, vardenhet.getEnhetsnamn())
         );
     }
 }
