@@ -15,6 +15,6 @@ public record UnitMappingKey(String id) {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(id.toUpperCase());
     }
 }
