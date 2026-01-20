@@ -84,7 +84,7 @@ public class UnitMapperUtil {
         final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId);
         if (issuedUnitMapping.isPresent()) {
             final var issuedUnitInfo = issuedUnitMapping.get();
-            return buildMappedUnit(
+            return MappedUnit.create(
                 issuedUnitInfo.careProviderId(),
                 issuedUnitInfo.careProviderName(),
                 issuedUnitInfo.issuedUnitId(),
@@ -95,7 +95,7 @@ public class UnitMapperUtil {
         final var careProviderMapping = findCareProviderMapping(originalCareProviderId);
         if (careProviderMapping.isPresent()) {
             final var careProviderInfo = careProviderMapping.get();
-            return buildMappedUnit(
+            return MappedUnit.create(
                 careProviderInfo.careProviderId(),
                 careProviderInfo.careProviderName(),
                 originalIssuedUnitId,
@@ -103,7 +103,7 @@ public class UnitMapperUtil {
             );
         }
 
-        return new MappedUnit(
+        return MappedUnit.create(
             originalCareProviderId,
             originalCareProviderName,
             originalIssuedUnitId,
@@ -127,14 +127,5 @@ public class UnitMapperUtil {
                 && mappingConfig.careProviderMapping().containsKey(careProviderId))
             .findFirst()
             .map(mappingConfig -> mappingConfig.careProviderMapping().get(careProviderId));
-    }
-
-    private static MappedUnit buildMappedUnit(String careProviderId, String careProviderName, String issuedUnitId, String issuedUnitName) {
-        return new MappedUnit(
-            careProviderId,
-            careProviderName,
-            issuedUnitId,
-            issuedUnitName
-        );
     }
 }

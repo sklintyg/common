@@ -34,4 +34,7 @@ public record MappedUnit(
     String issuedUnitName
 ) {
 
+    public static MappedUnit create(String careProviderId, String careProviderName, String issuedUnitId, String issuedUnitName) {
+        return new MappedUnit(careProviderId, careProviderName, issuedUnitId, issuedUnitName);
+    }
 }
