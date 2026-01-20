@@ -21,7 +21,7 @@ package se.inera.intyg.common.support.modules.converter.mapping;
 public record IssuedUnitInfo(
     String careProviderName,
     String careProviderId,
-    String issuedUnitIds,
+    String issuedUnitId,
     String issuedUnitName
 ) {
 

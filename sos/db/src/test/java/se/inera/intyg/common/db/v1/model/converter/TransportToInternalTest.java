@@ -38,7 +38,7 @@ import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -49,16 +49,18 @@ public class TransportToInternalTest {
     public static void setUp() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedCareprovider(any(), any()))
-            .thenAnswer(inv -> new MappedCareProvider(
+        when(mapper.getMappedUnit(any(), any(), any(), any()))
+            .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class)
+                inv.getArgument(1, String.class),
+                inv.getArgument(2, String.class),
+                inv.getArgument(3, String.class)
             ));
 
         new InternalConverterUtil(mapper).initialize();
         new TransportConverterUtil(mapper).initialize();
     }
-    
+
     @Test
     public void testConvert() throws Exception {
         String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);

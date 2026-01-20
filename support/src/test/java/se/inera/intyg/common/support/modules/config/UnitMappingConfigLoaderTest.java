@@ -62,7 +62,7 @@ class UnitMappingConfigLoaderTest {
     @Test
     void shallMapConfigContent() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String filePath = Paths.get(
+        final var filePath = Paths.get(
                 classLoader.getResource("care-provider-mapping-config-active-mapping.json").toURI())
             .toString();
 
@@ -96,7 +96,7 @@ class UnitMappingConfigLoaderTest {
     @Test
     void shallMapIssuedUnitMappingConfigContent() throws URISyntaxException {
         ClassLoader classLoader = getClass().getClassLoader();
-        String filePath = Paths.get(
+        final var filePath = Paths.get(
                 classLoader.getResource("care-provider-mapping-config-issued-unit-mapping.json").toURI())
             .toString();
 

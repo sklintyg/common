@@ -36,7 +36,7 @@ import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
@@ -60,10 +60,12 @@ public class TransportToInternalTest {
     public static void setUp() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedCareprovider(any(), any()))
-            .thenAnswer(inv -> new MappedCareProvider(
+        when(mapper.getMappedUnit(any(), any(), any(), any()))
+            .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class)
+                inv.getArgument(1, String.class),
+                inv.getArgument(2, String.class),
+                inv.getArgument(3, String.class)
             ));
 
         new InternalConverterUtil(mapper).initialize();

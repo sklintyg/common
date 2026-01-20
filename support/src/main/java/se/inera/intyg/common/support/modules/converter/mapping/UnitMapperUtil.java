@@ -67,13 +67,6 @@ public class UnitMapperUtil {
 
     }
 
-    public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
-        final String originalCareProviderName) {
-
-        final var mappedUnit = getMappedUnit(originalCareProviderId, originalCareProviderName, null, null);
-        return new MappedCareProvider(mappedUnit.careProviderId(), mappedUnit.careProviderName());
-    }
-
     /**
      * Gets the mapped unit information based on either issued unit mapping or care provider mapping.
      *
@@ -88,23 +81,21 @@ public class UnitMapperUtil {
         final String originalIssuedUnitId,
         final String originalIssuedUnitName) {
 
-        if (originalIssuedUnitId != null) {
-            final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId);
-            if (issuedUnitMapping.isPresent()) {
-                final var issuedUnitInfo = issuedUnitMapping.get();
-                return new MappedUnit(
-                    issuedUnitInfo.careProviderId(),
-                    issuedUnitInfo.careProviderName(),
-                    issuedUnitInfo.issuedUnitIds(),
-                    issuedUnitInfo.issuedUnitName()
-                );
-            }
+        final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId);
+        if (issuedUnitMapping.isPresent()) {
+            final var issuedUnitInfo = issuedUnitMapping.get();
+            return buildMappedUnit(
+                issuedUnitInfo.careProviderId(),
+                issuedUnitInfo.careProviderName(),
+                issuedUnitInfo.issuedUnitId(),
+                issuedUnitInfo.issuedUnitName()
+            );
         }
 
         final var careProviderMapping = findCareProviderMapping(originalCareProviderId);
         if (careProviderMapping.isPresent()) {
             final var careProviderInfo = careProviderMapping.get();
-            return new MappedUnit(
+            return buildMappedUnit(
                 careProviderInfo.careProviderId(),
                 careProviderInfo.careProviderName(),
                 originalIssuedUnitId,
@@ -136,5 +127,14 @@ public class UnitMapperUtil {
                 && mappingConfig.careProviderMapping().containsKey(careProviderId))
             .findFirst()
             .map(mappingConfig -> mappingConfig.careProviderMapping().get(careProviderId));
+    }
+
+    private static MappedUnit buildMappedUnit(String careProviderId, String careProviderName, String issuedUnitId, String issuedUnitName) {
+        return new MappedUnit(
+            careProviderId,
+            careProviderName,
+            issuedUnitId,
+            issuedUnitName
+        );
     }
 }

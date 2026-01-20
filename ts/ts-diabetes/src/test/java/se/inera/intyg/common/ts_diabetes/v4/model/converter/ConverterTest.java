@@ -50,7 +50,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -80,10 +80,12 @@ public class ConverterTest {
     public static void setUp() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedCareprovider(any(), any()))
-            .thenAnswer(inv -> new MappedCareProvider(
+        when(mapper.getMappedUnit(any(), any(), any(), any()))
+            .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class)
+                inv.getArgument(1, String.class),
+                inv.getArgument(2, String.class),
+                inv.getArgument(3, String.class)
             ));
 
         new InternalConverterUtil(mapper).initialize();

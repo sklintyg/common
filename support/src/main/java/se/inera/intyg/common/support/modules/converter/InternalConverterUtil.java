@@ -52,6 +52,7 @@ import se.inera.intyg.common.support.model.ModelException;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
@@ -444,17 +445,43 @@ public final class InternalConverterUtil {
     }
 
     private static Enhet getEnhet(Vardenhet sourceVardenhet) {
+        final var mapped = getMappedUnit(
+            sourceVardenhet.getVardgivare(),
+            sourceVardenhet.getEnhetsid(),
+            sourceVardenhet.getEnhetsnamn()
+        );
+
         Enhet vardenhet = new Enhet();
-        vardenhet.setEnhetsId(getHsaId(sourceVardenhet.getEnhetsid()));
-        vardenhet.setEnhetsnamn(emptyStringIfNull(sourceVardenhet.getEnhetsnamn()));
         vardenhet.setPostnummer(emptyStringIfNull(sourceVardenhet.getPostnummer()));
         vardenhet.setPostadress(emptyStringIfNull(sourceVardenhet.getPostadress()));
         vardenhet.setPostort(emptyStringIfNull(sourceVardenhet.getPostort()));
         vardenhet.setTelefonnummer(emptyStringIfNull(sourceVardenhet.getTelefonnummer()));
         vardenhet.setEpost(sourceVardenhet.getEpost());
-        vardenhet.setVardgivare(getVardgivare(sourceVardenhet.getVardgivare()));
         vardenhet.setArbetsplatskod(getArbetsplatsKod(sourceVardenhet.getArbetsplatsKod()));
+
+        vardenhet.setEnhetsId(getHsaId(mapped.issuedUnitId()));
+        vardenhet.setEnhetsnamn(emptyStringIfNull(mapped.issuedUnitName()));
+
+        Vardgivare careProvider = new Vardgivare();
+        careProvider.setVardgivareId(getHsaId(mapped.careProviderId()));
+        careProvider.setVardgivarnamn(emptyStringIfNull(mapped.careProviderName()));
+        vardenhet.setVardgivare(careProvider);
         return vardenhet;
+    }
+
+    private MappedUnit getMappedUnitConfiguration(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider,
+        String issuingUnitId, String issuingUnitName) {
+        return unitMapperUtil.getMappedUnit(
+            sourceCareProvider.getVardgivarid(),
+            sourceCareProvider.getVardgivarnamn(),
+            issuingUnitId,
+            issuingUnitName
+        );
+    }
+
+    private static MappedUnit getMappedUnit(
+        se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
     }
 
     static InternalConverterUtil instance() {
@@ -463,22 +490,6 @@ public final class InternalConverterUtil {
         }
         return instance;
     }
-
-    private static Vardgivare getVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceVardgivare) {
-        return instance().getMappedCareProvider(sourceVardgivare);
-    }
-
-    private Vardgivare getMappedCareProvider(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider) {
-        final var mapped = unitMapperUtil.getMappedCareprovider(
-            sourceCareProvider.getVardgivarid(),
-            sourceCareProvider.getVardgivarnamn());
-
-        Vardgivare careProvider = new Vardgivare();
-        careProvider.setVardgivareId(getHsaId(mapped.id()));
-        careProvider.setVardgivarnamn(emptyStringIfNull(mapped.name()));
-        return careProvider;
-    }
-
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
         PatientInfo patientInfo) {

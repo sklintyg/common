@@ -48,7 +48,7 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
@@ -108,10 +108,12 @@ class TransportConverterUtilTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedCareprovider(any(), any()))
-            .thenAnswer(inv -> new MappedCareProvider(
+        when(mapper.getMappedUnit(any(), any(), any(), any()))
+            .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class)
+                inv.getArgument(1, String.class),
+                inv.getArgument(2, String.class),
+                inv.getArgument(3, String.class)
             ));
 
         new InternalConverterUtil(mapper).initialize();

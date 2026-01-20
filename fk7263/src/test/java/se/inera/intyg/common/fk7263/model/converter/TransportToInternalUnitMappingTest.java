@@ -36,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.MappedCareProvider;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
 import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,9 +59,9 @@ class TransportToInternalUnitMappingTest {
                 LakarutlatandeType.class);
 
         transportToInternal.initialize();
-        when(unitMapperUtil.getMappedCareprovider("VardgivarId",
-            "Landstinget Norrland")).thenReturn(
-            new MappedCareProvider("TSTNMT2321000156-BETA", "Beta Regionen"));
+        when(unitMapperUtil.getMappedUnit("VardgivarId",
+            "Landstinget Norrland", "VardenhetY", "Kir mott")).thenReturn(
+            new MappedUnit("TSTNMT2321000156-BETA", "Beta Regionen", "Beta enhets id", "Beta enhets namn"));
 
         var result = TransportToInternal.convert(utlatandeElement.getValue());
         assertAll(() -> {
@@ -69,7 +69,10 @@ class TransportToInternalUnitMappingTest {
                 result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
             assertEquals("Beta Regionen",
                 result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
+            assertEquals("Beta enhets id",
+                result.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+            assertEquals("Beta enhets namn",
+                result.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
         });
     }
-
 }

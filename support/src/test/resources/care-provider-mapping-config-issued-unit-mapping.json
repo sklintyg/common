@@ -7,13 +7,13 @@
       "SE2321000016-5G8F": {
         "careProviderName": "Region Gävleborg - Primärvård",
         "careProviderId": "SE2321000016-5G8F",
-        "issuedUnitIds": "SE2321000016-1G8F",
+        "issuedUnitId": "SE2321000016-1G8F",
         "issuedUnitName": "Region Gävleborg - Enhet 1"
       },
       "SE2321000016-6G8F": {
         "careProviderName": "Region Gävleborg - Primärvård",
         "careProviderId": "SE2321000016-5G8F",
-        "issuedUnitIds": "SE2321000016-2G8F",
+        "issuedUnitId": "SE2321000016-2G8F",
         "issuedUnitName": "Region Gävleborg - Enhet 2"
       }
     }
