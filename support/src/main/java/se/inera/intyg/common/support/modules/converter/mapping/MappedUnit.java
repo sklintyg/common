@@ -34,17 +34,4 @@ public record MappedUnit(
     String issuedUnitName
 ) {
 
-    /**
-     * Creates a MappedUnit with only care provider information.
-     */
-    public static MappedUnit careProviderOnly(String careProviderId, String careProviderName) {
-        return new MappedUnit(careProviderId, careProviderName, null, null);
-    }
-
-    /**
-     * Returns true if this mapping includes issued unit information.
-     */
-    public boolean hasIssuedUnitMapping() {
-        return issuedUnitId != null;
-    }
 }

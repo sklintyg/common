@@ -62,10 +62,9 @@ public class UnitMapperUtil {
         vardgivare.setVardgivarid(mappedUnit.careProviderId());
         vardgivare.setVardgivarnamn(mappedUnit.careProviderName());
 
-        if (mappedUnit.hasIssuedUnitMapping()) {
-            vardenhet.setEnhetsid(mappedUnit.issuedUnitId());
-            vardenhet.setEnhetsnamn(mappedUnit.issuedUnitName());
-        }
+        vardenhet.setEnhetsid(mappedUnit.issuedUnitId());
+        vardenhet.setEnhetsnamn(mappedUnit.issuedUnitName());
+
     }
 
     public MappedCareProvider getMappedCareprovider(final String originalCareProviderId,
@@ -105,9 +104,11 @@ public class UnitMapperUtil {
         final var careProviderMapping = findCareProviderMapping(originalCareProviderId);
         if (careProviderMapping.isPresent()) {
             final var careProviderInfo = careProviderMapping.get();
-            return MappedUnit.careProviderOnly(
+            return new MappedUnit(
                 careProviderInfo.careProviderId(),
-                careProviderInfo.careProviderName()
+                careProviderInfo.careProviderName(),
+                originalIssuedUnitId,
+                originalIssuedUnitName
             );
         }
 

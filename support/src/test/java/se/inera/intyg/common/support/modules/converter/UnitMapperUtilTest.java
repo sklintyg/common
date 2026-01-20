@@ -20,9 +20,6 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -238,8 +235,7 @@ class UnitMapperUtilTest {
             () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
             () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
             () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
-            () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName()),
-            () -> assertTrue(mappedUnit.hasIssuedUnitMapping())
+            () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
         );
     }
 
@@ -257,9 +253,8 @@ class UnitMapperUtilTest {
         assertAll(
             () -> assertEquals("TSTNMT2321000156-BETA", mappedUnit.careProviderId()),
             () -> assertEquals("Beta Regionen", mappedUnit.careProviderName()),
-            () -> assertNull(mappedUnit.issuedUnitId()),
-            () -> assertNull(mappedUnit.issuedUnitName()),
-            () -> assertFalse(mappedUnit.hasIssuedUnitMapping())
+            () -> assertEquals("Original-Unit-Id", mappedUnit.issuedUnitId()),
+            () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
         );
     }
 
@@ -278,8 +273,7 @@ class UnitMapperUtilTest {
             () -> assertEquals("UNKNOWN-ID", mappedUnit.careProviderId()),
             () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
             () -> assertEquals("Original-Unit-Id", mappedUnit.issuedUnitId()),
-            () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName()),
-            () -> assertTrue(mappedUnit.hasIssuedUnitMapping())
+            () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
         );
     }
 
