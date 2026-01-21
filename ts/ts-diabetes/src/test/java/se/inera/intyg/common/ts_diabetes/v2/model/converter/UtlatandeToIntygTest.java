@@ -37,9 +37,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -49,14 +49,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     private static final String PNR_TOLVAN = "19121212-1212";
     private static final String PNR_TOLVAN_EXPECTED = "191212121212";
 
     @Test
-     void testConvert() throws Exception {
+    void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
@@ -125,7 +125,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertWithRelation() {
+    void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -141,7 +141,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
     @SuppressWarnings("unchecked")
     @Test
-     void testAddIntygAvserSvar() {
+    void testAddIntygAvserSvar() {
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.A1);
         utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TRAKTOR);
@@ -165,7 +165,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodIfNull() {
+    void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -174,7 +174,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodIfBlank() {
+    void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -183,7 +183,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertComplementsArbetsplatskodDoesNotOverride() {
+    void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -192,7 +192,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertSetsVersionFromTextVersion() {
+    void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "3.7";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.setTextVersion(textVersion);
@@ -202,7 +202,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
+    void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "2.6";
         TsDiabetesUtlatandeV2 utlatande = buildUtlatande();
         utlatande.setTextVersion(null);

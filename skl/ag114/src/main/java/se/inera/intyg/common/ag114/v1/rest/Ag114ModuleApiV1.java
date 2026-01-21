@@ -51,7 +51,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -76,7 +76,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
     @Autowired(required = false)
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     @Value("${pdf.footer.app.name.text:1177 intyg}")
     private String pdfFooterAppName;
@@ -122,7 +122,7 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     protected Ag114UtlatandeV1 getInternal(String internalModel) throws ModuleException {
         try {
             final var ag114UtlatandeV1 = objectMapper.readValue(internalModel, Ag114UtlatandeV1.class);
-            careProviderMapperUtil.decorateWithMappedCareProvider(ag114UtlatandeV1);
+            unitMapperUtil.decorateWithMappedCareProvider(ag114UtlatandeV1);
             return ag114UtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

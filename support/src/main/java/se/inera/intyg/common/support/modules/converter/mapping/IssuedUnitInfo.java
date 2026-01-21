@@ -18,14 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.converter.mapping;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
-public record CareProviderMapping(
+public record IssuedUnitInfo(
     String careProviderName,
     String careProviderId,
-    LocalDateTime datetime,
-    Set<String> originalCareProviderIds
+    String issuedUnitId,
+    String issuedUnitName
 ) {
 
 }

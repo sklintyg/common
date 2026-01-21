@@ -46,16 +46,16 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
 
@@ -63,7 +63,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     private WebcertModuleService webcertModuleService;
 
     @Test
-     void testConvert() throws Exception {
+    void testConvert() throws Exception {
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
@@ -133,7 +133,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertWithRelation() {
+    void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         LuseUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -148,7 +148,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
+    void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
         Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
         LuseUtlatandeV1 utlatande = buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
 
@@ -157,7 +157,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertWithConcatToOvrigt() {
+    void testConvertWithConcatToOvrigt() {
         LuseUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!").build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().size() == 1);
@@ -166,7 +166,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertUnderlagEmptyUnderlagsTyp() {
+    void testConvertUnderlagEmptyUnderlagsTyp() {
         LuseUtlatandeV1 utlatande = buildUtlatande().toBuilder()
             .setUnderlagFinns(true)
             .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
@@ -177,7 +177,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
     }
 
     @Test
-     void testConvertUnderlagUnfinishedDate() {
+    void testConvertUnderlagUnfinishedDate() {
         LuseUtlatandeV1 utlatande = buildUtlatande().toBuilder()
             .setUnderlagFinns(true)
             .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))

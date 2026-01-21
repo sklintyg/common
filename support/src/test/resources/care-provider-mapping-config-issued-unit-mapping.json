@@ -1,0 +1,21 @@
+[
+  {
+    "region": "Region Gävleborg",
+    "description": "Bolagisering av primärvården",
+    "datetime": "2026-02-02T09:00",
+    "issuedUnitMapping": {
+      "SE2321000016-5G8F": {
+        "careProviderName": "Region Gävleborg - Primärvård",
+        "careProviderId": "SE2321000016-5G8F",
+        "issuedUnitId": "SE2321000016-1G8F",
+        "issuedUnitName": "Region Gävleborg - Enhet 1"
+      },
+      "SE2321000016-6G8F": {
+        "careProviderName": "Region Gävleborg - Primärvård",
+        "careProviderId": "SE2321000016-5G8F",
+        "issuedUnitId": "SE2321000016-2G8F",
+        "issuedUnitName": "Region Gävleborg - Enhet 2"
+      }
+    }
+  }
+]

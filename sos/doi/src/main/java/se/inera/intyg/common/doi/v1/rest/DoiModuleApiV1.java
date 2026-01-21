@@ -54,7 +54,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
@@ -81,7 +81,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     private SummaryConverter summaryConverter;
 
     @Autowired(required = false)
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
@@ -227,7 +227,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
     protected DoiUtlatandeV1 getInternal(String internalModel) throws ModuleException {
         try {
             final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
-            careProviderMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1);
+            unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1);
             return doiUtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

@@ -39,8 +39,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 /**
@@ -48,8 +48,8 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
  */
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, TransportToInternal.class})
- class TransportToInternalConverterTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
+class TransportToInternalConverterTest {
 
     private JAXBContext jaxbContext;
     private Unmarshaller unmarshaller;
@@ -67,7 +67,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @BeforeEach
-     void setUp() throws JAXBException {
+    void setUp() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(LakarutlatandeType.class);
         unmarshaller = jaxbContext.createUnmarshaller();
         objectMapper = new CustomObjectMapper();
@@ -75,7 +75,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @Test
-     void testConversionWithWhitespaces() throws Exception {
+    void testConversionWithWhitespaces() throws Exception {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "intyg-med-blanksteg.xml");
 
@@ -91,7 +91,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @Test
-     void testConversionWithMaximalCertificate() throws JAXBException,
+    void testConversionWithMaximalCertificate() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -111,7 +111,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @Test
-     void testConversionWithMinimalCertificate() throws JAXBException,
+    void testConversionWithMinimalCertificate() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -131,7 +131,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @Test
-     void testConversionWithNoPrognosAngivelseButMotivering() throws JAXBException,
+    void testConversionWithNoPrognosAngivelseButMotivering() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -151,7 +151,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     }
 
     @Test
-     void testConversionWithKSH97PAsCodeSystem() throws JAXBException,
+    void testConversionWithKSH97PAsCodeSystem() throws JAXBException,
         IOException, JSONException, ConverterException {
 
         // read utlatandeType from file
@@ -179,7 +179,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 1, with fields: 1, 8b, 14 - 17.
      */
     @Test
-     void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario1.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -197,7 +197,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 2 with fields: 1, 8b, 10, 14-17.
      */
     @Test
-     void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario2.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -215,7 +215,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 3 with fields: 1, 8b, 10, 13, 14-17.
      */
     @Test
-     void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario3.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -233,7 +233,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 4 with fields: 2b, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-     void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario4.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -251,7 +251,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 5 with fields: 2a, 2b, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-     void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario5.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -269,7 +269,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 6 with fields: 2a, 2b, 3, 4a, 4b, 5, 8a, 8b, 14-17.
      */
     @Test
-     void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario6.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -287,7 +287,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 7 with fields: 2b, 4a, 4b, 5, 6b, 8a, 8b, 11, 13, 14-17.
      */
     @Test
-     void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario7.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -305,7 +305,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 8 with fields: 2b, 4a, 4b, 5, 8a, 8b, 11, 14-17.
      */
     @Test
-     void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario8.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -324,7 +324,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * 14-17.
      */
     @Test
-     void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario9.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -342,7 +342,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * 10, 12, 14-17.
      */
     @Test
-     void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario10.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -361,7 +361,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * 9, 10, 14-17.
      */
     @Test
-     void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario11.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -380,7 +380,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * 9, 10, 12, 13, 14-17.
      */
     @Test
-     void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario12.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -399,7 +399,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * 9, 10, 11, 12, 13, 14-17.
      */
     @Test
-     void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario13.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -417,7 +417,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 14, arbetsloshet.
      */
     @Test
-     void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario14.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -435,7 +435,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * Tests scenario 15, foraldraledighet.
      */
     @Test
-     void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario15.xml");
         Fk7263Utlatande internalModel = TransportToInternal
@@ -454,7 +454,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
      * This case caused bug INTYG-1413.
      */
     @Test
-     void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
+    void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
         JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
             + "legacy/scenario16.xml");
         Fk7263Utlatande internalModel = TransportToInternal

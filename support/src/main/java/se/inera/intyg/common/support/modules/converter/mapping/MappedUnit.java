@@ -19,6 +19,22 @@
 
 package se.inera.intyg.common.support.modules.converter.mapping;
 
-public record MappedCareProvider(String id, String name) {
+/**
+ * Record containing mapped unit information including care provider and optionally issued unit.
+ *
+ * @param careProviderId the mapped care provider ID
+ * @param careProviderName the mapped care provider name
+ * @param issuedUnitId the mapped issued unit ID (null if only care provider mapping)
+ * @param issuedUnitName the mapped issued unit name (null if only care provider mapping)
+ */
+public record MappedUnit(
+    String careProviderId,
+    String careProviderName,
+    String issuedUnitId,
+    String issuedUnitName
+) {
 
+    public static MappedUnit create(String careProviderId, String careProviderName, String issuedUnitId, String issuedUnitName) {
+        return new MappedUnit(careProviderId, careProviderName, issuedUnitId, issuedUnitName);
+    }
 }

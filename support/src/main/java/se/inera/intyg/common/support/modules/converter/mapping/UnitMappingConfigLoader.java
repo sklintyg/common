@@ -22,47 +22,46 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CareProviderMappingConfigLoader {
+public class UnitMappingConfigLoader {
 
-  @Value("${care.provider.mapping.config.path:}")
-  private String careProviderMappingConfigPath;
-  @Getter
-  private List<CareProviderMapping> careProviderMappings;
+    @Value("${unit.mapping.config.path:}")
+    private String unitMappingConfigPath;
+    @Getter
+    private List<UnitMapping> unitMappings;
 
-  @PostConstruct
-  public void init() {
-    careProviderMappings = new ArrayList<>();
-    final var objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
-    try (final var resourceAsStream = new FileInputStream(careProviderMappingConfigPath)) {
-      careProviderMappings = objectMapper.readValue(
-          resourceAsStream,
-          new TypeReference<>() {
-          });
-      log.info("CareProvider mapping configuration was loaded successfully: {}",
-          careProviderMappings);
-    } catch (FileNotFoundException e) {
-      log.warn("File not found: {}. Returning empty configuration.",
-          careProviderMappingConfigPath);
-    } catch (Exception e) {
-      log.error(
-          String.format("Failed to load CareProvider mapping configuration. Reason: %s",
-              e.getMessage()), e
-      );
+    @PostConstruct
+    public void init() {
+        unitMappings = new ArrayList<>();
+        final var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        try (final var resourceAsStream = new FileInputStream(unitMappingConfigPath)) {
+            unitMappings = objectMapper.readValue(
+                resourceAsStream,
+                new TypeReference<>() {
+                });
+            log.info("Unit mapping configuration was loaded successfully: {}",
+                unitMappings);
+        } catch (FileNotFoundException e) {
+            log.warn("File not found: {}. Returning empty configuration.",
+                unitMappingConfigPath);
+        } catch (Exception e) {
+            log.error(
+                String.format("Failed to load unit mapping configuration. Reason: %s",
+                    e.getMessage()), e
+            );
+        }
     }
-  }
 }

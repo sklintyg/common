@@ -1,14 +1,28 @@
 [
   {
-    "careProviderName": "Beta Regionen",
-    "careProviderId": "TSTNMT2321000156-BETA",
+    "region": "Region Stockholm",
+    "description": "Avbolagisering av akutsjukhus",
     "datetime": "2025-05-09T08:00",
-    "originalCareProviderIds": ["TSTNMT2321000156-ALFA","TSTNMT2321000152-ALFA2"]
+    "careProviderMapping": {
+      "TSTNMT2321000156-ALFA": {
+        "careProviderName": "Beta Regionen",
+        "careProviderId": "TSTNMT2321000156-BETA"
+      },
+      "TSTNMT2321000152-ALFA2": {
+        "careProviderName": "Beta Regionen",
+        "careProviderId": "TSTNMT2321000156-BETA"
+      }
+    }
   },
   {
-    "careProviderName": "Gamma Regionen",
-    "careProviderId": "TSTNMT2321000156-GAMMA",
+    "region": "Region Gävleborg",
+    "description": "Bolagisering av primärvården",
     "datetime": "2026-06-10T09:00:00",
-    "originalCareProviderIds": ["TSTNMT2321000156-DELTA"]
+    "careProviderMapping": {
+      "TSTNMT2321000156-DELTA": {
+        "careProviderName": "Gamma Regionen",
+        "careProviderId": "TSTNMT2321000156-GAMMA"
+      }
+    }
   }
 ]

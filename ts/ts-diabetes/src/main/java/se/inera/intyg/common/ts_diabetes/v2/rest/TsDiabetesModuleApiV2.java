@@ -63,7 +63,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -148,7 +148,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     private String pdfMinaIntygMarginText;
 
     @Autowired(required = false)
-    private CareProviderMapperUtil careProviderMapperUtil;
+    private UnitMapperUtil unitMapperUtil;
 
     public TsDiabetesModuleApiV2() {
         super(TsDiabetesUtlatandeV2.class);
@@ -403,7 +403,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     protected TsDiabetesUtlatandeV2 getInternal(String internalModel) throws ModuleException {
         try {
             final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
-            careProviderMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
+            unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
             return tsDiabetesUtlatandeV2;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

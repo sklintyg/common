@@ -56,7 +56,8 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -82,11 +83,11 @@ public final class TransportConverterUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
 
-    private final CareProviderMapperUtil careProviderMapperUtil;
+    private final UnitMapperUtil unitMapperUtil;
     private static TransportConverterUtil instance = null;
 
-    public TransportConverterUtil(CareProviderMapperUtil careProviderMapperUtil) {
-        this.careProviderMapperUtil = careProviderMapperUtil;
+    public TransportConverterUtil(UnitMapperUtil unitMapperUtil) {
+        this.unitMapperUtil = unitMapperUtil;
     }
 
     @PostConstruct
@@ -422,40 +423,44 @@ public final class TransportConverterUtil {
      * @return the converted Vardenhet
      */
     public static Vardenhet getVardenhet(Enhet source) {
+        final var mapped = getMappedUnit(
+            source.getVardgivare(),
+            source.getEnhetsId().getExtension(),
+            source.getEnhetsnamn()
+        );
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setPostort(source.getPostort());
         vardenhet.setPostadress(source.getPostadress());
         vardenhet.setPostnummer(source.getPostnummer());
         vardenhet.setEpost(source.getEpost());
-        vardenhet.setEnhetsid(source.getEnhetsId().getExtension());
         vardenhet.setArbetsplatsKod(source.getArbetsplatskod().getExtension());
-        vardenhet.setEnhetsnamn(source.getEnhetsnamn());
         vardenhet.setTelefonnummer(source.getTelefonnummer());
-        vardenhet.setVardgivare(getVardgivare(source.getVardgivare()));
+
+        vardenhet.setEnhetsid(mapped.issuedUnitId());
+        vardenhet.setEnhetsnamn(mapped.issuedUnitName());
+
+        final var vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(mapped.careProviderId());
+        vardgivare.setVardgivarnamn(mapped.careProviderName());
+        vardenhet.setVardgivare(vardgivare);
+
         return vardenhet;
     }
 
-    /**
-     * Converts a Vardgivare to internal representation.
-     *
-     * @param sourceVardgivare the transport representation
-     * @return the converted Vardgivare
-     */
-    private static Vardgivare getVardgivare(
-        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceVardgivare) {
-        return instance().getMappedCareProvider(sourceVardgivare);
+    private MappedUnit getMappedUnitConfiguration(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider,
+        String issuingUnitId, String issuingUnitName) {
+        return unitMapperUtil.getMappedUnit(
+            sourceCareProvider.getVardgivareId().getExtension(),
+            sourceCareProvider.getVardgivarnamn(),
+            issuingUnitId,
+            issuingUnitName
+        );
     }
 
-    private Vardgivare getMappedCareProvider(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider) {
-        final var mapped = careProviderMapperUtil.getMappedCareprovider(
-            sourceCareProvider.getVardgivareId().getExtension(),
-            sourceCareProvider.getVardgivarnamn()
-        );
-
-        final var vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(mapped.id());
-        vardgivare.setVardgivarnamn(mapped.name());
-        return vardgivare;
+    private static MappedUnit getMappedUnit(
+        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
     }
 
     /**

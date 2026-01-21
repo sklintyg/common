@@ -83,9 +83,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.Bedomning;
@@ -102,8 +102,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     TsTrk1062UtlatandeV1.Builder builderTemplate;
 
@@ -111,13 +111,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     private WebcertModuleService webcertModuleService;
 
     @BeforeEach
-     void setUp() {
+    void setUp() {
         builderTemplate = TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now()));
         lenient().when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     }
 
     @Test
-     void convertUtlatandeIntygsTyp() {
+    void convertUtlatandeIntygsTyp() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .build();
 
@@ -127,7 +127,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeIntygsVersion() {
+    void convertUtlatandeIntygsVersion() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setTextVersion("TextVersion")
             .build();
@@ -138,7 +138,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeIntygAvses() throws Exception {
+    void convertUtlatandeIntygAvses() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
             .build();
@@ -150,7 +150,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeIdKontroll() throws Exception {
+    void convertUtlatandeIdKontroll() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
             .build();
@@ -162,7 +162,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeDiagnosFritext() throws Exception {
+    void convertUtlatandeDiagnosFritext() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
             .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
@@ -177,7 +177,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeWithDiagnosKodadToIntyg() throws Exception {
+    void convertUtlatandeWithDiagnosKodadToIntyg() throws Exception {
         final DiagnosKodad diagnosKodadA01 = DiagnosKodad.create("A01",
             "ICD_10_SE", "Beskrivning för A01", "DisplayName för A01", "2018");
 
@@ -200,7 +200,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
+    void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setLakemedelsbehandling(Lakemedelsbehandling.create(false, null, null, null, null, null, null,
                 null))
@@ -213,7 +213,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
+    void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell behandling", true, true, true, null,
                 null))
@@ -226,7 +226,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
+    void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, "Förra månaden",
                 "Avslutad orsak."))
@@ -239,7 +239,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeBedomningAvSymptom() throws Exception {
+    void convertUtlatandeBedomningAvSymptom() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setBedomningAvSymptom("Bedömning av...")
             .build();
@@ -252,7 +252,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeWithPrognosTillstandNej() throws Exception {
+    void convertUtlatandeWithPrognosTillstandNej() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.NEJ))
             .build();
@@ -264,7 +264,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeWithPrognosTillstandJa() throws Exception {
+    void convertUtlatandeWithPrognosTillstandJa() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
             .build();
@@ -276,7 +276,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeWithPrognosTillstandKanEjBedoma() throws Exception {
+    void convertUtlatandeWithPrognosTillstandKanEjBedoma() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
             .build();
@@ -288,7 +288,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeOvrigaKommentarer() throws Exception {
+    void convertUtlatandeOvrigaKommentarer() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setOvrigaKommentarer("Ovriga kommentarer")
             .build();
@@ -301,7 +301,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
     }
 
     @Test
-     void convertUtlatandeBedomning() throws Exception {
+    void convertUtlatandeBedomning() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
             .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
             .build();

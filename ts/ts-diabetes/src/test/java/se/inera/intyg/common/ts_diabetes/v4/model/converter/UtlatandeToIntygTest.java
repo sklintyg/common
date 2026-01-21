@@ -36,9 +36,9 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
@@ -50,15 +50,14 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4
 import se.inera.intyg.schemas.contract.Personnummer;
 
 
-
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
- class UtlatandeToIntygTest {
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+class UtlatandeToIntygTest {
 
     private static final String PNR_TOLVAN = "191212121212";
 
     @Test
-     void testConvert() {
+    void testConvert() {
         final String intygsId = "intygsid";
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
@@ -129,7 +128,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
     }
 
     @Test
-     void emptyUtlatandeShouldHaveNoIncompleteSvar() {
+    void emptyUtlatandeShouldHaveNoIncompleteSvar() {
         final var utlatande = buildUtlatande().build();
 
         final var intyg = UtlatandeToIntyg.convert(utlatande);
@@ -138,7 +137,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
     }
 
     @Test
-     void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
+    void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
         final var utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))
             .setIdentitetStyrktGenom(IdKontroll.create(null))
@@ -155,7 +154,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
     }
 
     @Test
-     void shouldIncludeBehandlingWhenMedicineringMedRiskForHypglykemi() {
+    void shouldIncludeBehandlingWhenMedicineringMedRiskForHypglykemi() {
         final var utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))
             .setIdentitetStyrktGenom(IdKontroll.create(null))
@@ -177,7 +176,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
     }
 
     @Test
-     void shouldNotIncludeBehandlingWhenNotMedicineringMedRiskForHypglykemi() {
+    void shouldNotIncludeBehandlingWhenNotMedicineringMedRiskForHypglykemi() {
         final var utlatande = buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))
             .setIdentitetStyrktGenom(IdKontroll.create(null))

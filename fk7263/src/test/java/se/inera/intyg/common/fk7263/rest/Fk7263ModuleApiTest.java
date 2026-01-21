@@ -65,9 +65,9 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMappingConfigLoader;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfigLoader;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
@@ -84,7 +84,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * @author andreaskaltenbach
  */
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
-@ContextConfiguration(classes = {CareProviderMappingConfigLoader.class, CareProviderMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 public class Fk7263ModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
@@ -568,7 +568,7 @@ public class Fk7263ModuleApiTest {
         final var internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
         final var external = InternalToTransport.getJaxbObject(internal);
         final var el = new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
-                .ObjectFactory().createRegisterMedicalCertificate(external);
+            .ObjectFactory().createRegisterMedicalCertificate(external);
         return XmlMarshallerHelper.marshal(el);
     }
 }

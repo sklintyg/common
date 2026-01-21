@@ -52,7 +52,8 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.mapping.CareProviderMapperUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
@@ -66,15 +67,15 @@ public final class TransportToInternal {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransportToInternal.class);
 
-    private final CareProviderMapperUtil careProviderMapperUtil;
+    private final UnitMapperUtil unitMapperUtil;
     private static TransportToInternal instance = null;
 
-    public TransportToInternal(CareProviderMapperUtil careProviderMapperUtil) {
-        this.careProviderMapperUtil = careProviderMapperUtil;
+    public TransportToInternal(UnitMapperUtil unitMapperUtil) {
+        this.unitMapperUtil = unitMapperUtil;
     }
 
     @PostConstruct
-    public void initialize(){
+    public void initialize() {
         this.instance = this;
     }
 
@@ -302,38 +303,43 @@ public final class TransportToInternal {
      * @return Vardenhet
      */
     private static Vardenhet convertVardenhet(EnhetType source) {
+        final var mapped = getMappedUnit(
+            source.getVardgivare(),
+            source.getEnhetsId().getExtension(),
+            source.getEnhetsnamn()
+        );
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setArbetsplatsKod(source.getArbetsplatskod().getExtension());
         vardenhet.setEpost(source.getEpost());
-        vardenhet.setEnhetsid(source.getEnhetsId().getExtension());
-        vardenhet.setEnhetsnamn(source.getEnhetsnamn());
         vardenhet.setPostadress(source.getPostadress());
         vardenhet.setPostnummer(source.getPostnummer());
         vardenhet.setPostort(source.getPostort());
         vardenhet.setTelefonnummer(source.getTelefonnummer());
-        vardenhet.setVardgivare(convertVardgivare(source.getVardgivare()));
+
+        vardenhet.setEnhetsid(mapped.issuedUnitId());
+        vardenhet.setEnhetsnamn(mapped.issuedUnitName());
+
+        Vardgivare vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(mapped.careProviderId());
+        vardgivare.setVardgivarnamn(mapped.careProviderName());
+        vardenhet.setVardgivare(vardgivare);
+
         return vardenhet;
     }
 
-    /**
-     * Create Internal Vardgivare from transportformat.
-     *
-     * @param source VardgivareType
-     * @return Vardgivare
-     */
-    private static Vardgivare convertVardgivare(VardgivareType source) {
-        return instance().getMappedCareProvider(source);
+    private MappedUnit getMappedUnitConfiguration(VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName) {
+        return unitMapperUtil.getMappedUnit(
+            sourceCareProvider.getVardgivareId().getExtension(),
+            sourceCareProvider.getVardgivarnamn(),
+            issuingUnitId,
+            issuingUnitName
+        );
     }
 
-    private  Vardgivare getMappedCareProvider(VardgivareType sourceCareProvider) {
-       final var mapped = careProviderMapperUtil.getMappedCareprovider(
-            sourceCareProvider.getVardgivareId().getExtension(),
-            sourceCareProvider.getVardgivarnamn());
-
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(mapped.id());
-        vardgivare.setVardgivarnamn(mapped.name());
-        return vardgivare;
+    private static MappedUnit getMappedUnit(
+        VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
     }
 
     static TransportToInternal instance() {
