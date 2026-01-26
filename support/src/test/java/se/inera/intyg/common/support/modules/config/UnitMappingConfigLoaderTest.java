@@ -76,6 +76,7 @@ class UnitMappingConfigLoaderTest {
                 "Region Stockholm",
                 "Avbolagisering av akutsjukhus",
                 LocalDateTime.of(2025, 5, 9, 8, 0, 0),
+                LocalDateTime.of(2025, 5, 9, 8, 0, 0),
                 Map.of(
                     new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
                     new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
@@ -84,6 +85,7 @@ class UnitMappingConfigLoaderTest {
             new UnitMapping(
                 "Region Gävleborg",
                 "Bolagisering av primärvården",
+                LocalDateTime.of(2026, 6, 10, 9, 0, 0),
                 LocalDateTime.of(2026, 6, 10, 9, 0, 0),
                 Map.of(
                     new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
@@ -111,6 +113,7 @@ class UnitMappingConfigLoaderTest {
                 "Bolagisering av primärvården",
                 LocalDateTime.of(2026, 2, 2, 9, 0, 0),
                 null,
+                null,
                 Map.of(
                     new UnitMappingKey("SE2321000016-5G8F"), new IssuedUnitInfo(
                         "Region Gävleborg - Primärvård",
@@ -129,5 +132,4 @@ class UnitMappingConfigLoaderTest {
 
         assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
     }
-
 }

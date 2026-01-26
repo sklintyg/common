@@ -26,6 +26,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.Holder;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -281,7 +282,7 @@ public final class TransportConverterUtil {
     public static GrundData getGrundData(Intyg source, PatientInfo patientInfo) {
         GrundData grundData = new GrundData();
         grundData.setPatient(getPatient(source.getPatient(), patientInfo));
-        grundData.setSkapadAv(getSkapadAv(source.getSkapadAv()));
+        grundData.setSkapadAv(getSkapadAv(source.getSkapadAv(), source.getSigneringstidpunkt()));
         grundData.setSigneringsdatum(source.getSigneringstidpunkt());
         if (!isNullOrEmpty(source.getRelation())) {
             grundData.setRelation(getRelation(source));
@@ -387,12 +388,12 @@ public final class TransportConverterUtil {
      * @param source the creator in transport format
      * @return the converted creator
      */
-    public static HoSPersonal getSkapadAv(HosPersonal source) {
+    public static HoSPersonal getSkapadAv(HosPersonal source, LocalDateTime signeringsTidpunkt) {
         HoSPersonal personal = new HoSPersonal();
         personal.setPersonId(source.getPersonalId().getExtension());
         personal.setFullstandigtNamn(source.getFullstandigtNamn());
         personal.setForskrivarKod(source.getForskrivarkod());
-        personal.setVardenhet(getVardenhet(source.getEnhet()));
+        personal.setVardenhet(getVardenhet(source.getEnhet(), signeringsTidpunkt));
         personal.getBefattningsKoder().addAll(createPaTitles(source.getBefattning()));
         personal.getBefattningar().addAll(source.getBefattning().stream().map(CVType::getCode).toList());
 
@@ -422,11 +423,12 @@ public final class TransportConverterUtil {
      * @param source the transport representation
      * @return the converted Vardenhet
      */
-    public static Vardenhet getVardenhet(Enhet source) {
+    public static Vardenhet getVardenhet(Enhet source, LocalDateTime signeringsTidpunkt) {
         final var mapped = getMappedUnit(
             source.getVardgivare(),
             source.getEnhetsId().getExtension(),
-            source.getEnhetsnamn()
+            source.getEnhetsnamn(),
+            signeringsTidpunkt
         );
 
         Vardenhet vardenhet = new Vardenhet();
@@ -449,18 +451,20 @@ public final class TransportConverterUtil {
     }
 
     private MappedUnit getMappedUnitConfiguration(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider,
-        String issuingUnitId, String issuingUnitName) {
+        String issuingUnitId, String issuingUnitName, LocalDateTime signeringsTidpunkt) {
         return unitMapperUtil.getMappedUnit(
             sourceCareProvider.getVardgivareId().getExtension(),
             sourceCareProvider.getVardgivarnamn(),
             issuingUnitId,
-            issuingUnitName
+            issuingUnitName,
+            signeringsTidpunkt
         );
     }
 
     private static MappedUnit getMappedUnit(
-        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName) {
-        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
+        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName,
+        LocalDateTime signeringsTidpunkt) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName, signeringsTidpunkt);
     }
 
     /**

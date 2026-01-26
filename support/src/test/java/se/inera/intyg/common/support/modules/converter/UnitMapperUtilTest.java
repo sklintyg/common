@@ -57,6 +57,7 @@ class UnitMapperUtilTest {
             "Region Stockholm",
             "Avbolagisering av akutsjukhus",
             LocalDateTime.now(),
+            null,
             Map.of(
                 new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
                 new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
@@ -67,6 +68,7 @@ class UnitMapperUtilTest {
             "Region Gävleborg",
             "Bolagisering av primärvården",
             LocalDateTime.now().plusHours(1),
+            LocalDateTime.now().plusHours(2),
             Map.of(
                 new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
             ),
@@ -79,6 +81,7 @@ class UnitMapperUtilTest {
             "Region Gävleborg",
             "Bolagisering av primärvården",
             LocalDateTime.now().minusDays(1),
+            LocalDateTime.now().minusDays(5),
             null,
             Map.of(
                 new UnitMappingKey("SE2321000016-5G8F"),
@@ -213,6 +216,7 @@ class UnitMapperUtilTest {
 
             when(utlatande.getGrundData()).thenReturn(grundData);
             when(grundData.getSkapadAv()).thenReturn(skapadAv);
+            when(grundData.getSigneringsdatum()).thenReturn(LocalDateTime.now().minusDays(5));
             when(skapadAv.getVardenhet()).thenReturn(vardenhet);
             when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
 
@@ -278,7 +282,9 @@ class UnitMapperUtilTest {
                 originalCareProvider.getVardgivarid(),
                 originalCareProvider.getVardgivarnamn(),
                 null,
-                null);
+                null,
+                null
+            );
 
             assertAll(
                 () -> assertEquals(expectedId, mappedCareProvider.careProviderId()),
@@ -308,7 +314,8 @@ class UnitMapperUtilTest {
                 "SE2321000016-5G8F",
                 "Original Vardgivare",
                 "SE2321000016-5G8F",
-                "Original Enhet"
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
             );
 
             assertAll(
@@ -320,6 +327,26 @@ class UnitMapperUtilTest {
         }
 
         @Test
+        void shouldNotReturnIssuedUnitMappingIfCertificateIssuedDateHasNotPassed() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                LocalDateTime.now().minusDays(6)
+            );
+
+            assertAll(
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.careProviderId()),
+                () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
         void shouldReturnIssuedUnitMappingWhenPresentAndOtherCasingUsed() {
             when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
 
@@ -327,7 +354,8 @@ class UnitMapperUtilTest {
                 "SE2321000016-5G8F",
                 "Original Vardgivare",
                 "se2321000016-5g8f",
-                "Original Enhet"
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
             );
 
             assertAll(
@@ -346,7 +374,8 @@ class UnitMapperUtilTest {
                 "TSTNMT2321000156-ALFA",
                 "Original Vardgivare",
                 "Original-Unit-Id",
-                "Original Enhet"
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
             );
 
             assertAll(
@@ -365,7 +394,8 @@ class UnitMapperUtilTest {
                 "UNKNOWN-ID",
                 "Original Vardgivare",
                 "Original-Unit-Id",
-                "Original Enhet"
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
             );
 
             assertAll(

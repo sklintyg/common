@@ -422,7 +422,7 @@ class InternalConverterUtilTest {
         @Test
         void shouldReturnEmptyListWhenBothListsAreEmpty() {
             final var hoSPersonal = buildHoSPerson();
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertTrue(result.getBefattning().isEmpty());
         }
 
@@ -431,7 +431,7 @@ class InternalConverterUtilTest {
             final var hoSPersonal = buildHoSPerson();
             hoSPersonal.getBefattningsKoder().add(buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring"));
             hoSPersonal.getBefattningsKoder().add(buildPaTitle("222100", "Sjuksköterska legitimerad"));
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertEquals(2, result.getBefattning().size());
         }
 
@@ -440,7 +440,7 @@ class InternalConverterUtilTest {
             final var hoSPersonal = buildHoSPerson();
             hoSPersonal.getBefattningsKoder().add(buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring"));
             hoSPersonal.getBefattningar().add("222100");
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertEquals("203010", result.getBefattning().getFirst().getCode());
         }
 
@@ -448,7 +448,7 @@ class InternalConverterUtilTest {
         void shouldUseBefattningarWhenBefattningsKoderIsEmpty() {
             final var hoSPersonal = buildHoSPerson();
             hoSPersonal.getBefattningar().add("222100");
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertEquals("222100", result.getBefattning().getFirst().getCode());
         }
 
@@ -457,7 +457,7 @@ class InternalConverterUtilTest {
             final var hoSPersonal = buildHoSPerson();
             final var paTitle = buildPaTitle("203010", "Läkare legitimerad, specialiseringstjänstgöring");
             hoSPersonal.getBefattningsKoder().addAll(List.of(paTitle, paTitle));
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertEquals(1, result.getBefattning().size());
         }
 
@@ -465,7 +465,7 @@ class InternalConverterUtilTest {
         void shouldHandleDuplicateBefattningar() {
             final var hoSPersonal = buildHoSPerson();
             hoSPersonal.getBefattningar().addAll(List.of("203010", "203010"));
-            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal);
+            final var result = InternalConverterUtil.getSkapadAv(hoSPersonal, LocalDateTime.now().minusDays(1));
             assertEquals(1, result.getBefattning().size());
         }
 

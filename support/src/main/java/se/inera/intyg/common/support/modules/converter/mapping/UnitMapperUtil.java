@@ -52,11 +52,13 @@ public class UnitMapperUtil {
 
         final var vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         final var vardgivare = vardenhet.getVardgivare();
+        final var certificateIssuedDate = utlatande.getGrundData().getSigneringsdatum();
         final var mappedUnit = getMappedUnit(
             vardgivare.getVardgivarid(),
             vardgivare.getVardgivarnamn(),
             vardenhet.getEnhetsid(),
-            vardenhet.getEnhetsnamn()
+            vardenhet.getEnhetsnamn(),
+            certificateIssuedDate
         );
 
         vardgivare.setVardgivarid(mappedUnit.careProviderId());
@@ -79,9 +81,9 @@ public class UnitMapperUtil {
     public MappedUnit getMappedUnit(final String originalCareProviderId,
         final String originalCareProviderName,
         final String originalIssuedUnitId,
-        final String originalIssuedUnitName) {
+        final String originalIssuedUnitName, LocalDateTime certificateIssuedDate) {
 
-        final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId);
+        final var issuedUnitMapping = findIssuedUnitMapping(originalIssuedUnitId, certificateIssuedDate);
         if (issuedUnitMapping.isPresent()) {
             final var issuedUnitInfo = issuedUnitMapping.get();
             return MappedUnit.create(
@@ -111,12 +113,13 @@ public class UnitMapperUtil {
         );
     }
 
-    private Optional<IssuedUnitInfo> findIssuedUnitMapping(final String issuedUnitId) {
+    private Optional<IssuedUnitInfo> findIssuedUnitMapping(final String issuedUnitId, LocalDateTime certificateIssuedDate) {
         final var unitMappingKey = new UnitMappingKey(issuedUnitId);
         return unitMappingConfigLoader.getUnitMappings().stream()
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.issuedUnitMapping() != null
-                && mappingConfig.issuedUnitMapping().containsKey(unitMappingKey))
+                && mappingConfig.issuedUnitMapping().containsKey(unitMappingKey)
+                && (mappingConfig.issuedDateTime() == null || mappingConfig.issuedDateTime().isBefore(certificateIssuedDate)))
             .findFirst()
             .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(unitMappingKey));
     }

@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,17 +59,19 @@ class InternalConverterUtilUnitMappingTest {
         var careProvider = new Vardgivare();
         careProvider.setVardgivarid("TSTNMT2321000156-BETA");
         careProvider.setVardgivarnamn("Beta Regionen");
+        final var certificateIssuedDate = LocalDateTime.now().minusDays(1);
 
         internalConverterUtil.initialize();
         when(unitMapperUtil.getMappedUnit(
             careProvider.getVardgivarid(),
             careProvider.getVardgivarnamn(),
             "UNIT_ID",
-            "UNIT_NAME"))
+            "UNIT_NAME",
+            certificateIssuedDate))
             .thenReturn(
                 new MappedUnit("TSTNMT2321000156-BETA", "Beta Regionen", "UPDATED_UNIT_ID", "UPDATED_UNIT_NAME"));
 
-        var result = InternalConverterUtil.getSkapadAv(skapadAv);
+        var result = InternalConverterUtil.getSkapadAv(skapadAv, certificateIssuedDate);
         assertAll(() -> {
             assertEquals("TSTNMT2321000156-BETA",
                 result.getEnhet().getVardgivare().getVardgivareId().getExtension());

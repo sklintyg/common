@@ -20,6 +20,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -277,7 +278,7 @@ public final class TransportToInternal {
         GrundData metadata = new GrundData();
         metadata.setPatient(convertPatient(source.getPatient()));
         metadata.setSigneringsdatum(source.getSigneringsdatum());
-        metadata.setSkapadAv(convertSkapadAv(source.getSkapadAvHosPersonal()));
+        metadata.setSkapadAv(convertSkapadAv(source.getSkapadAvHosPersonal(), source.getSigneringsdatum()));
         return metadata;
     }
 
@@ -287,12 +288,12 @@ public final class TransportToInternal {
      * @param source HosPersonalType
      * @return HoSPersonal
      */
-    private static HoSPersonal convertSkapadAv(HosPersonalType source) {
+    private static HoSPersonal convertSkapadAv(HosPersonalType source, LocalDateTime signeringsDatum) {
         HoSPersonal skapadAv = new HoSPersonal();
         skapadAv.setForskrivarKod(source.getForskrivarkod());
         skapadAv.setFullstandigtNamn(source.getFullstandigtNamn());
         skapadAv.setPersonId(source.getPersonalId().getExtension());
-        skapadAv.setVardenhet(convertVardenhet(source.getEnhet()));
+        skapadAv.setVardenhet(convertVardenhet(source.getEnhet(), signeringsDatum));
         return skapadAv;
     }
 
@@ -302,11 +303,12 @@ public final class TransportToInternal {
      * @param source EnhetType
      * @return Vardenhet
      */
-    private static Vardenhet convertVardenhet(EnhetType source) {
+    private static Vardenhet convertVardenhet(EnhetType source, LocalDateTime signeringsDatum) {
         final var mapped = getMappedUnit(
             source.getVardgivare(),
             source.getEnhetsId().getExtension(),
-            source.getEnhetsnamn()
+            source.getEnhetsnamn(),
+            signeringsDatum
         );
 
         Vardenhet vardenhet = new Vardenhet();
@@ -328,18 +330,20 @@ public final class TransportToInternal {
         return vardenhet;
     }
 
-    private MappedUnit getMappedUnitConfiguration(VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName) {
+    private MappedUnit getMappedUnitConfiguration(VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName,
+        LocalDateTime signeringsDatum) {
         return unitMapperUtil.getMappedUnit(
             sourceCareProvider.getVardgivareId().getExtension(),
             sourceCareProvider.getVardgivarnamn(),
             issuingUnitId,
-            issuingUnitName
+            issuingUnitName,
+            signeringsDatum
         );
     }
 
     private static MappedUnit getMappedUnit(
-        VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName) {
-        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
+        VardgivareType sourceCareProvider, String issuingUnitId, String issuingUnitName, LocalDateTime signeringsDatum) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName, signeringsDatum);
     }
 
     static TransportToInternal instance() {
