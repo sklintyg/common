@@ -20,6 +20,7 @@ package se.inera.intyg.common.ag7804.v1.rest;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -131,6 +132,17 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         try {
             final var ag7804UtlatandeV1 = objectMapper.readValue(internalModel, Ag7804UtlatandeV1.class);
             unitMapperUtil.decorateWithMappedCareProvider(ag7804UtlatandeV1);
+            return ag7804UtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected Ag7804UtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var ag7804UtlatandeV1 = objectMapper.readValue(internalModel, Ag7804UtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(ag7804UtlatandeV1, created);
             return ag7804UtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);
@@ -271,8 +283,8 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -281,8 +293,8 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -304,8 +316,13 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag7804TestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 }

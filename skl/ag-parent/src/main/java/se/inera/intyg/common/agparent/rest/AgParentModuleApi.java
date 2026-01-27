@@ -216,12 +216,12 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException {
+    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, hosPerson, null);
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, patient);
     }
 
@@ -241,13 +241,18 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, patient);
     }
 
     @Override
     public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, type);
+    }
+
+    @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
     }
 
     @Override
@@ -329,6 +334,14 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
     protected String toInternalModelResponse(T internalModel) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(internalModel);
@@ -374,7 +387,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
+            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel, signingDate));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {
@@ -405,12 +418,13 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 

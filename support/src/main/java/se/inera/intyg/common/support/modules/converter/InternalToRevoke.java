@@ -34,7 +34,7 @@ public final class InternalToRevoke {
         request.setIntygsId(InternalConverterUtil.getIntygsId(source));
         request.setMeddelande(meddelande);
         request.setPatientPersonId(InternalConverterUtil.getPersonId(source.getGrundData().getPatient().getPersonId()));
-        request.setSkickatAv(InternalConverterUtil.getSkapadAv(skickatAv));
+        request.setSkickatAv(InternalConverterUtil.getSkapadAv(skickatAv, source.getGrundData().getSigneringsdatum()));
         request.setSkickatTidpunkt(LocalDateTime.now());
         return request;
     }

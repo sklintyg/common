@@ -25,6 +25,8 @@ public record UnitMapping(
     String region,
     String description,
     LocalDateTime datetime,
+    LocalDateTime issuedDateTimeFrom,
+    LocalDateTime issuedDateTimeTo,
     Map<UnitMappingKey, CareProviderInfo> careProviderMapping,
     Map<UnitMappingKey, IssuedUnitInfo> issuedUnitMapping
 ) {

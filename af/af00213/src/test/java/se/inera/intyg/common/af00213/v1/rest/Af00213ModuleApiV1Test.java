@@ -43,6 +43,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
@@ -131,7 +132,7 @@ public class Af00213ModuleApiV1Test {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -376,7 +377,7 @@ public class Af00213ModuleApiV1Test {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
             .readValue(internalModel, Af00213UtlatandeV1.class);
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(0)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
@@ -402,7 +403,7 @@ public class Af00213ModuleApiV1Test {
         updatedPatient.setPostort("updated post city");
 
         final var validMinimalJson = getResourceAsString(new ClassPathResource(TESTFILE_UTLATANDE));
-        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }

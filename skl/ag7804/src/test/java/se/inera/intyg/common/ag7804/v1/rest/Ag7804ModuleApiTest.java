@@ -41,6 +41,7 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -128,7 +129,7 @@ public class Ag7804ModuleApiTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -334,7 +335,7 @@ public class Ag7804ModuleApiTest {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
             .readValue(internalModel, Ag7804UtlatandeV1.class);
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }

@@ -135,6 +135,17 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
+    protected LuaenaUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var luaenaUtlatandeV1 = objectMapper.readValue(internalModel, LuaenaUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(luaenaUtlatandeV1, created);
+            return luaenaUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus)
         throws ModuleException {
@@ -217,8 +228,9 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = InternalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -227,8 +239,8 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -251,9 +263,14 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = InternalToCertificate.toCertificate(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuaenaTestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     @Override

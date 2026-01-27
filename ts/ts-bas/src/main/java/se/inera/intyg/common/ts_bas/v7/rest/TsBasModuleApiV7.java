@@ -24,6 +24,7 @@ import jakarta.xml.soap.SOAPEnvelope;
 import jakarta.xml.soap.SOAPMessage;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -202,8 +203,9 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -212,8 +214,8 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -235,9 +237,14 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsBasV7TestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
@@ -259,6 +266,17 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         try {
             final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
             unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
+            return tsBasUtlatandeV7;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected TsBasUtlatandeV7 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
+            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7, created);
             return tsBasUtlatandeV7;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

@@ -48,8 +48,12 @@ allprojects {
 
     group = 'se.inera.intyg.common'
     version = System.properties['buildVersion'] ?: '4.0.0-SNAPSHOT'
-    sourceCompatibility = 21
-    targetCompatibility = 21
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
 
     dependencyManagement {
         imports {

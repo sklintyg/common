@@ -145,8 +145,9 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider,
             typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
@@ -156,8 +157,8 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -184,9 +185,15 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider,
+            typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     @Override
@@ -194,6 +201,17 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
         try {
             final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
             unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1);
+            return dbUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected DbUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1, created);
             return dbUtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

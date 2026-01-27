@@ -32,6 +32,7 @@ import jakarta.xml.soap.SOAPEnvelope;
 import jakarta.xml.soap.SOAPMessage;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -282,9 +283,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         try {
-            Utlatande utlatande = this.getInternal(internalModel);
+            Utlatande utlatande = this.getInternal(internalModel, created);
 
             String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
             String firstName = utlatande.getGrundData().getPatient().getFornamn();
@@ -358,8 +359,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
-        final var internalCertificate = getInternal(certificateAsJson);
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -373,7 +374,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 
@@ -404,6 +406,17 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         try {
             final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
             unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
+            return tsDiabetesUtlatandeV2;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected TsDiabetesUtlatandeV2 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
+            unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2, created);
             return tsDiabetesUtlatandeV2;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

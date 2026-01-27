@@ -44,6 +44,7 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -138,7 +139,7 @@ class TsBasModuleApiTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -331,7 +332,7 @@ class TsBasModuleApiTest {
         when(objectMapper.readValue(validMinimalJson, TsBasUtlatandeV7.class)).thenReturn(
             ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
-        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
 
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
@@ -445,7 +446,7 @@ class TsBasModuleApiTest {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider, LocalDateTime.now());
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -470,7 +471,7 @@ class TsBasModuleApiTest {
         doReturn(internalCertificate)
             .when(certificateToInternal).convert(certificate, internalCertificate);
 
-        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson, LocalDateTime.now());
         assertEquals(expectedJson, actualJson);
     }
 

@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.modules.support.facade;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import se.inera.intyg.common.services.messages.CertificateMessagesProvider;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
@@ -27,9 +28,11 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 
 public interface ModuleFacadeApi {
 
-    Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException, IOException;
+    Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException, IOException;
 
-    String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException;
+    String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException;
 
     CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion);
 

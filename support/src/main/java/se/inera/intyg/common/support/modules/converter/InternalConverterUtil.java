@@ -35,6 +35,7 @@ import com.google.common.base.Strings;
 import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public final class InternalConverterUtil {
         intyg.setVersion(getTextVersion(source));
         intyg.setSigneringstidpunkt(source.getGrundData().getSigneringsdatum());
         intyg.setSkickatTidpunkt(source.getGrundData().getSigneringsdatum());
-        intyg.setSkapadAv(getSkapadAv(source.getGrundData().getSkapadAv()));
+        intyg.setSkapadAv(getSkapadAv(source.getGrundData().getSkapadAv(), source.getGrundData().getSigneringsdatum()));
         intyg.setPatient(getPatient(source.getGrundData().getPatient(), patientInfo));
         decorateWithRelation(intyg, source);
         return intyg;
@@ -145,12 +146,12 @@ public final class InternalConverterUtil {
      * @param hoSPersonal the interal version of the hosPersonal
      * @return the converted transport representation
      */
-    public static HosPersonal getSkapadAv(HoSPersonal hoSPersonal) {
+    public static HosPersonal getSkapadAv(HoSPersonal hoSPersonal, LocalDateTime signeringsDatum) {
         HosPersonal skapadAv = new HosPersonal();
         skapadAv.setPersonalId(getHsaId(hoSPersonal.getPersonId()));
         skapadAv.setFullstandigtNamn(hoSPersonal.getFullstandigtNamn());
         skapadAv.setForskrivarkod(hoSPersonal.getForskrivarKod());
-        skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet()));
+        skapadAv.setEnhet(getEnhet(hoSPersonal.getVardenhet(), signeringsDatum));
 
         skapadAv.getBefattning().addAll(getBefattningList(hoSPersonal));
 
@@ -444,11 +445,12 @@ public final class InternalConverterUtil {
 
     }
 
-    private static Enhet getEnhet(Vardenhet sourceVardenhet) {
+    private static Enhet getEnhet(Vardenhet sourceVardenhet, LocalDateTime signeringsDatum) {
         final var mapped = getMappedUnit(
             sourceVardenhet.getVardgivare(),
             sourceVardenhet.getEnhetsid(),
-            sourceVardenhet.getEnhetsnamn()
+            sourceVardenhet.getEnhetsnamn(),
+            signeringsDatum
         );
 
         Enhet vardenhet = new Enhet();
@@ -470,18 +472,20 @@ public final class InternalConverterUtil {
     }
 
     private MappedUnit getMappedUnitConfiguration(se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider,
-        String issuingUnitId, String issuingUnitName) {
+        String issuingUnitId, String issuingUnitName, LocalDateTime signeringsDatum) {
         return unitMapperUtil.getMappedUnit(
             sourceCareProvider.getVardgivarid(),
             sourceCareProvider.getVardgivarnamn(),
             issuingUnitId,
-            issuingUnitName
+            issuingUnitName,
+            signeringsDatum
         );
     }
 
     private static MappedUnit getMappedUnit(
-        se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName) {
-        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName);
+        se.inera.intyg.common.support.model.common.internal.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName,
+        LocalDateTime signeringsDatum) {
+        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName, signeringsDatum);
     }
 
     static InternalConverterUtil instance() {

@@ -108,7 +108,7 @@ class TransportConverterUtilTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -415,7 +415,8 @@ class TransportConverterUtilTest {
         specialistkompetensWithNullKlartext.setCode("kod2");
         specialistkompetensWithNullKlartext.setDisplayName(null); // will not be used
         source.getSpecialistkompetens().add(specialistkompetensWithNullKlartext);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertEquals(1, skapadAv.getSpecialiteter().size());
         assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().getFirst());
     }
@@ -434,7 +435,8 @@ class TransportConverterUtilTest {
         befattning.setCode(befattningKod);
         befattning.setDisplayName("klartext");
         source.getBefattning().add(befattning);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattningKod, skapadAv.getBefattningar().getFirst());
     }
@@ -453,7 +455,8 @@ class TransportConverterUtilTest {
         befattning.setCode(befattningKod);
         befattning.setDisplayName("klartext");
         source.getBefattning().add(befattning);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertEquals(befattningKod, skapadAv.getBefattningsKoder().getFirst().getKod());
     }
 
@@ -471,7 +474,8 @@ class TransportConverterUtilTest {
         befattning.setCode("kod");
         befattning.setDisplayName(befattningKlartext);
         source.getBefattning().add(befattning);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertEquals(befattningKlartext, skapadAv.getBefattningsKoder().getFirst().getKlartext());
     }
 
@@ -489,7 +493,8 @@ class TransportConverterUtilTest {
         befattning.setCode("kod");
         befattning.setDisplayName(befattningKlartext);
         source.getBefattning().addAll(List.of(befattning, befattning));
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertEquals(1, skapadAv.getBefattningsKoder().size());
     }
 
@@ -502,7 +507,8 @@ class TransportConverterUtilTest {
         source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
         source.getEnhet().setVardgivare(new Vardgivare());
         source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source);
+        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
         assertTrue(skapadAv.getBefattningsKoder().isEmpty(), "Should be empty when no Befattning in source");
     }
 

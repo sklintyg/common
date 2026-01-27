@@ -60,7 +60,7 @@ class TransportToInternalUnitMappingTest {
 
         transportToInternal.initialize();
         when(unitMapperUtil.getMappedUnit("VardgivarId",
-            "Landstinget Norrland", "VardenhetY", "Kir mott")).thenReturn(
+            "Landstinget Norrland", "VardenhetY", "Kir mott", utlatandeElement.getValue().getSigneringsdatum())).thenReturn(
             new MappedUnit("TSTNMT2321000156-BETA", "Beta Regionen", "Beta enhets id", "Beta enhets namn"));
 
         var result = TransportToInternal.convert(utlatandeElement.getValue());

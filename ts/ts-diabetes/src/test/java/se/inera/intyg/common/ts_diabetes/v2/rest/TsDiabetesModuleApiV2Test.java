@@ -45,6 +45,7 @@ import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
@@ -168,7 +169,7 @@ class TsDiabetesModuleApiV2Test {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -535,7 +536,7 @@ class TsDiabetesModuleApiV2Test {
         when(objectMapper.readValue(validMinimalJson, TsDiabetesUtlatandeV2.class)).thenReturn(
             ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
-        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
@@ -585,7 +586,7 @@ class TsDiabetesModuleApiV2Test {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider, LocalDateTime.now());
         assertEquals(expectedCertificate, actualCertificate);
     }
 

@@ -95,6 +95,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -159,6 +160,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Autowired(required = false)
+    private UnitMapperUtil unitMapperUtil;
 
     @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
     private String pdfMinaIntygMarginText;
@@ -344,13 +347,13 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException {
-        return updateInternal(internalModel, hosPerson, null);
+    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, hosPerson, created);
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -360,8 +363,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -449,6 +452,11 @@ public class Fk7263ModuleApi implements ModuleApi {
         // the arbetsformaga but needs to be serialized into the Utkast model.
         utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
         return utlatande;
+    }
+
+    @Override
+    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
     }
 
     @Override
@@ -559,10 +567,27 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
     }
 
+    private Fk7263Utlatande getInternal(String internalModel, LocalDateTime created)
+        throws ModuleException {
+
+        try {
+            Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
+
+            // Explicitly populate the giltighet interval since it is information derived from
+            // the arbetsformaga but needs to be serialized into the Utkast model.
+            utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+            unitMapperUtil.decorateWithMappedCareProvider(utlatande, created);
+            return utlatande;
+
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel, signingDate);
             WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
             return toInternalModelResponse(intyg);
         } catch (ModuleException e) {
@@ -570,10 +595,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
     }
 
-    private String updateInternal(String internalModel, Patient patient)
+    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
         throws ModuleException {
         try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel, created);
             WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
             return toInternalModelResponse(intyg);
         } catch (ModuleException | ConverterException e) {
@@ -713,8 +738,9 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateMessagesProvider = getMessagesProvider();
         final var certificate = InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -723,7 +749,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 

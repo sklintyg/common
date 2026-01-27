@@ -54,6 +54,7 @@ import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -175,7 +176,7 @@ public class LisjpModuleApiTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -459,7 +460,7 @@ public class LisjpModuleApiTest {
             .when(objectMapper)
             .writeValueAsString(any());
 
-        String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }

@@ -229,13 +229,13 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException {
-        return updateInternal(internalModel, hosPerson, null);
+    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, hosPerson, created);
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -245,9 +245,9 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         try {
-            Utlatande utlatande = this.getInternal(internalModel);
+            Utlatande utlatande = this.getInternal(internalModel, created);
 
             String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
             String firstName = utlatande.getGrundData().getPatient().getFornamn();
@@ -276,6 +276,12 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     @Override
     public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, type);
+    }
+
+
+    @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
     }
 
     @Override
@@ -384,6 +390,15 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
     }
 
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            e.printStackTrace(); // We need to see the cause
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
     protected String toInternalModelResponse(Utlatande internalModel) throws ModuleException {
         try {
             return objectMapper.writeValueAsString(internalModel);
@@ -410,7 +425,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            T utlatande = getInternal(internalModel);
+            T utlatande = getInternal(internalModel, signingDate);
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {
@@ -418,7 +433,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
     }
 
-    private String updateInternal(String internalModel, Patient patient)
+    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
         throws ModuleException {
         try {
             T utlatande = getInternal(internalModel);
@@ -476,12 +491,13 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException {
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 

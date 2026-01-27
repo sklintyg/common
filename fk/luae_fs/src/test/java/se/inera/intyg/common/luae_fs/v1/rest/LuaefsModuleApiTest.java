@@ -168,7 +168,7 @@ class LuaefsModuleApiTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -368,7 +368,7 @@ class LuaefsModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
         when(objectMapper.readValue(json, LuaefsUtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal());
+        final var internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal(), LocalDateTime.now());
         final var utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
         assertEquals(TEST_HSA_ID, utlatandeFromJson.getGrundData().getSkapadAv().getPersonId());
 
@@ -545,7 +545,7 @@ class LuaefsModuleApiTest {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider, LocalDateTime.now());
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -570,7 +570,7 @@ class LuaefsModuleApiTest {
         doReturn(internalCertificate)
             .when(certificateToInternal).convert(certificate, internalCertificate);
 
-        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson, LocalDateTime.now());
         assertEquals(expectedJson, actualJson);
     }
 

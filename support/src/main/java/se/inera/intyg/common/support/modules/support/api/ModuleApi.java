@@ -207,7 +207,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the hosPerson info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
+    String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for saving, with new patient information applied.
@@ -217,7 +217,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the Patient info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeSave(String internalModel, Patient patient) throws ModuleException;
+    String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.
@@ -238,7 +238,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the Patient info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException;
+    String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException;
 
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.
@@ -259,6 +259,17 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @throws ModuleException if the mapper could not read the Utlatande
      */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException;
+
+    /**
+     * Returns an instance of the implementation of Utlatande that this module handles.
+     * Uses the provided created timestamp for unit mapping instead of the signing date.
+     *
+     * @param utlatandeJson the model represented as JSON (internal)
+     * @param created the timestamp when the certificate was created, used for unit mapping
+     * @return the converted utlatande
+     * @throws ModuleException if the mapper could not read the Utlatande
+     */
+    Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException;
 
     /**
      * Returns an instance of the implementation of Utlatande that this module handles.

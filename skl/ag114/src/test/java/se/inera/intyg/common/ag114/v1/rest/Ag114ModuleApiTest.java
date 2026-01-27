@@ -167,7 +167,7 @@ class Ag114ModuleApiTest {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -360,7 +360,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var res = moduleApi.updateBeforeSave(json, createHosPersonal());
+        final var res = moduleApi.updateBeforeSave(json, createHosPersonal(), LocalDateTime.now());
         final var responseUtlatande = moduleApi.getUtlatandeFromJson(res);
         assertEquals(TEST_HSA_ID, responseUtlatande.getGrundData().getSkapadAv().getPersonId());
     }
@@ -373,7 +373,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(updatedPatient, utlatandeBeforeSave.getGrundData().getPatient());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var res = moduleApi.updateBeforeSave(json, updatedPatient);
+        final var res = moduleApi.updateBeforeSave(json, updatedPatient, LocalDateTime.now());
         final var utlatandeAfterSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(res);
         assertEquals(updatedPatient, utlatandeAfterSave.getGrundData().getPatient());
     }
@@ -402,7 +402,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(updatedPatient, utlatandeBeforeViewing.getGrundData().getPatient());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeViewing);
 
-        final var res = moduleApi.updateBeforeViewing(json, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(json, updatedPatient, LocalDateTime.now());
         final var utlatandeAfterViewing = moduleApi.getUtlatandeFromJson(res);
         assertEquals(updatedPatient, utlatandeAfterViewing.getGrundData().getPatient());
     }
@@ -548,7 +548,7 @@ class Ag114ModuleApiTest {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider);
+        final var actualCertificate = moduleApi.getCertificateFromJson(certificateAsJson, typeAheadProvider, LocalDateTime.now());
         assertEquals(expectedCertificate, actualCertificate);
     }
 
@@ -573,7 +573,7 @@ class Ag114ModuleApiTest {
         doReturn(internalCertificate)
             .when(certificateToInternal).convert(certificate, internalCertificate);
 
-        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson, LocalDateTime.now());
         assertEquals(expectedJson, actualJson);
     }
 

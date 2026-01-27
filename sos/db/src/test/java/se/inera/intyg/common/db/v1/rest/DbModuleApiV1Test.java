@@ -45,6 +45,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Properties;
 import org.junit.jupiter.api.BeforeAll;
@@ -141,7 +142,7 @@ class DbModuleApiV1Test {
     static void initUtils() {
         final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any()))
+        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
             .thenAnswer(inv -> new MappedUnit(
                 inv.getArgument(0, String.class),
                 inv.getArgument(1, String.class),
@@ -263,7 +264,7 @@ class DbModuleApiV1Test {
             .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
     }
 
@@ -290,7 +291,7 @@ class DbModuleApiV1Test {
             ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
 
-        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
@@ -569,7 +570,7 @@ class DbModuleApiV1Test {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        moduleApi.getCertificateFromJson("internal model", typeAheadProvider);
+        moduleApi.getCertificateFromJson("internal model", typeAheadProvider, LocalDateTime.now());
         verify(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
     }
 
