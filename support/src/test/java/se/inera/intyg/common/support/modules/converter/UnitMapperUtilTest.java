@@ -95,6 +95,25 @@ class UnitMapperUtilTest {
         )
     );
 
+    private static final List<UnitMapping> ISSUED_UNIT_MAPPINGS_WITHOUT_ISSUED_DATE_CONFIG = List.of(
+        new UnitMapping(
+            "Region Gävleborg",
+            "Bolagisering av primärvården",
+            LocalDateTime.now().minusDays(1),
+            null,
+            null,
+            Map.of(
+                new UnitMappingKey("SE2321000016-5G8F"),
+                new IssuedUnitInfo(
+                    "Region Gävleborg - Primärvård",
+                    "TSTNMT2321000156-ALFA",
+                    "SE2321000016-1G8F",
+                    "Region Gävleborg - Enhet 1"
+                )
+            )
+        )
+    );
+
     @Mock
     private UnitMappingConfigLoader unitMappingConfigLoader;
 
@@ -343,6 +362,26 @@ class UnitMapperUtilTest {
                 () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
                 () -> assertEquals("SE2321000016-5G8F", mappedUnit.issuedUnitId()),
                 () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldReturnIssuedUnitMappingIfCertificateIssuedDateIsNull() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS_WITHOUT_ISSUED_DATE_CONFIG);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "se2321000016-5g8f",
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
+            );
+
+            assertAll(
+                () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+                () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
             );
         }
 
