@@ -76,12 +76,13 @@ class UnitMapperUtilTest {
         )
     );
 
+    private static final LocalDateTime ISSUED_DATE_TIME = LocalDateTime.now().minusDays(5);
     private static final List<UnitMapping> ISSUED_UNIT_MAPPINGS = List.of(
         new UnitMapping(
             "Region Gävleborg",
             "Bolagisering av primärvården",
             LocalDateTime.now().minusDays(1),
-            LocalDateTime.now().minusDays(5),
+            ISSUED_DATE_TIME,
             null,
             Map.of(
                 new UnitMappingKey("SE2321000016-5G8F"),
@@ -335,6 +336,26 @@ class UnitMapperUtilTest {
                 "SE2321000016-5G8F",
                 "Original Enhet",
                 LocalDateTime.now().minusDays(1)
+            );
+
+            assertAll(
+                () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+                () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldReturnIssuedUnitMappingWhenPresentIfIssuingDateMatchesCreatedDate() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                ISSUED_DATE_TIME
             );
 
             assertAll(

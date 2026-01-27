@@ -124,7 +124,9 @@ public class UnitMapperUtil {
             .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
                 && mappingConfig.issuedUnitMapping() != null
                 && mappingConfig.issuedUnitMapping().containsKey(unitMappingKey)
-                && (mappingConfig.issuedDateTime() == null || mappingConfig.issuedDateTime().isBefore(certificateIssuedDate)))
+                && (mappingConfig.issuedDateTime() == null ||
+                (mappingConfig.issuedDateTime().isBefore(certificateIssuedDate) || mappingConfig.issuedDateTime()
+                    .equals(certificateIssuedDate))))
             .findFirst()
             .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(unitMappingKey));
     }
