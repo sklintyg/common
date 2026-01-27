@@ -425,7 +425,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            T utlatande = getInternal(internalModel);
+            T utlatande = getInternal(internalModel, signingDate);
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {

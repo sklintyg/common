@@ -433,7 +433,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
+            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel, signingDate));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {

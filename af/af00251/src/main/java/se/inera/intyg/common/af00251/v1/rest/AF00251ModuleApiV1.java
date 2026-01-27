@@ -144,7 +144,7 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
     @Override
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException {
-        final AF00251UtlatandeV1 utlatandeV1 = getInternal(internalModel);
+        final AF00251UtlatandeV1 utlatandeV1 = getInternal(internalModel, signingDate);
 
         final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(utlatandeV1);
 

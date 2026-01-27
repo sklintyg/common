@@ -587,7 +587,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
         throws ModuleException {
         try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel, signingDate);
             WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
             return toInternalModelResponse(intyg);
         } catch (ModuleException e) {
