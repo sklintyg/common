@@ -425,7 +425,7 @@ public class TsDiabetesModuleApiV3Test {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
             .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertNotNull(response);
         assertEquals(internalModel, response);
         verify(moduleService, times(0)).getDescriptionFromDiagnosKod(anyString(), anyString());

@@ -360,7 +360,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var res = moduleApi.updateBeforeSave(json, createHosPersonal());
+        final var res = moduleApi.updateBeforeSave(json, createHosPersonal(), LocalDateTime.now());
         final var responseUtlatande = moduleApi.getUtlatandeFromJson(res);
         assertEquals(TEST_HSA_ID, responseUtlatande.getGrundData().getSkapadAv().getPersonId());
     }
@@ -373,7 +373,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(updatedPatient, utlatandeBeforeSave.getGrundData().getPatient());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var res = moduleApi.updateBeforeSave(json, updatedPatient);
+        final var res = moduleApi.updateBeforeSave(json, updatedPatient, LocalDateTime.now());
         final var utlatandeAfterSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(res);
         assertEquals(updatedPatient, utlatandeAfterSave.getGrundData().getPatient());
     }

@@ -216,12 +216,12 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException {
+    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, hosPerson, null);
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, patient);
     }
 

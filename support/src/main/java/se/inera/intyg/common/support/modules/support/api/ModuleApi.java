@@ -207,7 +207,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the hosPerson info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
+    String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for saving, with new patient information applied.
@@ -217,7 +217,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the Patient info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeSave(String internalModel, Patient patient) throws ModuleException;
+    String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException;
 
     /**
      * Returns an updated version of the internal model for signing, with new HoS person information.

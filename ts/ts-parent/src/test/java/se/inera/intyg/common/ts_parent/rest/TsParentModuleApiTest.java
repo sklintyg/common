@@ -227,7 +227,7 @@ class TsParentModuleApiTest {
 
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setFullstandigtNamn(otherHosPersonalName);
-        String res = moduleApi.updateBeforeSave(json, hosPersonal);
+        String res = moduleApi.updateBeforeSave(json, hosPersonal, LocalDateTime.now());
         assertNotNull(res);
         assertEquals(otherHosPersonalName, moduleApi.getInternal(res).getGrundData().getSkapadAv().getFullstandigtNamn());
         assertNull(moduleApi.getInternal(res).getGrundData().getSigneringsdatum());
@@ -235,14 +235,14 @@ class TsParentModuleApiTest {
 
     @Test
     public void testUpdateBeforeSaveInvalidJson() throws Exception {
-        assertThrows(ModuleException.class, () -> moduleApi.updateBeforeSave("invalidJson", new HoSPersonal()));
+        assertThrows(ModuleException.class, () -> moduleApi.updateBeforeSave("invalidJson", new HoSPersonal(), LocalDateTime.now()));
     }
 
     @Test
     public void testUpdatePatientBeforeSave() throws Exception {
         Patient updatedPatient = createUpdatedPatient();
 
-        String res = moduleApi.updateBeforeSave(json, updatedPatient);
+        String res = moduleApi.updateBeforeSave(json, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         assertEquals(updatedPatient, moduleApi.getInternal(res).getGrundData().getPatient());
     }

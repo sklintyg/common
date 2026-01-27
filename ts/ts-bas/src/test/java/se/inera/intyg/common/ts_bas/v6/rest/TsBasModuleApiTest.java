@@ -480,7 +480,7 @@ class TsBasModuleApiTest {
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(originalUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
 
-        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
+        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal(), LocalDateTime.now());
         final var updatedUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(updatedJson);
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(updatedUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
@@ -493,7 +493,7 @@ class TsBasModuleApiTest {
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(originalUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
 
-        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
+        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal(), LocalDateTime.now());
         final var updatedUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(updatedJson);
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(updatedUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
@@ -507,7 +507,7 @@ class TsBasModuleApiTest {
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(originalUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
 
-        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
+        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal(), LocalDateTime.now());
         final var updatedUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(updatedJson);
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(updatedUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
@@ -520,7 +520,7 @@ class TsBasModuleApiTest {
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(originalUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));
 
-        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal());
+        final var updatedJson = moduleApi.updateBeforeSave(originalJson, createHosPersonal(), LocalDateTime.now());
         final var updatedUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(updatedJson);
         assertEquals(1, Objects.requireNonNull(Objects.requireNonNull(updatedUtlatande.getBedomning()).getKorkortstyp()).size());
         assertTrue(updatedUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.C));

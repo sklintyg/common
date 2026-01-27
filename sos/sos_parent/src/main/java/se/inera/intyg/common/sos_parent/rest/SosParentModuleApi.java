@@ -229,13 +229,13 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException {
-        return updateInternal(internalModel, hosPerson, null);
+    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, hosPerson, created);
     }
 
     @Override
-    public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -433,7 +433,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         }
     }
 
-    private String updateInternal(String internalModel, Patient patient)
+    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
         throws ModuleException {
         try {
             T utlatande = getInternal(internalModel);

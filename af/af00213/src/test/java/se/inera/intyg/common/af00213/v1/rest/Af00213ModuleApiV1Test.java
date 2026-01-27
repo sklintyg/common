@@ -377,7 +377,7 @@ public class Af00213ModuleApiV1Test {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
             .readValue(internalModel, Af00213UtlatandeV1.class);
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(0)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }

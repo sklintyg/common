@@ -271,7 +271,7 @@ class DoiModuleApiV1Test {
         when(objectMapper.readValue(anyString(), eq(DoiUtlatandeV1.class)))
             .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
 
-        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        final var response = moduleApi.updateBeforeSave(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
     }
 

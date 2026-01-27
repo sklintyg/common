@@ -368,7 +368,7 @@ class LuaefsModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
         when(objectMapper.readValue(json, LuaefsUtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final var internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal());
+        final var internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal(), LocalDateTime.now());
         final var utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
         assertEquals(TEST_HSA_ID, utlatandeFromJson.getGrundData().getSkapadAv().getPersonId());
 
