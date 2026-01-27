@@ -58,6 +58,7 @@ class UnitMapperUtilTest {
             "Avbolagisering av akutsjukhus",
             LocalDateTime.now(),
             null,
+            null,
             Map.of(
                 new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
                 new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
@@ -69,6 +70,7 @@ class UnitMapperUtilTest {
             "Bolagisering av primärvården",
             LocalDateTime.now().plusHours(1),
             LocalDateTime.now().plusHours(2),
+            null,
             Map.of(
                 new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
             ),
@@ -83,6 +85,7 @@ class UnitMapperUtilTest {
             "Bolagisering av primärvården",
             LocalDateTime.now().minusDays(1),
             ISSUED_DATE_TIME,
+            null,
             null,
             Map.of(
                 new UnitMappingKey("SE2321000016-5G8F"),
@@ -103,6 +106,7 @@ class UnitMapperUtilTest {
             LocalDateTime.now().minusDays(1),
             null,
             null,
+            null,
             Map.of(
                 new UnitMappingKey("SE2321000016-5G8F"),
                 new IssuedUnitInfo(
@@ -114,6 +118,27 @@ class UnitMapperUtilTest {
             )
         )
     );
+
+    private static final List<UnitMapping> ISSUED_UNIT_MAPPINGS_WITH_FROM_AND_TO_ISSUED_DATE_CONFIG = List.of(
+        new UnitMapping(
+            "Region Gävleborg",
+            "Bolagisering av primärvården",
+            LocalDateTime.now().minusDays(5),
+            LocalDateTime.now().minusDays(2),
+            LocalDateTime.now().plusDays(2),
+            null,
+            Map.of(
+                new UnitMappingKey("SE2321000016-5G8F"),
+                new IssuedUnitInfo(
+                    "Region Gävleborg - Primärvård",
+                    "TSTNMT2321000156-ALFA",
+                    "SE2321000016-1G8F",
+                    "Region Gävleborg - Enhet 1"
+                )
+            )
+        )
+    );
+
 
     @Mock
     private UnitMappingConfigLoader unitMappingConfigLoader;
@@ -463,6 +488,110 @@ class UnitMapperUtilTest {
                 () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
                 () -> assertEquals("Original-Unit-Id", mappedUnit.issuedUnitId()),
                 () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
+            );
+        }
+    }
+
+    @Nested
+    class WhenIssuedDateFromAndToIsPresentInConfiguration {
+
+
+        @Test
+        void shouldMapUnitIfCertificateIsCreatedWithinFromAndToDate() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS_WITH_FROM_AND_TO_ISSUED_DATE_CONFIG);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                LocalDateTime.now().minusDays(1)
+            );
+
+            assertAll(
+                () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+                () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldNotMapUnitIfCertificateIsNotCreatedBeforeFromDate() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS_WITH_FROM_AND_TO_ISSUED_DATE_CONFIG);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                LocalDateTime.now().minusDays(3)
+            );
+
+            assertAll(
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.careProviderId()),
+                () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldNotMapUnitIfCertificateIsNotCreatedAfterToDate() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(ISSUED_UNIT_MAPPINGS_WITH_FROM_AND_TO_ISSUED_DATE_CONFIG);
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                LocalDateTime.now().plusDays(3)
+            );
+
+            assertAll(
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.careProviderId()),
+                () -> assertEquals("Original Vardgivare", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-5G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Original Enhet", mappedUnit.issuedUnitName())
+            );
+        }
+
+        @Test
+        void shouldMapUnitIfCertificateIsCreatedAfterFromDateWithoutToDate() {
+            when(unitMappingConfigLoader.getUnitMappings()).thenReturn(
+                List.of(
+                    new UnitMapping(
+                        "Region Gävleborg",
+                        "Bolagisering av primärvården",
+                        LocalDateTime.now().minusDays(5),
+                        LocalDateTime.now().minusDays(2),
+                        null,
+                        null,
+                        Map.of(
+                            new UnitMappingKey("SE2321000016-5G8F"),
+                            new IssuedUnitInfo(
+                                "Region Gävleborg - Primärvård",
+                                "TSTNMT2321000156-ALFA",
+                                "SE2321000016-1G8F",
+                                "Region Gävleborg - Enhet 1"
+                            )
+                        )
+                    )
+                ));
+
+            final var mappedUnit = unitMapperUtil.getMappedUnit(
+                "SE2321000016-5G8F",
+                "Original Vardgivare",
+                "SE2321000016-5G8F",
+                "Original Enhet",
+                LocalDateTime.now().plusDays(3)
+            );
+
+            assertAll(
+                () -> assertEquals("TSTNMT2321000156-ALFA", mappedUnit.careProviderId()),
+                () -> assertEquals("Region Gävleborg - Primärvård", mappedUnit.careProviderName()),
+                () -> assertEquals("SE2321000016-1G8F", mappedUnit.issuedUnitId()),
+                () -> assertEquals("Region Gävleborg - Enhet 1", mappedUnit.issuedUnitName())
             );
         }
     }

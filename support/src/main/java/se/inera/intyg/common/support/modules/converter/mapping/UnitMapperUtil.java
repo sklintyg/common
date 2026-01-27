@@ -121,12 +121,14 @@ public class UnitMapperUtil {
     private Optional<IssuedUnitInfo> findIssuedUnitMapping(final String issuedUnitId, LocalDateTime certificateIssuedDate) {
         final var unitMappingKey = new UnitMappingKey(issuedUnitId);
         return unitMappingConfigLoader.getUnitMappings().stream()
-            .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime())
-                && mappingConfig.issuedUnitMapping() != null
-                && mappingConfig.issuedUnitMapping().containsKey(unitMappingKey)
-                && (mappingConfig.issuedDateTime() == null ||
-                (mappingConfig.issuedDateTime().isBefore(certificateIssuedDate) || mappingConfig.issuedDateTime()
-                    .equals(certificateIssuedDate))))
+            .filter(mappingConfig -> LocalDateTime.now().isAfter(mappingConfig.datetime()))
+            .filter(unitMapping -> unitMapping.issuedUnitMapping() != null
+                && unitMapping.issuedUnitMapping().containsKey(unitMappingKey))
+            .filter(unitMapping ->
+                (unitMapping.issuedDateTimeFrom() == null || certificateIssuedDate == null) ||
+                    (unitMapping.issuedDateTimeFrom().isBefore(certificateIssuedDate) || unitMapping.issuedDateTimeFrom()
+                        .equals(certificateIssuedDate))
+                        && (unitMapping.issuedDateTimeTo() == null || unitMapping.issuedDateTimeTo().isAfter(certificateIssuedDate)))
             .findFirst()
             .map(mappingConfig -> mappingConfig.issuedUnitMapping().get(unitMappingKey));
     }
