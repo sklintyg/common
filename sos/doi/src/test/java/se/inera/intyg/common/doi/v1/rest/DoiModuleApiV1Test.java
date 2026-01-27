@@ -555,7 +555,7 @@ class DoiModuleApiV1Test {
         when(certificateToInternal.convert(certificate, internalCertificate))
             .thenReturn(internalCertificate);
 
-        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson);
+        final var actualJson = moduleApi.getJsonFromCertificate(certificate, certificateAsJson, LocalDateTime.now());
         assertEquals(expectedJson, actualJson);
     }
 

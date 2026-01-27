@@ -157,8 +157,8 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -192,7 +192,8 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
         certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     @Override

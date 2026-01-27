@@ -256,8 +256,8 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -285,7 +285,8 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
         certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsDiabetesV4TestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     @Override

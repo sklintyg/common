@@ -239,8 +239,8 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
         return toInternalModelResponse(updateInternalCertificate);
     }
@@ -269,7 +269,8 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
         certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuaenaTestabilityCertificateTestdataProvider());
-        return getJsonFromCertificate(certificate, model);
+        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+        return toInternalModelResponse(updateInternalCertificate);
     }
 
     @Override

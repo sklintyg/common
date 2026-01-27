@@ -31,7 +31,8 @@ public interface ModuleFacadeApi {
     Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
         throws ModuleException, IOException;
 
-    String getJsonFromCertificate(Certificate certificate, String certificateAsJson) throws ModuleException, IOException;
+    String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
+        throws ModuleException, IOException;
 
     CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion);
 
