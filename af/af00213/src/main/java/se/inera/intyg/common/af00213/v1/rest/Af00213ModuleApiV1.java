@@ -19,6 +19,7 @@
 package se.inera.intyg.common.af00213.v1.rest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -171,8 +172,9 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
     }
 
     @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+        throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -204,7 +206,11 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Af00213TestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }

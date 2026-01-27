@@ -220,8 +220,8 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson);
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
@@ -253,7 +253,11 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
 
     @Override
     public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var certificate = getCertificateFromJson(model, typeAheadProvider);
+        final var internalCertificate = getInternal(model);
+        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
+        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+        certificate.getMetadata().setSummary(certificateSummary);
         TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Ag114V1TestabilityCertificateTestdataProvider());
         return getJsonFromCertificate(certificate, model);
     }

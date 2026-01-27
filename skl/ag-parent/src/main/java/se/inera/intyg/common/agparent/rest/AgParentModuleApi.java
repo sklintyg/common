@@ -418,7 +418,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 

@@ -445,7 +445,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
         throw new UnsupportedOperationException();
     }
 

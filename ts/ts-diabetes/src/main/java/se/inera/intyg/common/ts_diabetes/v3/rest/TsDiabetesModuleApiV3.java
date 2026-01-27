@@ -245,8 +245,8 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider) throws ModuleException, IOException {
-        final var internalCertificate = getInternal(certificateAsJson);
+        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
+        final var internalCertificate = getInternal(certificateAsJson, created);
         final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
         final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
         final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));

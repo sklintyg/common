@@ -45,6 +45,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Properties;
 import org.junit.jupiter.api.BeforeAll;
@@ -569,7 +570,7 @@ class DbModuleApiV1Test {
         doReturn(CertificateSummary.builder().build())
             .when(summaryConverter).convert(eq(moduleApi), any(Intyg.class));
 
-        moduleApi.getCertificateFromJson("internal model", typeAheadProvider);
+        moduleApi.getCertificateFromJson("internal model", typeAheadProvider, LocalDateTime.now());
         verify(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
     }
 
