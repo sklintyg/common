@@ -149,6 +149,17 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     }
 
     @Override
+    protected LisjpUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var lisjpUtlatandeV1 = objectMapper.readValue(internalModel, LisjpUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(lisjpUtlatandeV1, created);
+            return lisjpUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         throw new RuntimeException("Not implemented");

@@ -32,6 +32,7 @@ import jakarta.xml.soap.SOAPEnvelope;
 import jakarta.xml.soap.SOAPMessage;
 import java.io.IOException;
 import java.io.StringReader;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -404,6 +405,17 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         try {
             final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
             unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
+            return tsDiabetesUtlatandeV2;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected TsDiabetesUtlatandeV2 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
+            unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2, created);
             return tsDiabetesUtlatandeV2;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

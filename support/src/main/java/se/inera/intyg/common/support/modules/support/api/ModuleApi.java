@@ -262,6 +262,17 @@ public interface ModuleApi extends ModuleFacadeApi {
 
     /**
      * Returns an instance of the implementation of Utlatande that this module handles.
+     * Uses the provided created timestamp for unit mapping instead of the signing date.
+     *
+     * @param utlatandeJson the model represented as JSON (internal)
+     * @param created the timestamp when the certificate was created, used for unit mapping
+     * @return the converted utlatande
+     * @throws ModuleException if the mapper could not read the Utlatande
+     */
+    Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException;
+
+    /**
+     * Returns an instance of the implementation of Utlatande that this module handles.
      *
      * @param xml the model represented as XML (transport)
      * @return the model represented as JSON (internal)

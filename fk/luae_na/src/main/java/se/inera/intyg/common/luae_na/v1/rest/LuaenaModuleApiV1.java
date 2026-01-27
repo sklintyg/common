@@ -135,6 +135,17 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
     }
 
     @Override
+    protected LuaenaUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var luaenaUtlatandeV1 = objectMapper.readValue(internalModel, LuaenaUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(luaenaUtlatandeV1, created);
+            return luaenaUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus)
         throws ModuleException {

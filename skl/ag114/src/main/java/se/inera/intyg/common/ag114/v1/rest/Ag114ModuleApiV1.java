@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ag114.v1.rest;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -123,6 +124,17 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
         try {
             final var ag114UtlatandeV1 = objectMapper.readValue(internalModel, Ag114UtlatandeV1.class);
             unitMapperUtil.decorateWithMappedCareProvider(ag114UtlatandeV1);
+            return ag114UtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected Ag114UtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var ag114UtlatandeV1 = objectMapper.readValue(internalModel, Ag114UtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(ag114UtlatandeV1, created);
             return ag114UtlatandeV1;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);

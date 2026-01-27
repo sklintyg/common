@@ -243,6 +243,11 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
+    }
+
+    @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
         return true;
     }
@@ -335,6 +340,14 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
 
     protected T getInternal(String internalModel) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {

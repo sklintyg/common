@@ -278,6 +278,12 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         return objectMapper.readValue(utlatandeJson, type);
     }
 
+
+    @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
+    }
+
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
@@ -376,6 +382,15 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     protected abstract String getSchematronFileName();
 
     protected T getInternal(String internalModel) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            e.printStackTrace(); // We need to see the cause
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {

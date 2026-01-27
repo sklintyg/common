@@ -233,4 +233,15 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
             throw new ModuleException("Could not read internal model", e);
         }
     }
+
+    @Override
+    protected DoiUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1, created);
+            return doiUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
 }

@@ -41,6 +41,10 @@ public class UnitMapperUtil {
     private final UnitMappingConfigLoader unitMappingConfigLoader;
 
     public void decorateWithMappedCareProvider(Utlatande utlatande) {
+        decorateWithMappedCareProvider(utlatande, null);
+    }
+
+    public void decorateWithMappedCareProvider(Utlatande utlatande, LocalDateTime created) {
         if (utlatande == null
             || utlatande.getGrundData() == null
             || utlatande.getGrundData().getSkapadAv() == null
@@ -52,7 +56,8 @@ public class UnitMapperUtil {
 
         final var vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         final var vardgivare = vardenhet.getVardgivare();
-        final var certificateIssuedDate = utlatande.getGrundData().getSigneringsdatum();
+        final var certificateIssuedDate =
+            utlatande.getGrundData().getSigneringsdatum() != null ? utlatande.getGrundData().getSigneringsdatum() : created;
         final var mappedUnit = getMappedUnit(
             vardgivare.getVardgivarid(),
             vardgivare.getVardgivarnamn(),

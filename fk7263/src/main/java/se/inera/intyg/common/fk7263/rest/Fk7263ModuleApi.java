@@ -95,6 +95,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.converter.SummaryConverter;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -159,6 +160,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
     @Autowired(required = false)
     private SummaryConverter summaryConverter;
+    @Autowired(required = false)
+    private UnitMapperUtil unitMapperUtil;
 
     @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
     private String pdfMinaIntygMarginText;
@@ -452,6 +455,11 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
+    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
+    }
+
+    @Override
     public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
         try {
@@ -552,6 +560,23 @@ public class Fk7263ModuleApi implements ModuleApi {
             // Explicitly populate the giltighet interval since it is information derived from
             // the arbetsformaga but needs to be serialized into the Utkast model.
             utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+            return utlatande;
+
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    private Fk7263Utlatande getInternal(String internalModel, LocalDateTime created)
+        throws ModuleException {
+
+        try {
+            Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
+
+            // Explicitly populate the giltighet interval since it is information derived from
+            // the arbetsformaga but needs to be serialized into the Utkast model.
+            utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+            unitMapperUtil.decorateWithMappedCareProvider(utlatande, created);
             return utlatande;
 
         } catch (IOException e) {

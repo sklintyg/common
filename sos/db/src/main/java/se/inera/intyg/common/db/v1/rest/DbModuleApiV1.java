@@ -199,4 +199,15 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
             throw new ModuleException("Could not read internal model", e);
         }
     }
+
+    @Override
+    protected DbUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1, created);
+            return dbUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
 }

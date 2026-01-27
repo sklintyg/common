@@ -142,6 +142,17 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     }
 
     @Override
+    protected LuseUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
+            unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1, created);
+            return luseUtlatandeV1;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
         List<String> optionalFields, UtkastStatus utkastStatus)
         throws ModuleException {

@@ -111,7 +111,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Autowired
     protected ObjectMapper objectMapper;
-    
+
     @Autowired
     protected WebcertModelFactory<T> webcertModelFactory;
 
@@ -290,6 +290,11 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException {
+        return getInternal(utlatandeJson, created);
+    }
+
+    @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         JAXBElement<RegisterCertificateType> element = XmlMarshallerHelper.unmarshal(xml);
         RegisterCertificateType jaxbObject = element.getValue();
@@ -368,6 +373,14 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract T decorateWithSignature(T utlatande, String base64EncodedSignatureXml);
 
     protected T getInternal(String internalModel) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {

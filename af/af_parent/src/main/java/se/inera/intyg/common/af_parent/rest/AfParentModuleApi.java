@@ -246,6 +246,11 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
+    }
+
+    @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             final JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
@@ -331,6 +336,15 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     protected abstract String getSchematronFileName();
 
     protected T getInternal(String internalModel) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            e.printStackTrace(); // We need to see the cause
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {

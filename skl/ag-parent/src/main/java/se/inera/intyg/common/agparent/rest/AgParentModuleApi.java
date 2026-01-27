@@ -251,6 +251,11 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
+        return getInternal(utlatandeJson, created);
+    }
+
+    @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             Preconditions.checkArgument(xml != null && !"".equals(xml), "XML was null or empty.");
@@ -322,6 +327,14 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract T decorateWithSignature(T utlatande, String base64EncodedSignatureXml);
 
     protected T getInternal(String internalModel) throws ModuleException {
+        try {
+            return objectMapper.readValue(internalModel, type);
+        } catch (IOException e) {
+            throw new ModuleSystemException("Failed to deserialize internal model", e);
+        }
+    }
+
+    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
         } catch (IOException e) {

@@ -24,6 +24,7 @@ import jakarta.xml.soap.SOAPEnvelope;
 import jakarta.xml.soap.SOAPMessage;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -259,6 +260,17 @@ public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
         try {
             final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
             unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
+            return tsBasUtlatandeV7;
+        } catch (IOException e) {
+            throw new ModuleException("Could not read internal model", e);
+        }
+    }
+
+    @Override
+    protected TsBasUtlatandeV7 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+        try {
+            final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
+            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7, created);
             return tsBasUtlatandeV7;
         } catch (IOException e) {
             throw new ModuleException("Could not read internal model", e);
