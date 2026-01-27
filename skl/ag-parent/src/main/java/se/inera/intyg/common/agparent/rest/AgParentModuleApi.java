@@ -241,7 +241,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         return updateInternal(internalModel, patient);
     }
 

@@ -536,7 +536,7 @@ class TsDiabetesModuleApiV2Test {
         when(objectMapper.readValue(validMinimalJson, TsDiabetesUtlatandeV2.class)).thenReturn(
             ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(validMinimalJson);
-        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }

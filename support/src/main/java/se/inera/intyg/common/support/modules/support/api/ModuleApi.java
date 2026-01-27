@@ -238,7 +238,7 @@ public interface ModuleApi extends ModuleFacadeApi {
      * @return the new internal model updated with the Patient info
      * @throws ModuleException if the mapping of the internal model to String failed
      */
-    String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException;
+    String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException;
 
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.

@@ -261,7 +261,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+        return updateInternal(internalModel, patient, null);
     }
 
     @Override
@@ -280,8 +280,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -441,10 +441,10 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
-    private String updateInternal(String internalModel, Patient patient)
+    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
         throws ModuleException {
         try {
-            T utlatande = getInternal(internalModel);
+            T utlatande = getInternal(internalModel, created);
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException | ConverterException e) {

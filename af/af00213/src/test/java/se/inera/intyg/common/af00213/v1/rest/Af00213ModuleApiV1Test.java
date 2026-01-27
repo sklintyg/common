@@ -43,6 +43,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
@@ -402,7 +403,7 @@ public class Af00213ModuleApiV1Test {
         updatedPatient.setPostort("updated post city");
 
         final var validMinimalJson = getResourceAsString(new ClassPathResource(TESTFILE_UTLATANDE));
-        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }

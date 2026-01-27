@@ -298,7 +298,7 @@ class DoiModuleApiV1Test {
         when(objectMapper.readValue(validMinimalJson, DoiUtlatandeV1.class)).thenReturn(
             ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
 
-        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }

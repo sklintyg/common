@@ -353,7 +353,7 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public String updateBeforeSave(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+        return updateInternal(internalModel, patient, null);
     }
 
     @Override
@@ -363,8 +363,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
-        return updateInternal(internalModel, patient);
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
+        return updateInternal(internalModel, patient, created);
     }
 
     @Override
@@ -595,10 +595,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         }
     }
 
-    private String updateInternal(String internalModel, Patient patient)
+    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
         throws ModuleException {
         try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
+            Fk7263Utlatande intyg = getInternal(internalModel, created);
             WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
             return toInternalModelResponse(intyg);
         } catch (ModuleException | ConverterException e) {

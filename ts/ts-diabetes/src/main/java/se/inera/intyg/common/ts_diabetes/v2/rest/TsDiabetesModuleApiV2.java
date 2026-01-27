@@ -283,9 +283,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
         try {
-            Utlatande utlatande = this.getInternal(internalModel);
+            Utlatande utlatande = this.getInternal(internalModel, created);
 
             String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
             String firstName = utlatande.getGrundData().getPatient().getFornamn();

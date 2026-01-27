@@ -269,7 +269,7 @@ class TsParentModuleApiTest {
     public void testUpdateBeforeViewing() throws Exception {
         Patient updatedPatient = createUpdatedPatient();
 
-        String res = moduleApi.updateBeforeViewing(json, updatedPatient);
+        String res = moduleApi.updateBeforeViewing(json, updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         assertEquals(updatedPatient, moduleApi.getInternal(res).getGrundData().getPatient());
     }

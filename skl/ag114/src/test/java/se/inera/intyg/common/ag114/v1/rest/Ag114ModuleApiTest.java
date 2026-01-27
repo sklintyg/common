@@ -402,7 +402,7 @@ class Ag114ModuleApiTest {
         assertNotEquals(updatedPatient, utlatandeBeforeViewing.getGrundData().getPatient());
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeViewing);
 
-        final var res = moduleApi.updateBeforeViewing(json, updatedPatient);
+        final var res = moduleApi.updateBeforeViewing(json, updatedPatient, LocalDateTime.now());
         final var utlatandeAfterViewing = moduleApi.getUtlatandeFromJson(res);
         assertEquals(updatedPatient, utlatandeAfterViewing.getGrundData().getPatient());
     }

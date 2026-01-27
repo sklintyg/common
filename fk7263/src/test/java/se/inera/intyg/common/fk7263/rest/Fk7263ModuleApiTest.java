@@ -35,6 +35,7 @@ import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -143,7 +144,7 @@ public class Fk7263ModuleApiTest {
         final var utlatande = getUtlatandeFromFile();
         final var updatedPatient = createUpdatedPatient();
 
-        final var res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient);
+        final var res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient, LocalDateTime.now());
         assertNotNull(res);
         assertEquals(updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
     }
