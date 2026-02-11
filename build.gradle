@@ -7,32 +7,32 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchemasVersion = "1.0.24.2"
-    intygClinicalprocessSchematronVersion = "1.0.57.2"
-    intygTransportstyrelsenSchemasVersion = "1.0.5.2"
-    rivtaClinicalprocessSchemasVersion = "4.0.5.3"
-    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.2"
-    schemasContractVersion = "2.1.8.2"
+    intygClinicalprocessSchemasVersion = "1.1.0.1"
+    intygClinicalprocessSchematronVersion = "1.1.0.1"
+    intygTransportstyrelsenSchemasVersion = "1.1.0.1"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.4"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.3"
+    schemasContractVersion = "2.2.0.1"
 
-    autovalueVersion = "1.10.4"
-    cxfVersion = "4.0.5"
-    commonsCollectionsVersion = "4.4"
-    commonsTextVersion = "1.10.0"
-    commonsCsvVersion = "1.10.0"
-    commonsIoVersion = "2.14.0"
-    equalsVerifierVersion = "3.15.2"
-    guavaVersion = "32.1.3-jre"
+    autovalueVersion = "1.11.1"
+    cxfVersion = "4.1.4"
+    commonsCollectionsVersion = "4.5.0"
+    commonsTextVersion = "1.15.0"
+    commonsCsvVersion = "1.14.1"
+    commonsIoVersion = "2.21.0"
+    equalsVerifierVersion = "4.3.1"
+    guavaVersion = "33.5.0-jre"
     itextVersion = "5.5.13.4"
     itext7Version = "7.2.6"
     itextPdfHtmlVersion = "5.0.5"
     jakartaJwsApiVersion = "3.0.0"
     jaxb2Version = "3.0.0"
-    nashornVersion = "15.4"
-    phSchematronVersion = "7.1.2"
-    saxonVersion = "12.3"
-    spotbugsAnnotationVersion = "4.8.0"
+    nashornVersion = "15.7"
+    phSchematronVersion = "9.1.1"
+    saxonVersion = "12.9"
+    spotbugsAnnotationVersion = "4.9.8"
 
-    springbootMavenBomVersion = "3.3.4"
+    springbootMavenBomVersion = "3.5.10"
 
     nvdMirror = 'https://vulnz-nvd-mirror-devtest.intyg.nordicmedtest.se'
 }
@@ -44,7 +44,7 @@ allprojects {
     apply plugin: 'jacoco'
 
     group = 'se.inera.intyg.common'
-    version = System.properties['buildVersion'] ?: '4.0.0-SNAPSHOT'
+    version = System.properties['buildVersion'] ?: '4.1.0-SNAPSHOT'
 
     java {
         toolchain {
@@ -91,7 +91,9 @@ allprojects {
     artifacts.archives packageTests
     compileJava.options.encoding = 'UTF-8'
     jar { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
-    test { useJUnitPlatform() }
+    testing.suites {
+        test { useJUnitJupiter() }
+    }
 
     repositories {
         mavenLocal()

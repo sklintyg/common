@@ -25,7 +25,7 @@ import static se.inera.intyg.common.tstrk1062.v1.rest.TsTrk1062ModuleApiV1.SCHEM
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;

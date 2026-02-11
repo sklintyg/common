@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
-import static com.helger.commons.mock.CommonsAssert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -21,7 +21,7 @@ package se.inera.intyg.common.fkparent.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Created by BESA on 2016-02-23.

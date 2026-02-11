@@ -24,7 +24,7 @@ import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getTr
 import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getXmlFromModel;
 
 import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;

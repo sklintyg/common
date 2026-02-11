@@ -23,7 +23,7 @@ import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Consta
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 @AutoValue

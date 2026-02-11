@@ -20,7 +20,7 @@ package se.inera.intyg.common.support.validate;
 
 import com.helger.schematron.sch.SchematronResourceSCH;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import javax.xml.transform.Source;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 

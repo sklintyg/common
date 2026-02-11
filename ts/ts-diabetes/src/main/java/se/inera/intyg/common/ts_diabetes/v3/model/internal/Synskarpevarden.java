@@ -24,7 +24,7 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Class encapsulating the values for synskarpa for a single eye.

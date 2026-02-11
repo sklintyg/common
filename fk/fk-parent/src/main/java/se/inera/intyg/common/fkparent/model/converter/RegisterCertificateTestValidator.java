@@ -19,9 +19,9 @@
 package se.inera.intyg.common.fkparent.model.converter;
 
 import com.google.common.base.Charsets;
+import jakarta.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;

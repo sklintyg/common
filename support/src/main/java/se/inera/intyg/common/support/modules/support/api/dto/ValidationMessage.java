@@ -18,24 +18,22 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import com.google.common.base.Objects;
-import javax.annotation.concurrent.Immutable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 import org.springframework.util.Assert;
 
-@Immutable
-public final class ValidationMessage {
+@Value
+@Builder
+@AllArgsConstructor
+public class ValidationMessage {
 
-    private final String category;
-
-    private final String field;
-
-    private final String message;
-
-    private final ValidationMessageType type;
-
-    private final String dynamicKey;
-
-    private String questionId;
+    String category;
+    String field;
+    String message;
+    ValidationMessageType type;
+    String dynamicKey;
+    String questionId;
 
     public ValidationMessage(String category, String field, ValidationMessageType type) {
         Assert.hasText(category, "'category' must not be empty");
@@ -46,6 +44,7 @@ public final class ValidationMessage {
         this.type = type;
         this.message = null;
         this.dynamicKey = null;
+        this.questionId = null;
     }
 
     public ValidationMessage(String category, String field, ValidationMessageType type, String message) {
@@ -58,6 +57,7 @@ public final class ValidationMessage {
         this.type = type;
         this.message = message;
         this.dynamicKey = null;
+        this.questionId = null;
     }
 
     public ValidationMessage(String category, String field, ValidationMessageType type, String message, String dynamicKey) {
@@ -71,82 +71,37 @@ public final class ValidationMessage {
         this.type = type;
         this.message = message;
         this.dynamicKey = dynamicKey;
+        this.questionId = null;
     }
 
     public static ValidationMessage create(String category, String field, ValidationMessageType type, String questionId) {
-        final var validationMessage = new ValidationMessage(category, field, type);
-        validationMessage.questionId = questionId;
-        return validationMessage;
+        return ValidationMessage.builder()
+            .category(category)
+            .field(field)
+            .type(type)
+            .questionId(questionId)
+            .build();
     }
 
     public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String questionId) {
-        final var validationMessage = new ValidationMessage(category, field, type, message);
-        validationMessage.questionId = questionId;
-        return validationMessage;
+        return ValidationMessage.builder()
+            .category(category)
+            .field(field)
+            .type(type)
+            .message(message)
+            .questionId(questionId)
+            .build();
     }
 
     public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String dynamicKey,
         String questionId) {
-        final var validationMessage = new ValidationMessage(category, field, type, message, dynamicKey);
-        validationMessage.questionId = questionId;
-        return validationMessage;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public String getField() {
-        return field;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public ValidationMessageType getType() {
-        return type;
-    }
-
-    public String getDynamicKey() {
-        return dynamicKey;
-    }
-
-    public String getQuestionId() {
-        return questionId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ValidationMessage that = (ValidationMessage) o;
-        return Objects.equal(category, that.category)
-            && Objects.equal(field, that.field)
-            && Objects.equal(message, that.message)
-            && type == that.type
-            && Objects.equal(dynamicKey, that.dynamicKey)
-            && Objects.equal(questionId, that.questionId);
-    }
-
-    @Override
-    public String toString() {
-        return "ValidationMessage{"
-            + "category='" + category + '\''
-            + ", field='" + field + '\''
-            + ", message='" + message + '\''
-            + ", type=" + type
-            + ", dynamicKey='" + dynamicKey + '\''
-            + ", questionId='" + questionId + '\''
-            + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(category, field, message, type, dynamicKey, questionId);
+        return ValidationMessage.builder()
+            .category(category)
+            .field(field)
+            .type(type)
+            .message(message)
+            .dynamicKey(dynamicKey)
+            .questionId(questionId)
+            .build();
     }
 }
