@@ -28,7 +28,7 @@ import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematro
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;

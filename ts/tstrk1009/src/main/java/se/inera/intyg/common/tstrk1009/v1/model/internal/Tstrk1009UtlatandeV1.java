@@ -28,7 +28,7 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.S
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;

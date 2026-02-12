@@ -21,7 +21,7 @@ package se.inera.intyg.common.lisjp.model.internal;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 @AutoValue
 public abstract class Prognos {

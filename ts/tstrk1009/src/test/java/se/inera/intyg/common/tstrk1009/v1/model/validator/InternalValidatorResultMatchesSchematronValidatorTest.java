@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import jakarta.xml.bind.JAXBContext;

@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.io.Resources;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import org.junit.Test;

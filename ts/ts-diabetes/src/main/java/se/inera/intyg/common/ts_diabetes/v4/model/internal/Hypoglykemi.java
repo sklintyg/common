@@ -37,7 +37,7 @@ import static se.inera.intyg.common.ts_diabetes.v4.model.converter.RespConstants
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @AutoValue

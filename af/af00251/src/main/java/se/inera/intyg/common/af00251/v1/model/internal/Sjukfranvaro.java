@@ -25,7 +25,7 @@ import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConsta
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 /**

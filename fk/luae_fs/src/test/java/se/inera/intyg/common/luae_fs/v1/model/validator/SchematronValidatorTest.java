@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import com.helger.commons.debug.GlobalDebug;
+import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
 import org.junit.Test;
 import se.inera.intyg.common.luae_fs.v1.rest.LuaefsModuleApiV1;

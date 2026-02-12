@@ -38,7 +38,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.support.DbModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
