@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.integration.stub;
 
+import jakarta.xml.ws.Endpoint;
 import java.util.List;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
@@ -34,14 +35,14 @@ public class FkParentStubConfig {
 
     @Autowired
     private Bus bus;
-    
+
     @Bean("register-fk-stub")
     public RegisterCertificateResponderInterface registerFkStub() {
         return new RegisterCertificateResponderStub();
     }
 
     @Bean
-    public jakarta.xml.ws.Endpoint registerFkStubEndpoint(
+    public Endpoint registerFkStubEndpoint(
         @Qualifier("register-fk-stub") RegisterCertificateResponderInterface implementor) {
         final var endpoint = new EndpointImpl(bus, implementor);
         endpoint.setSchemaLocations(List.of(
