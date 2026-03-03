@@ -9,6 +9,5 @@
 
   <import resource="af00213-beans.xml" />
 
-  <import resource="af00213-ws-stub.xml" />
 
 </beans>

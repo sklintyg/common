@@ -9,6 +9,5 @@
 
   <import resource="luae_fs-beans.xml" />
 
-  <import resource="luae_fs-ws-stub.xml" />
 
 </beans>

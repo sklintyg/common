@@ -9,6 +9,5 @@
 
   <import resource="luse-beans.xml" />
 
-  <import resource="luse-ws-stub.xml" />
 
 </beans>

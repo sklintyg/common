@@ -9,6 +9,5 @@
 
   <import resource="lisjp-beans.xml" />
 
-  <import resource="lisjp-ws-stub.xml" />
 
 </beans>

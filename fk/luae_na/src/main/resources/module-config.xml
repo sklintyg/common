@@ -9,6 +9,5 @@
 
   <import resource="luae_na-beans.xml" />
 
-  <import resource="luae_na-ws-stub.xml" />
 
 </beans>
