@@ -21,25 +21,6 @@ package se.inera.intyg.common.support.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code common-config.xml}.
- *
- * <p>The original XML file contained a single component-scan directive:
- * <pre>{@code
- * <context:component-scan base-package="se.inera.intyg.common.support.modules.converter"/>
- * }</pre>
- *
- * <p>Host applications can either:
- * <ul>
- *   <li>Include {@code se.inera.intyg.common.support} (or a parent package) in their own
- *       {@code @ComponentScan} so that this {@code @Configuration} class is picked up
- *       automatically, or</li>
- *   <li>Explicitly {@code @Import(CommonSupportConfig.class)} from their own configuration.</li>
- * </ul>
- *
- * <p>The {@code common-config.xml} file is kept for backwards compatibility and will be
- * removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.support.modules.converter")
 public class CommonSupportConfig {

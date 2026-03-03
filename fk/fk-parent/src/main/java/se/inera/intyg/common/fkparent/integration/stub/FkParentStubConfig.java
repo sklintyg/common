@@ -28,38 +28,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 
-/**
- * Java-based replacement for the profile-conditional stub block in
- * {@code fk-parent/src/main/resources/module-config.xml} (Step C.4).
- *
- * <p>The original XML snippet (active under profiles {@code dev} and {@code it-fk-stub}) was:
- * <pre>{@code
- * <beans profile="dev,it-fk-stub">
- *   <bean id="register-fk-stub"
- *         class="se.inera.intyg.common.fkparent.integration.stub.RegisterCertificateResponderStub"/>
- *   <jaxws:endpoint
- *       address="/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21"
- *       implementor="#register-fk-stub">
- *     <jaxws:schemaLocations>
- *       <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.3.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/core_components/xmldsig-core-schema_0.1.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/core_components/xmldsig-filter2.xsd</jaxws:schemaLocation>
- *       <jaxws:schemaLocation>classpath:/interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd</jaxws:schemaLocation>
- *     </jaxws:schemaLocations>
- *   </jaxws:endpoint>
- * </beans>
- * }</pre>
- *
- * <p>This class is only active under the Spring profiles {@code dev} or {@code it-fk-stub}.
- * It is imported unconditionally by {@link se.inera.intyg.common.fkparent.config.FkParentModuleConfig}
- * but the {@code @Profile} annotation ensures beans are only created when the profile matches.
- *
- * <p>The {@code module-config.xml} file is kept for backwards compatibility and will be
- * removed in Step C.12.
- */
 @Configuration
 @Profile({"dev", "it-fk-stub"})
 public class FkParentStubConfig {

@@ -21,13 +21,6 @@ package se.inera.intyg.common.af00251.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code af00251-beans.xml} in the af00251 module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.af00251}.
- * This class replicates that behaviour. The XML files are kept for backwards compatibility
- * and will be removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.af00251")
 public class Af00251ModuleConfig {

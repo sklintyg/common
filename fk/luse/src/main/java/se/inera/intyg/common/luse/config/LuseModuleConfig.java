@@ -23,17 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import se.inera.intyg.common.fkparent.config.FkParentModuleConfig;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code luse-beans.xml} in the luse module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.luse}.
- * This class replicates that behaviour. The XML files are kept for backwards compatibility
- * and will be removed in step C.12.
- *
- * <p>{@link FkParentModuleConfig} is imported explicitly so that shared beans such as
- * {@code ValidatorUtilFK} are registered regardless of the host application's component-scan
- * configuration.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.luse")
 @Import(FkParentModuleConfig.class)

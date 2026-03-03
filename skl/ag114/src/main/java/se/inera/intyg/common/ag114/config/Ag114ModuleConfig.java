@@ -21,14 +21,6 @@ package se.inera.intyg.common.ag114.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code ag114-beans.xml} in the ag114 module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.ag114} and
- * declared a {@code ValidatorUtilSKL} bean. {@code ValidatorUtilSKL} now carries {@code @Component}
- * so it is picked up automatically by the component-scan below.
- * The XML files are kept for backwards compatibility and will be removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.ag114")
 public class Ag114ModuleConfig {

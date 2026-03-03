@@ -21,14 +21,6 @@ package se.inera.intyg.common.ts_diabetes.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code ts-diabetes-beans.xml} in the ts-diabetes module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.ts_diabetes} and
- * contained empty profile blocks ({@code dev}, {@code test}, {@code qa}, {@code prod}) that were no-ops.
- * Those empty blocks are simply dropped here.
- * The XML files are kept for backwards compatibility and will be removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.ts_diabetes")
 public class TsDiabetesModuleConfig {

@@ -30,25 +30,6 @@ import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.
 import se.inera.intyg.common.fk7263.integration.stub.RegisterMedicalCertificateResponderStub;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
-/**
- * Java-based replacement for {@code fk7263/src/main/resources/fk7263-ws-stub.xml} (Step C.10).
- *
- * <p>The original XML (active under profiles {@code dev} and {@code it-fk-stub}) was:
- * <pre>{@code
- * <beans profile="dev,it-fk-stub">
- *   <!-- Simulates FK recieving -->
- *   <jaxws:endpoint
- *       address="/stubs/RegisterMedicalCertificate/3/rivtabp20"
- *       implementor="se.inera.intyg.common.fk7263.integration.stub.RegisterMedicalCertificateResponderStub"/>
- * </beans>
- * }</pre>
- *
- * <p>This configuration is only active under the Spring profiles {@code dev} or {@code it-fk-stub},
- * matching the original XML {@code profile} attribute.
- *
- * <p>The {@code fk7263-ws-stub.xml} file is kept for backwards compatibility and will be
- * removed in Step C.12.
- */
 @Configuration
 @Profile({"dev", "it-fk-stub"})
 public class Fk7263StubConfig {

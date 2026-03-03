@@ -26,31 +26,6 @@ import org.springframework.context.annotation.Profile;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
 
-/**
- * Java-based replacement for {@code fk7263/src/main/resources/wc-module-cxf-servlet.xml} (Step C.11).
- *
- * <p>The original XML (loaded only by Webcert via {@code classpath*:wc-module-cxf-servlet.xml}) declared:
- * <ul>
- *   <li>A CXF bus with logging feature</li>
- *   <li>Two JAX-WS clients:
- *     <ul>
- *       <li>{@code registerMedicalCertificateClient} —
- *           {@link RegisterMedicalCertificateResponderInterface} at
- *           {@code ${intygstjanst.registermedicalcertificate.endpoint.url}}</li>
- *       <li>{@code getMedicalCertificateResponder} —
- *           {@link GetMedicalCertificateResponderInterface} at
- *           {@code ${intygstjanst.getmedicalcertificate.endpoint.url}}</li>
- *     </ul>
- *   </li>
- * </ul>
- *
- * <p>This configuration is activated only under the Spring profile {@code webcert}, ensuring
- * that intygstjänst and Mina intyg do not inadvertently create these Webcert-only JAX-WS proxy clients.
- * The {@code registerMedicalCertificateClient} bean name must match the qualifier used in Webcert's
- * {@code IntygServiceImpl} (or equivalent) which injects it by name.
- *
- * <p>The XML file is kept for backwards compatibility and will be deleted in Step C.12.
- */
 @Configuration
 // This config-class should be moved to webcert (same as the intygstjanst-specific classes) once webcert converts to java-config
 // For time being the class will not be used unless profile webcert is active, this is to make sure it isn't loaded by intygstjanst.

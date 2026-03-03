@@ -35,20 +35,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-/**
- * Stub implementation of {@link RegisterCertificateResponderInterface} (RIV TA RegisterCertificate v3)
- * used in integration-test and development environments (Spring profiles {@code dev} and {@code it-fk-stub}).
- *
- * <p>Certificates received are stored in an optional {@link MedicalCertificatesStore} bean (if present
- * in the application context) so that integration tests can inspect what was registered. A call to the
- * logical address {@code "fail-adress"} (sic) is treated as an intentional error path.
- *
- * <p>This class is the Java replacement for the
- * {@code <bean id="register-fk-stub" class="...RegisterCertificateResponderStub"/>} declaration inside
- * the {@code <beans profile="dev,it-fk-stub">} block of
- * {@code fk-parent/src/main/resources/module-config.xml} (Step C.4).
- * The CXF endpoint registration is handled by {@link FkParentStubConfig}.
- */
 @SchemaValidation
 @WebServiceProvider(targetNamespace = "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3")
 public final class RegisterCertificateResponderStub implements RegisterCertificateResponderInterface {

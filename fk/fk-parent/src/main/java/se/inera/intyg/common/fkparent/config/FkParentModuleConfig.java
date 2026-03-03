@@ -21,28 +21,6 @@ package se.inera.intyg.common.fkparent.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for the unconditional {@code <beans>} block in
- * {@code fk-parent/src/main/resources/module-config.xml} (Step C.4).
- *
- * <p>The original XML file declared two logical sections:
- * <ol>
- *   <li>An unconditional {@code <bean>} for {@code ValidatorUtilFK} — now covered by the
- *       component-scan below after {@code @Component} was added to that class.</li>
- *   <li>A profile-conditional stub block ({@code dev,it-fk-stub}) with a
- *       {@code RegisterCertificateResponderStub} bean and a CXF JAX-WS endpoint — now handled
- *       by {@code FkParentStubConfig} (in the {@code integration.stub} sub-package) which is
- *       discovered by the component-scan below and is only activated when the relevant profile
- *       is active (via its own {@code @Profile} annotation).</li>
- * </ol>
- *
- * <p>Host applications can pick this configuration up by including
- * {@code se.inera.intyg.common.fkparent} (or a parent package) in their own
- * {@code @ComponentScan}, or by explicitly {@code @Import(FkParentModuleConfig.class)}.
- *
- * <p>The {@code module-config.xml} file is kept for backwards compatibility and will be
- * removed in Step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.fkparent")
 public class FkParentModuleConfig {

@@ -23,17 +23,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import se.inera.intyg.common.fkparent.config.FkParentModuleConfig;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code luae_na-beans.xml} in the luae_na module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.luae_na}.
- * This class replicates that behaviour. The XML files are kept for backwards compatibility
- * and will be removed in step C.12.
- *
- * <p>{@link FkParentModuleConfig} is imported explicitly so that shared beans such as
- * {@code ValidatorUtilFK} are registered regardless of the host application's component-scan
- * configuration.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.luae_na")
 @Import(FkParentModuleConfig.class)

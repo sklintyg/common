@@ -21,13 +21,6 @@ package se.inera.intyg.common.ag7804.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code ag7804-beans.xml} in the ag7804 module.
- *
- * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.ag7804}.
- * This class replicates that behaviour. The XML files are kept for backwards compatibility
- * and will be removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.ag7804")
 public class Ag7804ModuleConfig {

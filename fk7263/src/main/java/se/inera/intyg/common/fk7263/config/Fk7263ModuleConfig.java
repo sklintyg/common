@@ -21,15 +21,6 @@ package se.inera.intyg.common.fk7263.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Java-based replacement for {@code module-config.xml} + {@code fk7263-beans.xml} in the fk7263 module.
- *
- * <p>The original XML chain declared individual beans for classes that lacked {@code @Component}.
- * Step C.3 adds {@code @Component} to all previously unannotated classes
- * ({@code WebcertModelFactoryImpl}, {@code Fk7263ModelCompareUtil}, {@code InternalDraftValidator},
- * {@code Fk7263EntryPoint}) so that a simple component-scan of the module package is sufficient.
- * The XML files are kept for backwards compatibility and will be removed in step C.12.
- */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.fk7263")
 public class Fk7263ModuleConfig {

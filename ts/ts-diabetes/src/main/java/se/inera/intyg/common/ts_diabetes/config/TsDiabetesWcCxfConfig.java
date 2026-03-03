@@ -26,29 +26,6 @@ import org.springframework.context.annotation.Profile;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
 
-/**
- * Java-based replacement for {@code ts-diabetes/src/main/resources/wc-module-cxf-servlet.xml} (Step C.11).
- *
- * <p>The original XML (loaded only by Webcert via {@code classpath*:wc-module-cxf-servlet.xml}) declared:
- * <ul>
- *   <li>A CXF bus with logging feature</li>
- *   <li>Two JAX-WS clients:
- *     <ul>
- *       <li>{@code diabetesGetClient} —
- *           {@link GetTSDiabetesResponderInterface} at
- *           {@code ${intygstjanst.gettsdiabetes.endpoint.url}}</li>
- *       <li>{@code diabetesRegisterClient} —
- *           {@link RegisterTSDiabetesResponderInterface} at
- *           {@code ${intygstjanst.registertsdiabetes.endpoint.url}}</li>
- *     </ul>
- *   </li>
- * </ul>
- *
- * <p>This configuration is activated only under the Spring profile {@code webcert}, ensuring
- * that intygstjänst and Mina intyg do not inadvertently create these Webcert-only JAX-WS proxy clients.
- *
- * <p>The XML file is kept for backwards compatibility and will be deleted in Step C.12.
- */
 @Configuration
 // This config-class should be moved to webcert (same as the intygstjanst-specific classes) once webcert converts to java-config
 // For time being the class will not be used unless profile webcert is active, this is to make sure it isn't loaded by intygstjanst.
