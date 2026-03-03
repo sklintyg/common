@@ -1,0 +1,95 @@
+/*
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package se.inera.intyg.common.ts_diabetes.config;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
+
+/**
+ * Java-based replacement for {@code ts-diabetes/src/main/resources/wc-module-cxf-servlet.xml} (Step C.11).
+ *
+ * <p>The original XML (loaded only by Webcert via {@code classpath*:wc-module-cxf-servlet.xml}) declared:
+ * <ul>
+ *   <li>A CXF bus with logging feature</li>
+ *   <li>Two JAX-WS clients:
+ *     <ul>
+ *       <li>{@code diabetesGetClient} —
+ *           {@link GetTSDiabetesResponderInterface} at
+ *           {@code ${intygstjanst.gettsdiabetes.endpoint.url}}</li>
+ *       <li>{@code diabetesRegisterClient} —
+ *           {@link RegisterTSDiabetesResponderInterface} at
+ *           {@code ${intygstjanst.registertsdiabetes.endpoint.url}}</li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ *
+ * <p>This configuration is activated only under the Spring profile {@code webcert}, ensuring
+ * that intygstjänst and Mina intyg do not inadvertently create these Webcert-only JAX-WS proxy clients.
+ *
+ * <p>The XML file is kept for backwards compatibility and will be deleted in Step C.12.
+ */
+@Configuration
+@Profile("webcert")
+public class TsDiabetesWcCxfConfig {
+
+    /**
+     * Creates the {@code diabetesGetClient} JAX-WS proxy client pointing at the
+     * intygstjänst {@code GetTSDiabetes v1} endpoint.
+     *
+     * <p>Equivalent XML:
+     * <pre>{@code
+     * <jaxws:client id="diabetesGetClient"
+     *               serviceClass="...GetTSDiabetesResponderInterface"
+     *               address="${intygstjanst.gettsdiabetes.endpoint.url}"/>
+     * }</pre>
+     */
+    @Bean("diabetesGetClient")
+    public GetTSDiabetesResponderInterface diabetesGetClient(
+        @Value("${intygstjanst.gettsdiabetes.endpoint.url}") String address) {
+        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(GetTSDiabetesResponderInterface.class);
+        factory.setAddress(address);
+        return (GetTSDiabetesResponderInterface) factory.create();
+    }
+
+    /**
+     * Creates the {@code diabetesRegisterClient} JAX-WS proxy client pointing at the
+     * intygstjänst {@code RegisterTSDiabetes v1} endpoint.
+     *
+     * <p>Equivalent XML:
+     * <pre>{@code
+     * <jaxws:client id="diabetesRegisterClient"
+     *               serviceClass="...RegisterTSDiabetesResponderInterface"
+     *               address="${intygstjanst.registertsdiabetes.endpoint.url}"/>
+     * }</pre>
+     */
+    @Bean("diabetesRegisterClient")
+    public RegisterTSDiabetesResponderInterface diabetesRegisterClient(
+        @Value("${intygstjanst.registertsdiabetes.endpoint.url}") String address) {
+        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+        factory.setServiceClass(RegisterTSDiabetesResponderInterface.class);
+        factory.setAddress(address);
+        return (RegisterTSDiabetesResponderInterface) factory.create();
+    }
+}
