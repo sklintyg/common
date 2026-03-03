@@ -22,12 +22,11 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULE
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
-import java.util.HashMap;
 import jakarta.xml.ws.WebServiceProvider;
+import java.util.HashMap;
 import org.apache.cxf.annotations.SchemaValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
@@ -36,24 +35,32 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-import jakarta.xml.ws.WebServiceProvider;
-import java.util.HashMap;
-
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
-
+/**
+ * Stub implementation of {@link RegisterCertificateResponderInterface} (RIV TA RegisterCertificate v3)
+ * used in integration-test and development environments (Spring profiles {@code dev} and {@code it-fk-stub}).
+ *
+ * <p>Certificates received are stored in an optional {@link MedicalCertificatesStore} bean (if present
+ * in the application context) so that integration tests can inspect what was registered. A call to the
+ * logical address {@code "fail-adress"} (sic) is treated as an intentional error path.
+ *
+ * <p>This class is the Java replacement for the
+ * {@code <bean id="register-fk-stub" class="...RegisterCertificateResponderStub"/>} declaration inside
+ * the {@code <beans profile="dev,it-fk-stub">} block of
+ * {@code fk-parent/src/main/resources/module-config.xml} (Step C.4).
+ * The CXF endpoint registration is handled by {@link FkParentStubConfig}.
+ */
 @SchemaValidation
 @WebServiceProvider(targetNamespace = "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3")
 public final class RegisterCertificateResponderStub implements RegisterCertificateResponderInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
 
-    //Configuring a recipient with this logicalAdress will return error
+    /**
+     * Sending to this logical address triggers the error path in integration tests.
+     */
     private static final String FAILURE_ADRESS = "fail-adress";
 
-    @Autowired(required = false)
-    private MedicalCertificatesStore store;
+    private MedicalCertificatesStore store = new MedicalCertificatesStore();
 
     @Override
     public RegisterCertificateResponseType registerCertificate(String logicalAddress, RegisterCertificateType parameters) {
