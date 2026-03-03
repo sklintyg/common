@@ -27,6 +27,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -40,6 +41,7 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 /**
  * Derived from the ValidatorUtilFK.
  */
+@Component
 public class ValidatorUtilSKL {
 
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtilSKL.class);
