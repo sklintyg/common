@@ -22,9 +22,11 @@ import java.util.List;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 
 /**
  * Java-based replacement for the profile-conditional stub block in
@@ -69,7 +71,7 @@ public class FkParentStubConfig {
      * The stub implementation bean — equivalent to {@code <bean id="register-fk-stub">} in the XML.
      */
     @Bean("register-fk-stub")
-    public RegisterCertificateResponderStub registerFkStub() {
+    public RegisterCertificateResponderInterface registerFkStub() {
         return new RegisterCertificateResponderStub();
     }
 
@@ -79,7 +81,8 @@ public class FkParentStubConfig {
      * <p>Schema locations match the seven entries from the original {@code <jaxws:schemaLocations>} block.
      */
     @Bean
-    public jakarta.xml.ws.Endpoint registerFkStubEndpoint(RegisterCertificateResponderStub implementor) {
+    public jakarta.xml.ws.Endpoint registerFkStubEndpoint(
+        @Qualifier("register-fk-stub") RegisterCertificateResponderInterface implementor) {
         final var endpoint = new EndpointImpl(bus, implementor);
         endpoint.setSchemaLocations(List.of(
             "classpath:/core_components/clinicalprocess_healthcond_certificate_3.3.xsd",

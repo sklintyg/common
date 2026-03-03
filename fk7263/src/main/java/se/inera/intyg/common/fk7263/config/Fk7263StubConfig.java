@@ -22,9 +22,11 @@ import jakarta.xml.ws.Endpoint;
 import org.apache.cxf.Bus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.intyg.common.fk7263.integration.stub.RegisterMedicalCertificateResponderStub;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
@@ -58,7 +60,7 @@ public class Fk7263StubConfig {
      * The stub implementor bean — equivalent to the inline {@code implementor} reference in the XML endpoint.
      */
     @Bean
-    public RegisterMedicalCertificateResponderStub registerMedicalCertificateStub() {
+    public RegisterMedicalCertificateResponderInterface registerMedicalCertificateStub() {
         return new RegisterMedicalCertificateResponderStub(new MedicalCertificatesStore());
     }
 
@@ -68,7 +70,8 @@ public class Fk7263StubConfig {
      * <p>Simulates FK receiving a {@code RegisterMedicalCertificate} (RIV TA BP 2.0 v3) message.
      */
     @Bean
-    public Endpoint registerMedicalCertificateStubEndpoint(RegisterMedicalCertificateResponderStub implementor) {
+    public Endpoint registerMedicalCertificateStubEndpoint(
+        @Qualifier("registerMedicalCertificateStub") RegisterMedicalCertificateResponderInterface implementor) {
         final var endpoint = new EndpointImpl(bus, implementor);
         endpoint.publish("/stubs/RegisterMedicalCertificate/3/rivtabp20");
         return endpoint;
