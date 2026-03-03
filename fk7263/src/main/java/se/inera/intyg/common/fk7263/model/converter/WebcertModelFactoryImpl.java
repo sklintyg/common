@@ -21,6 +21,7 @@ package se.inera.intyg.common.fk7263.model.converter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -33,6 +34,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 /**
  * Factory for creating an editable model.
  */
+@Component
 public class WebcertModelFactoryImpl implements WebcertModelFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
