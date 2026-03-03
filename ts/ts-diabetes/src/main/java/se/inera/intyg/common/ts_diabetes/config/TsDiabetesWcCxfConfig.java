@@ -50,6 +50,8 @@ import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.Regist
  * <p>The XML file is kept for backwards compatibility and will be deleted in Step C.12.
  */
 @Configuration
+// This config-class should be moved to webcert (same as the intygstjanst-specific classes) once webcert converts to java-config
+// For time being the class will not be used unless profile webcert is active, this is to make sure it isn't loaded by intygstjanst.
 @Profile("webcert")
 public class TsDiabetesWcCxfConfig {
 
