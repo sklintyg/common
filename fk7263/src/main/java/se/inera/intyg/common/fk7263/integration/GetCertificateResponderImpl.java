@@ -22,7 +22,6 @@ import jakarta.xml.bind.JAXBElement;
 import javax.xml.transform.dom.DOMResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3.wsaddressing10.AttributedURIType;
 import org.w3c.dom.Document;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificate.rivtabp20.v1.GetCertificateResponderInterface;
@@ -47,8 +46,11 @@ public class GetCertificateResponderImpl implements
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
+    private final ModuleContainerApi moduleContainer;
+
+    public GetCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+        this.moduleContainer = moduleContainer;
+    }
 
     @Override
     public GetCertificateResponseType getCertificate(AttributedURIType logicalAddress, GetCertificateRequestType request) {

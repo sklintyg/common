@@ -4,6 +4,7 @@ dependencies {
     implementation project(":common-services")
     implementation project(":common-web")
     implementation project(':logging-util')
+    implementation project(":integration-util")
 
     implementation "com.fasterxml.jackson.core:jackson-annotations"
     implementation "com.fasterxml.jackson.core:jackson-databind"
@@ -11,6 +12,8 @@ dependencies {
     implementation "com.itextpdf:itextpdf:${itextVersion}"
     implementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
     implementation "codes.rafael.jaxb2_commons:jaxb2-basics:${jaxb2Version}"
+    implementation "org.apache.cxf:cxf-core:${cxfVersion}"
+    implementation "org.apache.cxf:cxf-rt-frontend-jaxws:${cxfVersion}"
     implementation "org.springframework:spring-context"
     implementation "org.springframework:spring-oxm"
     implementation "org.springframework:spring-tx"
@@ -22,7 +25,6 @@ dependencies {
 
     testImplementation testFixtures(project(":common-support"))
     testImplementation project(":integration-util")
-    testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
 
     testRuntimeOnly "jakarta.servlet:jakarta.servlet-api"
 }

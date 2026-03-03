@@ -27,7 +27,6 @@ import com.google.common.io.Resources;
 import iso.v21090.dt.v1.CD;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
 import java.time.LocalDate;
 import java.util.Optional;
 import javax.xml.transform.stream.StreamSource;
@@ -86,12 +85,7 @@ class RegisterMedicalCertificateResponderImplTest {
     private CertificateHolder certificateHolder;
 
     @InjectMocks
-    private RegisterMedicalCertificateResponderImpl responder = new RegisterMedicalCertificateResponderImpl();
-
-    @BeforeEach
-    void initializeResponder() throws JAXBException {
-        responder.initializeJaxbContext();
-    }
+    private RegisterMedicalCertificateResponderImpl responder;
 
     @BeforeEach
     void prepareRequest() throws Exception {

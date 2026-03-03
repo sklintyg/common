@@ -18,13 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
@@ -52,11 +49,10 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
 
     private ObjectFactory objectFactory;
 
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
+    private final ModuleContainerApi moduleContainer;
 
-    @PostConstruct
-    public void initializeJaxbContext() throws JAXBException {
+    public RegisterMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+        this.moduleContainer = moduleContainer;
         objectFactory = new ObjectFactory();
     }
 
