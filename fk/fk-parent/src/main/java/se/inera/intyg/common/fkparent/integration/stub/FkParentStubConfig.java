@@ -34,20 +34,12 @@ public class FkParentStubConfig {
 
     @Autowired
     private Bus bus;
-
-    /**
-     * The stub implementation bean — equivalent to {@code <bean id="register-fk-stub">} in the XML.
-     */
+    
     @Bean("register-fk-stub")
     public RegisterCertificateResponderInterface registerFkStub() {
         return new RegisterCertificateResponderStub();
     }
 
-    /**
-     * CXF JAX-WS endpoint that publishes the stub at the same path as the original XML declaration.
-     *
-     * <p>Schema locations match the seven entries from the original {@code <jaxws:schemaLocations>} block.
-     */
     @Bean
     public jakarta.xml.ws.Endpoint registerFkStubEndpoint(
         @Qualifier("register-fk-stub") RegisterCertificateResponderInterface implementor) {

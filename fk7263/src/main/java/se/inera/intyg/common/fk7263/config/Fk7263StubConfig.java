@@ -37,19 +37,11 @@ public class Fk7263StubConfig {
     @Autowired
     private Bus bus;
 
-    /**
-     * The stub implementor bean — equivalent to the inline {@code implementor} reference in the XML endpoint.
-     */
     @Bean
     public RegisterMedicalCertificateResponderInterface registerMedicalCertificateStub() {
         return new RegisterMedicalCertificateResponderStub(new MedicalCertificatesStore());
     }
 
-    /**
-     * CXF JAX-WS endpoint that publishes the stub at the same path as the original XML declaration.
-     *
-     * <p>Simulates FK receiving a {@code RegisterMedicalCertificate} (RIV TA BP 2.0 v3) message.
-     */
     @Bean
     public Endpoint registerMedicalCertificateStubEndpoint(
         @Qualifier("registerMedicalCertificateStub") RegisterMedicalCertificateResponderInterface implementor) {
