@@ -20,6 +20,8 @@ package se.inera.intyg.common.lisjp.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import se.inera.intyg.common.fkparent.config.FkParentModuleConfig;
 
 /**
  * Java-based replacement for {@code module-config.xml} + {@code lisjp-beans.xml} in the lisjp module.
@@ -27,9 +29,14 @@ import org.springframework.context.annotation.Configuration;
  * <p>The original XML chain performed a component-scan of {@code se.inera.intyg.common.lisjp}.
  * This class replicates that behaviour. The XML files are kept for backwards compatibility
  * and will be removed in step C.12.
+ *
+ * <p>{@link FkParentModuleConfig} is imported explicitly so that shared beans such as
+ * {@code ValidatorUtilFK} are registered regardless of the host application's component-scan
+ * configuration.
  */
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.lisjp")
+@Import(FkParentModuleConfig.class)
 public class LisjpModuleConfig {
 
 }
