@@ -23,20 +23,20 @@ for any of these files.
 
 ## Progress Tracker
 
-| Step     | Description                                                                            | Status | Verified | Notes |
-|----------|----------------------------------------------------------------------------------------|--------|----------|-------|
-| **C.1**  | Convert `common-config.xml` → `@ComponentScan` on support module                       | ⬜ TODO |          |       |
-| **C.2**  | Convert simple `module-config.xml` + `*-beans.xml` (component-scan only modules)       | ⬜ TODO |          |       |
-| **C.3**  | Convert `fk7263` `module-config.xml` + `fk7263-beans.xml` (explicit bean declarations) | ⬜ TODO |          |       |
-| **C.4**  | Convert `fk-parent` `module-config.xml` (stub endpoint + ValidatorUtilFK bean)         | ⬜ TODO |          |       |
-| **C.5**  | Convert `ag114` `module-config.xml` (ValidatorUtilSKL bean)                            | ⬜ TODO |          |       |
-| **C.6**  | Convert `ts-diabetes` `module-config.xml` (empty profile blocks + component-scan)      | ⬜ TODO |          |       |
-| **C.7**  | Convert `it-module-cxf-servlet.xml` — fk7263 (CXF endpoints + client)                  | ⬜ TODO |          |       |
-| **C.8**  | Convert `it-module-cxf-servlet.xml` — ts-bas (bean declarations, no CXF endpoints)     | ⬜ TODO |          |       |
-| **C.9**  | Convert `it-module-cxf-servlet.xml` — ts-diabetes (CXF endpoints + beans)              | ⬜ TODO |          |       |
-| **C.10** | Convert all `*-ws-stub.xml` files (stub CXF endpoints, profile-conditional)            | ⬜ TODO |          |       |
-| **C.11** | Convert `wc-module-cxf-servlet.xml` and `mi-module-cxf-servlet.xml` (Webcert/MI only)  | ⬜ TODO |          |       |
-| **C.12** | Delete all XML files + remove `@ImportResource` from intygstjänst                      | ⬜ TODO |          |       |
+| Step     | Description                                                                            | Status | Verified | Notes                                                                                        |
+|----------|----------------------------------------------------------------------------------------|--------|----------|----------------------------------------------------------------------------------------------|
+| **C.1**  | Convert `common-config.xml` → `@ComponentScan` on support module                       | ✅ DONE | ✅        | `CommonSupportConfig.java` created in `se.inera.intyg.common.support.config`; all tests pass |
+| **C.2**  | Convert simple `module-config.xml` + `*-beans.xml` (component-scan only modules)       | ⬜ TODO |          |                                                                                              |
+| **C.3**  | Convert `fk7263` `module-config.xml` + `fk7263-beans.xml` (explicit bean declarations) | ⬜ TODO |          |                                                                                              |
+| **C.4**  | Convert `fk-parent` `module-config.xml` (stub endpoint + ValidatorUtilFK bean)         | ⬜ TODO |          |                                                                                              |
+| **C.5**  | Convert `ag114` `module-config.xml` (ValidatorUtilSKL bean)                            | ⬜ TODO |          |                                                                                              |
+| **C.6**  | Convert `ts-diabetes` `module-config.xml` (empty profile blocks + component-scan)      | ⬜ TODO |          |                                                                                              |
+| **C.7**  | Convert `it-module-cxf-servlet.xml` — fk7263 (CXF endpoints + client)                  | ⬜ TODO |          |                                                                                              |
+| **C.8**  | Convert `it-module-cxf-servlet.xml` — ts-bas (bean declarations, no CXF endpoints)     | ⬜ TODO |          |                                                                                              |
+| **C.9**  | Convert `it-module-cxf-servlet.xml` — ts-diabetes (CXF endpoints + beans)              | ⬜ TODO |          |                                                                                              |
+| **C.10** | Convert all `*-ws-stub.xml` files (stub CXF endpoints, profile-conditional)            | ⬜ TODO |          |                                                                                              |
+| **C.11** | Convert `wc-module-cxf-servlet.xml` and `mi-module-cxf-servlet.xml` (Webcert/MI only)  | ⬜ TODO |          |                                                                                              |
+| **C.12** | Delete all XML files + remove `@ImportResource` from intygstjänst                      | ⬜ TODO |          |                                                                                              |
 
 **Deployment batches:**
 
