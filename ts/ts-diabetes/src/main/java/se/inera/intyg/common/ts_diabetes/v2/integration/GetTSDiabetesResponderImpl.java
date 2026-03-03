@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -50,8 +49,11 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetTSDiabetesResponderImpl.class);
 
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
+    private final ModuleContainerApi moduleContainer;
+
+    public GetTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
+        this.moduleContainer = moduleContainer;
+    }
 
     @Override
     public GetTSDiabetesResponseType getTSDiabetes(String logicalAddress, GetTSDiabetesType request) {
