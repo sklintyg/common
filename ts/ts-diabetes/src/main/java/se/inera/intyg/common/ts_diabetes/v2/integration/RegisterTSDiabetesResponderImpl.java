@@ -18,11 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -47,15 +45,14 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterTSDiabetesResponderImpl.class);
 
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
+    private final ModuleContainerApi moduleContainer;
 
     private ObjectFactory objectFactory;
     private TransportValidatorInstance validator = new TransportValidatorInstance();
 
-    @PostConstruct
-    public void initializeJaxbContext() {
-        objectFactory = new ObjectFactory();
+    public RegisterTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
+        this.moduleContainer = moduleContainer;
+        this.objectFactory = new ObjectFactory();
     }
 
     @Override

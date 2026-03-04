@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.support;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
+@Component("Fk7263EntryPoint")
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
     public static final String DEFAULT_RECIPIENT_ID = "FKASSA";

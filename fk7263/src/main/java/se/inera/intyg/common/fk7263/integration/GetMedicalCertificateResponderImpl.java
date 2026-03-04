@@ -21,7 +21,6 @@ package se.inera.intyg.common.fk7263.integration;
 import jakarta.xml.bind.JAXBElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
@@ -43,8 +42,12 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
 
     public static final String HSVARD = "HSVARD";
     private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
-    @Autowired(required = false)
-    private ModuleContainerApi moduleContainer;
+
+    private final ModuleContainerApi moduleContainer;
+
+    public GetMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+        this.moduleContainer = moduleContainer;
+    }
 
     @Override
     public GetMedicalCertificateResponseType getMedicalCertificate(String logicalAddress,

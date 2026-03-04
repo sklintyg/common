@@ -22,12 +22,11 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULE
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
+import jakarta.xml.ws.WebServiceProvider;
 import java.util.HashMap;
 import java.util.Map;
-import jakarta.xml.ws.WebServiceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
@@ -52,8 +51,11 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterMedicalCertificateResponderStub.class);
 
-    @Autowired(required = false)
-    private MedicalCertificatesStore medicalCertificatesStore;
+    private final MedicalCertificatesStore medicalCertificatesStore;
+
+    public RegisterMedicalCertificateResponderStub(MedicalCertificatesStore medicalCertificatesStore) {
+        this.medicalCertificatesStore = medicalCertificatesStore;
+    }
 
     @Override
     public RegisterMedicalCertificateResponseType registerMedicalCertificate(AttributedURIType logicalAddress,

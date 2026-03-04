@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -59,11 +58,6 @@ public class RegisterTSDiabetesResponderImplTest {
 
     @InjectMocks
     private RegisterTSDiabetesResponderImpl responder;
-
-    @Before
-    public void setup() throws Exception {
-        responder.initializeJaxbContext();
-    }
 
     @Test
     public void testRegisterTSDiabetes() throws Exception {

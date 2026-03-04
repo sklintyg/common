@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -31,6 +32,7 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
  *
  * @author erik
  */
+@Component
 public class Fk7263ModelCompareUtil {
 
     @Autowired(required = false)
