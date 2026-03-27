@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,38 +26,43 @@ import lombok.Value;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigVisualAcuity.CertificateDataConfigVisualAcuityBuilder;
 
 @JsonDeserialize(builder = CertificateDataConfigVisualAcuityBuilder.class)
-
 @Value
 @Builder
 public class CertificateDataConfigVisualAcuity implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_VISUAL_ACUITY;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    String withoutCorrectionLabel;
-    String withCorrectionLabel;
-    String contactLensesLabel;
-    Double min;
-    Double max;
-    VisualAcuity rightEye;
-    VisualAcuity leftEye;
-    VisualAcuity binocular;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_VISUAL_ACUITY;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigVisualAcuityBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  String withoutCorrectionLabel;
+  String withCorrectionLabel;
+  String contactLensesLabel;
+  Double min;
+  Double max;
+  VisualAcuity rightEye;
+  VisualAcuity leftEye;
+  VisualAcuity binocular;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigVisualAcuityBuilder {}
 }

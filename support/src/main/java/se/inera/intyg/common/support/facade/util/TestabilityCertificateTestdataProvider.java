@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.util;
 
 import java.util.Map;
@@ -24,7 +23,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 
 public interface TestabilityCertificateTestdataProvider {
 
-    Map<String, CertificateDataValue> getMinimumValues();
+  Map<String, CertificateDataValue> getMinimumValues();
 
-    Map<String, CertificateDataValue> getMaximumValues();
+  Map<String, CertificateDataValue> getMaximumValues();
 }

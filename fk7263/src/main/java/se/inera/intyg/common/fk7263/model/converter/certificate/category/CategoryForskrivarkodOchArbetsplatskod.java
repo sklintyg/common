@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID;
@@ -28,15 +27,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryForskrivarkodOchArbetsplatskod {
 
-    public static CertificateDataElement toCertificate(int index, CertificateMessagesProvider messagesProvider) {
-        return CertificateDataElement.builder()
-            .id(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(messagesProvider.get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_TEXT_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateMessagesProvider messagesProvider) {
+    return CertificateDataElement.builder()
+        .id(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(messagesProvider.get(FORSKRIVARKOD_OCH_ARBETSPLATSKOD_CATEGORY_TEXT_ID))
+                .build())
+        .build();
+  }
 }

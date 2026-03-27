@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,219 +64,220 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 
-    private static final int TILLAGGSFRAGA_START = 9001;
+  private static final int TILLAGGSFRAGA_START = 9001;
 
-    private TransportToInternal() {
+  private TransportToInternal() {}
+
+  public static LuaefsUtlatandeV1 convert(Intyg source) throws ConverterException {
+    LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
+    utlatande.setId(source.getIntygsId().getExtension());
+    utlatande.setGrundData(getGrundData(source, PatientInfo.BASIC));
+    utlatande.setTextVersion(source.getVersion());
+    utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
+    setSvar(utlatande, source);
+    return utlatande.build();
+  }
+
+  private static void setSvar(LuaefsUtlatandeV1.Builder utlatande, Intyg source)
+      throws ConverterException {
+    List<Diagnos> diagnoser = new ArrayList<>();
+    List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
+    List<Underlag> underlag = new ArrayList<>();
+
+    for (Svar svar : source.getSvar()) {
+      switch (svar.getId()) {
+        case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
+          handleGrundForMedicinsktUnderlag(utlatande, svar);
+          break;
+        case KANNEDOM_SVAR_ID_2:
+          handleKannedom(utlatande, svar);
+          break;
+        case UNDERLAGFINNS_SVAR_ID_3:
+          handleUnderlagFinns(utlatande, svar);
+          break;
+        case UNDERLAG_SVAR_ID_4:
+          handleUnderlag(underlag, svar);
+          break;
+        case DIAGNOS_SVAR_ID_6:
+          handleDiagnos(diagnoser, svar);
+          break;
+        case FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15:
+          handleFunktionsnedsattningDebut(utlatande, svar);
+          break;
+        case FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16:
+          handleFunktionsnedsattningPaverkan(utlatande, svar);
+          break;
+        case OVRIGT_SVAR_ID_25:
+          handleOvrigt(utlatande, svar);
+          break;
+        case KONTAKT_ONSKAS_SVAR_ID_26:
+          handleOnskarKontakt(utlatande, svar);
+          break;
+
+        default:
+          Integer parsedInt = Ints.tryParse(svar.getId());
+          if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
+            handleTillaggsfraga(tillaggsfragor, svar);
+          }
+          break;
+      }
     }
 
-    public static LuaefsUtlatandeV1 convert(Intyg source) throws ConverterException {
-        LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
-        utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(getGrundData(source, PatientInfo.BASIC));
-        utlatande.setTextVersion(source.getVersion());
-        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
-        setSvar(utlatande, source);
-        return utlatande.build();
+    utlatande.setDiagnoser(diagnoser);
+    utlatande.setTillaggsfragor(tillaggsfragor);
+    utlatande.setUnderlag(underlag);
+  }
+
+  private static void handleFunktionsnedsattningDebut(
+      LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15:
+          utlatande.setFunktionsnedsattningDebut(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleFunktionsnedsattningPaverkan(
+      LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16:
+          utlatande.setFunktionsnedsattningPaverkan(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleUnderlagFinns(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case UNDERLAGFINNS_DELSVAR_ID_3:
+          utlatande.setUnderlagFinns(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleUnderlag(List<Underlag> underlag, Svar svar) throws ConverterException {
+    Underlag.UnderlagsTyp underlagsTyp = Underlag.UnderlagsTyp.OVRIGT;
+    InternalDate date = null;
+    String hamtasFran = null;
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case UNDERLAG_TYP_DELSVAR_ID_4:
+          CVType typ = getCVSvarContent(delsvar);
+          underlagsTyp = Underlag.UnderlagsTyp.fromId(typ.getCode());
+          break;
+        case UNDERLAG_DATUM_DELSVAR_ID_4:
+          date = new InternalDate(getStringContent(delsvar));
+          break;
+        case UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4:
+          hamtasFran = getStringContent(delsvar);
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+    underlag.add(Underlag.create(underlagsTyp, date, hamtasFran));
+  }
+
+  private static void handleGrundForMedicinsktUnderlag(
+      LuaefsUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+    InternalDate grundForMedicinsktUnderlagDatum = null;
+    RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
+          grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
+          break;
+        case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
+          String referensTypString = getCVSvarContent(delsvar).getCode();
+          grundForMedicinsktUnderlagTyp =
+              RespConstants.ReferensTyp.byTransportId(referensTypString);
+          break;
+        case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
+          utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
 
-    private static void setSvar(LuaefsUtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-        List<Diagnos> diagnoser = new ArrayList<>();
-        List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
-        List<Underlag> underlag = new ArrayList<>();
+    switch (grundForMedicinsktUnderlagTyp) {
+      case UNDERSOKNING:
+        utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
+        break;
+      case JOURNAL:
+        utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
+        break;
+      case ANHORIGSBESKRIVNING:
+        utlatande.setAnhorigsBeskrivningAvPatienten(grundForMedicinsktUnderlagDatum);
+        break;
+      case ANNAT:
+        utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
 
-        for (Svar svar : source.getSvar()) {
-            switch (svar.getId()) {
-                case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1:
-                    handleGrundForMedicinsktUnderlag(utlatande, svar);
-                    break;
-                case KANNEDOM_SVAR_ID_2:
-                    handleKannedom(utlatande, svar);
-                    break;
-                case UNDERLAGFINNS_SVAR_ID_3:
-                    handleUnderlagFinns(utlatande, svar);
-                    break;
-                case UNDERLAG_SVAR_ID_4:
-                    handleUnderlag(underlag, svar);
-                    break;
-                case DIAGNOS_SVAR_ID_6:
-                    handleDiagnos(diagnoser, svar);
-                    break;
-                case FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15:
-                    handleFunktionsnedsattningDebut(utlatande, svar);
-                    break;
-                case FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16:
-                    handleFunktionsnedsattningPaverkan(utlatande, svar);
-                    break;
-                case OVRIGT_SVAR_ID_25:
-                    handleOvrigt(utlatande, svar);
-                    break;
-                case KONTAKT_ONSKAS_SVAR_ID_26:
-                    handleOnskarKontakt(utlatande, svar);
-                    break;
+  private static void handleKannedom(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    switch (delsvar.getId()) {
+      case KANNEDOM_DELSVAR_ID_2:
+        utlatande.setKannedomOmPatient(new InternalDate(getStringContent(delsvar)));
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
 
-                default:
-                    Integer parsedInt = Ints.tryParse(svar.getId());
-                    if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
-                        handleTillaggsfraga(tillaggsfragor, svar);
-                    }
-                    break;
-            }
-        }
+  private static void handleOvrigt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    switch (delsvar.getId()) {
+      case OVRIGT_DELSVAR_ID_25:
+        utlatande.setOvrigt(getStringContent(delsvar));
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
 
-        utlatande.setDiagnoser(diagnoser);
-        utlatande.setTillaggsfragor(tillaggsfragor);
-        utlatande.setUnderlag(underlag);
+  private static void handleOnskarKontakt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case KONTAKT_ONSKAS_DELSVAR_ID_26:
+          utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
+          utlatande.setAnledningTillKontakt(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleTillaggsfraga(List<Tillaggsfraga> tillaggsFragor, Svar svar) {
+    // En tilläggsfråga har endast ett delsvar
+    if (svar.getDelsvar().size() > 1) {
+      throw new IllegalArgumentException();
     }
 
-    private static void handleFunktionsnedsattningDebut(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15:
-                    utlatande.setFunktionsnedsattningDebut(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    // Kontrollera att ID matchar
+    if (delsvar.getId().equals(svar.getId() + ".1")) {
+      tillaggsFragor.add(Tillaggsfraga.create(svar.getId(), getStringContent(delsvar)));
+    } else {
+      throw new IllegalArgumentException();
     }
-
-    private static void handleFunktionsnedsattningPaverkan(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16:
-                    utlatande.setFunktionsnedsattningPaverkan(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-
-    private static void handleUnderlagFinns(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case UNDERLAGFINNS_DELSVAR_ID_3:
-                    utlatande.setUnderlagFinns(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleUnderlag(List<Underlag> underlag, Svar svar) throws ConverterException {
-        Underlag.UnderlagsTyp underlagsTyp = Underlag.UnderlagsTyp.OVRIGT;
-        InternalDate date = null;
-        String hamtasFran = null;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case UNDERLAG_TYP_DELSVAR_ID_4:
-                    CVType typ = getCVSvarContent(delsvar);
-                    underlagsTyp = Underlag.UnderlagsTyp.fromId(typ.getCode());
-                    break;
-                case UNDERLAG_DATUM_DELSVAR_ID_4:
-                    date = new InternalDate(getStringContent(delsvar));
-                    break;
-                case UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4:
-                    hamtasFran = getStringContent(delsvar);
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        underlag.add(Underlag.create(underlagsTyp, date, hamtasFran));
-    }
-
-
-    private static void handleGrundForMedicinsktUnderlag(LuaefsUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        InternalDate grundForMedicinsktUnderlagDatum = null;
-        RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1:
-                    grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1:
-                    String referensTypString = getCVSvarContent(delsvar).getCode();
-                    grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(referensTypString);
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1:
-                    utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-
-        switch (grundForMedicinsktUnderlagTyp) {
-            case UNDERSOKNING:
-                utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
-                break;
-            case JOURNAL:
-                utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
-                break;
-            case ANHORIGSBESKRIVNING:
-                utlatande.setAnhorigsBeskrivningAvPatienten(grundForMedicinsktUnderlagDatum);
-                break;
-            case ANNAT:
-                utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
-    private static void handleKannedom(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-            case KANNEDOM_DELSVAR_ID_2:
-                utlatande.setKannedomOmPatient(new InternalDate(getStringContent(delsvar)));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
-    private static void handleOvrigt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-            case OVRIGT_DELSVAR_ID_25:
-                utlatande.setOvrigt(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
-    private static void handleOnskarKontakt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case KONTAKT_ONSKAS_DELSVAR_ID_26:
-                    utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
-                    utlatande.setAnledningTillKontakt(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleTillaggsfraga(List<Tillaggsfraga> tillaggsFragor, Svar svar) {
-        // En tilläggsfråga har endast ett delsvar
-        if (svar.getDelsvar().size() > 1) {
-            throw new IllegalArgumentException();
-        }
-
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        // Kontrollera att ID matchar
-        if (delsvar.getId().equals(svar.getId() + ".1")) {
-            tillaggsFragor.add(Tillaggsfraga.create(svar.getId(), getStringContent(delsvar)));
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,26 +26,28 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationDisableTest extends ValidationTest {
 
-    protected abstract String getQuestionId();
+  protected abstract String getQuestionId();
 
-    protected abstract String getExpression();
+  protected abstract String getExpression();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.DISABLE_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.DISABLE_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeValidationDisableQuestionId() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationDisable) question.getValidation()[getValidationIndex()];
-        assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
-    }
+  @Test
+  void shouldIncludeValidationDisableQuestionId() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationDisable) question.getValidation()[getValidationIndex()];
+    assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
+  }
 
-    @Test
-    void shouldIncludeValidationDisableExpression() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationDisable) question.getValidation()[getValidationIndex()];
-        assertEquals(getExpression(), certificateDataValidation.getExpression());
-    }
+  @Test
+  void shouldIncludeValidationDisableExpression() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationDisable) question.getValidation()[getValidationIndex()];
+    assertEquals(getExpression(), certificateDataValidation.getExpression());
+  }
 }

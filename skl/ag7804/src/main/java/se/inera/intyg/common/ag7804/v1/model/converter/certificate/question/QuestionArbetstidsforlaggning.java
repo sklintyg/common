@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
-
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
@@ -31,13 +29,19 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionArbetstidsforlaggning extends AbstractQuestionArbetstidsforlaggning {
 
-    public static CertificateDataElement toCertificate(Boolean value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, ARBETSTIDSFORLAGGNING_SVAR_ID_33, CATEGORY_BEDOMNING, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33, index,
-            texts);
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        ARBETSTIDSFORLAGGNING_SVAR_ID_33,
+        CATEGORY_BEDOMNING,
+        ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33,
+        index,
+        texts);
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return toInternal(certificate, ARBETSTIDSFORLAGGNING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return toInternal(
+        certificate, ARBETSTIDSFORLAGGNING_SVAR_ID_33, ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33);
+  }
 }

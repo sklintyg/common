@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,16 +26,18 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
 
 public final class InternalToRevoke {
 
-    private InternalToRevoke() {
-    }
+  private InternalToRevoke() {}
 
-    public static RevokeCertificateType convert(Utlatande source, HoSPersonal skickatAv, String meddelande) throws ConverterException {
-        RevokeCertificateType request = new RevokeCertificateType();
-        request.setIntygsId(InternalConverterUtil.getIntygsId(source));
-        request.setMeddelande(meddelande);
-        request.setPatientPersonId(InternalConverterUtil.getPersonId(source.getGrundData().getPatient().getPersonId()));
-        request.setSkickatAv(InternalConverterUtil.getSkapadAv(skickatAv, source.getGrundData().getSigneringsdatum()));
-        request.setSkickatTidpunkt(LocalDateTime.now());
-        return request;
-    }
+  public static RevokeCertificateType convert(
+      Utlatande source, HoSPersonal skickatAv, String meddelande) throws ConverterException {
+    RevokeCertificateType request = new RevokeCertificateType();
+    request.setIntygsId(InternalConverterUtil.getIntygsId(source));
+    request.setMeddelande(meddelande);
+    request.setPatientPersonId(
+        InternalConverterUtil.getPersonId(source.getGrundData().getPatient().getPersonId()));
+    request.setSkickatAv(
+        InternalConverterUtil.getSkapadAv(skickatAv, source.getGrundData().getSigneringsdatum()));
+    request.setSkickatTidpunkt(LocalDateTime.now());
+    return request;
+  }
 }

@@ -27,48 +27,52 @@ import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
 
 @Configuration
-// This config-class should be moved to webcert (same as the intygstjanst-specific classes) once webcert converts to java-config
-// For time being the class will not be used unless profile webcert is active, this is to make sure it isn't loaded by intygstjanst.
+// This config-class should be moved to webcert (same as the intygstjanst-specific classes) once
+// webcert converts to java-config
+// For time being the class will not be used unless profile webcert is active, this is to make sure
+// it isn't loaded by intygstjanst.
 @Profile("webcert")
 public class Fk7263WcCxfConfig {
 
-    /**
-     * Creates the {@code registerMedicalCertificateClient} JAX-WS proxy client pointing at the
-     * intygstjänst {@code RegisterMedicalCertificate v3} (RIV TA BP 2.0) endpoint.
-     *
-     * <p>Equivalent XML:
-     * <pre>{@code
-     * <jaxws:client id="registerMedicalCertificateClient"
-     *               serviceClass="...RegisterMedicalCertificateResponderInterface"
-     *               address="${intygstjanst.registermedicalcertificate.endpoint.url}"/>
-     * }</pre>
-     */
-    @Bean("registerMedicalCertificateClient")
-    public RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient(
-        @Value("${intygstjanst.registermedicalcertificate.endpoint.url}") String address) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(RegisterMedicalCertificateResponderInterface.class);
-        factory.setAddress(address);
-        return (RegisterMedicalCertificateResponderInterface) factory.create();
-    }
+  /**
+   * Creates the {@code registerMedicalCertificateClient} JAX-WS proxy client pointing at the
+   * intygstjänst {@code RegisterMedicalCertificate v3} (RIV TA BP 2.0) endpoint.
+   *
+   * <p>Equivalent XML:
+   *
+   * <pre>{@code
+   * <jaxws:client id="registerMedicalCertificateClient"
+   *               serviceClass="...RegisterMedicalCertificateResponderInterface"
+   *               address="${intygstjanst.registermedicalcertificate.endpoint.url}"/>
+   * }</pre>
+   */
+  @Bean("registerMedicalCertificateClient")
+  public RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient(
+      @Value("${intygstjanst.registermedicalcertificate.endpoint.url}") String address) {
+    final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+    factory.setServiceClass(RegisterMedicalCertificateResponderInterface.class);
+    factory.setAddress(address);
+    return (RegisterMedicalCertificateResponderInterface) factory.create();
+  }
 
-    /**
-     * Creates the {@code getMedicalCertificateResponder} JAX-WS proxy client pointing at the
-     * intygstjänst {@code GetMedicalCertificate v1} endpoint.
-     *
-     * <p>Equivalent XML:
-     * <pre>{@code
-     * <jaxws:client id="getMedicalCertificateResponder"
-     *               serviceClass="...GetMedicalCertificateResponderInterface"
-     *               address="${intygstjanst.getmedicalcertificate.endpoint.url}"/>
-     * }</pre>
-     */
-    @Bean("getMedicalCertificateResponder")
-    public GetMedicalCertificateResponderInterface getMedicalCertificateResponder(
-        @Value("${intygstjanst.getmedicalcertificate.endpoint.url}") String address) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(GetMedicalCertificateResponderInterface.class);
-        factory.setAddress(address);
-        return (GetMedicalCertificateResponderInterface) factory.create();
-    }
+  /**
+   * Creates the {@code getMedicalCertificateResponder} JAX-WS proxy client pointing at the
+   * intygstjänst {@code GetMedicalCertificate v1} endpoint.
+   *
+   * <p>Equivalent XML:
+   *
+   * <pre>{@code
+   * <jaxws:client id="getMedicalCertificateResponder"
+   *               serviceClass="...GetMedicalCertificateResponderInterface"
+   *               address="${intygstjanst.getmedicalcertificate.endpoint.url}"/>
+   * }</pre>
+   */
+  @Bean("getMedicalCertificateResponder")
+  public GetMedicalCertificateResponderInterface getMedicalCertificateResponder(
+      @Value("${intygstjanst.getmedicalcertificate.endpoint.url}") String address) {
+    final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+    factory.setServiceClass(GetMedicalCertificateResponderInterface.class);
+    factory.setAddress(address);
+    return (GetMedicalCertificateResponderInterface) factory.create();
+  }
 }

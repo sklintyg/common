@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,48 +24,49 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 /**
- * A validate draft response contains a binary VALID/INVALID status and two lists of validation messages -
- * validation errors and validation warnings.
+ * A validate draft response contains a binary VALID/INVALID status and two lists of validation
+ * messages - validation errors and validation warnings.
  */
 public class ValidateDraftResponse {
 
-    private final ValidationStatus status;
+  private final ValidationStatus status;
 
-    private final List<ValidationMessage> validationErrors;
-    private final List<ValidationMessage> validationWarnings;
+  private final List<ValidationMessage> validationErrors;
+  private final List<ValidationMessage> validationWarnings;
 
-    public ValidateDraftResponse(ValidationStatus status, List<ValidationMessage> validationErrors) {
-        this(status, validationErrors, new ArrayList<>());
-    }
+  public ValidateDraftResponse(ValidationStatus status, List<ValidationMessage> validationErrors) {
+    this(status, validationErrors, new ArrayList<>());
+  }
 
-    public ValidateDraftResponse(ValidationStatus status,
-        List<ValidationMessage> validationErrors,
-        List<ValidationMessage> validationWarnings) {
-        Assert.notNull(status, "'status' must not be null");
-        Assert.notNull(validationErrors, "'validationErrors' must not be null");
-        Assert.notNull(validationWarnings, "'validationWarnings' must not be null");
-        this.status = status;
-        this.validationErrors = new ArrayList<>(validationErrors);
-        this.validationWarnings = new ArrayList<>(validationWarnings);
-    }
+  public ValidateDraftResponse(
+      ValidationStatus status,
+      List<ValidationMessage> validationErrors,
+      List<ValidationMessage> validationWarnings) {
+    Assert.notNull(status, "'status' must not be null");
+    Assert.notNull(validationErrors, "'validationErrors' must not be null");
+    Assert.notNull(validationWarnings, "'validationWarnings' must not be null");
+    this.status = status;
+    this.validationErrors = new ArrayList<>(validationErrors);
+    this.validationWarnings = new ArrayList<>(validationWarnings);
+  }
 
-    public boolean hasErrorMessages() {
-        return !this.validationErrors.isEmpty();
-    }
+  public boolean hasErrorMessages() {
+    return !this.validationErrors.isEmpty();
+  }
 
-    public boolean hasWarningMessages() {
-        return !this.validationWarnings.isEmpty();
-    }
+  public boolean hasWarningMessages() {
+    return !this.validationWarnings.isEmpty();
+  }
 
-    public List<ValidationMessage> getValidationErrors() {
-        return Collections.unmodifiableList(validationErrors);
-    }
+  public List<ValidationMessage> getValidationErrors() {
+    return Collections.unmodifiableList(validationErrors);
+  }
 
-    public List<ValidationMessage> getValidationWarnings() {
-        return validationWarnings;
-    }
+  public List<ValidationMessage> getValidationWarnings() {
+    return validationWarnings;
+  }
 
-    public ValidationStatus getStatus() {
-        return status;
-    }
+  public ValidationStatus getStatus() {
+    return status;
+  }
 }

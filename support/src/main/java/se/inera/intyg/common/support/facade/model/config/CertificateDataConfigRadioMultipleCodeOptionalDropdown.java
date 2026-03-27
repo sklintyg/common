@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,29 +29,37 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 @JsonDeserialize(builder = CertificateDataConfigRadioMultipleCodeOptionalDropdownBuilder.class)
 @Value
 @Builder
-public class CertificateDataConfigRadioMultipleCodeOptionalDropdown implements CertificateDataConfig {
+public class CertificateDataConfigRadioMultipleCodeOptionalDropdown
+    implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    Layout layout;
-    List<RadioMultipleCodeOptionalDropdown> list;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type =
+      CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigRadioMultipleCodeOptionalDropdownBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  Layout layout;
+  List<RadioMultipleCodeOptionalDropdown> list;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigRadioMultipleCodeOptionalDropdownBuilder {}
 }

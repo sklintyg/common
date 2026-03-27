@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,98 +26,99 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.support.Constants;
 
-
 /**
  * @author andreaskaltenbach
  */
 public class VardAdresseringsTypeValidator {
 
-    private VardAdresseringsType vardAdress;
-    private List<String> validationErrors = null;
+  private VardAdresseringsType vardAdress;
+  private List<String> validationErrors = null;
 
-    public VardAdresseringsTypeValidator(VardAdresseringsType vardAdress, List<String> validationErrors) {
-        this.vardAdress = vardAdress;
-        this.validationErrors = validationErrors;
+  public VardAdresseringsTypeValidator(
+      VardAdresseringsType vardAdress, List<String> validationErrors) {
+    this.vardAdress = vardAdress;
+    this.validationErrors = validationErrors;
+  }
+
+  public void validateAndCorrect() {
+    if (vardAdress == null) {
+      validationErrors.add("No vardAdress element found!");
+      return;
     }
 
-    public void validateAndCorrect() {
-        if (vardAdress == null) {
-            validationErrors.add("No vardAdress element found!");
-            return;
-        }
-
-        HosPersonalType hosPersonal = vardAdress.getHosPersonal();
-        if (hosPersonal == null) {
-            validationErrors.add("No SkapadAvHosPersonal element found!");
-            return;
-        }
-
-        // Check lakar id - mandatory
-        if (Strings.isNullOrEmpty(hosPersonal.getPersonalId().getExtension())) {
-            validationErrors.add("No personal-id found!");
-        }
-
-        // Check lakar id o.i.d.
-        if (hosPersonal.getPersonalId().getRoot() == null
-            || !hosPersonal.getPersonalId().getRoot().equals(Constants.HSA_ID_OID)) {
-            validationErrors.add("Wrong o.i.d. for personalId! Should be " + Constants.HSA_ID_OID);
-        }
-
-        // Check lakarnamn - mandatory
-        if (Strings.isNullOrEmpty(hosPersonal.getFullstandigtNamn())) {
-            validationErrors.add("No skapadAvHosPersonal fullstandigtNamn found.");
-        }
-
-        validateHosPersonalEnhet(hosPersonal.getEnhet());
+    HosPersonalType hosPersonal = vardAdress.getHosPersonal();
+    if (hosPersonal == null) {
+      validationErrors.add("No SkapadAvHosPersonal element found!");
+      return;
     }
 
-    private void validateHosPersonalEnhet(EnhetType enhet) {
-
-        if (enhet == null) {
-            validationErrors.add("No enhet element found!");
-            return;
-        }
-
-        // Check enhets id - mandatory
-        if (enhet.getEnhetsId() == null || Strings.isNullOrEmpty(enhet.getEnhetsId().getExtension())) {
-            validationErrors.add("No enhets-id found!");
-        }
-
-        // Check enhets o.i.d
-        if (enhet.getEnhetsId() == null || enhet.getEnhetsId().getRoot() == null
-            || !enhet.getEnhetsId().getRoot().equals(Constants.HSA_ID_OID)) {
-            validationErrors.add("Wrong o.i.d. for enhetsId! Should be " + Constants.HSA_ID_OID);
-        }
-
-        // Check enhetsnamn - mandatory
-        if (Strings.isNullOrEmpty(enhet.getEnhetsnamn())) {
-            validationErrors.add("No enhetsnamn found!");
-        }
-
-        validateVardgivare(enhet.getVardgivare());
+    // Check lakar id - mandatory
+    if (Strings.isNullOrEmpty(hosPersonal.getPersonalId().getExtension())) {
+      validationErrors.add("No personal-id found!");
     }
 
-    private void validateVardgivare(VardgivareType vardgivare) {
-        if (vardgivare == null) {
-            validationErrors.add("No vardgivare element found!");
-            return;
-        }
-
-        // Check vardgivare id - mandatory
-        if (vardgivare.getVardgivareId() == null || Strings.isNullOrEmpty(vardgivare.getVardgivareId().getExtension())) {
-            validationErrors.add("No vardgivare-id found!");
-        }
-        // Check vardgivare o.i.d.
-        if (vardgivare.getVardgivareId() == null || vardgivare.getVardgivareId().getRoot() == null
-            || !vardgivare.getVardgivareId().getRoot().equals(Constants.HSA_ID_OID)) {
-            validationErrors.add("Wrong o.i.d. for vardgivareId! Should be " + Constants.HSA_ID_OID);
-        }
-
-        // Check vardgivarename - mandatory
-        if (Strings.isNullOrEmpty(vardgivare.getVardgivarnamn())) {
-            validationErrors.add("No vardgivarenamn found!");
-        }
-
+    // Check lakar id o.i.d.
+    if (hosPersonal.getPersonalId().getRoot() == null
+        || !hosPersonal.getPersonalId().getRoot().equals(Constants.HSA_ID_OID)) {
+      validationErrors.add("Wrong o.i.d. for personalId! Should be " + Constants.HSA_ID_OID);
     }
 
+    // Check lakarnamn - mandatory
+    if (Strings.isNullOrEmpty(hosPersonal.getFullstandigtNamn())) {
+      validationErrors.add("No skapadAvHosPersonal fullstandigtNamn found.");
+    }
+
+    validateHosPersonalEnhet(hosPersonal.getEnhet());
+  }
+
+  private void validateHosPersonalEnhet(EnhetType enhet) {
+
+    if (enhet == null) {
+      validationErrors.add("No enhet element found!");
+      return;
+    }
+
+    // Check enhets id - mandatory
+    if (enhet.getEnhetsId() == null || Strings.isNullOrEmpty(enhet.getEnhetsId().getExtension())) {
+      validationErrors.add("No enhets-id found!");
+    }
+
+    // Check enhets o.i.d
+    if (enhet.getEnhetsId() == null
+        || enhet.getEnhetsId().getRoot() == null
+        || !enhet.getEnhetsId().getRoot().equals(Constants.HSA_ID_OID)) {
+      validationErrors.add("Wrong o.i.d. for enhetsId! Should be " + Constants.HSA_ID_OID);
+    }
+
+    // Check enhetsnamn - mandatory
+    if (Strings.isNullOrEmpty(enhet.getEnhetsnamn())) {
+      validationErrors.add("No enhetsnamn found!");
+    }
+
+    validateVardgivare(enhet.getVardgivare());
+  }
+
+  private void validateVardgivare(VardgivareType vardgivare) {
+    if (vardgivare == null) {
+      validationErrors.add("No vardgivare element found!");
+      return;
+    }
+
+    // Check vardgivare id - mandatory
+    if (vardgivare.getVardgivareId() == null
+        || Strings.isNullOrEmpty(vardgivare.getVardgivareId().getExtension())) {
+      validationErrors.add("No vardgivare-id found!");
+    }
+    // Check vardgivare o.i.d.
+    if (vardgivare.getVardgivareId() == null
+        || vardgivare.getVardgivareId().getRoot() == null
+        || !vardgivare.getVardgivareId().getRoot().equals(Constants.HSA_ID_OID)) {
+      validationErrors.add("Wrong o.i.d. for vardgivareId! Should be " + Constants.HSA_ID_OID);
+    }
+
+    // Check vardgivarename - mandatory
+    if (Strings.isNullOrEmpty(vardgivare.getVardgivarnamn())) {
+      validationErrors.add("No vardgivarenamn found!");
+    }
+  }
 }

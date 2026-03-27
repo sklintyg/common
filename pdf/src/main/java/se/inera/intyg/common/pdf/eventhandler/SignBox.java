@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,60 +34,63 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
-/**
- * Renders the texts in the right and left margins.
- */
+/** Renders the texts in the right and left margins. */
 // CHECKSTYLE:OFF MagicNumber
 public class SignBox implements IEventHandler {
 
-    private static final float FONT_SIZE = 10f;
-    private static final float LINE_WIDTH = 0.5f;
-    private final PrintConfig printConfig;
-    private final PdfFont svarFont;
+  private static final float FONT_SIZE = 10f;
+  private static final float LINE_WIDTH = 0.5f;
+  private final PrintConfig printConfig;
+  private final PdfFont svarFont;
 
-    public SignBox(PrintConfig printConfig, PdfFont svarFont) {
-        this.printConfig = printConfig;
-        this.svarFont = svarFont;
+  public SignBox(PrintConfig printConfig, PdfFont svarFont) {
+    this.printConfig = printConfig;
+    this.svarFont = svarFont;
+  }
+
+  @Override
+  public void handleEvent(Event event) {
+    if (!(event instanceof PdfDocumentEvent)) {
+      return;
     }
-
-    @Override
-    public void handleEvent(Event event) {
-        if (!(event instanceof PdfDocumentEvent)) {
-            return;
-        }
-        if (!printConfig.showSignBox()) {
-            return;
-        }
-        final var docEvent = (PdfDocumentEvent) event;
-        final var pdf = docEvent.getDocument();
-        final var page = docEvent.getPage();
-        final var pageSize = page.getPageSize();
-        final var pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
-
-        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
-            canvas.setFont(svarFont).setFontSize(FONT_SIZE);
-            pdfCanvas.setLineWidth(LINE_WIDTH);
-
-            if (shouldRender(pdf, page)) {
-                canvas.showTextAligned("Signatur",
-                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
-                    pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
-                    TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
-
-                final float width = 50f;
-                final float height = 15f;
-                final float x = (page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(width));
-                final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 25f;
-                pdfCanvas.rectangle(x, y, millimetersToPoints(width), millimetersToPoints(height));
-                pdfCanvas.stroke();
-                pdfCanvas.release();
-            }
-        }
+    if (!printConfig.showSignBox()) {
+      return;
     }
+    final var docEvent = (PdfDocumentEvent) event;
+    final var pdf = docEvent.getDocument();
+    final var page = docEvent.getPage();
+    final var pageSize = page.getPageSize();
+    final var pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
 
-    private boolean shouldRender(PdfDocument pdf, PdfPage page) {
-        return pdf.getPageNumber(page) != pdf.getNumberOfPages();
+    try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+      canvas.setFont(svarFont).setFontSize(FONT_SIZE);
+      pdfCanvas.setLineWidth(LINE_WIDTH);
+
+      if (shouldRender(pdf, page)) {
+        canvas.showTextAligned(
+            "Signatur",
+            pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
+            pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
+            TextAlignment.LEFT,
+            VerticalAlignment.MIDDLE,
+            0);
+
+        final float width = 50f;
+        final float height = 15f;
+        final float x =
+            (page.getPageSize().getWidth()
+                - millimetersToPoints(PAGE_MARGIN_LEFT)
+                - millimetersToPoints(width));
+        final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 25f;
+        pdfCanvas.rectangle(x, y, millimetersToPoints(width), millimetersToPoints(height));
+        pdfCanvas.stroke();
+        pdfCanvas.release();
+      }
     }
-    // CHECKSTYLE:ON MagicNumber
+  }
+
+  private boolean shouldRender(PdfDocument pdf, PdfPage page) {
+    return pdf.getPageNumber(page) != pdf.getNumberOfPages();
+  }
+  // CHECKSTYLE:ON MagicNumber
 }

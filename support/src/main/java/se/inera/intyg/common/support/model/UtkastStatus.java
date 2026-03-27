@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,53 +29,46 @@ import java.util.stream.Stream;
  */
 public enum UtkastStatus {
 
-    /**
-     * Work in progress, invalid.
-     */
-    DRAFT_INCOMPLETE("DRAFT_INCOMPLETE", "Utkast, uppgifter saknas"),
+  /** Work in progress, invalid. */
+  DRAFT_INCOMPLETE("DRAFT_INCOMPLETE", "Utkast, uppgifter saknas"),
 
-    /**
-     * Valid and ready for signing.
-     */
-    DRAFT_COMPLETE("DRAFT_COMPLETE", "Utkast, kan signeras"),
+  /** Valid and ready for signing. */
+  DRAFT_COMPLETE("DRAFT_COMPLETE", "Utkast, kan signeras"),
 
-    /**
-     * Locked journalhandling.
-     */
-    DRAFT_LOCKED("DRAFT_LOCKED", "Utkast, låst"),
+  /** Locked journalhandling. */
+  DRAFT_LOCKED("DRAFT_LOCKED", "Utkast, låst"),
 
-    /**
-     * Signed and valid.
-     */
-    SIGNED("SIGNED", "Signerat");
+  /** Signed and valid. */
+  SIGNED("SIGNED", "Signerat");
 
-    private final String value;
-    private final String klartext;
+  private final String value;
+  private final String klartext;
 
-    UtkastStatus(String value, String description) {
-        this.value = value;
-        this.klartext = description;
-    }
+  UtkastStatus(String value, String description) {
+    this.value = value;
+    this.klartext = description;
+  }
 
-    public static Set<UtkastStatus> getDraftStatuses() {
-        return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE, DRAFT_LOCKED).collect(Collectors.toSet());
-    }
+  public static Set<UtkastStatus> getDraftStatuses() {
+    return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE, DRAFT_LOCKED).collect(Collectors.toSet());
+  }
 
-    public static Set<UtkastStatus> getEditableDraftStatuses() {
-        return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE).collect(Collectors.toSet());
-    }
+  public static Set<UtkastStatus> getEditableDraftStatuses() {
+    return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE).collect(Collectors.toSet());
+  }
 
+  public String value() {
+    return value;
+  }
 
-    public String value() {
-        return value;
-    }
+  public String getKlartext() {
+    return this.klartext;
+  }
 
-    public String getKlartext() {
-        return this.klartext;
-    }
-
-    public static UtkastStatus fromValue(String value) {
-        return Stream.of(UtkastStatus.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
-    }
+  public static UtkastStatus fromValue(String value) {
+    return Stream.of(UtkastStatus.values())
+        .filter(s -> value.equals(s.value()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(value));
+  }
 }

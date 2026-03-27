@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,91 +47,95 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
 @ExtendWith(MockitoExtension.class)
 class QuestionIntygetAvserTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionIntygetAvser.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionIntygetAvser.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return INTYG_AVSER_SVAR_ID_1;
-        }
-
-        @Override
-        protected String getParent() {
-            return INTYG_AVSER_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return INTYG_AVSER_SVAR_ID_1;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionIntygetAvser.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return INTYG_AVSER_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return INTYG_AVSER_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<IntygAvser> {
-
-        @Override
-        protected CertificateDataElement getElement(IntygAvser expectedValue) {
-            return QuestionIntygetAvser.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(IntygAvser.create(null), CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(IntygAvser.create(EnumSet.of(IntygAvserKategori.C1)),
-                    CertificateDataValueViewText.builder().text(IntygAvserKategori.C1.name()).build()),
-                new InputExpectedValuePair<>(IntygAvser.create(EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.D1E)),
-                    CertificateDataValueViewText.builder().text(IntygAvserKategori.C1.name() + ", " + IntygAvserKategori.D1E.name())
-                        .build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionIntygetAvser.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return INTYG_AVSER_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<IntygAvser> {
+
+    @Override
+    protected CertificateDataElement getElement(IntygAvser expectedValue) {
+      return QuestionIntygetAvser.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<IntygAvser, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              IntygAvser.create(null),
+              CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              IntygAvser.create(EnumSet.of(IntygAvserKategori.C1)),
+              CertificateDataValueViewText.builder().text(IntygAvserKategori.C1.name()).build()),
+          new InputExpectedValuePair<>(
+              IntygAvser.create(EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.D1E)),
+              CertificateDataValueViewText.builder()
+                  .text(IntygAvserKategori.C1.name() + ", " + IntygAvserKategori.D1E.name())
+                  .build()));
+    }
+  }
 }

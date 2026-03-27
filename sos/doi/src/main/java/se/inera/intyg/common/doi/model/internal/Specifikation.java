@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,42 +26,47 @@ import java.util.stream.Stream;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 
 public enum Specifikation {
+  UPPGIFT_SAKNAS(
+      UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM),
+  KRONISK("90734009", "kronisk", Diagnoskodverk.SNOMED_CT.getCodeSystem()),
+  PLOTSLIG(
+      "424124008",
+      "plötslig debut och/eller kort duration",
+      Diagnoskodverk.SNOMED_CT.getCodeSystem());
 
-    UPPGIFT_SAKNAS(UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM),
-    KRONISK("90734009", "kronisk", Diagnoskodverk.SNOMED_CT.getCodeSystem()),
-    PLOTSLIG("424124008", "plötslig debut och/eller kort duration", Diagnoskodverk.SNOMED_CT.getCodeSystem());
+  private final String id;
+  private final String label;
+  private final String codeSystem;
 
-    private final String id;
-    private final String label;
-    private final String codeSystem;
+  Specifikation(String id, String label, String codeSystem) {
+    this.id = id;
+    this.label = label;
+    this.codeSystem = codeSystem;
+  }
 
-    Specifikation(String id, String label, String codeSystem) {
-        this.id = id;
-        this.label = label;
-        this.codeSystem = codeSystem;
-    }
+  public static Specifikation fromId(String id) {
+    return Stream.of(Specifikation.values())
+        .filter(undersokning -> undersokning.getId().equals(id))
+        .findAny()
+        .orElseThrow(() -> new IllegalArgumentException());
+  }
 
-    public static Specifikation fromId(String id) {
-        return Stream.of(Specifikation.values())
-            .filter(undersokning -> undersokning.getId().equals(id))
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException());
-    }
+  public static Specifikation fromValue(String value) {
+    return Stream.of(Specifikation.values())
+        .filter(s -> value.equals(s.name()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(value));
+  }
 
-    public static Specifikation fromValue(String value) {
-        return Stream.of(Specifikation.values()).filter(s -> value.equals(s.name())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getLabel() {
+    return label;
+  }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public String getCodeSystem() {
-        return codeSystem;
-    }
+  public String getCodeSystem() {
+    return codeSystem;
+  }
 }

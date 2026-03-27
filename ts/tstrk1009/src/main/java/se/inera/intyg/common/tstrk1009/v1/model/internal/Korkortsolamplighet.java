@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,33 +21,33 @@ package se.inera.intyg.common.tstrk1009.v1.model.internal;
 import java.util.stream.Stream;
 
 public enum Korkortsolamplighet {
-    OLAMPLIGHET("OLAMPLIGHET", "Anmälan om olämplighet"),
-    SANNOLIK_OLAMPLIGHET("SANNOLIK_OLAMPLIGHET", "Anmälan om sannolik olämplighet");
+  OLAMPLIGHET("OLAMPLIGHET", "Anmälan om olämplighet"),
+  SANNOLIK_OLAMPLIGHET("SANNOLIK_OLAMPLIGHET", "Anmälan om sannolik olämplighet");
 
-    private final String code;
-    private final String description;
+  private final String code;
+  private final String description;
 
-    Korkortsolamplighet(final String code, final String description) {
-        this.code = code;
-        this.description = description;
-    }
+  Korkortsolamplighet(final String code, final String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    public static Korkortsolamplighet fromCode(final String code) {
-        return Stream.of(Korkortsolamplighet.values()).filter(s -> code.equals(s.getCode()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  public static Korkortsolamplighet fromCode(final String code) {
+    return Stream.of(Korkortsolamplighet.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 
-    public String getId() {
-        return this.name();
-    }
+  public String getId() {
+    return this.name();
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getDescription() {
-        return description;
-    }
-
+  public String getDescription() {
+    return description;
+  }
 }

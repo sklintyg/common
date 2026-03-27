@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,46 +24,47 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum KvTypAvDiabetes {
+  TYP1("E10", "Diabetes mellitus typ 1"),
+  TYP2("E11", "Diabetes mellitus typ 2"),
+  LADA("E109", "Diabetes mellitus typ 1-Utan komplikationer"),
+  ANNAN("E13", "Annan typ av diabetes");
 
-    TYP1("E10", "Diabetes mellitus typ 1"),
-    TYP2("E11", "Diabetes mellitus typ 2"),
-    LADA("E109", "Diabetes mellitus typ 1-Utan komplikationer"),
-    ANNAN("E13", "Annan typ av diabetes");
+  final String code;
+  final String description;
 
-    final String code;
-    final String description;
+  KvTypAvDiabetes(String code, String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    KvTypAvDiabetes(String code, String description) {
-        this.code = code;
-        this.description = description;
+  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+  public static KvTypAvDiabetes fromId(@JsonProperty("id") String id) {
+    String normId = id != null ? id.trim() : null;
+    for (KvTypAvDiabetes typ : values()) {
+      if (typ.name().equals(normId)) {
+        return typ;
+      }
     }
+    throw new IllegalArgumentException();
+  }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static KvTypAvDiabetes fromId(@JsonProperty("id") String id) {
-        String normId = id != null ? id.trim() : null;
-        for (KvTypAvDiabetes typ : values()) {
-            if (typ.name().equals(normId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
+  public static KvTypAvDiabetes fromCode(String code) {
+    return Stream.of(KvTypAvDiabetes.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 
-    public static KvTypAvDiabetes fromCode(String code) {
-        return Stream.of(KvTypAvDiabetes.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  @JsonValue
+  public String getId() {
+    return this.name();
+  }
 
-    @JsonValue
-    public String getId() {
-        return this.name();
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 }

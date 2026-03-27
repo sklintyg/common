@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,19 +22,22 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum SchemaVersion {
-    VERSION_1("V1"), VERSION_3("V3");
+  VERSION_1("V1"),
+  VERSION_3("V3");
 
-    private final String version;
+  private final String version;
 
-    SchemaVersion(String version) {
-        this.version = version;
-    }
+  SchemaVersion(String version) {
+    this.version = version;
+  }
 
-    public String getVersion() {
-        return version;
-    }
+  public String getVersion() {
+    return version;
+  }
 
-    public static Optional<SchemaVersion> fromString(String version) {
-        return Stream.of(SchemaVersion.values()).filter(s -> version.equals(s.getVersion())).findFirst();
-    }
+  public static Optional<SchemaVersion> fromString(String version) {
+    return Stream.of(SchemaVersion.values())
+        .filter(s -> version.equals(s.getVersion()))
+        .findFirst();
+  }
 }

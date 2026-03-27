@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,30 +30,32 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueCodeListTest<T> extends ValueTest {
 
-    protected abstract CertificateDataElement getElement(T expectedValue);
+  protected abstract CertificateDataElement getElement(T expectedValue);
 
-    protected abstract List<InputExpectedValuePair<T, CertificateDataValueCodeList>> inputExpectedValuePairList();
+  protected abstract List<InputExpectedValuePair<T, CertificateDataValueCodeList>>
+      inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T, CertificateDataValueCodeList>> inputExpectedValuePairStream() {
-        return inputExpectedValuePairList().stream();
-    }
+  protected Stream<InputExpectedValuePair<T, CertificateDataValueCodeList>>
+      inputExpectedValuePairStream() {
+    return inputExpectedValuePairList().stream();
+  }
 
-    @Override
-    protected CertificateDataElement getElement() {
-        return getElement(null);
-    }
+  @Override
+  protected CertificateDataElement getElement() {
+    return getElement(null);
+  }
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.CODE_LIST;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.CODE_LIST;
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeCodeValueList(InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
-        final var question = getElement(inputExpectedValuePair.getInput());
-        final var value = (CertificateDataValueCodeList) question.getValue();
-        assertEquals(inputExpectedValuePair.getExpectedValue(), value);
-    }
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeCodeValueList(
+      InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
+    final var question = getElement(inputExpectedValuePair.getInput());
+    final var value = (CertificateDataValueCodeList) question.getValue();
+    assertEquals(inputExpectedValuePair.getExpectedValue(), value);
+  }
 }
-

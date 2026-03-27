@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,122 +44,123 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionMedicinskaForutsattningarForArbeteTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMedicinskaForutsattningarForArbete.toCertificate(
+          null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMedicinskaForutsattningarForArbete.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
-        }
-
-        @Override
-        protected String getParent() {
-            return CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMedicinskaForutsattningarForArbete.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-        }
+    @Override
+    protected String getParent() {
+      return CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMedicinskaForutsattningarForArbete.toCertificate(getText(), 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMedicinskaForutsattningarForArbete.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMedicinskaForutsattningarForArbete.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionMedicinskaForutsattningarForArbete.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionMedicinskaForutsattningarForArbete.toInternal(certificate);
-        }
+    @Override
+    protected String getTextId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMedicinskaForutsattningarForArbete.toCertificate(getText(), 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMedicinskaForutsattningarForArbete.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionMedicinskaForutsattningarForArbete.toCertificate(
+          expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionMedicinskaForutsattningarForArbete.toInternal(certificate);
+    }
+  }
 }

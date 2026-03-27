@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,70 +42,66 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionForgiftningOrsak {
 
-    public static CertificateDataElement toCertificate(ForgiftningOrsak forgiftningOrsak, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FORGIFTNING_ORSAK_DELSVAR_ID)
-            .parent(FORGIFTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(FORGIFTNING_ORSAK_QUESTION_TEXT_ID))
-                    .description(texts.get(FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCode.builder()
-                                .id(ForgiftningOrsak.OLYCKSFALL.name())
-                                .label(ForgiftningOrsak.OLYCKSFALL.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(ForgiftningOrsak.SJALVMORD.name())
-                                .label(ForgiftningOrsak.SJALVMORD.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(ForgiftningOrsak.AVSIKTLIGT_VALLAD.name())
-                                .label(ForgiftningOrsak.AVSIKTLIGT_VALLAD.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(ForgiftningOrsak.OKLART.name())
-                                .label(ForgiftningOrsak.OKLART.getBeskrivning())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                forgiftningOrsak != null ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      ForgiftningOrsak forgiftningOrsak, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(FORGIFTNING_ORSAK_DELSVAR_ID)
+        .parent(FORGIFTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(FORGIFTNING_ORSAK_QUESTION_TEXT_ID))
+                .description(texts.get(FORGIFTNING_ORSAK_QUESTION_DESCRIPTION_ID))
+                .list(
+                    Arrays.asList(
+                        RadioMultipleCode.builder()
+                            .id(ForgiftningOrsak.OLYCKSFALL.name())
+                            .label(ForgiftningOrsak.OLYCKSFALL.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(ForgiftningOrsak.SJALVMORD.name())
+                            .label(ForgiftningOrsak.SJALVMORD.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(ForgiftningOrsak.AVSIKTLIGT_VALLAD.name())
+                            .label(ForgiftningOrsak.AVSIKTLIGT_VALLAD.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(ForgiftningOrsak.OKLART.name())
+                            .label(ForgiftningOrsak.OKLART.getBeskrivning())
+                            .build()))
+                .build())
+        .value(
+            forgiftningOrsak != null
+                ? CertificateDataValueCode.builder()
                     .id(forgiftningOrsak.name())
                     .code(forgiftningOrsak.name())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FORGIFTNING_ORSAK_DELSVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                ForgiftningOrsak.OLYCKSFALL.name(),
-                                ForgiftningOrsak.SJALVMORD.name(),
-                                ForgiftningOrsak.AVSIKTLIGT_VALLAD.name(),
-                                ForgiftningOrsak.OKLART.name()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FORGIFTNING_OM_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
-                        .build(),
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FORGIFTNING_ORSAK_DELSVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          ForgiftningOrsak.OLYCKSFALL.name(),
+                          ForgiftningOrsak.SJALVMORD.name(),
+                          ForgiftningOrsak.AVSIKTLIGT_VALLAD.name(),
+                          ForgiftningOrsak.OKLART.name()))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FORGIFTNING_OM_DELSVAR_ID)
+                  .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
+                  .build(),
+            })
+        .build();
+  }
 
-    public static ForgiftningOrsak toInternal(Certificate certificate) {
-        final var codeValueString = codeValue(certificate.getData(), FORGIFTNING_ORSAK_DELSVAR_ID);
-        if (codeValueString == null) {
-            return null;
-        }
-        return ForgiftningOrsak.valueOf(codeValueString);
+  public static ForgiftningOrsak toInternal(Certificate certificate) {
+    final var codeValueString = codeValue(certificate.getData(), FORGIFTNING_ORSAK_DELSVAR_ID);
+    if (codeValueString == null) {
+      return null;
     }
+    return ForgiftningOrsak.valueOf(codeValueString);
+  }
 }

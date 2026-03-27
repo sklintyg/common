@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -31,25 +30,26 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class InternalValueTest<T, S> {
 
-    protected abstract CertificateDataElement getElement(T input);
+  protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract S toInternalValue(Certificate certificate);
+  protected abstract S toInternalValue(Certificate certificate);
 
-    protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
+  protected abstract List<InputExpectedValuePair<T, S>> inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T, S>> inputExpectedValuePairStream() {
-        return inputExpectedValuePairList().stream();
-    }
+  protected Stream<InputExpectedValuePair<T, S>> inputExpectedValuePairStream() {
+    return inputExpectedValuePairList().stream();
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
-        final var certificate = CertificateBuilder.create()
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeValue(InputExpectedValuePair<T, S> inputExpectedValuePair) {
+    final var certificate =
+        CertificateBuilder.create()
             .addElement(getElement(inputExpectedValuePair.getInput()))
             .build();
 
-        final var actualValue = toInternalValue(certificate);
+    final var actualValue = toInternalValue(certificate);
 
-        assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
-    }
+    assertEquals(inputExpectedValuePair.getExpectedValue(), actualValue);
+  }
 }

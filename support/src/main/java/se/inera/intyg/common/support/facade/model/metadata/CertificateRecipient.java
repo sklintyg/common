@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,12 +30,10 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateRecipient.
 @Builder
 public class CertificateRecipient {
 
-    String id;
-    String name;
-    LocalDateTime sent;
+  String id;
+  String name;
+  LocalDateTime sent;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateRecipientBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateRecipientBuilder {}
 }

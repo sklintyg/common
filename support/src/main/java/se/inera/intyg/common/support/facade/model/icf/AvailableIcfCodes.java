@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,11 +30,9 @@ import se.inera.intyg.common.support.facade.model.icf.AvailableIcfCodes.Availabl
 @Builder
 public class AvailableIcfCodes {
 
-    private IcfCodeCollection commonCodes;
-    private List<IcfCodeCollection> uniqueCodes;
+  private IcfCodeCollection commonCodes;
+  private List<IcfCodeCollection> uniqueCodes;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class AvailableIcfCodesBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class AvailableIcfCodesBuilder {}
 }

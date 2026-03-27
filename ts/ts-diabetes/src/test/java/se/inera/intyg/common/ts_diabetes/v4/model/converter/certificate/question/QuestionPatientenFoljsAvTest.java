@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,178 +56,177 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 @ExtendWith(MockitoExtension.class)
 class QuestionPatientenFoljsAvTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionPatientenFoljsAv.toCertificate(null, getIndex(), textProvider);
     }
+
+    @Override
+    protected String getId() {
+      return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
+    }
+
+    @Override
+    protected String getParent() {
+      return ALLMANT_CATEGORY_ID;
+    }
+
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
+
+  @Nested
+  class IncludeConfigRadioBooleanTest extends ConfigRadioMultipleCodeTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID;
+    }
+
+    @Override
+    protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
+      return List.of(
+          RadioMultipleCode.builder()
+              .id(KvVardniva.PRIMARVARD.getCode())
+              .label(textProvider.get(ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID))
+              .build(),
+          RadioMultipleCode.builder()
+              .id(KvVardniva.SPECIALISTVARD.getCode())
+              .label(textProvider.get(ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID))
+              .build());
+    }
+
+    @Override
+    protected Layout getExpectedLayout() {
+      return Layout.ROWS;
+    }
+  }
+
+  @Nested
+  class IncludeValueCodeTests extends ValueCodeTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var patientenFoljsAv =
+          Allmant.builder().setPatientenFoljsAv(KvVardniva.SPECIALISTVARD).build();
+      return QuestionPatientenFoljsAv.toCertificate(patientenFoljsAv, 0, textProvider);
+    }
+
+    @Override
+    protected String getCodeId() {
+      return KvVardniva.SPECIALISTVARD.getCode();
+    }
+
+    @Override
+    protected String getCode() {
+      return KvVardniva.SPECIALISTVARD.getCode();
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + KvVardniva.PRIMARVARD.getCode()
+          + ") || exists("
+          + KvVardniva.SPECIALISTVARD.getCode()
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class ToInternal {
 
     @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
+    @TestInstance(Lifecycle.PER_CLASS)
+    class IncludeInternalValuePairTest extends InternalValueTest<Allmant, KvVardniva> {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionPatientenFoljsAv.toCertificate(null, getIndex(), textProvider);
-        }
+      @Override
+      protected CertificateDataElement getElement(Allmant input) {
+        return QuestionPatientenFoljsAv.toCertificate(input, 0, textProvider);
+      }
 
-        @Override
-        protected String getId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
-        }
+      @Override
+      protected KvVardniva toInternalValue(Certificate certificate) {
+        return QuestionPatientenFoljsAv.toInternal(certificate);
+      }
 
-        @Override
-        protected String getParent() {
-            return ALLMANT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+      @Override
+      protected List<InputExpectedValuePair<Allmant, KvVardniva>> inputExpectedValuePairList() {
+        return List.of(
+            new InputExpectedValuePair(null, null),
+            new InputExpectedValuePair(Allmant.builder().setPatientenFoljsAv(null).build(), null),
+            new InputExpectedValuePair(
+                Allmant.builder().setPatientenFoljsAv(KvVardniva.SPECIALISTVARD).build(),
+                KvVardniva.SPECIALISTVARD),
+            new InputExpectedValuePair(
+                Allmant.builder().setPatientenFoljsAv(KvVardniva.PRIMARVARD).build(),
+                KvVardniva.PRIMARVARD));
+      }
     }
 
-    @Nested
-    class IncludeConfigRadioBooleanTest extends ConfigRadioMultipleCodeTest {
+    @Test
+    void shouldHandleCodeWithEmptyStringValues() {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider))
+              .build();
 
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
+      certificate
+          .getData()
+          .put(
+              ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID,
+              CertificateDataElement.builder()
+                  .value(CertificateDataValueCode.builder().id("").code("").build())
+                  .build());
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider);
-        }
+      final var actualValue = QuestionPatientenFoljsAv.toInternal(certificate);
 
-        @Override
-        protected String getTextId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
-            return List.of(
-                RadioMultipleCode.builder()
-                    .id(KvVardniva.PRIMARVARD.getCode())
-                    .label(textProvider.get(ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID))
-                    .build(),
-                RadioMultipleCode.builder()
-                    .id(KvVardniva.SPECIALISTVARD.getCode())
-                    .label(textProvider.get(ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID))
-                    .build()
-            );
-        }
-
-        @Override
-        protected Layout getExpectedLayout() {
-            return Layout.ROWS;
-        }
+      assertTrue(actualValue == null);
     }
-
-    @Nested
-    class IncludeValueCodeTests extends ValueCodeTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var patientenFoljsAv = Allmant.builder().setPatientenFoljsAv(KvVardniva.SPECIALISTVARD).build();
-            return QuestionPatientenFoljsAv.toCertificate(patientenFoljsAv, 0, textProvider);
-        }
-
-        @Override
-        protected String getCodeId() {
-            return KvVardniva.SPECIALISTVARD.getCode();
-        }
-
-        @Override
-        protected String getCode() {
-            return KvVardniva.SPECIALISTVARD.getCode();
-        }
-    }
-
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + KvVardniva.PRIMARVARD.getCode() + ") || exists(" + KvVardniva.SPECIALISTVARD.getCode() + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class ToInternal {
-
-        @Nested
-        @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalValuePairTest extends InternalValueTest<Allmant, KvVardniva> {
-
-            @Override
-            protected CertificateDataElement getElement(Allmant input) {
-                return QuestionPatientenFoljsAv.toCertificate(input, 0, textProvider);
-            }
-
-            @Override
-            protected KvVardniva toInternalValue(Certificate certificate) {
-                return QuestionPatientenFoljsAv.toInternal(certificate);
-            }
-
-            @Override
-            protected List<InputExpectedValuePair<Allmant, KvVardniva>> inputExpectedValuePairList() {
-                return List.of(
-                    new InputExpectedValuePair(null, null),
-                    new InputExpectedValuePair(Allmant.builder().setPatientenFoljsAv(null).build(), null),
-                    new InputExpectedValuePair(
-                        Allmant.builder().setPatientenFoljsAv(KvVardniva.SPECIALISTVARD).build(),
-                        KvVardniva.SPECIALISTVARD
-                    ),
-                    new InputExpectedValuePair(
-                        Allmant.builder().setPatientenFoljsAv(KvVardniva.PRIMARVARD).build(),
-                        KvVardniva.PRIMARVARD
-                    )
-                );
-            }
-        }
-
-        @Test
-        void shouldHandleCodeWithEmptyStringValues() {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionPatientenFoljsAv.toCertificate(null, 0, textProvider))
-                .build();
-
-            certificate.getData().put(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID, CertificateDataElement.builder()
-                .value(
-                    CertificateDataValueCode.builder()
-                        .id("")
-                        .code("")
-                        .build()
-                )
-                .build()
-            );
-
-            final var actualValue = QuestionPatientenFoljsAv.toInternal(certificate);
-
-            assertTrue(actualValue == null);
-        }
-    }
+  }
 }

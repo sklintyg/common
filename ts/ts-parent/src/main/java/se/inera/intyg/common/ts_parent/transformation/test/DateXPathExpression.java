@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,30 +27,31 @@ import javax.xml.xpath.XPathExpressionException;
 import org.w3c.dom.Node;
 
 /**
- * An xPath expression that is evaluated as an date string result. The output date format can be specified.
+ * An xPath expression that is evaluated as an date string result. The output date format can be
+ * specified.
  */
 public class DateXPathExpression extends AbstractXPathExpression<String> {
 
-    private final DateTimeFormatter dateFormat;
+  private final DateTimeFormatter dateFormat;
 
-    /**
-     * Creates a boolean xPath expression from an xPath string.
-     *
-     * @param xPathString The xPath string resulting in a boolean result.
-     * @param dateFormat The expected output date format.
-     */
-    public DateXPathExpression(String xPathString, String dateFormat) {
-        super(xPathString, XPathConstants.STRING);
-        this.dateFormat = DateTimeFormatter.ofPattern(dateFormat);
-    }
+  /**
+   * Creates a boolean xPath expression from an xPath string.
+   *
+   * @param xPathString The xPath string resulting in a boolean result.
+   * @param dateFormat The expected output date format.
+   */
+  public DateXPathExpression(String xPathString, String dateFormat) {
+    super(xPathString, XPathConstants.STRING);
+    this.dateFormat = DateTimeFormatter.ofPattern(dateFormat);
+  }
 
-    @Override
-    public String evaluate(XPath xPath, Node document) throws XPathExpressionException {
-        String xmlDate = super.evaluate(xPath, document);
-        if (xmlDate.contains("T")) {
-            return LocalDateTime.parse(xmlDate).format(dateFormat);
-        } else {
-            return LocalDate.parse(xmlDate).format(dateFormat);
-        }
+  @Override
+  public String evaluate(XPath xPath, Node document) throws XPathExpressionException {
+    String xmlDate = super.evaluate(xPath, document);
+    if (xmlDate.contains("T")) {
+      return LocalDateTime.parse(xmlDate).format(dateFormat);
+    } else {
+      return LocalDate.parse(xmlDate).format(dateFormat);
     }
+  }
 }

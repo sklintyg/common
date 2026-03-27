@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,14 +30,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueVisu
 @Builder
 public class CertificateDataValueVisualAcuity implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.VISUAL_ACUITY;
-    CertificateDataValueDouble withoutCorrection;
-    CertificateDataValueDouble withCorrection;
-    CertificateDataValueBoolean contactLenses;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.VISUAL_ACUITY;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueVisualAcuityBuilder {
+  CertificateDataValueDouble withoutCorrection;
+  CertificateDataValueDouble withCorrection;
+  CertificateDataValueBoolean contactLenses;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueVisualAcuityBuilder {}
 }

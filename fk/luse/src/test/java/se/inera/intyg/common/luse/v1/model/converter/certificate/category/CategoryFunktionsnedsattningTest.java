@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.luse.v1.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -57,112 +56,110 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class CategoryFunktionsnedsattningTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryFunktionsnedsattning.toCertificate(0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryFunktionsnedsattning.toCertificate(0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return FUNKTIONSNEDSATTNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return null;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return FUNKTIONSNEDSATTNING_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeConfigCategoryTests extends ConfigCategoryTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryFunktionsnedsattning.toCertificate(0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID;
-        }
+    @Override
+    protected String getParent() {
+      return null;
     }
 
-    @Nested
-    class IncludeValidationCategoryMandatoryTests extends ValidationCategoryMandatoryTest {
-
-        @Override
-        protected ExpressionTypeEnum getExpressionType() {
-            return ExpressionTypeEnum.OR;
-        }
-
-        @Override
-        protected List<CertificateDataValidationMandatory> getListOfQuestions() {
-            return List.of(
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID))
-                    .build(),
-                CertificateDataValidationMandatory.builder()
-                    .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID)
-                    .expression(singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID))
-                    .build()
-            );
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryFunktionsnedsattning.toCertificate(0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigCategoryTests extends ConfigCategoryTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryFunktionsnedsattning.toCertificate(0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationCategoryMandatoryTests extends ValidationCategoryMandatoryTest {
+
+    @Override
+    protected ExpressionTypeEnum getExpressionType() {
+      return ExpressionTypeEnum.OR;
+    }
+
+    @Override
+    protected List<CertificateDataValidationMandatory> getListOfQuestions() {
+      return List.of(
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID))
+              .build(),
+          CertificateDataValidationMandatory.builder()
+              .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID)
+              .expression(singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID))
+              .build());
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryFunktionsnedsattning.toCertificate(0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
 }

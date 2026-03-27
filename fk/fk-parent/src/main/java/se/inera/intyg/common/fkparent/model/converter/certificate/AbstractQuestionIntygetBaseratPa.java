@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,120 +50,124 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public abstract class AbstractQuestionIntygetBaseratPa {
 
-    protected static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate telefonkontaktPatient,
-        InternalDate journaluppgifter, InternalDate annat, String questionId, String parentId, int index,
-        String textId, String descriptionId, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parentId)
-            .config(
-                CertificateDataConfigCheckboxMultipleDate.builder()
-                    .text(textProvider.get(textId))
-                    .description(textProvider.get(descriptionId))
-                    .list(
-                        Arrays.asList(
-                            CheckboxMultipleDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL_ID))
-                                .maxDate(LocalDate.now())
-                                .build(),
-                            CheckboxMultipleDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_TELEFONKONTAKT_LABEL_ID))
-                                .maxDate(LocalDate.now())
-                                .build(),
-                            CheckboxMultipleDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID))
-                                .maxDate(LocalDate.now())
-                                .build(),
-                            CheckboxMultipleDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                                .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
-                                .maxDate(LocalDate.now())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueDateList.builder()
-                    .list(createIntygetBaseratPaValue(undersokningPatient, telefonkontaktPatient, journaluppgifter, annat))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(questionId)
-                        .expression(
-                            multipleOrExpression(
-                                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                                GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1,
-                                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
-                                GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1
-                            ))
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
+  protected static CertificateDataElement toCertificate(
+      InternalDate undersokningPatient,
+      InternalDate telefonkontaktPatient,
+      InternalDate journaluppgifter,
+      InternalDate annat,
+      String questionId,
+      String parentId,
+      int index,
+      String textId,
+      String descriptionId,
+      CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parentId)
+        .config(
+            CertificateDataConfigCheckboxMultipleDate.builder()
+                .text(textProvider.get(textId))
+                .description(textProvider.get(descriptionId))
+                .list(
+                    Arrays.asList(
+                        CheckboxMultipleDate.builder()
+                            .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
+                            .label(textProvider.get(GRUNDFORMU_UNDERSOKNING_LABEL_ID))
+                            .maxDate(LocalDate.now())
+                            .build(),
+                        CheckboxMultipleDate.builder()
+                            .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
+                            .label(textProvider.get(GRUNDFORMU_TELEFONKONTAKT_LABEL_ID))
+                            .maxDate(LocalDate.now())
+                            .build(),
+                        CheckboxMultipleDate.builder()
+                            .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+                            .label(textProvider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID))
+                            .maxDate(LocalDate.now())
+                            .build(),
+                        CheckboxMultipleDate.builder()
+                            .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+                            .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
+                            .maxDate(LocalDate.now())
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueDateList.builder()
+                .list(
+                    createIntygetBaseratPaValue(
+                        undersokningPatient, telefonkontaktPatient, journaluppgifter, annat))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(questionId)
+                  .expression(
+                      multipleOrExpression(
+                          GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                  .build(),
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<CertificateDataValueDate> createIntygetBaseratPaValue(
+      InternalDate undersokningPatient,
+      InternalDate telefonkontaktPatient,
+      InternalDate journaluppgifter,
+      InternalDate annat) {
+    final List<CertificateDataValueDate> values = new ArrayList<>();
+
+    if (validDate(undersokningPatient)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
+              .date(undersokningPatient.asLocalDate())
+              .build());
     }
 
-    private static List<CertificateDataValueDate> createIntygetBaseratPaValue(InternalDate undersokningPatient,
-        InternalDate telefonkontaktPatient, InternalDate journaluppgifter, InternalDate annat) {
-        final List<CertificateDataValueDate> values = new ArrayList<>();
-
-        if (validDate(undersokningPatient)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                    .date(undersokningPatient.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(telefonkontaktPatient)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-                    .date(telefonkontaktPatient.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(journaluppgifter)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                    .date(journaluppgifter.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(annat)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                    .date(annat.asLocalDate())
-                    .build()
-            );
-        }
-        return values;
+    if (validDate(telefonkontaktPatient)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
+              .date(telefonkontaktPatient.asLocalDate())
+              .build());
     }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
+    if (validDate(journaluppgifter)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+              .date(journaluppgifter.asLocalDate())
+              .build());
     }
 
-    protected static InternalDate toInternal(Certificate certificate, String questionId, String itemId) {
-        final var localDate = dateListValue(certificate.getData(), questionId, itemId);
-        if (localDate == null) {
-            return null;
-        }
-        return new InternalDate(localDate);
+    if (validDate(annat)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+              .date(annat.asLocalDate())
+              .build());
     }
+    return values;
+  }
+
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
+
+  protected static InternalDate toInternal(
+      Certificate certificate, String questionId, String itemId) {
+    final var localDate = dateListValue(certificate.getData(), questionId, itemId);
+    if (localDate == null) {
+      return null;
+    }
+    return new InternalDate(localDate);
+  }
 }

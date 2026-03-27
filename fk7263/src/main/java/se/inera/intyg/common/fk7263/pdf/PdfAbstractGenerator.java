@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,586 +51,669 @@ import se.inera.intyg.common.support.model.Status;
  */
 public abstract class PdfAbstractGenerator {
 
-    // General stuff
-    private static final float LINE_WIDTH = 0.6f;
+  // General stuff
+  private static final float LINE_WIDTH = 0.6f;
 
-    // Coordinates for masking "Skicka till försäkringskassan.."
-    private static final int MASK_HEIGTH = 70;
-    private static final int MASK_WIDTH = 250;
-    private static final int MASK_START_X = 300;
-    private static final int MASK_START_Y = 670;
+  // Coordinates for masking "Skicka till försäkringskassan.."
+  private static final int MASK_HEIGTH = 70;
+  private static final int MASK_WIDTH = 250;
+  private static final int MASK_START_X = 300;
+  private static final int MASK_START_Y = 670;
 
-    // Constants used for watermarking
-    private static final int MARK_AS_COPY_HEIGTH = 44;
-    private static final int MARK_AS_COPY_WIDTH = 300;
-    private static final int MARK_AS_COPY_START_X = 50;
-    private static final int MARK_AS_COPY_START_Y = 690;
+  // Constants used for watermarking
+  private static final int MARK_AS_COPY_HEIGTH = 44;
+  private static final int MARK_AS_COPY_WIDTH = 300;
+  private static final int MARK_AS_COPY_START_X = 50;
+  private static final int MARK_AS_COPY_START_Y = 690;
 
-    private static final int WATERMARK_TEXT_PADDING = 10;
-    private static final int WATERMARK_FONTSIZE = 11;
+  private static final int WATERMARK_TEXT_PADDING = 10;
+  private static final int WATERMARK_FONTSIZE = 11;
 
-    protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg. \n"
-        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+  protected static final String ELECTRONIC_COPY_WATERMARK_TEXT =
+      "Detta är en utskrift av ett elektroniskt intyg. \n"
+          + "Intyget har signerats elektroniskt av intygsutfärdaren.";
 
-    // Right margin texts
-    protected static final String WEBCERT_MARGIN_TEXT = "Intyget är elektroniskt undertecknat. Intyget är utskrivet från Webcert.";
+  // Right margin texts
+  protected static final String WEBCERT_MARGIN_TEXT =
+      "Intyget är elektroniskt undertecknat. Intyget är utskrivet från Webcert.";
 
-    private static final Font INTYG_STATEWATERMARK_FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
-    private static final String INTYG_STATEWATERMARK_DRAFT_TEXT = "UTKAST";
-    private static final String INTYG_STATEWATERMARK_CANCELLED_TEXT = "MAKULERAT";
-    private static final String INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT = "LÅST UTKAST";
-    private static final int INTYG_STATEWATERMARK_ROTATION = 45;
-    private static final float INTYG_STATEWATERMARK_FILL_OPACITY = 0.5f;
+  private static final Font INTYG_STATEWATERMARK_FONT =
+      new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
+  private static final String INTYG_STATEWATERMARK_DRAFT_TEXT = "UTKAST";
+  private static final String INTYG_STATEWATERMARK_CANCELLED_TEXT = "MAKULERAT";
+  private static final String INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT = "LÅST UTKAST";
+  private static final int INTYG_STATEWATERMARK_ROTATION = 45;
+  private static final float INTYG_STATEWATERMARK_FILL_OPACITY = 0.5f;
 
+  // Constants for printing ID and origin in right margin
+  private static final int MARGIN_TEXT_START_X = 565;
+  private static final int MARGIN_TEXT_START_Y = 27;
+  private static final int MARGIN_TEXT_FONTSIZE = 7;
 
-    // Constants for printing ID and origin in right margin
-    private static final int MARGIN_TEXT_START_X = 565;
-    private static final int MARGIN_TEXT_START_Y = 27;
-    private static final int MARGIN_TEXT_FONTSIZE = 7;
+  // Constants for printing "Fysisk underskrift krävs ej av intygsmottagare"
+  private static final int SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM = 10;
+  private static final int SIGNATURE_NOT_REQUIRED_PADDING_LEFT = 5;
+  private static final int SIGNATURE_NOT_REQUIRED_FONT_SIZE = 8;
+  private static final int SIGNATURE_NOT_REQUIRED_START_X = 263;
+  private static final int SIGNATURE_NOT_REQUIRED_START_Y = 105;
+  private static final float SIGNATURE_NOT_REQUIRED_WIDTH = 289.6f;
+  private static final int SIGNATURE_NOT_REQUIRED_HEIGHT = 25;
+  private static final String SIGNATURE_NOT_REQUIRED_TEXT =
+      "Fysisk underskrift krävs ej av intygsmottagare";
+  private static final CMYKColor SIGNATURE_NOT_REQUIRED_COLOR =
+      new CMYKColor(0.01f, 0.04f, 0.42f, 0.0f);
 
-    // Constants for printing "Fysisk underskrift krävs ej av intygsmottagare"
-    private static final int SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM = 10;
-    private static final int SIGNATURE_NOT_REQUIRED_PADDING_LEFT = 5;
-    private static final int SIGNATURE_NOT_REQUIRED_FONT_SIZE = 8;
-    private static final int SIGNATURE_NOT_REQUIRED_START_X = 263;
-    private static final int SIGNATURE_NOT_REQUIRED_START_Y = 105;
-    private static final float SIGNATURE_NOT_REQUIRED_WIDTH = 289.6f;
-    private static final int SIGNATURE_NOT_REQUIRED_HEIGHT = 25;
-    private static final String SIGNATURE_NOT_REQUIRED_TEXT = "Fysisk underskrift krävs ej av intygsmottagare";
-    private static final CMYKColor SIGNATURE_NOT_REQUIRED_COLOR = new CMYKColor(0.01f, 0.04f, 0.42f, 0.0f);
+  private static final String DATE_PATTERN = "yyyy-MM-dd";
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd";
+  private static final String PATIENT_NAME = "form1[0].subform[0].flt_PatNamn[0]";
+  private static final String PATIENT_SSN = "form1[0].subform[0].flt_PatPersonnummer[0]";
+  private static final String PATIENT_SSN_2 = "form1[0].subform[1].flt_PatPersonnummer[1]";
 
-    private static final String PATIENT_NAME = "form1[0].subform[0].flt_PatNamn[0]";
-    private static final String PATIENT_SSN = "form1[0].subform[0].flt_PatPersonnummer[0]";
-    private static final String PATIENT_SSN_2 = "form1[0].subform[1].flt_PatPersonnummer[1]";
+  private static final String DIAGNOS = "form1[0].subform[0].flt_DiagnosDiagnoser_flt2[0]";
 
-    private static final String DIAGNOS = "form1[0].subform[0].flt_DiagnosDiagnoser_flt2[0]";
+  private static final String DISEASE_CAUSE =
+      "form1[0].subform[0].flt_AktuelltSjukdomsForlopp_flt3[0]";
 
-    private static final String DISEASE_CAUSE = "form1[0].subform[0].flt_AktuelltSjukdomsForlopp_flt3[0]";
+  private static final String SUSPENSION_DUE_TO_INFECTION =
+      "form1[0].subform[0].ksr_AvstangningEnlSMiL_flt1[0]";
 
-    private static final String SUSPENSION_DUE_TO_INFECTION = "form1[0].subform[0].ksr_AvstangningEnlSMiL_flt1[0]";
+  private static final String DIAGNOS_CODE = "form1[0].subform[0].flt_Diagnoskod_flt2[0]";
 
-    private static final String DIAGNOS_CODE = "form1[0].subform[0].flt_Diagnoskod_flt2[0]";
+  private static final String BASED_ON_EXAMINATION =
+      "form1[0].subform[0].ksr_MinUndersokningAvPat_flt4[0]";
 
-    private static final String BASED_ON_EXAMINATION = "form1[0].subform[0].ksr_MinUndersokningAvPat_flt4[0]";
+  private static final String BASED_ON_EXAMINATION_TIME =
+      "form1[0].subform[0].flt_DatumMinUndersokningAvPat_flt4[0]";
 
-    private static final String BASED_ON_EXAMINATION_TIME = "form1[0].subform[0].flt_DatumMinUndersokningAvPat_flt4[0]";
+  private static final String BASED_ON_PHONE_CONTACT =
+      "form1[0].subform[0].ksr_MinTelefonKontaktMedPat_flt4[0]";
 
-    private static final String BASED_ON_PHONE_CONTACT = "form1[0].subform[0].ksr_MinTelefonKontaktMedPat_flt4[0]";
+  private static final String BASED_ON_PHONE_CONTACT_TIME =
+      "form1[0].subform[0].flt_DatumMinTelefonKontaktMedPat_flt4[0]";
 
-    private static final String BASED_ON_PHONE_CONTACT_TIME = "form1[0].subform[0].flt_DatumMinTelefonKontaktMedPat_flt4[0]";
+  private static final String BASED_ON_JOURNAL = "form1[0].subform[0].ksr_Journaluppgifter_flt4[0]";
 
-    private static final String BASED_ON_JOURNAL = "form1[0].subform[0].ksr_Journaluppgifter_flt4[0]";
+  private static final String BASED_ON_JOURNAL_TIME =
+      "form1[0].subform[0].flt_DatumJournaluppgifter_flt4[0]";
 
-    private static final String BASED_ON_JOURNAL_TIME = "form1[0].subform[0].flt_DatumJournaluppgifter_flt4[0]";
+  private static final String BASED_ON_OTHER =
+      "form1[0].subform[0].ksr_AnnatAngeVadiFalt13_flt4[0]";
 
-    private static final String BASED_ON_OTHER = "form1[0].subform[0].ksr_AnnatAngeVadiFalt13_flt4[0]";
+  private static final String BASED_ON_OTHER_DATE =
+      "form1[0].subform[0].flt_DatumAnnatAngeVadiFalt13_flt4[0]";
 
-    private static final String BASED_ON_OTHER_DATE = "form1[0].subform[0].flt_DatumAnnatAngeVadiFalt13_flt4[0]";
+  private static final String DISABILITIES = "form1[0].subform[0].flt_Funktionsnedsattning_flt4[0]";
 
-    private static final String DISABILITIES = "form1[0].subform[0].flt_Funktionsnedsattning_flt4[0]";
+  private static final String ACTIVITY_LIMITATION =
+      "form1[0].subform[0].flt_Aktivitetsbegransning_flt5[0]";
 
-    private static final String ACTIVITY_LIMITATION = "form1[0].subform[0].flt_Aktivitetsbegransning_flt5[0]";
+  private static final String RECOMMENDATIONS_CONTACT_AF =
+      "form1[0].subform[0].ksr_KontaktMedArbetsformedlingen_flt6a[0]";
 
-    private static final String RECOMMENDATIONS_CONTACT_AF = "form1[0].subform[0].ksr_KontaktMedArbetsformedlingen_flt6a[0]";
+  private static final String RECOMMENDATIONS_CONTACT_COMPANY_CARE =
+      "form1[0].subform[0].ksr_KontaktMedForetagsHalsovarden_flt6a[0]";
 
-    private static final String RECOMMENDATIONS_CONTACT_COMPANY_CARE = "form1[0].subform[0].ksr_KontaktMedForetagsHalsovarden_flt6a[0]";
+  private static final String RECOMMENDATIONS_OTHER =
+      "form1[0].subform[0].ksr_OvrigtAngeVad_flt6a[0]";
 
-    private static final String RECOMMENDATIONS_OTHER = "form1[0].subform[0].ksr_OvrigtAngeVad_flt6a[0]";
+  private static final String RECOMMENDATIONS_OTHER_TEXT =
+      "form1[0].subform[0].flt_OvrigtAngeVad_flt6a[0]";
 
-    private static final String RECOMMENDATIONS_OTHER_TEXT = "form1[0].subform[0].flt_OvrigtAngeVad_flt6a[0]";
+  private static final String MEASURES_CURRENT =
+      "form1[0].subform[0].ksr_InomSjukvardenAngeVilken_flt6b[0]";
 
-    private static final String MEASURES_CURRENT = "form1[0].subform[0].ksr_InomSjukvardenAngeVilken_flt6b[0]";
+  private static final String MEASURES_CURRENT_TEXT =
+      "form1[0].subform[0].flt_InomSjukvardenAngeVilken_flt6b[0]";
 
-    private static final String MEASURES_CURRENT_TEXT = "form1[0].subform[0].flt_InomSjukvardenAngeVilken_flt6b[0]";
+  private static final String MEASURES_OTHER =
+      "form1[0].subform[0].ksr_AnnanAtgardAngeVilken_flt6b[0]";
 
-    private static final String MEASURES_OTHER = "form1[0].subform[0].ksr_AnnanAtgardAngeVilken_flt6b[0]";
+  private static final String MEASURES_OTHER_TEXT =
+      "form1[0].subform[0].flt_AnnanAtgardAngeVilken_flt6b[0]";
 
-    private static final String MEASURES_OTHER_TEXT = "form1[0].subform[0].flt_AnnanAtgardAngeVilken_flt6b[0]";
+  private static final String RECOMMENDATION_REHAB_YES = "form1[0].subform[1].ksr_Ja_flt7[0]";
 
-    private static final String RECOMMENDATION_REHAB_YES = "form1[0].subform[1].ksr_Ja_flt7[0]";
+  private static final String RECOMMENDATION_REHAB_NO = "form1[0].subform[1].ksr_Nej_flt7[0]";
 
-    private static final String RECOMMENDATION_REHAB_NO = "form1[0].subform[1].ksr_Nej_flt7[0]";
+  private static final String RECOMMENDATION_REHAB_UNKNOWN =
+      "form1[0].subform[1].ksr_GarInteAttBedoma_flt7[0]";
 
-    private static final String RECOMMENDATION_REHAB_UNKNOWN = "form1[0].subform[1].ksr_GarInteAttBedoma_flt7[0]";
+  private static final String CURRENT_WORK = "form1[0].subform[1].ksr_NuvarandeArbete_flt8a[0]";
 
-    private static final String CURRENT_WORK = "form1[0].subform[1].ksr_NuvarandeArbete_flt8a[0]";
+  private static final String CURRENT_WORK_TEXT_1 =
+      "form1[0].subform[1].flt_NuvarandeArbete_flt8a[0]";
 
-    private static final String CURRENT_WORK_TEXT_1 = "form1[0].subform[1].flt_NuvarandeArbete_flt8a[0]";
+  private static final String UNEMPLOYMENT = "form1[0].subform[1].ksr_Arbetsloshet_flt8a[0]";
 
-    private static final String UNEMPLOYMENT = "form1[0].subform[1].ksr_Arbetsloshet_flt8a[0]";
+  private static final String PARENTAL_LEAVE =
+      "form1[0].subform[1].ksr_ForaldraledigMedForaldrapenning_flt8a[0]";
 
-    private static final String PARENTAL_LEAVE = "form1[0].subform[1].ksr_ForaldraledigMedForaldrapenning_flt8a[0]";
+  private static final String REDUCED_WORK_CAPACITY_25 =
+      "form1[0].subform[1].ksr_NedsattMed14_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_25 = "form1[0].subform[1].ksr_NedsattMed14_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_50 =
+      "form1[0].subform[1].ksr_NedsattMedHalften_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_50 = "form1[0].subform[1].ksr_NedsattMedHalften_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_75 =
+      "form1[0].subform[1].ksr_NedsattMed34_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_75 = "form1[0].subform[1].ksr_NedsattMed34_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_FULL =
+      "form1[0].subform[1].ksr_HeltNedsatt_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_FULL = "form1[0].subform[1].ksr_HeltNedsatt_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_25_FROM =
+      "form1[0].subform[1].flt_NedsattMed14From_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_25_FROM = "form1[0].subform[1].flt_NedsattMed14From_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_25_TOM =
+      "form1[0].subform[1].flt_NedsattMed14Tom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_25_TOM = "form1[0].subform[1].flt_NedsattMed14Tom_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_50_FROM =
+      "form1[0].subform[1].flt_NedsattMedHalftenFrom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_50_FROM = "form1[0].subform[1].flt_NedsattMedHalftenFrom_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_50_TOM =
+      "form1[0].subform[1].flt_NedsattMedHalftenTom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_50_TOM = "form1[0].subform[1].flt_NedsattMedHalftenTom_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_75_FROM =
+      "form1[0].subform[1].flt_NedsattMed34From_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_75_FROM = "form1[0].subform[1].flt_NedsattMed34From_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_75_TOM =
+      "form1[0].subform[1].flt_NedsattMed34Tom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_75_TOM = "form1[0].subform[1].flt_NedsattMed34Tom_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_FULL_FROM =
+      "form1[0].subform[1].flt_HeltNedsattFrom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_FULL_FROM = "form1[0].subform[1].flt_HeltNedsattFrom_flt8b[0]";
+  private static final String REDUCED_WORK_CAPACITY_FULL_TOM =
+      "form1[0].subform[1].flt_HeltNedsattTom_flt8b[0]";
 
-    private static final String REDUCED_WORK_CAPACITY_FULL_TOM = "form1[0].subform[1].flt_HeltNedsattTom_flt8b[0]";
+  private static final String WORK_CAPACITY_TEXT =
+      "form1[0].subform[1].flt_PatArbetsformaga_flt9[0]";
 
-    private static final String WORK_CAPACITY_TEXT = "form1[0].subform[1].flt_PatArbetsformaga_flt9[0]";
+  private static final String WORK_CAPACITY_FORECAST_YES = "form1[0].subform[1].ksr_Ja_flt10[0]";
 
-    private static final String WORK_CAPACITY_FORECAST_YES = "form1[0].subform[1].ksr_Ja_flt10[0]";
+  private static final String WORK_CAPACITY_FORECAST_PARTLY =
+      "form1[0].subform[1].ksr_JaDelvis_flt10[0]";
 
-    private static final String WORK_CAPACITY_FORECAST_PARTLY = "form1[0].subform[1].ksr_JaDelvis_flt10[0]";
+  private static final String WORK_CAPACITY_FORECAST_NO = "form1[0].subform[1].ksr_Nej_flt10[0]";
 
-    private static final String WORK_CAPACITY_FORECAST_NO = "form1[0].subform[1].ksr_Nej_flt10[0]";
+  private static final String WORK_CAPACITY_FORECAST_UNKNOWN =
+      "form1[0].subform[1].ksr_GarInteAttBedoma_flt10[0]";
 
-    private static final String WORK_CAPACITY_FORECAST_UNKNOWN = "form1[0].subform[1].ksr_GarInteAttBedoma_flt10[0]";
+  private static final String RECOMMENDATION_TRAVEL_YES = "form1[0].subform[1].ksr_Ja_flt11[0]";
 
-    private static final String RECOMMENDATION_TRAVEL_YES = "form1[0].subform[1].ksr_Ja_flt11[0]";
+  private static final String RECOMMENDATION_TRAVEL_NO = "form1[0].subform[1].ksr_Nej_flt11[0]";
 
-    private static final String RECOMMENDATION_TRAVEL_NO = "form1[0].subform[1].ksr_Nej_flt11[0]";
+  private static final String CONTACT_WITH_FK = "form1[0].subform[1].ksr_Ja_flt12[0]";
 
-    private static final String CONTACT_WITH_FK = "form1[0].subform[1].ksr_Ja_flt12[0]";
+  private static final String OTHER_INFORMATION =
+      "form1[0].subform[1].flt_OvrigaUpplysningar_flt13[0]";
 
-    private static final String OTHER_INFORMATION = "form1[0].subform[1].flt_OvrigaUpplysningar_flt13[0]";
+  private static final String SIGN_DATE = "form1[0].subform[1].flt_Datum_flt14[0]";
 
-    private static final String SIGN_DATE = "form1[0].subform[1].flt_Datum_flt14[0]";
+  private static final String SIGN_NAME =
+      "form1[0].subform[1].flt_NamnfortydligandeMottagningsadrTel_flt15[0]";
 
-    private static final String SIGN_NAME = "form1[0].subform[1].flt_NamnfortydligandeMottagningsadrTel_flt15[0]";
+  private static final String DOCTORCODE_AND_WORKPLACE =
+      "form1[0].subform[1].flt_ForskrivarkodOchArbetsplatskod_flt17[0]";
 
-    private static final String DOCTORCODE_AND_WORKPLACE = "form1[0].subform[1].flt_ForskrivarkodOchArbetsplatskod_flt17[0]";
+  public static final String PDF_TEMPLATE = "pdf/RFV7263_009_J_003_statisk.pdf";
 
-    public static final String PDF_TEMPLATE = "pdf/RFV7263_009_J_003_statisk.pdf";
+  protected Fk7263Utlatande intyg;
+  protected ByteArrayOutputStream outputStream;
+  protected AcroFields fields;
 
-    protected Fk7263Utlatande intyg;
-    protected ByteArrayOutputStream outputStream;
-    protected AcroFields fields;
+  public String generatePdfFilename(LocalDateTime tidpunkt, boolean isCustomized) {
+    String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+    String prefix = isCustomized ? "minimalt_" : "";
+    String intygstyp = "fk7263";
+    return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, utskriftsTidpunkt);
+  }
 
-    public String generatePdfFilename(LocalDateTime tidpunkt, boolean isCustomized) {
-        String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
-        String prefix = isCustomized ? "minimalt_" : "";
-        String intygstyp = "fk7263";
-        return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, utskriftsTidpunkt);
-    }
+  public byte[] getBytes() {
+    return outputStream.toByteArray();
+  }
 
-    public byte[] getBytes() {
-        return outputStream.toByteArray();
-    }
-
-    protected boolean isCertificateSentToFK(List<Status> statuses) {
-        if (statuses != null) {
-            for (Status status : statuses) {
-                if (isTargetEqualTo(status, Fk7263EntryPoint.DEFAULT_RECIPIENT_ID) && isTypeEqualTo(status, CertificateState.SENT)) {
-                    return true;
-                }
-            }
+  protected boolean isCertificateSentToFK(List<Status> statuses) {
+    if (statuses != null) {
+      for (Status status : statuses) {
+        if (isTargetEqualTo(status, Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)
+            && isTypeEqualTo(status, CertificateState.SENT)) {
+          return true;
         }
-        return false;
+      }
     }
+    return false;
+  }
 
-    protected void createSignatureNotRequiredField(PdfStamper pdfStamper, int lastPage) throws DocumentException, IOException {
-        PdfContentByte addOverlay;
-        addOverlay = pdfStamper.getOverContent(lastPage);
-        addOverlay.saveState();
-        addOverlay.setColorFill(SIGNATURE_NOT_REQUIRED_COLOR);
-        addOverlay.setColorStroke(CMYKColor.BLACK);
-        addOverlay.rectangle(SIGNATURE_NOT_REQUIRED_START_X, SIGNATURE_NOT_REQUIRED_START_Y, SIGNATURE_NOT_REQUIRED_WIDTH,
-            SIGNATURE_NOT_REQUIRED_HEIGHT);
-        addOverlay.setLineWidth(LINE_WIDTH);
-        addOverlay.fillStroke();
-        addOverlay.restoreState();
-        // Do text
-        addOverlay = pdfStamper.getOverContent(lastPage);
-        addOverlay.saveState();
-        BaseFont bf = BaseFont.createFont();
-        addOverlay.beginText();
-        addOverlay.setFontAndSize(bf, SIGNATURE_NOT_REQUIRED_FONT_SIZE);
-        addOverlay.setTextMatrix(SIGNATURE_NOT_REQUIRED_START_X + SIGNATURE_NOT_REQUIRED_PADDING_LEFT, SIGNATURE_NOT_REQUIRED_START_Y
-            + SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM);
-        addOverlay.showText(SIGNATURE_NOT_REQUIRED_TEXT);
-        addOverlay.endText();
-        addOverlay.restoreState();
-    }
+  protected void createSignatureNotRequiredField(PdfStamper pdfStamper, int lastPage)
+      throws DocumentException, IOException {
+    PdfContentByte addOverlay;
+    addOverlay = pdfStamper.getOverContent(lastPage);
+    addOverlay.saveState();
+    addOverlay.setColorFill(SIGNATURE_NOT_REQUIRED_COLOR);
+    addOverlay.setColorStroke(CMYKColor.BLACK);
+    addOverlay.rectangle(
+        SIGNATURE_NOT_REQUIRED_START_X,
+        SIGNATURE_NOT_REQUIRED_START_Y,
+        SIGNATURE_NOT_REQUIRED_WIDTH,
+        SIGNATURE_NOT_REQUIRED_HEIGHT);
+    addOverlay.setLineWidth(LINE_WIDTH);
+    addOverlay.fillStroke();
+    addOverlay.restoreState();
+    // Do text
+    addOverlay = pdfStamper.getOverContent(lastPage);
+    addOverlay.saveState();
+    BaseFont bf = BaseFont.createFont();
+    addOverlay.beginText();
+    addOverlay.setFontAndSize(bf, SIGNATURE_NOT_REQUIRED_FONT_SIZE);
+    addOverlay.setTextMatrix(
+        SIGNATURE_NOT_REQUIRED_START_X + SIGNATURE_NOT_REQUIRED_PADDING_LEFT,
+        SIGNATURE_NOT_REQUIRED_START_Y + SIGNATURE_NOT_REQUIRED_PADDING_BOTTOM);
+    addOverlay.showText(SIGNATURE_NOT_REQUIRED_TEXT);
+    addOverlay.endText();
+    addOverlay.restoreState();
+  }
 
-    // Mask the information regarding where to send a physical copy of this document
-    protected void maskSendToFkInformation(PdfStamper pdfStamper) {
-        PdfContentByte addOverlay;
-        addOverlay = pdfStamper.getOverContent(1);
-        addOverlay.saveState();
-        addOverlay.setColorFill(CMYKColor.WHITE);
-        addOverlay.setColorStroke(CMYKColor.WHITE);
-        addOverlay.rectangle(MASK_START_X, MASK_START_Y, MASK_WIDTH, MASK_HEIGTH);
-        addOverlay.fillStroke();
-        addOverlay.restoreState();
-    }
+  // Mask the information regarding where to send a physical copy of this document
+  protected void maskSendToFkInformation(PdfStamper pdfStamper) {
+    PdfContentByte addOverlay;
+    addOverlay = pdfStamper.getOverContent(1);
+    addOverlay.saveState();
+    addOverlay.setColorFill(CMYKColor.WHITE);
+    addOverlay.setColorStroke(CMYKColor.WHITE);
+    addOverlay.rectangle(MASK_START_X, MASK_START_Y, MASK_WIDTH, MASK_HEIGTH);
+    addOverlay.fillStroke();
+    addOverlay.restoreState();
+  }
 
-    // Mark this document as a copy of an electronically signed document
-    protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
-        mark(pdfStamper, ELECTRONIC_COPY_WATERMARK_TEXT, MARK_AS_COPY_START_X, MARK_AS_COPY_START_Y, MARK_AS_COPY_HEIGTH,
-            MARK_AS_COPY_WIDTH);
-    }
+  // Mark this document as a copy of an electronically signed document
+  protected void markAsElectronicCopy(PdfStamper pdfStamper) throws DocumentException, IOException {
+    mark(
+        pdfStamper,
+        ELECTRONIC_COPY_WATERMARK_TEXT,
+        MARK_AS_COPY_START_X,
+        MARK_AS_COPY_START_Y,
+        MARK_AS_COPY_HEIGTH,
+        MARK_AS_COPY_WIDTH);
+  }
 
-    protected void mark(PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width)
-        throws DocumentException, IOException {
-        PdfContentByte addOverlay;
-        addOverlay = pdfStamper.getOverContent(1);
-        addOverlay.saveState();
-        addOverlay.setColorFill(CMYKColor.WHITE);
-        addOverlay.setColorStroke(CMYKColor.RED);
-        addOverlay.rectangle(startX, startY, width, height);
-        addOverlay.stroke();
-        addOverlay.restoreState();
+  protected void mark(
+      PdfStamper pdfStamper, String watermarkText, int startX, int startY, int height, int width)
+      throws DocumentException, IOException {
+    PdfContentByte addOverlay;
+    addOverlay = pdfStamper.getOverContent(1);
+    addOverlay.saveState();
+    addOverlay.setColorFill(CMYKColor.WHITE);
+    addOverlay.setColorStroke(CMYKColor.RED);
+    addOverlay.rectangle(startX, startY, width, height);
+    addOverlay.stroke();
+    addOverlay.restoreState();
 
-        // Do text
-        addOverlay = pdfStamper.getOverContent(1);
-        ColumnText ct = new ColumnText(addOverlay);
-        BaseFont bf = BaseFont.createFont();
-        Font font = new Font(bf, WATERMARK_FONTSIZE);
-        int llx = startX + WATERMARK_TEXT_PADDING;
-        int lly = startY + WATERMARK_TEXT_PADDING;
-        int urx = llx + width - 2 * WATERMARK_TEXT_PADDING;
-        int ury = lly + height - 2 * WATERMARK_TEXT_PADDING;
-        Phrase phrase = new Phrase(watermarkText, font);
-        ct.setSimpleColumn(phrase, llx, lly, urx, ury, WATERMARK_FONTSIZE, Element.ALIGN_LEFT | Element.ALIGN_TOP);
-        ct.go();
-    }
+    // Do text
+    addOverlay = pdfStamper.getOverContent(1);
+    ColumnText ct = new ColumnText(addOverlay);
+    BaseFont bf = BaseFont.createFont();
+    Font font = new Font(bf, WATERMARK_FONTSIZE);
+    int llx = startX + WATERMARK_TEXT_PADDING;
+    int lly = startY + WATERMARK_TEXT_PADDING;
+    int urx = llx + width - 2 * WATERMARK_TEXT_PADDING;
+    int ury = lly + height - 2 * WATERMARK_TEXT_PADDING;
+    Phrase phrase = new Phrase(watermarkText, font);
+    ct.setSimpleColumn(
+        phrase, llx, lly, urx, ury, WATERMARK_FONTSIZE, Element.ALIGN_LEFT | Element.ALIGN_TOP);
+    ct.go();
+  }
 
-    public static boolean isMakulerad(List<Status> statuses) {
-        return statuses != null && statuses.stream().filter(Objects::nonNull)
+  public static boolean isMakulerad(List<Status> statuses) {
+    return statuses != null
+        && statuses.stream()
+            .filter(Objects::nonNull)
             .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+  }
+
+  public void addIntygStateWatermark(
+      PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
+    Phrase watermark;
+
+    if (isLocked) {
+      watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT, INTYG_STATEWATERMARK_FONT);
+    } else if (isUtkast) {
+      watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
+    } else if (isMakulerad) {
+      watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
+    } else {
+      return;
     }
 
-    public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
-        Phrase watermark;
+    PdfContentByte over;
+    Rectangle pageSize;
+    // loop over every page
+    for (int i = 1; i <= nrPages; i++) {
 
-        if (isLocked) {
-            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT, INTYG_STATEWATERMARK_FONT);
-        } else if (isUtkast) {
-            watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
-        } else if (isMakulerad) {
-            watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
-        } else {
-            return;
+      over = stamper.getOverContent(i);
+      over.saveState();
+      PdfGState gs1 = new PdfGState();
+      gs1.setFillOpacity(INTYG_STATEWATERMARK_FILL_OPACITY);
+      over.setGState(gs1);
 
-        }
+      // Center the watermark text
+      pageSize = over.getPdfDocument().getPageSize();
+      final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
+      final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
 
-        PdfContentByte over;
-        Rectangle pageSize;
-        // loop over every page
-        for (int i = 1; i <= nrPages; i++) {
+      ColumnText.showTextAligned(
+          over, Element.ALIGN_CENTER, watermark, x, y, INTYG_STATEWATERMARK_ROTATION);
+      over.restoreState();
+    }
+  }
 
-            over = stamper.getOverContent(i);
-            over.saveState();
-            PdfGState gs1 = new PdfGState();
-            gs1.setFillOpacity(INTYG_STATEWATERMARK_FILL_OPACITY);
-            over.setGState(gs1);
+  protected void createRightMarginText(
+      PdfStamper pdfStamper, int numberOfPages, String id, String text)
+      throws DocumentException, IOException {
+    PdfContentByte addOverlay;
+    BaseFont bf = BaseFont.createFont();
+    // Do text
+    for (int i = 1; i <= numberOfPages; i++) {
+      addOverlay = pdfStamper.getOverContent(i);
+      addOverlay.saveState();
+      addOverlay.beginText();
+      addOverlay.setFontAndSize(bf, MARGIN_TEXT_FONTSIZE);
+      addOverlay.setTextMatrix(0, 1, -1, 0, MARGIN_TEXT_START_X, MARGIN_TEXT_START_Y);
+      addOverlay.showText(String.format("Intygs-ID: %s. %s", id, text));
+      addOverlay.endText();
+      addOverlay.restoreState();
+    }
+  }
 
-            // Center the watermark text
-            pageSize = over.getPdfDocument().getPageSize();
-            final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
-            final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
+  protected void fillFkContact() {
+    setField(CONTACT_WITH_FK, intyg.isKontaktMedFk());
+  }
 
-            ColumnText.showTextAligned(over, Element.ALIGN_CENTER, watermark, x, y, INTYG_STATEWATERMARK_ROTATION);
-            over.restoreState();
-        }
+  protected void fillPatientDetails() {
+    fillText(
+        PATIENT_SSN, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+    fillText(
+        PATIENT_SSN_2, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+  }
+
+  protected void fillSignerNameAndAddress() {
+    fillText(SIGN_NAME, intyg.getNamnfortydligandeOchAdress());
+    fillText(
+        SIGN_DATE,
+        intyg.getGrundData().getSigneringsdatum() != null
+            ? intyg
+                .getGrundData()
+                .getSigneringsdatum()
+                .format(DateTimeFormatter.ofPattern(DATE_PATTERN))
+            : "");
+  }
+
+  protected void fillTravel() {
+    if (intyg.isRessattTillArbeteAktuellt()) {
+      checkField(RECOMMENDATION_TRAVEL_YES);
+    }
+    if (intyg.isRessattTillArbeteEjAktuellt()) {
+      checkField(RECOMMENDATION_TRAVEL_NO);
+    }
+  }
+
+  protected void fillPrognose() {
+    if (intyg.getPrognosBedomning() != null) {
+      switch (intyg.getPrognosBedomning()) {
+        case arbetsformagaPrognosJa:
+          checkField(WORK_CAPACITY_FORECAST_YES);
+          break;
+        case arbetsformagaPrognosJaDelvis:
+          checkField(WORK_CAPACITY_FORECAST_PARTLY);
+          break;
+        case arbetsformagaPrognosNej:
+          checkField(WORK_CAPACITY_FORECAST_NO);
+          break;
+        case arbetsformagaPrognosGarInteAttBedoma:
+          checkField(WORK_CAPACITY_FORECAST_UNKNOWN);
+          break;
+      }
+    }
+  }
+
+  protected void fillArbetsformaga() {
+    fillText(WORK_CAPACITY_TEXT, stripNewlines(intyg.getArbetsformagaPrognos()));
+  }
+
+  protected void fillNedsattning(
+      InternalLocalDateInterval interval,
+      String checkboxFieldName,
+      String fromDateFieldName,
+      String toDateFieldName) {
+    if (interval != null) {
+      checkField(checkboxFieldName);
+      fillText(fromDateFieldName, interval.getFrom().getDate());
+      fillText(toDateFieldName, interval.getTom().getDate());
+    }
+  }
+
+  protected void fillCapacity() {
+    fillNedsattning(
+        intyg.getNedsattMed100(),
+        REDUCED_WORK_CAPACITY_FULL,
+        REDUCED_WORK_CAPACITY_FULL_FROM,
+        REDUCED_WORK_CAPACITY_FULL_TOM);
+    fillNedsattning(
+        intyg.getNedsattMed75(),
+        REDUCED_WORK_CAPACITY_75,
+        REDUCED_WORK_CAPACITY_75_FROM,
+        REDUCED_WORK_CAPACITY_75_TOM);
+    fillNedsattning(
+        intyg.getNedsattMed50(),
+        REDUCED_WORK_CAPACITY_50,
+        REDUCED_WORK_CAPACITY_50_FROM,
+        REDUCED_WORK_CAPACITY_50_TOM);
+    fillNedsattning(
+        intyg.getNedsattMed25(),
+        REDUCED_WORK_CAPACITY_25,
+        REDUCED_WORK_CAPACITY_25_FROM,
+        REDUCED_WORK_CAPACITY_25_TOM);
+  }
+
+  protected void fillCapacityRelativeToNuvarandeArbete() {
+    if (intyg.getNuvarandeArbetsuppgifter() != null) {
+      checkField(CURRENT_WORK);
+      fillText(CURRENT_WORK_TEXT_1, stripNewlines(intyg.getNuvarandeArbetsuppgifter()));
+    }
+  }
+
+  protected void fillCapacityRelativeToOtherThanNuvarandeArbete() {
+
+    setField(UNEMPLOYMENT, intyg.isArbetsloshet());
+    setField(PARENTAL_LEAVE, intyg.isForaldrarledighet());
+  }
+
+  protected void fillRehabilitation() {
+    if (intyg.getRehabilitering() != null) {
+      switch (intyg.getRehabilitering()) {
+        case rehabiliteringAktuell:
+          setField(RECOMMENDATION_REHAB_YES, true);
+          break;
+        case rehabiliteringEjAktuell:
+          setField(RECOMMENDATION_REHAB_NO, true);
+          break;
+        case rehabiliteringGarInteAttBedoma:
+          setField(RECOMMENDATION_REHAB_UNKNOWN, true);
+          break;
+      }
+    }
+  }
+
+  protected void fillRecommendationsKontaktMedForetagshalsovarden() {
+    setField(
+        RECOMMENDATIONS_CONTACT_COMPANY_CARE, intyg.isRekommendationKontaktForetagshalsovarden());
+  }
+
+  protected void fillRecommendationsOther() {
+    setField(RECOMMENDATIONS_CONTACT_AF, intyg.isRekommendationKontaktArbetsformedlingen());
+    if (intyg.getRekommendationOvrigt() != null) {
+      checkField(RECOMMENDATIONS_OTHER);
+      fillText(RECOMMENDATIONS_OTHER_TEXT, stripNewlines(intyg.getRekommendationOvrigt()));
+    }
+  }
+
+  protected void fillActivityLimitation() {
+    fillText(ACTIVITY_LIMITATION, stripNewlines(intyg.getAktivitetsbegransning()));
+  }
+
+  protected void fillDisability() {
+    fillText(DISABILITIES, stripNewlines(intyg.getFunktionsnedsattning()));
+  }
+
+  protected void fillOther() {
+    fillText(OTHER_INFORMATION, stripNewlines(buildOtherText()));
+  }
+
+  protected void fillBasedOn() {
+
+    if (intyg.getUndersokningAvPatienten() != null) {
+      checkField(BASED_ON_EXAMINATION);
+      fillText(BASED_ON_EXAMINATION_TIME, intyg.getUndersokningAvPatienten().getDate());
     }
 
-
-    protected void createRightMarginText(PdfStamper pdfStamper, int numberOfPages, String id, String text)
-        throws DocumentException, IOException {
-        PdfContentByte addOverlay;
-        BaseFont bf = BaseFont.createFont();
-        // Do text
-        for (int i = 1; i <= numberOfPages; i++) {
-            addOverlay = pdfStamper.getOverContent(i);
-            addOverlay.saveState();
-            addOverlay.beginText();
-            addOverlay.setFontAndSize(bf, MARGIN_TEXT_FONTSIZE);
-            addOverlay.setTextMatrix(0, 1, -1, 0, MARGIN_TEXT_START_X, MARGIN_TEXT_START_Y);
-            addOverlay.showText(String.format("Intygs-ID: %s. %s", id, text));
-            addOverlay.endText();
-            addOverlay.restoreState();
-        }
+    if (intyg.getTelefonkontaktMedPatienten() != null) {
+      checkField(BASED_ON_PHONE_CONTACT);
+      fillText(BASED_ON_PHONE_CONTACT_TIME, intyg.getTelefonkontaktMedPatienten().getDate());
     }
 
-    protected void fillFkContact() {
-        setField(CONTACT_WITH_FK, intyg.isKontaktMedFk());
+    if (intyg.getJournaluppgifter() != null) {
+      checkField(BASED_ON_JOURNAL);
+      fillText(BASED_ON_JOURNAL_TIME, intyg.getJournaluppgifter().getDate());
     }
 
-    protected void fillPatientDetails() {
-        fillText(PATIENT_SSN, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
-        fillText(PATIENT_SSN_2, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+    if (intyg.getAnnanReferens() != null) {
+      checkField(BASED_ON_OTHER);
+      fillText(BASED_ON_OTHER_DATE, intyg.getAnnanReferens().getDate());
+    }
+  }
+
+  protected void fillMeasures() {
+    if (intyg.getAtgardInomSjukvarden() != null) {
+      checkField(MEASURES_CURRENT);
+      fillText(MEASURES_CURRENT_TEXT, stripNewlines(intyg.getAtgardInomSjukvarden()));
     }
 
-    protected void fillSignerNameAndAddress() {
-        fillText(SIGN_NAME, intyg.getNamnfortydligandeOchAdress());
-        fillText(SIGN_DATE, intyg.getGrundData().getSigneringsdatum() != null
-            ? intyg.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern(DATE_PATTERN)) : "");
+    if (intyg.getAnnanAtgard() != null) {
+      checkField(MEASURES_OTHER);
+      fillText(MEASURES_OTHER_TEXT, stripNewlines(intyg.getAnnanAtgard()));
+    }
+  }
+
+  protected void fillDiseaseCause() {
+    fillText(DISEASE_CAUSE, stripNewlines(intyg.getSjukdomsforlopp()));
+  }
+
+  protected void fillIsSuspenseDueToInfection() {
+    setField(SUSPENSION_DUE_TO_INFECTION, intyg.isAvstangningSmittskydd());
+  }
+
+  protected void fillSignerCodes() {
+    fillText(DOCTORCODE_AND_WORKPLACE, intyg.getForskrivarkodOchArbetsplatskod());
+  }
+
+  protected void fillDiagnose() {
+    fillText(DIAGNOS_CODE, intyg.getDiagnosKod());
+    // fillText(DIAGNOS, intyg.getDiagnosBeskrivning());
+    fillText(DIAGNOS, buildOtherDiagnoses());
+  }
+
+  private boolean isTargetEqualTo(Status status, String recipient) {
+    return !isNull(status) && !isNull(status.getTarget()) && status.getTarget().equals(recipient);
+  }
+
+  private boolean isTypeEqualTo(Status status, CertificateState state) {
+    return !isNull(status) && !isNull(status.getType()) && status.getType() == state;
+  }
+
+  private boolean isNull(Object object) {
+    return object == null;
+  }
+
+  private String stripNewlines(String text) {
+    return (text != null) ? text.replace("\n", " ") : null;
+  }
+
+  private String buildOtherText() {
+    ArrayList<String> parts = new ArrayList<>();
+
+    if (isValidString(intyg.getAnnanReferensBeskrivning())) {
+      parts.add("4b: " + intyg.getAnnanReferensBeskrivning());
     }
 
-    protected void fillTravel() {
-        if (intyg.isRessattTillArbeteAktuellt()) {
-            checkField(RECOMMENDATION_TRAVEL_YES);
-        }
-        if (intyg.isRessattTillArbeteEjAktuellt()) {
-            checkField(RECOMMENDATION_TRAVEL_NO);
-        }
+    List<String> nedsattningDescription = new ArrayList<>();
+    nedsattningDescription.add(intyg.getNedsattMed25Beskrivning());
+    nedsattningDescription.add(intyg.getNedsattMed50Beskrivning());
+    nedsattningDescription.add(intyg.getNedsattMed75Beskrivning());
+    nedsattningDescription.removeIf(s -> s == null || s.length() == 0);
+    if (!nedsattningDescription.isEmpty()) {
+      parts.add("8b: " + Joiner.on(". ").join(nedsattningDescription));
     }
 
-    protected void fillPrognose() {
-        if (intyg.getPrognosBedomning() != null) {
-            switch (intyg.getPrognosBedomning()) {
-                case arbetsformagaPrognosJa:
-                    checkField(WORK_CAPACITY_FORECAST_YES);
-                    break;
-                case arbetsformagaPrognosJaDelvis:
-                    checkField(WORK_CAPACITY_FORECAST_PARTLY);
-                    break;
-                case arbetsformagaPrognosNej:
-                    checkField(WORK_CAPACITY_FORECAST_NO);
-                    break;
-                case arbetsformagaPrognosGarInteAttBedoma:
-                    checkField(WORK_CAPACITY_FORECAST_UNKNOWN);
-                    break;
-            }
-        }
+    if (isValidString(intyg.getArbetsformagaPrognosGarInteAttBedomaBeskrivning())) {
+      parts.add("10: " + intyg.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
     }
 
-    protected void fillArbetsformaga() {
-        fillText(WORK_CAPACITY_TEXT, stripNewlines(intyg.getArbetsformagaPrognos()));
+    if (isValidString(intyg.getKommentar())) {
+      parts.add(intyg.getKommentar());
     }
 
-    protected void fillNedsattning(InternalLocalDateInterval interval, String checkboxFieldName, String fromDateFieldName,
-        String toDateFieldName) {
-        if (interval != null) {
-            checkField(checkboxFieldName);
-            fillText(fromDateFieldName, interval.getFrom().getDate());
-            fillText(toDateFieldName, interval.getTom().getDate());
-        }
+    return Strings.emptyToNull(Joiner.on(". ").join(parts).trim());
+  }
+
+  private String buildOtherDiagnoses() {
+    ArrayList<String> parts = new ArrayList<>();
+
+    if (isValidString(intyg.getDiagnosBeskrivning())) {
+      parts.add(stripNewlines(intyg.getDiagnosBeskrivning()));
     }
-
-    protected void fillCapacity() {
-        fillNedsattning(intyg.getNedsattMed100(), REDUCED_WORK_CAPACITY_FULL, REDUCED_WORK_CAPACITY_FULL_FROM,
-            REDUCED_WORK_CAPACITY_FULL_TOM);
-        fillNedsattning(intyg.getNedsattMed75(), REDUCED_WORK_CAPACITY_75, REDUCED_WORK_CAPACITY_75_FROM,
-            REDUCED_WORK_CAPACITY_75_TOM);
-        fillNedsattning(intyg.getNedsattMed50(), REDUCED_WORK_CAPACITY_50, REDUCED_WORK_CAPACITY_50_FROM,
-            REDUCED_WORK_CAPACITY_50_TOM);
-        fillNedsattning(intyg.getNedsattMed25(), REDUCED_WORK_CAPACITY_25, REDUCED_WORK_CAPACITY_25_FROM,
-            REDUCED_WORK_CAPACITY_25_TOM);
+    if (isValidString(intyg.getDiagnosBeskrivning1())) {
+      parts.add(intyg.getDiagnosBeskrivning1());
     }
-
-    protected void fillCapacityRelativeToNuvarandeArbete() {
-        if (intyg.getNuvarandeArbetsuppgifter() != null) {
-            checkField(CURRENT_WORK);
-            fillText(CURRENT_WORK_TEXT_1, stripNewlines(intyg.getNuvarandeArbetsuppgifter()));
-        }
-
+    if (isValidString(intyg.getDiagnosKod2())) {
+      parts.add(intyg.getDiagnosKod2() + " " + intyg.getDiagnosBeskrivning2());
     }
-
-    protected void fillCapacityRelativeToOtherThanNuvarandeArbete() {
-
-        setField(UNEMPLOYMENT, intyg.isArbetsloshet());
-        setField(PARENTAL_LEAVE, intyg.isForaldrarledighet());
+    if (isValidString(intyg.getDiagnosKod3())) {
+      parts.add(intyg.getDiagnosKod3() + " " + intyg.getDiagnosBeskrivning3());
     }
-
-    protected void fillRehabilitation() {
-        if (intyg.getRehabilitering() != null) {
-            switch (intyg.getRehabilitering()) {
-                case rehabiliteringAktuell:
-                    setField(RECOMMENDATION_REHAB_YES, true);
-                    break;
-                case rehabiliteringEjAktuell:
-                    setField(RECOMMENDATION_REHAB_NO, true);
-                    break;
-                case rehabiliteringGarInteAttBedoma:
-                    setField(RECOMMENDATION_REHAB_UNKNOWN, true);
-                    break;
-            }
-        }
+    if (intyg.getSamsjuklighet() != null && intyg.getSamsjuklighet()) {
+      parts.add("Samsjuklighet föreligger");
     }
+    return Strings.emptyToNull(Joiner.on(", ").join(parts).trim());
+  }
 
-    protected void fillRecommendationsKontaktMedForetagshalsovarden() {
-        setField(RECOMMENDATIONS_CONTACT_COMPANY_CARE, intyg.isRekommendationKontaktForetagshalsovarden());
+  private boolean isValidString(String string) {
+    return string != null && !string.isEmpty();
+  }
+
+  private void fillText(String fieldId, String text) {
+    try {
+      assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_TEXT;
+      if (text != null) {
+        fields.setField(fieldId, text);
+      }
+    } catch (IOException e) {
+      throw new IllegalArgumentException(
+          "Could not fill field '" + fieldId + "' with value '" + text + "'", e);
+    } catch (DocumentException e) {
+      throw new IllegalArgumentException("Could not fill field '" + fieldId + "'", e);
     }
+  }
 
-    protected void fillRecommendationsOther() {
-        setField(RECOMMENDATIONS_CONTACT_AF, intyg.isRekommendationKontaktArbetsformedlingen());
-        if (intyg.getRekommendationOvrigt() != null) {
-            checkField(RECOMMENDATIONS_OTHER);
-            fillText(RECOMMENDATIONS_OTHER_TEXT, stripNewlines(intyg.getRekommendationOvrigt()));
-        }
+  private void checkField(String fieldId) {
+    setField(fieldId, true);
+  }
+
+  private void setField(String fieldId, boolean checked) {
+    try {
+      assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_CHECKBOX;
+      if (checked) {
+        fields.setField(fieldId, "1");
+      }
+    } catch (IOException | DocumentException e) {
+      throw new IllegalArgumentException("Could not check field '" + fieldId + "'", e);
     }
-
-    protected void fillActivityLimitation() {
-        fillText(ACTIVITY_LIMITATION, stripNewlines(intyg.getAktivitetsbegransning()));
-    }
-
-    protected void fillDisability() {
-        fillText(DISABILITIES, stripNewlines(intyg.getFunktionsnedsattning()));
-    }
-
-    protected void fillOther() {
-        fillText(OTHER_INFORMATION, stripNewlines(buildOtherText()));
-    }
-
-    protected void fillBasedOn() {
-
-        if (intyg.getUndersokningAvPatienten() != null) {
-            checkField(BASED_ON_EXAMINATION);
-            fillText(BASED_ON_EXAMINATION_TIME, intyg.getUndersokningAvPatienten().getDate());
-        }
-
-        if (intyg.getTelefonkontaktMedPatienten() != null) {
-            checkField(BASED_ON_PHONE_CONTACT);
-            fillText(BASED_ON_PHONE_CONTACT_TIME, intyg.getTelefonkontaktMedPatienten().getDate());
-        }
-
-        if (intyg.getJournaluppgifter() != null) {
-            checkField(BASED_ON_JOURNAL);
-            fillText(BASED_ON_JOURNAL_TIME, intyg.getJournaluppgifter().getDate());
-        }
-
-        if (intyg.getAnnanReferens() != null) {
-            checkField(BASED_ON_OTHER);
-            fillText(BASED_ON_OTHER_DATE, intyg.getAnnanReferens().getDate());
-        }
-    }
-
-    protected void fillMeasures() {
-        if (intyg.getAtgardInomSjukvarden() != null) {
-            checkField(MEASURES_CURRENT);
-            fillText(MEASURES_CURRENT_TEXT, stripNewlines(intyg.getAtgardInomSjukvarden()));
-        }
-
-        if (intyg.getAnnanAtgard() != null) {
-            checkField(MEASURES_OTHER);
-            fillText(MEASURES_OTHER_TEXT, stripNewlines(intyg.getAnnanAtgard()));
-        }
-    }
-
-    protected void fillDiseaseCause() {
-        fillText(DISEASE_CAUSE, stripNewlines(intyg.getSjukdomsforlopp()));
-    }
-
-    protected void fillIsSuspenseDueToInfection() {
-        setField(SUSPENSION_DUE_TO_INFECTION, intyg.isAvstangningSmittskydd());
-    }
-
-    protected void fillSignerCodes() {
-        fillText(DOCTORCODE_AND_WORKPLACE, intyg.getForskrivarkodOchArbetsplatskod());
-    }
-
-    protected void fillDiagnose() {
-        fillText(DIAGNOS_CODE, intyg.getDiagnosKod());
-        // fillText(DIAGNOS, intyg.getDiagnosBeskrivning());
-        fillText(DIAGNOS, buildOtherDiagnoses());
-    }
-
-    private boolean isTargetEqualTo(Status status, String recipient) {
-        return !isNull(status) && !isNull(status.getTarget()) && status.getTarget().equals(recipient);
-    }
-
-    private boolean isTypeEqualTo(Status status, CertificateState state) {
-        return !isNull(status) && !isNull(status.getType()) && status.getType() == state;
-    }
-
-    private boolean isNull(Object object) {
-        return object == null;
-    }
-
-    private String stripNewlines(String text) {
-        return (text != null) ? text.replace("\n", " ") : null;
-    }
-
-    private String buildOtherText() {
-        ArrayList<String> parts = new ArrayList<>();
-
-        if (isValidString(intyg.getAnnanReferensBeskrivning())) {
-            parts.add("4b: " + intyg.getAnnanReferensBeskrivning());
-        }
-
-        List<String> nedsattningDescription = new ArrayList<>();
-        nedsattningDescription.add(intyg.getNedsattMed25Beskrivning());
-        nedsattningDescription.add(intyg.getNedsattMed50Beskrivning());
-        nedsattningDescription.add(intyg.getNedsattMed75Beskrivning());
-        nedsattningDescription.removeIf(s -> s == null || s.length() == 0);
-        if (!nedsattningDescription.isEmpty()) {
-            parts.add("8b: " + Joiner.on(". ").join(nedsattningDescription));
-        }
-
-        if (isValidString(intyg.getArbetsformagaPrognosGarInteAttBedomaBeskrivning())) {
-            parts.add("10: " + intyg.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
-        }
-
-        if (isValidString(intyg.getKommentar())) {
-            parts.add(intyg.getKommentar());
-        }
-
-        return Strings.emptyToNull(Joiner.on(". ").join(parts).trim());
-    }
-
-    private String buildOtherDiagnoses() {
-        ArrayList<String> parts = new ArrayList<>();
-
-        if (isValidString(intyg.getDiagnosBeskrivning())) {
-            parts.add(stripNewlines(intyg.getDiagnosBeskrivning()));
-        }
-        if (isValidString(intyg.getDiagnosBeskrivning1())) {
-            parts.add(intyg.getDiagnosBeskrivning1());
-        }
-        if (isValidString(intyg.getDiagnosKod2())) {
-            parts.add(intyg.getDiagnosKod2() + " " + intyg.getDiagnosBeskrivning2());
-        }
-        if (isValidString(intyg.getDiagnosKod3())) {
-            parts.add(intyg.getDiagnosKod3() + " " + intyg.getDiagnosBeskrivning3());
-        }
-        if (intyg.getSamsjuklighet() != null && intyg.getSamsjuklighet()) {
-            parts.add("Samsjuklighet föreligger");
-        }
-        return Strings.emptyToNull(Joiner.on(", ").join(parts).trim());
-    }
-
-    private boolean isValidString(String string) {
-        return string != null && !string.isEmpty();
-    }
-
-    private void fillText(String fieldId, String text) {
-        try {
-            assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_TEXT;
-            if (text != null) {
-                fields.setField(fieldId, text);
-            }
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not fill field '" + fieldId + "' with value '" + text + "'", e);
-        } catch (DocumentException e) {
-            throw new IllegalArgumentException("Could not fill field '" + fieldId + "'", e);
-        }
-    }
-
-    private void checkField(String fieldId) {
-        setField(fieldId, true);
-    }
-
-    private void setField(String fieldId, boolean checked) {
-        try {
-            assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_CHECKBOX;
-            if (checked) {
-                fields.setField(fieldId, "1");
-            }
-        } catch (IOException | DocumentException e) {
-            throw new IllegalArgumentException("Could not check field '" + fieldId + "'", e);
-        }
-    }
+  }
 }

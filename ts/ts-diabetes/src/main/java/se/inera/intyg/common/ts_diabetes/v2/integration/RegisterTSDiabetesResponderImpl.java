@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,69 +41,97 @@ import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
 
 public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesResponderInterface {
 
-    public static final String CERTIFICATE_ALREADY_EXISTS = "Certificate already exists";
+  public static final String CERTIFICATE_ALREADY_EXISTS = "Certificate already exists";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterTSDiabetesResponderImpl.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(RegisterTSDiabetesResponderImpl.class);
 
-    private final ModuleContainerApi moduleContainer;
+  private final ModuleContainerApi moduleContainer;
 
-    private ObjectFactory objectFactory;
-    private TransportValidatorInstance validator = new TransportValidatorInstance();
+  private ObjectFactory objectFactory;
+  private TransportValidatorInstance validator = new TransportValidatorInstance();
 
-    public RegisterTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
-        this.moduleContainer = moduleContainer;
-        this.objectFactory = new ObjectFactory();
+  public RegisterTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
+    this.moduleContainer = moduleContainer;
+    this.objectFactory = new ObjectFactory();
+  }
+
+  @Override
+  public RegisterTSDiabetesResponseType registerTSDiabetes(
+      String logicalAddress, RegisterTSDiabetesType parameters) {
+    RegisterTSDiabetesResponseType response = new RegisterTSDiabetesResponseType();
+
+    try {
+      validate(parameters);
+
+      String xml = marshal(parameters);
+
+      TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
+      CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
+      certificateHolder.setOriginalCertificate(xml);
+
+      moduleContainer.certificateReceived(certificateHolder);
+
+      response.setResultat(ResultTypeUtil.okResult());
+
+    } catch (CertificateAlreadyExistsException ce) {
+      response.setResultat(ResultTypeUtil.infoResult(CERTIFICATE_ALREADY_EXISTS));
+      String certificateId = parameters.getIntyg().getIntygsId();
+      String issuedBy =
+          parameters
+              .getIntyg()
+              .getGrundData()
+              .getSkapadAv()
+              .getVardenhet()
+              .getEnhetsId()
+              .getExtension();
+      LOGGER.warn(
+          LogMarkers.VALIDATION,
+          "Validation warning for intyg "
+              + certificateId
+              + " issued by "
+              + issuedBy
+              + ": Certificate already exists - ignored.");
+    } catch (InvalidCertificateException e) {
+      response.setResultat(
+          ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "Invalid certificate ID"));
+      String certificateId = parameters.getIntyg().getIntygsId();
+      String issuedBy =
+          parameters
+              .getIntyg()
+              .getGrundData()
+              .getSkapadAv()
+              .getVardenhet()
+              .getEnhetsId()
+              .getExtension();
+      LOGGER.error(
+          LogMarkers.VALIDATION,
+          "Failed to create Certificate with id "
+              + certificateId
+              + " issued by "
+              + issuedBy
+              + ": Certificate ID already exists for another person.");
+
+    } catch (CertificateValidationException e) {
+      response.setResultat(
+          ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
+      LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
+    } catch (Exception e) {
+      LOGGER.error("Error in Webservice: ", e);
+      throw new RuntimeException(e);
     }
 
-    @Override
-    public RegisterTSDiabetesResponseType registerTSDiabetes(String logicalAddress, RegisterTSDiabetesType parameters) {
-        RegisterTSDiabetesResponseType response = new RegisterTSDiabetesResponseType();
+    return response;
+  }
 
-        try {
-            validate(parameters);
-
-            String xml = marshal(parameters);
-
-            TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
-            CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
-            certificateHolder.setOriginalCertificate(xml);
-
-            moduleContainer.certificateReceived(certificateHolder);
-
-            response.setResultat(ResultTypeUtil.okResult());
-
-        } catch (CertificateAlreadyExistsException ce) {
-            response.setResultat(ResultTypeUtil.infoResult(CERTIFICATE_ALREADY_EXISTS));
-            String certificateId = parameters.getIntyg().getIntygsId();
-            String issuedBy = parameters.getIntyg().getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getExtension();
-            LOGGER.warn(LogMarkers.VALIDATION, "Validation warning for intyg " + certificateId + " issued by " + issuedBy
-                + ": Certificate already exists - ignored.");
-        } catch (InvalidCertificateException e) {
-            response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "Invalid certificate ID"));
-            String certificateId = parameters.getIntyg().getIntygsId();
-            String issuedBy = parameters.getIntyg().getGrundData().getSkapadAv().getVardenhet().getEnhetsId().getExtension();
-            LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
-                + ": Certificate ID already exists for another person.");
-
-        } catch (CertificateValidationException e) {
-            response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
-            LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
-        } catch (Exception e) {
-            LOGGER.error("Error in Webservice: ", e);
-            throw new RuntimeException(e);
-        }
-
-        return response;
+  private void validate(RegisterTSDiabetesType parameters) throws CertificateValidationException {
+    List<String> validationErrors = validator.validate(parameters.getIntyg());
+    if (!validationErrors.isEmpty()) {
+      throw new CertificateValidationException(validationErrors);
     }
+  }
 
-    private void validate(RegisterTSDiabetesType parameters) throws CertificateValidationException {
-        List<String> validationErrors = validator.validate(parameters.getIntyg());
-        if (!validationErrors.isEmpty()) {
-            throw new CertificateValidationException(validationErrors);
-        }
-    }
-
-    private String marshal(RegisterTSDiabetesType parameters) {
-        return XmlMarshallerHelper.marshal(objectFactory.createRegisterTSDiabetes(parameters));
-    }
+  private String marshal(RegisterTSDiabetesType parameters) {
+    return XmlMarshallerHelper.marshal(objectFactory.createRegisterTSDiabetes(parameters));
+  }
 }

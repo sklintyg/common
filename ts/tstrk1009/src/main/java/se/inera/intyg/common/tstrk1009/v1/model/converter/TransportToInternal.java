@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,152 +56,162 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class TransportToInternal {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InternalToTransport.class);
+  private static final Logger LOG = LoggerFactory.getLogger(InternalToTransport.class);
 
-    private TransportToInternal() {
+  private TransportToInternal() {}
+
+  public static Tstrk1009UtlatandeV1 convert(final Intyg intygSource) throws ConverterException {
+    Tstrk1009UtlatandeV1.Builder utlatande = Tstrk1009UtlatandeV1.builder();
+    setMetaData(utlatande, intygSource);
+    setSvar(utlatande, intygSource);
+    return utlatande.build();
+  }
+
+  private static void setMetaData(
+      final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource)
+      throws ConverterException {
+    utlatande.setId(intygSource.getIntygsId().getExtension());
+    utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, PatientInfo.BASIC));
+    utlatande.setTextVersion(intygSource.getVersion());
+    utlatande.setSignature(
+        TransportConverterUtil.signatureTypeToBase64(intygSource.getUnderskrift()));
+  }
+
+  private static void setSvar(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource)
+      throws ConverterException {
+
+    final EnumSet<Korkortsbehorighet> korkortsbehorigheter =
+        EnumSet.noneOf(Korkortsbehorighet.class);
+
+    for (final Svar svar : intygSource.getSvar()) {
+      switch (svar.getId()) {
+        case IDENTITET_STYRKT_GENOM_SVAR_ID:
+          handleIdentitetStyrktGenom(utlatande, svar);
+          break;
+        case ANMALAN_AVSER_SVAR_ID:
+          handleAnmalanAvser(utlatande, svar);
+          break;
+        case MEDICINSKA_FORHALLANDEN_SVAR_ID:
+          handleMedicinskaForhallanden(utlatande, svar);
+          break;
+        case SENASTE_UNDERSOKNINGSDATUM_SVAR_ID:
+          handleSenasteUndersokningsdatum(utlatande, svar);
+          break;
+        case INTYGET_AVSER_BEHORIGHET_SVAR_ID:
+          handleIntygetAvserBehorighet(korkortsbehorigheter, svar);
+          break;
+        case INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID:
+          handleInformationOmTsBeslutOnskas(utlatande, svar);
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
 
-    public static Tstrk1009UtlatandeV1 convert(final Intyg intygSource) throws ConverterException {
-        Tstrk1009UtlatandeV1.Builder utlatande = Tstrk1009UtlatandeV1.builder();
-        setMetaData(utlatande, intygSource);
-        setSvar(utlatande, intygSource);
-        return utlatande.build();
+    handleKorkortsBehorigheter(utlatande, korkortsbehorigheter);
+  }
+
+  private static void handleIdentitetStyrktGenom(
+      Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) throws ConverterException {
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (IDENTITET_STYRKT_GENOM_DELSVAR_ID.equals(delsvar.getId())) {
+        utlatande.setIdentitetStyrktGenom(
+            IdentitetStyrktGenom.create(IdKontroll.fromCode(getCVSvarContent(delsvar).getCode())));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleAnmalanAvser(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar)
+      throws ConverterException {
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (ANMALAN_AVSER_DELSVAR_ID.equals(delsvar.getId())) {
+        utlatande.setAnmalanAvser(
+            AnmalanAvser.create(Korkortsolamplighet.fromCode(getCVSvarContent(delsvar).getCode())));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleMedicinskaForhallanden(
+      Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (MEDICINSKA_FORHALLANDEN_DELSVAR_ID.equals(delsvar.getId())) {
+        utlatande.setMedicinskaForhallanden(emptyToNull(getStringContent(delsvar)));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleSenasteUndersokningsdatum(
+      Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID.equals(delsvar.getId())) {
+        utlatande.setSenasteUndersokningsdatum(new InternalDate(getStringContent(delsvar)));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleIntygetAvserBehorighet(
+      EnumSet<Korkortsbehorighet> korkortsbehorigheter, final Svar svar) throws ConverterException {
+
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (INTYGET_AVSER_BEHORIGHET_DELSVAR_ID.equals(delsvar.getId())) {
+        korkortsbehorigheter.add(Korkortsbehorighet.fromCode(getCVSvarContent(delsvar).getCode()));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleInformationOmTsBeslutOnskas(
+      Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
+    for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+      if (INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID.equals(delsvar.getId())) {
+        utlatande.setInformationOmTsBeslutOnskas(getBooleanContent(delsvar));
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleKorkortsBehorigheter(
+      final Tstrk1009UtlatandeV1.Builder utlatande,
+      final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
+
+    final EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter =
+        EnumSet.noneOf(KorkortBehorighetGrupp.class);
+
+    if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getAllaBehorigheter())) {
+      intygetAvserBehorigheter.add(KorkortBehorighetGrupp.ALLA);
+    } else if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getKanintetastallning())) {
+      intygetAvserBehorigheter.add(KorkortBehorighetGrupp.KANINTETASTALLNING);
+    } else {
+
+      if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getABTraktorBehorigheter())) {
+        intygetAvserBehorigheter.add(KorkortBehorighetGrupp.A_B_TRAKTOR);
+      }
+
+      if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
+        intygetAvserBehorigheter.add(KorkortBehorighetGrupp.C_E);
+      }
+
+      if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getDBehorigHeter())) {
+        intygetAvserBehorigheter.add(KorkortBehorighetGrupp.D);
+      }
+
+      if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getTaxiBehorigheter())) {
+        intygetAvserBehorigheter.add(KorkortBehorighetGrupp.TAXI);
+      }
     }
 
-    private static void setMetaData(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
-        utlatande.setId(intygSource.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, PatientInfo.BASIC));
-        utlatande.setTextVersion(intygSource.getVersion());
-        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intygSource.getUnderskrift()));
+    if (CollectionUtils.isNotEmpty(intygetAvserBehorigheter)) {
+      utlatande.setIntygetAvserBehorigheter(IntygetAvser.create(intygetAvserBehorigheter));
     }
-
-    private static void setSvar(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
-
-        final EnumSet<Korkortsbehorighet> korkortsbehorigheter = EnumSet.noneOf(Korkortsbehorighet.class);
-
-        for (final Svar svar : intygSource.getSvar()) {
-            switch (svar.getId()) {
-                case IDENTITET_STYRKT_GENOM_SVAR_ID:
-                    handleIdentitetStyrktGenom(utlatande, svar);
-                    break;
-                case ANMALAN_AVSER_SVAR_ID:
-                    handleAnmalanAvser(utlatande, svar);
-                    break;
-                case MEDICINSKA_FORHALLANDEN_SVAR_ID:
-                    handleMedicinskaForhallanden(utlatande, svar);
-                    break;
-                case SENASTE_UNDERSOKNINGSDATUM_SVAR_ID:
-                    handleSenasteUndersokningsdatum(utlatande, svar);
-                    break;
-                case INTYGET_AVSER_BEHORIGHET_SVAR_ID:
-                    handleIntygetAvserBehorighet(korkortsbehorigheter, svar);
-                    break;
-                case INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID:
-                    handleInformationOmTsBeslutOnskas(utlatande, svar);
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-
-        }
-
-        handleKorkortsBehorigheter(utlatande, korkortsbehorigheter);
-    }
-
-    private static void handleIdentitetStyrktGenom(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) throws ConverterException {
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (IDENTITET_STYRKT_GENOM_DELSVAR_ID.equals(delsvar.getId())) {
-                utlatande.setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.fromCode(getCVSvarContent(delsvar).getCode())));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleAnmalanAvser(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) throws ConverterException {
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (ANMALAN_AVSER_DELSVAR_ID.equals(delsvar.getId())) {
-                utlatande.setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.fromCode(getCVSvarContent(delsvar).getCode())));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleMedicinskaForhallanden(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (MEDICINSKA_FORHALLANDEN_DELSVAR_ID.equals(delsvar.getId())) {
-                utlatande.setMedicinskaForhallanden(emptyToNull(getStringContent(delsvar)));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleSenasteUndersokningsdatum(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID.equals(delsvar.getId())) {
-                utlatande.setSenasteUndersokningsdatum(new InternalDate(getStringContent(delsvar)));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleIntygetAvserBehorighet(
-        EnumSet<Korkortsbehorighet> korkortsbehorigheter,
-        final Svar svar) throws ConverterException {
-
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (INTYGET_AVSER_BEHORIGHET_DELSVAR_ID.equals(delsvar.getId())) {
-                korkortsbehorigheter.add(Korkortsbehorighet.fromCode(getCVSvarContent(delsvar).getCode()));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleInformationOmTsBeslutOnskas(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
-        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID.equals(delsvar.getId())) {
-                utlatande.setInformationOmTsBeslutOnskas(getBooleanContent(delsvar));
-            } else {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleKorkortsBehorigheter(
-        final Tstrk1009UtlatandeV1.Builder utlatande,
-        final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
-
-        final EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter = EnumSet.noneOf(KorkortBehorighetGrupp.class);
-
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getAllaBehorigheter())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.ALLA);
-        } else if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getKanintetastallning())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.KANINTETASTALLNING);
-        } else {
-
-            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getABTraktorBehorigheter())) {
-                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.A_B_TRAKTOR);
-            }
-
-            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
-                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.C_E);
-            }
-
-            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getDBehorigHeter())) {
-                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.D);
-            }
-
-            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getTaxiBehorigheter())) {
-                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.TAXI);
-            }
-        }
-
-        if (CollectionUtils.isNotEmpty(intygetAvserBehorigheter)) {
-            utlatande.setIntygetAvserBehorigheter(IntygetAvser.create(intygetAvserBehorigheter));
-        }
-    }
+  }
 }

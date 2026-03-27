@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,32 +29,32 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class AccordionTest {
 
-    protected abstract String getExpectedOpenText();
+  protected abstract String getExpectedOpenText();
 
-    protected abstract String getExpectedCloseText();
+  protected abstract String getExpectedCloseText();
 
-    protected abstract String getExpectedAccordionHeader();
+  protected abstract String getExpectedAccordionHeader();
 
-    protected abstract CertificateTextProvider getTextProviderMock();
+  protected abstract CertificateTextProvider getTextProviderMock();
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    @Test
-    void shouldIncludeConfigAccordionOpenText() {
-        final var question = getElement();
-        assertEquals(getExpectedOpenText(), question.getConfig().getAccordion().getOpenText());
-    }
+  @Test
+  void shouldIncludeConfigAccordionOpenText() {
+    final var question = getElement();
+    assertEquals(getExpectedOpenText(), question.getConfig().getAccordion().getOpenText());
+  }
 
-    @Test
-    void shouldIncludeConfigAccordionClosedText() {
-        final var question = getElement();
-        assertEquals(getExpectedCloseText(), question.getConfig().getAccordion().getCloseText());
-    }
+  @Test
+  void shouldIncludeConfigAccordionClosedText() {
+    final var question = getElement();
+    assertEquals(getExpectedCloseText(), question.getConfig().getAccordion().getCloseText());
+  }
 
-    @Test
-    void shouldIncludeConfigAccordionHeader() {
-        final var question = getElement();
-        assertTrue(question.getConfig().getAccordion().getHeader().trim().length() > 0, "Missing text");
-        verify(getTextProviderMock(), atLeastOnce()).get(getExpectedAccordionHeader());
-    }
+  @Test
+  void shouldIncludeConfigAccordionHeader() {
+    final var question = getElement();
+    assertTrue(question.getConfig().getAccordion().getHeader().trim().length() > 0, "Missing text");
+    verify(getTextProviderMock(), atLeastOnce()).get(getExpectedAccordionHeader());
+  }
 }

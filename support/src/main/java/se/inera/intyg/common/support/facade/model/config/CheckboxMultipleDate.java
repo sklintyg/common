@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,11 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate.Ch
 @Builder
 public class CheckboxMultipleDate {
 
-    String id;
-    String label;
-    LocalDate maxDate;
-    LocalDate minDate;
+  String id;
+  String label;
+  LocalDate maxDate;
+  LocalDate minDate;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CheckboxMultipleDateBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CheckboxMultipleDateBuilder {}
 }

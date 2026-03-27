@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,15 +28,15 @@ import java.util.List;
  */
 public abstract class AbstractValidator {
 
-    private List<String> validationErrors = new ArrayList<>();
+  private List<String> validationErrors = new ArrayList<>();
 
-    protected static final String VALIDATION_ERROR_PREFIX = "Validation Error:";
+  protected static final String VALIDATION_ERROR_PREFIX = "Validation Error:";
 
-    protected void addValidationError(String errorDesc) {
-        validationErrors.add(VALIDATION_ERROR_PREFIX + errorDesc);
-    }
+  protected void addValidationError(String errorDesc) {
+    validationErrors.add(VALIDATION_ERROR_PREFIX + errorDesc);
+  }
 
-    protected List<String> getValidationErrors() {
-        return validationErrors;
-    }
+  protected List<String> getValidationErrors() {
+    return validationErrors;
+  }
 }

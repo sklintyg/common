@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,112 +64,123 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 @ContextConfiguration(classes = {BefattningService.class})
 class RoundTripTest {
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @BeforeEach
-    void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+  @BeforeEach
+  void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
 
-    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("pass-*").stream()
-            .map(scenario -> Arguments.of(scenario.getName(), scenario));
-    }
+  static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
+    return ScenarioFinder.getInternalScenarios("pass-*").stream()
+        .map(scenario -> Arguments.of(scenario.getName(), scenario));
+  }
 
-    /**
-     * Test that no information is lost when mapping json -> xml -> json.
-     * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
-     */
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testRoundTripInternalFirst(String name, Scenario scenario) throws Exception {
-        CustomObjectMapper objectMapper = new CustomObjectMapper();
-        RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel(), webcertModuleService);
+  /**
+   * Test that no information is lost when mapping json -> xml -> json. This represents the case
+   * where the certificate is originally from Webcert and is read from Intygstjansten.
+   */
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testRoundTripInternalFirst(String name, Scenario scenario) throws Exception {
+    CustomObjectMapper objectMapper = new CustomObjectMapper();
+    RegisterCertificateType transport =
+        InternalToTransport.convert(scenario.asInternalModel(), webcertModuleService);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
-        marshaller.marshal(wrapJaxb(transport), actual);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    StringWriter expected = new StringWriter();
+    StringWriter actual = new StringWriter();
+    marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+    marshaller.marshal(wrapJaxb(transport), actual);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actual.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
-        JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
+    JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
 
-        LuseUtlatandeV1 expectedInternal = objectMapper.readValue(
-            getClass().getResourceAsStream("/v1/internal/scenarios/roundtripjson/" + name + ".json"),
+    LuseUtlatandeV1 expectedInternal =
+        objectMapper.readValue(
+            getClass()
+                .getResourceAsStream("/v1/internal/scenarios/roundtripjson/" + name + ".json"),
             LuseUtlatandeV1.class);
-        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
+    JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
 
-    /**
-     * Test that no information is lost when mapping xml -> json -> xml.
-     * This represents the case where the certificate is from another medical journaling system and is read from
-     * Intygstjansten.
-     */
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testRoundTripTransportFirst(String name, Scenario scenario) throws Exception {
-        CustomObjectMapper objectMapper = new CustomObjectMapper();
-        LuseUtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
+  /**
+   * Test that no information is lost when mapping xml -> json -> xml. This represents the case
+   * where the certificate is from another medical journaling system and is read from
+   * Intygstjansten.
+   */
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testRoundTripTransportFirst(String name, Scenario scenario) throws Exception {
+    CustomObjectMapper objectMapper = new CustomObjectMapper();
+    LuseUtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
-        JsonNode tree = objectMapper.valueToTree(internal);
-        LuseUtlatandeV1 expectedInternal = objectMapper.readValue(
-            getClass().getResourceAsStream("/v1/internal/scenarios/roundtripjson/" + name + ".json"),
+    JsonNode tree = objectMapper.valueToTree(internal);
+    LuseUtlatandeV1 expectedInternal =
+        objectMapper.readValue(
+            getClass()
+                .getResourceAsStream("/v1/internal/scenarios/roundtripjson/" + name + ".json"),
             LuseUtlatandeV1.class);
-        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+    JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
-        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal, webcertModuleService)), actual);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    StringWriter expected = new StringWriter();
+    StringWriter actual = new StringWriter();
+    marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
+    marshaller.marshal(
+        wrapJaxb(InternalToTransport.convert(internal, webcertModuleService)), actual);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actual.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
-    }
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+  }
 
-    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        return new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
-                "RegisterCertificate"),
-            RegisterCertificateType.class, ws);
-    }
+  private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
+    return new JAXBElement<>(
+        new QName(
+            "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
+            "RegisterCertificate"),
+        RegisterCertificateType.class,
+        ws);
+  }
 }

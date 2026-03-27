@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 @Builder
 public class CertificateDataValidationText implements CertificateDataValidation {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValidationType type = CertificateDataValidationType.TEXT_VALIDATION;
-    String id;
-    short limit;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValidationType type = CertificateDataValidationType.TEXT_VALIDATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValidationTextBuilder {
+  String id;
+  short limit;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValidationTextBuilder {}
 }

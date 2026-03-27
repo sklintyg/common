@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,41 +30,33 @@ import org.w3c.dom.Node;
  */
 public abstract class AbstractXPathExpression<T> implements XPathExpression<T> {
 
-    /**
-     * The xPath expression.
-     */
-    private final String xPathString;
+  /** The xPath expression. */
+  private final String xPathString;
 
-    /**
-     * The return type of the evaluation.
-     */
-    private final QName returnType;
+  /** The return type of the evaluation. */
+  private final QName returnType;
 
-    /**
-     * Constructor for use by implementing classes.
-     *
-     * @param xPathString The xPath expression.
-     * @param returnType The return type of the evaluation.
-     */
-    protected AbstractXPathExpression(String xPathString, QName returnType) {
-        this.xPathString = xPathString;
-        this.returnType = returnType;
-    }
+  /**
+   * Constructor for use by implementing classes.
+   *
+   * @param xPathString The xPath expression.
+   * @param returnType The return type of the evaluation.
+   */
+  protected AbstractXPathExpression(String xPathString, QName returnType) {
+    this.xPathString = xPathString;
+    this.returnType = returnType;
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @SuppressWarnings("unchecked")
-    public T evaluate(XPath xPath, Node document) throws XPathExpressionException {
-        return (T) xPath.evaluate(xPathString, document, returnType);
-    }
+  /** {@inheritDoc} */
+  @Override
+  @SuppressWarnings("unchecked")
+  public T evaluate(XPath xPath, Node document) throws XPathExpressionException {
+    return (T) xPath.evaluate(xPathString, document, returnType);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getXPathString() {
-        return xPathString;
-    }
+  /** {@inheritDoc} */
+  @Override
+  public String getXPathString() {
+    return xPathString;
+  }
 }

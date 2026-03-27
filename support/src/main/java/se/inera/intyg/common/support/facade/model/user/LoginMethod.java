@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,5 +19,8 @@
 package se.inera.intyg.common.support.facade.model.user;
 
 public enum LoginMethod {
-    BANK_ID, SITHS, FAKE, BANK_ID_MOBILE
+  BANK_ID,
+  SITHS,
+  FAKE,
+  BANK_ID_MOBILE
 }

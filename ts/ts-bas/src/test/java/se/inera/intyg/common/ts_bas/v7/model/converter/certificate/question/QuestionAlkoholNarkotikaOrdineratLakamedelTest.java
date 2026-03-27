@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,175 +46,178 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaOrdineratLakamedelTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeTestCommon extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+            null, getIndex(), textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Nested
-        class IncludeTestCommon extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, getIndex(), textProvider);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+            null, 0, getTextProviderMock());
+      }
 
-            @Override
-            protected String getId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
-            }
+      @Override
+      protected String getTextId() {
+        return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, getTextProviderMock());
-            }
-
-            @Override
-            protected String getTextId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValueTextTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
-                    NarkotikaLakemedel.builder().setLakemedelOchDos(getText()).build(), 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
-            }
-
-            @Override
-            protected String getText() {
-                return "Här är en text";
-            }
-        }
-
-        @Nested
-        class IncludeValidationTextTest extends ValidationTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 180;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-
-            @Override
-            protected String getQuestionId() {
-                return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$missbrukberoendordineratlakamedel";
-            }
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$missbrukberoendlakarordinerat";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 2;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueTextTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalTextValue extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+            NarkotikaLakemedel.builder().setLakemedelOchDos(getText()).build(), 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
-                    NarkotikaLakemedel.builder().setLakemedelOchDos(expectedValue).build(), 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionAlkoholNarkotikaOrdineratLakamedel.toInternal(certificate);
-            }
-        }
+      @Override
+      protected String getText() {
+        return "Här är en text";
+      }
     }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+
+      @Override
+      protected short getLimit() {
+        return 180;
+      }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+
+      @Override
+      protected String getQuestionId() {
+        return LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$missbrukberoendordineratlakamedel";
+      }
+    }
+
+    @Nested
+    class IncludeValidationShowTest extends ValidationShowTest {
+
+      @Override
+      protected String getQuestionId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$missbrukberoendlakarordinerat";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 2;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalTextValue extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+            NarkotikaLakemedel.builder().setLakemedelOchDos(expectedValue).build(),
+            0,
+            textProvider);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionAlkoholNarkotikaOrdineratLakamedel.toInternal(certificate);
+      }
+    }
+  }
 }

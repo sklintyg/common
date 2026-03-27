@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,79 +50,122 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class TransportToInternalTest {
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void testConvert() throws Exception {
-        String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
-        Intyg intyg = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
-        DoiUtlatandeV1 res = TransportToInternal.convert(intyg);
+  @Test
+  public void testConvert() throws Exception {
+    String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+    Intyg intyg =
+        JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
+    DoiUtlatandeV1 res = TransportToInternal.convert(intyg);
 
-        assertEquals("1234567", res.getId());
-        assertEquals("Olivia", res.getGrundData().getPatient().getFornamn());
-        assertEquals("Olsson", res.getGrundData().getPatient().getEfternamn());
-        assertEquals("Testgatan 1", res.getGrundData().getPatient().getPostadress());
-        assertEquals("111 11", res.getGrundData().getPatient().getPostnummer());
-        assertEquals("Teststaden", res.getGrundData().getPatient().getPostort());
-        assertEquals("19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
-        assertEquals(LocalDateTime.of(2015, 12, 7, 15, 48, 5), res.getGrundData().getSigneringsdatum());
-        assertEquals("Karl Karlsson", res.getGrundData().getSkapadAv().getFullstandigtNamn());
-        assertEquals("SE2321000016-6G5R", res.getGrundData().getSkapadAv().getPersonId());
-        assertNull(res.getGrundData().getRelation());
+    assertEquals("1234567", res.getId());
+    assertEquals("Olivia", res.getGrundData().getPatient().getFornamn());
+    assertEquals("Olsson", res.getGrundData().getPatient().getEfternamn());
+    assertEquals("Testgatan 1", res.getGrundData().getPatient().getPostadress());
+    assertEquals("111 11", res.getGrundData().getPatient().getPostnummer());
+    assertEquals("Teststaden", res.getGrundData().getPatient().getPostort());
+    assertEquals(
+        "19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+    assertEquals(LocalDateTime.of(2015, 12, 7, 15, 48, 5), res.getGrundData().getSigneringsdatum());
+    assertEquals("Karl Karlsson", res.getGrundData().getSkapadAv().getFullstandigtNamn());
+    assertEquals("SE2321000016-6G5R", res.getGrundData().getSkapadAv().getPersonId());
+    assertNull(res.getGrundData().getRelation());
 
-        assertEquals("körkort", res.getIdentitetStyrkt());
-        assertEquals(false, res.getDodsdatumSakert());
-        assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getDodsdatum());
-        assertEquals(new InternalDate(LocalDate.of(2017, 4, 2)), res.getAntraffatDodDatum());
-        assertEquals("kommun", res.getDodsplatsKommun());
-        assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
-        assertEquals(true, res.getBarn());
-        assertEquals("terminal dödsorsak", res.getTerminalDodsorsak().getBeskrivning());
-        assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getTerminalDodsorsak().getDatum());
-        assertEquals(Specifikation.KRONISK, res.getTerminalDodsorsak().getSpecifikation());
-        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2016, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
-        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2016, 4, 1)), Specifikation.PLOTSLIG),
-            res.getFoljd().get(1));
-        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2016, 3, 1)), Specifikation.KRONISK), res.getFoljd().get(2));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 1", new InternalDate(LocalDate.of(2017, 3, 1)), Specifikation.KRONISK),
-            res.getBidragandeSjukdomar().get(0));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 2", new InternalDate(LocalDate.of(2017, 3, 2)), Specifikation.PLOTSLIG),
-            res.getBidragandeSjukdomar().get(1));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 3", new InternalDate(LocalDate.of(2017, 3, 3)), Specifikation.KRONISK),
-            res.getBidragandeSjukdomar().get(2));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 4", new InternalDate(LocalDate.of(2017, 3, 4)), Specifikation.PLOTSLIG),
-            res.getBidragandeSjukdomar().get(3));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 5", new InternalDate(LocalDate.of(2017, 3, 5)), Specifikation.KRONISK),
-            res.getBidragandeSjukdomar().get(4));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 6", new InternalDate(LocalDate.of(2017, 3, 6)), Specifikation.PLOTSLIG),
-            res.getBidragandeSjukdomar().get(5));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 7", new InternalDate(LocalDate.of(2017, 3, 7)), Specifikation.KRONISK),
-            res.getBidragandeSjukdomar().get(6));
-        assertEquals(Dodsorsak.create("bidragande sjukdom 8", new InternalDate(LocalDate.of(2017, 3, 8)), Specifikation.PLOTSLIG),
-            res.getBidragandeSjukdomar().get(7));
-        assertEquals(OmOperation.JA, res.getOperation());
-        assertEquals(new InternalDate(LocalDate.of(2016, 2, 1)), res.getOperationDatum());
-        assertEquals("anledning", res.getOperationAnledning());
-        assertTrue(res.getForgiftning());
-        assertEquals(ForgiftningOrsak.SJALVMORD, res.getForgiftningOrsak());
-        assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getForgiftningDatum());
-        assertEquals("uppkommelse", res.getForgiftningUppkommelse());
-        assertEquals(Dodsorsaksgrund.KLINISK_OBDUKTION, res.getGrunder().get(0));
-        assertEquals(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN, res.getGrunder().get(1));
-        assertEquals("Sverige", res.getLand());
-    }
+    assertEquals("körkort", res.getIdentitetStyrkt());
+    assertEquals(false, res.getDodsdatumSakert());
+    assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getDodsdatum());
+    assertEquals(new InternalDate(LocalDate.of(2017, 4, 2)), res.getAntraffatDodDatum());
+    assertEquals("kommun", res.getDodsplatsKommun());
+    assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
+    assertEquals(true, res.getBarn());
+    assertEquals("terminal dödsorsak", res.getTerminalDodsorsak().getBeskrivning());
+    assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getTerminalDodsorsak().getDatum());
+    assertEquals(Specifikation.KRONISK, res.getTerminalDodsorsak().getSpecifikation());
+    assertEquals(
+        Dodsorsak.create(
+            "foljd 1", new InternalDate(LocalDate.of(2016, 5, 1)), Specifikation.KRONISK),
+        res.getFoljd().get(0));
+    assertEquals(
+        Dodsorsak.create(
+            "foljd 2", new InternalDate(LocalDate.of(2016, 4, 1)), Specifikation.PLOTSLIG),
+        res.getFoljd().get(1));
+    assertEquals(
+        Dodsorsak.create(
+            "foljd 3", new InternalDate(LocalDate.of(2016, 3, 1)), Specifikation.KRONISK),
+        res.getFoljd().get(2));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 1",
+            new InternalDate(LocalDate.of(2017, 3, 1)),
+            Specifikation.KRONISK),
+        res.getBidragandeSjukdomar().get(0));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 2",
+            new InternalDate(LocalDate.of(2017, 3, 2)),
+            Specifikation.PLOTSLIG),
+        res.getBidragandeSjukdomar().get(1));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 3",
+            new InternalDate(LocalDate.of(2017, 3, 3)),
+            Specifikation.KRONISK),
+        res.getBidragandeSjukdomar().get(2));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 4",
+            new InternalDate(LocalDate.of(2017, 3, 4)),
+            Specifikation.PLOTSLIG),
+        res.getBidragandeSjukdomar().get(3));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 5",
+            new InternalDate(LocalDate.of(2017, 3, 5)),
+            Specifikation.KRONISK),
+        res.getBidragandeSjukdomar().get(4));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 6",
+            new InternalDate(LocalDate.of(2017, 3, 6)),
+            Specifikation.PLOTSLIG),
+        res.getBidragandeSjukdomar().get(5));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 7",
+            new InternalDate(LocalDate.of(2017, 3, 7)),
+            Specifikation.KRONISK),
+        res.getBidragandeSjukdomar().get(6));
+    assertEquals(
+        Dodsorsak.create(
+            "bidragande sjukdom 8",
+            new InternalDate(LocalDate.of(2017, 3, 8)),
+            Specifikation.PLOTSLIG),
+        res.getBidragandeSjukdomar().get(7));
+    assertEquals(OmOperation.JA, res.getOperation());
+    assertEquals(new InternalDate(LocalDate.of(2016, 2, 1)), res.getOperationDatum());
+    assertEquals("anledning", res.getOperationAnledning());
+    assertTrue(res.getForgiftning());
+    assertEquals(ForgiftningOrsak.SJALVMORD, res.getForgiftningOrsak());
+    assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getForgiftningDatum());
+    assertEquals("uppkommelse", res.getForgiftningUppkommelse());
+    assertEquals(Dodsorsaksgrund.KLINISK_OBDUKTION, res.getGrunder().get(0));
+    assertEquals(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN, res.getGrunder().get(1));
+    assertEquals("Sverige", res.getLand());
+  }
 }

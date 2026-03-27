@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,104 +22,104 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class Hypoglykemier {
 
-    private Boolean kunskapOmAtgarder;
+  private Boolean kunskapOmAtgarder;
 
-    private Boolean teckenNedsattHjarnfunktion;
+  private Boolean teckenNedsattHjarnfunktion;
 
-    private Boolean saknarFormagaKannaVarningstecken;
+  private Boolean saknarFormagaKannaVarningstecken;
 
-    private Boolean allvarligForekomst;
+  private Boolean allvarligForekomst;
 
-    private String allvarligForekomstBeskrivning;
+  private String allvarligForekomstBeskrivning;
 
-    private Boolean allvarligForekomstTrafiken;
+  private Boolean allvarligForekomstTrafiken;
 
-    private String allvarligForekomstTrafikBeskrivning;
+  private String allvarligForekomstTrafikBeskrivning;
 
-    private Boolean allvarligForekomstVakenTid;
+  private Boolean allvarligForekomstVakenTid;
 
-    private InternalDate allvarligForekomstVakenTidObservationstid;
+  private InternalDate allvarligForekomstVakenTidObservationstid;
 
-    private Boolean egenkontrollBlodsocker;
+  private Boolean egenkontrollBlodsocker;
 
-    public Boolean getKunskapOmAtgarder() {
-        return kunskapOmAtgarder;
-    }
+  public Boolean getKunskapOmAtgarder() {
+    return kunskapOmAtgarder;
+  }
 
-    public void setKunskapOmAtgarder(Boolean kunskapOmAtgarder) {
-        this.kunskapOmAtgarder = kunskapOmAtgarder;
-    }
+  public void setKunskapOmAtgarder(Boolean kunskapOmAtgarder) {
+    this.kunskapOmAtgarder = kunskapOmAtgarder;
+  }
 
-    public Boolean getTeckenNedsattHjarnfunktion() {
-        return teckenNedsattHjarnfunktion;
-    }
+  public Boolean getTeckenNedsattHjarnfunktion() {
+    return teckenNedsattHjarnfunktion;
+  }
 
-    public void setTeckenNedsattHjarnfunktion(Boolean teckenNedsattHjarnfunktion) {
-        this.teckenNedsattHjarnfunktion = teckenNedsattHjarnfunktion;
-    }
+  public void setTeckenNedsattHjarnfunktion(Boolean teckenNedsattHjarnfunktion) {
+    this.teckenNedsattHjarnfunktion = teckenNedsattHjarnfunktion;
+  }
 
-    public Boolean getSaknarFormagaKannaVarningstecken() {
-        return saknarFormagaKannaVarningstecken;
-    }
+  public Boolean getSaknarFormagaKannaVarningstecken() {
+    return saknarFormagaKannaVarningstecken;
+  }
 
-    public void setSaknarFormagaKannaVarningstecken(Boolean saknarFormagaKannaVarningstecken) {
-        this.saknarFormagaKannaVarningstecken = saknarFormagaKannaVarningstecken;
-    }
+  public void setSaknarFormagaKannaVarningstecken(Boolean saknarFormagaKannaVarningstecken) {
+    this.saknarFormagaKannaVarningstecken = saknarFormagaKannaVarningstecken;
+  }
 
-    public Boolean getAllvarligForekomst() {
-        return allvarligForekomst;
-    }
+  public Boolean getAllvarligForekomst() {
+    return allvarligForekomst;
+  }
 
-    public void setAllvarligForekomst(Boolean allvarligForekomst) {
-        this.allvarligForekomst = allvarligForekomst;
-    }
+  public void setAllvarligForekomst(Boolean allvarligForekomst) {
+    this.allvarligForekomst = allvarligForekomst;
+  }
 
-    public String getAllvarligForekomstBeskrivning() {
-        return allvarligForekomstBeskrivning;
-    }
+  public String getAllvarligForekomstBeskrivning() {
+    return allvarligForekomstBeskrivning;
+  }
 
-    public void setAllvarligForekomstBeskrivning(String allvarligForekomstBeskrivning) {
-        this.allvarligForekomstBeskrivning = allvarligForekomstBeskrivning;
-    }
+  public void setAllvarligForekomstBeskrivning(String allvarligForekomstBeskrivning) {
+    this.allvarligForekomstBeskrivning = allvarligForekomstBeskrivning;
+  }
 
-    public Boolean getAllvarligForekomstTrafiken() {
-        return allvarligForekomstTrafiken;
-    }
+  public Boolean getAllvarligForekomstTrafiken() {
+    return allvarligForekomstTrafiken;
+  }
 
-    public void setAllvarligForekomstTrafiken(Boolean allvarligForekomstTrafiken) {
-        this.allvarligForekomstTrafiken = allvarligForekomstTrafiken;
-    }
+  public void setAllvarligForekomstTrafiken(Boolean allvarligForekomstTrafiken) {
+    this.allvarligForekomstTrafiken = allvarligForekomstTrafiken;
+  }
 
-    public String getAllvarligForekomstTrafikBeskrivning() {
-        return allvarligForekomstTrafikBeskrivning;
-    }
+  public String getAllvarligForekomstTrafikBeskrivning() {
+    return allvarligForekomstTrafikBeskrivning;
+  }
 
-    public void setAllvarligForekomstTrafikBeskrivning(String allvarligForekomstTrafikBeskrivning) {
-        this.allvarligForekomstTrafikBeskrivning = allvarligForekomstTrafikBeskrivning;
-    }
+  public void setAllvarligForekomstTrafikBeskrivning(String allvarligForekomstTrafikBeskrivning) {
+    this.allvarligForekomstTrafikBeskrivning = allvarligForekomstTrafikBeskrivning;
+  }
 
-    public Boolean getAllvarligForekomstVakenTid() {
-        return allvarligForekomstVakenTid;
-    }
+  public Boolean getAllvarligForekomstVakenTid() {
+    return allvarligForekomstVakenTid;
+  }
 
-    public void setAllvarligForekomstVakenTid(Boolean allvarligForekomstVakenTid) {
-        this.allvarligForekomstVakenTid = allvarligForekomstVakenTid;
-    }
+  public void setAllvarligForekomstVakenTid(Boolean allvarligForekomstVakenTid) {
+    this.allvarligForekomstVakenTid = allvarligForekomstVakenTid;
+  }
 
-    public InternalDate getAllvarligForekomstVakenTidObservationstid() {
-        return allvarligForekomstVakenTidObservationstid;
-    }
+  public InternalDate getAllvarligForekomstVakenTidObservationstid() {
+    return allvarligForekomstVakenTidObservationstid;
+  }
 
-    public void setAllvarligForekomstVakenTidObservationstid(InternalDate allvarligForekomstVakenTidObservationstid) {
-        this.allvarligForekomstVakenTidObservationstid = allvarligForekomstVakenTidObservationstid;
-    }
+  public void setAllvarligForekomstVakenTidObservationstid(
+      InternalDate allvarligForekomstVakenTidObservationstid) {
+    this.allvarligForekomstVakenTidObservationstid = allvarligForekomstVakenTidObservationstid;
+  }
 
-    public Boolean getEgenkontrollBlodsocker() {
-        return egenkontrollBlodsocker;
-    }
+  public Boolean getEgenkontrollBlodsocker() {
+    return egenkontrollBlodsocker;
+  }
 
-    public void setEgenkontrollBlodsocker(Boolean egenkontrollBlodsocker) {
-        this.egenkontrollBlodsocker = egenkontrollBlodsocker;
-    }
-
+  public void setEgenkontrollBlodsocker(Boolean egenkontrollBlodsocker) {
+    this.egenkontrollBlodsocker = egenkontrollBlodsocker;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
@@ -35,38 +34,31 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionOvrigt {
 
-    private static final short LIMIT_OVRIGT = (short) 4000;
+  private static final short LIMIT_OVRIGT = (short) 4000;
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OVRIGT_SVAR_ID_25)
-            .index(index)
-            .parent(CATEGORY_OVRIGT)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(texts.get(OVRIGT_SVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(OVRIGT_SVAR_JSON_ID_25)
-                        .limit(LIMIT_OVRIGT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(OVRIGT_SVAR_ID_25)
+        .index(index)
+        .parent(CATEGORY_OVRIGT)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(OVRIGT_SVAR_JSON_ID_25)
+                .text(texts.get(OVRIGT_SVAR_TEXT))
+                .build())
+        .value(CertificateDataValueText.builder().id(OVRIGT_SVAR_JSON_ID_25).text(value).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(OVRIGT_SVAR_JSON_ID_25)
+                  .limit(LIMIT_OVRIGT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
+  }
 }

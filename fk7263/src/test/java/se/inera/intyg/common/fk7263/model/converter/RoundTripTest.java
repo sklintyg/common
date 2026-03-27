@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -67,114 +67,141 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    TransportToInternal.class, InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      TransportToInternal.class,
+      InternalConverterUtil.class
+    })
 class RoundTripTest {
 
-    private final CustomObjectMapper objectMapper = new CustomObjectMapper();
-    private final ObjectFactory objectFactory = new ObjectFactory();
-    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
-        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
-    private static Marshaller marshaller;
+  private final CustomObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectFactory objectFactory = new ObjectFactory();
+  private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory
+      rivtav3ObjectFactory =
+          new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
+  private static Marshaller marshaller;
 
-    private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
-        "annanReferensBeskrivning", "diagnosBeskrivning", "diagnosBeskrivning1", "diagnosBeskrivning2", "diagnosBeskrivning3",
-        "diagnosKod2",
-        "diagnosKod3", "samsjuklighet");
+  private static final List<String> IGNORED_JSON_PROPERTIES =
+      Arrays.asList(
+          "arbetsformagaPrognosGarInteAttBedomaBeskrivning",
+          "annanReferensBeskrivning",
+          "diagnosBeskrivning",
+          "diagnosBeskrivning1",
+          "diagnosBeskrivning2",
+          "diagnosBeskrivning3",
+          "diagnosKod2",
+          "diagnosKod3",
+          "samsjuklighet");
 
-    static {
-        try {
-            marshaller = JAXBContext
-                .newInstance(RegisterMedicalCertificateType.class, RegisterCertificateType.class, DatePeriodType.class,
-                    PartialDateType.class)
-                .createMarshaller();
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+  static {
+    try {
+      marshaller =
+          JAXBContext.newInstance(
+                  RegisterMedicalCertificateType.class,
+                  RegisterCertificateType.class,
+                  DatePeriodType.class,
+                  PartialDateType.class)
+              .createMarshaller();
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("valid-*").stream()
-            .map(scenario -> Arguments.of(scenario.getName(), scenario));
-    }
+  static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
+    return ScenarioFinder.getInternalScenarios("valid-*").stream()
+        .map(scenario -> Arguments.of(scenario.getName(), scenario));
+  }
 
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testRoundTrip(String name, Scenario scenario) throws Exception {
-        RegisterMedicalCertificateType transport = InternalToTransport.getJaxbObject(scenario.asInternalModel());
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testRoundTrip(String name, Scenario scenario) throws Exception {
+    RegisterMedicalCertificateType transport =
+        InternalToTransport.getJaxbObject(scenario.asInternalModel());
 
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(objectFactory.createRegisterMedicalCertificate(scenario.asTransportModel()), expected);
-        marshaller.marshal(objectFactory.createRegisterMedicalCertificate(transport), actual);
+    StringWriter expected = new StringWriter();
+    StringWriter actual = new StringWriter();
+    marshaller.marshal(
+        objectFactory.createRegisterMedicalCertificate(scenario.asTransportModel()), expected);
+    marshaller.marshal(objectFactory.createRegisterMedicalCertificate(transport), actual);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actual.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
-        JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
-        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), new IgnoreCertainValuesComparator(JSONCompareMode.LENIENT));
-    }
+    JsonNode tree =
+        objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
+    JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+    JSONAssert.assertEquals(
+        expectedTree.toString(),
+        tree.toString(),
+        new IgnoreCertainValuesComparator(JSONCompareMode.LENIENT));
+  }
 
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testConvertToRivtaV3(String name, Scenario scenario) throws Exception {
-        Fk7263Utlatande internal = TransportToInternal.convert(scenario.asTransportModel().getLakarutlatande());
-        RegisterCertificateType actual = new RegisterCertificateType();
-        actual.setIntyg(UtlatandeToIntyg.convert(internal));
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testConvertToRivtaV3(String name, Scenario scenario) throws Exception {
+    Fk7263Utlatande internal =
+        TransportToInternal.convert(scenario.asTransportModel().getLakarutlatande());
+    RegisterCertificateType actual = new RegisterCertificateType();
+    actual.setIntyg(UtlatandeToIntyg.convert(internal));
 
-        StringWriter expected = new StringWriter();
-        StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
+    StringWriter expected = new StringWriter();
+    StringWriter actualSw = new StringWriter();
+    marshaller.marshal(
+        rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()),
+        expected);
+    marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actualSw.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+  }
+
+  private class IgnoreCertainValuesComparator extends DefaultComparator {
+
+    public IgnoreCertainValuesComparator(JSONCompareMode mode) {
+      super(mode);
     }
 
-    private class IgnoreCertainValuesComparator extends DefaultComparator {
-
-        public IgnoreCertainValuesComparator(JSONCompareMode mode) {
-            super(mode);
-        }
-
-        @Override
-        public void checkJsonObjectKeysExpectedInActual(String prefix, JSONObject expected, JSONObject actual, JSONCompareResult result)
-            throws JSONException {
-            if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(expected::has)) {
-                super.checkJsonObjectKeysExpectedInActual(prefix, expected, actual, result);
-            }
-        }
-
+    @Override
+    public void checkJsonObjectKeysExpectedInActual(
+        String prefix, JSONObject expected, JSONObject actual, JSONCompareResult result)
+        throws JSONException {
+      if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(expected::has)) {
+        super.checkJsonObjectKeysExpectedInActual(prefix, expected, actual, result);
+      }
     }
+  }
 }

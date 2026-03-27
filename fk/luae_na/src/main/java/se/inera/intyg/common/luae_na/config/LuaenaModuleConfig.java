@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,6 +26,4 @@ import se.inera.intyg.common.fkparent.config.FkParentModuleConfig;
 @Configuration
 @ComponentScan(basePackages = "se.inera.intyg.common.luae_na")
 @Import(FkParentModuleConfig.class)
-public class LuaenaModuleConfig {
-
-}
+public class LuaenaModuleConfig {}

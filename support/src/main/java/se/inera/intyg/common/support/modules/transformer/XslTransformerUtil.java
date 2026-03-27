@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,32 +25,34 @@ import java.util.regex.Pattern;
  */
 public final class XslTransformerUtil {
 
-    private XslTransformerUtil() {
-        // It's a utility class, make constructor private
-    }
+  private XslTransformerUtil() {
+    // It's a utility class, make constructor private
+  }
 
-    private static final Pattern REGISTER_TSBAS_REGEX = Pattern.compile(
-        "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']");
+  private static final Pattern REGISTER_TSBAS_REGEX =
+      Pattern.compile("=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']");
 
-    private static final Pattern REGISTER_CERTIFICATE_V1_REGEX = Pattern.compile(
-        "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']");
+  private static final Pattern REGISTER_CERTIFICATE_V1_REGEX =
+      Pattern.compile(
+          "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']");
 
-    private static final Pattern REGISTER_CERTIFICATE_V3_REGEX = Pattern.compile(
-        "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']");
+  private static final Pattern REGISTER_CERTIFICATE_V3_REGEX =
+      Pattern.compile(
+          "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']");
 
-    public static boolean isRegisterTsBas(String xml) {
-        return find(xml, REGISTER_TSBAS_REGEX);
-    }
+  public static boolean isRegisterTsBas(String xml) {
+    return find(xml, REGISTER_TSBAS_REGEX);
+  }
 
-    public static boolean isRegisterCertificateV1(String xml) {
-        return find(xml, REGISTER_CERTIFICATE_V1_REGEX);
-    }
+  public static boolean isRegisterCertificateV1(String xml) {
+    return find(xml, REGISTER_CERTIFICATE_V1_REGEX);
+  }
 
-    public static boolean isRegisterCertificateV3(String xml) {
-        return find(xml, REGISTER_CERTIFICATE_V3_REGEX);
-    }
+  public static boolean isRegisterCertificateV3(String xml) {
+    return find(xml, REGISTER_CERTIFICATE_V3_REGEX);
+  }
 
-    private static boolean find(final String xml, final Pattern pattern) {
-        return pattern.matcher(xml).find();
-    }
+  private static boolean find(final String xml, final Pattern pattern) {
+    return pattern.matcher(xml).find();
+  }
 }

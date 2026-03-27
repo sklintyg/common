@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,26 +30,23 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public class MetaDataGrundData {
 
-    public static CertificateMetadata toCertificate(DoiUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        return CertificateMetadata.builder()
-            .id(internalCertificate.getId())
-            .type(internalCertificate.getTyp())
-            .typeVersion(internalCertificate.getTextVersion())
-            .name(MODULE_DESCRIPTION)
-            .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))
-            .unit(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
-            )
-            .issuedBy(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
-            )
-            .patient(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
-            )
-            .build();
-    }
+  public static CertificateMetadata toCertificate(
+      DoiUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    return CertificateMetadata.builder()
+        .id(internalCertificate.getId())
+        .type(internalCertificate.getTyp())
+        .typeVersion(internalCertificate.getTextVersion())
+        .name(MODULE_DESCRIPTION)
+        .description(texts.get(DETAILED_DESCRIPTION_TEXT_KEY))
+        .unit(
+            MetaDataToolkit.toCertificate(
+                internalCertificate.getGrundData().getSkapadAv().getVardenhet()))
+        .issuedBy(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv()))
+        .patient(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient()))
+        .build();
+  }
 
-    public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
-        return grundData(metadata, grundData);
-    }
+  public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
+    return grundData(metadata, grundData);
+  }
 }

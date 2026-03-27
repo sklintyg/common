@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,120 +34,188 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 @ContextConfiguration(classes = {RepoTestConfig.class})
 public class IntygTextsRepositoryImplTest {
 
-    private static final String DEFAULT_INTYGSTYP = "test";
-    private static final String DEFAULT_VERSION = "1.0";
+  private static final String DEFAULT_INTYGSTYP = "test";
+  private static final String DEFAULT_VERSION = "1.0";
 
-    @Autowired
-    private IntygTextsRepositoryImpl repo;
+  @Autowired private IntygTextsRepositoryImpl repo;
 
-
-    @Test
-    public void testGetLatestVersion() {
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-            }
+  @Test
+  public void testGetLatestVersion() {
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+          }
         };
-        String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-        assertEquals("should return max version", "1.1.0.1", result);
-    }
+    String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
+    assertEquals("should return max version", "1.1.0.1", result);
+  }
 
-    @Test
-    public void testGetLatestVersionNull() {
-        repo.intygTexts = new HashSet<>();
-        String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-        assertEquals("should return null", null, result);
-    }
+  @Test
+  public void testGetLatestVersionNull() {
+    repo.intygTexts = new HashSet<>();
+    String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
+    assertEquals("should return null", null, result);
+  }
 
-    @Test
-    public void testGetLatestVersionValidFromFilter() {
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
-                add(new IntygTexts("1.1.0.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-            }
+  @Test
+  public void testGetLatestVersionValidFromFilter() {
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(
+                new IntygTexts(
+                    "1.1",
+                    DEFAULT_INTYGSTYP,
+                    LocalDate.now().minusDays(1),
+                    null,
+                    null,
+                    null,
+                    null));
+            add(
+                new IntygTexts(
+                    "1.1.0.1",
+                    DEFAULT_INTYGSTYP,
+                    LocalDate.now().plusDays(1),
+                    null,
+                    null,
+                    null,
+                    null));
+            add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+          }
         };
-        String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-        assertEquals("should return max version", "1.1", result);
-    }
+    String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
+    assertEquals("should return max version", "1.1", result);
+  }
 
-    @Test
-    public void testGetLatestVersionWithingMajorVersion() {
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                //2 valid minorversions in 1.x
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
-                //latest valid in of 1.x versions
-                add(new IntygTexts("1.2", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
-                //Not valid due to invalid validfrom
-                add(new IntygTexts("1.3", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(5), null, null, null, null));
-                //Next major, only 2.0 is valid
-                add(new IntygTexts("2.0", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
-                add(new IntygTexts("2.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
-            }
+  @Test
+  public void testGetLatestVersionWithingMajorVersion() {
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            // 2 valid minorversions in 1.x
+            add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(
+                new IntygTexts(
+                    "1.1",
+                    DEFAULT_INTYGSTYP,
+                    LocalDate.now().minusDays(1),
+                    null,
+                    null,
+                    null,
+                    null));
+            // latest valid in of 1.x versions
+            add(
+                new IntygTexts(
+                    "1.2",
+                    DEFAULT_INTYGSTYP,
+                    LocalDate.now().minusDays(1),
+                    null,
+                    null,
+                    null,
+                    null));
+            // Not valid due to invalid validfrom
+            add(
+                new IntygTexts(
+                    "1.3", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(5), null, null, null, null));
+            // Next major, only 2.0 is valid
+            add(
+                new IntygTexts(
+                    "2.0",
+                    DEFAULT_INTYGSTYP,
+                    LocalDate.now().minusDays(1),
+                    null,
+                    null,
+                    null,
+                    null));
+            add(
+                new IntygTexts(
+                    "2.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
+          }
         };
-        assertEquals("1.2", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "1.1"));
-        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2"));
-        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2.0"));
-    }
+    assertEquals("1.2", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "1.1"));
+    assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2"));
+    assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2.0"));
+  }
 
-    @Test
-    public void testGetLatestVersionTypeFilter() {
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("1.1.0.1", "wrong-type", null, null, null, null, null));
-                add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
-                add(new IntygTexts("2", "wrong-type", null, null, null, null, null));
-            }
+  @Test
+  public void testGetLatestVersionTypeFilter() {
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("1.1.0.1", "wrong-type", null, null, null, null, null));
+            add(new IntygTexts("1", DEFAULT_INTYGSTYP, null, null, null, null, null));
+            add(new IntygTexts("2", "wrong-type", null, null, null, null, null));
+          }
         };
-        String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-        assertEquals("should return max version", "1.1", result);
-    }
+    String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
+    assertEquals("should return max version", "1.1", result);
+  }
 
-    @Test
-    public void testGetTextsSuccessful() {
-        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(testData);
-            }
+  @Test
+  public void testGetTextsSuccessful() {
+    IntygTexts testData =
+        new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(testData);
+          }
         };
-        assertEquals("should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
-    }
+    assertEquals(
+        "should return the IntygText in set",
+        testData,
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+  }
 
-    @Test
-    public void testGetTextsZeroPaddingDoesntMatter() {
-        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(testData);
-            }
+  @Test
+  public void testGetTextsZeroPaddingDoesntMatter() {
+    IntygTexts testData =
+        new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(testData);
+          }
         };
-        assertEquals("should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"));
-    }
+    assertEquals(
+        "should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"));
+  }
 
-    @Test
-    public void testGetTextsNull() {
-        repo.intygTexts = new HashSet<>();
-        assertNull("if no version of specified type exists it should return null", repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
-    }
+  @Test
+  public void testGetTextsNull() {
+    repo.intygTexts = new HashSet<>();
+    assertNull(
+        "if no version of specified type exists it should return null",
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+  }
 
-    @Test
-    public void testGetTextsNotCareAboutValidFrom() {
-        IntygTexts testData = new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, LocalDate.now().plusYears(1), null, null, null, null);
-        repo.intygTexts = new HashSet<IntygTexts>() {
-            {
-                add(testData);
-            }
+  @Test
+  public void testGetTextsNotCareAboutValidFrom() {
+    IntygTexts testData =
+        new IntygTexts(
+            DEFAULT_VERSION,
+            DEFAULT_INTYGSTYP,
+            LocalDate.now().plusYears(1),
+            null,
+            null,
+            null,
+            null);
+    repo.intygTexts =
+        new HashSet<IntygTexts>() {
+          {
+            add(testData);
+          }
         };
-        assertEquals("should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
-    }
+    assertEquals(
+        "should return the IntygText in set",
+        testData,
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+  }
 }

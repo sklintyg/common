@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,150 +56,155 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.AccordionTest
 @ExtendWith(MockitoExtension.class)
 class QuestionFunktionsnedsattningKommunikationTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionFunktionsnedsattningKommunikation.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigCertificateDataConfigTextfield() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigId() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigTextArea) question.getConfig();
+      assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9, config.getId());
+    }
+
+    @Test
+    void shouldIncludeConfigText() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeConfigDescription() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID);
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeAccordionTests extends AccordionTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9, question.getId());
-        }
+      @Override
+      protected String getExpectedOpenText() {
+        return "Visa fritextfältet";
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpectedCloseText() {
+        return "Dölj fritextfältet";
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, question.getParent());
-        }
+      @Override
+      protected String getExpectedAccordionHeader() {
+        return FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID;
+      }
 
-        @Test
-        void shouldIncludeConfigCertificateDataConfigTextfield() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
-        }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return texts;
+      }
 
-        @Test
-        void shouldIncludeConfigId() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigTextArea) question.getConfig();
-            assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9, config.getId());
-        }
-
-        @Test
-        void shouldIncludeConfigText() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeConfigDescription() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_KOMMUNIKATION_DESCRIPTION_ID);
-        }
-
-        @Nested
-        class IncludeAccordionTests extends AccordionTest {
-
-            @Override
-            protected String getExpectedOpenText() {
-                return "Visa fritextfältet";
-            }
-
-            @Override
-            protected String getExpectedCloseText() {
-                return "Dölj fritextfältet";
-            }
-
-            @Override
-            protected String getExpectedAccordionHeader() {
-                return FUNKTIONSNEDSATTNING_KOMMUNIKATION_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return texts;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeText() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-            assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9, value.getId());
-        }
-
-        @Test
-        void shouldIncludeValueText() {
-            final var expectedText = "Annan text";
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-            assertEquals(expectedText, value.getText());
-        }
-
-        @Test
-        void shouldIncludeValidationText() {
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 3500;
-            final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
-            assertEquals(expectedLimit, certificateDataValidationText.getLimit());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      }
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionFunktionsnedsattningKommunikation.toInternal(certificate);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(actualValue);
-            } else {
-                assertEquals(expectedValue, actualValue);
-            }
-        }
+    @Test
+    void shouldIncludeValueTypeText() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
     }
+
+    @Test
+    void shouldIncludeValueId() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+      assertEquals(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9, value.getId());
+    }
+
+    @Test
+    void shouldIncludeValueText() {
+      final var expectedText = "Annan text";
+      final var question =
+          QuestionFunktionsnedsattningKommunikation.toCertificate(expectedText, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+      assertEquals(expectedText, value.getText());
+    }
+
+    @Test
+    void shouldIncludeValidationText() {
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var expectedLimit = 3500;
+      final var question = QuestionFunktionsnedsattningKommunikation.toCertificate(null, 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[0];
+      assertEquals(expectedLimit, certificateDataValidationText.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeTextValue(String expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionFunktionsnedsattningKommunikation.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionFunktionsnedsattningKommunikation.toInternal(certificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(actualValue);
+      } else {
+        assertEquals(expectedValue, actualValue);
+      }
+    }
+  }
 }

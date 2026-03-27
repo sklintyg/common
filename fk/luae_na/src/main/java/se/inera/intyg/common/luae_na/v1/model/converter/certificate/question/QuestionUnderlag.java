@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,12 +30,12 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionUnderlag extends AbstractQuestionUnderlag {
 
-    public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
-        return toCertificate(underlag, null, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index,
-            texts);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Underlag> underlag, int index, CertificateTextProvider texts) {
+    return toCertificate(underlag, null, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index, texts);
+  }
 
-    public static List<Underlag> toInternal(Certificate certificate) {
-        return toInternal(certificate, UNDERLAG_SVAR_ID_4);
-    }
+  public static List<Underlag> toInternal(Certificate certificate) {
+    return toInternal(certificate, UNDERLAG_SVAR_ID_4);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,42 +36,45 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @SchemaValidation
-@WebServiceProvider(targetNamespace = "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3")
-public final class RegisterCertificateResponderStub implements RegisterCertificateResponderInterface {
+@WebServiceProvider(
+    targetNamespace =
+        "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3")
+public final class RegisterCertificateResponderStub
+    implements RegisterCertificateResponderInterface {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(RegisterCertificateResponderStub.class);
 
-    /**
-     * Sending to this logical address triggers the error path in integration tests.
-     */
-    private static final String FAILURE_ADRESS = "fail-adress";
+  /** Sending to this logical address triggers the error path in integration tests. */
+  private static final String FAILURE_ADRESS = "fail-adress";
 
-    private MedicalCertificatesStore store = new MedicalCertificatesStore();
+  private MedicalCertificatesStore store = new MedicalCertificatesStore();
 
-    @Override
-    public RegisterCertificateResponseType registerCertificate(String logicalAddress, RegisterCertificateType parameters) {
-        LOGGER.debug("fk-parent RegisterCertificate responding");
-        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
-        ResultType resultType = new ResultType();
+  @Override
+  public RegisterCertificateResponseType registerCertificate(
+      String logicalAddress, RegisterCertificateType parameters) {
+    LOGGER.debug("fk-parent RegisterCertificate responding");
+    RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+    ResultType resultType = new ResultType();
 
-        try {
-            if (logicalAddress.equals(FAILURE_ADRESS)) {
-                throw new IllegalArgumentException("logicalAdress " + FAILURE_ADRESS + " is meant to fail!");
-            }
-            HashMap<String, String> properties = new HashMap<>();
-            Intyg intyg = parameters.getIntyg();
-            String pnr = intyg.getPatient().getPersonId().getExtension();
-            String certificateteId = intyg.getIntygsId().getExtension();
-            properties.put(MAKULERAD, MAKULERAD_NEJ);
-            properties.put(PERSONNUMMER, pnr);
-            store.addCertificate(certificateteId, properties);
-            resultType.setResultCode(ResultCodeType.OK);
-        } catch (Exception e) {
-            LOGGER.debug("fk-parent RegisterCertificate got exception: ", e);
-            resultType.setResultCode(ResultCodeType.ERROR);
-        }
-        response.setResult(resultType);
-        return response;
+    try {
+      if (logicalAddress.equals(FAILURE_ADRESS)) {
+        throw new IllegalArgumentException(
+            "logicalAdress " + FAILURE_ADRESS + " is meant to fail!");
+      }
+      HashMap<String, String> properties = new HashMap<>();
+      Intyg intyg = parameters.getIntyg();
+      String pnr = intyg.getPatient().getPersonId().getExtension();
+      String certificateteId = intyg.getIntygsId().getExtension();
+      properties.put(MAKULERAD, MAKULERAD_NEJ);
+      properties.put(PERSONNUMMER, pnr);
+      store.addCertificate(certificateteId, properties);
+      resultType.setResultCode(ResultCodeType.OK);
+    } catch (Exception e) {
+      LOGGER.debug("fk-parent RegisterCertificate got exception: ", e);
+      resultType.setResultCode(ResultCodeType.ERROR);
     }
-
+    response.setResult(resultType);
+    return response;
+  }
 }

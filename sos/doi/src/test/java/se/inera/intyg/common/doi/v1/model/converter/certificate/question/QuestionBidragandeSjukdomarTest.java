@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -54,28 +54,28 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationType;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeathList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType;
 import se.inera.intyg.common.support.model.InternalDate;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionBidragandeSjukdomarTest {
 
-    public static final List<String> EXPECTED_IDS = List.of("0", "1", "2", "3", "4", "5", "6", "7");
-    @Mock
-    private CertificateTextProvider texts;
+  public static final List<String> EXPECTED_IDS = List.of("0", "1", "2", "3", "4", "5", "6", "7");
+  @Mock private CertificateTextProvider texts;
 
-    private List<Dodsorsak> bidragandeSjukdomar;
-    private List<CodeItem> allSpecifications;
+  private List<Dodsorsak> bidragandeSjukdomar;
+  private List<CodeItem> allSpecifications;
 
-    @BeforeEach
-    void setup() {
-        bidragandeSjukdomar = Collections.emptyList();
-        allSpecifications = List.of(
+  @BeforeEach
+  void setup() {
+    bidragandeSjukdomar = Collections.emptyList();
+    allSpecifications =
+        List.of(
             CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(FOLJD_OM_DELSVAR_PLOTSLIG)
@@ -90,427 +90,430 @@ class QuestionBidragandeSjukdomarTest {
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
-                .build()
-        );
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+                .build());
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertEquals(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            assertEquals(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, question.getId());
-        }
-
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeDescription() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID);
-        }
-
-
-        @Test
-        void shouldIncludeTerminalCauseOfDeathConfigType() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_CAUSE_OF_DEATH_LIST, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeTerminalCauseOfDeathList() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            assertEquals(8, config.getList().size());
-        }
-
-        @Test
-        void shouldIncludeCorrectConfigCauseOfDeathId() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (int i = 0; i < EXPECTED_IDS.size(); i++) {
-                assertEquals(EXPECTED_IDS.get(i), config.getList().get(i).getId());
-            }
-        }
-
-
-        @Test
-        void shouldIncludeCorrectConfigDescriptionId() {
-            var id = 0;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getList()) {
-                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
-                assertEquals(expectedId, causeOfDeath.getDescriptionId());
-            }
-        }
-
-        @Test
-        void shouldIncludeCorrectConfigDebutId() {
-            var id = 0;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getList()) {
-                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
-                assertEquals(expectedId, causeOfDeath.getDebutId());
-            }
-        }
-
-
-        @Test
-        void shouldIncludeCorrectConfigSpecifications() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (CauseOfDeath causeOfDeath : config.getList()) {
-                assertEquals(allSpecifications, causeOfDeath.getSpecifications());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathList() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            assertEquals(CertificateDataValueType.CAUSE_OF_DEATH_LIST, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListEqualSizeOfConfig() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            assertEquals(config.getList().size(), causeOfDeathList.getList().size());
-        }
-
-        @Test
-        void shouldIncludeMaxDate() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
-            for (int i = 0; i < EXPECTED_IDS.size(); i++) {
-                assertEquals(LocalDate.now(), config.getList().get(i).getMaxDate());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListId() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (int i = 0; i < EXPECTED_IDS.size(); i++) {
-                assertEquals(EXPECTED_IDS.get(i), causeOfDeathList.getList().get(i).getId());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListDescriptionTextValue() {
-            final var expectedValueType = CertificateDataValueType.TEXT;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
-                assertEquals(expectedValueType, causeOfDeath.getDescription().getType());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListDescriptionTextValueId() {
-            var id = 0;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
-                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
-                assertEquals(expectedId, causeOfDeath.getDescription().getId());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListDebutDateValue() {
-            final var expectedValueType = CertificateDataValueType.DATE;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
-                assertEquals(expectedValueType, causeOfDeath.getDebut().getType());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListDebutDateValueId() {
-            int id = 0;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
-                var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
-                assertEquals(expectedId, causeOfDeath.getDebut().getId());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathListSpecificationCodeValue() {
-            final var expectedValueType = CertificateDataValueType.CODE;
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                bidragandeSjukdomar, 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
-                assertEquals(expectedValueType, causeOfDeath.getSpecification().getType());
-            }
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeathOneValue() {
-            final var bidragandeSjukdom = Dodsorsak.create("Description", new InternalDate(LocalDate.now()), Specifikation.KRONISK);
-            final var expectedValue = CertificateDataValueCauseOfDeath.builder()
-                .id("0")
-                .description(
-                    CertificateDataValueText.builder()
-                        .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].beskrivning")
-                        .text(bidragandeSjukdom.getBeskrivning())
-                        .build()
-                )
-                .debut(
-                    CertificateDataValueDate.builder()
-                        .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].datum")
-                        .date(bidragandeSjukdom.getDatum().asLocalDate())
-                        .build()
-                )
-                .specification(
-                    se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode.builder()
-                        .id(bidragandeSjukdom.getSpecifikation().name())
-                        .code(bidragandeSjukdom.getSpecifikation().name())
-                        .build()
-                )
-                .build();
-
-            final var question = QuestionBidragandeSjukdomar.toCertificate(
-                List.of(bidragandeSjukdom), 0, texts);
-            final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
-            assertEquals(expectedValue, causeOfDeathList.getList().get(0));
-        }
-
-        @Test
-        void shouldIncludeValidationTextType() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[1].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextId() {
-            final var expectedIds = List.of("0", "1", "2", "3", "4", "5", "6", "7");
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            for (int i = 0; i < expectedIds.size(); i++) {
-                final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[i];
-                String expectedId = Integer.toString(i);
-                assertEquals(expectedId, certificateDataValidationMaxDate.getId());
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
-            final var ids = List.of("0", "1", "2", "3", "4", "5", "6", "7");
-            for (int i = 0; i < ids.size(); i++) {
-                final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[i];
-                assertEquals(55, certificateDataValidationMaxDate.getLimit());
-            }
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
 
-    @Nested
-    class ToInternal {
-
-        @Test
-        void shouldReturnEmptyDodsorsakListIfNoneHasValue() {
-            final var expectedDodsorsakList = Collections.emptyList();
-            final var dodsorsakList = List.of(
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null)
-            );
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
-                .build();
-
-            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
-            assertEquals(expectedDodsorsakList, actualValue);
-        }
-
-        @Test
-        void shouldReturnDodsorsakListWithItemsThatHasValues() {
-            final var expectedDodsorsakList = List.of(
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG)
-            );
-
-            final var dodsorsakList = List.of(
-                expectedDodsorsakList.get(0),
-                expectedDodsorsakList.get(1),
-                expectedDodsorsakList.get(2),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null)
-            );
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
-                .build();
-
-            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
-            assertEquals(expectedDodsorsakList, actualValue);
-        }
-
-        @Test
-        void shouldReturnDodsorsakListWithItemsThatHasValuesAndAnyEmptyBefore() {
-            final var expectedDodsorsakList = List.of(
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK)
-            );
-
-            final var dodsorsakList = List.of(
-                expectedDodsorsakList.get(0),
-                expectedDodsorsakList.get(1),
-                expectedDodsorsakList.get(2),
-                expectedDodsorsakList.get(3),
-                expectedDodsorsakList.get(4),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null)
-            );
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
-                .build();
-
-            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
-            assertEquals(expectedDodsorsakList, actualValue);
-        }
-
-        @Test
-        void shouldReturnDodsorsakListWithAllValues() {
-            final var expectedDodsorsakList = List.of(
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-                Dodsorsak.create("beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create("beskrivning5", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning6", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-                Dodsorsak.create("beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-                Dodsorsak.create("beskrivning8", new InternalDate(LocalDate.now()), Specifikation.KRONISK)
-            );
-
-            final var dodsorsakList = List.of(
-                expectedDodsorsakList.get(0),
-                expectedDodsorsakList.get(1),
-                expectedDodsorsakList.get(2),
-                expectedDodsorsakList.get(3),
-                expectedDodsorsakList.get(4),
-                expectedDodsorsakList.get(5),
-                expectedDodsorsakList.get(6),
-                expectedDodsorsakList.get(7)
-            );
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
-                .build();
-
-            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
-            assertEquals(expectedDodsorsakList, actualValue);
-        }
-
-        @Test
-        void shouldReturnEmptyDodsorsakListIfDodsorsakCodeAndLabelIsEmptyString() {
-            final var expectedDodsorsakList = Collections.emptyList();
-            final var dodsorsakList = List.of(
-                Dodsorsak.create("", null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null),
-                Dodsorsak.create(null, null, null)
-            );
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(getElementWithEmptySpecification(dodsorsakList))
-                .build();
-
-            final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
-            assertEquals(expectedDodsorsakList, actualValue);
-        }
-
-        private CertificateDataElement getElementWithEmptySpecification(List<Dodsorsak> dodsorsakList) {
-            final var empty = "";
-            final var certificateDataElement = QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts);
-            final var list = ((CertificateDataValueCauseOfDeathList) certificateDataElement.getValue()).getList();
-            final var questionBidragandeSjukdomar = CertificateDataElement.builder()
-                .id(certificateDataElement.getId())
-                .parent(certificateDataElement.getParent())
-                .value(
-                    CertificateDataValueCauseOfDeathList.builder()
-                        .list(
-                            list.stream().map(causeOfDeath -> CertificateDataValueCauseOfDeath.builder()
-                                    .id(causeOfDeath.getId())
-                                    .specification(
-                                        CertificateDataValueCode.builder()
-                                            .id(empty)
-                                            .code(empty)
-                                            .build()
-                                    )
-                                    .description(causeOfDeath.getDescription())
-                                    .debut(causeOfDeath.getDebut())
-                                    .build())
-                                .collect(Collectors.toList())
-                        )
-                        .build()
-                )
-                .build();
-            return questionBidragandeSjukdomar;
-        }
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
     }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(BIDRAGANDE_SJUKDOM_OM_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeDescription() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(BIDRAGANDE_SJUKDOM_OM_DESCRIPTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeTerminalCauseOfDeathConfigType() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertEquals(
+          CertificateDataConfigType.UE_CAUSE_OF_DEATH_LIST, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeTerminalCauseOfDeathList() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      assertEquals(8, config.getList().size());
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigCauseOfDeathId() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      for (int i = 0; i < EXPECTED_IDS.size(); i++) {
+        assertEquals(EXPECTED_IDS.get(i), config.getList().get(i).getId());
+      }
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigDescriptionId() {
+      var id = 0;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      for (CauseOfDeath causeOfDeath : config.getList()) {
+        var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
+        assertEquals(expectedId, causeOfDeath.getDescriptionId());
+      }
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigDebutId() {
+      var id = 0;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      for (CauseOfDeath causeOfDeath : config.getList()) {
+        var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
+        assertEquals(expectedId, causeOfDeath.getDebutId());
+      }
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigSpecifications() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      for (CauseOfDeath causeOfDeath : config.getList()) {
+        assertEquals(allSpecifications, causeOfDeath.getSpecifications());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathList() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertEquals(CertificateDataValueType.CAUSE_OF_DEATH_LIST, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListEqualSizeOfConfig() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      assertEquals(config.getList().size(), causeOfDeathList.getList().size());
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var config = (CertificateDataConfigCauseOfDeathList) question.getConfig();
+      for (int i = 0; i < EXPECTED_IDS.size(); i++) {
+        assertEquals(LocalDate.now(), config.getList().get(i).getMaxDate());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListId() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (int i = 0; i < EXPECTED_IDS.size(); i++) {
+        assertEquals(EXPECTED_IDS.get(i), causeOfDeathList.getList().get(i).getId());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListDescriptionTextValue() {
+      final var expectedValueType = CertificateDataValueType.TEXT;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+        assertEquals(expectedValueType, causeOfDeath.getDescription().getType());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListDescriptionTextValueId() {
+      var id = 0;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+        var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].beskrivning";
+        assertEquals(expectedId, causeOfDeath.getDescription().getId());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListDebutDateValue() {
+      final var expectedValueType = CertificateDataValueType.DATE;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+        assertEquals(expectedValueType, causeOfDeath.getDebut().getType());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListDebutDateValueId() {
+      int id = 0;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+        var expectedId = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + id++ + "].datum";
+        assertEquals(expectedId, causeOfDeath.getDebut().getId());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathListSpecificationCodeValue() {
+      final var expectedValueType = CertificateDataValueType.CODE;
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      for (CertificateDataValueCauseOfDeath causeOfDeath : causeOfDeathList.getList()) {
+        assertEquals(expectedValueType, causeOfDeath.getSpecification().getType());
+      }
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeathOneValue() {
+      final var bidragandeSjukdom =
+          Dodsorsak.create("Description", new InternalDate(LocalDate.now()), Specifikation.KRONISK);
+      final var expectedValue =
+          CertificateDataValueCauseOfDeath.builder()
+              .id("0")
+              .description(
+                  CertificateDataValueText.builder()
+                      .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].beskrivning")
+                      .text(bidragandeSjukdom.getBeskrivning())
+                      .build())
+              .debut(
+                  CertificateDataValueDate.builder()
+                      .id(BIDRAGANDE_SJUKDOM_JSON_ID + "[0].datum")
+                      .date(bidragandeSjukdom.getDatum().asLocalDate())
+                      .build())
+              .specification(
+                  se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
+                      .builder()
+                      .id(bidragandeSjukdom.getSpecifikation().name())
+                      .code(bidragandeSjukdom.getSpecifikation().name())
+                      .build())
+              .build();
+
+      final var question =
+          QuestionBidragandeSjukdomar.toCertificate(List.of(bidragandeSjukdom), 0, texts);
+      final var causeOfDeathList = (CertificateDataValueCauseOfDeathList) question.getValue();
+      assertEquals(expectedValue, causeOfDeathList.getList().get(0));
+    }
+
+    @Test
+    void shouldIncludeValidationTextType() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[1].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationTextId() {
+      final var expectedIds = List.of("0", "1", "2", "3", "4", "5", "6", "7");
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      for (int i = 0; i < expectedIds.size(); i++) {
+        final var certificateDataValidationMaxDate =
+            (CertificateDataValidationText) question.getValidation()[i];
+        String expectedId = Integer.toString(i);
+        assertEquals(expectedId, certificateDataValidationMaxDate.getId());
+      }
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var question = QuestionBidragandeSjukdomar.toCertificate(bidragandeSjukdomar, 0, texts);
+      final var ids = List.of("0", "1", "2", "3", "4", "5", "6", "7");
+      for (int i = 0; i < ids.size(); i++) {
+        final var certificateDataValidationMaxDate =
+            (CertificateDataValidationText) question.getValidation()[i];
+        assertEquals(55, certificateDataValidationMaxDate.getLimit());
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Test
+    void shouldReturnEmptyDodsorsakListIfNoneHasValue() {
+      final var expectedDodsorsakList = Collections.emptyList();
+      final var dodsorsakList =
+          List.of(
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null));
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+              .build();
+
+      final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+      assertEquals(expectedDodsorsakList, actualValue);
+    }
+
+    @Test
+    void shouldReturnDodsorsakListWithItemsThatHasValues() {
+      final var expectedDodsorsakList =
+          List.of(
+              Dodsorsak.create(
+                  "beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+              Dodsorsak.create(
+                  "beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+              Dodsorsak.create(
+                  "beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG));
+
+      final var dodsorsakList =
+          List.of(
+              expectedDodsorsakList.get(0),
+              expectedDodsorsakList.get(1),
+              expectedDodsorsakList.get(2),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null));
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+              .build();
+
+      final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+      assertEquals(expectedDodsorsakList, actualValue);
+    }
+
+    @Test
+    void shouldReturnDodsorsakListWithItemsThatHasValuesAndAnyEmptyBefore() {
+      final var expectedDodsorsakList =
+          List.of(
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(
+                  "beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+              Dodsorsak.create(
+                  "beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK));
+
+      final var dodsorsakList =
+          List.of(
+              expectedDodsorsakList.get(0),
+              expectedDodsorsakList.get(1),
+              expectedDodsorsakList.get(2),
+              expectedDodsorsakList.get(3),
+              expectedDodsorsakList.get(4),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null));
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+              .build();
+
+      final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+      assertEquals(expectedDodsorsakList, actualValue);
+    }
+
+    @Test
+    void shouldReturnDodsorsakListWithAllValues() {
+      final var expectedDodsorsakList =
+          List.of(
+              Dodsorsak.create(
+                  "beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+              Dodsorsak.create(
+                  "beskrivning2", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+              Dodsorsak.create(
+                  "beskrivning3", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+              Dodsorsak.create(
+                  "beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+              Dodsorsak.create(
+                  "beskrivning5", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+              Dodsorsak.create(
+                  "beskrivning6", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+              Dodsorsak.create(
+                  "beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+              Dodsorsak.create(
+                  "beskrivning8", new InternalDate(LocalDate.now()), Specifikation.KRONISK));
+
+      final var dodsorsakList =
+          List.of(
+              expectedDodsorsakList.get(0),
+              expectedDodsorsakList.get(1),
+              expectedDodsorsakList.get(2),
+              expectedDodsorsakList.get(3),
+              expectedDodsorsakList.get(4),
+              expectedDodsorsakList.get(5),
+              expectedDodsorsakList.get(6),
+              expectedDodsorsakList.get(7));
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts))
+              .build();
+
+      final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+      assertEquals(expectedDodsorsakList, actualValue);
+    }
+
+    @Test
+    void shouldReturnEmptyDodsorsakListIfDodsorsakCodeAndLabelIsEmptyString() {
+      final var expectedDodsorsakList = Collections.emptyList();
+      final var dodsorsakList =
+          List.of(
+              Dodsorsak.create("", null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null),
+              Dodsorsak.create(null, null, null));
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(getElementWithEmptySpecification(dodsorsakList))
+              .build();
+
+      final var actualValue = QuestionBidragandeSjukdomar.toInternal(certificate);
+      assertEquals(expectedDodsorsakList, actualValue);
+    }
+
+    private CertificateDataElement getElementWithEmptySpecification(List<Dodsorsak> dodsorsakList) {
+      final var empty = "";
+      final var certificateDataElement =
+          QuestionBidragandeSjukdomar.toCertificate(dodsorsakList, 0, texts);
+      final var list =
+          ((CertificateDataValueCauseOfDeathList) certificateDataElement.getValue()).getList();
+      final var questionBidragandeSjukdomar =
+          CertificateDataElement.builder()
+              .id(certificateDataElement.getId())
+              .parent(certificateDataElement.getParent())
+              .value(
+                  CertificateDataValueCauseOfDeathList.builder()
+                      .list(
+                          list.stream()
+                              .map(
+                                  causeOfDeath ->
+                                      CertificateDataValueCauseOfDeath.builder()
+                                          .id(causeOfDeath.getId())
+                                          .specification(
+                                              CertificateDataValueCode.builder()
+                                                  .id(empty)
+                                                  .code(empty)
+                                                  .build())
+                                          .description(causeOfDeath.getDescription())
+                                          .debut(causeOfDeath.getDebut())
+                                          .build())
+                              .collect(Collectors.toList()))
+                      .build())
+              .build();
+      return questionBidragandeSjukdomar;
+    }
+  }
 }

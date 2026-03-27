@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,38 +38,36 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionSynfaltsdefekter {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
-        return CertificateDataElement.builder()
-            .id(SYNFALTSDEFEKTER_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID)
-                    .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(SYNFALTSDEFEKTER_JSON_ID)
-                    .selected(synfaltsdefekter)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(SYNFALTSDEFEKTER_SVAR_ID)
-                        .expression(exists(SYNFALTSDEFEKTER_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var synfaltsdefekter = syn != null ? syn.getSynfaltsdefekter() : null;
+    return CertificateDataElement.builder()
+        .id(SYNFALTSDEFEKTER_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(SYNFALTSDEFEKTER_JSON_ID)
+                .text(textProvider.get(SYNFALTSDEFEKTER_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(SYNFALTSDEFEKTER_JSON_ID)
+                .selected(synfaltsdefekter)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(SYNFALTSDEFEKTER_SVAR_ID)
+                  .expression(exists(SYNFALTSDEFEKTER_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SYNFALTSDEFEKTER_SVAR_ID, SYNFALTSDEFEKTER_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), SYNFALTSDEFEKTER_SVAR_ID, SYNFALTSDEFEKTER_JSON_ID);
+  }
 }

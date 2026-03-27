@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,34 +30,33 @@ import java.time.temporal.Temporal;
  */
 public final class PartialDateAdapter {
 
-    private static final int YEAR_LENGTH = 4;
-    private static final int YEAR_MONTH_LENGTH = 7;
+  private static final int YEAR_LENGTH = 4;
+  private static final int YEAR_MONTH_LENGTH = 7;
 
-    private PartialDateAdapter() {
+  private PartialDateAdapter() {}
+
+  public static Temporal parsePartialDate(String dateString) {
+    if (dateString == null) {
+      return null;
     }
 
-    public static Temporal parsePartialDate(String dateString) {
-        if (dateString == null) {
-            return null;
-        }
-
-        switch (dateString.length()) {
-            case YEAR_LENGTH:
-                return Year.parse(dateString);
-            case YEAR_MONTH_LENGTH:
-                return YearMonth.parse(dateString);
-            default:
-                return LocalDate.parse(dateString);
-        }
+    switch (dateString.length()) {
+      case YEAR_LENGTH:
+        return Year.parse(dateString);
+      case YEAR_MONTH_LENGTH:
+        return YearMonth.parse(dateString);
+      default:
+        return LocalDate.parse(dateString);
     }
+  }
 
-    public static String printPartialDate(Temporal temporal) {
-        if (temporal == null) {
-            return null;
-        } else if (temporal.isSupported(ChronoField.DAY_OF_MONTH)) {
-            return LocalDate.from(temporal).format(DateTimeFormatter.ISO_DATE);
-        } else {
-            return temporal.toString();
-        }
+  public static String printPartialDate(Temporal temporal) {
+    if (temporal == null) {
+      return null;
+    } else if (temporal.isSupported(ChronoField.DAY_OF_MONTH)) {
+      return LocalDate.from(temporal).format(DateTimeFormatter.ISO_DATE);
+    } else {
+      return temporal.toString();
     }
+  }
 }

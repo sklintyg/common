@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,12 +31,10 @@ import se.inera.intyg.common.support.facade.model.metadata.Unit;
 @Builder
 public class CareUnit {
 
-    private String unitId;
-    private String unitName;
-    private List<Unit> units;
+  private String unitId;
+  private String unitName;
+  private List<Unit> units;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CareUnitBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CareUnitBuilder {}
 }

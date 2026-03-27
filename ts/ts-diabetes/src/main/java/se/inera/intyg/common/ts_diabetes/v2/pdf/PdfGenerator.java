@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,12 +26,15 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 public interface PdfGenerator<T extends Utlatande> {
 
-    String PDF_PATH_PROPERTY_KEY = "pdfPath";
+  String PDF_PATH_PROPERTY_KEY = "pdfPath";
 
-    String generatePdfFilename(T utlatande);
+  String generatePdfFilename(T utlatande);
 
-    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
-        String minaIntygMarginText)
-        throws PdfGeneratorException;
-
+  byte[] generatePDF(
+      T utlatande,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus,
+      String minaIntygMarginText)
+      throws PdfGeneratorException;
 }

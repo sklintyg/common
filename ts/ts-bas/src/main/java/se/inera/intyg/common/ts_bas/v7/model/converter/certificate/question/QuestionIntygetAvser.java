@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -55,115 +55,124 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
 
-    public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
-        CertificateTextProvider texts) {
-        final var intygetAvserKategorier = intygAvser != null && intygAvser.getKorkortstyp() != null ? intygAvser.getKorkortstyp() : null;
-        return CertificateDataElement.builder()
-            .id(INTYG_AVSER_SVAR_ID_1)
-            .parent(INTYG_AVSER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
-                    .description(texts.get(INTYG_AVSER_SVAR_DESCRIPTION_ID))
-                    .layout(Layout.INLINE)
-                    .list(
-                        List.of(
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV1.name())
-                                .label(texts.get(INTYG_AVSER_IAV1_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV2.name())
-                                .label(texts.get(INTYG_AVSER_IAV2_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV3.name())
-                                .label(texts.get(INTYG_AVSER_IAV3_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV4.name())
-                                .label(texts.get(INTYG_AVSER_IAV4_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV5.name())
-                                .label(texts.get(INTYG_AVSER_IAV5_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV6.name())
-                                .label(texts.get(INTYG_AVSER_IAV6_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV7.name())
-                                .label(texts.get(INTYG_AVSER_IAV7_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV8.name())
-                                .label(texts.get(INTYG_AVSER_IAV8_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV9.name())
-                                .label(texts.get(INTYG_AVSER_IAV9_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(IntygAvserKategori.IAV10.name())
-                                .label(texts.get(INTYG_AVSER_IAV10_LABEL_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        intygetAvserKategorier != null ? intygetAvserKategorier.stream()
+  public static CertificateDataElement toCertificate(
+      IntygAvser intygAvser, int index, CertificateTextProvider texts) {
+    final var intygetAvserKategorier =
+        intygAvser != null && intygAvser.getKorkortstyp() != null
+            ? intygAvser.getKorkortstyp()
+            : null;
+    return CertificateDataElement.builder()
+        .id(INTYG_AVSER_SVAR_ID_1)
+        .parent(INTYG_AVSER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
+                .description(texts.get(INTYG_AVSER_SVAR_DESCRIPTION_ID))
+                .layout(Layout.INLINE)
+                .list(
+                    List.of(
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV1.name())
+                            .label(texts.get(INTYG_AVSER_IAV1_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV2.name())
+                            .label(texts.get(INTYG_AVSER_IAV2_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV3.name())
+                            .label(texts.get(INTYG_AVSER_IAV3_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV4.name())
+                            .label(texts.get(INTYG_AVSER_IAV4_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV5.name())
+                            .label(texts.get(INTYG_AVSER_IAV5_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV6.name())
+                            .label(texts.get(INTYG_AVSER_IAV6_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV7.name())
+                            .label(texts.get(INTYG_AVSER_IAV7_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV8.name())
+                            .label(texts.get(INTYG_AVSER_IAV8_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV9.name())
+                            .label(texts.get(INTYG_AVSER_IAV9_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(IntygAvserKategori.IAV10.name())
+                            .label(texts.get(INTYG_AVSER_IAV10_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(
+                    intygetAvserKategorier != null
+                        ? intygetAvserKategorier.stream()
                             .map(QuestionIntygetAvser::getValueCode)
-                            .collect(Collectors.toList()) : Collections.emptyList()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID_1)
-                        .expression(
-                            multipleOrExpressionWithExists(IntygAvserKategori.IAV1.name(), IntygAvserKategori.IAV2.name(),
-                                IntygAvserKategori.IAV3.name(), IntygAvserKategori.IAV4.name(), IntygAvserKategori.IAV5.name(),
-                                IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(), IntygAvserKategori.IAV8.name(),
-                                IntygAvserKategori.IAV9.name(), IntygAvserKategori.IAV10.name())
-                        )
-                        .build()
-                }
-            )
-            .build();
+                            .collect(Collectors.toList())
+                        : Collections.emptyList())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(INTYG_AVSER_SVAR_ID_1)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          IntygAvserKategori.IAV1.name(),
+                          IntygAvserKategori.IAV2.name(),
+                          IntygAvserKategori.IAV3.name(),
+                          IntygAvserKategori.IAV4.name(),
+                          IntygAvserKategori.IAV5.name(),
+                          IntygAvserKategori.IAV6.name(),
+                          IntygAvserKategori.IAV7.name(),
+                          IntygAvserKategori.IAV8.name(),
+                          IntygAvserKategori.IAV9.name(),
+                          IntygAvserKategori.IAV10.name()))
+                  .build()
+            })
+        .build();
+  }
+
+  private static CertificateDataValueCode getValueCode(IntygAvserKategori intygAvserKategori) {
+    return CertificateDataValueCode.builder()
+        .id(intygAvserKategori.name())
+        .code(intygAvserKategori.name())
+        .build();
+  }
+
+  public static IntygAvser toInternal(Certificate certificate) {
+    final var certificateDataValueCodes =
+        codeListValue(certificate.getData(), INTYG_AVSER_SVAR_ID_1);
+    if (certificateDataValueCodes.isEmpty()) {
+      return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
     }
 
-    private static CertificateDataValueCode getValueCode(IntygAvserKategori intygAvserKategori) {
-        return CertificateDataValueCode.builder()
-            .id(intygAvserKategori.name())
-            .code(intygAvserKategori.name())
-            .build();
-    }
-
-    public static IntygAvser toInternal(Certificate certificate) {
-        final var certificateDataValueCodes = codeListValue(certificate.getData(), INTYG_AVSER_SVAR_ID_1);
-        if (certificateDataValueCodes.isEmpty()) {
-            return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
-        }
-
-        final var intygAvserKategoris = certificateDataValueCodes.stream()
+    final var intygAvserKategoris =
+        certificateDataValueCodes.stream()
             .map(QuestionIntygetAvser::getIntygAvserKategori)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
 
-        if (intygAvserKategoris.isEmpty()) {
-            return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
-        }
-        return IntygAvser.create(EnumSet.copyOf(intygAvserKategoris));
+    if (intygAvserKategoris.isEmpty()) {
+      return IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class));
     }
+    return IntygAvser.create(EnumSet.copyOf(intygAvserKategoris));
+  }
 
-    private static IntygAvserKategori getIntygAvserKategori(CertificateDataValueCode certificateDataValueCode) {
-        return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
-            ? IntygAvserKategori.valueOf(certificateDataValueCode.getId()) : null;
-    }
+  private static IntygAvserKategori getIntygAvserKategori(
+      CertificateDataValueCode certificateDataValueCode) {
+    return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
+        ? IntygAvserKategori.valueOf(certificateDataValueCode.getId())
+        : null;
+  }
 }

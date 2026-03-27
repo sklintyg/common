@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.model;
 
 import org.junit.jupiter.api.Assertions;
@@ -24,32 +23,42 @@ import org.junit.jupiter.api.Test;
 
 class PatientTest {
 
-    private Patient patient;
+  private Patient patient;
 
-    private static final PersonId PERSON_ID = PersonId.builder()
-        .id("191212121212")
-        .type("PERSON_NUMMER")
-        .build();
+  private static final PersonId PERSON_ID =
+      PersonId.builder().id("191212121212").type("PERSON_NUMMER").build();
 
-    private static final PersonId PREVIOUS_PERSON_ID = PersonId.builder()
-        .id("191111111111")
-        .type("PERSON_NUMMER")
-        .build();
+  private static final PersonId PREVIOUS_PERSON_ID =
+      PersonId.builder().id("191111111111").type("PERSON_NUMMER").build();
 
-    @Test
-    void shouldReturnPatientIdIfNotReserveId() {
-        Assertions.assertEquals(PERSON_ID, createPatient(false).getActualPersonId());
-    }
+  @Test
+  void shouldReturnPatientIdIfNotReserveId() {
+    Assertions.assertEquals(PERSON_ID, createPatient(false).getActualPersonId());
+  }
 
-    @Test
-    void shouldReturnPreviousPatientIdIfReserveId() {
-        Assertions.assertEquals(PREVIOUS_PERSON_ID, createPatient(true).getActualPersonId());
-    }
+  @Test
+  void shouldReturnPreviousPatientIdIfReserveId() {
+    Assertions.assertEquals(PREVIOUS_PERSON_ID, createPatient(true).getActualPersonId());
+  }
 
-    private Patient createPatient(boolean reserveId) {
-        return new Patient(PERSON_ID, PREVIOUS_PERSON_ID, "firstName", "lastName", "middleName",
-            "fullName", "street", "city", "zipcode", false, false,
-            false, false, false, false, reserveId, false);
-
-    }
+  private Patient createPatient(boolean reserveId) {
+    return new Patient(
+        PERSON_ID,
+        PREVIOUS_PERSON_ID,
+        "firstName",
+        "lastName",
+        "middleName",
+        "fullName",
+        "street",
+        "city",
+        "zipcode",
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        reserveId,
+        false);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,23 +25,22 @@ package se.inera.intyg.common.ts_diabetes.v2.model.internal;
  */
 public class Synskarpevarden {
 
-    private Double utanKorrektion;
-    private Double medKorrektion;
+  private Double utanKorrektion;
+  private Double medKorrektion;
 
-    public Double getUtanKorrektion() {
-        return utanKorrektion;
-    }
+  public Double getUtanKorrektion() {
+    return utanKorrektion;
+  }
 
-    public void setUtanKorrektion(Double utanKorrektion) {
-        this.utanKorrektion = utanKorrektion;
-    }
+  public void setUtanKorrektion(Double utanKorrektion) {
+    this.utanKorrektion = utanKorrektion;
+  }
 
-    public Double getMedKorrektion() {
-        return medKorrektion;
-    }
+  public Double getMedKorrektion() {
+    return medKorrektion;
+  }
 
-    public void setMedKorrektion(Double medKorrektion) {
-        this.medKorrektion = medKorrektion;
-    }
-
+  public void setMedKorrektion(Double medKorrektion) {
+    this.medKorrektion = medKorrektion;
+  }
 }

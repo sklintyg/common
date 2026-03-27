@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,62 +39,53 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 @JsonDeserialize(builder = AutoValue_Allmant.Builder.class)
 public abstract class Allmant {
 
-    @Nullable
-    public abstract KvVardniva getPatientenFoljsAv();
+  @Nullable public abstract KvVardniva getPatientenFoljsAv();
 
-    @Nullable
-    public abstract String getDiabetesDiagnosAr();
+  @Nullable public abstract String getDiabetesDiagnosAr();
 
-    @Nullable
-    public abstract KvTypAvDiabetes getTypAvDiabetes();
+  @Nullable public abstract KvTypAvDiabetes getTypAvDiabetes();
 
-    @Nullable
-    public abstract String getBeskrivningAnnanTypAvDiabetes();
+  @Nullable public abstract String getBeskrivningAnnanTypAvDiabetes();
 
-    @Nullable
-    public abstract Boolean getMedicineringForDiabetes();
+  @Nullable public abstract Boolean getMedicineringForDiabetes();
 
-    @Nullable
-    public abstract Boolean getMedicineringMedforRiskForHypoglykemi();
+  @Nullable public abstract Boolean getMedicineringMedforRiskForHypoglykemi();
 
-    @Nullable
-    public abstract Behandling getBehandling();
+  @Nullable public abstract Behandling getBehandling();
 
-    @Nullable
-    public abstract InternalDate getMedicineringMedforRiskForHypoglykemiTidpunkt();
+  @Nullable public abstract InternalDate getMedicineringMedforRiskForHypoglykemiTidpunkt();
 
-    public static Builder builder() {
-        return new AutoValue_Allmant.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Allmant.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Allmant build();
+    public abstract Allmant build();
 
-        @JsonProperty(ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID)
-        public abstract Builder setPatientenFoljsAv(KvVardniva value);
+    @JsonProperty(ALLMANT_PATIENTEN_FOLJS_AV_JSON_ID)
+    public abstract Builder setPatientenFoljsAv(KvVardniva value);
 
-        @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
-        public abstract Builder setDiabetesDiagnosAr(String value);
+    @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID)
+    public abstract Builder setDiabetesDiagnosAr(String value);
 
-        @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID)
-        public abstract Builder setTypAvDiabetes(KvTypAvDiabetes value);
+    @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID)
+    public abstract Builder setTypAvDiabetes(KvTypAvDiabetes value);
 
-        @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
-        public abstract Builder setBeskrivningAnnanTypAvDiabetes(String value);
+    @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+    public abstract Builder setBeskrivningAnnanTypAvDiabetes(String value);
 
-        @JsonProperty(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
-        public abstract Builder setMedicineringForDiabetes(Boolean value);
+    @JsonProperty(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
+    public abstract Builder setMedicineringForDiabetes(Boolean value);
 
-        @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID)
-        public abstract Builder setMedicineringMedforRiskForHypoglykemi(Boolean value);
+    @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID)
+    public abstract Builder setMedicineringMedforRiskForHypoglykemi(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_JSON_ID)
-        public abstract Builder setBehandling(Behandling value);
+    @JsonProperty(ALLMANT_BEHANDLING_JSON_ID)
+    public abstract Builder setBehandling(Behandling value);
 
-        @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
-        public abstract Builder setMedicineringMedforRiskForHypoglykemiTidpunkt(InternalDate value);
-
-    }
+    @JsonProperty(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
+    public abstract Builder setMedicineringMedforRiskForHypoglykemiTidpunkt(InternalDate value);
+  }
 }

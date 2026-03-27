@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,14 +25,13 @@ import java.util.Map;
  */
 public class SendTSClientFactory {
 
-    private Map<String, SendTSClient> sendTSClientMap;
+  private Map<String, SendTSClient> sendTSClientMap;
 
-    public SendTSClientFactory(Map<String, SendTSClient> sendTSClientMap) {
-        this.sendTSClientMap = sendTSClientMap;
-    }
+  public SendTSClientFactory(Map<String, SendTSClient> sendTSClientMap) {
+    this.sendTSClientMap = sendTSClientMap;
+  }
 
-    public SendTSClient get(String registerCertificateVersion) {
-        return sendTSClientMap.get(registerCertificateVersion);
-    }
-
+  public SendTSClient get(String registerCertificateVersion) {
+    return sendTSClientMap.get(registerCertificateVersion);
+  }
 }

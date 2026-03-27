@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,19 +19,18 @@
 package se.inera.intyg.common.sos_parent.model.internal;
 
 public enum DodsplatsBoende {
+  SJUKHUS(DodsplatsBoendeConstants.SJUKHUS_VALUE),
+  ORDINART_BOENDE(DodsplatsBoendeConstants.ORDINART_BOENDE_VALUE),
+  SARSKILT_BOENDE(DodsplatsBoendeConstants.SARSKILT_BOENDE_VALUE),
+  ANNAN(DodsplatsBoendeConstants.ANNAN_VALUE);
 
-    SJUKHUS(DodsplatsBoendeConstants.SJUKHUS_VALUE),
-    ORDINART_BOENDE(DodsplatsBoendeConstants.ORDINART_BOENDE_VALUE),
-    SARSKILT_BOENDE(DodsplatsBoendeConstants.SARSKILT_BOENDE_VALUE),
-    ANNAN(DodsplatsBoendeConstants.ANNAN_VALUE);
+  private final String beskrivning;
 
-    private final String beskrivning;
+  DodsplatsBoende(final String beskrivning) {
+    this.beskrivning = beskrivning;
+  }
 
-    DodsplatsBoende(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
-
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+  public String getBeskrivning() {
+    return beskrivning;
+  }
 }

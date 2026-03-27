@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,13 +29,11 @@ import se.inera.intyg.common.support.facade.model.question.Complement.Complement
 @Builder
 public class Complement {
 
-    private String questionId;
-    private String questionText;
-    private String valueId;
-    private String message;
+  private String questionId;
+  private String questionText;
+  private String valueId;
+  private String message;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class ComplementBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class ComplementBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,41 +36,39 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
-
 public class QuestionDodsdatumSakert {
 
-    public static CertificateDataElement toCertificate(Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DODSDATUM_SAKERT_DELSVAR_ID)
-            .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(DODSDATUM_SAKERT_JSON_ID)
-                    .text(texts.get(DODSDATUM_SAKERT_QUESTION_TEXT_ID))
-                    .description(texts.get(DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID))
-                    .selectedText(texts.get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT))
-                    .unselectedText(texts.get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(DODSDATUM_SAKERT_JSON_ID)
-                    .selected(dodsdatumSakert)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(exists(DODSDATUM_SAKERT_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DODSDATUM_SAKERT_DELSVAR_ID)
+        .parent(DODSDATUM_DODSPLATS_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(DODSDATUM_SAKERT_JSON_ID)
+                .text(texts.get(DODSDATUM_SAKERT_QUESTION_TEXT_ID))
+                .description(texts.get(DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID))
+                .selectedText(texts.get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT))
+                .unselectedText(texts.get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(DODSDATUM_SAKERT_JSON_ID)
+                .selected(dodsdatumSakert)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
+                  .expression(exists(DODSDATUM_SAKERT_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), DODSDATUM_SAKERT_DELSVAR_ID, DODSDATUM_SAKERT_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), DODSDATUM_SAKERT_DELSVAR_ID, DODSDATUM_SAKERT_JSON_ID);
+  }
 }

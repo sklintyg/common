@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,31 +37,25 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UnitMappingConfigLoader {
 
-    @Value("${unit.mapping.config.path:}")
-    private String unitMappingConfigPath;
-    @Getter
-    private List<UnitMapping> unitMappings;
+  @Value("${unit.mapping.config.path:}")
+  private String unitMappingConfigPath;
 
-    @PostConstruct
-    public void init() {
-        unitMappings = new ArrayList<>();
-        final var objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        try (final var resourceAsStream = new FileInputStream(unitMappingConfigPath)) {
-            unitMappings = objectMapper.readValue(
-                resourceAsStream,
-                new TypeReference<>() {
-                });
-            log.info("Unit mapping configuration was loaded successfully: {}",
-                unitMappings);
-        } catch (FileNotFoundException e) {
-            log.warn("File not found: {}. Returning empty configuration.",
-                unitMappingConfigPath);
-        } catch (Exception e) {
-            log.error(
-                String.format("Failed to load unit mapping configuration. Reason: %s",
-                    e.getMessage()), e
-            );
-        }
+  @Getter private List<UnitMapping> unitMappings;
+
+  @PostConstruct
+  public void init() {
+    unitMappings = new ArrayList<>();
+    final var objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+    try (final var resourceAsStream = new FileInputStream(unitMappingConfigPath)) {
+      unitMappings = objectMapper.readValue(resourceAsStream, new TypeReference<>() {});
+      log.info("Unit mapping configuration was loaded successfully: {}", unitMappings);
+    } catch (FileNotFoundException e) {
+      log.warn("File not found: {}. Returning empty configuration.", unitMappingConfigPath);
+    } catch (Exception e) {
+      log.error(
+          String.format("Failed to load unit mapping configuration. Reason: %s", e.getMessage()),
+          e);
     }
+  }
 }

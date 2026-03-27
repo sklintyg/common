@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -44,131 +43,148 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Behandling;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesBehandlingTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return ALLMANT_BEHANDLING_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ALLMANT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ALLMANT_BEHANDLING_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return ALLMANT_BEHANDLING_TEXT_ID;
-        }
-
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return ALLMANT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueViewTextTests {
-
-        @Test
-        void shallIncludeKost() {
-            final var element = QuestionDiabetesBehandling.toCertificate(Allmant.builder().setBehandling(
-                Behandling.builder().setEndastKost(true).build()
-            ).build(), 0, textProvider);
-            final var value = (CertificateDataValueViewText) element.getValue();
-            final var expectedValue = "Endast kost";
-            assertEquals(expectedValue, value.getText());
-        }
-
-        @Test
-        void shallIncludeTabletter() {
-            final var element = QuestionDiabetesBehandling.toCertificate(Allmant.builder().setBehandling(
-                Behandling.builder().setTabletter(true).build()
-            ).build(), 0, textProvider);
-            final var value = (CertificateDataValueViewText) element.getValue();
-            final var expectedValue = "Tabletter";
-            assertEquals(expectedValue, value.getText());
-        }
-
-        @Test
-        void shallIncludeInsulin() {
-            final var element = QuestionDiabetesBehandling.toCertificate(Allmant.builder().setBehandling(
-                Behandling.builder().setInsulin(true).build()
-            ).build(), 0, textProvider);
-            final var value = (CertificateDataValueViewText) element.getValue();
-            final var expectedValue = "Insulin";
-            assertEquals(expectedValue, value.getText());
-        }
-
-        @Test
-        void shallIncludeAnnan() {
-            final var element = QuestionDiabetesBehandling.toCertificate(Allmant.builder().setBehandling(
-                Behandling.builder().setAnnanBehandling(true).build()
-            ).build(), 0, textProvider);
-            final var value = (CertificateDataValueViewText) element.getValue();
-            final var expectedValue = "Annan behandling";
-            assertEquals(expectedValue, value.getText());
-        }
-
-        @Test
-        void shallIncludeKostTabletterInsulinAndAnnan() {
-            final var element = QuestionDiabetesBehandling.toCertificate(Allmant.builder().setBehandling(
-                    Behandling.builder()
-                        .setInsulin(true)
-                        .setEndastKost(true)
-                        .setTabletter(true)
-                        .setAnnanBehandling(true)
-                        .build()
-                )
-                .build(), 0, textProvider);
-            final var value = (CertificateDataValueViewText) element.getValue();
-            final var expectedValue = "Endast kost, Tabletter, Insulin, Annan behandling";
-            assertEquals(expectedValue, value.getText());
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return ALLMANT_BEHANDLING_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValueViewTextTests {
+
+    @Test
+    void shallIncludeKost() {
+      final var element =
+          QuestionDiabetesBehandling.toCertificate(
+              Allmant.builder()
+                  .setBehandling(Behandling.builder().setEndastKost(true).build())
+                  .build(),
+              0,
+              textProvider);
+      final var value = (CertificateDataValueViewText) element.getValue();
+      final var expectedValue = "Endast kost";
+      assertEquals(expectedValue, value.getText());
+    }
+
+    @Test
+    void shallIncludeTabletter() {
+      final var element =
+          QuestionDiabetesBehandling.toCertificate(
+              Allmant.builder()
+                  .setBehandling(Behandling.builder().setTabletter(true).build())
+                  .build(),
+              0,
+              textProvider);
+      final var value = (CertificateDataValueViewText) element.getValue();
+      final var expectedValue = "Tabletter";
+      assertEquals(expectedValue, value.getText());
+    }
+
+    @Test
+    void shallIncludeInsulin() {
+      final var element =
+          QuestionDiabetesBehandling.toCertificate(
+              Allmant.builder()
+                  .setBehandling(Behandling.builder().setInsulin(true).build())
+                  .build(),
+              0,
+              textProvider);
+      final var value = (CertificateDataValueViewText) element.getValue();
+      final var expectedValue = "Insulin";
+      assertEquals(expectedValue, value.getText());
+    }
+
+    @Test
+    void shallIncludeAnnan() {
+      final var element =
+          QuestionDiabetesBehandling.toCertificate(
+              Allmant.builder()
+                  .setBehandling(Behandling.builder().setAnnanBehandling(true).build())
+                  .build(),
+              0,
+              textProvider);
+      final var value = (CertificateDataValueViewText) element.getValue();
+      final var expectedValue = "Annan behandling";
+      assertEquals(expectedValue, value.getText());
+    }
+
+    @Test
+    void shallIncludeKostTabletterInsulinAndAnnan() {
+      final var element =
+          QuestionDiabetesBehandling.toCertificate(
+              Allmant.builder()
+                  .setBehandling(
+                      Behandling.builder()
+                          .setInsulin(true)
+                          .setEndastKost(true)
+                          .setTabletter(true)
+                          .setAnnanBehandling(true)
+                          .build())
+                  .build(),
+              0,
+              textProvider);
+      final var value = (CertificateDataValueViewText) element.getValue();
+      final var expectedValue = "Endast kost, Tabletter, Insulin, Annan behandling";
+      assertEquals(expectedValue, value.getText());
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,66 +41,73 @@ import org.springframework.stereotype.Service;
 @Service
 public class BefattningService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BefattningService.class);
-    private static final char CSV_DELIMITER = ';';
+  private static final Logger LOG = LoggerFactory.getLogger(BefattningService.class);
+  private static final char CSV_DELIMITER = ';';
 
-    private ImmutableBiMap<String, String> codeMap = ImmutableBiMap.of();
+  private ImmutableBiMap<String, String> codeMap = ImmutableBiMap.of();
 
-    // FIXME: A very dirty construction to be backward compatible and yet be able to externalize the configuration.
-    // This class has to be initialized as a spring component in order to function properly.
-    static BefattningService instance = null;
+  // FIXME: A very dirty construction to be backward compatible and yet be able to externalize the
+  // configuration.
+  // This class has to be initialized as a spring component in order to function properly.
+  static BefattningService instance = null;
 
-    @Value("${befattningskoder.file:classpath:codes/befattningskoder-default.csv}")
-    Resource resource;
+  @Value("${befattningskoder.file:classpath:codes/befattningskoder-default.csv}")
+  Resource resource;
 
-    @PostConstruct
-    @SuppressFBWarnings
-    void initialize() throws IOException {
-        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
-        try {
-            final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
+  @PostConstruct
+  @SuppressFBWarnings
+  void initialize() throws IOException {
+    final Reader reader =
+        new BufferedReader(
+            new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8));
+    try {
+      final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 
-            CSVFormat.DEFAULT.withDelimiter(CSV_DELIMITER).parse(reader).forEach(r -> {
+      CSVFormat.DEFAULT
+          .withDelimiter(CSV_DELIMITER)
+          .parse(reader)
+          .forEach(
+              r -> {
                 codeBuilder.put(r.get(0), r.get(1));
-            });
+              });
 
-            this.codeMap = codeBuilder.build();
+      this.codeMap = codeBuilder.build();
 
-            LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
+      LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
 
-            instance = this;
-        } finally {
-            Closeables.closeQuietly(reader);
-        }
+      instance = this;
+    } finally {
+      Closeables.closeQuietly(reader);
     }
+  }
 
-    public Map<String, String> codeMap() {
-        return this.codeMap;
-    }
+  public Map<String, String> codeMap() {
+    return this.codeMap;
+  }
 
-    private Optional<String> lookup(final String key, final boolean inverse) {
-        if (Strings.isNullOrEmpty(key)) {
-            return Optional.empty();
-        }
-        final Map<String, String> map = inverse ? this.codeMap.inverse() : this.codeMap;
-        return Optional.ofNullable(map.get(key.trim()));
+  private Optional<String> lookup(final String key, final boolean inverse) {
+    if (Strings.isNullOrEmpty(key)) {
+      return Optional.empty();
     }
+    final Map<String, String> map = inverse ? this.codeMap.inverse() : this.codeMap;
+    return Optional.ofNullable(map.get(key.trim()));
+  }
 
-    // for legacy compatibility only
-    static BefattningService instance() {
-        if (Objects.isNull(instance)) {
-            throw new IllegalStateException("Not properly initialized");
-        }
-        return instance;
+  // for legacy compatibility only
+  static BefattningService instance() {
+    if (Objects.isNull(instance)) {
+      throw new IllegalStateException("Not properly initialized");
     }
+    return instance;
+  }
 
-    // static due to legacy compatibility
-    public static Optional<String> getDescriptionFromCode(String code) {
-        return instance().lookup(code, false);
-    }
+  // static due to legacy compatibility
+  public static Optional<String> getDescriptionFromCode(String code) {
+    return instance().lookup(code, false);
+  }
 
-    // static due to legacy compatibility
-    public static Optional<String> getCodeFromDescription(String description) {
-        return instance().lookup(description, true);
-    }
+  // static due to legacy compatibility
+  public static Optional<String> getCodeFromDescription(String description) {
+    return instance().lookup(description, true);
+  }
 }

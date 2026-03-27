@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,45 +42,48 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 public class QuestionUppfattaSamtalFyraMeter {
 
-    public static CertificateDataElement toCertificate(HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
-        final var uppfattaSamtal = horselBalans != null ? horselBalans.getSvartUppfattaSamtal4Meter() : null;
-        return CertificateDataElement.builder()
-            .id(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
-            .parent(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
-                    .text(textProvider.get(UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
-                    .selected(uppfattaSamtal)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
-                        .expression(exists(UPPFATTA_SAMTALSTAMMA_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID_1)
-                        .expression(multipleOrExpressionWithExists(
-                            IntygAvserKategori.IAV5.name(), IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(),
-                            IntygAvserKategori.IAV8.name(), IntygAvserKategori.IAV9.name()))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
+    final var uppfattaSamtal =
+        horselBalans != null ? horselBalans.getSvartUppfattaSamtal4Meter() : null;
+    return CertificateDataElement.builder()
+        .id(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
+        .parent(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
+                .text(textProvider.get(UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(UPPFATTA_SAMTALSTAMMA_JSON_ID)
+                .selected(uppfattaSamtal)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(UPPFATTA_SAMTALSTAMMA_SVAR_ID)
+                  .expression(exists(UPPFATTA_SAMTALSTAMMA_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(INTYG_AVSER_SVAR_ID_1)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          IntygAvserKategori.IAV5.name(),
+                          IntygAvserKategori.IAV6.name(),
+                          IntygAvserKategori.IAV7.name(),
+                          IntygAvserKategori.IAV8.name(),
+                          IntygAvserKategori.IAV9.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), UPPFATTA_SAMTALSTAMMA_SVAR_ID, UPPFATTA_SAMTALSTAMMA_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), UPPFATTA_SAMTALSTAMMA_SVAR_ID, UPPFATTA_SAMTALSTAMMA_JSON_ID);
+  }
 }

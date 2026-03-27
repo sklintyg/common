@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,33 +22,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.stream.Stream;
 
 public enum Undersokning {
-    @JsonProperty("SVAR_JA")
-    JA("", UndersokningConstants.UNDERSOKNING_JA), // Transport is never used as it is represented as boolean 'true'
-    @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN")
-    UNDERSOKNING_GJORT_KORT_FORE_DODEN(UndersokningConstants.UNDERSOKNING_GJORT_TRANSPORT, UndersokningConstants.UNDERSOKNING_GJORT_TEXT),
-    @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS")
-    UNDERSOKNING_SKA_GORAS(UndersokningConstants.UNDERSOKNING_SKA_GORAS_TRANSPORT, UndersokningConstants.UNDERSOKNING_SKA_GORAS_TEXT);
+  @JsonProperty("SVAR_JA")
+  JA(
+      "",
+      UndersokningConstants
+          .UNDERSOKNING_JA), // Transport is never used as it is represented as boolean 'true'
+  @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_GJORT_KORT_FORE_DODEN")
+  UNDERSOKNING_GJORT_KORT_FORE_DODEN(
+      UndersokningConstants.UNDERSOKNING_GJORT_TRANSPORT,
+      UndersokningConstants.UNDERSOKNING_GJORT_TEXT),
+  @JsonProperty("DETALJER_UNDERSOKNING.UNDERSOKNING_SKA_GORAS")
+  UNDERSOKNING_SKA_GORAS(
+      UndersokningConstants.UNDERSOKNING_SKA_GORAS_TRANSPORT,
+      UndersokningConstants.UNDERSOKNING_SKA_GORAS_TEXT);
 
-    private final String transport;
-    private final String beskrivning;
+  private final String transport;
+  private final String beskrivning;
 
-    Undersokning(final String transport, final String beskrivning) {
-        this.transport = transport;
-        this.beskrivning = beskrivning;
-    }
+  Undersokning(final String transport, final String beskrivning) {
+    this.transport = transport;
+    this.beskrivning = beskrivning;
+  }
 
-    public String getTransport() {
-        return transport;
-    }
+  public String getTransport() {
+    return transport;
+  }
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+  public String getBeskrivning() {
+    return beskrivning;
+  }
 
-    public static Undersokning fromTransport(String transport) {
-        return Stream.of(Undersokning.values())
-            .filter(v -> v.getTransport().equals(transport))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
-    }
+  public static Undersokning fromTransport(String transport) {
+    return Stream.of(Undersokning.values())
+        .filter(v -> v.getTransport().equals(transport))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
+  }
 }

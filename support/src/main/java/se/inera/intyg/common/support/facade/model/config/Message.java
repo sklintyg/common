@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,11 +29,9 @@ import se.inera.intyg.common.support.facade.model.config.Message.MessageBuilder;
 @Builder
 public class Message {
 
-    String content;
-    MessageLevel level;
+  String content;
+  MessageLevel level;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class MessageBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class MessageBuilder {}
 }

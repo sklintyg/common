@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,16 +28,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryExplosivtImplantat {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(EXPLOSIVT_IMPLANTAT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID))
-                    .description(texts.get(EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(EXPLOSIVT_IMPLANTAT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(texts.get(EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID))
+                .description(texts.get(EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID))
+                .build())
+        .build();
+  }
 }

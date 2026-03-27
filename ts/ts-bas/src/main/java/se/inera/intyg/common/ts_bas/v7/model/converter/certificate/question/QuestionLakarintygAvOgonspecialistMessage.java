@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,50 +40,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionLakarintygAvOgonspecialistMessage {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider texts) {
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider texts) {
 
-        return CertificateDataElement.builder()
-            .id(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .visible(getVisibility(syn))
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
-                            .level(MessageLevel.INFO)
-                            .build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(SYNFALTSDEFEKTER_SVAR_ID)
-                        .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
-                        .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
-                        .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .visible(getVisibility(syn))
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
+                        .level(MessageLevel.INFO)
+                        .build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(SYNFALTSDEFEKTER_SVAR_ID)
+                  .expression(singleExpression(SYNFALTSDEFEKTER_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
+                  .expression(singleExpression(SEENDE_NEDSATT_BELYSNING_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(PROGRESSIV_OGONSJUKDOM_SVAR_ID)
+                  .expression(singleExpression(PROGRESSIV_OGONSJUKDOM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    private static Boolean getVisibility(Syn syn) {
-        if (syn == null) {
-            return false;
-        }
-        return isTrue(syn.getNattblindhet()) || isTrue(syn.getProgressivOgonsjukdom()) || isTrue(syn.getSynfaltsdefekter());
+  private static Boolean getVisibility(Syn syn) {
+    if (syn == null) {
+      return false;
     }
+    return isTrue(syn.getNattblindhet())
+        || isTrue(syn.getProgressivOgonsjukdom())
+        || isTrue(syn.getSynfaltsdefekter());
+  }
 
-    private static Boolean isTrue(Boolean value) {
-        return value != null ? value : false;
-    }
+  private static Boolean isTrue(Boolean value) {
+    return value != null ? value : false;
+  }
 }

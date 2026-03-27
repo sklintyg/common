@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,42 +34,43 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
 public abstract class Bedomning {
 
-    @Nullable
-    @JsonSerialize(using = Bedomning.BedomningKorkortstypSetEnumSetSerializer.class)
+  @Nullable @JsonSerialize(using = Bedomning.BedomningKorkortstypSetEnumSetSerializer.class)
+  @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
+  public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
+
+  @Nullable public abstract String getOvrigaKommentarer();
+
+  public static class BedomningKorkortstypSetEnumSetSerializer
+      extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
+    protected BedomningKorkortstypSetEnumSetSerializer() {
+      super(BedomningKorkortstyp.class);
+    }
+  }
+
+  public static class BedomningKorkortstypSetDeserializer
+      extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+
+    protected BedomningKorkortstypSetDeserializer() {
+      super(BedomningKorkortstyp.class);
+    }
+  }
+
+  public static Builder builder() {
+    return new AutoValue_Bedomning.Builder();
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract Bedomning build();
+
+    @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)
     @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
-    public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
+    public abstract Builder setUppfyllerBehorighetskrav(
+        Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
 
-    @Nullable
-    public abstract String getOvrigaKommentarer();
-
-    public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
-
-        protected BedomningKorkortstypSetEnumSetSerializer() {
-            super(BedomningKorkortstyp.class);
-        }
-    }
-
-    public static class BedomningKorkortstypSetDeserializer extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
-
-        protected BedomningKorkortstypSetDeserializer() {
-            super(BedomningKorkortstyp.class);
-        }
-    }
-
-    public static Builder builder() {
-        return new AutoValue_Bedomning.Builder();
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract Bedomning build();
-
-        @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)
-        @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
-        public abstract Builder setUppfyllerBehorighetskrav(Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
-
-        @JsonProperty(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
-        public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
-    }
+    @JsonProperty(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
+    public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -46,90 +45,93 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 @ExtendWith(MockitoExtension.class)
 class QuestionProgressivOgonsjukdomTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionProgressivOgonsjukdom.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionProgressivOgonsjukdom.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SYNFUNKTIONER_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewText extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionProgressivOgonsjukdom.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return PROGRESSIV_OGONSJUKDOM_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SYNFUNKTIONER_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(PER_CLASS)
-    class IncludeValueViewText extends ValueViewTextTest<Syn> {
-
-        @Override
-        protected CertificateDataElement getElement(Syn expectedValue) {
-            return QuestionProgressivOgonsjukdom.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Syn, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(Syn.builder().build(), CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(Syn.builder().setProgressivOgonsjukdom(false).build(),
-                    CertificateDataValueViewText.builder().text("Nej").build()),
-                new InputExpectedValuePair<>(Syn.builder().setProgressivOgonsjukdom(true).build(),
-                    CertificateDataValueViewText.builder().text("Ja").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewText extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionProgressivOgonsjukdom.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return PROGRESSIV_OGONSJUKDOM_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class IncludeValueViewText extends ValueViewTextTest<Syn> {
+
+    @Override
+    protected CertificateDataElement getElement(Syn expectedValue) {
+      return QuestionProgressivOgonsjukdom.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Syn, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Syn.builder().build(),
+              CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              Syn.builder().setProgressivOgonsjukdom(false).build(),
+              CertificateDataValueViewText.builder().text("Nej").build()),
+          new InputExpectedValuePair<>(
+              Syn.builder().setProgressivOgonsjukdom(true).build(),
+              CertificateDataValueViewText.builder().text("Ja").build()));
+    }
+  }
 }

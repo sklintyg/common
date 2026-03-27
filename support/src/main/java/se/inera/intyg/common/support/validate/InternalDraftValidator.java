@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,9 +24,9 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 
 public interface InternalDraftValidator<T extends Utlatande> {
 
-    ValidateDraftResponse validateDraft(T utlatande);
+  ValidateDraftResponse validateDraft(T utlatande);
 
-    default ValidateDraftResponse validateDraft(T utlatande, TypeAheadProvider typeAheadProvider) {
-        return validateDraft(utlatande);
-    }
+  default ValidateDraftResponse validateDraft(T utlatande, TypeAheadProvider typeAheadProvider) {
+    return validateDraft(utlatande);
+  }
 }

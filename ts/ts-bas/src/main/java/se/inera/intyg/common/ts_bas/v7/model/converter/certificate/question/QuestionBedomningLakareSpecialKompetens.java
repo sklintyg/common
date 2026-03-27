@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,39 +35,42 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
 
 public class QuestionBedomningLakareSpecialKompetens {
 
-    private static final short TEXT_LIMIT = 130;
+  private static final short TEXT_LIMIT = 130;
 
-    public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
-        final var lakareSpecialkompetens =
-            bedomning != null && bedomning.getLakareSpecialKompetens() != null ? bedomning.getLakareSpecialKompetens() : null;
-        return CertificateDataElement.builder()
-            .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID)
-            .index(index)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
-                    .text(textProvider.get(BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
-                    .text(lakareSpecialkompetens)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Bedomning bedomning, int index, CertificateTextProvider textProvider) {
+    final var lakareSpecialkompetens =
+        bedomning != null && bedomning.getLakareSpecialKompetens() != null
+            ? bedomning.getLakareSpecialKompetens()
+            : null;
+    return CertificateDataElement.builder()
+        .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID)
+        .index(index)
+        .parent(BEDOMNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
+                .text(textProvider.get(BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
+                .text(lakareSpecialkompetens)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID, BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID,
+        BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID);
+  }
 }

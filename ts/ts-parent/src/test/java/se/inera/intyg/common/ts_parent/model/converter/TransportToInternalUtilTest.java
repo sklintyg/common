@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,79 +39,81 @@ import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalUtilTest {
 
-    @Test
-    public void testGetTextVersion() {
-        assertEquals("6.7", TransportToInternalUtil.getTextVersion("06", "07"));
-        assertEquals("6.7", TransportToInternalUtil.getTextVersion("6", "7"));
-        assertEquals("1.2", TransportToInternalUtil.getTextVersion("1", "2"));
-    }
+  @Test
+  public void testGetTextVersion() {
+    assertEquals("6.7", TransportToInternalUtil.getTextVersion("06", "07"));
+    assertEquals("6.7", TransportToInternalUtil.getTextVersion("6", "7"));
+    assertEquals("1.2", TransportToInternalUtil.getTextVersion("1", "2"));
+  }
 
-    @Test
-    public void testConvertDiabetesTyp() {
-        DiabetesKod res1 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_1);
-        DiabetesKod res2 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_2);
+  @Test
+  public void testConvertDiabetesTyp() {
+    DiabetesKod res1 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_1);
+    DiabetesKod res2 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_2);
 
-        assertEquals(DiabetesKod.DIABETES_TYP_1, res1);
-        assertEquals(DiabetesKod.DIABETES_TYP_2, res2);
-    }
+    assertEquals(DiabetesKod.DIABETES_TYP_1, res1);
+    assertEquals(DiabetesKod.DIABETES_TYP_2, res2);
+  }
 
-    @Test
-    public void testBuildSkapadAvBefattningskodAndSpecialisering() {
-        final String specialisering1 = "spec1";
-        final String specialisering2 = "spec2";
-        final String befattning1 = "befattning1";
-        final String befattning2 = "befattning2";
-        se.inera.intygstjanster.ts.services.v1.GrundData grundData = new se.inera.intygstjanster.ts.services.v1.GrundData();
-        Patient patient = new Patient();
-        patient.setPersonId(new II());
-        patient.getPersonId().setExtension("19121212-1212");
-        grundData.setPatient(patient);
-        grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
-        SkapadAv skapadAv = new SkapadAv();
-        skapadAv.setPersonId(new II());
-        skapadAv.getSpecialiteter().add(specialisering1);
-        skapadAv.getSpecialiteter().add(specialisering2);
-        skapadAv.getBefattningar().add(befattning1);
-        skapadAv.getBefattningar().add(befattning2);
-        Vardenhet vardenhet = new Vardenhet();
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(new II());
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setEnhetsId(new II());
-        skapadAv.setVardenhet(vardenhet);
-        grundData.setSkapadAv(skapadAv);
+  @Test
+  public void testBuildSkapadAvBefattningskodAndSpecialisering() {
+    final String specialisering1 = "spec1";
+    final String specialisering2 = "spec2";
+    final String befattning1 = "befattning1";
+    final String befattning2 = "befattning2";
+    se.inera.intygstjanster.ts.services.v1.GrundData grundData =
+        new se.inera.intygstjanster.ts.services.v1.GrundData();
+    Patient patient = new Patient();
+    patient.setPersonId(new II());
+    patient.getPersonId().setExtension("19121212-1212");
+    grundData.setPatient(patient);
+    grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
+    SkapadAv skapadAv = new SkapadAv();
+    skapadAv.setPersonId(new II());
+    skapadAv.getSpecialiteter().add(specialisering1);
+    skapadAv.getSpecialiteter().add(specialisering2);
+    skapadAv.getBefattningar().add(befattning1);
+    skapadAv.getBefattningar().add(befattning2);
+    Vardenhet vardenhet = new Vardenhet();
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(new II());
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setEnhetsId(new II());
+    skapadAv.setVardenhet(vardenhet);
+    grundData.setSkapadAv(skapadAv);
 
-        GrundData res = TransportToInternalUtil.buildGrundData(grundData);
+    GrundData res = TransportToInternalUtil.buildGrundData(grundData);
 
-        assertEquals(2, res.getSkapadAv().getSpecialiteter().size());
-        assertEquals(specialisering1, res.getSkapadAv().getSpecialiteter().get(0));
-        assertEquals(specialisering2, res.getSkapadAv().getSpecialiteter().get(1));
-        assertEquals(2, res.getSkapadAv().getBefattningar().size());
-        assertEquals(befattning1, res.getSkapadAv().getBefattningar().get(0));
-        assertEquals(befattning2, res.getSkapadAv().getBefattningar().get(1));
-    }
+    assertEquals(2, res.getSkapadAv().getSpecialiteter().size());
+    assertEquals(specialisering1, res.getSkapadAv().getSpecialiteter().get(0));
+    assertEquals(specialisering2, res.getSkapadAv().getSpecialiteter().get(1));
+    assertEquals(2, res.getSkapadAv().getBefattningar().size());
+    assertEquals(befattning1, res.getSkapadAv().getBefattningar().get(0));
+    assertEquals(befattning2, res.getSkapadAv().getBefattningar().get(1));
+  }
 
-    @Test
-    public void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
-        se.inera.intygstjanster.ts.services.v1.GrundData grundData = new se.inera.intygstjanster.ts.services.v1.GrundData();
-        Patient patient = new Patient();
-        patient.setPersonId(new II());
-        patient.getPersonId().setExtension("19121212-1212");
-        grundData.setPatient(patient);
-        grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
-        SkapadAv skapadAv = new SkapadAv();
-        skapadAv.setPersonId(new II());
-        Vardenhet vardenhet = new Vardenhet();
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(new II());
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setEnhetsId(new II());
-        skapadAv.setVardenhet(vardenhet);
-        grundData.setSkapadAv(skapadAv);
+  @Test
+  public void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
+    se.inera.intygstjanster.ts.services.v1.GrundData grundData =
+        new se.inera.intygstjanster.ts.services.v1.GrundData();
+    Patient patient = new Patient();
+    patient.setPersonId(new II());
+    patient.getPersonId().setExtension("19121212-1212");
+    grundData.setPatient(patient);
+    grundData.setSigneringsTidstampel("2016-10-11T12:12:44");
+    SkapadAv skapadAv = new SkapadAv();
+    skapadAv.setPersonId(new II());
+    Vardenhet vardenhet = new Vardenhet();
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(new II());
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setEnhetsId(new II());
+    skapadAv.setVardenhet(vardenhet);
+    grundData.setSkapadAv(skapadAv);
 
-        GrundData res = TransportToInternalUtil.buildGrundData(grundData);
+    GrundData res = TransportToInternalUtil.buildGrundData(grundData);
 
-        assertTrue(res.getSkapadAv().getSpecialiteter().isEmpty());
-        assertTrue(res.getSkapadAv().getBefattningar().isEmpty());
-    }
+    assertTrue(res.getSkapadAv().getSpecialiteter().isEmpty());
+    assertTrue(res.getSkapadAv().getBefattningar().isEmpty());
+  }
 }

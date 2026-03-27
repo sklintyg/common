@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,172 +57,182 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionOperationAnledningTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionOperationAnledning.toCertificate("", expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      assertEquals(OPERATION_OM_DELSVAR_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(OPERATION_ANLEDNING_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeTextConfigType() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      assertEquals(CertificateDataConfigType.UE_TEXTFIELD, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeTextConfigValueId() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      final var certificateDataConfigTextField =
+          (CertificateDataConfigTextField) question.getConfig();
+      assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataConfigTextField.getId());
+    }
+
+    @Test
+    void shouldIncludeTextValueType() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeTextValueId() {
+      final var question = QuestionOperationAnledning.toCertificate("Text value", 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataTextValue.getId());
+    }
+
+    @Test
+    void shouldIncludeTextValue() {
+      final var expectedTextValue = "Text value";
+      final var question = QuestionOperationAnledning.toCertificate(expectedTextValue, 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertEquals(expectedTextValue, certificateDataTextValue.getText());
+    }
+
+    @Test
+    void shouldIncludeTextValueEmpty() {
+      final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertNull(certificateDataTextValue.getText());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          OPERATION_ANLEDNING_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          "$" + OPERATION_ANLEDNING_JSON_ID, certificateDataValidationMandatory.getExpression());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return OPERATION_OM_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionOperationAnledning.toCertificate("", expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        return "$" + OmOperation.JA;
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(OPERATION_OM_DELSVAR_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionOperationAnledning.toCertificate(null, 0, texts);
+      }
 
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(OPERATION_ANLEDNING_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeTextConfigType() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigType.UE_TEXTFIELD, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeTextConfigValueId() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            final var certificateDataConfigTextField = (CertificateDataConfigTextField) question.getConfig();
-            assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataConfigTextField.getId());
-        }
-
-        @Test
-        void shouldIncludeTextValueType() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeTextValueId() {
-            final var question = QuestionOperationAnledning.toCertificate("Text value", 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataTextValue.getId());
-        }
-
-        @Test
-        void shouldIncludeTextValue() {
-            final var expectedTextValue = "Text value";
-            final var question = QuestionOperationAnledning.toCertificate(expectedTextValue, 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertEquals(expectedTextValue, certificateDataTextValue.getText());
-        }
-
-        @Test
-        void shouldIncludeTextValueEmpty() {
-            final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertNull(certificateDataTextValue.getText());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(OPERATION_ANLEDNING_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionOperationAnledning.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + OPERATION_ANLEDNING_JSON_ID, certificateDataValidationMandatory.getExpression());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return OPERATION_OM_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + OmOperation.JA;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionOperationAnledning.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxCharacterType() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[2].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextId() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[2];
-            assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataValidationText.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[2];
-            assertEquals(31, certificateDataValidationText.getLimit());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionOperationAnledning.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionOperationAnledning.toInternal(certificate);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(actualValue);
-            } else {
-                assertEquals(expectedValue, actualValue);
-            }
-        }
+    @Test
+    void shouldIncludeValidationMaxCharacterType() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      assertEquals(
+          CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[2].getType());
     }
+
+    @Test
+    void shouldIncludeValidationTextId() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[2];
+      assertEquals(OPERATION_ANLEDNING_JSON_ID, certificateDataValidationText.getId());
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var question = QuestionOperationAnledning.toCertificate("", 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[2];
+      assertEquals(31, certificateDataValidationText.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeTextValue(String expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionOperationAnledning.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionOperationAnledning.toInternal(certificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(actualValue);
+      } else {
+        assertEquals(expectedValue, actualValue);
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,37 +35,35 @@ import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 
-/**
- * Created by marced on 10/05/16.
- */
+/** Created by marced on 10/05/16. */
 @RunWith(MockitoJUnitRunner.class)
 public class LuaefsEntryPointTest {
 
-    @Mock
-    IntygTextsRepository repoMock;
+  @Mock IntygTextsRepository repoMock;
 
+  private LuaefsEntryPoint entryPoint;
 
-    private LuaefsEntryPoint entryPoint;
+  @Test
+  public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet()
+      throws Exception {
+    entryPoint = new LuaefsEntryPoint();
+    ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
+    assertNull(entryPoint.getDetailedModuleDescription());
+  }
 
-    @Test
-    public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() throws Exception {
-        entryPoint = new LuaefsEntryPoint();
-        ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
-        assertNull(entryPoint.getDetailedModuleDescription());
-    }
+  @Test
+  public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet()
+      throws Exception {
+    when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
+    SortedMap<String, String> map = new TreeMap<>();
+    map.put(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");
 
-    @Test
-    public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() throws Exception {
-        when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
-        SortedMap<String, String> map = new TreeMap<>();
-        map.put(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");
+    IntygTexts intygTexts = new IntygTexts("1.0", null, null, null, map, null, null);
+    when(repoMock.getTexts(anyString(), anyString())).thenReturn(intygTexts);
 
-        IntygTexts intygTexts = new IntygTexts("1.0", null, null, null, map, null, null);
-        when(repoMock.getTexts(anyString(), anyString())).thenReturn(intygTexts);
+    entryPoint = new LuaefsEntryPoint();
+    ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repoMock));
 
-        entryPoint = new LuaefsEntryPoint();
-        ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repoMock));
-
-        assertEquals("hello", entryPoint.getDetailedModuleDescription());
-    }
+    assertEquals("hello", entryPoint.getDetailedModuleDescription());
+  }
 }

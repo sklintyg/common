@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,142 +45,143 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 @ExtendWith(MockitoExtension.class)
 class QuestionVardatsPaSjukhusTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getId() {
+        return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getSelectedText() {
+        return "Ja";
+      }
 
-            @Override
-            protected String getId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
-            }
+      @Override
+      protected String getUnselectedText() {
+        return "Nej";
+      }
 
-            @Override
-            protected String getParent() {
-                return VARD_SJUKHUS_KONTAKT_LAKARE_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+      @Override
+      protected String getTextId() {
+        return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return "Ja";
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return "Nej";
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected String getJsonId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return true;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhus.toCertificate(
-                    Sjukhusvard.builder().setSjukhusEllerLakarkontakt(true).build(), 0, textProvider);
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(vardatspasjukhus)";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected String getJsonId() {
+        return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionVardatsPaSjukhus.toCertificate(
-                    Sjukhusvard.builder().setSjukhusEllerLakarkontakt(expectedValue).build(), 0, textProvider);
-            }
+      @Override
+      protected Boolean getBoolean() {
+        return true;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionVardatsPaSjukhus.toInternal(certificate);
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionVardatsPaSjukhus.toCertificate(
+            Sjukhusvard.builder().setSjukhusEllerLakarkontakt(true).build(), 0, textProvider);
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists(vardatspasjukhus)";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionVardatsPaSjukhus.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionVardatsPaSjukhus.toCertificate(
+            Sjukhusvard.builder().setSjukhusEllerLakarkontakt(expectedValue).build(),
+            0,
+            textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionVardatsPaSjukhus.toInternal(certificate);
+      }
+    }
+  }
 }

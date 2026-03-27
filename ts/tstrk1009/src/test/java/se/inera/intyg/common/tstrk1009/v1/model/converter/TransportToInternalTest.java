@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,40 +49,43 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    private Tstrk1009UtlatandeV1 getUtlatande() {
-        return Tstrk1009UtlatandeV1.builder()
-            .setId("1234567")
-            .setGrundData(IntygTestDataBuilder.getGrundData())
-            .setTextVersion("1.0")
-            .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.ID_KORT))
-            .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
-            .setMedicinskaForhallanden("sjukt sjuk")
-            .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
-            .setIntygetAvserBehorigheter(IntygetAvser.create(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR)))
-            .build();
-    }
+  private Tstrk1009UtlatandeV1 getUtlatande() {
+    return Tstrk1009UtlatandeV1.builder()
+        .setId("1234567")
+        .setGrundData(IntygTestDataBuilder.getGrundData())
+        .setTextVersion("1.0")
+        .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.ID_KORT))
+        .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
+        .setMedicinskaForhallanden("sjukt sjuk")
+        .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
+        .setIntygetAvserBehorigheter(
+            IntygetAvser.create(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR)))
+        .build();
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        Tstrk1009UtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-        Tstrk1009UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
+  @Test
+  public void endToEnd() throws Exception {
+    Tstrk1009UtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+    Tstrk1009UtlatandeV1 convertedIntyg =
+        TransportToInternal.convert(transportCertificate.getIntyg());
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

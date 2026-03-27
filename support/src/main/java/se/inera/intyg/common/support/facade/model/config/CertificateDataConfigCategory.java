@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,25 +30,30 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 @Builder
 public class CertificateDataConfigCategory implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.CATEGORY;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.CATEGORY;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCategoryBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigCategoryBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,102 +51,167 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 @Component("db.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtlatandeV1> {
 
-    public static final int FOUR_WEEKS = 4;
+  public static final int FOUR_WEEKS = 4;
 
-    @Override
-    public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande) {
-        throw new UnsupportedOperationException("Use validateDraft with TypeAheadProvider");
+  @Override
+  public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande) {
+    throw new UnsupportedOperationException("Use validateDraft with TypeAheadProvider");
+  }
+
+  @Override
+  public ValidateDraftResponse validateDraft(
+      DbUtlatandeV1 utlatande, TypeAheadProvider typeAheadProvider) {
+    List<ValidationMessage> validationMessages = new ArrayList<>();
+
+    PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+
+    validateIdentitetStyrkt(utlatande, validationMessages);
+    validateDodsdatum(utlatande, validationMessages, MODULE_ID);
+    validateDodsplats(utlatande, validationMessages, typeAheadProvider);
+    validateBarn(utlatande, validationMessages);
+    validateExplosivtImplantat(utlatande, validationMessages);
+    validateUndersokning(utlatande, validationMessages);
+    validatePolisanmalan(utlatande, validationMessages);
+    ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+
+    return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+  }
+
+  private void validateExplosivtImplantat(
+      DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // R5
+    if (utlatande.getExplosivImplantat() == null) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "explosivImplantat",
+          EXPLOSIV_IMPLANTAT_JSON_ID,
+          ValidationMessageType.EMPTY,
+          EXPLOSIV_IMPLANTAT_DELSVAR_ID);
+    } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "explosivImplantat",
+          EXPLOSIV_AVLAGSNAT_JSON_ID,
+          ValidationMessageType.EMPTY,
+          EXPLOSIV_AVLAGSNAT_DELSVAR_ID);
+    } else if (!utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() != null) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "explosivImplantat",
+          EXPLOSIV_AVLAGSNAT_JSON_ID,
+          ValidationMessageType.INCORRECT_COMBINATION,
+          MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse",
+          EXPLOSIV_AVLAGSNAT_DELSVAR_ID);
     }
+  }
 
-    @Override
-    public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande, TypeAheadProvider typeAheadProvider) {
-        List<ValidationMessage> validationMessages = new ArrayList<>();
+  private void validateUndersokning(
+      DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // R6 & R7
+    if (utlatande.getUndersokningYttre() == null) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "yttreUndersokning",
+          UNDERSOKNING_YTTRE_JSON_ID,
+          ValidationMessageType.EMPTY,
+          UNDERSOKNING_YTTRE_DELSVAR_ID);
+    } else if (utlatande.getUndersokningYttre()
+        == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
 
-        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+      if (ValidatorUtil.validateDate(
+          utlatande.getUndersokningDatum(),
+          validationMessages,
+          "yttreUndersokning",
+          UNDERSOKNING_DATUM_JSON_ID,
+          null,
+          UNDERSOKNING_DATUM_DELSVAR_ID)) {
 
-        validateIdentitetStyrkt(utlatande, validationMessages);
-        validateDodsdatum(utlatande, validationMessages, MODULE_ID);
-        validateDodsplats(utlatande, validationMessages, typeAheadProvider);
-        validateBarn(utlatande, validationMessages);
-        validateExplosivtImplantat(utlatande, validationMessages);
-        validateUndersokning(utlatande, validationMessages);
-        validatePolisanmalan(utlatande, validationMessages);
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
-
-        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
-    }
-
-    private void validateExplosivtImplantat(DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // R5
-        if (utlatande.getExplosivImplantat() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "explosivImplantat", EXPLOSIV_IMPLANTAT_JSON_ID,
-                ValidationMessageType.EMPTY, EXPLOSIV_IMPLANTAT_DELSVAR_ID);
-        } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "explosivImplantat", EXPLOSIV_AVLAGSNAT_JSON_ID,
-                ValidationMessageType.EMPTY, EXPLOSIV_AVLAGSNAT_DELSVAR_ID);
-        } else if (!utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() != null) {
-            ValidatorUtil
-                .addValidationErrorWithQuestionId(validationMessages, "explosivImplantat", EXPLOSIV_AVLAGSNAT_JSON_ID,
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse", EXPLOSIV_AVLAGSNAT_DELSVAR_ID);
-        }
-    }
-
-    private void validateUndersokning(DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // R6 & R7
-        if (utlatande.getUndersokningYttre() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_YTTRE_JSON_ID,
-                ValidationMessageType.EMPTY, UNDERSOKNING_YTTRE_DELSVAR_ID);
-        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
-
-            if (ValidatorUtil.validateDate(utlatande.getUndersokningDatum(), validationMessages, "yttreUndersokning",
-                UNDERSOKNING_DATUM_JSON_ID, null, UNDERSOKNING_DATUM_DELSVAR_ID)) {
-
-                if (!utlatande.getUndersokningDatum().isReasonable() || utlatande.getUndersokningDatum().asLocalDate()
-                    .isAfter(LocalDate.now())) {
-                    ValidatorUtil
-                        .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                            ValidationMessageType.INVALID_FORMAT, "common.validation.date.today.or.earlier", UNDERSOKNING_DATUM_DELSVAR_ID);
-                } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
-                    && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
-                    ValidatorUtil
-                        .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION,
-                            "db.validation.undersokningDatum.after.dodsdatum", UNDERSOKNING_DATUM_DELSVAR_ID);
-                } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
-                    && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
-                    && utlatande.getUndersokningDatum().asLocalDate()
-                    .isBefore(utlatande.getDodsdatum().asLocalDate().minusWeeks(FOUR_WEEKS))) {
-                    ValidatorUtil
-                        .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION,
-                            "db.validation.undersokningDatum.before.fourWeeks", UNDERSOKNING_DATUM_DELSVAR_ID);
-                } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
-                    && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
-                    && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {
-                    ValidatorUtil
-                        .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION,
-                            "db.validation.undersokningDatum.after.antraffatDodDatum", UNDERSOKNING_DATUM_DELSVAR_ID);
-                } else if (utlatande.getUndersokningDatum().isBefore(ValidatorUtil.getBirthDateFromPersonnummer(
+        if (!utlatande.getUndersokningDatum().isReasonable()
+            || utlatande.getUndersokningDatum().asLocalDate().isAfter(LocalDate.now())) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              "yttreUndersokning",
+              UNDERSOKNING_DATUM_JSON_ID,
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.date.today.or.earlier",
+              UNDERSOKNING_DATUM_DELSVAR_ID);
+        } else if (utlatande.getDodsdatum() != null
+            && utlatande.getDodsdatum().isValidDate()
+            && utlatande
+                .getUndersokningDatum()
+                .asLocalDate()
+                .isAfter(utlatande.getDodsdatum().asLocalDate())) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              "yttreUndersokning",
+              UNDERSOKNING_DATUM_JSON_ID,
+              ValidationMessageType.INCORRECT_COMBINATION,
+              "db.validation.undersokningDatum.after.dodsdatum",
+              UNDERSOKNING_DATUM_DELSVAR_ID);
+        } else if (utlatande.getDodsdatumSakert() != null
+            && utlatande.getDodsdatumSakert()
+            && utlatande.getDodsdatum() != null
+            && utlatande.getDodsdatum().isValidDate()
+            && utlatande
+                .getUndersokningDatum()
+                .asLocalDate()
+                .isBefore(utlatande.getDodsdatum().asLocalDate().minusWeeks(FOUR_WEEKS))) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              "yttreUndersokning",
+              UNDERSOKNING_DATUM_JSON_ID,
+              ValidationMessageType.INCORRECT_COMBINATION,
+              "db.validation.undersokningDatum.before.fourWeeks",
+              UNDERSOKNING_DATUM_DELSVAR_ID);
+        } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
+            && (utlatande.getAntraffatDodDatum() != null
+                && utlatande.getAntraffatDodDatum().isValidDate())
+            && utlatande
+                .getUndersokningDatum()
+                .asLocalDate()
+                .isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              "yttreUndersokning",
+              UNDERSOKNING_DATUM_JSON_ID,
+              ValidationMessageType.INCORRECT_COMBINATION,
+              "db.validation.undersokningDatum.after.antraffatDodDatum",
+              UNDERSOKNING_DATUM_DELSVAR_ID);
+        } else if (utlatande
+            .getUndersokningDatum()
+            .isBefore(
+                ValidatorUtil.getBirthDateFromPersonnummer(
                     utlatande.getGrundData().getPatient().getPersonId()))) {
-                    ValidatorUtil
-                        .addValidationErrorWithQuestionId(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                            ValidationMessageType.OTHER,
-                            "common.validation.date.beforePatientBirthDate", UNDERSOKNING_DATUM_DELSVAR_ID);
-                }
-            }
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              "yttreUndersokning",
+              UNDERSOKNING_DATUM_JSON_ID,
+              ValidationMessageType.OTHER,
+              "common.validation.date.beforePatientBirthDate",
+              UNDERSOKNING_DATUM_DELSVAR_ID);
         }
+      }
     }
+  }
 
-    private void validatePolisanmalan(DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getPolisanmalan() == null) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "polisanmalan", POLISANMALAN_JSON_ID,
-                ValidationMessageType.EMPTY, POLISANMALAN_DELSVAR_ID);
-        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS && !utlatande.getPolisanmalan()) {
-            // R19
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, "polisanmalan", POLISANMALAN_JSON_ID,
-                ValidationMessageType.INCORRECT_COMBINATION, POLISANMALAN_DELSVAR_ID);
-        }
+  private void validatePolisanmalan(
+      DbUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (utlatande.getPolisanmalan() == null) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "polisanmalan",
+          POLISANMALAN_JSON_ID,
+          ValidationMessageType.EMPTY,
+          POLISANMALAN_DELSVAR_ID);
+    } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS
+        && !utlatande.getPolisanmalan()) {
+      // R19
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          "polisanmalan",
+          POLISANMALAN_JSON_ID,
+          ValidationMessageType.INCORRECT_COMBINATION,
+          POLISANMALAN_DELSVAR_ID);
     }
+  }
 }

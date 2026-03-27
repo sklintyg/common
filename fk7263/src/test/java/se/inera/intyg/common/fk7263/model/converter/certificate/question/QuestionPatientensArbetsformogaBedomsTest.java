@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,150 +41,144 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewLis
 @ExtendWith(MockitoExtension.class)
 class QuestionPatientensArbetsformogaBedomsTest {
 
-    @Mock
-    CertificateMessagesProvider messagesProvider;
+  @Mock CertificateMessagesProvider messagesProvider;
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionPatientensArbetsformogaBedoms.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return PATIENTENS_ARBETSFORMAGA_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionPatientensArbetsformogaBedoms.toCertificate(
+          null, null, null, null, 0, messagesProvider);
     }
 
-    @Nested
-    class IncludeConfigViewListTests extends ConfigViewListTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionPatientensArbetsformogaBedoms.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getId() {
+      return PATIENTENS_ARBETSFORMAGA_SVAR_ID;
     }
 
-    @Nested
-    class IncludePatientensArbetsformogaBedomsValueTest {
-
-        @Test
-        void allValuesShouldBeDisplayed() {
-            when(messagesProvider.get(any())).thenReturn("test string");
-
-            final var nuvarandeArbetsuppgifter = "test";
-            final var expectedValue = List.of(
-                CertificateDataValueViewText.builder()
-                    .text("test string" + " - " + nuvarandeArbetsuppgifter)
-                    .build(),
-                CertificateDataValueViewText.builder()
-                    .text("test string")
-                    .build(),
-                CertificateDataValueViewText.builder()
-                    .text("test string")
-                    .build()
-            );
-
-            final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(true,
-                true, true, nuvarandeArbetsuppgifter, 0, messagesProvider);
-
-            final var actualValue = (CertificateDataValueViewList) element.getValue();
-
-            assertEquals(expectedValue, actualValue.getList());
-        }
-
-        @Test
-        void valuesShouldNotBeDisplayed() {
-
-            final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
-                false, false, null, 0, messagesProvider);
-
-            final var actualValue = (CertificateDataValueViewList) element.getValue();
-
-            assertTrue(actualValue.getList().isEmpty());
-        }
-
-        @Test
-        void firstValueShouldBeDisplayed() {
-            when(messagesProvider.get(any())).thenReturn("test string");
-
-            final var expectedValue = List.of(
-                CertificateDataValueViewText.builder()
-                    .text("test string" + " - " + "arbetsuppgifter")
-                    .build()
-            );
-
-            final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(true,
-                false, false, "arbetsuppgifter", 0, messagesProvider);
-
-            final var actualValue = (CertificateDataValueViewList) element.getValue();
-
-            assertEquals(expectedValue, actualValue.getList());
-        }
-
-        @Test
-        void thirdValueShouldBeDisplayed() {
-            when(messagesProvider.get(any())).thenReturn("test string");
-
-            final var expectedValue = List.of(
-                CertificateDataValueViewText.builder()
-                    .text("test string")
-                    .build()
-            );
-
-            final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
-                true, false, null, 0, messagesProvider);
-
-            final var actualValue = (CertificateDataValueViewList) element.getValue();
-
-            assertEquals(expectedValue, actualValue.getList());
-        }
-
-        @Test
-        void secondValueShouldBeDisplayed() {
-            when(messagesProvider.get(any())).thenReturn("test string");
-
-            final var expectedValue = List.of(
-                CertificateDataValueViewText.builder()
-                    .text("test string")
-                    .build()
-            );
-
-            final var element = QuestionPatientensArbetsformogaBedoms.toCertificate(false,
-                true, false, null, 0, messagesProvider);
-
-            final var actualValue = (CertificateDataValueViewList) element.getValue();
-
-            assertEquals(expectedValue, actualValue.getList());
-        }
+    @Override
+    protected String getParent() {
+      return PATIENTENS_ARBETSFORMAGA_CATEGORY_ID;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigViewListTests extends ConfigViewListTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionPatientensArbetsformogaBedoms.toCertificate(
+          null, null, null, null, 0, messagesProvider);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return messagesProvider;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludePatientensArbetsformogaBedomsValueTest {
+
+    @Test
+    void allValuesShouldBeDisplayed() {
+      when(messagesProvider.get(any())).thenReturn("test string");
+
+      final var nuvarandeArbetsuppgifter = "test";
+      final var expectedValue =
+          List.of(
+              CertificateDataValueViewText.builder()
+                  .text("test string" + " - " + nuvarandeArbetsuppgifter)
+                  .build(),
+              CertificateDataValueViewText.builder().text("test string").build(),
+              CertificateDataValueViewText.builder().text("test string").build());
+
+      final var element =
+          QuestionPatientensArbetsformogaBedoms.toCertificate(
+              true, true, true, nuvarandeArbetsuppgifter, 0, messagesProvider);
+
+      final var actualValue = (CertificateDataValueViewList) element.getValue();
+
+      assertEquals(expectedValue, actualValue.getList());
+    }
+
+    @Test
+    void valuesShouldNotBeDisplayed() {
+
+      final var element =
+          QuestionPatientensArbetsformogaBedoms.toCertificate(
+              false, false, false, null, 0, messagesProvider);
+
+      final var actualValue = (CertificateDataValueViewList) element.getValue();
+
+      assertTrue(actualValue.getList().isEmpty());
+    }
+
+    @Test
+    void firstValueShouldBeDisplayed() {
+      when(messagesProvider.get(any())).thenReturn("test string");
+
+      final var expectedValue =
+          List.of(
+              CertificateDataValueViewText.builder()
+                  .text("test string" + " - " + "arbetsuppgifter")
+                  .build());
+
+      final var element =
+          QuestionPatientensArbetsformogaBedoms.toCertificate(
+              true, false, false, "arbetsuppgifter", 0, messagesProvider);
+
+      final var actualValue = (CertificateDataValueViewList) element.getValue();
+
+      assertEquals(expectedValue, actualValue.getList());
+    }
+
+    @Test
+    void thirdValueShouldBeDisplayed() {
+      when(messagesProvider.get(any())).thenReturn("test string");
+
+      final var expectedValue =
+          List.of(CertificateDataValueViewText.builder().text("test string").build());
+
+      final var element =
+          QuestionPatientensArbetsformogaBedoms.toCertificate(
+              false, true, false, null, 0, messagesProvider);
+
+      final var actualValue = (CertificateDataValueViewList) element.getValue();
+
+      assertEquals(expectedValue, actualValue.getList());
+    }
+
+    @Test
+    void secondValueShouldBeDisplayed() {
+      when(messagesProvider.get(any())).thenReturn("test string");
+
+      final var expectedValue =
+          List.of(CertificateDataValueViewText.builder().text("test string").build());
+
+      final var element =
+          QuestionPatientensArbetsformogaBedoms.toCertificate(
+              false, true, false, null, 0, messagesProvider);
+
+      final var actualValue = (CertificateDataValueViewList) element.getValue();
+
+      assertEquals(expectedValue, actualValue.getList());
+    }
+  }
 }

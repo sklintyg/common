@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -57,182 +56,220 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 @ExtendWith(MockitoExtension.class)
 class QuestionArbetsformogaBedomningTest {
 
-    @Mock
-    CertificateMessagesProvider messagesProvider;
+  @Mock CertificateMessagesProvider messagesProvider;
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetsformogaBedomning.toCertificate(null, null, null, null,
-                0, messagesProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return ARBETSFORMAGA_BEDOMNING_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetsformogaBedomning.toCertificate(
+          null, null, null, null, 0, messagesProvider);
     }
 
-    @Nested
-    class IncludeConfigViewTableTests extends ConfigViewTableTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetsformogaBedomning.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
-
-        @Override
-        protected List<ViewColumn> getColumns() {
-            return List.of(
-                ViewColumn.builder()
-                    .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
-                    .text(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
-                    .build(),
-                ViewColumn.builder()
-                    .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
-                    .text(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
-                    .build(),
-                ViewColumn.builder()
-                    .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
-                    .text(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
-                    .build()
-            );
-        }
+    @Override
+    protected String getId() {
+      return ARBETSFORMAGA_BEDOMNING_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueViewTableTests {
-
-        @Test
-        void shouldIncludeTypeValueViewTable() {
-            final var element = QuestionArbetsformogaBedomning.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-            assertEquals(CertificateDataValueType.VIEW_TABLE, element.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeRows() {
-            final var element = QuestionArbetsformogaBedomning.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-            final var value = (CertificateDataValueViewTable) element.getValue();
-
-            assertNotNull(value.getRows());
-        }
-
-        @Test
-        void shouldIncludeRowText() {
-            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
-            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
-            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
-                expectedInternalLocalDateInterval, expectedInternalLocalDateInterval,
-                expectedInternalLocalDateInterval, 0, messagesProvider);
-
-            assertAll(
-                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID),
-                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID),
-                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID),
-                () -> verify(messagesProvider, atLeastOnce()).get(ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID)
-            );
-        }
-
-        @Test
-        void shouldIncludeRowId() {
-            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
-            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
-            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
-                null, null,
-                null, 0, messagesProvider);
-
-            final var value = (CertificateDataValueViewTable) element.getValue();
-
-            assertAll(
-                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID, value.getRows().get(0).getColumns().get(0).getId()),
-                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_FOM_ID, value.getRows().get(0).getColumns().get(1).getId()),
-                () -> assertEquals(ARBETSFORMAGA_BEDOMNING_TOM_ID, value.getRows().get(0).getColumns().get(2).getId())
-            );
-        }
-
-        @Test
-        void shouldIncludeColumns() {
-            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
-            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
-            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
-                expectedInternalLocalDateInterval, expectedInternalLocalDateInterval,
-                expectedInternalLocalDateInterval, 0, messagesProvider);
-            final var value = (CertificateDataValueViewTable) element.getValue();
-
-            assertAll(
-                () -> assertNotNull(value.getRows().get(0).getColumns()),
-                () -> assertNotNull(value.getRows().get(1).getColumns()),
-                () -> assertNotNull(value.getRows().get(2).getColumns()),
-                () -> assertNotNull(value.getRows().get(3).getColumns())
-            );
-        }
-
-        @Test
-        void shouldIncludeColumnsWithValues() {
-            final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
-            expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
-            final var element = QuestionArbetsformogaBedomning.toCertificate(expectedInternalLocalDateInterval,
-                expectedInternalLocalDateInterval, expectedInternalLocalDateInterval,
-                null, 0, messagesProvider);
-            final var value = (CertificateDataValueViewTable) element.getValue();
-
-            assertAll(
-                () -> assertEquals(expectedInternalLocalDateInterval.getFrom().toString(),
-                    value.getRows().get(0).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval.getTom().toString(),
-                    value.getRows().get(0).getColumns().get(2).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval.getFrom().toString(),
-                    value.getRows().get(1).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval.getTom().toString(),
-                    value.getRows().get(1).getColumns().get(2).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval.getFrom().toString(),
-                    value.getRows().get(2).getColumns().get(1).getText()),
-                () -> assertEquals(expectedInternalLocalDateInterval.getTom().toString(),
-                    value.getRows().get(2).getColumns().get(2).getText())
-            );
-        }
-
-        @Test
-        void shouldNotIncludeColumnsWithNoValues() {
-            final var element = QuestionArbetsformogaBedomning.toCertificate(null, null, null,
-                null, 0, messagesProvider);
-            final var value = (CertificateDataValueViewTable) element.getValue();
-
-            assertEquals(0, value.getRows().size());
-        }
+    @Override
+    protected String getParent() {
+      return ARBETSFORMAGA_BEDOMNING_CATEGORY_ID;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigViewTableTests extends ConfigViewTableTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetsformogaBedomning.toCertificate(
+          null, null, null, null, 0, messagesProvider);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return messagesProvider;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+
+    @Override
+    protected List<ViewColumn> getColumns() {
+      return List.of(
+          ViewColumn.builder()
+              .id(ARBETSFORMAGA_BEDOMNING_NEDSATT_ID)
+              .text(ARBETSFORMAGA_BEDOMNING_NEDSATT_TEXT)
+              .build(),
+          ViewColumn.builder()
+              .id(ARBETSFORMAGA_BEDOMNING_FOM_ID)
+              .text(ARBETSFORMAGA_BEDOMNING_FOM_TEXT)
+              .build(),
+          ViewColumn.builder()
+              .id(ARBETSFORMAGA_BEDOMNING_TOM_ID)
+              .text(ARBETSFORMAGA_BEDOMNING_TOM_TEXT)
+              .build());
+    }
+  }
+
+  @Nested
+  class IncludeValueViewTableTests {
+
+    @Test
+    void shouldIncludeTypeValueViewTable() {
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(null, null, null, null, 0, messagesProvider);
+      assertEquals(CertificateDataValueType.VIEW_TABLE, element.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeRows() {
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(null, null, null, null, 0, messagesProvider);
+      final var value = (CertificateDataValueViewTable) element.getValue();
+
+      assertNotNull(value.getRows());
+    }
+
+    @Test
+    void shouldIncludeRowText() {
+      final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+      expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              0,
+              messagesProvider);
+
+      assertAll(
+          () ->
+              verify(messagesProvider, atLeastOnce())
+                  .get(ARBETSFORMAGA_BEDOMNING_NEDSATT_25_TEXT_ID),
+          () ->
+              verify(messagesProvider, atLeastOnce())
+                  .get(ARBETSFORMAGA_BEDOMNING_NEDSATT_50_TEXT_ID),
+          () ->
+              verify(messagesProvider, atLeastOnce())
+                  .get(ARBETSFORMAGA_BEDOMNING_NEDSATT_75_TEXT_ID),
+          () ->
+              verify(messagesProvider, atLeastOnce())
+                  .get(ARBETSFORMAGA_BEDOMNING_NEDSATT_100_TEXT_ID));
+    }
+
+    @Test
+    void shouldIncludeRowId() {
+      final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+      expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(
+              expectedInternalLocalDateInterval, null, null, null, 0, messagesProvider);
+
+      final var value = (CertificateDataValueViewTable) element.getValue();
+
+      assertAll(
+          () ->
+              assertEquals(
+                  ARBETSFORMAGA_BEDOMNING_NEDSATT_ID,
+                  value.getRows().get(0).getColumns().get(0).getId()),
+          () ->
+              assertEquals(
+                  ARBETSFORMAGA_BEDOMNING_FOM_ID,
+                  value.getRows().get(0).getColumns().get(1).getId()),
+          () ->
+              assertEquals(
+                  ARBETSFORMAGA_BEDOMNING_TOM_ID,
+                  value.getRows().get(0).getColumns().get(2).getId()));
+    }
+
+    @Test
+    void shouldIncludeColumns() {
+      final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+      expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              0,
+              messagesProvider);
+      final var value = (CertificateDataValueViewTable) element.getValue();
+
+      assertAll(
+          () -> assertNotNull(value.getRows().get(0).getColumns()),
+          () -> assertNotNull(value.getRows().get(1).getColumns()),
+          () -> assertNotNull(value.getRows().get(2).getColumns()),
+          () -> assertNotNull(value.getRows().get(3).getColumns()));
+    }
+
+    @Test
+    void shouldIncludeColumnsWithValues() {
+      final var expectedInternalLocalDateInterval = new InternalLocalDateInterval();
+      expectedInternalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      expectedInternalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              expectedInternalLocalDateInterval,
+              null,
+              0,
+              messagesProvider);
+      final var value = (CertificateDataValueViewTable) element.getValue();
+
+      assertAll(
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getFrom().toString(),
+                  value.getRows().get(0).getColumns().get(1).getText()),
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getTom().toString(),
+                  value.getRows().get(0).getColumns().get(2).getText()),
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getFrom().toString(),
+                  value.getRows().get(1).getColumns().get(1).getText()),
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getTom().toString(),
+                  value.getRows().get(1).getColumns().get(2).getText()),
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getFrom().toString(),
+                  value.getRows().get(2).getColumns().get(1).getText()),
+          () ->
+              assertEquals(
+                  expectedInternalLocalDateInterval.getTom().toString(),
+                  value.getRows().get(2).getColumns().get(2).getText()));
+    }
+
+    @Test
+    void shouldNotIncludeColumnsWithNoValues() {
+      final var element =
+          QuestionArbetsformogaBedomning.toCertificate(null, null, null, null, 0, messagesProvider);
+      final var value = (CertificateDataValueViewTable) element.getValue();
+
+      assertEquals(0, value.getRows().size());
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,37 +34,31 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionOvrigt {
 
-    private static final short TEXT_LIMIT = 2850;
+  private static final short TEXT_LIMIT = 2850;
 
-    public static CertificateDataElement toCertificate(String ovrigt, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(OVRIGT_SVAR_ID_25)
-            .parent(OVRIGT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(OVRIGT_TEXT_ID))
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_25)
-                    .text(ovrigt)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(OVRIGT_SVAR_ID_25)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String ovrigt, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(OVRIGT_SVAR_ID_25)
+        .parent(OVRIGT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(OVRIGT_TEXT_ID))
+                .id(OVRIGT_SVAR_JSON_ID_25)
+                .build())
+        .value(CertificateDataValueText.builder().id(OVRIGT_SVAR_JSON_ID_25).text(ovrigt).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(OVRIGT_SVAR_ID_25)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), OVRIGT_SVAR_ID_25, OVRIGT_SVAR_JSON_ID_25);
+  }
 }

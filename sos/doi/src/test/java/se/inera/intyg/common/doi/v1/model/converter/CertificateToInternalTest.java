@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -75,342 +75,468 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class CertificateToInternalTest {
 
-    private CertificateToInternal certificateToInternal;
+  private CertificateToInternal certificateToInternal;
 
-    private CertificateTextProvider texts;
-    private DoiUtlatandeV1 expectedInternalCertificate;
-    private Certificate certificate;
-    private List bidragandSjukdommar;
+  private CertificateTextProvider texts;
+  private DoiUtlatandeV1 expectedInternalCertificate;
+  private Certificate certificate;
+  private List bidragandSjukdommar;
+
+  @BeforeEach
+  void setUp() {
+    certificateToInternal = new CertificateToInternal();
+    bidragandSjukdommar =
+        List.of(
+            Dodsorsak.create(
+                "beskrivning1", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+            Dodsorsak.create(
+                "beskrivning2", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(
+                "beskrivning3", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+            Dodsorsak.create(
+                "beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(
+                "beskrivning5", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(
+                "beskrivning6", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(
+                "beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
+            Dodsorsak.create(
+                "beskrivning8", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS));
+  }
+
+  @Nested
+  class HappyScenario {
 
     @BeforeEach
-    void setUp() {
-        certificateToInternal = new CertificateToInternal();
-        bidragandSjukdommar = List.of(
-            Dodsorsak.create("beskrivning1", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-            Dodsorsak.create("beskrivning2", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create("beskrivning3", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-            Dodsorsak.create("beskrivning4", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create("beskrivning5", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create("beskrivning6", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create("beskrivning7", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS),
-            Dodsorsak.create("beskrivning8", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS)
-        );
+    private void setup() {
+      final var grundData = new GrundData();
+      final var hosPersonal = new HoSPersonal();
+      final var vardenhet = new Vardenhet();
+      final var patient = new Patient();
+      hosPersonal.setVardenhet(vardenhet);
+      grundData.setSkapadAv(hosPersonal);
+      grundData.setPatient(patient);
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+
+      expectedInternalCertificate =
+          DoiUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setIdentitetStyrkt("IdentitetStyrkt")
+              .setLand("Land")
+              .setDodsdatumSakert(true)
+              .setDodsdatum(new InternalDate(LocalDate.now()))
+              .setAntraffatDodDatum(new InternalDate(LocalDate.now()))
+              .setDodsplatsKommun("DodsplatsKommun")
+              .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
+              .setBarn(true)
+              .setTerminalDodsorsak(
+                  Dodsorsak.create(
+                      "description", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
+              .setFoljd(
+                  List.of(
+                      Dodsorsak.create(
+                          "beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+                      Dodsorsak.create("beskrivning2", null, null),
+                      Dodsorsak.create("beskrivning3", null, null)))
+              .setBidragandeSjukdomar(bidragandSjukdommar)
+              .setOperation(OmOperation.JA)
+              .setOperationDatum(new InternalDate(LocalDate.now()))
+              .setOperationAnledning("OperationAnledning")
+              .setForgiftning(true)
+              .setForgiftningOrsak(ForgiftningOrsak.OLYCKSFALL)
+              .setForgiftningDatum(new InternalDate(LocalDate.now()))
+              .setForgiftningUppkommelse("ForgiftningUppkommelse")
+              .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
+              .build();
+
+      texts = Mockito.mock(CertificateTextProvider.class);
+      when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+
+      certificate =
+          CertificateBuilder.create()
+              .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
+              .addElement(
+                  QuestionIdentitetenStyrkt.toCertificate(
+                      expectedInternalCertificate.getIdentitetStyrkt(), 0, texts))
+              .addElement(
+                  QuestionLand.toCertificate(expectedInternalCertificate.getLand(), 0, texts))
+              .addElement(
+                  QuestionDodsdatumSakert.toCertificate(
+                      expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
+              .addElement(
+                  QuestionDodsdatum.toCertificate(
+                      expectedInternalCertificate.getDodsdatum().asLocalDate(), 0, texts))
+              .addElement(
+                  QuestionAntraffadDod.toCertificate(
+                      expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
+              .addElement(
+                  QuestionDodsplatsKommun.toCertificate(
+                      Collections.emptyList(),
+                      expectedInternalCertificate.getDodsplatsKommun(),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionDodsplatsBoende.toCertificate(
+                      expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
+              .addElement(
+                  QuestionBarn.toCertificate(
+                      expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
+                      expectedInternalCertificate.getBarn(),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionTerminalDodsorsak.toCertificate(
+                      expectedInternalCertificate.getTerminalDodsorsak(), 0, texts))
+              .addElement(
+                  QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                      expectedInternalCertificate.getFoljd().get(0),
+                      0,
+                      texts,
+                      FOLJD_OM_DELSVAR_B_ID,
+                      FOLJD_OM_DELSVAR_B_LABEL))
+              .addElement(
+                  QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                      expectedInternalCertificate.getFoljd().get(1),
+                      0,
+                      texts,
+                      FOLJD_OM_DELSVAR_C_ID,
+                      FOLJD_OM_DELSVAR_C_LABEL))
+              .addElement(
+                  QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                      expectedInternalCertificate.getFoljd().get(2),
+                      0,
+                      texts,
+                      FOLJD_OM_DELSVAR_D_ID,
+                      FOLJD_OM_DELSVAR_D_LABEL))
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
+              .addElement(
+                  QuestionOperation.toCertificate(
+                      expectedInternalCertificate.getOperation(), 0, texts))
+              .addElement(
+                  QuestionOperationDatum.toCertificate(
+                      expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
+              .addElement(
+                  QuestionOperationAnledning.toCertificate(
+                      expectedInternalCertificate.getOperationAnledning(), 0, texts))
+              .addElement(
+                  QuestionForgiftningOm.toCertificate(
+                      expectedInternalCertificate.getForgiftning(), 0, texts))
+              .addElement(
+                  QuestionForgiftningOrsak.toCertificate(
+                      expectedInternalCertificate.getForgiftningOrsak(), 0, texts))
+              .addElement(
+                  QuestionForgiftningDatum.toCertificate(
+                      expectedInternalCertificate.getForgiftningDatum().asLocalDate(), 0, texts))
+              .addElement(
+                  QuestionForgiftningUppkommelse.toCertificate(
+                      expectedInternalCertificate.getForgiftningUppkommelse(), 0, texts))
+              .addElement(
+                  QuestionGrunderDodsorsaksuppgifter.toCertificate(
+                      expectedInternalCertificate.getGrunder(), 0, texts))
+              .build();
     }
 
-    @Nested
-    class HappyScenario {
-
-        @BeforeEach
-        private void setup() {
-            final var grundData = new GrundData();
-            final var hosPersonal = new HoSPersonal();
-            final var vardenhet = new Vardenhet();
-            final var patient = new Patient();
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-            grundData.setPatient(patient);
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-
-            expectedInternalCertificate = DoiUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setIdentitetStyrkt("IdentitetStyrkt")
-                .setLand("Land")
-                .setDodsdatumSakert(true)
-                .setDodsdatum(new InternalDate(LocalDate.now()))
-                .setAntraffatDodDatum(new InternalDate(LocalDate.now()))
-                .setDodsplatsKommun("DodsplatsKommun")
-                .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
-                .setBarn(true)
-                .setTerminalDodsorsak(Dodsorsak.create("description", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
-                .setFoljd(List.of(
-                    Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-                    Dodsorsak.create("beskrivning2", null, null),
-                    Dodsorsak.create("beskrivning3", null, null)
-                ))
-                .setBidragandeSjukdomar(bidragandSjukdommar)
-                .setOperation(OmOperation.JA)
-                .setOperationDatum(new InternalDate(LocalDate.now()))
-                .setOperationAnledning("OperationAnledning")
-                .setForgiftning(true)
-                .setForgiftningOrsak(ForgiftningOrsak.OLYCKSFALL)
-                .setForgiftningDatum(new InternalDate(LocalDate.now()))
-                .setForgiftningUppkommelse("ForgiftningUppkommelse")
-                .setGrunder(List.of(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN))
-                .build();
-
-            texts = Mockito.mock(CertificateTextProvider.class);
-            when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-
-            certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
-                .addElement(QuestionIdentitetenStyrkt.toCertificate(expectedInternalCertificate.getIdentitetStyrkt(), 0, texts))
-                .addElement(QuestionLand.toCertificate(expectedInternalCertificate.getLand(), 0, texts))
-                .addElement(QuestionDodsdatumSakert.toCertificate(expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
-                .addElement(QuestionDodsdatum.toCertificate(expectedInternalCertificate.getDodsdatum().asLocalDate(), 0, texts))
-                .addElement(QuestionAntraffadDod.toCertificate(expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
-                .addElement(
-                    QuestionDodsplatsKommun.toCertificate(Collections.emptyList(), expectedInternalCertificate.getDodsplatsKommun(), 0,
-                        texts))
-                .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
-                .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
-                    expectedInternalCertificate.getBarn(), 0, texts))
-                .addElement(QuestionTerminalDodsorsak.toCertificate(expectedInternalCertificate.getTerminalDodsorsak(), 0, texts))
-                .addElement(
-                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(0),
-                        0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL)
-                )
-                .addElement(
-                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(1),
-                        0, texts, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_C_LABEL)
-                )
-                .addElement(
-                    QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedInternalCertificate.getFoljd().get(2),
-                        0, texts, FOLJD_OM_DELSVAR_D_ID, FOLJD_OM_DELSVAR_D_LABEL)
-                )
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
-                .addElement(QuestionOperation.toCertificate(expectedInternalCertificate.getOperation(), 0, texts))
-                .addElement(QuestionOperationDatum.toCertificate(expectedInternalCertificate.getOperationDatum().asLocalDate(), 0, texts))
-                .addElement(QuestionOperationAnledning.toCertificate(expectedInternalCertificate.getOperationAnledning(), 0, texts))
-                .addElement(QuestionForgiftningOm.toCertificate(expectedInternalCertificate.getForgiftning(), 0, texts))
-                .addElement(QuestionForgiftningOrsak.toCertificate(expectedInternalCertificate.getForgiftningOrsak(), 0, texts))
-                .addElement(
-                    QuestionForgiftningDatum.toCertificate(expectedInternalCertificate.getForgiftningDatum().asLocalDate(), 0, texts))
-                .addElement(QuestionForgiftningUppkommelse.toCertificate(expectedInternalCertificate.getForgiftningUppkommelse(), 0, texts))
-                .addElement(QuestionGrunderDodsorsaksuppgifter.toCertificate(expectedInternalCertificate.getGrunder(), 0, texts))
-                .build();
-        }
-
-        @Test
-        void shallIncludeId() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
-        }
-
-        @Test
-        void shallIncludeTextVersion() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
-        }
-
-        @Test
-        void shallIncludeGrundData() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
-        }
-
-        @Test
-        void shallIncludeIdentitetStyrkt() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getIdentitetStyrkt(), actualInternalCertificate.getIdentitetStyrkt());
-        }
-
-        @Test
-        void shallIncludeLand() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getLand(), actualInternalCertificate.getLand());
-        }
-
-        @Test
-        void shallIncludeDodsdatumSakert() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsdatumSakert(), actualInternalCertificate.getDodsdatumSakert());
-        }
-
-        @Test
-        void shallIncludeDodsdatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
-        }
-
-        @Test
-        void shallIncludeAntraffadDoddatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getAntraffatDodDatum(), actualInternalCertificate.getAntraffatDodDatum());
-        }
-
-        @Test
-        void shallIncludeDodsplatsKommun() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsplatsKommun(), actualInternalCertificate.getDodsplatsKommun());
-        }
-
-        @Test
-        void shallIncludeDodsplatsBoende() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsplatsBoende(), actualInternalCertificate.getDodsplatsBoende());
-        }
-
-        @Test
-        void shallIncludeBarn() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getBarn(), actualInternalCertificate.getBarn());
-        }
-
-        @Test
-        void shallIncludeTerminalDodsorsak() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getTerminalDodsorsak(), actualInternalCertificate.getTerminalDodsorsak());
-        }
-
-        @Test
-        void shallIncludeQuestionTerminalDodsorsakFoljdAv() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getFoljd(), actualInternalCertificate.getFoljd());
-        }
-
-        @Test
-        void shallIncludeQuestionBidragandeSjukdomar() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getBidragandeSjukdomar(), actualInternalCertificate.getBidragandeSjukdomar());
-        }
-
-        @Test
-        void shallIncludeOperation() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getOperation(), actualInternalCertificate.getOperation());
-        }
-
-        @Test
-        void shallIncludeOperationDatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getOperationDatum(), actualInternalCertificate.getOperationDatum());
-        }
-
-        @Test
-        void shallIncludeOperationAnledning() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getOperationAnledning(), actualInternalCertificate.getOperationAnledning());
-        }
-
-        @Test
-        void shallIncludeForgiftningOm() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getForgiftning(), actualInternalCertificate.getForgiftning());
-        }
-
-        @Test
-        void shallIncludeForgiftningOrsak() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getForgiftningOrsak(), actualInternalCertificate.getForgiftningOrsak());
-        }
-
-        @Test
-        void shallIncludeForgiftningDatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getForgiftningDatum(), actualInternalCertificate.getForgiftningDatum());
-        }
-
-        @Test
-        void shallIncludeForgiftningUppkommelse() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getForgiftningUppkommelse(), actualInternalCertificate.getForgiftningUppkommelse());
-        }
-
-        @Test
-        void shallIncludeDodsorsakGrunder() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
-        }
+    @Test
+    void shallIncludeId() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
     }
 
-    @Nested
-    class AlternativeScenarioDodsdatumOsakertWithValue {
-
-        @BeforeEach
-        private void setup() {
-            final var grundData = new GrundData();
-            final var hosPersonal = new HoSPersonal();
-            final var vardenhet = new Vardenhet();
-            final var patient = new Patient();
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-            grundData.setPatient(patient);
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-
-            expectedInternalCertificate = DoiUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setIdentitetStyrkt("IdentitetStyrkt")
-                .setDodsdatumSakert(false)
-                .setDodsdatum(new InternalDate("2022-00-00"))
-                .setAntraffatDodDatum(new InternalDate(LocalDate.now()))
-                .setDodsplatsKommun("DodsplatsKommun")
-                .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
-                .setBarn(true)
-                .setBidragandeSjukdomar(bidragandSjukdommar)
-                .build();
-
-            texts = Mockito.mock(CertificateTextProvider.class);
-            when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-
-            certificate = CertificateBuilder.create()
-                .metadata(
-                    MetaDataGrundData.toCertificate(expectedInternalCertificate,
-                        texts))
-                .addElement(QuestionIdentitetenStyrkt.toCertificate(expectedInternalCertificate.getIdentitetStyrkt(), 0, texts))
-                .addElement(QuestionDodsdatumSakert.toCertificate(expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
-                .addElement(QuestionOsakertDodsdatum.toCertificate(expectedInternalCertificate.getDodsdatum().toString(), 0, texts))
-                .addElement(QuestionAntraffadDod.toCertificate(expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
-                .addElement(
-                    QuestionDodsplatsKommun.toCertificate(Collections.emptyList(), expectedInternalCertificate.getDodsplatsKommun(), 0,
-                        texts))
-                .addElement(QuestionDodsplatsBoende.toCertificate(expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
-                .addElement(QuestionBarn.toCertificate(expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
-                    expectedInternalCertificate.getBarn(), 0, texts))
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
-                .build();
-        }
-
-        @Test
-        void shallIncludeOsakertDodsdatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
-        }
+    @Test
+    void shallIncludeTextVersion() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
     }
 
-    @Nested
-    class AlternativeScenarioDodsdatumOsakertNull {
-
-        @BeforeEach
-        private void setup() {
-            final var grundData = new GrundData();
-            final var hosPersonal = new HoSPersonal();
-            final var vardenhet = new Vardenhet();
-            final var patient = new Patient();
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-            grundData.setPatient(patient);
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-
-            expectedInternalCertificate = DoiUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setBidragandeSjukdomar(bidragandSjukdommar)
-                .build();
-
-            texts = Mockito.mock(CertificateTextProvider.class);
-            when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-
-            certificate = CertificateBuilder.create()
-                .metadata(
-                    MetaDataGrundData.toCertificate(expectedInternalCertificate,
-                        texts))
-                .addElement(QuestionOsakertDodsdatum.toCertificate(null, 0, texts))
-                .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
-                .build();
-        }
-
-        @Test
-        void shallIncludeOsakertDodsdatum() {
-            final var actualInternalCertificate = certificateToInternal.convert(certificate,
-                expectedInternalCertificate);
-            assertEquals(expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
-        }
+    @Test
+    void shallIncludeGrundData() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
     }
+
+    @Test
+    void shallIncludeIdentitetStyrkt() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getIdentitetStyrkt(),
+          actualInternalCertificate.getIdentitetStyrkt());
+    }
+
+    @Test
+    void shallIncludeLand() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(expectedInternalCertificate.getLand(), actualInternalCertificate.getLand());
+    }
+
+    @Test
+    void shallIncludeDodsdatumSakert() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsdatumSakert(),
+          actualInternalCertificate.getDodsdatumSakert());
+    }
+
+    @Test
+    void shallIncludeDodsdatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
+    }
+
+    @Test
+    void shallIncludeAntraffadDoddatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getAntraffatDodDatum(),
+          actualInternalCertificate.getAntraffatDodDatum());
+    }
+
+    @Test
+    void shallIncludeDodsplatsKommun() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsplatsKommun(),
+          actualInternalCertificate.getDodsplatsKommun());
+    }
+
+    @Test
+    void shallIncludeDodsplatsBoende() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsplatsBoende(),
+          actualInternalCertificate.getDodsplatsBoende());
+    }
+
+    @Test
+    void shallIncludeBarn() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(expectedInternalCertificate.getBarn(), actualInternalCertificate.getBarn());
+    }
+
+    @Test
+    void shallIncludeTerminalDodsorsak() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getTerminalDodsorsak(),
+          actualInternalCertificate.getTerminalDodsorsak());
+    }
+
+    @Test
+    void shallIncludeQuestionTerminalDodsorsakFoljdAv() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(expectedInternalCertificate.getFoljd(), actualInternalCertificate.getFoljd());
+    }
+
+    @Test
+    void shallIncludeQuestionBidragandeSjukdomar() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getBidragandeSjukdomar(),
+          actualInternalCertificate.getBidragandeSjukdomar());
+    }
+
+    @Test
+    void shallIncludeOperation() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getOperation(), actualInternalCertificate.getOperation());
+    }
+
+    @Test
+    void shallIncludeOperationDatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getOperationDatum(),
+          actualInternalCertificate.getOperationDatum());
+    }
+
+    @Test
+    void shallIncludeOperationAnledning() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getOperationAnledning(),
+          actualInternalCertificate.getOperationAnledning());
+    }
+
+    @Test
+    void shallIncludeForgiftningOm() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getForgiftning(), actualInternalCertificate.getForgiftning());
+    }
+
+    @Test
+    void shallIncludeForgiftningOrsak() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getForgiftningOrsak(),
+          actualInternalCertificate.getForgiftningOrsak());
+    }
+
+    @Test
+    void shallIncludeForgiftningDatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getForgiftningDatum(),
+          actualInternalCertificate.getForgiftningDatum());
+    }
+
+    @Test
+    void shallIncludeForgiftningUppkommelse() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getForgiftningUppkommelse(),
+          actualInternalCertificate.getForgiftningUppkommelse());
+    }
+
+    @Test
+    void shallIncludeDodsorsakGrunder() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getGrunder(), actualInternalCertificate.getGrunder());
+    }
+  }
+
+  @Nested
+  class AlternativeScenarioDodsdatumOsakertWithValue {
+
+    @BeforeEach
+    private void setup() {
+      final var grundData = new GrundData();
+      final var hosPersonal = new HoSPersonal();
+      final var vardenhet = new Vardenhet();
+      final var patient = new Patient();
+      hosPersonal.setVardenhet(vardenhet);
+      grundData.setSkapadAv(hosPersonal);
+      grundData.setPatient(patient);
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+
+      expectedInternalCertificate =
+          DoiUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setIdentitetStyrkt("IdentitetStyrkt")
+              .setDodsdatumSakert(false)
+              .setDodsdatum(new InternalDate("2022-00-00"))
+              .setAntraffatDodDatum(new InternalDate(LocalDate.now()))
+              .setDodsplatsKommun("DodsplatsKommun")
+              .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
+              .setBarn(true)
+              .setBidragandeSjukdomar(bidragandSjukdommar)
+              .build();
+
+      texts = Mockito.mock(CertificateTextProvider.class);
+      when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+
+      certificate =
+          CertificateBuilder.create()
+              .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
+              .addElement(
+                  QuestionIdentitetenStyrkt.toCertificate(
+                      expectedInternalCertificate.getIdentitetStyrkt(), 0, texts))
+              .addElement(
+                  QuestionDodsdatumSakert.toCertificate(
+                      expectedInternalCertificate.getDodsdatumSakert(), 0, texts))
+              .addElement(
+                  QuestionOsakertDodsdatum.toCertificate(
+                      expectedInternalCertificate.getDodsdatum().toString(), 0, texts))
+              .addElement(
+                  QuestionAntraffadDod.toCertificate(
+                      expectedInternalCertificate.getAntraffatDodDatum().asLocalDate(), 0, texts))
+              .addElement(
+                  QuestionDodsplatsKommun.toCertificate(
+                      Collections.emptyList(),
+                      expectedInternalCertificate.getDodsplatsKommun(),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionDodsplatsBoende.toCertificate(
+                      expectedInternalCertificate.getDodsplatsBoende(), 0, texts))
+              .addElement(
+                  QuestionBarn.toCertificate(
+                      expectedInternalCertificate.getGrundData().getPatient().getPersonId(),
+                      expectedInternalCertificate.getBarn(),
+                      0,
+                      texts))
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
+              .build();
+    }
+
+    @Test
+    void shallIncludeOsakertDodsdatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
+    }
+  }
+
+  @Nested
+  class AlternativeScenarioDodsdatumOsakertNull {
+
+    @BeforeEach
+    private void setup() {
+      final var grundData = new GrundData();
+      final var hosPersonal = new HoSPersonal();
+      final var vardenhet = new Vardenhet();
+      final var patient = new Patient();
+      hosPersonal.setVardenhet(vardenhet);
+      grundData.setSkapadAv(hosPersonal);
+      grundData.setPatient(patient);
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+
+      expectedInternalCertificate =
+          DoiUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setBidragandeSjukdomar(bidragandSjukdommar)
+              .build();
+
+      texts = Mockito.mock(CertificateTextProvider.class);
+      when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+
+      certificate =
+          CertificateBuilder.create()
+              .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
+              .addElement(QuestionOsakertDodsdatum.toCertificate(null, 0, texts))
+              .addElement(QuestionBidragandeSjukdomar.toCertificate(bidragandSjukdommar, 0, texts))
+              .build();
+    }
+
+    @Test
+    void shallIncludeOsakertDodsdatum() {
+      final var actualInternalCertificate =
+          certificateToInternal.convert(certificate, expectedInternalCertificate);
+      assertEquals(
+          expectedInternalCertificate.getDodsdatum(), actualInternalCertificate.getDodsdatum());
+    }
+  }
 }

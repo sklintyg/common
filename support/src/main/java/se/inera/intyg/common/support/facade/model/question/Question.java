@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,26 +34,24 @@ import se.inera.intyg.common.support.facade.model.question.Question.QuestionBuil
 @Builder
 public class Question {
 
-    String id;
-    QuestionType type;
-    String subject;
-    String message;
-    String author;
-    LocalDateTime sent;
-    Complement[] complements;
-    boolean isHandled;
-    boolean isForwarded;
-    Answer answer;
-    CertificateRelation answeredByCertificate;
-    Reminder[] reminders;
-    LocalDateTime lastUpdate;
-    LocalDate lastDateToReply;
-    List<ResourceLink> links;
-    String[] contactInfo;
-    String certificateId;
+  String id;
+  QuestionType type;
+  String subject;
+  String message;
+  String author;
+  LocalDateTime sent;
+  Complement[] complements;
+  boolean isHandled;
+  boolean isForwarded;
+  Answer answer;
+  CertificateRelation answeredByCertificate;
+  Reminder[] reminders;
+  LocalDateTime lastUpdate;
+  LocalDate lastDateToReply;
+  List<ResourceLink> links;
+  String[] contactInfo;
+  String certificateId;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class QuestionBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class QuestionBuilder {}
 }

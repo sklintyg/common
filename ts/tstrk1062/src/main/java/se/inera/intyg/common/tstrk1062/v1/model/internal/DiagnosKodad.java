@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,28 +32,24 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class DiagnosKodad {
 
-    @JsonCreator
-    public static DiagnosKodad create(@JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID) String diagnosKod,
-        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID) String diagnosKodSystem,
-        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID) String diagnosBeskrivning,
-        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DISPLAYNAME_JSON_ID) String diagnosDisplayName,
-        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
-        return new AutoValue_DiagnosKodad(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName, diagnosArtal);
-    }
+  @JsonCreator
+  public static DiagnosKodad create(
+      @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID) String diagnosKod,
+      @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID) String diagnosKodSystem,
+      @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID) String diagnosBeskrivning,
+      @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DISPLAYNAME_JSON_ID) String diagnosDisplayName,
+      @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
+    return new AutoValue_DiagnosKodad(
+        diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName, diagnosArtal);
+  }
 
-    @Nullable
-    public abstract String getDiagnosKod();
+  @Nullable public abstract String getDiagnosKod();
 
-    @Nullable
-    public abstract String getDiagnosKodSystem();
+  @Nullable public abstract String getDiagnosKodSystem();
 
-    @Nullable
-    public abstract String getDiagnosBeskrivning();
+  @Nullable public abstract String getDiagnosBeskrivning();
 
-    @Nullable
-    public abstract String getDiagnosDisplayName();
+  @Nullable public abstract String getDiagnosDisplayName();
 
-    @Nullable
-    public abstract String getDiagnosArtal();
-
+  @Nullable public abstract String getDiagnosArtal();
 }

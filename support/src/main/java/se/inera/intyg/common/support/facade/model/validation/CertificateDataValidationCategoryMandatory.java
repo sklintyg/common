@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,13 +31,12 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 @Builder
 public class CertificateDataValidationCategoryMandatory implements CertificateDataValidation {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValidationType type = CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION;
-    ExpressionTypeEnum expressionType;
-    List<CertificateDataValidationMandatory> questions;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValidationType type = CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValidationCategoryMandatoryBuilder {
+  ExpressionTypeEnum expressionType;
+  List<CertificateDataValidationMandatory> questions;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValidationCategoryMandatoryBuilder {}
 }

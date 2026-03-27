@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DESCRIPTION;
@@ -33,38 +32,35 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public class MetaDataGrundData {
 
-    public static CertificateMetadata toCertificate(Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
-        return CertificateMetadata.builder()
-            .id(internalCertificate.getId())
-            .type(internalCertificate.getTyp())
-            .typeVersion(internalCertificate.getTextVersion())
-            .name(Ag7804EntryPoint.MODULE_NAME)
-            .description(texts.get(DESCRIPTION))
-            .unit(
-                Unit.builder()
-                    .unitId(unit.getEnhetsid())
-                    .unitName(unit.getEnhetsnamn())
-                    .address(unit.getPostadress())
-                    .zipCode(unit.getPostnummer())
-                    .city(unit.getPostort())
-                    .email(unit.getEpost())
-                    .phoneNumber(unit.getTelefonnummer())
-                    .build()
-            )
-            .issuedBy(
-                Staff.builder()
-                    .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
-                    .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
-                    .build()
-            )
-            .patient(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
-            )
-            .build();
-    }
+  public static CertificateMetadata toCertificate(
+      Ag7804UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    final var unit = internalCertificate.getGrundData().getSkapadAv().getVardenhet();
+    return CertificateMetadata.builder()
+        .id(internalCertificate.getId())
+        .type(internalCertificate.getTyp())
+        .typeVersion(internalCertificate.getTextVersion())
+        .name(Ag7804EntryPoint.MODULE_NAME)
+        .description(texts.get(DESCRIPTION))
+        .unit(
+            Unit.builder()
+                .unitId(unit.getEnhetsid())
+                .unitName(unit.getEnhetsnamn())
+                .address(unit.getPostadress())
+                .zipCode(unit.getPostnummer())
+                .city(unit.getPostort())
+                .email(unit.getEpost())
+                .phoneNumber(unit.getTelefonnummer())
+                .build())
+        .issuedBy(
+            Staff.builder()
+                .personId(internalCertificate.getGrundData().getSkapadAv().getPersonId())
+                .fullName(internalCertificate.getGrundData().getSkapadAv().getFullstandigtNamn())
+                .build())
+        .patient(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient()))
+        .build();
+  }
 
-    public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
-        return grundData(metadata, grundData);
-    }
+  public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
+    return grundData(metadata, grundData);
+  }
 }

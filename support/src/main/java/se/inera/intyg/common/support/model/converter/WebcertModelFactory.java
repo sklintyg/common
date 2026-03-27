@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,28 +23,25 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 
-/**
- * Factory for creating an editable model.
- */
+/** Factory for creating an editable model. */
 public interface WebcertModelFactory<T extends Utlatande> {
 
-    /**
-     * Create a new draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link Utlatande} of implementing type
-     * @throws ConverterException if an error occurs
-     */
-    T createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException;
+  /**
+   * Create a new draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link Utlatande} of implementing type
+   * @throws ConverterException if an error occurs
+   */
+  T createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException;
 
-    /**
-     * Create a new draft as a copy of template and pre-populated with the attached data.
-     *
-     * @param copyData {@link CreateDraftCopyHolder}
-     * @param template the {@link Utlatande} to copy
-     * @return {@link Utlatande} of implementing type
-     * @throws ConverterException if an error occurs
-     */
-    T createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException;
-
+  /**
+   * Create a new draft as a copy of template and pre-populated with the attached data.
+   *
+   * @param copyData {@link CreateDraftCopyHolder}
+   * @param template the {@link Utlatande} to copy
+   * @return {@link Utlatande} of implementing type
+   * @throws ConverterException if an error occurs
+   */
+  T createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException;
 }

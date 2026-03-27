@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,18 +19,18 @@
 package se.inera.intyg.common.doi.model.internal;
 
 public enum ForgiftningOrsak {
-    OLYCKSFALL(ForgiftningOrsakConstants.OLYCKSFALL),
-    SJALVMORD(ForgiftningOrsakConstants.SJALVMORD),
-    AVSIKTLIGT_VALLAD(ForgiftningOrsakConstants.AVSIKTLIGT_VALLAD),
-    OKLART(ForgiftningOrsakConstants.OKLART);
+  OLYCKSFALL(ForgiftningOrsakConstants.OLYCKSFALL),
+  SJALVMORD(ForgiftningOrsakConstants.SJALVMORD),
+  AVSIKTLIGT_VALLAD(ForgiftningOrsakConstants.AVSIKTLIGT_VALLAD),
+  OKLART(ForgiftningOrsakConstants.OKLART);
 
-    private final String beskrivning;
+  private final String beskrivning;
 
-    ForgiftningOrsak(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
+  ForgiftningOrsak(final String beskrivning) {
+    this.beskrivning = beskrivning;
+  }
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+  public String getBeskrivning() {
+    return beskrivning;
+  }
 }

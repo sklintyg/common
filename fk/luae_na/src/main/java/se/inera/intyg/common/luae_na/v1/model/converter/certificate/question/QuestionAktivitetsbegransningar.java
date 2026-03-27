@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,42 +36,42 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionAktivitetsbegransningar {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
-            .parent(AKTIVITETSBEGRANSNING_SVAR_ID_17)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID))
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
-                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String textValue, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
+        .parent(AKTIVITETSBEGRANSNING_SVAR_ID_17)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID))
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                .text(textValue)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_17)
+                  .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_17,
-            AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
+  public static String toInternal(Certificate certificate) {
+    return ValueToolkit.textValue(
+        certificate.getData(),
+        AKTIVITETSBEGRANSNING_DELSVAR_ID_17,
+        AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+  }
 }

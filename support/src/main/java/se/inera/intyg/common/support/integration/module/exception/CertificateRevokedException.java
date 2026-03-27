@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,9 +25,9 @@ package se.inera.intyg.common.support.integration.module.exception;
  */
 public class CertificateRevokedException extends Exception {
 
-    private static final long serialVersionUID = 6346409606829031979L;
+  private static final long serialVersionUID = 6346409606829031979L;
 
-    public CertificateRevokedException(String certificateId) {
-        super(String.format("Certificate '%s' has been revoked", certificateId));
-    }
+  public CertificateRevokedException(String certificateId) {
+    super(String.format("Certificate '%s' has been revoked", certificateId));
+  }
 }

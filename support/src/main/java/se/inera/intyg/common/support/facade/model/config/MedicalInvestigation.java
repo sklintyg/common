@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,15 +31,13 @@ import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation.Me
 @Builder
 public class MedicalInvestigation {
 
-    String investigationTypeId;
-    String informationSourceId;
-    String dateId;
-    List<CodeItem> typeOptions;
-    LocalDate maxDate;
-    LocalDate minDate;
+  String investigationTypeId;
+  String informationSourceId;
+  String dateId;
+  List<CodeItem> typeOptions;
+  LocalDate maxDate;
+  LocalDate minDate;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class MedicalInvestigationBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class MedicalInvestigationBuilder {}
 }

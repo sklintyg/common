@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,80 +28,97 @@ import org.springframework.util.Assert;
 @AllArgsConstructor
 public class ValidationMessage {
 
-    String category;
-    String field;
-    String message;
-    ValidationMessageType type;
-    String dynamicKey;
-    String questionId;
+  String category;
+  String field;
+  String message;
+  ValidationMessageType type;
+  String dynamicKey;
+  String questionId;
 
-    public ValidationMessage(String category, String field, ValidationMessageType type) {
-        Assert.hasText(category, "'category' must not be empty");
-        Assert.hasText(field, "'field' must not be empty");
-        Assert.notNull(type, "'type' must not be empty");
-        this.category = category;
-        this.field = field;
-        this.type = type;
-        this.message = null;
-        this.dynamicKey = null;
-        this.questionId = null;
-    }
+  public ValidationMessage(String category, String field, ValidationMessageType type) {
+    Assert.hasText(category, "'category' must not be empty");
+    Assert.hasText(field, "'field' must not be empty");
+    Assert.notNull(type, "'type' must not be empty");
+    this.category = category;
+    this.field = field;
+    this.type = type;
+    this.message = null;
+    this.dynamicKey = null;
+    this.questionId = null;
+  }
 
-    public ValidationMessage(String category, String field, ValidationMessageType type, String message) {
-        Assert.hasText(category, "'category' must not be empty");
-        Assert.hasText(field, "'field' must not be empty");
-        Assert.notNull(type, "'type' must not be empty");
-        Assert.hasText(message, "'message' must not be empty");
-        this.category = category;
-        this.field = field;
-        this.type = type;
-        this.message = message;
-        this.dynamicKey = null;
-        this.questionId = null;
-    }
+  public ValidationMessage(
+      String category, String field, ValidationMessageType type, String message) {
+    Assert.hasText(category, "'category' must not be empty");
+    Assert.hasText(field, "'field' must not be empty");
+    Assert.notNull(type, "'type' must not be empty");
+    Assert.hasText(message, "'message' must not be empty");
+    this.category = category;
+    this.field = field;
+    this.type = type;
+    this.message = message;
+    this.dynamicKey = null;
+    this.questionId = null;
+  }
 
-    public ValidationMessage(String category, String field, ValidationMessageType type, String message, String dynamicKey) {
-        Assert.hasText(category, "'category' must not be empty");
-        Assert.hasText(field, "'field' must not be empty");
-        Assert.notNull(type, "'type' must not be empty");
-        Assert.hasText(message, "'message' must not be empty");
-        Assert.hasText(dynamicKey, "'dynamicLabel' must not be empty");
-        this.category = category;
-        this.field = field;
-        this.type = type;
-        this.message = message;
-        this.dynamicKey = dynamicKey;
-        this.questionId = null;
-    }
+  public ValidationMessage(
+      String category,
+      String field,
+      ValidationMessageType type,
+      String message,
+      String dynamicKey) {
+    Assert.hasText(category, "'category' must not be empty");
+    Assert.hasText(field, "'field' must not be empty");
+    Assert.notNull(type, "'type' must not be empty");
+    Assert.hasText(message, "'message' must not be empty");
+    Assert.hasText(dynamicKey, "'dynamicLabel' must not be empty");
+    this.category = category;
+    this.field = field;
+    this.type = type;
+    this.message = message;
+    this.dynamicKey = dynamicKey;
+    this.questionId = null;
+  }
 
-    public static ValidationMessage create(String category, String field, ValidationMessageType type, String questionId) {
-        return ValidationMessage.builder()
-            .category(category)
-            .field(field)
-            .type(type)
-            .questionId(questionId)
-            .build();
-    }
+  public static ValidationMessage create(
+      String category, String field, ValidationMessageType type, String questionId) {
+    return ValidationMessage.builder()
+        .category(category)
+        .field(field)
+        .type(type)
+        .questionId(questionId)
+        .build();
+  }
 
-    public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String questionId) {
-        return ValidationMessage.builder()
-            .category(category)
-            .field(field)
-            .type(type)
-            .message(message)
-            .questionId(questionId)
-            .build();
-    }
+  public static ValidationMessage create(
+      String category,
+      String field,
+      ValidationMessageType type,
+      String message,
+      String questionId) {
+    return ValidationMessage.builder()
+        .category(category)
+        .field(field)
+        .type(type)
+        .message(message)
+        .questionId(questionId)
+        .build();
+  }
 
-    public static ValidationMessage create(String category, String field, ValidationMessageType type, String message, String dynamicKey,
-        String questionId) {
-        return ValidationMessage.builder()
-            .category(category)
-            .field(field)
-            .type(type)
-            .message(message)
-            .dynamicKey(dynamicKey)
-            .questionId(questionId)
-            .build();
-    }
+  public static ValidationMessage create(
+      String category,
+      String field,
+      ValidationMessageType type,
+      String message,
+      String dynamicKey,
+      String questionId) {
+    return ValidationMessage.builder()
+        .category(category)
+        .field(field)
+        .type(type)
+        .message(message)
+        .dynamicKey(dynamicKey)
+        .questionId(questionId)
+        .build();
+  }
 }

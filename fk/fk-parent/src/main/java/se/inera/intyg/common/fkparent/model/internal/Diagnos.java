@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,31 +23,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- * Created by BESA on 2016-02-23.
- */
+/** Created by BESA on 2016-02-23. */
 @AutoValue
 public abstract class Diagnos {
 
-    @JsonCreator
-    public static Diagnos create(@JsonProperty("diagnosKod") String diagnosKod,
-        @JsonProperty("diagnosKodSystem") String diagnosKodSystem,
-        @JsonProperty("diagnosBeskrivning") String diagnosBeskrivning,
-        @JsonProperty("diagnosDisplayName") String diagnosDisplayName) {
-        return new AutoValue_Diagnos(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName);
-    }
+  @JsonCreator
+  public static Diagnos create(
+      @JsonProperty("diagnosKod") String diagnosKod,
+      @JsonProperty("diagnosKodSystem") String diagnosKodSystem,
+      @JsonProperty("diagnosBeskrivning") String diagnosBeskrivning,
+      @JsonProperty("diagnosDisplayName") String diagnosDisplayName) {
+    return new AutoValue_Diagnos(
+        diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName);
+  }
 
+  @Nullable public abstract String getDiagnosKod();
 
-    @Nullable
-    public abstract String getDiagnosKod();
+  @Nullable public abstract String getDiagnosKodSystem();
 
-    @Nullable
-    public abstract String getDiagnosKodSystem();
+  @Nullable public abstract String getDiagnosBeskrivning();
 
-    @Nullable
-    public abstract String getDiagnosBeskrivning();
-
-    @Nullable
-    public abstract String getDiagnosDisplayName();
-
+  @Nullable public abstract String getDiagnosDisplayName();
 }

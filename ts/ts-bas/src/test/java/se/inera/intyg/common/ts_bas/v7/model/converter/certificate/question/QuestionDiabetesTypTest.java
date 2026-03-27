@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -58,204 +58,203 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesTypTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(Diabetes.builder().build(), 0, textProvider);
     }
+
+    @Override
+    protected String getId() {
+      return TYP_AV_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getParent() {
+      return HAR_DIABETES_CATEGORY_ID;
+    }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigRadioButtonMultipleCodeTests extends ConfigRadioMultipleCodeTest {
+
+    @Override
+    protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
+      return List.of(
+          RadioMultipleCode.builder()
+              .id(DiabetesKod.DIABETES_TYP_1.name())
+              .label(textProvider.get(TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID))
+              .build(),
+          RadioMultipleCode.builder()
+              .id(DiabetesKod.DIABETES_TYP_2.name())
+              .label(textProvider.get(TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID))
+              .build());
+    }
+
+    @Override
+    protected Layout getExpectedLayout() {
+      return Layout.ROWS;
+    }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(Diabetes.builder().build(), 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return TYP_AV_DIABETES_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValueCodeTests extends ValueCodeTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var diabetes =
+          Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build();
+      return QuestionDiabetesTyp.toCertificate(diabetes, 0, textProvider);
+    }
+
+    @Override
+    protected String getCodeId() {
+      return DiabetesKod.DIABETES_TYP_1.name();
+    }
+
+    @Override
+    protected String getCode() {
+      return DiabetesKod.DIABETES_TYP_1.name();
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return TYP_AV_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + DiabetesKod.DIABETES_TYP_1.name()
+          + ") || exists("
+          + DiabetesKod.DIABETES_TYP_2.name()
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return HAR_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + HAR_DIABETES_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class ToInternal {
 
     @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+    @TestInstance(Lifecycle.PER_CLASS)
+    class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, String> {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(Diabetes.builder().build(), 0, textProvider);
-        }
+      @Override
+      protected CertificateDataElement getElement(Diabetes input) {
+        return QuestionDiabetesTyp.toCertificate(input, 0, textProvider);
+      }
 
-        @Override
-        protected String getId() {
-            return TYP_AV_DIABETES_SVAR_ID;
-        }
+      @Override
+      protected String toInternalValue(Certificate certificate) {
+        return QuestionDiabetesTyp.toInternal(certificate);
+      }
 
-        @Override
-        protected String getParent() {
-            return HAR_DIABETES_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+      @Override
+      protected List<InputExpectedValuePair<Diabetes, String>> inputExpectedValuePairList() {
+        return List.of(
+            new InputExpectedValuePair(null, null),
+            new InputExpectedValuePair(Diabetes.builder().setDiabetesTyp(null).build(), null),
+            new InputExpectedValuePair(
+                Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build(),
+                DiabetesKod.DIABETES_TYP_1.name()),
+            new InputExpectedValuePair(
+                Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
+                DiabetesKod.DIABETES_TYP_2.name()));
+      }
     }
 
-    @Nested
-    class IncludeConfigRadioButtonMultipleCodeTests extends ConfigRadioMultipleCodeTest {
+    @Test
+    void shouldHandleCodeWithEmptyStringValues() {
+      final var expectedValue =
+          Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build();
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionDiabetesTyp.toCertificate(expectedValue, 0, textProvider))
+              .build();
 
-        @Override
-        protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
-            return List.of(
-                RadioMultipleCode.builder()
-                    .id(DiabetesKod.DIABETES_TYP_1.name())
-                    .label(textProvider.get(TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID))
-                    .build(),
-                RadioMultipleCode.builder()
-                    .id(DiabetesKod.DIABETES_TYP_2.name())
-                    .label(textProvider.get(TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID))
-                    .build()
-            );
-        }
+      certificate
+          .getData()
+          .put(
+              TYP_AV_DIABETES_SVAR_ID,
+              CertificateDataElement.builder()
+                  .value(CertificateDataValueCode.builder().id("").code("").build())
+                  .build());
 
-        @Override
-        protected Layout getExpectedLayout() {
-            return Layout.ROWS;
-        }
+      final var actualValue = QuestionDiabetesTyp.toInternal(certificate);
 
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(Diabetes.builder().build(), 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return TYP_AV_DIABETES_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+      assertTrue(actualValue.isEmpty());
     }
-
-    @Nested
-    class IncludeValueCodeTests extends ValueCodeTest {
-
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var diabetes = Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build();
-            return QuestionDiabetesTyp.toCertificate(diabetes, 0, textProvider);
-        }
-
-        @Override
-        protected String getCodeId() {
-            return DiabetesKod.DIABETES_TYP_1.name();
-        }
-
-        @Override
-        protected String getCode() {
-            return DiabetesKod.DIABETES_TYP_1.name();
-        }
-    }
-
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return TYP_AV_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + DiabetesKod.DIABETES_TYP_1.name() + ") || exists(" + DiabetesKod.DIABETES_TYP_2.name() + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return HAR_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + HAR_DIABETES_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-    }
-
-    @Nested
-    class ToInternal {
-
-        @Nested
-        @TestInstance(Lifecycle.PER_CLASS)
-        class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, String> {
-
-            @Override
-            protected CertificateDataElement getElement(Diabetes input) {
-                return QuestionDiabetesTyp.toCertificate(input, 0, textProvider);
-            }
-
-            @Override
-            protected String toInternalValue(Certificate certificate) {
-                return QuestionDiabetesTyp.toInternal(certificate);
-            }
-
-            @Override
-            protected List<InputExpectedValuePair<Diabetes, String>> inputExpectedValuePairList() {
-                return List.of(
-                    new InputExpectedValuePair(null, null),
-                    new InputExpectedValuePair(Diabetes.builder().setDiabetesTyp(null).build(), null),
-                    new InputExpectedValuePair(
-                        Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build(),
-                        DiabetesKod.DIABETES_TYP_1.name()
-                    ),
-                    new InputExpectedValuePair(
-                        Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
-                        DiabetesKod.DIABETES_TYP_2.name()
-                    )
-                );
-            }
-        }
-
-        @Test
-        void shouldHandleCodeWithEmptyStringValues() {
-            final var expectedValue = Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_1.name()).build();
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDiabetesTyp.toCertificate(expectedValue, 0, textProvider))
-                .build();
-
-            certificate.getData().put(TYP_AV_DIABETES_SVAR_ID, CertificateDataElement.builder()
-                .value(
-                    CertificateDataValueCode.builder()
-                        .id("")
-                        .code("")
-                        .build()
-                )
-                .build()
-            );
-
-            final var actualValue = QuestionDiabetesTyp.toInternal(certificate);
-
-            assertTrue(actualValue.isEmpty());
-        }
-    }
+  }
 }

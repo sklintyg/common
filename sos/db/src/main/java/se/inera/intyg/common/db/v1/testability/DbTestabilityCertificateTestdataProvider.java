@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.db.v1.testability;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
@@ -48,157 +47,146 @@ import java.util.HashMap;
 import java.util.Map;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.util.TestabilityCertificateTestdataProvider;
 
-public class DbTestabilityCertificateTestdataProvider implements TestabilityCertificateTestdataProvider {
+public class DbTestabilityCertificateTestdataProvider
+    implements TestabilityCertificateTestdataProvider {
 
-    private final String kommun = "Östersund";
-    private final String identitetStyrktText = "Körkort";
-    private final LocalDate antraffadDodDate = LocalDate.of(2022, 5, 23);
+  private final String kommun = "Östersund";
+  private final String identitetStyrktText = "Körkort";
+  private final LocalDate antraffadDodDate = LocalDate.of(2022, 5, 23);
 
-    @Override
-    public Map<String, CertificateDataValue> getMinimumValues() {
-        final var values = new HashMap<String, CertificateDataValue>();
+  @Override
+  public Map<String, CertificateDataValue> getMinimumValues() {
+    final var values = new HashMap<String, CertificateDataValue>();
 
-        final CertificateDataValueText identitetStyrkt = CertificateDataValueText.builder()
+    final CertificateDataValueText identitetStyrkt =
+        CertificateDataValueText.builder()
             .id(IDENTITET_STYRKT_JSON_ID)
             .text(identitetStyrktText)
             .build();
-        values.put(IDENTITET_STYRKT_DELSVAR_ID, identitetStyrkt);
+    values.put(IDENTITET_STYRKT_DELSVAR_ID, identitetStyrkt);
 
-        final CertificateDataValueBoolean dodsdatumSakert = CertificateDataValueBoolean.builder()
-            .id(DODSDATUM_SAKERT_JSON_ID)
-            .selected(true)
-            .build();
-        values.put(DODSDATUM_SAKERT_DELSVAR_ID, dodsdatumSakert);
+    final CertificateDataValueBoolean dodsdatumSakert =
+        CertificateDataValueBoolean.builder().id(DODSDATUM_SAKERT_JSON_ID).selected(true).build();
+    values.put(DODSDATUM_SAKERT_DELSVAR_ID, dodsdatumSakert);
 
-        final CertificateDataValueDate antraffadDod = CertificateDataValueDate.builder()
-            .id(DODSDATUM_JSON_ID)
-            .date(antraffadDodDate)
-            .build();
-        values.put(DODSDATUM_DELSVAR_ID, antraffadDod);
+    final CertificateDataValueDate antraffadDod =
+        CertificateDataValueDate.builder().id(DODSDATUM_JSON_ID).date(antraffadDodDate).build();
+    values.put(DODSDATUM_DELSVAR_ID, antraffadDod);
 
-        final CertificateDataValueText dodsplatsKommun = CertificateDataValueText.builder()
-            .id(DODSPLATS_KOMMUN_JSON_ID)
-            .text(kommun)
-            .build();
-        values.put(DODSPLATS_KOMMUN_DELSVAR_ID, dodsplatsKommun);
+    final CertificateDataValueText dodsplatsKommun =
+        CertificateDataValueText.builder().id(DODSPLATS_KOMMUN_JSON_ID).text(kommun).build();
+    values.put(DODSPLATS_KOMMUN_DELSVAR_ID, dodsplatsKommun);
 
-        final CertificateDataValueCode dodsplatsBoende = CertificateDataValueCode.builder()
+    final CertificateDataValueCode dodsplatsBoende =
+        CertificateDataValueCode.builder()
             .id(DODSPLATS_BOENDE_DELSVAR_ID)
             .code(DodsplatsBoende.ANNAN.name())
             .build();
-        values.put(DODSPLATS_BOENDE_DELSVAR_ID, dodsplatsBoende);
+    values.put(DODSPLATS_BOENDE_DELSVAR_ID, dodsplatsBoende);
 
-        final CertificateDataValueBoolean barnQuestion = CertificateDataValueBoolean.builder()
-            .id(BARN_JSON_ID)
-            .selected(false)
-            .build();
-        values.put(BARN_DELSVAR_ID, barnQuestion);
+    final CertificateDataValueBoolean barnQuestion =
+        CertificateDataValueBoolean.builder().id(BARN_JSON_ID).selected(false).build();
+    values.put(BARN_DELSVAR_ID, barnQuestion);
 
-        final CertificateDataValueBoolean explosivtImplantat = CertificateDataValueBoolean.builder()
+    final CertificateDataValueBoolean explosivtImplantat =
+        CertificateDataValueBoolean.builder()
             .id(EXPLOSIV_IMPLANTAT_JSON_ID)
             .selected(false)
             .build();
-        values.put(EXPLOSIV_IMPLANTAT_DELSVAR_ID, explosivtImplantat);
+    values.put(EXPLOSIV_IMPLANTAT_DELSVAR_ID, explosivtImplantat);
 
-        final CertificateDataValueCode yttreUndersokning = CertificateDataValueCode.builder()
+    final CertificateDataValueCode yttreUndersokning =
+        CertificateDataValueCode.builder()
             .id(Undersokning.JA.name())
             .code(Undersokning.JA.name())
             .build();
-        values.put(UNDERSOKNING_YTTRE_DELSVAR_ID, yttreUndersokning);
+    values.put(UNDERSOKNING_YTTRE_DELSVAR_ID, yttreUndersokning);
 
-        final CertificateDataValueBoolean polisanmalan = CertificateDataValueBoolean.builder()
-            .id(POLISANMALAN_JSON_ID)
-            .selected(true)
-            .build();
-        values.put(POLISANMALAN_DELSVAR_ID, polisanmalan);
+    final CertificateDataValueBoolean polisanmalan =
+        CertificateDataValueBoolean.builder().id(POLISANMALAN_JSON_ID).selected(true).build();
+    values.put(POLISANMALAN_DELSVAR_ID, polisanmalan);
 
-        return values;
-    }
+    return values;
+  }
 
-    @Override
-    public Map<String, CertificateDataValue> getMaximumValues() {
-        final var values = new HashMap<String, CertificateDataValue>();
+  @Override
+  public Map<String, CertificateDataValue> getMaximumValues() {
+    final var values = new HashMap<String, CertificateDataValue>();
 
-        final CertificateDataValueText identitetStyrkt = CertificateDataValueText.builder()
+    final CertificateDataValueText identitetStyrkt =
+        CertificateDataValueText.builder()
             .id(IDENTITET_STYRKT_JSON_ID)
             .text(identitetStyrktText)
             .build();
-        values.put(IDENTITET_STYRKT_DELSVAR_ID, identitetStyrkt);
+    values.put(IDENTITET_STYRKT_DELSVAR_ID, identitetStyrkt);
 
-        final CertificateDataValueBoolean dodsdatumSakert = CertificateDataValueBoolean.builder()
-            .id(DODSDATUM_SAKERT_JSON_ID)
-            .selected(false)
-            .build();
-        values.put(DODSDATUM_SAKERT_DELSVAR_ID, dodsdatumSakert);
+    final CertificateDataValueBoolean dodsdatumSakert =
+        CertificateDataValueBoolean.builder().id(DODSDATUM_SAKERT_JSON_ID).selected(false).build();
+    values.put(DODSDATUM_SAKERT_DELSVAR_ID, dodsdatumSakert);
 
-        final CertificateDataUncertainDateValue osakertDatum = CertificateDataUncertainDateValue.builder()
+    final CertificateDataUncertainDateValue osakertDatum =
+        CertificateDataUncertainDateValue.builder()
             .id(DODSDATUM_JSON_ID)
             .value("2022-05-00")
             .build();
-        values.put(DODSDATUM_OSAKERT_DELSVAR_ID, osakertDatum);
+    values.put(DODSDATUM_OSAKERT_DELSVAR_ID, osakertDatum);
 
-        final CertificateDataValueDate antraffadDod = CertificateDataValueDate.builder()
+    final CertificateDataValueDate antraffadDod =
+        CertificateDataValueDate.builder()
             .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
             .date(antraffadDodDate)
             .build();
-        values.put(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, antraffadDod);
+    values.put(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, antraffadDod);
 
-        final CertificateDataValueText dodsplatsKommun = CertificateDataValueText.builder()
-            .id(DODSPLATS_KOMMUN_JSON_ID)
-            .text(kommun)
-            .build();
-        values.put(DODSPLATS_KOMMUN_DELSVAR_ID, dodsplatsKommun);
+    final CertificateDataValueText dodsplatsKommun =
+        CertificateDataValueText.builder().id(DODSPLATS_KOMMUN_JSON_ID).text(kommun).build();
+    values.put(DODSPLATS_KOMMUN_DELSVAR_ID, dodsplatsKommun);
 
-        final CertificateDataValueCode dodsplatsBoende = CertificateDataValueCode.builder()
+    final CertificateDataValueCode dodsplatsBoende =
+        CertificateDataValueCode.builder()
             .id(DODSPLATS_BOENDE_DELSVAR_ID)
             .code(DodsplatsBoende.ANNAN.name())
             .build();
-        values.put(DODSPLATS_BOENDE_DELSVAR_ID, dodsplatsBoende);
+    values.put(DODSPLATS_BOENDE_DELSVAR_ID, dodsplatsBoende);
 
-        final CertificateDataValueBoolean barnQuestion = CertificateDataValueBoolean.builder()
-            .id(BARN_JSON_ID)
-            .selected(false)
-            .build();
-        values.put(BARN_DELSVAR_ID, barnQuestion);
+    final CertificateDataValueBoolean barnQuestion =
+        CertificateDataValueBoolean.builder().id(BARN_JSON_ID).selected(false).build();
+    values.put(BARN_DELSVAR_ID, barnQuestion);
 
-        final CertificateDataValueBoolean explosivtImplantat = CertificateDataValueBoolean.builder()
-            .id(EXPLOSIV_IMPLANTAT_JSON_ID)
-            .selected(true)
-            .build();
-        values.put(EXPLOSIV_IMPLANTAT_DELSVAR_ID, explosivtImplantat);
+    final CertificateDataValueBoolean explosivtImplantat =
+        CertificateDataValueBoolean.builder().id(EXPLOSIV_IMPLANTAT_JSON_ID).selected(true).build();
+    values.put(EXPLOSIV_IMPLANTAT_DELSVAR_ID, explosivtImplantat);
 
-        final CertificateDataValueBoolean explosivtImplantatAvlagsnat = CertificateDataValueBoolean.builder()
-            .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
-            .selected(true)
-            .build();
-        values.put(EXPLOSIV_AVLAGSNAT_DELSVAR_ID, explosivtImplantatAvlagsnat);
+    final CertificateDataValueBoolean explosivtImplantatAvlagsnat =
+        CertificateDataValueBoolean.builder().id(EXPLOSIV_AVLAGSNAT_JSON_ID).selected(true).build();
+    values.put(EXPLOSIV_AVLAGSNAT_DELSVAR_ID, explosivtImplantatAvlagsnat);
 
-        final CertificateDataValueCode yttreUndersokning = CertificateDataValueCode.builder()
+    final CertificateDataValueCode yttreUndersokning =
+        CertificateDataValueCode.builder()
             .id(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
             .code(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
             .build();
-        values.put(UNDERSOKNING_YTTRE_DELSVAR_ID, yttreUndersokning);
+    values.put(UNDERSOKNING_YTTRE_DELSVAR_ID, yttreUndersokning);
 
-        final CertificateDataValueDate undersokningsDatum = CertificateDataValueDate.builder()
+    final CertificateDataValueDate undersokningsDatum =
+        CertificateDataValueDate.builder()
             .id(UNDERSOKNING_DATUM_JSON_ID)
             .date(antraffadDodDate)
             .build();
-        values.put(UNDERSOKNING_DATUM_DELSVAR_ID, undersokningsDatum);
+    values.put(UNDERSOKNING_DATUM_DELSVAR_ID, undersokningsDatum);
 
-        final CertificateDataValueBoolean polisanmalan = CertificateDataValueBoolean.builder()
-            .id(POLISANMALAN_JSON_ID)
-            .selected(true)
-            .build();
-        values.put(POLISANMALAN_DELSVAR_ID, polisanmalan);
+    final CertificateDataValueBoolean polisanmalan =
+        CertificateDataValueBoolean.builder().id(POLISANMALAN_JSON_ID).selected(true).build();
+    values.put(POLISANMALAN_DELSVAR_ID, polisanmalan);
 
-        return values;
-    }
+    return values;
+  }
 }

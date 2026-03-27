@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -31,21 +30,18 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionHypoglykemiAllvarligForekomstTrafiken {
 
-    public static CertificateDataElement toCertificate(Boolean allvarligForekomst, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_ID)
-            .parent(HYPOGLYKEMI_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(allvarligForekomst))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean allvarligForekomst, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_ID)
+        .parent(HYPOGLYKEMI_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_TRAFIKEN_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder().text(booleanValue(allvarligForekomst)).build())
+        .build();
+  }
 }

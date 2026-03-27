@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,19 +19,19 @@
 package se.inera.intyg.common.doi.model.internal;
 
 public enum Dodsorsaksgrund {
-    UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
-    UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
-    KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
-    RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
-    RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
+  UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
+  UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
+  KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
+  RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
+  RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
 
-    private final String beskrivning;
+  private final String beskrivning;
 
-    Dodsorsaksgrund(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
+  Dodsorsaksgrund(final String beskrivning) {
+    this.beskrivning = beskrivning;
+  }
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+  public String getBeskrivning() {
+    return beskrivning;
+  }
 }

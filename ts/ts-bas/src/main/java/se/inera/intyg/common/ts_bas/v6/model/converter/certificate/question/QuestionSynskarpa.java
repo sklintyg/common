@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -47,111 +46,125 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 
 public class QuestionSynskarpa {
 
-    private static final String NOT_SPECIFIED = "Ej Angivet";
+  private static final String NOT_SPECIFIED = "Ej Angivet";
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var binokulart = syn != null && syn.getBinokulart() != null ? syn.getBinokulart() : null;
-        final var hogerOga = syn != null && syn.getHogerOga() != null ? syn.getHogerOga() : null;
-        final var vansterOga = syn != null && syn.getVansterOga() != null ? syn.getVansterOga() : null;
-        return CertificateDataElement.builder()
-            .id(VARDEN_FOR_SYNSKARPA_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewTable.builder()
-                    .text(textProvider.get(SYNKARPA_TEXT_ID))
-                    .columns(
-                        List.of(
-                            ViewColumn.builder()
-                                .id(SYNSKARPA_TYP_ID)
-                                .build(),
-                            ViewColumn.builder()
-                                .id(UTAN_KORREKTION_ID)
-                                .text(textProvider.get(UTAN_KORREKTION_TEXT_ID))
-                                .build(),
-                            ViewColumn.builder()
-                                .id(MED_KORREKTION_ID)
-                                .text(textProvider.get(MED_KORREKTION_TEXT_ID))
-                                .build(),
-                            ViewColumn.builder()
-                                .id(KONTAKTLINSER_ID)
-                                .text(textProvider.get(KONTAKTLINSER_TEXT_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewTable.builder()
-                    .rows(
-                        List.of(
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(HOGER_OGA_LABEL_ID))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(hogerOga != null ? doubleValue(hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(hogerOga != null ? doubleValue(hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(KONTAKTLINSER_ID)
-                                            .text(hogerOga != null ? booleanValue(hogerOga.getKontaktlins()) : NOT_SPECIFIED)
-                                            .build()
-                                    ))
-                                .build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(VANSTER_OGA_LABEL_ID))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(vansterOga != null ? doubleValue(vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(vansterOga != null ? doubleValue(vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(KONTAKTLINSER_ID)
-                                            .text(vansterOga != null ? booleanValue(vansterOga.getKontaktlins()) : NOT_SPECIFIED)
-                                            .build()
-                                    ))
-                                .build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(BINOKULART_LABEL_ID))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(binokulart != null ? doubleValue(binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(binokulart != null ? doubleValue(binokulart.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(KONTAKTLINSER_ID)
-                                            .text("-")
-                                            .build()
-                                    ))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var binokulart = syn != null && syn.getBinokulart() != null ? syn.getBinokulart() : null;
+    final var hogerOga = syn != null && syn.getHogerOga() != null ? syn.getHogerOga() : null;
+    final var vansterOga = syn != null && syn.getVansterOga() != null ? syn.getVansterOga() : null;
+    return CertificateDataElement.builder()
+        .id(VARDEN_FOR_SYNSKARPA_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewTable.builder()
+                .text(textProvider.get(SYNKARPA_TEXT_ID))
+                .columns(
+                    List.of(
+                        ViewColumn.builder().id(SYNSKARPA_TYP_ID).build(),
+                        ViewColumn.builder()
+                            .id(UTAN_KORREKTION_ID)
+                            .text(textProvider.get(UTAN_KORREKTION_TEXT_ID))
+                            .build(),
+                        ViewColumn.builder()
+                            .id(MED_KORREKTION_ID)
+                            .text(textProvider.get(MED_KORREKTION_TEXT_ID))
+                            .build(),
+                        ViewColumn.builder()
+                            .id(KONTAKTLINSER_ID)
+                            .text(textProvider.get(KONTAKTLINSER_TEXT_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueViewTable.builder()
+                .rows(
+                    List.of(
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(HOGER_OGA_LABEL_ID))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            hogerOga != null
+                                                ? doubleValue(hogerOga.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            hogerOga != null
+                                                ? doubleValue(hogerOga.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(KONTAKTLINSER_ID)
+                                        .text(
+                                            hogerOga != null
+                                                ? booleanValue(hogerOga.getKontaktlins())
+                                                : NOT_SPECIFIED)
+                                        .build()))
+                            .build(),
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(VANSTER_OGA_LABEL_ID))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            vansterOga != null
+                                                ? doubleValue(vansterOga.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            vansterOga != null
+                                                ? doubleValue(vansterOga.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(KONTAKTLINSER_ID)
+                                        .text(
+                                            vansterOga != null
+                                                ? booleanValue(vansterOga.getKontaktlins())
+                                                : NOT_SPECIFIED)
+                                        .build()))
+                            .build(),
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(BINOKULART_LABEL_ID))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            binokulart != null
+                                                ? doubleValue(binokulart.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            binokulart != null
+                                                ? doubleValue(binokulart.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(KONTAKTLINSER_ID)
+                                        .text("-")
+                                        .build()))
+                            .build()))
+                .build())
+        .build();
+  }
 }

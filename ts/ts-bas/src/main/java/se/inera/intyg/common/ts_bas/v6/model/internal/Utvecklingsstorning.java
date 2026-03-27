@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,28 +27,24 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Utvecklingsstorning.Builder.class)
 public abstract class Utvecklingsstorning {
 
-    public static Builder builder() {
-        return new AutoValue_Utvecklingsstorning.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Utvecklingsstorning.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Utvecklingsstorning build();
+    public abstract Utvecklingsstorning build();
 
-        @JsonProperty("psykiskUtvecklingsstorning")
-        public abstract Builder setPsykiskUtvecklingsstorning(Boolean psykiskUtvecklingsstorning);
+    @JsonProperty("psykiskUtvecklingsstorning")
+    public abstract Builder setPsykiskUtvecklingsstorning(Boolean psykiskUtvecklingsstorning);
 
-        @JsonProperty("harSyndrom")
-        public abstract Builder setHarSyndrom(Boolean harSyndrom);
-    }
+    @JsonProperty("harSyndrom")
+    public abstract Builder setHarSyndrom(Boolean harSyndrom);
+  }
 
+  @Nullable public abstract Boolean getPsykiskUtvecklingsstorning();
 
-    @Nullable
-    public abstract Boolean getPsykiskUtvecklingsstorning();
-
-    // ADHD, Aspergers syndrom, DAMP etc.
-    @Nullable
-    public abstract Boolean getHarSyndrom();
-
+  // ADHD, Aspergers syndrom, DAMP etc.
+  @Nullable public abstract Boolean getHarSyndrom();
 }

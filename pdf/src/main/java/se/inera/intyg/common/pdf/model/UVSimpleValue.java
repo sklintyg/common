@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,46 +25,47 @@ import com.itextpdf.layout.element.Paragraph;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a uv-simple-value.
- */
+/** Renders a uv-simple-value. */
 public class UVSimpleValue extends UVComponent {
 
-    private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
+  private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
 
-    public UVSimpleValue(UVRenderer renderer) {
-        super(renderer);
+  public UVSimpleValue(UVRenderer renderer) {
+    super(renderer);
+  }
+
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    // Handle any modelPropOverride for this "modelProp"
+    if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
+      return true;
     }
-
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        // Handle any modelPropOverride for this "modelProp"
-        if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
-            return true;
-        }
-        String modelProp = (String) currentUvNode.get(MODEL_PROP);
-        Object value = renderer.evalValueFromModel(modelProp);
-        Object unit = currentUvNode.get("unit");
-        StringBuilder outputText = new StringBuilder();
-        if (value != null) {
-            outputText.append(value.toString());
-            if (unit != null) {
-                outputText.append(" ");
-                outputText.append(unit.toString());
-            }
-        } else {
-            outputText.append(UVComponent.EJ_ANGIVET_STR);
-        }
-        parent.add(new Paragraph(outputText.toString()).setItalic()
+    String modelProp = (String) currentUvNode.get(MODEL_PROP);
+    Object value = renderer.evalValueFromModel(modelProp);
+    Object unit = currentUvNode.get("unit");
+    StringBuilder outputText = new StringBuilder();
+    if (value != null) {
+      outputText.append(value.toString());
+      if (unit != null) {
+        outputText.append(" ");
+        outputText.append(unit.toString());
+      }
+    } else {
+      outputText.append(UVComponent.EJ_ANGIVET_STR);
+    }
+    parent.add(
+        new Paragraph(outputText.toString())
+            .setItalic()
             .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
             .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
             .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
             .setFont(renderer.svarFont)
             .setFontSize(SVAR_FONT_SIZE)
-            .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
-            .setKeepTogether(false)
-        );
+            .setPadding(0f)
+            .setMarginTop(0f)
+            .setMarginBottom(0f)
+            .setKeepTogether(false));
 
-        return true;
-    }
+    return true;
+  }
 }

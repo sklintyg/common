@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,178 +49,175 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 @ExtendWith(MockitoExtension.class)
 class QuestionBeskrivningRiskfaktorerTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigTextAreaTest {
 
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getTextId() {
+        return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected String getParent() {
-                return HJART_ELLER_KARLSJUKDOM_CATEGORY_ID;
-            }
-
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigTextAreaTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                final var hjartKarlText = HjartKarl.builder().setBeskrivningRiskfaktorer("text").build();
-                return QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarlText, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
-            }
-
-            @Override
-            protected String getText() {
-                return "text";
-            }
-
-
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeValidationShow extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return RISKFAKTORER_STROKE_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + RISKFAKTORER_STROKE_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Nested
-        class IncludeValidationTextTest extends ValidationTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 2;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 180;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalTextValueTest extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        final var hjartKarlText = HjartKarl.builder().setBeskrivningRiskfaktorer("text").build();
+        return QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarlText, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                final var hjartKarlText = HjartKarl.builder().setBeskrivningRiskfaktorer(expectedValue).build();
-                return QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarlText, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionBeskrivningRiskfaktorer.toInternal(certificate);
-            }
-        }
+      @Override
+      protected String getText() {
+        return "text";
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+
+    @Nested
+    class IncludeValidationShow extends ValidationShowTest {
+
+      @Override
+      protected String getQuestionId() {
+        return RISKFAKTORER_STROKE_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + RISKFAKTORER_STROKE_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+    }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionBeskrivningRiskfaktorer.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 2;
+      }
+
+      @Override
+      protected short getLimit() {
+        return 180;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        final var hjartKarlText =
+            HjartKarl.builder().setBeskrivningRiskfaktorer(expectedValue).build();
+        return QuestionBeskrivningRiskfaktorer.toCertificate(hjartKarlText, 0, textProvider);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionBeskrivningRiskfaktorer.toInternal(certificate);
+      }
+    }
+  }
 }

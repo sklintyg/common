@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,41 +37,40 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionDiagnosForNyBedomning {
 
+  public static CertificateDataElement toCertificate(
+      String nyBedomning, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
+        .parent(NYDIAGNOS_SVAR_ID_45)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
+                .text(texts.get(DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
+                .text(nyBedomning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(NYDIAGNOS_SVAR_ID_45)
+                  .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
+                  .expression(singleExpression(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(String nyBedomning, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
-            .parent(NYDIAGNOS_SVAR_ID_45)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .text(texts.get(DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45)
-                    .text(nyBedomning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(NYDIAGNOS_SVAR_ID_45)
-                        .expression(singleExpression(DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45)
-                        .expression(singleExpression(DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(
-            certificate.getData(), DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45, DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
-    }
+  public static String toInternal(Certificate certificate) {
+    return ValueToolkit.textValue(
+        certificate.getData(),
+        DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45,
+        DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45);
+  }
 }

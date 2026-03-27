@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -75,222 +75,264 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
-    private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
-    @Autowired
-    private InternalToCertificate internalToCertificate;
-    @Autowired
-    private CertificateToInternal certificateToInternal;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
-    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
-    private String pdfMinaIntygMarginText;
-    public static final String SCHEMATRON_FILE = "luse.v1.sch";
-    private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
-    private Map<String, String> validationMessages;
+  private static final String ADDITIONAL_INFO_LABEL = "Avser diagnos";
+  @Autowired private InternalToCertificate internalToCertificate;
+  @Autowired private CertificateToInternal certificateToInternal;
 
-    public LuseModuleApiV1() {
-        super(LuseUtlatandeV1.class);
-        init();
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
+
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
+
+  @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+  private String pdfMinaIntygMarginText;
+
+  public static final String SCHEMATRON_FILE = "luse.v1.sch";
+  private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
+  private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
+  private Map<String, String> validationMessages;
+
+  public LuseModuleApiV1() {
+    super(LuseUtlatandeV1.class);
+    init();
+  }
+
+  private void init() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("luse-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    private void init() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2
-                = new ClassPathResource("luse-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
+  /** {@inheritDoc} */
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    try {
+      LuseUtlatandeV1 luseIntyg = getInternal(internalModel);
+      LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
+      IntygTexts texts = getTexts(LuseEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
+
+      final FkPdfDefinition fkPdfDefinition =
+          builder.buildPdfDefinition(
+              luseIntyg, statuses, applicationOrigin, texts, utkastStatus, pdfMinaIntygMarginText);
+
+      return new PdfResponse(
+          PdfGenerator.generatePdf(fkPdfDefinition, CERTIFICATE_FILE_PREFIX),
+          PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
+    } catch (PdfGeneratorException e) {
+      LOG.error("Failed to generate PDF for certificate!", e);
+      throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
     }
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        try {
-            LuseUtlatandeV1 luseIntyg = getInternal(internalModel);
-            LusePdfDefinitionBuilder builder = new LusePdfDefinitionBuilder();
-            IntygTexts texts = getTexts(LuseEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
-
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus,
-                pdfMinaIntygMarginText);
-
-            return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition, CERTIFICATE_FILE_PREFIX),
-                PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
-        } catch (PdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
-        }
+  @Override
+  protected LuseUtlatandeV1 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1);
+      return luseUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
+  }
 
-    @Override
-    protected LuseUtlatandeV1 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1);
-            return luseUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
+  @Override
+  protected LuseUtlatandeV1 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1, created);
+      return luseUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
+  }
 
-    @Override
-    protected LuseUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1, created);
-            return luseUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    throw new RuntimeException("Not implemented");
+  }
 
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus)
-        throws ModuleException {
-        throw new RuntimeException("Not implemented");
-    }
+  @Override
+  protected String getSchematronFileName() {
+    return SCHEMATRON_FILE;
+  }
 
-    @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
-    }
+  @Override
+  protected RegisterCertificateType internalToTransport(LuseUtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande, moduleService);
+  }
 
-    @Override
-    protected RegisterCertificateType internalToTransport(LuseUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande, moduleService);
-    }
+  @Override
+  protected LuseUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
 
-    @Override
-    protected LuseUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
+  @Override
+  protected Intyg utlatandeToIntyg(LuseUtlatandeV1 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande, moduleService);
+  }
 
-    @Override
-    protected Intyg utlatandeToIntyg(LuseUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande, moduleService);
-    }
-
-    @Override
-    protected LuseUtlatandeV1 decorateDiagnoserWithDescriptions(LuseUtlatandeV1 utlatande) {
-        List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
-            .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
-                moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
+  @Override
+  protected LuseUtlatandeV1 decorateDiagnoserWithDescriptions(LuseUtlatandeV1 utlatande) {
+    List<Diagnos> decoratedDiagnoser =
+        utlatande.getDiagnoser().stream()
+            .map(
+                diagnos ->
+                    Diagnos.create(
+                        diagnos.getDiagnosKod(),
+                        diagnos.getDiagnosKodSystem(),
+                        diagnos.getDiagnosBeskrivning(),
+                        moduleService.getDescriptionFromDiagnosKod(
+                            diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
             .collect(Collectors.toList());
-        return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
+    return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
+  }
+
+  @Override
+  protected LuseUtlatandeV1 decorateUtkastWithComment(LuseUtlatandeV1 utlatande, String comment) {
+    return utlatande.toBuilder()
+        .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+        .build();
+  }
+
+  @Override
+  protected LuseUtlatandeV1 decorateWithSignature(
+      LuseUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
+
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    try {
+      ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();
+      if (!diagnoser.isEmpty()) {
+        return diagnoser.get(0).getDiagnosBeskrivning();
+      } else {
+        return null;
+      }
+    } catch (ConverterException e) {
+      throw new ModuleException(
+          "Could convert Intyg to Utlatande and as a result could not get additional info", e);
     }
+  }
 
-    @Override
-    protected LuseUtlatandeV1 decorateUtkastWithComment(LuseUtlatandeV1 utlatande, String comment) {
-        return utlatande.toBuilder()
-            .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
-            .build();
+  @Override
+  public Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate)
+      throws ModuleException {
+    final var additionalMetaData = new AdditionalMetaData();
+
+    final var luseCertificate = convertToInternal(certificate);
+    final var diagnoses = getDiagnoses(luseCertificate.getDiagnoser());
+
+    additionalMetaData.setDiagnoses(diagnoses);
+
+    return Optional.of(additionalMetaData);
+  }
+
+  private LuseUtlatandeV1 convertToInternal(Intyg certificate) throws ModuleException {
+    try {
+      return transportToInternal(certificate);
+    } catch (ConverterException e) {
+      throw new ModuleException("Could convert Intyg to Utlatande", e);
     }
+  }
 
-    @Override
-    protected LuseUtlatandeV1 decorateWithSignature(LuseUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    final var dynamicKeys = getDynamicKeyMap();
+    return DefaultCertificateMessagesProvider.create(validationMessages, dynamicKeys);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof LuseUtlatandeV1) {
+      return toInternalModelResponse((LuseUtlatandeV1) utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class LuseUtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        try {
-            ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();
-            if (!diagnoser.isEmpty()) {
-                return diagnoser.get(0).getDiagnosBeskrivning();
-            } else {
-                return null;
-            }
-        } catch (ConverterException e) {
-            throw new ModuleException("Could convert Intyg to Utlatande and as a result could not get additional info", e);
-        }
-    }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    final var internalCertificate = getInternal(model);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    TestabilityToolkit.fillCertificateWithTestData(
+        certificate, fillType, new LuseTestabilityCertificateTestdataProvider());
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
 
-    @Override
-    public Optional<AdditionalMetaData> getAdditionalMetaData(Intyg certificate) throws ModuleException {
-        final var additionalMetaData = new AdditionalMetaData();
+  @Override
+  public String getAdditionalInfoLabel() {
+    return ADDITIONAL_INFO_LABEL;
+  }
 
-        final var luseCertificate = convertToInternal(certificate);
-        final var diagnoses = getDiagnoses(luseCertificate.getDiagnoser());
+  private Map<String, String> getDynamicKeyMap() {
+    final var provider = getTextProvider(LuseEntryPoint.MODULE_ID);
 
-        additionalMetaData.setDiagnoses(diagnoses);
-
-        return Optional.of(additionalMetaData);
-    }
-
-    private LuseUtlatandeV1 convertToInternal(Intyg certificate) throws ModuleException {
-        try {
-            return transportToInternal(certificate);
-        } catch (ConverterException e) {
-            throw new ModuleException("Could convert Intyg to Utlatande", e);
-        }
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        final var dynamicKeys = getDynamicKeyMap();
-        return DefaultCertificateMessagesProvider.create(validationMessages, dynamicKeys);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof LuseUtlatandeV1) {
-            return toInternalModelResponse((LuseUtlatandeV1) utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class LuseUtlatandeV1, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(model);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new LuseTestabilityCertificateTestdataProvider());
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public String getAdditionalInfoLabel() {
-        return ADDITIONAL_INFO_LABEL;
-    }
-
-    private Map<String, String> getDynamicKeyMap() {
-        final var provider = getTextProvider(LuseEntryPoint.MODULE_ID);
-
-        return Map.of(GRUNDFORMU_UNDERSOKNING_LABEL, provider.get(GRUNDFORMU_UNDERSOKNING_LABEL),
-            GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL, provider.get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL),
-            GRUNDFORMU_JOURNALUPPGIFTER_LABEL, provider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL),
-            GRUNDFORMU_ANNAT_LABEL, provider.get(GRUNDFORMU_ANNAT_LABEL));
-    }
+    return Map.of(
+        GRUNDFORMU_UNDERSOKNING_LABEL,
+        provider.get(GRUNDFORMU_UNDERSOKNING_LABEL),
+        GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL,
+        provider.get(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL),
+        GRUNDFORMU_JOURNALUPPGIFTER_LABEL,
+        provider.get(GRUNDFORMU_JOURNALUPPGIFTER_LABEL),
+        GRUNDFORMU_ANNAT_LABEL,
+        provider.get(GRUNDFORMU_ANNAT_LABEL));
+  }
 }

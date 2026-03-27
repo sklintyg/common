@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,34 +37,35 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionForgiftningOm {
 
-    public static CertificateDataElement toCertificate(Boolean forgiftadEllerSkadad, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FORGIFTNING_OM_DELSVAR_ID)
-            .index(index)
-            .parent(FORGIFTNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .text(texts.get(FORGIFTNING_OM_QUESTION_TEXT_ID))
-                    .selectedText(texts.get(FORGIFTNING_OM_QUESTION_SELECTED_TEXT))
-                    .unselectedText(texts.get(FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT))
-                    .id(FORGIFTNING_OM_JSON_ID)
-                    .build())
-            .value(CertificateDataValueBoolean.builder()
+  public static CertificateDataElement toCertificate(
+      Boolean forgiftadEllerSkadad, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(FORGIFTNING_OM_DELSVAR_ID)
+        .index(index)
+        .parent(FORGIFTNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .text(texts.get(FORGIFTNING_OM_QUESTION_TEXT_ID))
+                .selectedText(texts.get(FORGIFTNING_OM_QUESTION_SELECTED_TEXT))
+                .unselectedText(texts.get(FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT))
+                .id(FORGIFTNING_OM_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
                 .id(FORGIFTNING_OM_JSON_ID)
                 .selected(forgiftadEllerSkadad)
                 .build())
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FORGIFTNING_OM_DELSVAR_ID)
-                        .expression(exists(FORGIFTNING_OM_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FORGIFTNING_OM_DELSVAR_ID)
+                  .expression(exists(FORGIFTNING_OM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), FORGIFTNING_OM_DELSVAR_ID, FORGIFTNING_OM_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), FORGIFTNING_OM_DELSVAR_ID, FORGIFTNING_OM_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,39 +35,42 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 
 public class QuestionBedomningOvrigaKommentarer {
 
-    private static final short textLimit = 189;
+  private static final short textLimit = 189;
 
-    public static CertificateDataElement toCertificate(Bedomning bedomning, int index, CertificateTextProvider textProvider) {
-        final var ovrigaKommentarer =
-            bedomning != null && bedomning.getOvrigaKommentarer() != null ? bedomning.getOvrigaKommentarer() : null;
-        return CertificateDataElement.builder()
-            .id(BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
-                    .text(textProvider.get(BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
-                    .text(ovrigaKommentarer)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
-                        .limit(textLimit)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Bedomning bedomning, int index, CertificateTextProvider textProvider) {
+    final var ovrigaKommentarer =
+        bedomning != null && bedomning.getOvrigaKommentarer() != null
+            ? bedomning.getOvrigaKommentarer()
+            : null;
+    return CertificateDataElement.builder()
+        .id(BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID)
+        .parent(BEDOMNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
+                .text(textProvider.get(BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
+                .text(ovrigaKommentarer)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID)
+                  .limit(textLimit)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID, BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID,
+        BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID);
+  }
 }

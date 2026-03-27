@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,27 +27,27 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 public class RegisterCertificateV3Client extends SendTSClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV3Client.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV3Client.class);
 
-    private static final String REGISTER_V3_NAMESPACE =
-        "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3:RegisterCertificate";
+  private static final String REGISTER_V3_NAMESPACE =
+      "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3:RegisterCertificate";
 
-    private static final QName REGISTER_V3_PORT_NAME =
-        new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:3:rivtabp21",
-            "RegisterCertificateResponderPort");
+  private static final QName REGISTER_V3_PORT_NAME =
+      new QName(
+          "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:3:rivtabp21",
+          "RegisterCertificateResponderPort");
 
-    public RegisterCertificateV3Client(String url) {
-        super(url);
-    }
+  public RegisterCertificateV3Client(String url) {
+    super(url);
+  }
 
-    @Override
-    protected void setupService() {
-        setupService(new RegisterCertificateResponderService(), REGISTER_V3_PORT_NAME);
-    }
+  @Override
+  protected void setupService() {
+    setupService(new RegisterCertificateResponderService(), REGISTER_V3_PORT_NAME);
+  }
 
-    @Override
-    protected Dispatch<SOAPMessage> createDispatchMessage() {
-        return createDispatchMessage(REGISTER_V3_NAMESPACE, REGISTER_V3_PORT_NAME);
-    }
-
+  @Override
+  protected Dispatch<SOAPMessage> createDispatchMessage() {
+    return createDispatchMessage(REGISTER_V3_NAMESPACE, REGISTER_V3_PORT_NAME);
+  }
 }

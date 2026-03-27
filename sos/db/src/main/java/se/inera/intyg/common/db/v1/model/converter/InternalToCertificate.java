@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,114 +53,98 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalToCertificate {
 
-    private InternalToCertificate() {
+  private InternalToCertificate() {}
 
+  public static Certificate convert(
+      DbUtlatandeV1 internalCertificate,
+      CertificateTextProvider texts,
+      List<String> municipalities) {
+    int index = 0;
+
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+        .addElement(CategoryKompletterandePatientuppgifter.toCertificate(index++, texts))
+        .addElement(
+            QuestionIdentitetenStyrkt.toCertificate(
+                internalCertificate.getIdentitetStyrkt(), index++, texts))
+        .addElement(CategoryDodsdatumDodsplats.toCertificate(index++, texts))
+        .addElement(
+            QuestionDodsdatumSakert.toCertificate(
+                internalCertificate.getDodsdatumSakert(), index++, texts))
+        .addElement(
+            QuestionDodsdatum.toCertificate(getDodsdatumValue(internalCertificate), index++, texts))
+        .addElement(
+            QuestionOsakertDodsdatum.toCertificate(
+                getDodsdatumOsakertValue(internalCertificate), index++, texts))
+        .addElement(
+            QuestionAntraffadDod.toCertificate(
+                toLocalDate(internalCertificate.getAntraffatDodDatum()), index++, texts))
+        .addElement(QuestionDodsplats.toCertificate(index++, texts))
+        .addElement(
+            QuestionDodsplatsKommun.toCertificate(
+                municipalities, internalCertificate.getDodsplatsKommun(), index++, texts))
+        .addElement(
+            QuestionDodsplatsBoende.toCertificate(
+                internalCertificate.getDodsplatsBoende(), index++, texts))
+        .addElement(CategoryBarn.toCertificate(index++, texts))
+        .addElement(
+            QuestionBarn.toCertificate(
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                internalCertificate.getBarn(),
+                index++,
+                texts))
+        .addElement(
+            QuestionAutoFillMessageWithin28DaysBarn.toCertificate(
+                internalCertificate.getGrundData().getPatient().getPersonId(), index++, texts))
+        .addElement(
+            QuestionAutoFillMessageAfter28DaysBarn.toCertificate(
+                internalCertificate.getGrundData().getPatient().getPersonId(), index++, texts))
+        .addElement(CategoryExplosivtImplantat.toCertificate(index++, texts))
+        .addElement(
+            QuestionExplosivtImplantat.toCertificate(
+                internalCertificate.getExplosivImplantat(), index++, texts))
+        .addElement(
+            QuestionExplosivtAvlagsnat.toCertificate(
+                internalCertificate.getExplosivAvlagsnat(), index++, texts))
+        .addElement(CategoryUndersokningYttre.toCertificate(index++, texts))
+        .addElement(
+            QuestionUndersokningYttre.toCertificate(
+                internalCertificate.getUndersokningYttre(), index++, texts))
+        .addElement(
+            QuestionUndersokningsdatum.toCertificate(
+                toLocalDate(internalCertificate.getUndersokningDatum()), index++, texts))
+        .addElement(CategoryPolisanmalan.toCertificate(index++, texts))
+        .addElement(
+            QuestionPolisanmalan.toCertificate(
+                internalCertificate.getPolisanmalan(), index++, texts))
+        .addElement(QuestionPrefillMessagePolisanmalan.toCertificate(index++, texts))
+        .addElement(
+            QuestionPrintMessagePolisanmalan.toCertificate(
+                internalCertificate.getPolisanmalan(), index++, texts))
+        .build();
+  }
+
+  private static LocalDate getDodsdatumValue(DbUtlatandeV1 internalCertificate) {
+    if (isDodsdatumSakert(internalCertificate.getDodsdatumSakert())) {
+      return toLocalDate(internalCertificate.getDodsdatum());
     }
+    return null;
+  }
 
-    public static Certificate convert(DbUtlatandeV1 internalCertificate, CertificateTextProvider texts, List<String> municipalities) {
-        int index = 0;
-
-        return CertificateBuilder.create()
-            .metadata(
-                MetaDataGrundData.toCertificate(internalCertificate, texts)
-            )
-            .addElement(
-                CategoryKompletterandePatientuppgifter.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionIdentitetenStyrkt.toCertificate(internalCertificate.getIdentitetStyrkt(), index++, texts)
-            )
-            .addElement(
-                CategoryDodsdatumDodsplats.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionDodsdatumSakert.toCertificate(internalCertificate.getDodsdatumSakert(), index++, texts)
-            )
-            .addElement(
-                QuestionDodsdatum.toCertificate(getDodsdatumValue(internalCertificate), index++, texts)
-            )
-            .addElement(
-                QuestionOsakertDodsdatum.toCertificate(getDodsdatumOsakertValue(internalCertificate), index++, texts)
-            )
-            .addElement(
-                QuestionAntraffadDod.toCertificate(toLocalDate(internalCertificate.getAntraffatDodDatum()), index++, texts)
-            )
-            .addElement(
-                QuestionDodsplats.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionDodsplatsKommun.toCertificate(municipalities, internalCertificate.getDodsplatsKommun(), index++, texts)
-            )
-            .addElement(
-                QuestionDodsplatsBoende.toCertificate(internalCertificate.getDodsplatsBoende(), index++, texts)
-            )
-            .addElement(
-                CategoryBarn.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
-                    internalCertificate.getBarn(), index++, texts)
-            )
-            .addElement(
-                QuestionAutoFillMessageWithin28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
-                    index++, texts)
-            )
-            .addElement(
-                QuestionAutoFillMessageAfter28DaysBarn.toCertificate(internalCertificate.getGrundData().getPatient().getPersonId(),
-                    index++, texts)
-            )
-            .addElement(
-                CategoryExplosivtImplantat.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionExplosivtImplantat.toCertificate(internalCertificate.getExplosivImplantat(), index++, texts)
-            )
-            .addElement(
-                QuestionExplosivtAvlagsnat.toCertificate(internalCertificate.getExplosivAvlagsnat(), index++, texts)
-            )
-            .addElement(
-                CategoryUndersokningYttre.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionUndersokningYttre.toCertificate(internalCertificate.getUndersokningYttre(), index++, texts)
-            )
-            .addElement(
-                QuestionUndersokningsdatum.toCertificate(toLocalDate(internalCertificate.getUndersokningDatum()), index++, texts)
-            )
-            .addElement(
-                CategoryPolisanmalan.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionPolisanmalan.toCertificate(internalCertificate.getPolisanmalan(), index++, texts)
-            )
-            .addElement(
-                QuestionPrefillMessagePolisanmalan.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionPrintMessagePolisanmalan.toCertificate(internalCertificate.getPolisanmalan(), index++, texts)
-            )
-            .build();
+  private static String getDodsdatumOsakertValue(DbUtlatandeV1 internalCertificate) {
+    if (isDodsdatumSakert(internalCertificate.getDodsdatumSakert())) {
+      return null;
     }
+    return internalCertificate.getDodsdatum() != null
+        ? internalCertificate.getDodsdatum().toString()
+        : null;
+  }
 
-    private static LocalDate getDodsdatumValue(DbUtlatandeV1 internalCertificate) {
-        if (isDodsdatumSakert(internalCertificate.getDodsdatumSakert())) {
-            return toLocalDate(internalCertificate.getDodsdatum());
-        }
-        return null;
-    }
+  private static Boolean isDodsdatumSakert(Boolean dodsdatumSakert) {
+    return dodsdatumSakert != null && dodsdatumSakert;
+  }
 
-    private static String getDodsdatumOsakertValue(DbUtlatandeV1 internalCertificate) {
-        if (isDodsdatumSakert(internalCertificate.getDodsdatumSakert())) {
-            return null;
-        }
-        return internalCertificate.getDodsdatum() != null ? internalCertificate.getDodsdatum().toString() : null;
-    }
-
-    private static Boolean isDodsdatumSakert(Boolean dodsdatumSakert) {
-        return dodsdatumSakert != null && dodsdatumSakert;
-    }
-
-    private static LocalDate toLocalDate(InternalDate internalDate) {
-        return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
-    }
+  private static LocalDate toLocalDate(InternalDate internalDate) {
+    return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
+  }
 }

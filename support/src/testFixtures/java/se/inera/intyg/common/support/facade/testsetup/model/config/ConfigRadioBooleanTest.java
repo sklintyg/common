@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,34 +27,34 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigRadioBooleanTest extends ConfigTest {
 
-    protected abstract String getId();
+  protected abstract String getId();
 
-    protected abstract String getSelectedText();
+  protected abstract String getSelectedText();
 
-    protected abstract String getUnselectedText();
+  protected abstract String getUnselectedText();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_RADIO_BOOLEAN;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_RADIO_BOOLEAN;
+  }
 
-    @Test
-    void includeId() {
-        final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
-        assertEquals(getId(), question.getId());
-    }
+  @Test
+  void includeId() {
+    final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
+    assertEquals(getId(), question.getId());
+  }
 
-    @Test
-    void includesSelectedText() {
-        final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
-        assertTrue(question.getSelectedText().trim().length() > 0, "Missing text");
-        assertEquals(getSelectedText(), question.getSelectedText());
-    }
+  @Test
+  void includesSelectedText() {
+    final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
+    assertTrue(question.getSelectedText().trim().length() > 0, "Missing text");
+    assertEquals(getSelectedText(), question.getSelectedText());
+  }
 
-    @Test
-    void includesUnselectedTextText() {
-        final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
-        assertTrue(question.getUnselectedText().trim().length() > 0, "Missing text");
-        assertEquals(getUnselectedText(), question.getUnselectedText());
-    }
+  @Test
+  void includesUnselectedTextText() {
+    final var question = (CertificateDataConfigRadioBoolean) getElement().getConfig();
+    assertTrue(question.getUnselectedText().trim().length() > 0, "Missing text");
+    assertEquals(getUnselectedText(), question.getUnselectedText());
+  }
 }

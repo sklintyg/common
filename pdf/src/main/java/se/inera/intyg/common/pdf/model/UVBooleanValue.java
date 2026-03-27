@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,29 +23,29 @@ import com.itextpdf.layout.element.Paragraph;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a boolean value as Ja/Nej.
- */
+/** Renders a boolean value as Ja/Nej. */
 public class UVBooleanValue extends UVComponent {
 
-    public UVBooleanValue(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVBooleanValue(UVRenderer renderer) {
+    super(renderer);
+  }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        // Handle any modelPropOverride for this "modelProp"
-        if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
-            return true;
-        }
-        String booleanValue = getBooleanValue((String) currentUvNode.get(MODEL_PROP));
-        parent.add(new Paragraph(booleanValue).setItalic()
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    // Handle any modelPropOverride for this "modelProp"
+    if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
+      return true;
+    }
+    String booleanValue = getBooleanValue((String) currentUvNode.get(MODEL_PROP));
+    parent.add(
+        new Paragraph(booleanValue)
+            .setItalic()
             .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
             .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
             .setMarginTop(0f)
             .setFont(renderer.svarFont)
             .setFontSize(SVAR_FONT_SIZE));
 
-        return true;
-    }
+    return true;
+  }
 }

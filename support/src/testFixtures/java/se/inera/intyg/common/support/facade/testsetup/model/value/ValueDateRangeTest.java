@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,37 +28,37 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueDateRangeTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract LocalDate getFromDate();
+  protected abstract LocalDate getFromDate();
 
-    protected abstract LocalDate getToDate();
+  protected abstract LocalDate getToDate();
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.DATE_RANGE;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.DATE_RANGE;
+  }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueDateRange) question.getValue();
-        assertEquals(getJsonId(), value.getId());
-    }
+  @Test
+  void shouldIncludeValueId() {
+    final var question = getElement();
+    final var value = (CertificateDataValueDateRange) question.getValue();
+    assertEquals(getJsonId(), value.getId());
+  }
 
-    @Test
-    void shouldIncludeValueFrom() {
-        final var question = getElement();
-        final var value = (CertificateDataValueDateRange) question.getValue();
-        assertEquals(getFromDate(), value.getFrom());
-    }
+  @Test
+  void shouldIncludeValueFrom() {
+    final var question = getElement();
+    final var value = (CertificateDataValueDateRange) question.getValue();
+    assertEquals(getFromDate(), value.getFrom());
+  }
 
-    @Test
-    void shouldIncludeValueTo() {
-        final var question = getElement();
-        final var value = (CertificateDataValueDateRange) question.getValue();
-        assertEquals(getToDate(), value.getTo());
-    }
+  @Test
+  void shouldIncludeValueTo() {
+    final var question = getElement();
+    final var value = (CertificateDataValueDateRange) question.getValue();
+    assertEquals(getToDate(), value.getTo());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,17 +26,18 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 public final class InternalToTransport {
 
-    private InternalToTransport() {
+  private InternalToTransport() {}
+
+  public static RegisterCertificateType convert(Tstrk1009UtlatandeV1 source)
+      throws ConverterException {
+    if (source == null) {
+      throw new ConverterException("Source utlatande was null, cannot convert");
     }
 
-    public static RegisterCertificateType convert(Tstrk1009UtlatandeV1 source) throws ConverterException {
-        if (source == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-
-        RegisterCertificateType tstrk1009Certificate = new RegisterCertificateType();
-        tstrk1009Certificate.setIntyg(UtlatandeToIntyg.convert(source));
-        tstrk1009Certificate.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
-        return tstrk1009Certificate;
-    }
+    RegisterCertificateType tstrk1009Certificate = new RegisterCertificateType();
+    tstrk1009Certificate.setIntyg(UtlatandeToIntyg.convert(source));
+    tstrk1009Certificate.setSvarPa(
+        InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
+    return tstrk1009Certificate;
+  }
 }

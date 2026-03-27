@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,42 +32,38 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public abstract class AbstractQuestionFunktionsnedsattning {
 
-    private static final short TEXT_LIMIT = (short) 3500;
+  private static final short TEXT_LIMIT = (short) 3500;
 
-    protected static CertificateDataElement toCertificate(String textValue, String questionId, String textId, String descriptionId,
-        String headerId, String jsonId, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(textId))
-                    .description(textProvider.get(descriptionId))
-                    .accordion(
-                        Accordion.builder()
-                            .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
-                            .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
-                            .header(textProvider.get(headerId))
-                            .build()
-                    )
-                    .id(jsonId)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(jsonId)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(jsonId)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  protected static CertificateDataElement toCertificate(
+      String textValue,
+      String questionId,
+      String textId,
+      String descriptionId,
+      String headerId,
+      String jsonId,
+      int index,
+      CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(textId))
+                .description(textProvider.get(descriptionId))
+                .accordion(
+                    Accordion.builder()
+                        .openText(FUNKTIONSNEDSATTNING_ACCORDION_OPEN_TEXT)
+                        .closeText(FUNKTIONSNEDSATTNING_ACCORDION_CLOSE_TEXT)
+                        .header(textProvider.get(headerId))
+                        .build())
+                .id(jsonId)
+                .build())
+        .value(CertificateDataValueText.builder().id(jsonId).text(textValue).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder().id(jsonId).limit(TEXT_LIMIT).build()
+            })
+        .build();
+  }
 }

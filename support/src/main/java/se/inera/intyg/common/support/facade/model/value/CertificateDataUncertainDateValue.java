@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,18 +24,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 
-@JsonDeserialize(builder = CertificateDataUncertainDateValue.CertificateDataUncertainDateValueBuilder.class)
+@JsonDeserialize(
+    builder = CertificateDataUncertainDateValue.CertificateDataUncertainDateValueBuilder.class)
 @Value
 @Builder
 public class CertificateDataUncertainDateValue implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.UNCERTAIN_DATE;
-    String id;
-    String value;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.UNCERTAIN_DATE;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataUncertainDateValueBuilder {
+  String id;
+  String value;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataUncertainDateValueBuilder {}
 }

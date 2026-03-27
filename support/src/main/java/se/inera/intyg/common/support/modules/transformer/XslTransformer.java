@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,64 +43,65 @@ import org.xml.sax.SAXException;
 
 public class XslTransformer {
 
-    private Templates templates;
+  private Templates templates;
 
-    private DocumentBuilderFactory documentBuilderFactory;
+  private DocumentBuilderFactory documentBuilderFactory;
 
-    private String xslHref;
+  private String xslHref;
 
-    public XslTransformer(String xslHref) {
-        this.xslHref = xslHref;
-        initializeTransformerFactory();
-        initializeDocumentBuilder();
+  public XslTransformer(String xslHref) {
+    this.xslHref = xslHref;
+    initializeTransformerFactory();
+    initializeDocumentBuilder();
+  }
+
+  public String transform(String incomingXML) {
+    try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+      StreamResult transformedXml = new StreamResult(outputStream);
+      Transformer transformer = templates.newTransformer();
+
+      transformer.transform(new DOMSource(getDocument(incomingXML)), transformedXml);
+
+      return outputStream.toString(StandardCharsets.UTF_8.name());
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    public String transform(String incomingXML) {
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            StreamResult transformedXml = new StreamResult(outputStream);
-            Transformer transformer = templates.newTransformer();
+  public String getXslHref() {
+    return xslHref;
+  }
 
-            transformer.transform(new DOMSource(getDocument(incomingXML)), transformedXml);
+  private Document getDocument(String incomingXML)
+      throws ParserConfigurationException, IOException, SAXException {
+    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    return documentBuilder.parse(new InputSource(new StringReader(incomingXML)));
+  }
 
-            return outputStream.toString(StandardCharsets.UTF_8.name());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+  private InputStream getResourceAsStream(String href) {
+    return Thread.currentThread().getContextClassLoader().getResourceAsStream(href);
+  }
 
-    public String getXslHref() {
-        return xslHref;
-    }
-
-    private Document getDocument(String incomingXML) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        return documentBuilder.parse(new InputSource(new StringReader(incomingXML)));
-    }
-
-    private InputStream getResourceAsStream(String href) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(href);
-    }
-
-    private void initializeTransformerFactory() {
-        TransformerFactory factory = new TransformerFactoryImpl();
-        factory.setURIResolver(new URIResolver() {
-            @Override
-            public Source resolve(String href, String base) throws TransformerException {
-                return new StreamSource(getResourceAsStream(href));
-            }
+  private void initializeTransformerFactory() {
+    TransformerFactory factory = new TransformerFactoryImpl();
+    factory.setURIResolver(
+        new URIResolver() {
+          @Override
+          public Source resolve(String href, String base) throws TransformerException {
+            return new StreamSource(getResourceAsStream(href));
+          }
         });
-        try {
-            templates = factory.newTemplates(new StreamSource(getResourceAsStream(xslHref)));
-        } catch (TransformerConfigurationException e) {
-            throw new RuntimeException(e);
-        }
+    try {
+      templates = factory.newTemplates(new StreamSource(getResourceAsStream(xslHref)));
+    } catch (TransformerConfigurationException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    private void initializeDocumentBuilder() {
-        documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        documentBuilderFactory.setNamespaceAware(true);
-        documentBuilderFactory.setIgnoringComments(true);
-        documentBuilderFactory.setIgnoringElementContentWhitespace(true);
-    }
-
+  private void initializeDocumentBuilder() {
+    documentBuilderFactory = DocumentBuilderFactory.newInstance();
+    documentBuilderFactory.setNamespaceAware(true);
+    documentBuilderFactory.setIgnoringComments(true);
+    documentBuilderFactory.setIgnoringElementContentWhitespace(true);
+  }
 }

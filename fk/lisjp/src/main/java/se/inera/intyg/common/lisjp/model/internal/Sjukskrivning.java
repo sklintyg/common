@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,64 +28,53 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 @AutoValue
 public abstract class Sjukskrivning {
 
-    @JsonCreator
-    public static Sjukskrivning create(@JsonProperty("sjukskrivningsgrad") SjukskrivningsGrad sjukskrivningsgrad,
-        @JsonProperty("period") InternalLocalDateInterval period) {
-        return new AutoValue_Sjukskrivning(sjukskrivningsgrad, period);
+  @JsonCreator
+  public static Sjukskrivning create(
+      @JsonProperty("sjukskrivningsgrad") SjukskrivningsGrad sjukskrivningsgrad,
+      @JsonProperty("period") InternalLocalDateInterval period) {
+    return new AutoValue_Sjukskrivning(sjukskrivningsgrad, period);
+  }
+
+  @Nullable public abstract SjukskrivningsGrad getSjukskrivningsgrad();
+
+  @Nullable public abstract InternalLocalDateInterval getPeriod();
+
+  public enum SjukskrivningsGrad {
+    /** Helt nedsatt. */
+    HELT_NEDSATT("HELT_NEDSATT", "100%"),
+    /** Nedsatt till 3/4. */
+    NEDSATT_3_4("TRE_FJARDEDEL", "75%"),
+    /** Nedsatt till hälften. */
+    NEDSATT_HALFTEN("HALFTEN", "50%"),
+    /** Nedsatt till 1/4. */
+    NEDSATT_1_4("EN_FJARDEDEL", "25%");
+
+    private final String id;
+    private final String label;
+
+    SjukskrivningsGrad(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    @Nullable
-    public abstract SjukskrivningsGrad getSjukskrivningsgrad();
-
-    @Nullable
-    public abstract InternalLocalDateInterval getPeriod();
-
-    public enum SjukskrivningsGrad {
-        /**
-         * Helt nedsatt.
-         */
-        HELT_NEDSATT("HELT_NEDSATT", "100%"),
-        /**
-         * Nedsatt till 3/4.
-         */
-        NEDSATT_3_4("TRE_FJARDEDEL", "75%"),
-        /**
-         * Nedsatt till hälften.
-         */
-        NEDSATT_HALFTEN("HALFTEN", "50%"),
-        /**
-         * Nedsatt till 1/4.
-         */
-        NEDSATT_1_4("EN_FJARDEDEL", "25%");
-
-        private final String id;
-        private final String label;
-
-        SjukskrivningsGrad(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static SjukskrivningsGrad fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (SjukskrivningsGrad typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-
+    @JsonValue
+    public String getId() {
+      return id;
     }
 
+    public String getLabel() {
+      return label;
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static SjukskrivningsGrad fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (SjukskrivningsGrad typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

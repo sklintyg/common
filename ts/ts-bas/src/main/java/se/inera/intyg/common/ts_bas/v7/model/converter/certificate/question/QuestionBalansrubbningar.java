@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,38 +38,37 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HorselBalans;
 
 public class QuestionBalansrubbningar {
 
-    public static CertificateDataElement toCertificate(HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
-        final var balansrubbningar = horselBalans != null ? horselBalans.getBalansrubbningar() : null;
-        return CertificateDataElement.builder()
-            .id(BALANSRUBBNINGAR_YRSEL_SVAR_ID)
-            .parent(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(BALANSRUBBNINGAR_YRSEL_JSON_ID)
-                    .text(textProvider.get(BALANSRUBBNINGAR_YRSEL_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(BALANSRUBBNINGAR_YRSEL_JSON_ID)
-                    .selected(balansrubbningar)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(BALANSRUBBNINGAR_YRSEL_SVAR_ID)
-                        .expression(exists(BALANSRUBBNINGAR_YRSEL_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      HorselBalans horselBalans, int index, CertificateTextProvider textProvider) {
+    final var balansrubbningar = horselBalans != null ? horselBalans.getBalansrubbningar() : null;
+    return CertificateDataElement.builder()
+        .id(BALANSRUBBNINGAR_YRSEL_SVAR_ID)
+        .parent(BALANSRUBBNINGAR_YRSEL_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(BALANSRUBBNINGAR_YRSEL_JSON_ID)
+                .text(textProvider.get(BALANSRUBBNINGAR_YRSEL_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(BALANSRUBBNINGAR_YRSEL_JSON_ID)
+                .selected(balansrubbningar)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(BALANSRUBBNINGAR_YRSEL_SVAR_ID)
+                  .expression(exists(BALANSRUBBNINGAR_YRSEL_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), BALANSRUBBNINGAR_YRSEL_SVAR_ID, BALANSRUBBNINGAR_YRSEL_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), BALANSRUBBNINGAR_YRSEL_SVAR_ID, BALANSRUBBNINGAR_YRSEL_JSON_ID);
+  }
 }

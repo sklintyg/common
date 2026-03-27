@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,29 +30,35 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIn
 @Builder
 public class CertificateDataConfigInteger implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_INTEGER;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    String id;
-    String unitOfMeasurement;
-    Integer min;
-    Integer max;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_INTEGER;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigIntegerBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  String id;
+  String unitOfMeasurement;
+  Integer min;
+  Integer max;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigIntegerBuilder {}
 }

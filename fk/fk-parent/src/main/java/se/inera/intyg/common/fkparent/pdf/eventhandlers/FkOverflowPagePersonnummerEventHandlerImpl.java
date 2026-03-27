@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,51 +19,51 @@
 package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
 /**
- * Extension of the generic FkAbstractPersonnummerEventHandler, overriding the positioning an on which pages to show the
- * personnummer on overflows pages.
+ * Extension of the generic FkAbstractPersonnummerEventHandler, overriding the positioning an on
+ * which pages to show the personnummer on overflows pages.
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkOverflowPagePersonnummerEventHandlerImpl extends FkAbstractPersonnummerEventHandler {
 
-    private final int activeFromPage;
-    private final int activeToPage;
-    private final float xOffset;
-    private final float yOffset;
+  private final int activeFromPage;
+  private final int activeToPage;
+  private final float xOffset;
+  private final float yOffset;
 
-    public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer) {
-        this(personnummer, 5);
-    }
+  public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer) {
+    this(personnummer, 5);
+  }
 
-    public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer, int activeFromPage) {
-        this(personnummer, activeFromPage, 999, 170f, 18f);
-    }
+  public FkOverflowPagePersonnummerEventHandlerImpl(String personnummer, int activeFromPage) {
+    this(personnummer, activeFromPage, 999, 170f, 18f);
+  }
 
-    private FkOverflowPagePersonnummerEventHandlerImpl(String personnummer, int activeFromPage, int activeToPage, float xOffset,
-        float yOffset) {
-        super(personnummer);
-        this.activeFromPage = activeFromPage;
-        this.activeToPage = activeToPage;
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
-    }
+  private FkOverflowPagePersonnummerEventHandlerImpl(
+      String personnummer, int activeFromPage, int activeToPage, float xOffset, float yOffset) {
+    super(personnummer);
+    this.activeFromPage = activeFromPage;
+    this.activeToPage = activeToPage;
+    this.xOffset = xOffset;
+    this.yOffset = yOffset;
+  }
 
-    @Override
-    protected int getActiveFromPage() {
-        return activeFromPage;
-    }
+  @Override
+  protected int getActiveFromPage() {
+    return activeFromPage;
+  }
 
-    @Override
-    protected int getActiveToPage() {
-        return activeToPage;
-    }
+  @Override
+  protected int getActiveToPage() {
+    return activeToPage;
+  }
 
-    @Override
-    protected float getXOffset() {
-        return xOffset;
-    }
+  @Override
+  protected float getXOffset() {
+    return xOffset;
+  }
 
-    @Override
-    protected float getYOffset() {
-        return yOffset;
-    }
+  @Override
+  protected float getYOffset() {
+    return yOffset;
+  }
 }

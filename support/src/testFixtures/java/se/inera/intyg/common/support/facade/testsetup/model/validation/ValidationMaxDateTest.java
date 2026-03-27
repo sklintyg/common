@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,26 +26,28 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationMaxDateTest extends ValidationTest {
 
-    protected abstract String getId();
+  protected abstract String getId();
 
-    protected abstract short getDaysInFuture();
+  protected abstract short getDaysInFuture();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.MAX_DATE_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.MAX_DATE_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeValidationMaxDateId() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
-        assertEquals(getId(), certificateDataValidation.getId());
-    }
+  @Test
+  void shouldIncludeValidationMaxDateId() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
+    assertEquals(getId(), certificateDataValidation.getId());
+  }
 
-    @Test
-    void shouldIncludeValidationMaxDateNumberOfDays() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
-        assertEquals(getDaysInFuture(), certificateDataValidation.getNumberOfDays());
-    }
+  @Test
+  void shouldIncludeValidationMaxDateNumberOfDays() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationMaxDate) question.getValidation()[getValidationIndex()];
+    assertEquals(getDaysInFuture(), certificateDataValidation.getNumberOfDays());
+  }
 }

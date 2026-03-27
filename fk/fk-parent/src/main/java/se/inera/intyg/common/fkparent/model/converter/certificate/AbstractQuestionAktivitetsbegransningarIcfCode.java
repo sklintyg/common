@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fkparent.model.converter.certificate;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
@@ -44,55 +43,56 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
 
 public abstract class AbstractQuestionAktivitetsbegransningarIcfCode {
 
-    public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId,
-        List<String> activityLimitationCategories,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigIcf.builder()
-                    .icfCodesPropertyName(IcfCodesPropertyType.AKTIVITETSBEGRANSNINGAR)
-                    .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
-                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
-                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
-                    .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
-                    .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
-                    .id(jsonId)
-                    .placeholder(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER)
-                    .build()
-            )
-            .value(
-                CertificateDataIcfValue.builder()
-                    .id(jsonId)
-                    .text(value)
-                    .icfCodes(activityLimitationCategories)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(questionId)
-                        .expression(
-                            singleExpression(jsonId)
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String value,
+      String questionId,
+      String parent,
+      String jsonId,
+      List<String> activityLimitationCategories,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigIcf.builder()
+                .icfCodesPropertyName(IcfCodesPropertyType.AKTIVITETSBEGRANSNINGAR)
+                .header(texts.get(AKTIVITETSBEGRANSNING_SVAR_TEXT))
+                .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
+                .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING))
+                .modalLabel(AKTIVITETSBEGRANSNING_ICF_INFO)
+                .collectionsLabel(AKTIVITETSBEGRANSNING_ICF_COLLECTION)
+                .id(jsonId)
+                .placeholder(AKTIVITETSBEGRANSNING_ICF_PLACEHOLDER)
+                .build())
+        .value(
+            CertificateDataIcfValue.builder()
+                .id(jsonId)
+                .text(value)
+                .icfCodes(activityLimitationCategories)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(questionId)
+                  .expression(singleExpression(jsonId))
+                  .build(),
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternalTextValue(Certificate certificate, String questionId, String jsonId) {
-        return icfTextValue(certificate.getData(), questionId, jsonId);
-    }
+  public static String toInternalTextValue(
+      Certificate certificate, String questionId, String jsonId) {
+    return icfTextValue(certificate.getData(), questionId, jsonId);
+  }
 
-    public static List<String> toInternalCodeValue(Certificate certificate, String questionId, String jsonId) {
-        return icfCodeValue(certificate.getData(), questionId, jsonId);
-    }
+  public static List<String> toInternalCodeValue(
+      Certificate certificate, String questionId, String jsonId) {
+    return icfCodeValue(certificate.getData(), questionId, jsonId);
+  }
 }

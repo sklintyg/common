@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,17 +26,18 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationTextTest extends ValidationTest {
 
-    protected abstract short getLimit();
+  protected abstract short getLimit();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.TEXT_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.TEXT_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeValidationTextLimit() {
-        final var question = getElement();
-        final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[getValidationIndex()];
-        assertEquals(getLimit(), certificateDataValidationText.getLimit());
-    }
+  @Test
+  void shouldIncludeValidationTextLimit() {
+    final var question = getElement();
+    final var certificateDataValidationText =
+        (CertificateDataValidationText) question.getValidation()[getValidationIndex()];
+    assertEquals(getLimit(), certificateDataValidationText.getLimit());
+  }
 }

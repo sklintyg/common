@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,206 +51,217 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class WebcertModelFactoryTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
 
-    public static final String PNR_FJORTON = "19141214-1414";
-    public static final String PNR_TOLVAN = "19121212-1212";
+  public static final String PNR_FJORTON = "19141214-1414";
+  public static final String PNR_TOLVAN = "19121212-1212";
 
-    private WebcertModelFactoryImpl factory;
+  private WebcertModelFactoryImpl factory;
 
-    @Before
-    public void setup() {
-        this.factory = new WebcertModelFactoryImpl();
+  @Before
+  public void setup() {
+    this.factory = new WebcertModelFactoryImpl();
+  }
+
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
+
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
+
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
+
+  @Test
+  public void testCreateCopy() throws Exception {
+
+    Fk7263Utlatande utlatande =
+        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+
+    CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-1", false, false);
+
+    Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
+
+    assertNotNull(copy);
+
+    assertEquals("new-intyg-1", utlatande.getId());
+    assertEquals("fk7263", utlatande.getTyp());
+
+    assertEquals("TST12345678", copy.getGrundData().getSkapadAv().getPersonId());
+    assertNotNull(copy.getGrundData().getSkapadAv().getFullstandigtNamn());
+    assertNotNull(copy.getGrundData().getSkapadAv().getForskrivarKod());
+    assertNotNull(copy.getGrundData().getSkapadAv().getBefattningar());
+
+    assertEquals("VE1", copy.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+    assertNotNull(copy.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    assertNotNull(copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare());
+
+    assertEquals(
+        "VG1", copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+    assertNotNull(
+        copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
+
+    assertNull("Signeringsdatum should be emtpy", copy.getGrundData().getSigneringsdatum());
+  }
+
+  @Test(expected = ConverterException.class)
+  public void testCreateCopyCertificateIdMissing() throws Exception {
+    Fk7263Utlatande utlatande =
+        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+
+    CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
+
+    factory.createCopy(copyData, utlatande);
+  }
+
+  @Test
+  public void testCreateCopyWithNewPatientData() throws Exception {
+
+    Fk7263Utlatande utlatande =
+        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+
+    CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-2", true, false);
+
+    Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
+
+    assertNotNull(copy);
+
+    assertEquals("new-intyg-2", utlatande.getId());
+    assertEquals("fk7263", utlatande.getTyp());
+
+    assertNotNull(copy.getGrundData().getPatient().getPersonId().getPersonnummer());
+    assertNull(copy.getGrundData().getPatient().getFornamn());
+    assertNull(copy.getGrundData().getPatient().getEfternamn());
+    assertNull(copy.getGrundData().getPatient().getPostadress());
+    assertNull(copy.getGrundData().getPatient().getPostnummer());
+  }
+
+  @Test
+  public void testCreateCopyWithNewPatientPersonId() throws Exception {
+
+    Fk7263Utlatande utlatande =
+        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+
+    CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-3", false, true);
+
+    assertEquals(
+        PNR_TOLVAN, utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+
+    Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
+
+    assertNotNull(copy);
+
+    assertEquals("new-intyg-3", utlatande.getId());
+    assertEquals("fk7263", utlatande.getTyp());
+
+    assertEquals(
+        PNR_FJORTON, copy.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+    assertNull(copy.getGrundData().getPatient().getFornamn());
+    assertNull(copy.getGrundData().getPatient().getEfternamn());
+  }
+
+  @Test
+  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+      throws ConverterException {
+    // this to follow schema during CertificateStatusUpdateForCareV3
+    Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+    assertEquals(5, UtlatandeToIntyg.convert(draft).getSvar().size());
+  }
+
+  private CreateDraftCopyHolder createDraftCopyHolder(
+      String intygsCopyId, boolean addPatient, boolean addNewPersonId) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("VG1");
+    vardgivare.setVardgivarnamn("Vardgivaren");
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("VE1");
+    vardenhet.setEnhetsnamn("Sjukhuset");
+    vardenhet.setPostadress("Plåstergatan");
+    vardenhet.setVardgivare(vardgivare);
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setPersonId("TST12345678");
+    skapadAv.setFullstandigtNamn("Dr Dengroth");
+    skapadAv.setForskrivarKod("1234");
+    skapadAv.getSpecialiteter().add("Proktolog");
+    skapadAv.setVardenhet(vardenhet);
+    CreateDraftCopyHolder copyData = new CreateDraftCopyHolder(intygsCopyId, skapadAv);
+
+    if (addPatient) {
+      Patient patient = new Patient();
+      patient.setFornamn("Test");
+      patient.setMellannamn("Prov");
+      patient.setEfternamn("Testorsson");
+      patient.setPersonId(createPnr(PNR_TOLVAN));
+      patient.setPostadress("Gågatan");
+      patient.setPostnummer("12345");
+      patient.setPostort("Staden");
+      copyData.setPatient(patient);
     }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
-
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
-
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
+    if (addNewPersonId) {
+      copyData.setNewPersonnummer(createPnr(PNR_FJORTON));
     }
 
-    @Test
-    public void testCreateCopy() throws Exception {
+    return copyData;
+  }
 
-        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+  private static Fk7263Utlatande readUtlatandeFromFile(String file) throws Exception {
+    String utlatandeSrc = readStringFromFile(file);
+    return new CustomObjectMapper().readValue(utlatandeSrc, Fk7263Utlatande.class);
+  }
 
-        CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-1", false, false);
-
-        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
-
-        assertNotNull(copy);
-
-        assertEquals("new-intyg-1", utlatande.getId());
-        assertEquals("fk7263", utlatande.getTyp());
-
-        assertEquals("TST12345678", copy.getGrundData().getSkapadAv().getPersonId());
-        assertNotNull(copy.getGrundData().getSkapadAv().getFullstandigtNamn());
-        assertNotNull(copy.getGrundData().getSkapadAv().getForskrivarKod());
-        assertNotNull(copy.getGrundData().getSkapadAv().getBefattningar());
-
-        assertEquals("VE1", copy.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-        assertNotNull(copy.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        assertNotNull(copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare());
-
-        assertEquals("VG1", copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-        assertNotNull(copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
-
-        assertNull("Signeringsdatum should be emtpy", copy.getGrundData().getSigneringsdatum());
+  private static String readStringFromFile(String filePath) {
+    try {
+      LOG.info("Reading test data from: {}", filePath);
+      ClassPathResource resource = new ClassPathResource(filePath);
+      return Resources.toString(resource.getURL(), Charsets.UTF_8);
+    } catch (IOException e) {
+      LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
+      return null;
     }
+  }
 
-    @Test(expected = ConverterException.class)
-    public void testCreateCopyCertificateIdMissing() throws Exception {
-        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+  private CreateNewDraftHolder buildNewDraftData(String intygId) {
+    CreateNewDraftHolder draftHolder =
+        new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
+    return draftHolder;
+  }
 
-        CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
+  private Patient buildPatient() {
+    Patient patient = new Patient();
+    patient.setFornamn("fornamn");
+    patient.setEfternamn("efternamn");
+    patient.setPersonId(createPnr(PNR_TOLVAN));
+    return patient;
+  }
 
-        factory.createCopy(copyData, utlatande);
-    }
+  private HoSPersonal buildHosPersonal() {
+    HoSPersonal hosPerson = new HoSPersonal();
+    hosPerson.setPersonId("TST12345678");
+    hosPerson.setFullstandigtNamn("Doktor A");
+    hosPerson.setVardenhet(createVardenhet());
+    return hosPerson;
+  }
 
-    @Test
-    public void testCreateCopyWithNewPatientData() throws Exception {
+  private Vardenhet createVardenhet() {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("VE1");
+    vardenhet.setEnhetsnamn("ve1");
+    vardenhet.setVardgivare(new Vardgivare());
+    vardenhet.getVardgivare().setVardgivarid("VG1");
+    vardenhet.getVardgivare().setVardgivarnamn("vg1");
+    return vardenhet;
+  }
 
-        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
-
-        CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-2", true, false);
-
-        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
-
-        assertNotNull(copy);
-
-        assertEquals("new-intyg-2", utlatande.getId());
-        assertEquals("fk7263", utlatande.getTyp());
-
-        assertNotNull(copy.getGrundData().getPatient().getPersonId().getPersonnummer());
-        assertNull(copy.getGrundData().getPatient().getFornamn());
-        assertNull(copy.getGrundData().getPatient().getEfternamn());
-        assertNull(copy.getGrundData().getPatient().getPostadress());
-        assertNull(copy.getGrundData().getPatient().getPostnummer());
-    }
-
-    @Test
-    public void testCreateCopyWithNewPatientPersonId() throws Exception {
-
-        Fk7263Utlatande utlatande = readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
-
-        CreateDraftCopyHolder copyData = createDraftCopyHolder("new-intyg-3", false, true);
-
-        assertEquals(PNR_TOLVAN, utlatande.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
-
-        Fk7263Utlatande copy = factory.createCopy(copyData, utlatande);
-
-        assertNotNull(copy);
-
-        assertEquals("new-intyg-3", utlatande.getId());
-        assertEquals("fk7263", utlatande.getTyp());
-
-        assertEquals(PNR_FJORTON, copy.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
-        assertNull(copy.getGrundData().getPatient().getFornamn());
-        assertNull(copy.getGrundData().getPatient().getEfternamn());
-    }
-
-    @Test
-    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV3
-        Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertEquals(5, UtlatandeToIntyg.convert(draft).getSvar().size());
-    }
-
-    private CreateDraftCopyHolder createDraftCopyHolder(String intygsCopyId, boolean addPatient, boolean addNewPersonId) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("VG1");
-        vardgivare.setVardgivarnamn("Vardgivaren");
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("VE1");
-        vardenhet.setEnhetsnamn("Sjukhuset");
-        vardenhet.setPostadress("Plåstergatan");
-        vardenhet.setVardgivare(vardgivare);
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setPersonId("TST12345678");
-        skapadAv.setFullstandigtNamn("Dr Dengroth");
-        skapadAv.setForskrivarKod("1234");
-        skapadAv.getSpecialiteter().add("Proktolog");
-        skapadAv.setVardenhet(vardenhet);
-        CreateDraftCopyHolder copyData = new CreateDraftCopyHolder(intygsCopyId, skapadAv);
-
-        if (addPatient) {
-            Patient patient = new Patient();
-            patient.setFornamn("Test");
-            patient.setMellannamn("Prov");
-            patient.setEfternamn("Testorsson");
-            patient.setPersonId(createPnr(PNR_TOLVAN));
-            patient.setPostadress("Gågatan");
-            patient.setPostnummer("12345");
-            patient.setPostort("Staden");
-            copyData.setPatient(patient);
-        }
-
-        if (addNewPersonId) {
-            copyData.setNewPersonnummer(createPnr(PNR_FJORTON));
-        }
-
-        return copyData;
-    }
-
-    private static Fk7263Utlatande readUtlatandeFromFile(String file) throws Exception {
-        String utlatandeSrc = readStringFromFile(file);
-        return new CustomObjectMapper().readValue(utlatandeSrc, Fk7263Utlatande.class);
-    }
-
-    private static String readStringFromFile(String filePath) {
-        try {
-            LOG.info("Reading test data from: {}", filePath);
-            ClassPathResource resource = new ClassPathResource(filePath);
-            return Resources.toString(resource.getURL(), Charsets.UTF_8);
-        } catch (IOException e) {
-            LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
-            return null;
-        }
-    }
-
-    private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
-        return draftHolder;
-    }
-
-    private Patient buildPatient() {
-        Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(createPnr(PNR_TOLVAN));
-        return patient;
-    }
-
-    private HoSPersonal buildHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
-        hosPerson.setPersonId("TST12345678");
-        hosPerson.setFullstandigtNamn("Doktor A");
-        hosPerson.setVardenhet(createVardenhet());
-        return hosPerson;
-    }
-
-    private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("VE1");
-        vardenhet.setEnhetsnamn("ve1");
-        vardenhet.setVardgivare(new Vardgivare());
-        vardenhet.getVardgivare().setVardgivarid("VG1");
-        vardenhet.getVardgivare().setVardgivarnamn("vg1");
-        return vardenhet;
-    }
-
-    private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
-    }
-
+  private Personnummer createPnr(String civicRegistrationNumber) {
+    return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+  }
 }

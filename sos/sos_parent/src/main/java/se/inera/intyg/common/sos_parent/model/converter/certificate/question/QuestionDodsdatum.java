@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,50 +40,41 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
-
 public class QuestionDodsdatum {
 
-    public static CertificateDataElement toCertificate(LocalDate dodsdatum, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DODSDATUM_DELSVAR_ID)
-            .parent(DODSDATUM_SAKERT_DELSVAR_ID)
-            .index(index)
-            .visible(dodsdatum != null)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .text(texts.get(DODSDATUM_QUESTION_TEXT_ID))
-                    .id(DODSDATUM_JSON_ID)
-                    .maxDate(LocalDate.now())
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(DODSDATUM_JSON_ID)
-                    .date(dodsdatum)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSDATUM_DELSVAR_ID)
-                        .expression(singleExpression(DODSDATUM_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(
-                            multipleAndExpression(
-                                exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
-                                withCitation(DODSDATUM_SAKERT_JSON_ID)
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      LocalDate dodsdatum, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DODSDATUM_DELSVAR_ID)
+        .parent(DODSDATUM_SAKERT_DELSVAR_ID)
+        .index(index)
+        .visible(dodsdatum != null)
+        .config(
+            CertificateDataConfigDate.builder()
+                .text(texts.get(DODSDATUM_QUESTION_TEXT_ID))
+                .id(DODSDATUM_JSON_ID)
+                .maxDate(LocalDate.now())
+                .build())
+        .value(CertificateDataValueDate.builder().id(DODSDATUM_JSON_ID).date(dodsdatum).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSDATUM_DELSVAR_ID)
+                  .expression(singleExpression(DODSDATUM_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
+                  .expression(
+                      multipleAndExpression(
+                          exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
+                          withCitation(DODSDATUM_SAKERT_JSON_ID)))
+                  .build()
+            })
+        .build();
+  }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), DODSDATUM_DELSVAR_ID, DODSDATUM_JSON_ID);
-        return localDate != null ? new InternalDate(localDate) : null;
-    }
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate = dateValue(certificate.getData(), DODSDATUM_DELSVAR_ID, DODSDATUM_JSON_ID);
+    return localDate != null ? new InternalDate(localDate) : null;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,12 +20,11 @@ package se.inera.intyg.common.doi.model.internal;
 
 public final class DodsorsaksgrundConstants {
 
-    public static final String UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
-    public static final String UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
-    public static final String KLINISK_OBDUKTION = "Klinisk obduktion";
-    public static final String RATTSMEDICINSK_OBDUKTION = "Rättsmedicinsk obduktion";
-    public static final String RATTSMEDICINSK_BESIKTNING = "Rättsmedicinsk likbesiktning";
+  public static final String UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
+  public static final String UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
+  public static final String KLINISK_OBDUKTION = "Klinisk obduktion";
+  public static final String RATTSMEDICINSK_OBDUKTION = "Rättsmedicinsk obduktion";
+  public static final String RATTSMEDICINSK_BESIKTNING = "Rättsmedicinsk likbesiktning";
 
-    private DodsorsaksgrundConstants() {
-    }
+  private DodsorsaksgrundConstants() {}
 }

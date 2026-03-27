@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,37 +34,28 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionLand {
 
-    public static final short LIMIT = (short) 24;
+  public static final short LIMIT = (short) 24;
 
-    public static CertificateDataElement toCertificate(String omLand, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(LAND_DELSVAR_ID)
-            .parent(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .text(texts.get(LAND_QUESTION_TEXT_ID))
-                    .id(LAND_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(LAND_JSON_ID)
-                    .text(omLand)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(LAND_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String omLand, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(LAND_DELSVAR_ID)
+        .parent(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .text(texts.get(LAND_QUESTION_TEXT_ID))
+                .id(LAND_JSON_ID)
+                .build())
+        .value(CertificateDataValueText.builder().id(LAND_JSON_ID).text(omLand).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder().id(LAND_JSON_ID).limit(LIMIT).build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), LAND_DELSVAR_ID, LAND_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), LAND_DELSVAR_ID, LAND_JSON_ID);
+  }
 }

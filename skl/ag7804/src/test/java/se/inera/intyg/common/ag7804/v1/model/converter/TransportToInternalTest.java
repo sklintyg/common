@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,73 +59,84 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @Before
-    public void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+  @Before
+  public void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    public static Ag7804UtlatandeV1 getUtlatande() {
-        Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
-        utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
-        utlatande.setOnskarFormedlaDiagnos(true);
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+  public static Ag7804UtlatandeV1 getUtlatande() {
+    Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
+    utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+    utlatande.setOnskarFormedlaDiagnos(true);
+    utlatande.setDiagnoser(
+        asList(
+            (Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
             Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setPagaendeBehandling("Medicin");
-        utlatande.setPlaneradBehandling("Mer medicin");
+    utlatande.setAktivitetsbegransning("Väldigt sjuk");
+    utlatande.setPagaendeBehandling("Medicin");
+    utlatande.setPlaneradBehandling("Mer medicin");
 
-        utlatande.setArbetslivsinriktadeAtgarder(
-            asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
+    utlatande.setArbetslivsinriktadeAtgarder(
+        asList(
+            ArbetslivsinriktadeAtgarder.create(
+                ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
 
-        utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.STUDIER)));
-        utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
-        utlatande.setArbetsresor(false);
-        utlatande.setSjukskrivningar(createSjukskrivningar());
-        utlatande.setFunktionsnedsattning("Funktionsnedsättning");
-        utlatande.setOvrigt("Trevlig kille");
-        utlatande.setKontaktMedAg(true);
-        utlatande.setAnledningTillKontakt("Känner mig ensam");
-        return utlatande.build();
-    }
+    utlatande.setSysselsattning(
+        Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.STUDIER)));
+    utlatande.setPrognos(
+        Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
+    utlatande.setArbetsresor(false);
+    utlatande.setSjukskrivningar(createSjukskrivningar());
+    utlatande.setFunktionsnedsattning("Funktionsnedsättning");
+    utlatande.setOvrigt("Trevlig kille");
+    utlatande.setKontaktMedAg(true);
+    utlatande.setAnledningTillKontakt("Känner mig ensam");
+    return utlatande.build();
+  }
 
-    private static List<Sjukskrivning> createSjukskrivningar() {
-        List<Sjukskrivning> result = new ArrayList<>();
-        result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4,
+  private static List<Sjukskrivning> createSjukskrivningar() {
+    List<Sjukskrivning> result = new ArrayList<>();
+    result.add(
+        Sjukskrivning.create(
+            Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4,
             new InternalLocalDateInterval("2016-12-01", "2016-12-31")));
-        result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN,
+    result.add(
+        Sjukskrivning.create(
+            Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN,
             new InternalLocalDateInterval("2017-01-01", "2017-02-12")));
-        return result;
-    }
+    return result;
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        Ag7804UtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
-        Ag7804UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
-
+  @Test
+  public void endToEnd() throws Exception {
+    Ag7804UtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate =
+        InternalToTransport.convert(originalUtlatande, webcertModuleService);
+    Ag7804UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

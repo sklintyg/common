@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,81 +40,80 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-
 class MetaDataGrundDataTest {
 
-    private GrundData grundData;
-    private CertificateMetadata metadata;
-    private CertificateTextProvider texts;
+  private GrundData grundData;
+  private CertificateMetadata metadata;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        final var unit = new Vardenhet();
-        final var skapadAv = new HoSPersonal();
-        final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
-        metadata = CertificateMetadata.builder()
+  @BeforeEach
+  void setup() {
+    final var unit = new Vardenhet();
+    final var skapadAv = new HoSPersonal();
+    final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+    metadata =
+        CertificateMetadata.builder()
             .unit(Unit.builder().build())
             .patient(Patient.builder().build())
             .build();
 
-        grundData = new GrundData();
-        skapadAv.setVardenhet(unit);
-        grundData.setSkapadAv(skapadAv);
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        grundData.setPatient(patient);
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("testString");
-    }
+    grundData = new GrundData();
+    skapadAv.setVardenhet(unit);
+    grundData.setSkapadAv(skapadAv);
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    grundData.setPatient(patient);
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("testString");
+  }
+
+  @Nested
+  class ToCertificate {
 
     @Nested
-    class ToCertificate {
+    class IncludeTestCommonMetadata extends CommonMetaDataTest {
 
-        @Nested
-        class IncludeTestCommonMetadata extends CommonMetaDataTest {
+      @Override
+      protected CertificateMetadata getMetaData() {
+        return MetaDataGrundData.toCertificate((LuaefsUtlatandeV1) getInternalCertificate(), texts);
+      }
 
-            @Override
-            protected CertificateMetadata getMetaData() {
-                return MetaDataGrundData.toCertificate((LuaefsUtlatandeV1) getInternalCertificate(), texts);
-            }
+      @Override
+      protected Utlatande getInternalCertificate() {
+        return LuaefsUtlatandeV1.builder()
+            .setGrundData(grundData)
+            .setId("id")
+            .setTextVersion("TextVersion")
+            .build();
+      }
 
-            @Override
-            protected Utlatande getInternalCertificate() {
-                return LuaefsUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
+      @Override
+      protected String getName() {
+        return MODULE_NAME;
+      }
 
-            @Override
-            protected String getName() {
-                return MODULE_NAME;
-            }
+      @Override
+      protected String getDescription() {
+        return DETAILED_DESCRIPTION_TEXT_KEY;
+      }
 
-            @Override
-            protected String getDescription() {
-                return DETAILED_DESCRIPTION_TEXT_KEY;
-            }
+      @Override
+      protected CertificateTextProvider getTextProvider() {
+        return texts;
+      }
 
-            @Override
-            protected CertificateTextProvider getTextProvider() {
-                return texts;
-            }
-
-            @Override
-            protected String getTypeName() {
-                return LuaefsEntryPoint.ISSUER_TYPE_ID;
-            }
-        }
-
+      @Override
+      protected String getTypeName() {
+        return LuaefsEntryPoint.ISSUER_TYPE_ID;
+      }
     }
+  }
 
-    @Nested
-    class ToInternal extends InternalMetaDataTest {
+  @Nested
+  class ToInternal extends InternalMetaDataTest {
 
-        @Override
-        protected GrundData getToInternal() {
-            return toInternal(metadata, grundData);
-        }
+    @Override
+    protected GrundData getToInternal() {
+      return toInternal(metadata, grundData);
     }
+  }
 }

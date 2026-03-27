@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,60 +37,65 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 @Component("db.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<DbUtlatandeV1> {
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Override
-    public DbUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+  @Override
+  public DbUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        DbUtlatandeV1.Builder template = DbUtlatandeV1.builder();
-        GrundData grundData = new GrundData();
+    DbUtlatandeV1.Builder template = DbUtlatandeV1.builder();
+    GrundData grundData = new GrundData();
 
-        template.setTextVersion(newDraftData.getIntygTypeVersion());
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    template.setTextVersion(newDraftData.getIntygTypeVersion());
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
 
-        template.setGrundData(grundData);
+    template.setGrundData(grundData);
 
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(DbModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            DbModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        return template.build();
+    return template.build();
+  }
+
+  @Override
+  public DbUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!DbUtlatandeV1.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type DbUtlatande");
     }
 
-    @Override
-    public DbUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!DbUtlatandeV1.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type DbUtlatande");
-        }
+    DbUtlatandeV1 dbUtlatandeV1 = (DbUtlatandeV1) template;
 
-        DbUtlatandeV1 dbUtlatandeV1 = (DbUtlatandeV1) template;
+    LOG.trace(
+        "Creating copy with id {} from {}", copyData.getCertificateId(), dbUtlatandeV1.getId());
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), dbUtlatandeV1.getId());
+    DbUtlatandeV1.Builder templateBuilder = dbUtlatandeV1.toBuilder();
+    GrundData grundData = dbUtlatandeV1.getGrundData();
 
-        DbUtlatandeV1.Builder templateBuilder = dbUtlatandeV1.toBuilder();
-        GrundData grundData = dbUtlatandeV1.getGrundData();
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInCopy(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
 
-        resetDataInCopy(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
+  private void populateWithId(DbUtlatandeV1.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(DbUtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
-
-    private void resetDataInCopy(GrundData grundData) {
-        grundData.setSigneringsdatum(null);
-    }
+  private void resetDataInCopy(GrundData grundData) {
+    grundData.setSigneringsdatum(null);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,183 +37,229 @@ import se.inera.intyg.common.ts_diabetes.v2.validator.Validator;
 
 public class InternalValidatorTest {
 
-    private static final int T3 = 3;
-    private Validator validator;
+  private static final int T3 = 3;
+  private Validator validator;
 
-    @Before
-    public void setUp() throws Exception {
-        validator = new Validator();
+  @Before
+  public void setUp() throws Exception {
+    validator = new Validator();
+  }
+
+  @Test
+  public void testValidate() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
+      TsDiabetesUtlatandeV2 utlatande = scenario.asInternalModel();
+      ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+
+      assertEquals(
+          "Error in scenario "
+              + scenario.getName()
+              + "\n"
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+          ValidationStatus.VALID,
+          validationResponse.getStatus());
+
+      assertTrue(
+          "Error in scenario "
+              + scenario.getName()
+              + "\n"
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+          validationResponse.getValidationErrors().isEmpty());
     }
+  }
 
-    @Test
-    public void testValidate() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            TsDiabetesUtlatandeV2 utlatande = scenario.asInternalModel();
-            ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+  @Test
+  public void testValidateWithErrors() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
-            assertEquals(
-                "Error in scenario " + scenario.getName() + "\n"
-                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                ValidationStatus.VALID,
-                validationResponse.getStatus());
+      TsDiabetesUtlatandeV2 utlatande = scenario.asInternalModel();
+      utlatande
+          .getDiabetes()
+          .setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
+      ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-            assertTrue(
-                "Error in scenario " + scenario.getName() + "\n"
-                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                validationResponse
-                    .getValidationErrors().isEmpty());
-
-        }
+      assertEquals(
+          String.format("Error in test: %s", scenario.getName()),
+          ValidationStatus.INVALID,
+          validationResponse.getStatus());
     }
+  }
 
-    @Test
-    public void testValidateWithErrors() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
+  @Test
+  public void testInvalidSynskarpa() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-            TsDiabetesUtlatandeV2 utlatande = scenario.asInternalModel();
-            utlatande.getDiabetes().setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
-            ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "syn.vanster.medKorrektion",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-            assertEquals(String.format("Error in test: %s", scenario.getName()), ValidationStatus.INVALID, validationResponse.getStatus());
-        }
-    }
+  @Test
+  public void testInvalidOgonlakarintygSaknasCorrectSortOrder() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-missing-ogonlakarintyg").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(5, validationResponse.getValidationErrors().size());
+    int index = 0;
+    assertEquals(
+        "syn.synfaltsprovningUtanAnmarkning",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.hoger.utanKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.vanster.utanKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.binokulart.utanKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals("syn.diplopi", validationResponse.getValidationErrors().get(index++).getField());
+  }
 
-    @Test
-    public void testInvalidSynskarpa() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+  @Test
+  public void testInvalidAllmanDiabetesSaknasCorrectSortOrder() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande = buildUtlatandeWithoutDiabetesFieldsSet();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(3, validationResponse.getValidationErrors().size());
+    int index = 0;
+    assertEquals(
+        "diabetes.observationsperiod",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "diabetes.diabetesTyp", validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "diabetes.behandlingsTyp", validationResponse.getValidationErrors().get(index).getField());
+  }
 
-        assertEquals("syn.vanster.medKorrektion", getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+  /*
+   * Since the validation of this field (Hypoglykemier.AllvarligForekomstVakenTidObservationstid) depends on the actual date,
+   * this must be done programmatically and can thus not be tested with the scenario based approach used above.
+   */
+  @Test
+  public void testValidDateHypoglykemi() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
+    utlatande
+        .getHypoglykemier()
+        .setAllvarligForekomstVakenTidObservationstid(
+            new InternalDate(LocalDate.now().minusMonths(6)));
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-    @Test
-    public void testInvalidOgonlakarintygSaknasCorrectSortOrder() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-ogonlakarintyg").asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        assertEquals(5, validationResponse.getValidationErrors().size());
-        int index = 0;
-        assertEquals("syn.synfaltsprovningUtanAnmarkning", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.hoger.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.vanster.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.binokulart.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.diplopi", validationResponse.getValidationErrors().get(index++).getField());
-    }
+    assertTrue(validationResponse.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void testInvalidAllmanDiabetesSaknasCorrectSortOrder() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = buildUtlatandeWithoutDiabetesFieldsSet();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        assertEquals(3, validationResponse.getValidationErrors().size());
-        int index = 0;
-        assertEquals("diabetes.observationsperiod", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("diabetes.diabetesTyp", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("diabetes.behandlingsTyp", validationResponse.getValidationErrors().get(index).getField());
-    }
+  @Test
+  public void testInvalidDateFormatHypoglykemi() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-    /*
-     * Since the validation of this field (Hypoglykemier.AllvarligForekomstVakenTidObservationstid) depends on the actual date,
-     * this must be done programmatically and can thus not be tested with the scenario based approach used above.
-     */
-    @Test
-    public void testValidDateHypoglykemi() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
-        utlatande.getHypoglykemier().setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now().minusMonths(6)));
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "hypoglykemier.allvarligForekomstVakenTidObservationstid",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-        assertTrue(validationResponse.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void testDateHypoglykemiMoreThenOneYearInThePast() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
+    utlatande
+        .getHypoglykemier()
+        .setAllvarligForekomstVakenTidObservationstid(
+            new InternalDate(LocalDate.now().minusYears(1).minusDays(1)));
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-    @Test
-    public void testInvalidDateFormatHypoglykemi() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "hypoglykemier.allvarligForekomstVakenTidObservationstid",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-        assertEquals("hypoglykemier.allvarligForekomstVakenTidObservationstid",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+  @Test
+  public void testInvalidDiabetesMissing() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-missing-diabetes").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-    @Test
-    public void testDateHypoglykemiMoreThenOneYearInThePast() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-date-format-hypoglykemi").asInternalModel();
-        utlatande.getHypoglykemier()
-            .setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now().minusYears(1).minusDays(1)));
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(T3, validationResponse.getValidationErrors().size());
+  }
 
-        assertEquals("hypoglykemier.allvarligForekomstVakenTidObservationstid",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+  @Test
+  public void testInvalidDiabetesInsulinperiod() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
+    utlatande
+        .getDiabetes()
+        .setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "diabetes.insulinBehandlingsperiod",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-    @Test
-    public void testInvalidDiabetesMissing() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-diabetes").asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+  @Test
+  public void testInvalidMutationsDiabetesInsulinperiod() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
+    ValidateDraftResponse validationResponse;
 
-        assertEquals(T3, validationResponse.getValidationErrors().size());
-    }
+    utlatande.getDiabetes().setInsulinBehandlingsperiod("1111");
+    validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "diabetes.insulinBehandlingsperiod",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
 
-    @Test
-    public void testInvalidDiabetesInsulinperiod() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
-        utlatande.getDiabetes().setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulinBehandlingsperiod",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+    utlatande.getDiabetes().setInsulinBehandlingsperiod("");
+    validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "diabetes.insulinBehandlingsperiod",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
 
-    @Test
-    public void testInvalidMutationsDiabetesInsulinperiod() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
-        ValidateDraftResponse validationResponse;
+    utlatande.getDiabetes().setInsulinBehandlingsperiod("aaaaaaaaaaaaaaa");
+    validationResponse = validator.validateDraft(utlatande);
+    assertEquals(
+        "diabetes.insulinBehandlingsperiod",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-        utlatande.getDiabetes().setInsulinBehandlingsperiod("1111");
-        validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulinBehandlingsperiod",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-
-        utlatande.getDiabetes().setInsulinBehandlingsperiod("");
-        validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulinBehandlingsperiod",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-
-        utlatande.getDiabetes().setInsulinBehandlingsperiod("aaaaaaaaaaaaaaa");
-        validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulinBehandlingsperiod",
-            getSingleElement(validationResponse.getValidationErrors()).getField());
-
-    }
-
-    @Test
-    public void testInvalidHypoglykemierMissing() throws Exception {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-hypoglykemier-kunskap")
+  @Test
+  public void testInvalidHypoglykemierMissing() throws Exception {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-missing-hypoglykemier-kunskap")
             .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-        assertEquals("hypoglykemier.kunskapOmAtgarder", getSingleElement(validationResponse.getValidationErrors())
-            .getField());
-    }
+    assertEquals(
+        "hypoglykemier.kunskapOmAtgarder",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-    /**
-     * Utility method for getting a single element from a collection.
-     *
-     * @param collection the collection
-     * @return a single element, throws IllegalArgumentException in case the collection contains more than one element
-     */
-    public static <T> T getSingleElement(Collection<T> collection) {
-        if (collection.size() != 1) {
-            throw new java.lang.IllegalArgumentException("Expected collection with exactly one element");
-        }
-        return collection.iterator().next();
+  /**
+   * Utility method for getting a single element from a collection.
+   *
+   * @param collection the collection
+   * @return a single element, throws IllegalArgumentException in case the collection contains more
+   *     than one element
+   */
+  public static <T> T getSingleElement(Collection<T> collection) {
+    if (collection.size() != 1) {
+      throw new java.lang.IllegalArgumentException("Expected collection with exactly one element");
     }
+    return collection.iterator().next();
+  }
 
-    private TsDiabetesUtlatandeV2 buildUtlatandeWithoutDiabetesFieldsSet() throws ScenarioNotFoundException {
-        TsDiabetesUtlatandeV2 utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
-        utlatande.getDiabetes().setAnnanBehandlingBeskrivning(null);
-        utlatande.getDiabetes().setDiabetestyp(null);
-        utlatande.getDiabetes().setEndastKost(null);
-        utlatande.getDiabetes().setInsulin(null);
-        utlatande.getDiabetes().setInsulinBehandlingsperiod(null);
-        utlatande.getDiabetes().setObservationsperiod(null);
-        utlatande.getDiabetes().setTabletter(null);
-        return utlatande;
-    }
+  private TsDiabetesUtlatandeV2 buildUtlatandeWithoutDiabetesFieldsSet()
+      throws ScenarioNotFoundException {
+    TsDiabetesUtlatandeV2 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
+    utlatande.getDiabetes().setAnnanBehandlingBeskrivning(null);
+    utlatande.getDiabetes().setDiabetestyp(null);
+    utlatande.getDiabetes().setEndastKost(null);
+    utlatande.getDiabetes().setInsulin(null);
+    utlatande.getDiabetes().setInsulinBehandlingsperiod(null);
+    utlatande.getDiabetes().setObservationsperiod(null);
+    utlatande.getDiabetes().setTabletter(null);
+    return utlatande;
+  }
 }

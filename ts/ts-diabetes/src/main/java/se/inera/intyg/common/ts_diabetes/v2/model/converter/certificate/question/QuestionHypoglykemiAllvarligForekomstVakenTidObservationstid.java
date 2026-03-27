@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
@@ -32,24 +31,25 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionHypoglykemiAllvarligForekomstVakenTidObservationstid {
 
-    public static CertificateDataElement toCertificate(InternalDate allvarligForekomstVakenTidObservationstid, int index,
-        CertificateTextProvider textProvider) {
-        final var observationstid =
-            allvarligForekomstVakenTidObservationstid != null ? allvarligForekomstVakenTidObservationstid.getDate() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID)
-            .parent(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(stringValue(observationstid))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      InternalDate allvarligForekomstVakenTidObservationstid,
+      int index,
+      CertificateTextProvider textProvider) {
+    final var observationstid =
+        allvarligForekomstVakenTidObservationstid != null
+            ? allvarligForekomstVakenTidObservationstid.getDate()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_ID)
+        .parent(HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(
+                    textProvider.get(
+                        HYPOGLYKEMI_ALLVARLIG_FOREKOMST_VAKEN_TID_OBSERVATIONSTID_SVAR_TEXT_ID))
+                .build())
+        .value(CertificateDataValueViewText.builder().text(stringValue(observationstid)).build())
+        .build();
+  }
 }

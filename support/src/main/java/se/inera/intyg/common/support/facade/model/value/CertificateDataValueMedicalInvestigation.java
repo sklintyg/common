@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,21 +25,19 @@ import lombok.Getter;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation.CertificateDataValueMedicalInvestigationBuilder;
 
-
 @JsonDeserialize(builder = CertificateDataValueMedicalInvestigationBuilder.class)
 @Value
 @Builder
 public class CertificateDataValueMedicalInvestigation implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
-    String id;
-    CertificateDataValueDate date;
-    CertificateDataValueText informationSource;
-    CertificateDataValueCode investigationType;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.MEDICAL_INVESTIGATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueMedicalInvestigationBuilder {
+  String id;
+  CertificateDataValueDate date;
+  CertificateDataValueText informationSource;
+  CertificateDataValueCode investigationType;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueMedicalInvestigationBuilder {}
 }

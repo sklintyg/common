@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,59 +36,58 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategor
 @ExtendWith({MockitoExtension.class})
 class CategoryMedvetandestorningTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryMedvetandestorning.toCertificate(0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryMedvetandestorning.toCertificate(0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return MEDVETANDESTORNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return null;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return MEDVETANDESTORNING_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeConfigCategoryTests extends ConfigCategoryTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryMedvetandestorning.toCertificate(0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return MEDVETANDESTORNING_CATEGORY_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return null;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigCategoryTests extends ConfigCategoryTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryMedvetandestorning.toCertificate(0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return MEDVETANDESTORNING_CATEGORY_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
 }

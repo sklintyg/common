@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,45 +20,45 @@ package se.inera.intyg.common.support.common.enumerations;
 
 import java.util.stream.Stream;
 
-/**
- * Handelsekod for notification schema v2 and later.
- */
+/** Handelsekod for notification schema v2 and later. */
 public enum HandelsekodEnum {
 
-    // Codes introduced in v2
-    SKAPAT("SKAPAT", "Intygsutkast skapas"),
-    SIGNAT("SIGNAT", "Intyg signerat"),
-    SKICKA("SKICKA", "Intyg skickat till mottagare"),
-    RADERA("RADERA", "Intygsutkast raderat"),
-    MAKULE("MAKULE", "Intyg eller intygsutkast makulerat"),
-    NYFRFM("NYFRFM", "Ny fråga från mottagare"),
-    NYSVFM("NYSVFM", "Nytt svar från mottagare"),
-    NYFRFV("NYFRFV", "Ny fråga från vården"),
-    HANFRFV("HANFRFV", "Hanterad fråga från vården"),
-    HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
-    ANDRAT("ANDRAT", "Intygsutkast ändrat"),
+  // Codes introduced in v2
+  SKAPAT("SKAPAT", "Intygsutkast skapas"),
+  SIGNAT("SIGNAT", "Intyg signerat"),
+  SKICKA("SKICKA", "Intyg skickat till mottagare"),
+  RADERA("RADERA", "Intygsutkast raderat"),
+  MAKULE("MAKULE", "Intyg eller intygsutkast makulerat"),
+  NYFRFM("NYFRFM", "Ny fråga från mottagare"),
+  NYSVFM("NYSVFM", "Nytt svar från mottagare"),
+  NYFRFV("NYFRFV", "Ny fråga från vården"),
+  HANFRFV("HANFRFV", "Hanterad fråga från vården"),
+  HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
+  ANDRAT("ANDRAT", "Intygsutkast ändrat"),
 
-    // Codes introduced in v2.1
-    KFSIGN("KFSIGN", "Intygsutkast klart för signering");
+  // Codes introduced in v2.1
+  KFSIGN("KFSIGN", "Intygsutkast klart för signering");
 
-    private final String value;
-    private final String description;
+  private final String value;
+  private final String description;
 
-    HandelsekodEnum(String value, String description) {
-        this.value = value;
-        this.description = description;
-    }
+  HandelsekodEnum(String value, String description) {
+    this.value = value;
+    this.description = description;
+  }
 
-    public String value() {
-        return value;
-    }
+  public String value() {
+    return value;
+  }
 
-    public String description() {
-        return description;
-    }
+  public String description() {
+    return description;
+  }
 
-    public static HandelsekodEnum fromValue(String value) {
-        return Stream.of(HandelsekodEnum.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
-    }
+  public static HandelsekodEnum fromValue(String value) {
+    return Stream.of(HandelsekodEnum.values())
+        .filter(s -> value.equals(s.value()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(value));
+  }
 }

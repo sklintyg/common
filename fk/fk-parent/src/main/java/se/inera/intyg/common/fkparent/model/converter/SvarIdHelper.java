@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,13 +23,13 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public interface SvarIdHelper<T extends Utlatande> {
 
-    /**
-     * Get specific jsonProperties in order according to which grund for MU
-     * exists in certificate. Positon 0 is base case.
-     *
-     * @param utlatande the relevant certificate
-     * @return a (ordered) list of the jsonProperties matching grund for MU in the supplied certificate, starting with
-     * the jsonProperty for the question.
-     */
-    List<String> calculateFrageIdHandleForGrundForMU(T utlatande);
+  /**
+   * Get specific jsonProperties in order according to which grund for MU exists in certificate.
+   * Positon 0 is base case.
+   *
+   * @param utlatande the relevant certificate
+   * @return a (ordered) list of the jsonProperties matching grund for MU in the supplied
+   *     certificate, starting with the jsonProperty for the question.
+   */
+  List<String> calculateFrageIdHandleForGrundForMU(T utlatande);
 }

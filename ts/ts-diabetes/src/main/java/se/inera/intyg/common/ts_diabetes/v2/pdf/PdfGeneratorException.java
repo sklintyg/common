@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,21 +20,22 @@ package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
 public class PdfGeneratorException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public PdfGeneratorException(String message) {
-        super(message);
-    }
+  public PdfGeneratorException(String message) {
+    super(message);
+  }
 
-    public PdfGeneratorException(Throwable cause) {
-        super(cause);
-    }
+  public PdfGeneratorException(Throwable cause) {
+    super(cause);
+  }
 
-    public PdfGeneratorException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public PdfGeneratorException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public PdfGeneratorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+  public PdfGeneratorException(
+      String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

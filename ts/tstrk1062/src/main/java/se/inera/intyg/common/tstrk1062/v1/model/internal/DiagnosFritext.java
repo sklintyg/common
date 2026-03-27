@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,16 +29,14 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class DiagnosFritext {
 
-    @JsonCreator
-    public static DiagnosFritext create(@JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID) String diagnosFritext,
-        @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
-        return new AutoValue_DiagnosFritext(diagnosFritext, diagnosArtal);
-    }
+  @JsonCreator
+  public static DiagnosFritext create(
+      @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID) String diagnosFritext,
+      @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
+    return new AutoValue_DiagnosFritext(diagnosFritext, diagnosArtal);
+  }
 
-    @Nullable
-    public abstract String getDiagnosFritext();
+  @Nullable public abstract String getDiagnosFritext();
 
-    @Nullable
-    public abstract String getDiagnosArtal();
-
+  @Nullable public abstract String getDiagnosArtal();
 }

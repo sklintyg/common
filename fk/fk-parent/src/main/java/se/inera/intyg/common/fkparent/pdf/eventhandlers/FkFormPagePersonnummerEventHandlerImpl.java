@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,54 +19,55 @@
 package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
 /**
- * Extension of the generic FkAbstractPersonnummerEventHandler, overriding the positioning an on which pages to show the
- * personnummer on static form pages.
+ * Extension of the generic FkAbstractPersonnummerEventHandler, overriding the positioning an on
+ * which pages to show the personnummer on static form pages.
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkFormPagePersonnummerEventHandlerImpl extends FkAbstractPersonnummerEventHandler {
 
-    private static final float DEFAULT_X_OFFSET = 152f;
-    private static final float DEFAULT_Y_OFFSET = 9f;
+  private static final float DEFAULT_X_OFFSET = 152f;
+  private static final float DEFAULT_Y_OFFSET = 9f;
 
-    private final float offsetX;
-    private final float offsetY;
+  private final float offsetX;
+  private final float offsetY;
 
-    private final int activeFromPage;
-    private final int activeToPage;
+  private final int activeFromPage;
+  private final int activeToPage;
 
-    public FkFormPagePersonnummerEventHandlerImpl(String personnummer) {
-        this(personnummer, 0f, 0f);
-    }
+  public FkFormPagePersonnummerEventHandlerImpl(String personnummer) {
+    this(personnummer, 0f, 0f);
+  }
 
-    public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY) {
-        this(personnummer, offsetX, offsetY, 2, 4);
-    }
+  public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY) {
+    this(personnummer, offsetX, offsetY, 2, 4);
+  }
 
-    public FkFormPagePersonnummerEventHandlerImpl(String personnummer, float offsetX, float offsetY, int activeFromPage, int activeToPage) {
-        super(personnummer);
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.activeFromPage = activeFromPage;
-        this.activeToPage = activeToPage;
-    }
+  public FkFormPagePersonnummerEventHandlerImpl(
+      String personnummer, float offsetX, float offsetY, int activeFromPage, int activeToPage) {
+    super(personnummer);
+    this.offsetX = offsetX;
+    this.offsetY = offsetY;
+    this.activeFromPage = activeFromPage;
+    this.activeToPage = activeToPage;
+  }
 
-    @Override
-    protected int getActiveFromPage() {
-        return activeFromPage;
-    }
+  @Override
+  protected int getActiveFromPage() {
+    return activeFromPage;
+  }
 
-    @Override
-    protected int getActiveToPage() {
-        return activeToPage;
-    }
+  @Override
+  protected int getActiveToPage() {
+    return activeToPage;
+  }
 
-    @Override
-    protected float getXOffset() {
-        return DEFAULT_X_OFFSET + offsetX;
-    }
+  @Override
+  protected float getXOffset() {
+    return DEFAULT_X_OFFSET + offsetX;
+  }
 
-    @Override
-    protected float getYOffset() {
-        return DEFAULT_Y_OFFSET + offsetY;
-    }
+  @Override
+  protected float getYOffset() {
+    return DEFAULT_Y_OFFSET + offsetY;
+  }
 }

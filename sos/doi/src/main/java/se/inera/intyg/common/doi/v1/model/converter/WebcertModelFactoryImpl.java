@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,84 +39,90 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 @Component("doi.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatandeV1> {
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Override
-    public DoiUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+  @Override
+  public DoiUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        DoiUtlatandeV1.Builder template = DoiUtlatandeV1.builder();
-        GrundData grundData = new GrundData();
+    DoiUtlatandeV1.Builder template = DoiUtlatandeV1.builder();
+    GrundData grundData = new GrundData();
 
-        template.setTextVersion(newDraftData.getIntygTypeVersion());
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    template.setTextVersion(newDraftData.getIntygTypeVersion());
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
 
-        template.setGrundData(grundData);
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(DoiModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    template.setGrundData(grundData);
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            DoiModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        return template.build();
+    return template.build();
+  }
+
+  @Override
+  public DoiUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (DoiUtlatandeV1.class.isInstance(template)) {
+      DoiUtlatandeV1 doiUtlatandeV1 = (DoiUtlatandeV1) template;
+
+      LOG.trace(
+          "Creating copy with id {} from {}", copyData.getCertificateId(), doiUtlatandeV1.getId());
+
+      DoiUtlatandeV1.Builder templateBuilder = doiUtlatandeV1.toBuilder();
+      GrundData grundData = doiUtlatandeV1.getGrundData();
+
+      populateWithId(templateBuilder, copyData.getCertificateId());
+      WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+      resetDataInCopy(grundData);
+      templateBuilder.setSignature(null);
+      return templateBuilder.build();
+    } else if (SosUtlatande.class.isInstance(template)) {
+      SosUtlatande sosUtlatande = (SosUtlatande) template;
+      DoiUtlatandeV1.Builder builder = DoiUtlatandeV1.builder();
+      GrundData grundData = sosUtlatande.getGrundData();
+
+      populateWithId(builder, copyData.getCertificateId());
+      WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+      resetDataInCopy(grundData);
+
+      builder.setGrundData(grundData);
+      // NOTE: See INTYG-7212 - which version to set here?
+      builder.setTextVersion("1.0");
+
+      builder.setIdentitetStyrkt(sosUtlatande.getIdentitetStyrkt());
+      builder.setDodsdatumSakert(sosUtlatande.getDodsdatumSakert());
+      builder.setDodsdatum(new InternalDate(sosUtlatande.getDodsdatum().getDate()));
+      if (sosUtlatande.getAntraffatDodDatum() != null) {
+        builder.setAntraffatDodDatum(
+            new InternalDate(sosUtlatande.getAntraffatDodDatum().getDate()));
+      }
+      builder.setDodsplatsKommun(sosUtlatande.getDodsplatsKommun());
+      builder.setDodsplatsBoende(sosUtlatande.getDodsplatsBoende());
+      builder.setBarn(sosUtlatande.getBarn());
+      builder.setSignature(null);
+      return builder.build();
+    } else {
+      throw new ConverterException("Template is not of correct type");
     }
+  }
 
-    @Override
-    public DoiUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (DoiUtlatandeV1.class.isInstance(template)) {
-            DoiUtlatandeV1 doiUtlatandeV1 = (DoiUtlatandeV1) template;
-
-            LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), doiUtlatandeV1.getId());
-
-            DoiUtlatandeV1.Builder templateBuilder = doiUtlatandeV1.toBuilder();
-            GrundData grundData = doiUtlatandeV1.getGrundData();
-
-            populateWithId(templateBuilder, copyData.getCertificateId());
-            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-
-            resetDataInCopy(grundData);
-            templateBuilder.setSignature(null);
-            return templateBuilder.build();
-        } else if (SosUtlatande.class.isInstance(template)) {
-            SosUtlatande sosUtlatande = (SosUtlatande) template;
-            DoiUtlatandeV1.Builder builder = DoiUtlatandeV1.builder();
-            GrundData grundData = sosUtlatande.getGrundData();
-
-            populateWithId(builder, copyData.getCertificateId());
-            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-
-            resetDataInCopy(grundData);
-
-            builder.setGrundData(grundData);
-            //NOTE: See INTYG-7212 - which version to set here?
-            builder.setTextVersion("1.0");
-
-            builder.setIdentitetStyrkt(sosUtlatande.getIdentitetStyrkt());
-            builder.setDodsdatumSakert(sosUtlatande.getDodsdatumSakert());
-            builder.setDodsdatum(new InternalDate(sosUtlatande.getDodsdatum().getDate()));
-            if (sosUtlatande.getAntraffatDodDatum() != null) {
-                builder.setAntraffatDodDatum(new InternalDate(sosUtlatande.getAntraffatDodDatum().getDate()));
-            }
-            builder.setDodsplatsKommun(sosUtlatande.getDodsplatsKommun());
-            builder.setDodsplatsBoende(sosUtlatande.getDodsplatsBoende());
-            builder.setBarn(sosUtlatande.getBarn());
-            builder.setSignature(null);
-            return builder.build();
-        } else {
-            throw new ConverterException("Template is not of correct type");
-        }
+  private void populateWithId(DoiUtlatandeV1.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(DoiUtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
-
-    private void resetDataInCopy(GrundData grundData) {
-        grundData.setSigneringsdatum(null);
-    }
+  private void resetDataInCopy(GrundData grundData) {
+    grundData.setSigneringsdatum(null);
+  }
 }

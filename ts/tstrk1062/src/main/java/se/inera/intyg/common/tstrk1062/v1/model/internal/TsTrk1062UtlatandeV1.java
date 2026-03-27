@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,120 +48,105 @@ import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 @JsonDeserialize(builder = AutoValue_TsTrk1062UtlatandeV1.Builder.class)
 public abstract class TsTrk1062UtlatandeV1 implements Utlatande {
 
-    @Override
-    public String getTyp() {
-        return TsTrk1062EntryPoint.MODULE_ID;
+  @Override
+  public String getTyp() {
+    return TsTrk1062EntryPoint.MODULE_ID;
+  }
+
+  @Override
+  @Nullable public abstract String getId();
+
+  @Override
+  @Nullable public abstract GrundData getGrundData();
+
+  @Override
+  @Nullable public abstract String getTextVersion();
+
+  @Override
+  @Nullable public abstract String getSignature();
+
+  @Nullable public abstract String getKommentar();
+
+  @Nullable public abstract IntygAvser getIntygAvser();
+
+  @Nullable public abstract IdKontroll getIdKontroll();
+
+  @Nullable public abstract DiagnosRegistrering getDiagnosRegistrering();
+
+  @Nullable public abstract ImmutableList<DiagnosKodad> getDiagnosKodad();
+
+  @Nullable public abstract DiagnosFritext getDiagnosFritext();
+
+  @Nullable public abstract Lakemedelsbehandling getLakemedelsbehandling();
+
+  @Nullable public abstract String getBedomningAvSymptom();
+
+  @Nullable public abstract PrognosTillstand getPrognosTillstand();
+
+  @Nullable public abstract String getOvrigaKommentarer();
+
+  @Nullable public abstract Bedomning getBedomning();
+
+  public abstract Builder toBuilder();
+
+  public static Builder builder() {
+    return new AutoValue_TsTrk1062UtlatandeV1.Builder()
+        .setDiagnosKodad(ImmutableList.of())
+        .setSignature(null);
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract TsTrk1062UtlatandeV1 build();
+
+    @JsonProperty(ID_JSON_ID)
+    public abstract Builder setId(String id);
+
+    @JsonProperty(GRUNDDATA_JSON_ID)
+    public abstract Builder setGrundData(GrundData grundData);
+
+    @JsonProperty(TEXT_VERSION_JSON_ID)
+    public abstract Builder setTextVersion(String textVersion);
+
+    @JsonProperty(SIGNATURE_JSON_ID)
+    public abstract Builder setSignature(String signature);
+
+    @JsonProperty(KOMMENTAR_JSON_ID)
+    public abstract Builder setKommentar(String kommentar);
+
+    @JsonProperty(INTYG_AVSER_SVAR_JSON_ID)
+    public abstract Builder setIntygAvser(IntygAvser intygAvser);
+
+    @JsonProperty(ID_KONTROLL_SVAR_JSON_ID)
+    public abstract Builder setIdKontroll(IdKontroll idKontroll);
+
+    @JsonProperty(ALLMANT_INMATNING_SVAR_JSON_ID)
+    public abstract Builder setDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering);
+
+    @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID)
+    public Builder setDiagnosKodad(List<DiagnosKodad> diagnosKodadList) {
+      return setDiagnosKodad(ImmutableList.copyOf(diagnosKodadList));
     }
 
-    @Override
-    @Nullable
-    public abstract String getId();
+    abstract Builder setDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad);
 
-    @Override
-    @Nullable
-    public abstract GrundData getGrundData();
+    @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID)
+    public abstract Builder setDiagnosFritext(DiagnosFritext diagnosFritext);
 
-    @Override
-    @Nullable
-    public abstract String getTextVersion();
+    @JsonProperty(LAKEMEDELSBEHANDLING_JSON_ID)
+    public abstract Builder setLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling);
 
-    @Override
-    @Nullable
-    public abstract String getSignature();
+    @JsonProperty(SYMPTOM_BEDOMNING_DELSVAR_JSON_ID)
+    public abstract Builder setBedomningAvSymptom(String bedomningAvSymptom);
 
-    @Nullable
-    public abstract String getKommentar();
+    @JsonProperty(SYMPTOM_PROGNOS_SVAR_JSON_ID)
+    public abstract Builder setPrognosTillstand(PrognosTillstand prognosTillstand);
 
-    @Nullable
-    public abstract IntygAvser getIntygAvser();
+    @JsonProperty(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_JSON_ID)
+    public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
 
-    @Nullable
-    public abstract IdKontroll getIdKontroll();
-
-    @Nullable
-    public abstract DiagnosRegistrering getDiagnosRegistrering();
-
-    @Nullable
-    public abstract ImmutableList<DiagnosKodad> getDiagnosKodad();
-
-    @Nullable
-    public abstract DiagnosFritext getDiagnosFritext();
-
-    @Nullable
-    public abstract Lakemedelsbehandling getLakemedelsbehandling();
-
-    @Nullable
-    public abstract String getBedomningAvSymptom();
-
-    @Nullable
-    public abstract PrognosTillstand getPrognosTillstand();
-
-    @Nullable
-    public abstract String getOvrigaKommentarer();
-
-    @Nullable
-    public abstract Bedomning getBedomning();
-
-    public abstract Builder toBuilder();
-
-    public static Builder builder() {
-        return new AutoValue_TsTrk1062UtlatandeV1.Builder()
-            .setDiagnosKodad(ImmutableList.of())
-            .setSignature(null);
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract TsTrk1062UtlatandeV1 build();
-
-        @JsonProperty(ID_JSON_ID)
-        public abstract Builder setId(String id);
-
-        @JsonProperty(GRUNDDATA_JSON_ID)
-        public abstract Builder setGrundData(GrundData grundData);
-
-        @JsonProperty(TEXT_VERSION_JSON_ID)
-        public abstract Builder setTextVersion(String textVersion);
-
-        @JsonProperty(SIGNATURE_JSON_ID)
-        public abstract Builder setSignature(String signature);
-
-        @JsonProperty(KOMMENTAR_JSON_ID)
-        public abstract Builder setKommentar(String kommentar);
-
-        @JsonProperty(INTYG_AVSER_SVAR_JSON_ID)
-        public abstract Builder setIntygAvser(IntygAvser intygAvser);
-
-        @JsonProperty(ID_KONTROLL_SVAR_JSON_ID)
-        public abstract Builder setIdKontroll(IdKontroll idKontroll);
-
-        @JsonProperty(ALLMANT_INMATNING_SVAR_JSON_ID)
-        public abstract Builder setDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering);
-
-        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID)
-        public Builder setDiagnosKodad(List<DiagnosKodad> diagnosKodadList) {
-            return setDiagnosKodad(ImmutableList.copyOf(diagnosKodadList));
-        }
-
-        abstract Builder setDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad);
-
-        @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID)
-        public abstract Builder setDiagnosFritext(DiagnosFritext diagnosFritext);
-
-        @JsonProperty(LAKEMEDELSBEHANDLING_JSON_ID)
-        public abstract Builder setLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling);
-
-        @JsonProperty(SYMPTOM_BEDOMNING_DELSVAR_JSON_ID)
-        public abstract Builder setBedomningAvSymptom(String bedomningAvSymptom);
-
-        @JsonProperty(SYMPTOM_PROGNOS_SVAR_JSON_ID)
-        public abstract Builder setPrognosTillstand(PrognosTillstand prognosTillstand);
-
-        @JsonProperty(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_JSON_ID)
-        public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
-
-        @JsonProperty(BEDOMNING_UPPFYLLER_SVAR_JSON_ID)
-        public abstract Builder setBedomning(Bedomning bedomning);
-    }
+    @JsonProperty(BEDOMNING_UPPFYLLER_SVAR_JSON_ID)
+    public abstract Builder setBedomning(Bedomning bedomning);
+  }
 }

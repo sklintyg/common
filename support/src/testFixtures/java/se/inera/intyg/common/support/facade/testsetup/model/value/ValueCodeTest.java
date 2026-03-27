@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,24 +26,24 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueCodeTest extends ValueTest {
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.CODE;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.CODE;
+  }
 
-    protected abstract String getCodeId();
+  protected abstract String getCodeId();
 
-    protected abstract String getCode();
+  protected abstract String getCode();
 
-    @Test
-    void shouldIncludeCode() {
-        final var value = (CertificateDataValueCode) getElement().getValue();
-        assertEquals(getCode(), value.getCode());
-    }
+  @Test
+  void shouldIncludeCode() {
+    final var value = (CertificateDataValueCode) getElement().getValue();
+    assertEquals(getCode(), value.getCode());
+  }
 
-    @Test
-    void shouldIncludeCodeId() {
-        final var value = (CertificateDataValueCode) getElement().getValue();
-        assertEquals(getCodeId(), value.getId());
-    }
+  @Test
+  void shouldIncludeCodeId() {
+    final var value = (CertificateDataValueCode) getElement().getValue();
+    assertEquals(getCodeId(), value.getId());
+  }
 }

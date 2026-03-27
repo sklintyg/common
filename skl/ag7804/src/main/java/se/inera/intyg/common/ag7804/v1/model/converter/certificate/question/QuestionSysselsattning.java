@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
-
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_SYSSELSATTNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
@@ -36,31 +34,29 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionSysselsattning extends AbstractQuestionSysselsattning {
 
-    public static CertificateDataElement toCertificate(List<Sysselsattning> value, int index,
-        CertificateTextProvider texts) {
-        final var configProvider = new QuestionSyssesattningConfigProvider(
-            convertValue(value)
-        );
-        return toCertificate(configProvider, TYP_AV_SYSSELSATTNING_SVAR_ID_28, CATEGORY_SYSSELSATTNING, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Sysselsattning> value, int index, CertificateTextProvider texts) {
+    final var configProvider = new QuestionSyssesattningConfigProvider(convertValue(value));
+    return toCertificate(
+        configProvider, TYP_AV_SYSSELSATTNING_SVAR_ID_28, CATEGORY_SYSSELSATTNING, index, texts);
+  }
 
-    private static List<QuestionSysselsattningValue> convertValue(List<Sysselsattning> value) {
-        if (value == null) {
-            return Collections.emptyList();
-        }
-        return value.stream()
-            .map(sysselsattning -> new QuestionSysselsattningValue(Objects.requireNonNull(sysselsattning.getTyp()).getId()))
-            .collect(Collectors.toList());
+  private static List<QuestionSysselsattningValue> convertValue(List<Sysselsattning> value) {
+    if (value == null) {
+      return Collections.emptyList();
     }
+    return value.stream()
+        .map(
+            sysselsattning ->
+                new QuestionSysselsattningValue(
+                    Objects.requireNonNull(sysselsattning.getTyp()).getId()))
+        .collect(Collectors.toList());
+  }
 
-    public static List<Sysselsattning> toInternal(Certificate certificate) {
-        var codeList = codeListValue(certificate.getData(), TYP_AV_SYSSELSATTNING_SVAR_ID_28);
-        return codeList
-            .stream()
-            .map(
-                code -> Sysselsattning.create(
-                    Sysselsattning.SysselsattningsTyp.fromId(code.getId()))
-            )
-            .collect(Collectors.toList());
-    }
+  public static List<Sysselsattning> toInternal(Certificate certificate) {
+    var codeList = codeListValue(certificate.getData(), TYP_AV_SYSSELSATTNING_SVAR_ID_28);
+    return codeList.stream()
+        .map(code -> Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(code.getId())))
+        .collect(Collectors.toList());
+  }
 }

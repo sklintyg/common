@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -55,175 +55,181 @@ import se.inera.intyg.common.support.model.InternalDate;
 @ExtendWith(MockitoExtension.class)
 class QuestionDodsdatumTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(DODSDATUM_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionDodsdatum.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSDATUM_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeDateConfigType() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataConfigType.UE_DATE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigDate) question.getConfig();
+      assertEquals(LocalDate.now(), config.getMaxDate());
+    }
+
+    @Test
+    void shouldIncludeDateConfigValueId() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
+      assertEquals(DODSDATUM_JSON_ID, certificateDataConfigDate.getId());
+    }
+
+    @Test
+    void shouldIncludeDateValueType() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataValueType.DATE, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeDateValueId() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
+      assertEquals(DODSDATUM_JSON_ID, certificateDataValueDate.getId());
+    }
+
+    @Test
+    void shouldIncludeDateValue() {
+      final var expectedDateValue = LocalDate.now();
+      final var question = QuestionDodsdatum.toCertificate(expectedDateValue, 0, texts);
+      final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
+      assertEquals(expectedDateValue, certificateDataValueDate.getDate());
+    }
+
+    @Test
+    void shouldIncludeDateValueEmpty() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
+      assertNull(certificateDataValueDate.getDate());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals("$" + DODSDATUM_JSON_ID, certificateDataValidationMandatory.getExpression());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(DODSDATUM_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return DODSDATUM_SAKERT_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionDodsdatum.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        return String.format(
+            "exists('%s') && '%s'", DODSDATUM_SAKERT_JSON_ID, DODSDATUM_SAKERT_JSON_ID);
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDodsdatum.toCertificate(null, 0, texts);
+      }
 
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSDATUM_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeDateConfigType() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_DATE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeMaxDate() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigDate) question.getConfig();
-            assertEquals(LocalDate.now(), config.getMaxDate());
-        }
-
-        @Test
-        void shouldIncludeDateConfigValueId() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var certificateDataConfigDate = (CertificateDataConfigDate) question.getConfig();
-            assertEquals(DODSDATUM_JSON_ID, certificateDataConfigDate.getId());
-        }
-
-        @Test
-        void shouldIncludeDateValueType() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.DATE, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeDateValueId() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
-            assertEquals(DODSDATUM_JSON_ID, certificateDataValueDate.getId());
-        }
-
-        @Test
-        void shouldIncludeDateValue() {
-            final var expectedDateValue = LocalDate.now();
-            final var question = QuestionDodsdatum.toCertificate(expectedDateValue, 0, texts);
-            final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
-            assertEquals(expectedDateValue, certificateDataValueDate.getDate());
-        }
-
-        @Test
-        void shouldIncludeDateValueEmpty() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var certificateDataValueDate = (CertificateDataValueDate) question.getValue();
-            assertNull(certificateDataValueDate.getDate());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + DODSDATUM_JSON_ID, certificateDataValidationMandatory.getExpression());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return DODSDATUM_SAKERT_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return String.format("exists('%s') && '%s'", DODSDATUM_SAKERT_JSON_ID, DODSDATUM_SAKERT_JSON_ID);
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDodsdatum.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Test
-        void shouldIncludeVisbility() {
-            final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
-            assertEquals(false, question.getVisible());
-        }
-
-        @Test
-        void shouldIncludeTrueVisbilityIfDateIsSet() {
-            final var question = QuestionDodsdatum.toCertificate(LocalDate.now(), 0, texts);
-            assertEquals(true, question.getVisible());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        @Test
-        void shouldIncludeValue() {
-            final var expectedValue = LocalDate.now();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDodsdatum.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionDodsdatum.toInternal(certificate);
-
-            assertEquals(new InternalDate(expectedValue), actualValue);
-        }
-
-        @Test
-        void shouldIncludeValueNull() {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDodsdatum.toCertificate(null, 0, texts))
-                .build();
-
-            final var actualValue = QuestionDodsdatum.toInternal(certificate);
-
-            assertEquals(null, actualValue);
-        }
+    @Test
+    void shouldIncludeVisbility() {
+      final var question = QuestionDodsdatum.toCertificate(null, 0, texts);
+      assertEquals(false, question.getVisible());
     }
+
+    @Test
+    void shouldIncludeTrueVisbilityIfDateIsSet() {
+      final var question = QuestionDodsdatum.toCertificate(LocalDate.now(), 0, texts);
+      assertEquals(true, question.getVisible());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    @Test
+    void shouldIncludeValue() {
+      final var expectedValue = LocalDate.now();
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionDodsdatum.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionDodsdatum.toInternal(certificate);
+
+      assertEquals(new InternalDate(expectedValue), actualValue);
+    }
+
+    @Test
+    void shouldIncludeValueNull() {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionDodsdatum.toCertificate(null, 0, texts))
+              .build();
+
+      final var actualValue = QuestionDodsdatum.toInternal(certificate);
+
+      assertEquals(null, actualValue);
+    }
+  }
 }

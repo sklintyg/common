@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,98 +43,97 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionFormagaTrotsBegransningTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Lite text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Lite text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFormagaTrotsBegransning.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFormagaTrotsBegransning.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_ID_23;
-        }
-
-        @Override
-        protected String getParent() {
-            return CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return FORMAGATROTSBEGRANSNING_SVAR_ID_23;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFormagaTrotsBegransning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return FORMAGATROTSBEGRANSNING_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
-        }
+    @Override
+    protected String getParent() {
+      return CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFormagaTrotsBegransning.toCertificate(getText(), 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
-        }
-
-        @Override
-        protected String getText() {
-            return "Lite text som värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionFormagaTrotsBegransning.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionFormagaTrotsBegransning.toInternal(certificate);
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFormagaTrotsBegransning.toCertificate(null, 0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return FORMAGATROTSBEGRANSNING_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return FORMAGATROTSBEGRANSNING_DESCRIPTION_ID;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFormagaTrotsBegransning.toCertificate(getText(), 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23;
+    }
+
+    @Override
+    protected String getText() {
+      return "Lite text som värde!";
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionFormagaTrotsBegransning.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionFormagaTrotsBegransning.toInternal(certificate);
+    }
+  }
 }

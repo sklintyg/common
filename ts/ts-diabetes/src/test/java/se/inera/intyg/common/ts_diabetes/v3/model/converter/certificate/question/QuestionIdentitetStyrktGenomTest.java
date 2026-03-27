@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -47,92 +46,93 @@ import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvIdKontroll;
 @ExtendWith(MockitoExtension.class)
 class QuestionIdentitetStyrktGenomTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTest extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(null, 0, texts);
+      }
+
+      @Override
+      protected String getId() {
+        return IDENTITET_STYRKT_GENOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return IDENTITET_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigViewTextTests extends ConfigViewTextTest {
 
-        @Nested
-        class IncludeCommonElementTest extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return texts;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, texts);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(null, 0, texts);
+      }
 
-            @Override
-            protected String getId() {
-                return IDENTITET_STYRKT_GENOM_SVAR_ID;
-            }
+      @Override
+      protected String getTextId() {
+        return IDENTITET_STYRKT_GENOM_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return IDENTITET_CATEGORY_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected CertificateMessagesProvider getMessageProviderMock() {
+        return null;
+      }
 
-        @Nested
-        class IncludeConfigViewTextTests extends ConfigViewTextTest {
+      @Override
+      protected String getMessageId() {
+        return null;
+      }
+    }
+  }
 
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return texts;
-            }
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<IdKontroll> {
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected String getTextId() {
-                return IDENTITET_STYRKT_GENOM_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected CertificateMessagesProvider getMessageProviderMock() {
-                return null;
-            }
-
-            @Override
-            protected String getMessageId() {
-                return null;
-            }
-        }
+    @Override
+    protected CertificateDataElement getElement(IdKontroll expectedValue) {
+      return QuestionIdentitetStyrktGenom.toCertificate(expectedValue, 0, texts);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<IdKontroll> {
-
-        @Override
-        protected CertificateDataElement getElement(IdKontroll expectedValue) {
-            return QuestionIdentitetStyrktGenom.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<IdKontroll, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(IdKontroll.create(KvIdKontroll.PASS),
-                    CertificateDataValueViewText.builder().text("Pass").build())
-            );
-        }
+    @Override
+    protected List<InputExpectedValuePair<IdKontroll, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              IdKontroll.create(KvIdKontroll.PASS),
+              CertificateDataValueViewText.builder().text("Pass").build()));
     }
+  }
 }

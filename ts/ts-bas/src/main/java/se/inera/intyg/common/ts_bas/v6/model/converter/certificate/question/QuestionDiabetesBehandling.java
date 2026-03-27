@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
@@ -32,52 +31,58 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
 
 public class QuestionDiabetesBehandling {
 
-    private static final String NOT_PROVIDED = "Ej Angivet";
+  private static final String NOT_PROVIDED = "Ej Angivet";
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
-        final var insulin = diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
-        final var kost = diabetes != null && diabetes.getKost() != null ? diabetes.getKost() : null;
-        final var tabletter = diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
-        return CertificateDataElement.builder()
-            .id(BEHANDLING_DIABETES_SVAR_ID)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(texts.get(BEHANDLING_DIABETES_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(
-                        multipleStringValuesWithComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin)).equals(
-                            NOT_PROVIDED)
-                            ? NOT_PROVIDED
-                            : multipleStringValuesWithComma(kostToString(kost), tabletterToString(tabletter), insulinToString(insulin))
-                    )
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider texts) {
+    final var insulin =
+        diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
+    final var kost = diabetes != null && diabetes.getKost() != null ? diabetes.getKost() : null;
+    final var tabletter =
+        diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
+    return CertificateDataElement.builder()
+        .id(BEHANDLING_DIABETES_SVAR_ID)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(texts.get(BEHANDLING_DIABETES_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(
+                    multipleStringValuesWithComma(
+                                kostToString(kost),
+                                tabletterToString(tabletter),
+                                insulinToString(insulin))
+                            .equals(NOT_PROVIDED)
+                        ? NOT_PROVIDED
+                        : multipleStringValuesWithComma(
+                            kostToString(kost),
+                            tabletterToString(tabletter),
+                            insulinToString(insulin)))
+                .build())
+        .build();
+  }
 
-    private static String kostToString(Boolean kost) {
-        if (kost == null || !kost) {
-            return null;
-        }
-        return "Kost";
+  private static String kostToString(Boolean kost) {
+    if (kost == null || !kost) {
+      return null;
     }
+    return "Kost";
+  }
 
-    private static String insulinToString(Boolean insulin) {
-        if (insulin == null || !insulin) {
-            return null;
-        }
-        return "Insulin";
+  private static String insulinToString(Boolean insulin) {
+    if (insulin == null || !insulin) {
+      return null;
     }
+    return "Insulin";
+  }
 
-    private static String tabletterToString(Boolean tabletter) {
-        if (tabletter == null || !tabletter) {
-            return null;
-        }
-        return "Tabletter";
+  private static String tabletterToString(Boolean tabletter) {
+    if (tabletter == null || !tabletter) {
+      return null;
     }
+    return "Tabletter";
+  }
 }

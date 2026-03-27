@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,15 +22,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public final class ModelAssert {
 
-    private ModelAssert() {
-    }
+  private ModelAssert() {}
 
-    public static void assertEquals(String message, Object expected, Object actual) throws AssertionError {
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withFailMessage(message)
-            .withStrictTypeChecking()
-            .ignoringCollectionOrder()
-            .isEqualTo(expected);
-    }
+  public static void assertEquals(String message, Object expected, Object actual)
+      throws AssertionError {
+    assertThat(actual)
+        .usingRecursiveComparison()
+        .withFailMessage(message)
+        .withStrictTypeChecking()
+        .ignoringCollectionOrder()
+        .isEqualTo(expected);
+  }
 }

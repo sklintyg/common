@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,19 +24,20 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public interface IntygModuleRegistry {
 
-    String resolveVersionFromUtlatandeJson(String intygType, String internalModel) throws ModuleNotFoundException;
+  String resolveVersionFromUtlatandeJson(String intygType, String internalModel)
+      throws ModuleNotFoundException;
 
-    ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException;
+  ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException;
 
-    ModuleEntryPoint getModuleEntryPoint(String id) throws ModuleNotFoundException;
+  ModuleEntryPoint getModuleEntryPoint(String id) throws ModuleNotFoundException;
 
-    IntygModule getIntygModule(String id) throws ModuleNotFoundException;
+  IntygModule getIntygModule(String id) throws ModuleNotFoundException;
 
-    List<IntygModule> listAllModules();
+  List<IntygModule> listAllModules();
 
-    List<ModuleEntryPoint> getModuleEntryPoints();
+  List<ModuleEntryPoint> getModuleEntryPoints();
 
-    boolean moduleExists(String moduleId);
+  boolean moduleExists(String moduleId);
 
-    String getModuleIdFromExternalId(String externalId);
+  String getModuleIdFromExternalId(String externalId);
 }

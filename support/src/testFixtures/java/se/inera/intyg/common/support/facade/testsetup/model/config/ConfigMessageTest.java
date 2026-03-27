@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,27 +31,29 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public abstract class ConfigMessageTest extends ConfigTest {
 
-    protected abstract String getMessageId();
+  protected abstract String getMessageId();
 
-    protected abstract MessageLevel getMessageLevel();
+  protected abstract MessageLevel getMessageLevel();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return UE_MESSAGE;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return UE_MESSAGE;
+  }
 
-    @Test
-    void shouldIncludeConfigMessage() {
-        final var certificateDataElement = getElement();
-        final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-        assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
-        verify(getTextProviderMock(), atLeastOnce()).get(getMessageId());
-    }
+  @Test
+  void shouldIncludeConfigMessage() {
+    final var certificateDataElement = getElement();
+    final var certificateDataElementConfig =
+        (CertificateDataConfigMessage) certificateDataElement.getConfig();
+    assertFalse(
+        certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
+    verify(getTextProviderMock(), atLeastOnce()).get(getMessageId());
+  }
 
-    @Test
-    void shouldIncludeConfigMessageLevel() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigMessage) question.getConfig();
-        assertEquals(getMessageLevel(), config.getMessage().getLevel());
-    }
+  @Test
+  void shouldIncludeConfigMessageLevel() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigMessage) question.getConfig();
+    assertEquals(getMessageLevel(), config.getMessage().getLevel());
+  }
 }

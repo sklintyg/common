@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,27 +30,26 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class InternalTextValueTest {
 
-    protected abstract CertificateDataElement getElement(String expectedValue);
+  protected abstract CertificateDataElement getElement(String expectedValue);
 
-    protected abstract String toInternalTextValue(Certificate certificate);
+  protected abstract String toInternalTextValue(Certificate certificate);
 
-    protected Stream<String> textValues() {
-        return Stream.of("Här kommer en text!", "", null);
+  protected Stream<String> textValues() {
+    return Stream.of("Här kommer en text!", "", null);
+  }
+
+  @ParameterizedTest
+  @MethodSource("textValues")
+  void shouldIncludeTextValue(String expectedValue) {
+    final var certificate =
+        CertificateBuilder.create().addElement(getElement(expectedValue)).build();
+
+    final var actualValue = toInternalTextValue(certificate);
+
+    if (expectedValue == null || expectedValue.isEmpty()) {
+      assertNull(actualValue);
+    } else {
+      assertEquals(expectedValue, actualValue);
     }
-
-    @ParameterizedTest
-    @MethodSource("textValues")
-    void shouldIncludeTextValue(String expectedValue) {
-        final var certificate = CertificateBuilder.create()
-            .addElement(getElement(expectedValue))
-            .build();
-
-        final var actualValue = toInternalTextValue(certificate);
-
-        if (expectedValue == null || expectedValue.isEmpty()) {
-            assertNull(actualValue);
-        } else {
-            assertEquals(expectedValue, actualValue);
-        }
-    }
+  }
 }

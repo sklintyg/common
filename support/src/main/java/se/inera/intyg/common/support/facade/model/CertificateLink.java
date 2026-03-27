@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,12 +29,10 @@ import se.inera.intyg.common.support.facade.model.CertificateLink.CertificateLin
 @Builder
 public class CertificateLink {
 
-    String name;
-    String url;
-    String id;
+  String name;
+  String url;
+  String id;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateLinkBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateLinkBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,15 +30,14 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiag
 @Builder
 public class CertificateDataValueDiagnosis implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.DIAGNOSIS;
-    String id;
-    String terminology;
-    String code;
-    String description;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.DIAGNOSIS;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueDiagnosisBuilder {
+  String id;
+  String terminology;
+  String code;
+  String description;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueDiagnosisBuilder {}
 }

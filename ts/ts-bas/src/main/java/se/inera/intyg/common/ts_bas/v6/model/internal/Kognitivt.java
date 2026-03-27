@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,11 +26,11 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Kognitivt {
 
-    @JsonCreator
-    public static Kognitivt create(@JsonProperty("sviktandeKognitivFunktion") Boolean sviktandeKognitivFunktion) {
-        return new AutoValue_Kognitivt(sviktandeKognitivFunktion);
-    }
+  @JsonCreator
+  public static Kognitivt create(
+      @JsonProperty("sviktandeKognitivFunktion") Boolean sviktandeKognitivFunktion) {
+    return new AutoValue_Kognitivt(sviktandeKognitivFunktion);
+  }
 
-    @Nullable
-    public abstract Boolean getSviktandeKognitivFunktion();
+  @Nullable public abstract Boolean getSviktandeKognitivFunktion();
 }

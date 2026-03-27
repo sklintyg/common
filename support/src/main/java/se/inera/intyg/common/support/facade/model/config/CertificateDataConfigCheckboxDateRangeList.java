@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,31 +33,36 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCh
 @Builder
 public class CertificateDataConfigCheckboxDateRangeList implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    List<CheckboxDateRange> list;
-    @With
-    String previousDateRangeText;
-    boolean hideWorkingHours;
-    LocalDate min;
-    LocalDate max;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_CHECKBOX_DATE_RANGE_LIST;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigCheckboxDateRangeListBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  List<CheckboxDateRange> list;
+  @With String previousDateRangeText;
+  boolean hideWorkingHours;
+  LocalDate min;
+  LocalDate max;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigCheckboxDateRangeListBuilder {}
 }

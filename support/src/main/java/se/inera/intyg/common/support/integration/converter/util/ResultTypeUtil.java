@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,27 +24,26 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 public final class ResultTypeUtil {
 
-    private ResultTypeUtil() {
-    }
+  private ResultTypeUtil() {}
 
-    public static ResultType okResult() {
-        ResultType result = new ResultType();
-        result.setResultCode(ResultCodeType.OK);
-        return result;
-    }
+  public static ResultType okResult() {
+    ResultType result = new ResultType();
+    result.setResultCode(ResultCodeType.OK);
+    return result;
+  }
 
-    public static ResultType infoResult(String resultText) {
-        ResultType result = new ResultType();
-        result.setResultCode(ResultCodeType.INFO);
-        result.setResultText(resultText);
-        return result;
-    }
+  public static ResultType infoResult(String resultText) {
+    ResultType result = new ResultType();
+    result.setResultCode(ResultCodeType.INFO);
+    result.setResultText(resultText);
+    return result;
+  }
 
-    public static ResultType errorResult(ErrorIdType errorId, String resultText) {
-        ResultType result = new ResultType();
-        result.setResultCode(ResultCodeType.ERROR);
-        result.setErrorId(errorId);
-        result.setResultText(resultText);
-        return result;
-    }
+  public static ResultType errorResult(ErrorIdType errorId, String resultText) {
+    ResultType result = new ResultType();
+    result.setResultCode(ResultCodeType.ERROR);
+    result.setErrorId(errorId);
+    result.setResultText(resultText);
+    return result;
+  }
 }

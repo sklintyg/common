@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,53 +39,61 @@ import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.util.logging.LogMarkers;
 
 /**
- * CXF interceptor which turns SOAP faults into valid SOAP responses.
- * Transformation is performed using XSLTs which transform the <soap:Fault> element to a proper response element containing a <result>
- * element giving more specifics about the error.
+ * CXF interceptor which turns SOAP faults into valid SOAP responses. Transformation is performed
+ * using XSLTs which transform the <soap:Fault> element to a proper response element containing a
+ * <result> element giving more specifics about the error.
  *
  * @author andreaskaltenbach
  */
 public class SoapFaultToSoapResponseTransformerInterceptor extends CustomXSLTInterceptor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SoapFaultToSoapResponseTransformerInterceptor.class);
-    public static final int HTTP_OK = 200;
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(SoapFaultToSoapResponseTransformerInterceptor.class);
+  public static final int HTTP_OK = 200;
 
-    public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
-        super(xsltPath);
+  public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
+    super(xsltPath);
+  }
+
+  @Override
+  public void handleMessage(Message message) {
+    final var exception = message.getContent(Exception.class);
+    final var cause = exception.getCause();
+    if (cause instanceof UnmarshalException) {
+      LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
+    } else {
+      LOGGER.error(exception.getMessage(), exception);
     }
 
-    @Override
-    public void handleMessage(Message message) {
-        final var exception = message.getContent(Exception.class);
-        final var cause = exception.getCause();
-        if (cause instanceof UnmarshalException) {
-            LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
-        } else {
-            LOGGER.error(exception.getMessage(), exception);
-        }
+    // switch HTTP status from 500 (internal server error) to 200 (ok)
+    message.getExchange().getOutFaultMessage().put(Message.RESPONSE_CODE, HTTP_OK);
 
-        // switch HTTP status from 500 (internal server error) to 200 (ok)
-        message.getExchange().getOutFaultMessage().put(Message.RESPONSE_CODE, HTTP_OK);
+    super.handleMessage(message);
+  }
 
-        super.handleMessage(message);
+  @Override
+  public void handleFault(Message message) {
+    final var e = message.getContent(Exception.class);
+    try {
+      final var envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
+      final var soapFault = envelope.getBody().addFault();
+      soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
+
+      final var sw = new StringWriter();
+      TransformerFactory.newInstance()
+          .newTransformer()
+          .transform(new DOMSource(envelope), new StreamResult(sw));
+      final var transformedStream =
+          XSLTUtils.transform(
+              getXSLTTemplate(),
+              new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
+      IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
+
+    } catch (SOAPException
+        | TransformerException
+        | TransformerFactoryConfigurationError
+        | IOException ex) {
+      LOGGER.error("Error occured during error handling: {}", e.getMessage());
     }
-
-    @Override
-    public void handleFault(Message message) {
-        final var e = message.getContent(Exception.class);
-        try {
-            final var envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
-            final var soapFault = envelope.getBody().addFault();
-            soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
-
-            final var sw = new StringWriter();
-            TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
-            final var transformedStream = XSLTUtils.transform(getXSLTTemplate(),
-                new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
-            IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
-
-        } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {
-            LOGGER.error("Error occured during error handling: {}", e.getMessage());
-        }
-    }
+  }
 }

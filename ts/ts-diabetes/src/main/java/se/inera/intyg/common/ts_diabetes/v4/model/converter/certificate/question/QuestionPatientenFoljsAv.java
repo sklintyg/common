@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.multipleOrExpressionWithExists;
@@ -43,56 +42,56 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvVardniva;
 
 public class QuestionPatientenFoljsAv {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider texts) {
-        final var patientenFoljsAv = allmant != null && allmant.getPatientenFoljsAv() != null ? allmant.getPatientenFoljsAv() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
-            .index(index)
-            .parent(ALLMANT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID))
-                    .description(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID))
-                    .layout(Layout.ROWS)
-                    .list(
-                        List.of(
-                            RadioMultipleCode.builder()
-                                .id(KvVardniva.PRIMARVARD.getCode())
-                                .label(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(KvVardniva.SPECIALISTVARD.getCode())
-                                .label(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                patientenFoljsAv != null
-                    ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider texts) {
+    final var patientenFoljsAv =
+        allmant != null && allmant.getPatientenFoljsAv() != null
+            ? allmant.getPatientenFoljsAv()
+            : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
+        .index(index)
+        .parent(ALLMANT_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_TEXT_ID))
+                .description(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_DESCRIPTION_ID))
+                .layout(Layout.ROWS)
+                .list(
+                    List.of(
+                        RadioMultipleCode.builder()
+                            .id(KvVardniva.PRIMARVARD.getCode())
+                            .label(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_PRIMARVARD_LABEL_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(KvVardniva.SPECIALISTVARD.getCode())
+                            .label(texts.get(ALLMANT_PATIENTEN_FOLJS_AV_SPECIALISTVARD_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            patientenFoljsAv != null
+                ? CertificateDataValueCode.builder()
                     .id(patientenFoljsAv.getCode())
                     .code(patientenFoljsAv.getCode())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(KvVardniva.PRIMARVARD.getCode(), KvVardniva.SPECIALISTVARD.getCode())
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          KvVardniva.PRIMARVARD.getCode(), KvVardniva.SPECIALISTVARD.getCode()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static KvVardniva toInternal(Certificate certificate) {
-        final var codeValue = codeValue(certificate.getData(), ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID);
-        if (codeValue == null || codeValue.isEmpty()) {
-            return null;
-        }
-        return KvVardniva.fromCode(codeValue);
+  public static KvVardniva toInternal(Certificate certificate) {
+    final var codeValue = codeValue(certificate.getData(), ALLMANT_PATIENTEN_FOLJS_AV_SVAR_ID);
+    if (codeValue == null || codeValue.isEmpty()) {
+      return null;
     }
+    return KvVardniva.fromCode(codeValue);
+  }
 }

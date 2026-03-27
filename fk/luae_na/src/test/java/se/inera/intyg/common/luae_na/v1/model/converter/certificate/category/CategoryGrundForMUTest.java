@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,31 +37,30 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 @ExtendWith(MockitoExtension.class)
 class CategoryGrundForMUTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryGrundForMU.toCertificate(0, texts);
-        assertEquals(GRUNDFORMU_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategoryGrundForMU.toCertificate(0, texts);
+    assertEquals(GRUNDFORMU_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryGrundForMU.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategoryGrundForMU.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryText() {
-        final var category = CategoryGrundForMU.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID);
-    }
+  @Test
+  void shouldIncludeCategoryText() {
+    final var category = CategoryGrundForMU.toCertificate(0, texts);
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID);
+  }
 }

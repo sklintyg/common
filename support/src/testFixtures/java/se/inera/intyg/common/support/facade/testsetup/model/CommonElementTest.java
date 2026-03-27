@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,30 +25,30 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class CommonElementTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getId();
+  protected abstract String getId();
 
-    protected abstract String getParent();
+  protected abstract String getParent();
 
-    protected abstract int getIndex();
+  protected abstract int getIndex();
 
-    @Test
-    void shouldIncludeId() {
-        final var question = getElement();
-        assertEquals(getId(), question.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var question = getElement();
+    assertEquals(getId(), question.getId());
+  }
 
-    @Test
-    void shouldIncludeParentId() {
-        final var question = getElement();
-        assertEquals(getParent(), question.getParent());
-    }
+  @Test
+  void shouldIncludeParentId() {
+    final var question = getElement();
+    assertEquals(getParent(), question.getParent());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 1;
-        final var question = getElement();
-        assertEquals(getIndex(), question.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 1;
+    final var question = getElement();
+    assertEquals(getIndex(), question.getIndex());
+  }
 }

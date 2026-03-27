@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,143 +48,142 @@ import se.inera.intyg.common.support.model.InternalDate;
 @ExtendWith(MockitoExtension.class)
 class QuestionKannedomOmPatientTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKannedomOmPatient.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKannedomOmPatient.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return KANNEDOM_SVAR_ID_2;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return KANNEDOM_SVAR_ID_2;
     }
 
-    @Nested
-    class IncludeConfigDateTest extends ConfigDateTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKannedomOmPatient.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return KANNEDOM_SVAR_JSON_ID_2;
-        }
-
-        @Override
-        protected String getTextId() {
-            return KANNEDOM_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected LocalDate getMaxDate() {
-            return LocalDate.now();
-        }
-
-        @Override
-        protected LocalDate getMinDate() {
-            return null;
-        }
-
+    @Override
+    protected String getParent() {
+      return GRUNDFORMU_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueDateTest extends ValueDateTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.parse("2022-12-15")), 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigDateTest extends ConfigDateTest {
 
-        @Override
-        protected String getJsonId() {
-            return KANNEDOM_SVAR_JSON_ID_2;
-        }
-
-        @Override
-        protected LocalDate getDate() {
-            return LocalDate.parse("2022-12-15");
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKannedomOmPatient.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return KANNEDOM_SVAR_ID_2;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + KANNEDOM_SVAR_JSON_ID_2;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKannedomOmPatient.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalDateValueTest extends InternalValueTest<InternalDate, InternalDate> {
-
-        @Override
-        protected CertificateDataElement getElement(InternalDate input) {
-            return QuestionKannedomOmPatient.toCertificate(input, 0, textProvider);
-        }
-
-        @Override
-        protected InternalDate toInternalValue(Certificate certificate) {
-            return QuestionKannedomOmPatient.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<InternalDate, InternalDate>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(new InternalDate("2022-12-15"), new InternalDate("2022-12-15")),
-                new InputExpectedValuePair<>(new InternalDate(""), null),
-                new InputExpectedValuePair<>(null, null)
-            );
-        }
+    @Override
+    protected String getJsonId() {
+      return KANNEDOM_SVAR_JSON_ID_2;
     }
 
+    @Override
+    protected String getTextId() {
+      return KANNEDOM_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected LocalDate getMaxDate() {
+      return LocalDate.now();
+    }
+
+    @Override
+    protected LocalDate getMinDate() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValueDateTest extends ValueDateTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKannedomOmPatient.toCertificate(
+          new InternalDate(LocalDate.parse("2022-12-15")), 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return KANNEDOM_SVAR_JSON_ID_2;
+    }
+
+    @Override
+    protected LocalDate getDate() {
+      return LocalDate.parse("2022-12-15");
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKannedomOmPatient.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return KANNEDOM_SVAR_ID_2;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + KANNEDOM_SVAR_JSON_ID_2;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalDateValueTest extends InternalValueTest<InternalDate, InternalDate> {
+
+    @Override
+    protected CertificateDataElement getElement(InternalDate input) {
+      return QuestionKannedomOmPatient.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected InternalDate toInternalValue(Certificate certificate) {
+      return QuestionKannedomOmPatient.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<InternalDate, InternalDate>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              new InternalDate("2022-12-15"), new InternalDate("2022-12-15")),
+          new InputExpectedValuePair<>(new InternalDate(""), null),
+          new InputExpectedValuePair<>(null, null));
+    }
+  }
 }

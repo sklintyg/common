@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,117 +44,116 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionOvrigtTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigt.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return OVRIGT_SVAR_ID_25;
-        }
-
-        @Override
-        protected String getParent() {
-            return OVRIGT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return OVRIGT_SVAR_ID_25;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return OVRIGT_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
-        }
+    @Override
+    protected String getParent() {
+      return OVRIGT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(getText(), 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_SVAR_JSON_ID_25;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigt.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 2700;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigt.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionOvrigt.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionOvrigt.toInternal(certificate);
-        }
+    @Override
+    protected String getTextId() {
+      return OVRIGT_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_SVAR_JSON_ID_25;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigt.toCertificate(getText(), 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_SVAR_JSON_ID_25;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigt.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 2700;
+    }
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionOvrigt.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionOvrigt.toInternal(certificate);
+    }
+  }
 }

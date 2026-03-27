@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,23 +31,20 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
 
 public class QuestionFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(Funktionsnedsattning funktionsnedsattning, int index,
-        CertificateTextProvider textProvider) {
-        final var funktionnedsattning = funktionsnedsattning != null ? funktionsnedsattning.getFunktionsnedsattning() : null;
-        return CertificateDataElement.builder()
-            .id(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
-            .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(funktionnedsattning))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Funktionsnedsattning funktionsnedsattning, int index, CertificateTextProvider textProvider) {
+    final var funktionnedsattning =
+        funktionsnedsattning != null ? funktionsnedsattning.getFunktionsnedsattning() : null;
+    return CertificateDataElement.builder()
+        .id(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
+        .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder().text(booleanValue(funktionnedsattning)).build())
+        .build();
+  }
 }

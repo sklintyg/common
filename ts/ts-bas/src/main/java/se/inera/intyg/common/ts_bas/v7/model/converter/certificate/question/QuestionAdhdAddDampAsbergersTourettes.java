@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionAdhdAddDampAsbergersTourettes {
 
-    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
-        CertificateTextProvider textProvider) {
-        final var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
+  public static CertificateDataElement toCertificate(
+      Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
+    final var harSyndrom = utvecklingsstorning != null ? utvecklingsstorning.getHarSyndrom() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
-            .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
-                    .text(textProvider.get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
-                    .selected(harSyndrom)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
-                        .expression(exists(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
+        .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
+                .text(textProvider.get(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID)
+                .selected(harSyndrom)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID)
+                  .expression(exists(ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID,
-            ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID,
+        ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_JSON_ID);
+  }
 }

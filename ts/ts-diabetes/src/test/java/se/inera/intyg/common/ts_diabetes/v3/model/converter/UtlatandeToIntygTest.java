@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -52,206 +52,270 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 class UtlatandeToIntygTest {
 
-    private static final String PNR_TOLVAN = "191212121212";
+  private static final String PNR_TOLVAN = "191212121212";
 
-    @Test
-    void testConvert() throws Exception {
-        final String intygsId = "intygsid";
-        final String textVersion = "textversion";
-        final String enhetsId = "enhetsid";
-        final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = PNR_TOLVAN;
-        final String skapadAvFullstandigtNamn = "fullstandigt namn";
-        final String skapadAvPersonId = "skapad av pid";
-        final LocalDateTime signeringsdatum = LocalDateTime.now();
-        final String arbetsplatsKod = "arbetsplatsKod";
-        final String postadress = "postadress";
-        final String postNummer = "postNummer";
-        final String postOrt = "postOrt";
-        final String epost = "epost";
-        final String telefonNummer = "telefonNummer";
-        final String vardgivarid = "vardgivarid";
-        final String vardgivarNamn = "vardgivarNamn";
-        final String forskrivarKod = "forskrivarKod";
-        final String fornamn = "fornamn";
-        final String efternamn = "efternamn";
-        final String mellannamn = "mellannamn";
-        final String patientPostadress = "patientPostadress";
-        final String patientPostnummer = "patientPostnummer";
-        final String patientPostort = "patientPostort";
+  @Test
+  void testConvert() throws Exception {
+    final String intygsId = "intygsid";
+    final String textVersion = "textversion";
+    final String enhetsId = "enhetsid";
+    final String enhetsnamn = "enhetsnamn";
+    final String patientPersonId = PNR_TOLVAN;
+    final String skapadAvFullstandigtNamn = "fullstandigt namn";
+    final String skapadAvPersonId = "skapad av pid";
+    final LocalDateTime signeringsdatum = LocalDateTime.now();
+    final String arbetsplatsKod = "arbetsplatsKod";
+    final String postadress = "postadress";
+    final String postNummer = "postNummer";
+    final String postOrt = "postOrt";
+    final String epost = "epost";
+    final String telefonNummer = "telefonNummer";
+    final String vardgivarid = "vardgivarid";
+    final String vardgivarNamn = "vardgivarNamn";
+    final String forskrivarKod = "forskrivarKod";
+    final String fornamn = "fornamn";
+    final String efternamn = "efternamn";
+    final String mellannamn = "mellannamn";
+    final String patientPostadress = "patientPostadress";
+    final String patientPostnummer = "patientPostnummer";
+    final String patientPostort = "patientPostort";
 
-        TsDiabetesUtlatandeV3 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-            telefonNummer,
-            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
-            patientPostort,
-            null, null).build();
+    TsDiabetesUtlatandeV3 utlatande =
+        buildUtlatande(
+                intygsId,
+                textVersion,
+                enhetsId,
+                enhetsnamn,
+                patientPersonId,
+                skapadAvFullstandigtNamn,
+                skapadAvPersonId,
+                signeringsdatum,
+                arbetsplatsKod,
+                postadress,
+                postNummer,
+                postOrt,
+                epost,
+                telefonNummer,
+                vardgivarid,
+                vardgivarNamn,
+                forskrivarKod,
+                fornamn,
+                efternamn,
+                mellannamn,
+                patientPostadress,
+                patientPostnummer,
+                patientPostort,
+                null,
+                null)
+            .build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
-        assertEquals(enhetsId, intyg.getIntygsId().getRoot());
-        assertEquals(intygsId, intyg.getIntygsId().getExtension());
-        assertEquals(textVersion, intyg.getVersion());
-        assertEquals(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
-        assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
-        assertEquals(TsDiabetesEntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
-        assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-        assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
-        assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
-        assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
-        assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
-        assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
-        assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-        assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
-        assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-        assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
-        assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
-        assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
-        assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
-        assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
-        assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
-        assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
-        assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-        assertEquals("", intyg.getPatient().getFornamn());
-        assertEquals("", intyg.getPatient().getEfternamn());
-        assertNull(intyg.getPatient().getMellannamn());
-        assertEquals("", intyg.getPatient().getPostadress());
-        assertEquals("", intyg.getPatient().getPostnummer());
-        assertEquals("", intyg.getPatient().getPostort());
-        assertTrue(intyg.getRelation().isEmpty());
-    }
+    assertEquals(enhetsId, intyg.getIntygsId().getRoot());
+    assertEquals(intygsId, intyg.getIntygsId().getExtension());
+    assertEquals(textVersion, intyg.getVersion());
+    assertEquals(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
+    assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
+    assertEquals(TsDiabetesEntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
+    assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
+    assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
+    assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
+    assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
+    assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
+    assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
+    assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+    assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
+    assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
+    assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
+    assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
+    assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
+    assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
+    assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
+    assertEquals(
+        vardgivarid,
+        intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
+    assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+    assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
+    assertEquals("", intyg.getPatient().getFornamn());
+    assertEquals("", intyg.getPatient().getEfternamn());
+    assertNull(intyg.getPatient().getMellannamn());
+    assertEquals("", intyg.getPatient().getPostadress());
+    assertEquals("", intyg.getPatient().getPostnummer());
+    assertEquals("", intyg.getPatient().getPostort());
+    assertTrue(intyg.getRelation().isEmpty());
+  }
 
-    @Test
-    void testConvertWithRelation() {
-        RelationKod relationKod = RelationKod.FRLANG;
-        String relationIntygsId = "relationIntygsId";
-        TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
+  @Test
+  void testConvertWithRelation() {
+    RelationKod relationKod = RelationKod.FRLANG;
+    String relationIntygsId = "relationIntygsId";
+    TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        assertNotNull(intyg.getRelation());
-        assertEquals(1, intyg.getRelation().size());
-        assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
-        assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
-        assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
-        assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
-    }
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+    assertNotNull(intyg.getRelation());
+    assertEquals(1, intyg.getRelation().size());
+    assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
+    assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
+    assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
+    assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
+  }
 
-    @Test
-    void emptyUtlatandeShouldHaveNoIncompleteSvar() {
-        // Given
-        TsDiabetesUtlatandeV3 utlatande = buildUtlatande().build();
+  @Test
+  void emptyUtlatandeShouldHaveNoIncompleteSvar() {
+    // Given
+    TsDiabetesUtlatandeV3 utlatande = buildUtlatande().build();
 
-        // When
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+    // When
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
-        // Then
-        assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
-    }
+    // Then
+    assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+  }
 
-    @Test
-    void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
-        // Given
-        TsDiabetesUtlatandeV3 utlatande = buildUtlatande()
+  @Test
+  void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
+    // Given
+    TsDiabetesUtlatandeV3 utlatande =
+        buildUtlatande()
             .setIntygAvser(IntygAvser.create(null))
             .setIdentitetStyrktGenom(IdKontroll.create(null))
-            .setAllmant(Allmant.builder()
-                .setBehandling(Behandling.builder().build())
-                .build())
+            .setAllmant(Allmant.builder().setBehandling(Behandling.builder().build()).build())
             .setHypoglykemier(Hypoglykemier.builder().build())
-            .setSynfunktion(Synfunktion.builder()
-                .setBinokulart(Synskarpevarden.builder().build())
-                .setHoger(Synskarpevarden.builder().build())
-                .setVanster(Synskarpevarden.builder().build())
-                .build())
+            .setSynfunktion(
+                Synfunktion.builder()
+                    .setBinokulart(Synskarpevarden.builder().build())
+                    .setHoger(Synskarpevarden.builder().build())
+                    .setVanster(Synskarpevarden.builder().build())
+                    .build())
             .setBedomning(Bedomning.builder().build())
             .build();
 
-        // When
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+    // When
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
-        // Then
-        assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+    // Then
+    assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+  }
+
+  private static TsDiabetesUtlatandeV3.Builder buildUtlatande() {
+    return buildUtlatande(null, null);
+  }
+
+  private static TsDiabetesUtlatandeV3.Builder buildUtlatande(
+      RelationKod relationKod, String relationIntygsId) {
+    return buildUtlatande(
+        "intygsId",
+        "textVersion",
+        "enhetsId",
+        "enhetsnamn",
+        PNR_TOLVAN,
+        "skapadAvFullstandigtNamn",
+        "skapadAvPersonId",
+        LocalDateTime.now(),
+        "arbetsplatsKod",
+        "postadress",
+        "postNummer",
+        "postOrt",
+        "epost",
+        "telefonNummer",
+        "vardgivarid",
+        "vardgivarNamn",
+        "forskrivarKod",
+        "fornamn",
+        "efternamn",
+        "mellannamn",
+        "patientPostadress",
+        "patientPostnummer",
+        "patientPostort",
+        relationKod,
+        relationIntygsId);
+  }
+
+  private static TsDiabetesUtlatandeV3.Builder buildUtlatande(
+      String intygsId,
+      String textVersion,
+      String enhetsId,
+      String enhetsnamn,
+      String patientPersonId,
+      String skapadAvFullstandigtNamn,
+      String skapadAvPersonId,
+      LocalDateTime signeringsdatum,
+      String arbetsplatsKod,
+      String postadress,
+      String postNummer,
+      String postOrt,
+      String epost,
+      String telefonNummer,
+      String vardgivarid,
+      String vardgivarNamn,
+      String forskrivarKod,
+      String fornamn,
+      String efternamn,
+      String mellannamn,
+      String patientPostadress,
+      String patientPostnummer,
+      String patientPostort,
+      RelationKod relationKod,
+      String relationIntygsId) {
+
+    TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
+    template.setId(intygsId);
+    template.setTextVersion(textVersion);
+
+    GrundData grundData = new GrundData();
+    HoSPersonal skapadAv = new HoSPersonal();
+
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid(enhetsId);
+    vardenhet.setEnhetsnamn(enhetsnamn);
+    vardenhet.setArbetsplatsKod(arbetsplatsKod);
+    vardenhet.setPostadress(postadress);
+    vardenhet.setPostnummer(postNummer);
+    vardenhet.setPostort(postOrt);
+    vardenhet.setEpost(epost);
+    vardenhet.setTelefonnummer(telefonNummer);
+
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(vardgivarid);
+    vardgivare.setVardgivarnamn(vardgivarNamn);
+    vardenhet.setVardgivare(vardgivare);
+
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
+    skapadAv.setPersonId(skapadAvPersonId);
+    skapadAv.setForskrivarKod(forskrivarKod);
+    grundData.setSkapadAv(skapadAv);
+
+    Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
+
+    Patient patient = new Patient();
+    patient.setPersonId(personId);
+    patient.setFornamn(fornamn);
+    patient.setEfternamn(efternamn);
+    patient.setMellannamn(mellannamn);
+    patient.setPostadress(patientPostadress);
+    patient.setPostnummer(patientPostnummer);
+    patient.setPostort(patientPostort);
+
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(signeringsdatum);
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationIntygsId(relationIntygsId);
+      relation.setRelationKod(relationKod);
+      grundData.setRelation(relation);
     }
+    template.setGrundData(grundData);
 
-    private static TsDiabetesUtlatandeV3.Builder buildUtlatande() {
-        return buildUtlatande(null, null);
-    }
-
-    private static TsDiabetesUtlatandeV3.Builder buildUtlatande(RelationKod relationKod, String relationIntygsId) {
-        return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
-            "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
-    }
-
-    private static TsDiabetesUtlatandeV3.Builder buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-        String arbetsplatsKod,
-        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
-        String vardgivarNamn,
-        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-        String patientPostort, RelationKod relationKod, String relationIntygsId) {
-
-        TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
-        template.setId(intygsId);
-        template.setTextVersion(textVersion);
-
-        GrundData grundData = new GrundData();
-        HoSPersonal skapadAv = new HoSPersonal();
-
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid(enhetsId);
-        vardenhet.setEnhetsnamn(enhetsnamn);
-        vardenhet.setArbetsplatsKod(arbetsplatsKod);
-        vardenhet.setPostadress(postadress);
-        vardenhet.setPostnummer(postNummer);
-        vardenhet.setPostort(postOrt);
-        vardenhet.setEpost(epost);
-        vardenhet.setTelefonnummer(telefonNummer);
-
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(vardgivarid);
-        vardgivare.setVardgivarnamn(vardgivarNamn);
-        vardenhet.setVardgivare(vardgivare);
-
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
-        skapadAv.setPersonId(skapadAvPersonId);
-        skapadAv.setForskrivarKod(forskrivarKod);
-        grundData.setSkapadAv(skapadAv);
-
-        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
-
-        Patient patient = new Patient();
-        patient.setPersonId(personId);
-        patient.setFornamn(fornamn);
-        patient.setEfternamn(efternamn);
-        patient.setMellannamn(mellannamn);
-        patient.setPostadress(patientPostadress);
-        patient.setPostnummer(patientPostnummer);
-        patient.setPostort(patientPostort);
-
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(signeringsdatum);
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationIntygsId(relationIntygsId);
-            relation.setRelationKod(relationKod);
-            grundData.setRelation(relation);
-        }
-        template.setGrundData(grundData);
-
-        return template;
-    }
+    return template;
+  }
 }

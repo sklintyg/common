@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,17 +28,20 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 
 public interface ModuleFacadeApi {
 
-    Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException, IOException;
+  Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException, IOException;
 
-    String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
-        throws ModuleException, IOException;
+  String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException, IOException;
 
-    CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion);
+  CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion);
 
-    CertificateMessagesProvider getMessagesProvider();
+  CertificateMessagesProvider getMessagesProvider();
 
-    String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException;
+  String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException;
 
-    String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException;
+  String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException;
 }

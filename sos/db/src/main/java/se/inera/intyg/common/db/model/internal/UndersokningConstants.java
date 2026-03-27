@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,13 +20,12 @@ package se.inera.intyg.common.db.model.internal;
 
 public final class UndersokningConstants {
 
-    public static final String UNDERSOKNING_JA = "Ja";
-    public static final String UNDERSOKNING_GJORT_TEXT = "Den avlidne undersökt kort före döden";
-    public static final String UNDERSOKNING_SKA_GORAS_TEXT = "Rättsmedicinsk undersökning ska göras";
+  public static final String UNDERSOKNING_JA = "Ja";
+  public static final String UNDERSOKNING_GJORT_TEXT = "Den avlidne undersökt kort före döden";
+  public static final String UNDERSOKNING_SKA_GORAS_TEXT = "Rättsmedicinsk undersökning ska göras";
 
-    public static final String UNDERSOKNING_SKA_GORAS_TRANSPORT = "UNDERSOKNING_SKA_GORAS";
-    public static final String UNDERSOKNING_GJORT_TRANSPORT = "UNDERSOKNING_GJORT";
+  public static final String UNDERSOKNING_SKA_GORAS_TRANSPORT = "UNDERSOKNING_SKA_GORAS";
+  public static final String UNDERSOKNING_GJORT_TRANSPORT = "UNDERSOKNING_GJORT";
 
-    private UndersokningConstants() {
-    }
+  private UndersokningConstants() {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,119 +45,118 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Bedomning;
 @ExtendWith(MockitoExtension.class)
 class QuestionBedomningOvrigaKommentarerTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningOvrigaKommentarer.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningOvrigaKommentarer.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return BEDOMNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return BEDOMNING_OVRIGA_KOMMENTARER_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningOvrigaKommentarer.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return BEDOMNING_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var bedomning = Bedomning.builder().setOvrigaKommentarer(getText()).build();
-            return QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningOvrigaKommentarer.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 189;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningOvrigaKommentarer.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            final var bedomning = Bedomning.builder().setOvrigaKommentarer(expectedValue).build();
-            return QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionBedomningOvrigaKommentarer.toInternal(certificate);
-        }
+    @Override
+    protected String getTextId() {
+      return BEDOMNING_OVRIGA_KOMMENTARER_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var bedomning = Bedomning.builder().setOvrigaKommentarer(getText()).build();
+      return QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return BEDOMNING_OVRIGA_KOMMENTARER_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningOvrigaKommentarer.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 189;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      final var bedomning = Bedomning.builder().setOvrigaKommentarer(expectedValue).build();
+      return QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionBedomningOvrigaKommentarer.toInternal(certificate);
+    }
+  }
 }

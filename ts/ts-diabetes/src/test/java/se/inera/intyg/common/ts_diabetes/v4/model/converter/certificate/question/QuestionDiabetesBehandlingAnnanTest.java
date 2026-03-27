@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,182 +48,182 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Behandling;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesBehandlingAnnanTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeTestCommon extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(null, getIndex(), textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return ALLMANT_BEHANDLING_SVAR_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 3;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigTextFieldTest extends ConfigTextFieldTest {
 
-        @Nested
-        class IncludeTestCommon extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(null, getIndex(), textProvider);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, getTextProviderMock());
+      }
 
-            @Override
-            protected String getId() {
-                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
-            }
+      @Override
+      protected String getTextId() {
+        return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return ALLMANT_BEHANDLING_SVAR_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 3;
-            }
-        }
-
-        @Nested
-        class IncludeConfigTextFieldTest extends ConfigTextFieldTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, getTextProviderMock());
-            }
-
-            @Override
-            protected String getTextId() {
-                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValueTextTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(
-                    Allmant.builder()
-                        .setBehandling(
-                            Behandling.builder().setAnnanAngeVilken(getText()).build())
-                        .build(), 0,
-                    textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
-            }
-
-            @Override
-            protected String getText() {
-                return "Här är en text";
-            }
-        }
-
-        @Nested
-        class IncludeValidationTextTest extends ValidationTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 53;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-
-            @Override
-            protected String getQuestionId() {
-                return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return ALLMANT_BEHANDLING_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + ALLMANT_BEHANDLING_ANNAN_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 2;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueTextTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalTextValue extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(
+            Allmant.builder()
+                .setBehandling(Behandling.builder().setAnnanAngeVilken(getText()).build())
+                .build(),
+            0,
+            textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionDiabetesBehandlingAnnan.toCertificate(
-                    Allmant.builder()
-                        .setBehandling(
-                            Behandling.builder().setAnnanAngeVilken(expectedValue).build())
-                        .build(), 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionDiabetesBehandlingAnnan.toInternal(certificate);
-            }
-        }
+      @Override
+      protected String getText() {
+        return "Här är en text";
+      }
     }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+
+      @Override
+      protected short getLimit() {
+        return 53;
+      }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+
+      @Override
+      protected String getQuestionId() {
+        return ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID;
+      }
+    }
+
+    @Nested
+    class IncludeValidationShowTest extends ValidationShowTest {
+
+      @Override
+      protected String getQuestionId() {
+        return ALLMANT_BEHANDLING_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + ALLMANT_BEHANDLING_ANNAN_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 2;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalTextValue extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        return QuestionDiabetesBehandlingAnnan.toCertificate(
+            Allmant.builder()
+                .setBehandling(Behandling.builder().setAnnanAngeVilken(expectedValue).build())
+                .build(),
+            0,
+            textProvider);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionDiabetesBehandlingAnnan.toInternal(certificate);
+      }
+    }
+  }
 }

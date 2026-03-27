@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -49,144 +48,143 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesHarMedicineringTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesHarMedicinering.toCertificate(null, getIndex(), textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return ALLMANT_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 3;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getId() {
+        return ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesHarMedicinering.toCertificate(null, getIndex(), textProvider);
-            }
+      @Override
+      protected String getSelectedText() {
+        return "Ja";
+      }
 
-            @Override
-            protected String getId() {
-                return ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
-            }
+      @Override
+      protected String getUnselectedText() {
+        return "Nej";
+      }
 
-            @Override
-            protected String getParent() {
-                return ALLMANT_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 3;
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
+        doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
+        return QuestionDiabetesHarMedicinering.toCertificate(null, 0, textProvider);
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+      @Override
+      protected String getTextId() {
+        return ALLMANT_MEDICINERING_FOR_DIABETES_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return "Ja";
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return "Nej";
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
-                doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
-                return QuestionDiabetesHarMedicinering.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return ALLMANT_MEDICINERING_FOR_DIABETES_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesHarMedicinering.toCertificate(Allmant.builder().setMedicineringForDiabetes(true).build(), 0,
-                    textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return Boolean.TRUE;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiabetesHarMedicinering.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesHarMedicinering.toCertificate(
+            Allmant.builder().setMedicineringForDiabetes(true).build(), 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                final var allmant = Allmant.builder().setMedicineringForDiabetes(expectedValue).build();
-                return QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionDiabetesHarMedicinering.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return Boolean.TRUE;
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists(" + ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID + ")";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiabetesHarMedicinering.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        final var allmant = Allmant.builder().setMedicineringForDiabetes(expectedValue).build();
+        return QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionDiabetesHarMedicinering.toInternal(certificate);
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,55 +22,47 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Implements KV_FKMU_0006.
- */
+/** Implements KV_FKMU_0006. */
 public enum PrognosTyp {
-    /**
-     * Med stor sannolikhet.
-     */
-    MED_STOR_SANNOLIKHET("STOR_SANNOLIKHET",
-        "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning"),
-    /**
-     * Sannolikt ej återgå till nuvarande sysselsättning.
-     */
-    SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING("SANNOLIKT_INTE", "Patienten kan sannolikt inte återgå till nuvarande sysselsättning"),
-    /**
-     * Prognos oklar.
-     */
-    PROGNOS_OKLAR("PROGNOS_OKLAR", "Prognos för återgång i nuvarande sysselsättning är oklar"),
-    /**
-     * Sannolikt återgå i sysselsättning efter x antal dagar.
-     */
-    ATER_X_ANTAL_DGR("ATER_X_ANTAL_DGR",
-        "Patienten kommer med stor sannolikhet att återgå helt i nuvarande sysselsättning efter x antal dagar");
+  /** Med stor sannolikhet. */
+  MED_STOR_SANNOLIKHET(
+      "STOR_SANNOLIKHET",
+      "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning"),
+  /** Sannolikt ej återgå till nuvarande sysselsättning. */
+  SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING(
+      "SANNOLIKT_INTE", "Patienten kan sannolikt inte återgå till nuvarande sysselsättning"),
+  /** Prognos oklar. */
+  PROGNOS_OKLAR("PROGNOS_OKLAR", "Prognos för återgång i nuvarande sysselsättning är oklar"),
+  /** Sannolikt återgå i sysselsättning efter x antal dagar. */
+  ATER_X_ANTAL_DGR(
+      "ATER_X_ANTAL_DGR",
+      "Patienten kommer med stor sannolikhet att återgå helt i nuvarande sysselsättning efter x antal dagar");
 
-    private final String id;
-    private final String label;
+  private final String id;
+  private final String label;
 
-    PrognosTyp(String id, String label) {
-        this.id = id;
-        this.label = label;
+  PrognosTyp(String id, String label) {
+    this.id = id;
+    this.label = label;
+  }
+
+  @JsonValue
+  public String getId() {
+    return id;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+  public static PrognosTyp fromId(@JsonProperty("id") String id) {
+    String normId = id != null ? id.trim() : null;
+    for (PrognosTyp typ : values()) {
+      if (typ.id.equals(normId)) {
+        return typ;
+      }
     }
-
-    @JsonValue
-    public String getId() {
-        return id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static PrognosTyp fromId(@JsonProperty("id") String id) {
-        String normId = id != null ? id.trim() : null;
-        for (PrognosTyp typ : values()) {
-            if (typ.id.equals(normId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
+    throw new IllegalArgumentException();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,5 +19,15 @@
 package se.inera.intyg.common.ts_bas.v7.model.internal;
 
 public enum BedomningKorkortstyp {
-    VAR1, VAR2, VAR3, VAR4, VAR5, VAR6, VAR7, VAR8, VAR9, VAR10, VAR11
+  VAR1,
+  VAR2,
+  VAR3,
+  VAR4,
+  VAR5,
+  VAR6,
+  VAR7,
+  VAR8,
+  VAR9,
+  VAR10,
+  VAR11
 }

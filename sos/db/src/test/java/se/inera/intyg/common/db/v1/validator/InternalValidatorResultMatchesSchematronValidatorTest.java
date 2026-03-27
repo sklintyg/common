@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,7 +29,6 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.xml.transform.stream.StreamSource;
@@ -44,7 +43,6 @@ import se.inera.intyg.common.db.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -52,76 +50,102 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
-    private static String name;
+  private static String name;
 
-    private static InternalDraftValidatorImpl internalValidator = new InternalDraftValidatorImpl();
-    private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
+  private static InternalDraftValidatorImpl internalValidator = new InternalDraftValidatorImpl();
+  private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
 
-    private static final TypeAheadProvider typeAheadProvider = typeAheadEnum -> List.of("NACKA", "kommun");
+  private static final TypeAheadProvider typeAheadProvider =
+      typeAheadEnum -> List.of("NACKA", "kommun");
 
-    static {
-        GlobalDebug.setDebugModeDirect(false);
-    }
+  static {
+    GlobalDebug.setDebugModeDirect(false);
+  }
 
-    private Scenario scenario;
-    private boolean shouldFail;
+  private Scenario scenario;
+  private boolean shouldFail;
 
-    public InternalValidatorResultMatchesSchematronValidatorTest(String name, Scenario scenario, boolean shouldFail) {
-        this.scenario = scenario;
-        this.shouldFail = shouldFail;
-        InternalValidatorResultMatchesSchematronValidatorTest.name = name;
-    }
+  public InternalValidatorResultMatchesSchematronValidatorTest(
+      String name, Scenario scenario, boolean shouldFail) {
+    this.scenario = scenario;
+    this.shouldFail = shouldFail;
+    InternalValidatorResultMatchesSchematronValidatorTest.name = name;
+  }
 
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        Collection<Object[]> ret = ScenarioFinder.getInternalScenarios("fail-*").stream()
-            .map(u -> new Object[]{u.getName(), u, true})
+  @Parameters(name = "{index}: Scenario: {0}")
+  public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    Collection<Object[]> ret =
+        ScenarioFinder.getInternalScenarios("fail-*").stream()
+            .map(u -> new Object[] {u.getName(), u, true})
             .collect(Collectors.toList());
-        ret.addAll(ScenarioFinder.getInternalScenarios("pass-*").stream()
-            .map(u -> new Object[]{u.getName(), u, false})
+    ret.addAll(
+        ScenarioFinder.getInternalScenarios("pass-*").stream()
+            .map(u -> new Object[] {u.getName(), u, false})
             .collect(Collectors.toList()));
-        return ret;
+    return ret;
+  }
+
+  private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail)
+      throws Exception {
+    DbUtlatandeV1 utlatandeFromJson =
+        fail
+            ? scenario.asInternalModel()
+            : InternalValidatorTest.setupUtlatandeDates(scenario.asInternalModel());
+
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
+
+    RegisterCertificateType intyg = scenario.asTransportModel();
+    String convertedXML = getXmlFromModel(intyg);
+
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(DbModuleApiV1.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+
+    String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
+
+    String transportValidationErrors = getTransportValidationErrorString(result);
+
+    doAssertions(
+        fail,
+        internalValidationResponse,
+        result,
+        internalValidationErrors,
+        transportValidationErrors);
+  }
+
+  private static void doAssertions(
+      boolean fail,
+      ValidateDraftResponse internalValidationResponse,
+      SchematronOutputType result,
+      String internalValidationErrors,
+      String transportValidationErrors) {
+    if (fail) {
+      assertTrue(
+          String.format("File: %s, Internal validation, expected ValidationStatus.INVALID", name),
+          internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
+
+      assertTrue(
+          String.format("File: %s, Schematronvalidation, expected errors > 0", name),
+          SVRLHelper.getAllFailedAssertions(result).size() > 0);
+    } else {
+      assertTrue(
+          String.format(
+              "File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
+              name, internalValidationErrors),
+          internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
+      assertTrue(
+          String.format(
+              "File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
+              name, transportValidationErrors),
+          SVRLHelper.getAllFailedAssertions(result).size() == 0);
     }
+  }
 
-    private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
-        DbUtlatandeV1 utlatandeFromJson = fail ?
-            scenario.asInternalModel() :
-            InternalValidatorTest.setupUtlatandeDates(scenario.asInternalModel());
-
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson, typeAheadProvider);
-
-        RegisterCertificateType intyg = scenario.asTransportModel();
-        String convertedXML = getXmlFromModel(intyg);
-
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(DbModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-
-        String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
-
-        String transportValidationErrors = getTransportValidationErrorString(result);
-
-        doAssertions(fail, internalValidationResponse, result, internalValidationErrors, transportValidationErrors);
-    }
-
-    private static void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-        String internalValidationErrors, String transportValidationErrors) {
-        if (fail) {
-            assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID", name),
-                internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
-
-            assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0", name),
-                SVRLHelper.getAllFailedAssertions(result).size() > 0);
-        } else {
-            assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s", name,
-                internalValidationErrors), internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
-            assertTrue(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s", name,
-                transportValidationErrors), SVRLHelper.getAllFailedAssertions(result).size() == 0);
-        }
-    }
-
-    @Test
-    public void testScenarios() throws Exception {
-        doInternalAndSchematronValidation(scenario, shouldFail);
-    }
+  @Test
+  public void testScenarios() throws Exception {
+    doInternalAndSchematronValidation(scenario, shouldFail);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,7 +21,6 @@ package se.inera.intyg.common.support.facade.util;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
@@ -30,112 +29,76 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 
 public final class DataValueUtil {
 
-    private DataValueUtil() {
-    }
+  private DataValueUtil() {}
 
-    public static CertificateDataUncertainDateValue getDataUncertainDateValue(String id, String value) {
-        return CertificateDataUncertainDateValue.builder()
-            .id(id)
-            .value(value)
-            .build();
-    }
+  public static CertificateDataUncertainDateValue getDataUncertainDateValue(
+      String id, String value) {
+    return CertificateDataUncertainDateValue.builder().id(id).value(value).build();
+  }
 
-    public static CertificateDataValueBoolean getDataValueBoolean(String id, boolean selected) {
-        return CertificateDataValueBoolean.builder()
-            .id(id)
-            .selected(selected)
-            .build();
-    }
+  public static CertificateDataValueBoolean getDataValueBoolean(String id, boolean selected) {
+    return CertificateDataValueBoolean.builder().id(id).selected(selected).build();
+  }
 
-    public static CertificateDataValueCode getDataValueCode(String id, String code) {
-        return CertificateDataValueCode.builder()
-            .id(id)
-            .code(code)
-            .build();
-    }
+  public static CertificateDataValueCode getDataValueCode(String id, String code) {
+    return CertificateDataValueCode.builder().id(id).code(code).build();
+  }
 
-    public static CertificateDataValueDate getDataValueDate(String id, LocalDate date) {
-        return CertificateDataValueDate.builder()
-            .id(id)
-            .date(date)
-            .build();
-    }
+  public static CertificateDataValueDate getDataValueDate(String id, LocalDate date) {
+    return CertificateDataValueDate.builder().id(id).date(date).build();
+  }
 
-    public static CertificateDataValueText getDataValueText(String id, String text) {
-        return CertificateDataValueText.builder()
-            .id(id)
-            .text(text)
-            .build();
-    }
+  public static CertificateDataValueText getDataValueText(String id, String text) {
+    return CertificateDataValueText.builder().id(id).text(text).build();
+  }
 
-    public static CertificateDataValueCodeList getDataValueCodeList(String id, String code) {
-        return CertificateDataValueCodeList.builder()
-            .list(List.of(
-                    getDataValueCode(id, code)
-                )
-            )
-            .build();
-    }
+  public static CertificateDataValueCodeList getDataValueCodeList(String id, String code) {
+    return CertificateDataValueCodeList.builder().list(List.of(getDataValueCode(id, code))).build();
+  }
 
-    public static CertificateDataValueCodeList getDataValueCodeListMaximumValues(List<String> id, List<String> code) {
-        final var certificateDataValueCodes = new ArrayList<CertificateDataValueCode>();
-        for (int i = 0; i < id.size(); i++) {
-            certificateDataValueCodes.add(
-                getDataValueCode(id.get(i), code.get(i))
-            );
-        }
-        return CertificateDataValueCodeList.builder()
-            .list(
-                certificateDataValueCodes
-            )
-            .build();
+  public static CertificateDataValueCodeList getDataValueCodeListMaximumValues(
+      List<String> id, List<String> code) {
+    final var certificateDataValueCodes = new ArrayList<CertificateDataValueCode>();
+    for (int i = 0; i < id.size(); i++) {
+      certificateDataValueCodes.add(getDataValueCode(id.get(i), code.get(i)));
     }
+    return CertificateDataValueCodeList.builder().list(certificateDataValueCodes).build();
+  }
 
-    public static CertificateDataValueDateList getDataValueDateListMinimal(String id, LocalDate date) {
-        return CertificateDataValueDateList.builder()
-            .list(List.of(
-                    getDataValueDate(id, date)
-                )
-            )
-            .build();
-    }
+  public static CertificateDataValueDateList getDataValueDateListMinimal(
+      String id, LocalDate date) {
+    return CertificateDataValueDateList.builder().list(List.of(getDataValueDate(id, date))).build();
+  }
 
-    public static CertificateDataValueDateList getDataValueDateListMaximal(List<String> listOfIds, LocalDate date, int numberOfDates) {
-        final var certificateDataValueDateList = new ArrayList<CertificateDataValueDate>();
-        for (int i = 0; i < numberOfDates; i++) {
-            certificateDataValueDateList.add(getDataValueDate(listOfIds.get(i), date));
-        }
-        return CertificateDataValueDateList.builder()
-            .list(
-                certificateDataValueDateList
-            )
-            .build();
+  public static CertificateDataValueDateList getDataValueDateListMaximal(
+      List<String> listOfIds, LocalDate date, int numberOfDates) {
+    final var certificateDataValueDateList = new ArrayList<CertificateDataValueDate>();
+    for (int i = 0; i < numberOfDates; i++) {
+      certificateDataValueDateList.add(getDataValueDate(listOfIds.get(i), date));
     }
+    return CertificateDataValueDateList.builder().list(certificateDataValueDateList).build();
+  }
 
-    public static CertificateDataValueYear getDataValueYear(String id) {
-        return CertificateDataValueYear.builder()
-            .id(id)
-            .year(LocalDate.now().getYear())
-            .build();
-    }
+  public static CertificateDataValueYear getDataValueYear(String id) {
+    return CertificateDataValueYear.builder().id(id).year(LocalDate.now().getYear()).build();
+  }
 
-    public static CertificateDataValueInteger getDataValueInteger(String id, String unitOfMeasurement, Integer value) {
-        return CertificateDataValueInteger.builder()
-            .id(id)
-            .unitOfMeasurement(unitOfMeasurement)
-            .value(value)
-            .build();
-    }
+  public static CertificateDataValueInteger getDataValueInteger(
+      String id, String unitOfMeasurement, Integer value) {
+    return CertificateDataValueInteger.builder()
+        .id(id)
+        .unitOfMeasurement(unitOfMeasurement)
+        .value(value)
+        .build();
+  }
 
-    public static CertificateDataValueDateRange getDataValueDateRange(String id, LocalDate from, LocalDate to) {
-        return CertificateDataValueDateRange.builder()
-            .id(id)
-            .from(from)
-            .to(to)
-            .build();
-    }
+  public static CertificateDataValueDateRange getDataValueDateRange(
+      String id, LocalDate from, LocalDate to) {
+    return CertificateDataValueDateRange.builder().id(id).from(from).to(to).build();
+  }
 }

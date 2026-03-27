@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,63 +31,53 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- * Created by marced on 2018-09-03.
- */
+/** Created by marced on 2018-09-03. */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Behandling.Builder.class)
 public abstract class Behandling {
 
-    @Nullable
-    public abstract Boolean getEndastKost();
+  @Nullable public abstract Boolean getEndastKost();
 
-    @Nullable
-    public abstract Boolean getTabletter();
+  @Nullable public abstract Boolean getTabletter();
 
-    @Nullable
-    public abstract Boolean getInsulin();
+  @Nullable public abstract Boolean getInsulin();
 
-    @Nullable
-    public abstract String getInsulinSedanAr();
+  @Nullable public abstract String getInsulinSedanAr();
 
-    @Nullable
-    public abstract Boolean getAnnanBehandling();
+  @Nullable public abstract Boolean getAnnanBehandling();
 
-    @Nullable
-    public abstract String getAnnanBehandlingBeskrivning();
+  @Nullable public abstract String getAnnanBehandlingBeskrivning();
 
-    @Nullable
-    public abstract Boolean getRiskHypoglykemi();
+  @Nullable public abstract Boolean getRiskHypoglykemi();
 
-    public static Builder builder() {
-        return new AutoValue_Behandling.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Behandling.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Behandling build();
+    public abstract Behandling build();
 
-        @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)
-        public abstract Builder setEndastKost(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)
+    public abstract Builder setEndastKost(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-        public abstract Builder setTabletter(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+    public abstract Builder setTabletter(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-        public abstract Builder setInsulin(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+    public abstract Builder setInsulin(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID)
-        public abstract Builder setInsulinSedanAr(String value);
+    @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID)
+    public abstract Builder setInsulinSedanAr(String value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID)
-        public abstract Builder setAnnanBehandling(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID)
+    public abstract Builder setAnnanBehandling(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID)
-        public abstract Builder setAnnanBehandlingBeskrivning(String value);
+    @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID)
+    public abstract Builder setAnnanBehandlingBeskrivning(String value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID)
-        public abstract Builder setRiskHypoglykemi(Boolean value);
-    }
-
+    @JsonProperty(ALLMANT_BEHANDLING_RISK_HYPOGLYKEMI_JSON_ID)
+    public abstract Builder setRiskHypoglykemi(Boolean value);
+  }
 }

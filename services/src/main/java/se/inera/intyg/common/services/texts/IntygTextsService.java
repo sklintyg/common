@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,53 +20,52 @@ package se.inera.intyg.common.services.texts;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
-/**
- * Service used to access the texts in a certificate.
- */
+/** Service used to access the texts in a certificate. */
 public interface IntygTextsService {
 
-    /**
-     * Lookup if the version and type of intyg is supported.
-     *
-     * @param intygsTyp the type of intyg
-     * @param version the version of the intyg, described in [major.minor]
-     * @return boolean if the specific intyg is supported
-     */
-    boolean isVersionSupported(String intygsTyp, String version);
+  /**
+   * Lookup if the version and type of intyg is supported.
+   *
+   * @param intygsTyp the type of intyg
+   * @param version the version of the intyg, described in [major.minor]
+   * @return boolean if the specific intyg is supported
+   */
+  boolean isVersionSupported(String intygsTyp, String version);
 
-    /**
-     * Returns the texts for a given type and version as JSON.
-     *
-     * @param intygsTyp the type
-     * @param version the version
-     * @return the texts as JSON
-     */
-    String getIntygTexts(String intygsTyp, String version);
+  /**
+   * Returns the texts for a given type and version as JSON.
+   *
+   * @param intygsTyp the type
+   * @param version the version
+   * @return the texts as JSON
+   */
+  String getIntygTexts(String intygsTyp, String version);
 
-    boolean isLatestMajorVersion(String certificateType, String version);
+  boolean isLatestMajorVersion(String certificateType, String version);
 
-    /**
-     * Returns an {@link IntygTexts} representation of the set of texts for the certificate with specified and version.
-     *
-     * @param intygsTyp the type
-     * @param version the version
-     * @return the texts as an {@link IntygTexts} object
-     */
-    IntygTexts getIntygTextsPojo(String intygsTyp, String version);
+  /**
+   * Returns an {@link IntygTexts} representation of the set of texts for the certificate with
+   * specified and version.
+   *
+   * @param intygsTyp the type
+   * @param version the version
+   * @return the texts as an {@link IntygTexts} object
+   */
+  IntygTexts getIntygTextsPojo(String intygsTyp, String version);
 
-    /**
-     * Returns the latest version for <code>intygsTyp</code>.
-     *
-     * @param intygsTyp the type
-     * @return the latest version
-     */
-    String getLatestVersion(String intygsTyp);
+  /**
+   * Returns the latest version for <code>intygsTyp</code>.
+   *
+   * @param intygsTyp the type
+   * @return the latest version
+   */
+  String getLatestVersion(String intygsTyp);
 
-    /**
-     * Returns the latest minor version for <code>intygsTyp</code> and <code>major</code>.
-     *
-     * @param intygsTyp the type
-     * @return the latest version
-     */
-    String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
+  /**
+   * Returns the latest minor version for <code>intygsTyp</code> and <code>major</code>.
+   *
+   * @param intygsTyp the type
+   * @return the latest version
+   */
+  String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
 }

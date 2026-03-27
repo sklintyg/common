@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,30 +35,35 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
  */
 public final class XmlValidator {
 
-    private XmlValidator() {
-    }
+  private XmlValidator() {}
 
-    /**
-     * Perform validation of the specified XML string using the supplied {@link RegisterCertificateValidator},
-     * allows each module to set up its validator using each modules' schematron-file.
-     *
-     * @param validator {@link RegisterCertificateValidator}
-     * @param inputXml String
-     * @return {@link ValidateXmlResponse}
-     */
-    public static ValidateXmlResponse validate(RegisterCertificateValidator validator, String inputXml) throws ModuleException {
-        try {
-            SchematronOutputType valResult = validator.validateSchematron(new StreamSource(new StringReader(inputXml)));
-            if (!SVRLHelper.getAllFailedAssertions(valResult).isEmpty()) {
-                List<String> errorMsgs = new ArrayList<>();
-                SVRLHelper.getAllFailedAssertions(valResult)
-                    .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
-                return new ValidateXmlResponse(ValidationStatus.INVALID, errorMsgs);
-            } else {
-                return ValidateXmlResponse.createValidResponse();
-            }
-        } catch (Exception e) {
-            throw new ModuleException("Failed to validate xml", e);
-        }
+  /**
+   * Perform validation of the specified XML string using the supplied {@link
+   * RegisterCertificateValidator}, allows each module to set up its validator using each modules'
+   * schematron-file.
+   *
+   * @param validator {@link RegisterCertificateValidator}
+   * @param inputXml String
+   * @return {@link ValidateXmlResponse}
+   */
+  public static ValidateXmlResponse validate(
+      RegisterCertificateValidator validator, String inputXml) throws ModuleException {
+    try {
+      SchematronOutputType valResult =
+          validator.validateSchematron(new StreamSource(new StringReader(inputXml)));
+      if (!SVRLHelper.getAllFailedAssertions(valResult).isEmpty()) {
+        List<String> errorMsgs = new ArrayList<>();
+        SVRLHelper.getAllFailedAssertions(valResult)
+            .forEach(
+                fra ->
+                    errorMsgs.add(
+                        String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
+        return new ValidateXmlResponse(ValidationStatus.INVALID, errorMsgs);
+      } else {
+        return ValidateXmlResponse.createValidResponse();
+      }
+    } catch (Exception e) {
+      throw new ModuleException("Failed to validate xml", e);
     }
+  }
 }

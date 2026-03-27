@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,159 +56,168 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+          null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}",
-                textProvider.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID));
-        }
-
-        @Override
-        protected String getJsonId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-        }
-
-        @Test
-        public void shouldCallTextProviderForReplacementText() {
-            final var question = getElement();
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
-            verify(getTextProviderMock(), atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
-        }
-
-        @Test
-        void shouldIncludeLightbulbIcon() {
-            final var certificateDataElement = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
-            final var config = certificateDataElement.getConfig();
-            assertEquals("lightbulb_outline", config.getIcon());
-        }
+    @Override
+    protected String getParent() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(getText(), 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 150;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
-                + " && ($" + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
-                + " || $" + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
-                + " || $" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
-        }
+    @Override
+    protected String getTextId() {
+      return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
-        }
+    @Override
+    protected String getDescriptionId() {
+      return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace(
+          "{0}", textProvider.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID));
     }
+
+    @Override
+    protected String getJsonId() {
+      return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+    }
+
+    @Test
+    public void shouldCallTextProviderForReplacementText() {
+      final var question = getElement();
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
+      verify(getTextProviderMock(), atLeastOnce())
+          .get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
+    }
+
+    @Test
+    void shouldIncludeLightbulbIcon() {
+      final var certificateDataElement =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+      final var config = certificateDataElement.getConfig();
+      assertEquals("lightbulb_outline", config.getIcon());
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+          getText(), 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 150;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "!$"
+          + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
+          + " && ($"
+          + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
+          + " || $"
+          + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
+          + " || $"
+          + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1
+          + ")";
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+          expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
+    }
+  }
 }

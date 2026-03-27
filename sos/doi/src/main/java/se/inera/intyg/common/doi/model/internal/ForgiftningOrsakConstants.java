@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,11 +20,10 @@ package se.inera.intyg.common.doi.model.internal;
 
 public final class ForgiftningOrsakConstants {
 
-    public static final String OLYCKSFALL = "Olycksfall";
-    public static final String SJALVMORD = "Självmord";
-    public static final String AVSIKTLIGT_VALLAD = "Avsiktligt vållad av annan";
-    public static final String OKLART = "Oklart om avsikt förelegat";
+  public static final String OLYCKSFALL = "Olycksfall";
+  public static final String SJALVMORD = "Självmord";
+  public static final String AVSIKTLIGT_VALLAD = "Avsiktligt vållad av annan";
+  public static final String OKLART = "Oklart om avsikt förelegat";
 
-    private ForgiftningOrsakConstants() {
-    }
+  private ForgiftningOrsakConstants() {}
 }

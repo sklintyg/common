@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,59 +38,58 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderT
 @ExtendWith(MockitoExtension.class)
 class QuestionAktivitetsbegransningarHeaderTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAktivitetsbegransningarHeader.toCertificate(3, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAktivitetsbegransningarHeader.toCertificate(3, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return AKTIVITETSBEGRANSNING_SVAR_ID_17;
-        }
-
-        @Override
-        protected String getParent() {
-            return AKTIVITETSBEGRANSNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return AKTIVITETSBEGRANSNING_SVAR_ID_17;
     }
 
-    @Nested
-    class IncludeConfigHeaderTest extends ConfigHeaderTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAktivitetsbegransningarHeader.toCertificate(3, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
-        }
+    @Override
+    protected String getParent() {
+      return AKTIVITETSBEGRANSNING_CATEGORY_ID;
     }
+
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
+
+  @Nested
+  class IncludeConfigHeaderTest extends ConfigHeaderTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAktivitetsbegransningarHeader.toCertificate(3, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return AKTIVITETSBEGRANSNING_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,72 +40,85 @@ import se.inera.intyg.schemas.contract.Personnummer;
  */
 public class GetMedicalCertificateResponderImpl implements GetMedicalCertificateResponderInterface {
 
-    public static final String HSVARD = "HSVARD";
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
+  public static final String HSVARD = "HSVARD";
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(GetMedicalCertificateResponderImpl.class);
 
-    private final ModuleContainerApi moduleContainer;
+  private final ModuleContainerApi moduleContainer;
 
-    public GetMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
-        this.moduleContainer = moduleContainer;
-    }
+  public GetMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+    this.moduleContainer = moduleContainer;
+  }
 
-    @Override
-    public GetMedicalCertificateResponseType getMedicalCertificate(String logicalAddress,
-        GetMedicalCertificateRequestType request) {
+  @Override
+  public GetMedicalCertificateResponseType getMedicalCertificate(
+      String logicalAddress, GetMedicalCertificateRequestType request) {
 
-        GetMedicalCertificateResponseType response = new GetMedicalCertificateResponseType();
+    GetMedicalCertificateResponseType response = new GetMedicalCertificateResponseType();
 
-        String certificateId = request.getCertificateId();
-        Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null
+    String certificateId = request.getCertificateId();
+    Personnummer nationalIdentityNumber =
+        request.getNationalIdentityNumber() != null
             ? Personnummer.createPersonnummer(request.getNationalIdentityNumber()).get()
             : null;
 
-        CertificateHolder certificate = null;
+    CertificateHolder certificate = null;
 
-        try {
-            certificate = moduleContainer.getCertificate(certificateId, nationalIdentityNumber, false);
-            if (!Fk7263EntryPoint.MODULE_ID.equalsIgnoreCase(certificate.getType())) {
-                throw new InvalidCertificateException(certificateId, null);
-            }
-            if (nationalIdentityNumber != null && !certificate.getCivicRegistrationNumber().equals(nationalIdentityNumber)) {
-                response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
-                return response;
-            }
-            if (HSVARD.equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
-                response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
-                    String.format("Certificate '%s' has been deleted by care giver", certificateId)));
-            } else {
-                response.setMeta(ModelConverter.toCertificateMetaType(certificate));
-                attachCertificateDocument(certificate, response);
-                moduleContainer.logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(),
-                    request.getPart());
-                if (certificate.isRevoked()) {
-                    response.setResult(
-                        ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                            String.format("Certificate '%s' has been revoked", certificateId)));
-                } else {
-                    response.setResult(ResultTypeUtil.okResult());
-                }
-            }
-        } catch (InvalidCertificateException e) {
-            response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
-        }
+    try {
+      certificate = moduleContainer.getCertificate(certificateId, nationalIdentityNumber, false);
+      if (!Fk7263EntryPoint.MODULE_ID.equalsIgnoreCase(certificate.getType())) {
+        throw new InvalidCertificateException(certificateId, null);
+      }
+      if (nationalIdentityNumber != null
+          && !certificate.getCivicRegistrationNumber().equals(nationalIdentityNumber)) {
+        response.setResult(
+            ResultTypeUtil.errorResult(
+                ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
         return response;
-
-    }
-
-    protected void attachCertificateDocument(CertificateHolder certificate, GetMedicalCertificateResponseType response) {
-        try {
-
-            JAXBElement<RegisterMedicalCertificateType> el =
-                XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
-
-            response.setLakarutlatande(el.getValue().getLakarutlatande());
-
-        } catch (Exception e) {
-            LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(),
-                e.getStackTrace());
-            throw new RuntimeException(e);
+      }
+      if (HSVARD.equals(request.getPart()) && certificate.isDeletedByCareGiver()) {
+        response.setResult(
+            ResultTypeUtil.errorResult(
+                ErrorIdType.APPLICATION_ERROR,
+                String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+      } else {
+        response.setMeta(ModelConverter.toCertificateMetaType(certificate));
+        attachCertificateDocument(certificate, response);
+        moduleContainer.logCertificateRetrieved(
+            certificate.getId(),
+            certificate.getType(),
+            certificate.getCareUnitId(),
+            request.getPart());
+        if (certificate.isRevoked()) {
+          response.setResult(
+              ResultTypeUtil.errorResult(
+                  ErrorIdType.REVOKED,
+                  String.format("Certificate '%s' has been revoked", certificateId)));
+        } else {
+          response.setResult(ResultTypeUtil.okResult());
         }
+      }
+    } catch (InvalidCertificateException e) {
+      response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
     }
+    return response;
+  }
+
+  protected void attachCertificateDocument(
+      CertificateHolder certificate, GetMedicalCertificateResponseType response) {
+    try {
+
+      JAXBElement<RegisterMedicalCertificateType> el =
+          XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
+
+      response.setLakarutlatande(el.getValue().getLakarutlatande());
+
+    } catch (Exception e) {
+      LOGGER.error(
+          "Error while converting in getMedicalCertificate for id: {} with stacktrace: {}",
+          certificate.getId(),
+          e.getStackTrace());
+      throw new RuntimeException(e);
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,117 +41,117 @@ import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
 public class TsBasMetaDataConverterTest {
 
-    @Test
-    public void testToCertificateMetaData() {
-        final String certificateId = "certificateId";
-        final String certificateType = "certificateType";
-        final String issuerName = "issuer name";
-        final String facilityName = "facility name";
-        final String signDate = "2016-10-11T14:54:33";
-        final String additionalInfo = "additional info";
-        IntygMeta source = new IntygMeta();
-        source.setAdditionalInfo(additionalInfo);
-        source.setAvailable("true");
-        IntygStatus status = new IntygStatus();
-        status.setType(se.inera.intygstjanster.ts.services.v1.Status.RECEIVED);
-        status.setTarget("target");
-        status.setTimestamp("2016-10-11T13:32:33");
-        source.getStatus().add(status);
-        TSBasIntyg intyg = new TSBasIntyg();
-        intyg.setIntygsId(certificateId);
-        intyg.setIntygsTyp(certificateType);
-        intyg.setGrundData(new GrundData());
-        intyg.getGrundData().setSkapadAv(new SkapadAv());
-        intyg.getGrundData().getSkapadAv().setFullstandigtNamn(issuerName);
-        intyg.getGrundData().getSkapadAv().setVardenhet(new Vardenhet());
-        intyg.getGrundData().getSkapadAv().getVardenhet().setEnhetsnamn(facilityName);
-        intyg.getGrundData().setSigneringsTidstampel(signDate);
-        CertificateMetaData res = TsBasMetaDataConverter.toCertificateMetaData(source, intyg);
+  @Test
+  public void testToCertificateMetaData() {
+    final String certificateId = "certificateId";
+    final String certificateType = "certificateType";
+    final String issuerName = "issuer name";
+    final String facilityName = "facility name";
+    final String signDate = "2016-10-11T14:54:33";
+    final String additionalInfo = "additional info";
+    IntygMeta source = new IntygMeta();
+    source.setAdditionalInfo(additionalInfo);
+    source.setAvailable("true");
+    IntygStatus status = new IntygStatus();
+    status.setType(se.inera.intygstjanster.ts.services.v1.Status.RECEIVED);
+    status.setTarget("target");
+    status.setTimestamp("2016-10-11T13:32:33");
+    source.getStatus().add(status);
+    TSBasIntyg intyg = new TSBasIntyg();
+    intyg.setIntygsId(certificateId);
+    intyg.setIntygsTyp(certificateType);
+    intyg.setGrundData(new GrundData());
+    intyg.getGrundData().setSkapadAv(new SkapadAv());
+    intyg.getGrundData().getSkapadAv().setFullstandigtNamn(issuerName);
+    intyg.getGrundData().getSkapadAv().setVardenhet(new Vardenhet());
+    intyg.getGrundData().getSkapadAv().getVardenhet().setEnhetsnamn(facilityName);
+    intyg.getGrundData().setSigneringsTidstampel(signDate);
+    CertificateMetaData res = TsBasMetaDataConverter.toCertificateMetaData(source, intyg);
 
-        assertNotNull(res);
-        assertEquals(certificateId, res.getCertificateId());
-        assertEquals(certificateType, res.getCertificateType());
-        assertEquals(issuerName, res.getIssuerName());
-        assertEquals(facilityName, res.getFacilityName());
-        assertEquals(signDate, res.getSignDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        assertEquals(additionalInfo, res.getAdditionalInfo());
-        assertTrue(res.isAvailable());
-        assertNotNull(res.getStatus());
-        assertEquals(1, res.getStatus().size());
-    }
+    assertNotNull(res);
+    assertEquals(certificateId, res.getCertificateId());
+    assertEquals(certificateType, res.getCertificateType());
+    assertEquals(issuerName, res.getIssuerName());
+    assertEquals(facilityName, res.getFacilityName());
+    assertEquals(signDate, res.getSignDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    assertEquals(additionalInfo, res.getAdditionalInfo());
+    assertTrue(res.isAvailable());
+    assertNotNull(res.getStatus());
+    assertEquals(1, res.getStatus().size());
+  }
 
-    @Test
-    public void testToCertificateMetaDataNotAvailable() {
-        IntygMeta source = new IntygMeta();
-        source.setAvailable("false");
-        TSBasIntyg intyg = new TSBasIntyg();
-        intyg.setGrundData(new GrundData());
-        intyg.getGrundData().setSkapadAv(new SkapadAv());
-        intyg.getGrundData().getSkapadAv().setVardenhet(new Vardenhet());
-        intyg.getGrundData().setSigneringsTidstampel("2016-10-11T14:54:33");
-        CertificateMetaData res = TsBasMetaDataConverter.toCertificateMetaData(source, intyg);
+  @Test
+  public void testToCertificateMetaDataNotAvailable() {
+    IntygMeta source = new IntygMeta();
+    source.setAvailable("false");
+    TSBasIntyg intyg = new TSBasIntyg();
+    intyg.setGrundData(new GrundData());
+    intyg.getGrundData().setSkapadAv(new SkapadAv());
+    intyg.getGrundData().getSkapadAv().setVardenhet(new Vardenhet());
+    intyg.getGrundData().setSigneringsTidstampel("2016-10-11T14:54:33");
+    CertificateMetaData res = TsBasMetaDataConverter.toCertificateMetaData(source, intyg);
 
-        assertNotNull(res);
-        assertFalse(res.isAvailable());
-        assertNotNull(res.getStatus());
-        assertTrue(res.getStatus().isEmpty());
-    }
+    assertNotNull(res);
+    assertFalse(res.isAvailable());
+    assertNotNull(res.getStatus());
+    assertTrue(res.getStatus().isEmpty());
+  }
 
-    @Test
-    public void testToStatusList() {
-        final String target1 = "target1";
-        final String timestamp1 = "2016-10-11T10:10:00";
-        final String target2 = "target2";
-        final String timestamp2 = "2016-09-11T10:10:00";
-        IntygStatus source1 = new IntygStatus();
-        source1.setTarget(target1);
-        source1.setTimestamp(timestamp1);
-        source1.setType(se.inera.intygstjanster.ts.services.v1.Status.SENT);
-        IntygStatus source2 = new IntygStatus();
-        source2.setTarget(target2);
-        source2.setTimestamp(timestamp2);
-        source2.setType(se.inera.intygstjanster.ts.services.v1.Status.CANCELLED);
-        List<Status> res = TsBasMetaDataConverter.toStatusList(Arrays.asList(source1, source2));
+  @Test
+  public void testToStatusList() {
+    final String target1 = "target1";
+    final String timestamp1 = "2016-10-11T10:10:00";
+    final String target2 = "target2";
+    final String timestamp2 = "2016-09-11T10:10:00";
+    IntygStatus source1 = new IntygStatus();
+    source1.setTarget(target1);
+    source1.setTimestamp(timestamp1);
+    source1.setType(se.inera.intygstjanster.ts.services.v1.Status.SENT);
+    IntygStatus source2 = new IntygStatus();
+    source2.setTarget(target2);
+    source2.setTimestamp(timestamp2);
+    source2.setType(se.inera.intygstjanster.ts.services.v1.Status.CANCELLED);
+    List<Status> res = TsBasMetaDataConverter.toStatusList(Arrays.asList(source1, source2));
 
-        assertNotNull(res);
-        assertEquals(2, res.size());
-        assertEquals(target1, res.get(0).getTarget());
-        assertEquals(LocalDateTime.parse(timestamp1), res.get(0).getTimestamp());
-        assertEquals(CertificateState.SENT, res.get(0).getType());
-        assertEquals(target2, res.get(1).getTarget());
-        assertEquals(LocalDateTime.parse(timestamp2), res.get(1).getTimestamp());
-        assertEquals(CertificateState.CANCELLED, res.get(1).getType());
-    }
+    assertNotNull(res);
+    assertEquals(2, res.size());
+    assertEquals(target1, res.get(0).getTarget());
+    assertEquals(LocalDateTime.parse(timestamp1), res.get(0).getTimestamp());
+    assertEquals(CertificateState.SENT, res.get(0).getType());
+    assertEquals(target2, res.get(1).getTarget());
+    assertEquals(LocalDateTime.parse(timestamp2), res.get(1).getTimestamp());
+    assertEquals(CertificateState.CANCELLED, res.get(1).getType());
+  }
 
-    @Test
-    public void testToStatusListNull() {
-        List<Status> res = TsBasMetaDataConverter.toStatusList(null);
+  @Test
+  public void testToStatusListNull() {
+    List<Status> res = TsBasMetaDataConverter.toStatusList(null);
 
-        assertNotNull(res);
-        assertTrue(res.isEmpty());
-    }
+    assertNotNull(res);
+    assertTrue(res.isEmpty());
+  }
 
-    @Test
-    public void testToStatusListEmptyList() {
-        List<Status> res = TsBasMetaDataConverter.toStatusList(new ArrayList<>());
+  @Test
+  public void testToStatusListEmptyList() {
+    List<Status> res = TsBasMetaDataConverter.toStatusList(new ArrayList<>());
 
-        assertNotNull(res);
-        assertTrue(res.isEmpty());
-    }
+    assertNotNull(res);
+    assertTrue(res.isEmpty());
+  }
 
-    @Test
-    public void testToStatus() {
-        final String target = "target";
-        final String timestamp = "2016-10-11T10:10:00";
-        IntygStatus source = new IntygStatus();
-        source.setTarget(target);
-        source.setTimestamp(timestamp);
-        source.setType(se.inera.intygstjanster.ts.services.v1.Status.RECEIVED);
-        Status res = TsBasMetaDataConverter.toStatus(source);
+  @Test
+  public void testToStatus() {
+    final String target = "target";
+    final String timestamp = "2016-10-11T10:10:00";
+    IntygStatus source = new IntygStatus();
+    source.setTarget(target);
+    source.setTimestamp(timestamp);
+    source.setType(se.inera.intygstjanster.ts.services.v1.Status.RECEIVED);
+    Status res = TsBasMetaDataConverter.toStatus(source);
 
-        assertNotNull(res);
-        assertEquals(target, res.getTarget());
-        assertEquals(LocalDateTime.parse(timestamp), res.getTimestamp());
-        assertEquals(CertificateState.RECEIVED, res.getType());
-    }
+    assertNotNull(res);
+    assertEquals(target, res.getTarget());
+    assertEquals(LocalDateTime.parse(timestamp), res.getTimestamp());
+    assertEquals(CertificateState.RECEIVED, res.getType());
+  }
 }

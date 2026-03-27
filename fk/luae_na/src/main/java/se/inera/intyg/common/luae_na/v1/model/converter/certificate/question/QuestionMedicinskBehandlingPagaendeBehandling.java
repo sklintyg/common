@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,38 +34,38 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMedicinskBehandlingPagaendeBehandling {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String textValue, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(PAGAENDEBEHANDLING_DELSVAR_ID_19)
-            .parent(PAGAENDEBEHANDLING_SVAR_ID_19)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String textValue, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(PAGAENDEBEHANDLING_DELSVAR_ID_19)
+        .parent(PAGAENDEBEHANDLING_SVAR_ID_19)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                .text(textValue)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PAGAENDEBEHANDLING_DELSVAR_ID_19, PAGAENDEBEHANDLING_SVAR_JSON_ID_19);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        PAGAENDEBEHANDLING_DELSVAR_ID_19,
+        PAGAENDEBEHANDLING_SVAR_JSON_ID_19);
+  }
 }

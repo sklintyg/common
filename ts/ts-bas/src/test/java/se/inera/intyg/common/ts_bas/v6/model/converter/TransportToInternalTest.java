@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,153 +48,164 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 /**
- * Test class for TransportToExternal, contains methods for setting up Utlatande using both the transport model and the
- * external model, and populating each with mock data.
+ * Test class for TransportToExternal, contains methods for setting up Utlatande using both the
+ * transport model and the external model, and populating each with mock data.
  *
  * @author erik
  */
 public class TransportToInternalTest {
 
-    private static final String ENHETSNAMN = "enhetsnamn";
-    private static final String ENHETSID = "enhetsid";
-    private static final String VARDGIVARNAMN = "vardgivarnamn";
-    private static final String POSTADRESS = "postadress";
-    private static final String POSTNUMMER = "postnummer";
-    private static final String POSTORT = "postort";
-    private static final String TELEFONNUMMER = "telefonnummer";
-    private static final String ARBETSPLATSKOD = "0000000";
-    private static final String VARDGIVARID = "vardgivarid";
-    private static final List<Specialistkompetens> SPECIALIST_KOMPETENS = buildSpecialistkompetens();
-    private static final String FULLSTANDIGT_NAMN = "test testorsson";
-    private static final String PERSONID = "personid";
+  private static final String ENHETSNAMN = "enhetsnamn";
+  private static final String ENHETSID = "enhetsid";
+  private static final String VARDGIVARNAMN = "vardgivarnamn";
+  private static final String POSTADRESS = "postadress";
+  private static final String POSTNUMMER = "postnummer";
+  private static final String POSTORT = "postort";
+  private static final String TELEFONNUMMER = "telefonnummer";
+  private static final String ARBETSPLATSKOD = "0000000";
+  private static final String VARDGIVARID = "vardgivarid";
+  private static final List<Specialistkompetens> SPECIALIST_KOMPETENS = buildSpecialistkompetens();
+  private static final String FULLSTANDIGT_NAMN = "test testorsson";
+  private static final String PERSONID = "personid";
 
-    private static List<Specialistkompetens> buildSpecialistkompetens() {
-        Specialistkompetens a = new Specialistkompetens();
-        a.setDisplayName("a");
-        Specialistkompetens b = new Specialistkompetens();
-        b.setDisplayName("b");
-        Specialistkompetens c = new Specialistkompetens();
-        c.setDisplayName("c");
+  private static List<Specialistkompetens> buildSpecialistkompetens() {
+    Specialistkompetens a = new Specialistkompetens();
+    a.setDisplayName("a");
+    Specialistkompetens b = new Specialistkompetens();
+    b.setDisplayName("b");
+    Specialistkompetens c = new Specialistkompetens();
+    c.setDisplayName("c");
 
-        return Arrays.asList(a, b, c);
-    }
+    return Arrays.asList(a, b, c);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void testConvert() throws Exception {
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
-        transportModel.getIntyg().setSkapadAv(buildHosPersonal());
-        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
-        assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
-        HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
-        assertEquals(ENHETSNAMN, hosPersonal.getVardenhet().getEnhetsnamn());
-        assertEquals(ENHETSID, hosPersonal.getVardenhet().getEnhetsid());
-        assertEquals(VARDGIVARNAMN, hosPersonal.getVardenhet().getVardgivare().getVardgivarnamn());
-        assertEquals(POSTADRESS, hosPersonal.getVardenhet().getPostadress());
-        assertEquals(POSTNUMMER, hosPersonal.getVardenhet().getPostnummer());
-        assertEquals(POSTORT, hosPersonal.getVardenhet().getPostort());
-        assertEquals(TELEFONNUMMER, hosPersonal.getVardenhet().getTelefonnummer());
-        assertEquals(VARDGIVARID, hosPersonal.getVardenhet().getVardgivare().getVardgivarid());
-        assertEquals(FULLSTANDIGT_NAMN, hosPersonal.getFullstandigtNamn());
-        assertEquals(PERSONID, hosPersonal.getPersonId());
-        assertEquals(SPECIALIST_KOMPETENS.size(), hosPersonal.getSpecialiteter().size());
-        assertEquals(SPECIALIST_KOMPETENS.get(0).getDisplayName(), hosPersonal.getSpecialiteter().get(0));
-        assertEquals(SPECIALIST_KOMPETENS.get(1).getDisplayName(), hosPersonal.getSpecialiteter().get(1));
-        assertEquals(SPECIALIST_KOMPETENS.get(2).getDisplayName(), hosPersonal.getSpecialiteter().get(2));
-    }
+  @Test
+  public void testConvert() throws Exception {
+    RegisterCertificateType transportModel =
+        ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+    transportModel.getIntyg().setSkapadAv(buildHosPersonal());
+    TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
+    assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
+    HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
+    assertEquals(ENHETSNAMN, hosPersonal.getVardenhet().getEnhetsnamn());
+    assertEquals(ENHETSID, hosPersonal.getVardenhet().getEnhetsid());
+    assertEquals(VARDGIVARNAMN, hosPersonal.getVardenhet().getVardgivare().getVardgivarnamn());
+    assertEquals(POSTADRESS, hosPersonal.getVardenhet().getPostadress());
+    assertEquals(POSTNUMMER, hosPersonal.getVardenhet().getPostnummer());
+    assertEquals(POSTORT, hosPersonal.getVardenhet().getPostort());
+    assertEquals(TELEFONNUMMER, hosPersonal.getVardenhet().getTelefonnummer());
+    assertEquals(VARDGIVARID, hosPersonal.getVardenhet().getVardgivare().getVardgivarid());
+    assertEquals(FULLSTANDIGT_NAMN, hosPersonal.getFullstandigtNamn());
+    assertEquals(PERSONID, hosPersonal.getPersonId());
+    assertEquals(SPECIALIST_KOMPETENS.size(), hosPersonal.getSpecialiteter().size());
+    assertEquals(
+        SPECIALIST_KOMPETENS.get(0).getDisplayName(), hosPersonal.getSpecialiteter().get(0));
+    assertEquals(
+        SPECIALIST_KOMPETENS.get(1).getDisplayName(), hosPersonal.getSpecialiteter().get(1));
+    assertEquals(
+        SPECIALIST_KOMPETENS.get(2).getDisplayName(), hosPersonal.getSpecialiteter().get(2));
+  }
 
-    @Test
-    public void testConvertMapsSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
-        final Specialistkompetens specialistkompetens = new Specialistkompetens();
-        specialistkompetens.setCode("kod");
-        specialistkompetens.setDisplayName("Hörselrubbningar");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
-        transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().clear();
-        transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().add(specialistkompetens);
-        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
-        HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
-        assertEquals(1, skapadAv.getSpecialiteter().size());
-        assertEquals(specialistkompetens.getDisplayName(), skapadAv.getSpecialiteter().get(0));
-    }
+  @Test
+  public void testConvertMapsSpecialistkompetens()
+      throws ScenarioNotFoundException, ConverterException {
+    final Specialistkompetens specialistkompetens = new Specialistkompetens();
+    specialistkompetens.setCode("kod");
+    specialistkompetens.setDisplayName("Hörselrubbningar");
+    RegisterCertificateType transportModel =
+        ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+    transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().clear();
+    transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().add(specialistkompetens);
+    TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
+    HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
+    assertEquals(1, skapadAv.getSpecialiteter().size());
+    assertEquals(specialistkompetens.getDisplayName(), skapadAv.getSpecialiteter().get(0));
+  }
 
-    @Test
-    public void testConvertMapsBefattningDescriptionToCodeIfPossible() throws ScenarioNotFoundException, ConverterException {
-        final Befattning befattning = new Befattning();
-        befattning.setCode("203010");
-        befattning.setDisplayName("Läkare legitimerad, specialiseringstjänstgöring");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
-        transportModel.getIntyg().getSkapadAv().getBefattning().clear();
-        transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
-        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
-        HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));
-    }
+  @Test
+  public void testConvertMapsBefattningDescriptionToCodeIfPossible()
+      throws ScenarioNotFoundException, ConverterException {
+    final Befattning befattning = new Befattning();
+    befattning.setCode("203010");
+    befattning.setDisplayName("Läkare legitimerad, specialiseringstjänstgöring");
+    RegisterCertificateType transportModel =
+        ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+    transportModel.getIntyg().getSkapadAv().getBefattning().clear();
+    transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
+    TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
+    HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
+    assertEquals(1, skapadAv.getBefattningar().size());
+    assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));
+  }
 
-    @Test
-    public void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
-        final Befattning befattning = new Befattning();
-        befattning.setCode("kod");
-        RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
-        transportModel.getIntyg().getSkapadAv().getBefattning().clear();
-        transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
-        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
-        HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));
-    }
+  @Test
+  public void testConvertKeepBefattningCodeIfDescriptionNotFound()
+      throws ScenarioNotFoundException, ConverterException {
+    final Befattning befattning = new Befattning();
+    befattning.setCode("kod");
+    RegisterCertificateType transportModel =
+        ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
+    transportModel.getIntyg().getSkapadAv().getBefattning().clear();
+    transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
+    TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
+    HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
+    assertEquals(1, skapadAv.getBefattningar().size());
+    assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));
+  }
 
-    private HosPersonal buildHosPersonal() {
-        HosPersonal hosPersonal = new HosPersonal();
-        hosPersonal.setPersonalId(buildHsaId(PERSONID));
-        hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);
-        hosPersonal.getSpecialistkompetens().addAll(SPECIALIST_KOMPETENS);
+  private HosPersonal buildHosPersonal() {
+    HosPersonal hosPersonal = new HosPersonal();
+    hosPersonal.setPersonalId(buildHsaId(PERSONID));
+    hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);
+    hosPersonal.getSpecialistkompetens().addAll(SPECIALIST_KOMPETENS);
 
-        Enhet vardenhet = new Enhet();
+    Enhet vardenhet = new Enhet();
 
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivareId(buildHsaId(VARDGIVARID));
-        vardgivare.setVardgivarnamn(VARDGIVARNAMN);
-        vardenhet.setVardgivare(vardgivare);
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivareId(buildHsaId(VARDGIVARID));
+    vardgivare.setVardgivarnamn(VARDGIVARNAMN);
+    vardenhet.setVardgivare(vardgivare);
 
-        vardenhet.setEnhetsId(buildHsaId(ENHETSID));
-        vardenhet.setEnhetsnamn(ENHETSNAMN);
-        vardenhet.setPostadress(POSTADRESS);
-        vardenhet.setPostnummer(POSTNUMMER);
-        vardenhet.setPostort(POSTORT);
-        vardenhet.setTelefonnummer(TELEFONNUMMER);
-        ArbetsplatsKod arbetsplatskod = new ArbetsplatsKod();
-        arbetsplatskod.setExtension(ARBETSPLATSKOD);
-        vardenhet.setArbetsplatskod(arbetsplatskod);
-        hosPersonal.setEnhet(vardenhet);
+    vardenhet.setEnhetsId(buildHsaId(ENHETSID));
+    vardenhet.setEnhetsnamn(ENHETSNAMN);
+    vardenhet.setPostadress(POSTADRESS);
+    vardenhet.setPostnummer(POSTNUMMER);
+    vardenhet.setPostort(POSTORT);
+    vardenhet.setTelefonnummer(TELEFONNUMMER);
+    ArbetsplatsKod arbetsplatskod = new ArbetsplatsKod();
+    arbetsplatskod.setExtension(ARBETSPLATSKOD);
+    vardenhet.setArbetsplatskod(arbetsplatskod);
+    hosPersonal.setEnhet(vardenhet);
 
-        return hosPersonal;
-    }
+    return hosPersonal;
+  }
 
-    private HsaId buildHsaId(String extension) {
-        HsaId hsaId = new HsaId();
-        hsaId.setExtension(extension);
-        return hsaId;
-    }
+  private HsaId buildHsaId(String extension) {
+    HsaId hsaId = new HsaId();
+    hsaId.setExtension(extension);
+    return hsaId;
+  }
 
-    private II buildII(String extension) {
-        II ii = new II();
-        ii.setExtension(extension);
-        return ii;
-    }
+  private II buildII(String extension) {
+    II ii = new II();
+    ii.setExtension(extension);
+    return ii;
+  }
 }

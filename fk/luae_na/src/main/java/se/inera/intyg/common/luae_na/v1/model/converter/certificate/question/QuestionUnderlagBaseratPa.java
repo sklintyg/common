@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,26 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionUnderlagBaseratPa extends AbstractQuestionUtlatandeBaseratPa {
 
-    public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
-        InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
-        return toCertificate(undersokningPatient, journaluppgifter, beskrivningPatient, annat, index, textProvider,
-            GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, GRUNDFORMU_CATEGORY_ID, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID);
-    }
+  public static CertificateDataElement toCertificate(
+      InternalDate undersokningPatient,
+      InternalDate journaluppgifter,
+      InternalDate beskrivningPatient,
+      InternalDate annat,
+      int index,
+      CertificateTextProvider textProvider) {
+    return toCertificate(
+        undersokningPatient,
+        journaluppgifter,
+        beskrivningPatient,
+        annat,
+        index,
+        textProvider,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
+        GRUNDFORMU_CATEGORY_ID,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID);
+  }
 
-    public static InternalDate toInternal(Certificate certificate, String itemId) {
-        return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, itemId);
-    }
+  public static InternalDate toInternal(Certificate certificate, String itemId) {
+    return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, itemId);
+  }
 }

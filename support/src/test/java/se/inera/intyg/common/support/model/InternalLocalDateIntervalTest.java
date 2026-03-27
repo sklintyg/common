@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,154 +27,152 @@ import org.junit.Test;
 
 public class InternalLocalDateIntervalTest {
 
-    @Test
-    public void testInternaDatesAreValid() {
-        InternalDate fromString = new InternalDate("2011-01-01");
-        LocalDate fromDate = LocalDate.parse("2011-01-01");
-        InternalDate tomString = new InternalDate("2011-01-02");
-        LocalDate tomDate = LocalDate.parse("2011-01-02");
+  @Test
+  public void testInternaDatesAreValid() {
+    InternalDate fromString = new InternalDate("2011-01-01");
+    LocalDate fromDate = LocalDate.parse("2011-01-01");
+    InternalDate tomString = new InternalDate("2011-01-02");
+    LocalDate tomDate = LocalDate.parse("2011-01-02");
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-        assertEquals("Constructed from date did not match expected", interval.fromAsLocalDate(), fromDate);
-        assertEquals("Constructed tom date did not match expected", interval.tomAsLocalDate(), tomDate);
-    }
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
+    assertEquals(
+        "Constructed from date did not match expected", interval.fromAsLocalDate(), fromDate);
+    assertEquals("Constructed tom date did not match expected", interval.tomAsLocalDate(), tomDate);
+  }
 
-    @Test
-    public void testInternaDatesAreInvalid() {
-        InternalDate fromDate = new InternalDate("2011-01-01");
-        InternalDate tomDate = new InternalDate("2011-01");
+  @Test
+  public void testInternaDatesAreInvalid() {
+    InternalDate fromDate = new InternalDate("2011-01-01");
+    InternalDate tomDate = new InternalDate("2011-01");
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromDate, tomDate);
-        interval.fromAsLocalDate();
-        assertEquals(interval.tomAsLocalDate(), null);
-    }
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromDate, tomDate);
+    interval.fromAsLocalDate();
+    assertEquals(interval.tomAsLocalDate(), null);
+  }
 
-    @Test
-    public void testInternaDatesAreWeirdlyInvalid() {
-        InternalDate fromDate = new InternalDate("");
-        InternalDate tomDate = new InternalDate();
+  @Test
+  public void testInternaDatesAreWeirdlyInvalid() {
+    InternalDate fromDate = new InternalDate("");
+    InternalDate tomDate = new InternalDate();
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromDate, tomDate);
-        interval.fromAsLocalDate();
-        assertEquals(interval.tomAsLocalDate(), null);
-    }
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromDate, tomDate);
+    interval.fromAsLocalDate();
+    assertEquals(interval.tomAsLocalDate(), null);
+  }
 
-    @Test
-    public void testInternalDateIntervalIsValid() {
-        InternalDate fromString = new InternalDate("2011-01-01");
-        InternalDate tomString = new InternalDate("2011-01-02");
+  @Test
+  public void testInternalDateIntervalIsValid() {
+    InternalDate fromString = new InternalDate("2011-01-01");
+    InternalDate tomString = new InternalDate("2011-01-02");
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval.isValid());
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval.isValid());
+  }
 
-    }
+  @Test
+  public void testSingleDayIntervalIsValid() {
+    InternalDate fromString = new InternalDate("2011-01-01");
+    InternalDate tomString = fromString;
 
-    @Test
-    public void testSingleDayIntervalIsValid() {
-        InternalDate fromString = new InternalDate("2011-01-01");
-        InternalDate tomString = fromString;
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval.isValid());
+  }
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval.isValid());
+  @Test
+  public void testInternalDateIntervalIsInvalid() {
+    InternalDate fromString = new InternalDate("2011-02-01");
+    InternalDate tomString = new InternalDate("2011-01-02");
 
-    }
+    InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
+    assertFalse(interval.isValid());
+  }
 
-    @Test
-    public void testInternalDateIntervalIsInvalid() {
-        InternalDate fromString = new InternalDate("2011-02-01");
-        InternalDate tomString = new InternalDate("2011-01-02");
+  @Test
+  public void testEquals() {
+    InternalDate fromString = new InternalDate("2011-02-01");
+    InternalDate tomString = new InternalDate("2011-03-02");
 
-        InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-        assertFalse(interval.isValid());
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval1.equals(interval2));
+  }
 
-    }
+  @Test
+  public void testEqualsWithNullInternal() {
+    InternalDate fromString = null;
+    InternalDate tomString = null;
 
-    @Test
-    public void testEquals() {
-        InternalDate fromString = new InternalDate("2011-02-01");
-        InternalDate tomString = new InternalDate("2011-03-02");
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval1.equals(interval2));
+  }
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval1.equals(interval2));
-    }
+  @Test
+  public void testEqualsWithFromAsNull() {
+    InternalDate fromString = null;
+    InternalDate tomString = new InternalDate("2011-03-02");
 
-    @Test
-    public void testEqualsWithNullInternal() {
-        InternalDate fromString = null;
-        InternalDate tomString = null;
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval1.equals(interval2));
+  }
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval1.equals(interval2));
-    }
+  @Test
+  public void testEqualsWithTomAsNull() {
+    InternalDate fromString = new InternalDate("2011-02-01");
+    InternalDate tomString = null;
 
-    @Test
-    public void testEqualsWithFromAsNull() {
-        InternalDate fromString = null;
-        InternalDate tomString = new InternalDate("2011-03-02");
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval1.equals(interval2));
+  }
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval1.equals(interval2));
-    }
+  @Test
+  public void testNotEquals() {
+    InternalDate fromString1 = new InternalDate("2011-02-01");
+    InternalDate tomString1 = new InternalDate("2011-03-02");
 
-    @Test
-    public void testEqualsWithTomAsNull() {
-        InternalDate fromString = new InternalDate("2011-02-01");
-        InternalDate tomString = null;
+    InternalDate fromString2 = new InternalDate("2012-02-01");
+    InternalDate tomString2 = new InternalDate("2012-03-02");
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval1.equals(interval2));
-    }
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString1, tomString1);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString2, tomString2);
+    assertFalse(interval1.equals(interval2));
+  }
 
-    @Test
-    public void testNotEquals() {
-        InternalDate fromString1 = new InternalDate("2011-02-01");
-        InternalDate tomString1 = new InternalDate("2011-03-02");
+  @Test
+  public void testOverlaps() {
 
-        InternalDate fromString2 = new InternalDate("2012-02-01");
-        InternalDate tomString2 = new InternalDate("2012-03-02");
+    // Check that interval overlaps itself
+    InternalDate fromString = new InternalDate("2011-01-01");
+    InternalDate tomString = new InternalDate("2011-01-02");
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString1, tomString1);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString2, tomString2);
-        assertFalse(interval1.equals(interval2));
-    }
+    InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
+    InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
+    assertTrue(interval1.overlaps(interval2));
 
-    @Test
-    public void testOverlaps() {
+    // Check that interval overlaps if end of first and start of second is the same
+    InternalDate fromString2 = new InternalDate("2011-01-02");
+    InternalDate tomString2 = new InternalDate("2011-01-03");
+    InternalLocalDateInterval interval3 = new InternalLocalDateInterval(fromString2, tomString2);
+    assertTrue(interval2.overlaps(interval3));
 
-        // Check that interval overlaps itself
-        InternalDate fromString = new InternalDate("2011-01-01");
-        InternalDate tomString = new InternalDate("2011-01-02");
+    // Check that interval overlaps if start of second is between first
+    fromString = new InternalDate("2011-01-01");
+    tomString = new InternalDate("2011-01-03");
+    fromString2 = new InternalDate("2011-01-02");
+    tomString2 = new InternalDate("2011-01-04");
+    interval1 = new InternalLocalDateInterval(fromString, tomString);
+    interval2 = new InternalLocalDateInterval(fromString2, tomString2);
+    assertTrue(interval1.overlaps(interval2));
 
-        InternalLocalDateInterval interval1 = new InternalLocalDateInterval(fromString, tomString);
-        InternalLocalDateInterval interval2 = new InternalLocalDateInterval(fromString, tomString);
-        assertTrue(interval1.overlaps(interval2));
-
-        // Check that interval overlaps if end of first and start of second is the same
-        InternalDate fromString2 = new InternalDate("2011-01-02");
-        InternalDate tomString2 = new InternalDate("2011-01-03");
-        InternalLocalDateInterval interval3 = new InternalLocalDateInterval(fromString2, tomString2);
-        assertTrue(interval2.overlaps(interval3));
-
-        // Check that interval overlaps if start of second is between first
-        fromString = new InternalDate("2011-01-01");
-        tomString = new InternalDate("2011-01-03");
-        fromString2 = new InternalDate("2011-01-02");
-        tomString2 = new InternalDate("2011-01-04");
-        interval1 = new InternalLocalDateInterval(fromString, tomString);
-        interval2 = new InternalLocalDateInterval(fromString2, tomString2);
-        assertTrue(interval1.overlaps(interval2));
-
-        // Check that overlaps does not assert overlap if there is no overlap
-        fromString = new InternalDate("2011-01-01");
-        tomString = new InternalDate("2011-01-02");
-        fromString2 = new InternalDate("2011-01-03");
-        tomString2 = new InternalDate("2011-01-04");
-        interval1 = new InternalLocalDateInterval(fromString, tomString);
-        interval2 = new InternalLocalDateInterval(fromString2, tomString2);
-        assertFalse(interval1.overlaps(interval2));
-    }
+    // Check that overlaps does not assert overlap if there is no overlap
+    fromString = new InternalDate("2011-01-01");
+    tomString = new InternalDate("2011-01-02");
+    fromString2 = new InternalDate("2011-01-03");
+    tomString2 = new InternalDate("2011-01-04");
+    interval1 = new InternalLocalDateInterval(fromString, tomString);
+    interval2 = new InternalLocalDateInterval(fromString2, tomString2);
+    assertFalse(interval1.overlaps(interval2));
+  }
 }

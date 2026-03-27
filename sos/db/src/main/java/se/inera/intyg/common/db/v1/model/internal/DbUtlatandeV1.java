@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,135 +47,123 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 /**
- * NOTE: If/when a new major version is released, parts common between V1, V2 could be placed in a parent DbUtlatande.
- * The validation of those common properties could also be extracted to a common parent validator.
+ * NOTE: If/when a new major version is released, parts common between V1, V2 could be placed in a
+ * parent DbUtlatande. The validation of those common properties could also be extracted to a common
+ * parent validator.
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DbUtlatandeV1.Builder.class)
 public abstract class DbUtlatandeV1 implements SosUtlatande {
 
-    public static Builder builder() {
-        return new AutoValue_DbUtlatandeV1.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_DbUtlatandeV1.Builder();
+  }
 
-    @Override
-    public String getTyp() {
-        return DbModuleEntryPoint.MODULE_ID;
-    }
+  @Override
+  public String getTyp() {
+    return DbModuleEntryPoint.MODULE_ID;
+  }
 
-    @Override
-    public abstract String getId();
+  @Override
+  public abstract String getId();
 
-    @Override
-    public abstract GrundData getGrundData();
+  @Override
+  public abstract GrundData getGrundData();
 
-    @Override
-    public abstract String getTextVersion();
+  @Override
+  public abstract String getTextVersion();
 
-    @Override
-    @Nullable
-    public abstract String getIdentitetStyrkt();
+  @Override
+  @Nullable public abstract String getIdentitetStyrkt();
 
-    @Override
-    @Nullable
-    public abstract Boolean getDodsdatumSakert();
+  @Override
+  @Nullable public abstract Boolean getDodsdatumSakert();
 
-    @Override
-    @Nullable
-    public abstract InternalDate getDodsdatum();
+  @Override
+  @Nullable public abstract InternalDate getDodsdatum();
 
-    @Override
-    @Nullable
-    public abstract InternalDate getAntraffatDodDatum();
+  @Override
+  @Nullable public abstract InternalDate getAntraffatDodDatum();
 
-    @Override
-    @Nullable
-    public abstract String getDodsplatsKommun();
+  @Override
+  @Nullable public abstract String getDodsplatsKommun();
 
-    @Override
-    @Nullable
-    public abstract DodsplatsBoende getDodsplatsBoende();
+  @Override
+  @Nullable public abstract DodsplatsBoende getDodsplatsBoende();
 
-    @Override
-    @Nullable
-    public abstract Boolean getBarn();
+  @Override
+  @Nullable public abstract Boolean getBarn();
 
-    @Nullable
-    public abstract Boolean getExplosivImplantat();
+  @Nullable public abstract Boolean getExplosivImplantat();
 
-    @Nullable
-    public abstract Boolean getExplosivAvlagsnat();
+  @Nullable public abstract Boolean getExplosivAvlagsnat();
 
-    @Nullable
-    public abstract Undersokning getUndersokningYttre();
+  @Nullable public abstract Undersokning getUndersokningYttre();
 
-    @Nullable
-    public abstract InternalDate getUndersokningDatum();
+  @Nullable public abstract InternalDate getUndersokningDatum();
 
-    @Nullable
-    public abstract Boolean getPolisanmalan();
+  @Nullable public abstract Boolean getPolisanmalan();
 
-    @Nullable
-    @Override
-    public abstract String getSignature();
+  @Nullable @Override
+  public abstract String getSignature();
 
-    /*
-     * Retrieve a builder from an existing LuseUtlatande object. The builder can then be used
-     * to create a new copy with modified attributes.
-     */
-    public abstract Builder toBuilder();
+  /*
+   * Retrieve a builder from an existing LuseUtlatande object. The builder can then be used
+   * to create a new copy with modified attributes.
+   */
+  public abstract Builder toBuilder();
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract DbUtlatandeV1 build();
+    public abstract DbUtlatandeV1 build();
 
-        @JsonProperty(ID_JSON_ID)
-        public abstract Builder setId(String id);
+    @JsonProperty(ID_JSON_ID)
+    public abstract Builder setId(String id);
 
-        @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
-        public abstract Builder setGrundData(GrundData grundData);
+    @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
+    public abstract Builder setGrundData(GrundData grundData);
 
-        @JsonProperty(TEXTVERSION_JSON_ID)
-        public abstract Builder setTextVersion(String textVersion);
+    @JsonProperty(TEXTVERSION_JSON_ID)
+    public abstract Builder setTextVersion(String textVersion);
 
-        @JsonProperty(IDENTITET_STYRKT_JSON_ID)
-        public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
+    @JsonProperty(IDENTITET_STYRKT_JSON_ID)
+    public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
 
-        @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
-        public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
+    @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
+    public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
 
-        @JsonProperty(DODSDATUM_JSON_ID)
-        public abstract Builder setDodsdatum(InternalDate dodsdatum);
+    @JsonProperty(DODSDATUM_JSON_ID)
+    public abstract Builder setDodsdatum(InternalDate dodsdatum);
 
-        @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
-        public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
+    @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
+    public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
 
-        @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
-        public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
+    @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
+    public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
 
-        @JsonProperty(DODSPLATS_BOENDE_JSON_ID)
-        public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
+    @JsonProperty(DODSPLATS_BOENDE_JSON_ID)
+    public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
 
-        @JsonProperty(BARN_JSON_ID)
-        public abstract Builder setBarn(Boolean barn);
+    @JsonProperty(BARN_JSON_ID)
+    public abstract Builder setBarn(Boolean barn);
 
-        @JsonProperty(EXPLOSIV_IMPLANTAT_JSON_ID)
-        public abstract Builder setExplosivImplantat(Boolean explosivImplantat);
+    @JsonProperty(EXPLOSIV_IMPLANTAT_JSON_ID)
+    public abstract Builder setExplosivImplantat(Boolean explosivImplantat);
 
-        @JsonProperty(EXPLOSIV_AVLAGSNAT_JSON_ID)
-        public abstract Builder setExplosivAvlagsnat(Boolean explosivAvlagsnat);
+    @JsonProperty(EXPLOSIV_AVLAGSNAT_JSON_ID)
+    public abstract Builder setExplosivAvlagsnat(Boolean explosivAvlagsnat);
 
-        @JsonProperty(UNDERSOKNING_YTTRE_JSON_ID)
-        public abstract Builder setUndersokningYttre(Undersokning undersokningYttre);
+    @JsonProperty(UNDERSOKNING_YTTRE_JSON_ID)
+    public abstract Builder setUndersokningYttre(Undersokning undersokningYttre);
 
-        @JsonProperty(UNDERSOKNING_DATUM_JSON_ID)
-        public abstract Builder setUndersokningDatum(InternalDate undersokningDatum);
+    @JsonProperty(UNDERSOKNING_DATUM_JSON_ID)
+    public abstract Builder setUndersokningDatum(InternalDate undersokningDatum);
 
-        @JsonProperty(POLISANMALAN_JSON_ID)
-        public abstract Builder setPolisanmalan(Boolean polisanmalan);
+    @JsonProperty(POLISANMALAN_JSON_ID)
+    public abstract Builder setPolisanmalan(Boolean polisanmalan);
 
-        @JsonProperty(SIGNATURE)
-        public abstract Builder setSignature(String signature);
-    }
+    @JsonProperty(SIGNATURE)
+    public abstract Builder setSignature(String signature);
+  }
 }

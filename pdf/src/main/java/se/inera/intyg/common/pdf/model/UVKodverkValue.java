@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,53 +20,51 @@ package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
-import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a Kodverk value.
- */
+/** Renders a Kodverk value. */
 public class UVKodverkValue extends UVComponent {
 
-    public UVKodverkValue(UVRenderer renderer) {
-        super(renderer);
+  public UVKodverkValue(UVRenderer renderer) {
+    super(renderer);
+  }
+
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    List<String> kvModelProps = fromStringArray(currentUvNode.get("kvModelProps"));
+    List<String> kvLabelKeys = fromStringArray(currentUvNode.get("kvLabelKeys"));
+
+    List<String> kvParts = new ArrayList<>();
+    for (int a = 0; a < kvLabelKeys.size(); a++) {
+      String currentModelProp = kvModelProps.get(a);
+      String currentLabelKey = kvLabelKeys.get(a);
+
+      String nestedValue = (String) renderer.evalValueFromModel(currentModelProp);
+      if (nestedValue != null) {
+        String textKey = currentLabelKey.replaceAll("\\{var\\}", nestedValue);
+        String value = renderer.getText(textKey);
+        kvParts.add(value);
+      }
     }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        List<String> kvModelProps = fromStringArray(currentUvNode.get("kvModelProps"));
-        List<String> kvLabelKeys = fromStringArray(currentUvNode.get("kvLabelKeys"));
-
-        List<String> kvParts = new ArrayList<>();
-        for (int a = 0; a < kvLabelKeys.size(); a++) {
-            String currentModelProp = kvModelProps.get(a);
-            String currentLabelKey = kvLabelKeys.get(a);
-
-            String nestedValue = (String) renderer.evalValueFromModel(currentModelProp);
-            if (nestedValue != null) {
-                String textKey = currentLabelKey.replaceAll("\\{var\\}", nestedValue);
-                String value = renderer.getText(textKey);
-                kvParts.add(value);
-            }
-        }
-
-        if (kvParts.isEmpty()) {
-            renderEjAngivet(parent);
-        } else {
-            parent.add(new Paragraph(kvParts.stream().collect(Collectors.joining(" ")))
-                .setItalic()
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
-        }
-        return true;
+    if (kvParts.isEmpty()) {
+      renderEjAngivet(parent);
+    } else {
+      parent.add(
+          new Paragraph(kvParts.stream().collect(Collectors.joining(" ")))
+              .setItalic()
+              .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+              .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+              .setFont(renderer.svarFont)
+              .setFontSize(SVAR_FONT_SIZE)
+              .setPadding(0f)
+              .setMarginTop(0f)
+              .setMarginBottom(0f));
     }
+    return true;
+  }
 }

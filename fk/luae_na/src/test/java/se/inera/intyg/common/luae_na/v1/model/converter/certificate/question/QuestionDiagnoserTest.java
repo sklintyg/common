@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,310 +64,316 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiagnoserTest {
 
-    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
-    @Mock
-    private CertificateTextProvider textProvider;
-    @Mock
-    private WebcertModuleService webcertModuleService;
+  private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+  private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+  @Mock private CertificateTextProvider textProvider;
+  @Mock private WebcertModuleService webcertModuleService;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
     }
 
-
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return DIAGNOS_SVAR_ID_6;
-        }
-
-        @Override
-        protected String getParent() {
-            return DIAGNOS_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return DIAGNOS_SVAR_ID_6;
     }
 
-    @Nested
-    class IncludeConfigDiagnosTest extends ConfigDiagnosTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return DIAGNOS_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return DIAGNOS_SVAR_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected HashMap<String, String> getTerminologies() {
-            HashMap<String, String> idAndLabel = new HashMap<>();
-            idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
-            idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
-            return idAndLabel;
-        }
-
-        @Override
-        protected List<String> getDiagnosListItemIds() {
-            return List.of(DIAGNOSES_LIST_ITEM_1_ID, DIAGNOSES_LIST_ITEM_2_ID, DIAGNOSES_LIST_ITEM_3_ID);
-        }
+    @Override
+    protected String getParent() {
+      return DIAGNOS_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class IncludeValueDiagnosListTest extends ValueDiagnosListTest<List<Diagnos>> {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement(List<Diagnos> input) {
-            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigDiagnosTest extends ConfigDiagnosTest {
 
-        @Override
-        protected List<InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>> inputExpectedValuePairList() {
-            return List.of(
-                inputWhenDiagnoserIsNull(),
-                inputWhenDiagnoserIsEmpty(),
-                inputWhenDiagnoserIncludesOne(),
-                inputWhenDiagnoserIncludesThree(),
-                inputWhenDiagnoserIncludes3ButThe1stIsNull()
-            );
-        }
-
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsNull() {
-            return new InputExpectedValuePair<>(null, CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
-        }
-
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIsEmpty() {
-            return new InputExpectedValuePair<>(Collections.emptyList(),
-                CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
-        }
-
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesOne() {
-            return new InputExpectedValuePair<>(
-                List.of(Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
-                CertificateDataValueDiagnosisList.builder()
-                    .list(
-                        List.of(
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_1_ID)
-                                .code("F500")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build()
-                        )
-                    )
-                    .build()
-            );
-        }
-
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludesThree() {
-            return new InputExpectedValuePair<>(
-                List.of(
-                    Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
-                CertificateDataValueDiagnosisList.builder()
-                    .list(
-                        List.of(
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_1_ID)
-                                .code("")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build(),
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_2_ID)
-                                .code("F501")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build(),
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_3_ID)
-                                .code("F502")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build()
-                        )
-                    )
-                    .build()
-            );
-        }
-
-        private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList> inputWhenDiagnoserIncludes3ButThe1stIsNull() {
-            return new InputExpectedValuePair<>(
-                List.of(
-                    Diagnos.create(null, DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                    Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                ),
-                CertificateDataValueDiagnosisList.builder()
-                    .list(
-                        List.of(
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_2_ID)
-                                .code("F501")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build(),
-                            CertificateDataValueDiagnosis.builder()
-                                .id(DIAGNOSES_LIST_ITEM_3_ID)
-                                .code("F502")
-                                .terminology(DIAGNOS_ICD_10_ID)
-                                .description(DIAGNOSIS_DESCRIPTION)
-                                .build()
-                        )
-                    )
-                    .build()
-            );
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return DIAGNOS_SVAR_ID_6;
-        }
-
-        @Override
-        protected String getExpression() {
-            return withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID));
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected short getLimit() {
-            return LIMIT_DIAGNOSIS_DESC;
-        }
+    @Override
+    protected String getTextId() {
+      return DIAGNOS_SVAR_TEXT_ID;
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class IncludeInternalValueTest extends InternalValueTest<List<Diagnos>, List<Diagnos>> {
-
-        @Override
-        protected CertificateDataElement getElement(List<Diagnos> input) {
-            if (input != null && !input.isEmpty()) {
-                doReturn(DIAGNOSIS_DISPLAYNAME).when(webcertModuleService).getDescriptionFromDiagnosKod(anyString(), anyString());
-            }
-            return QuestionDiagnoser.toCertificate(input, 0, textProvider);
-        }
-
-        @Override
-        protected List<Diagnos> toInternalValue(Certificate certificate) {
-            return QuestionDiagnoser.toInternal(certificate, webcertModuleService);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<List<Diagnos>, List<Diagnos>>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, Collections.emptyList()),
-                new InputExpectedValuePair<>(Collections.emptyList(), Collections.emptyList()),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    List.of(
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create(null, null, null, null),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    List.of(
-                        Diagnos.create("F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create(null, null, null, null),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create(null, null, null, null),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    ),
-                    List.of(
-                        Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create(null, null, null, null),
-                        Diagnos.create("F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)
-                    )
-                )
-            );
-        }
+    @Override
+    protected String getDescriptionId() {
+      return DIAGNOS_SVAR_DESCRIPTION_ID;
     }
+
+    @Override
+    protected HashMap<String, String> getTerminologies() {
+      HashMap<String, String> idAndLabel = new HashMap<>();
+      idAndLabel.put(DIAGNOS_ICD_10_ID, DIAGNOS_ICD_10_LABEL);
+      idAndLabel.put(DIAGNOS_KSH_97_ID, DIAGNOS_KSH_97_LABEL);
+      return idAndLabel;
+    }
+
+    @Override
+    protected List<String> getDiagnosListItemIds() {
+      return List.of(DIAGNOSES_LIST_ITEM_1_ID, DIAGNOSES_LIST_ITEM_2_ID, DIAGNOSES_LIST_ITEM_3_ID);
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class IncludeValueDiagnosListTest extends ValueDiagnosListTest<List<Diagnos>> {
+
+    @Override
+    protected CertificateDataElement getElement(List<Diagnos> input) {
+      return QuestionDiagnoser.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          inputWhenDiagnoserIsNull(),
+          inputWhenDiagnoserIsEmpty(),
+          inputWhenDiagnoserIncludesOne(),
+          inputWhenDiagnoserIncludesThree(),
+          inputWhenDiagnoserIncludes3ButThe1stIsNull());
+    }
+
+    private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>
+        inputWhenDiagnoserIsNull() {
+      return new InputExpectedValuePair<>(
+          null, CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
+    }
+
+    private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>
+        inputWhenDiagnoserIsEmpty() {
+      return new InputExpectedValuePair<>(
+          Collections.emptyList(),
+          CertificateDataValueDiagnosisList.builder().list(Collections.emptyList()).build());
+    }
+
+    private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>
+        inputWhenDiagnoserIncludesOne() {
+      return new InputExpectedValuePair<>(
+          List.of(
+              Diagnos.create(
+                  "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+          CertificateDataValueDiagnosisList.builder()
+              .list(
+                  List.of(
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_1_ID)
+                          .code("F500")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build()))
+              .build());
+    }
+
+    private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>
+        inputWhenDiagnoserIncludesThree() {
+      return new InputExpectedValuePair<>(
+          List.of(
+              Diagnos.create("", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+              Diagnos.create(
+                  "F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+              Diagnos.create(
+                  "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+          CertificateDataValueDiagnosisList.builder()
+              .list(
+                  List.of(
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_1_ID)
+                          .code("")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build(),
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_2_ID)
+                          .code("F501")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build(),
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_3_ID)
+                          .code("F502")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build()))
+              .build());
+    }
+
+    private InputExpectedValuePair<List<Diagnos>, CertificateDataValueDiagnosisList>
+        inputWhenDiagnoserIncludes3ButThe1stIsNull() {
+      return new InputExpectedValuePair<>(
+          List.of(
+              Diagnos.create(null, DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+              Diagnos.create(
+                  "F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+              Diagnos.create(
+                  "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+          CertificateDataValueDiagnosisList.builder()
+              .list(
+                  List.of(
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_2_ID)
+                          .code("F501")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build(),
+                      CertificateDataValueDiagnosis.builder()
+                          .id(DIAGNOSES_LIST_ITEM_3_ID)
+                          .code("F502")
+                          .terminology(DIAGNOS_ICD_10_ID)
+                          .description(DIAGNOSIS_DESCRIPTION)
+                          .build()))
+              .build());
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return DIAGNOS_SVAR_ID_6;
+    }
+
+    @Override
+    protected String getExpression() {
+      return withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID));
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiagnoser.toCertificate(List.of(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected short getLimit() {
+      return LIMIT_DIAGNOSIS_DESC;
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class IncludeInternalValueTest extends InternalValueTest<List<Diagnos>, List<Diagnos>> {
+
+    @Override
+    protected CertificateDataElement getElement(List<Diagnos> input) {
+      if (input != null && !input.isEmpty()) {
+        doReturn(DIAGNOSIS_DISPLAYNAME)
+            .when(webcertModuleService)
+            .getDescriptionFromDiagnosKod(anyString(), anyString());
+      }
+      return QuestionDiagnoser.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected List<Diagnos> toInternalValue(Certificate certificate) {
+      return QuestionDiagnoser.toInternal(certificate, webcertModuleService);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<List<Diagnos>, List<Diagnos>>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(null, Collections.emptyList()),
+          new InputExpectedValuePair<>(Collections.emptyList(), Collections.emptyList()),
+          new InputExpectedValuePair<>(
+              List.of(
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+              List.of(
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F501", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(null, null, null, null),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+              List.of(
+                  Diagnos.create(
+                      "F500", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(null, null, null, null),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  Diagnos.create(
+                      "", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(null, null, null, null),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+              List.of(
+                  Diagnos.create(
+                      "", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                  Diagnos.create(null, null, null, null),
+                  Diagnos.create(
+                      "F502", DIAGNOS_ICD_10_ID, DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))));
+    }
+  }
 }

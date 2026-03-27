@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 @Builder
 public class CertificateDataValidationMaxDate implements CertificateDataValidation {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValidationType type = CertificateDataValidationType.MAX_DATE_VALIDATION;
-    String id;
-    short numberOfDays;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValidationType type = CertificateDataValidationType.MAX_DATE_VALIDATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValidationMaxDateBuilder {
+  String id;
+  short numberOfDays;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValidationMaxDateBuilder {}
 }

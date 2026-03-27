@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,82 +31,79 @@ import org.springframework.core.io.Resource;
 
 // CHECKSTYLE:OFF MagicNumber
 
-/**
- * Generic fk-logo stamper.
- */
+/** Generic fk-logo stamper. */
 public class FkLogoEventHandler extends PdfPageEventHelper {
 
-    private static String logoPath = "images/forsakringskassans_logotyp.jpg";
+  private static String logoPath = "images/forsakringskassans_logotyp.jpg";
 
-    private float linearScale = 0.253f * 100f;
-    private float leftOffset = Utilities.millimetersToPoints(16f);
-    private float topOffset = Utilities.millimetersToPoints(20f);
-    private int activeFromPage;
-    private int activeToPage;
-    private Image fkLogo = null;
+  private float linearScale = 0.253f * 100f;
+  private float leftOffset = Utilities.millimetersToPoints(16f);
+  private float topOffset = Utilities.millimetersToPoints(20f);
+  private int activeFromPage;
+  private int activeToPage;
+  private Image fkLogo = null;
 
-    /**
-     * Constructs an Eventhandler for rendering the FK logotype on the specified pages.
-     *
-     * @param activeFromPage From page number to render FK logo, inclusive. 1-indexed.
-     * @param activeToPage To page number.
-     * @throws DocumentException If the image couldn't be read or other iText-related exception.
-     */
-    public FkLogoEventHandler(int activeFromPage, int activeToPage) throws DocumentException {
-        this.activeFromPage = activeFromPage;
-        this.activeToPage = activeToPage;
-        initLogo();
+  /**
+   * Constructs an Eventhandler for rendering the FK logotype on the specified pages.
+   *
+   * @param activeFromPage From page number to render FK logo, inclusive. 1-indexed.
+   * @param activeToPage To page number.
+   * @throws DocumentException If the image couldn't be read or other iText-related exception.
+   */
+  public FkLogoEventHandler(int activeFromPage, int activeToPage) throws DocumentException {
+    this.activeFromPage = activeFromPage;
+    this.activeToPage = activeToPage;
+    initLogo();
+  }
+
+  /**
+   * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with offsets
+   * from top left corner.
+   *
+   * @param activeFromPage From page number to render FK logo, inclusive. 1-indexed.
+   * @param activeToPage To page number.
+   * @param leftOffset Offset in x-axis, as used in other
+   * @param leftOffset The default Y offset, see offsetX for details.
+   * @throws DocumentException If the image couldn't be read or other iText-related exception.
+   */
+  public FkLogoEventHandler(
+      int activeFromPage, int activeToPage, float linearScale, float leftOffset, float topOffset)
+      throws DocumentException {
+    this.activeFromPage = activeFromPage;
+    this.activeToPage = activeToPage;
+    this.linearScale = linearScale;
+    this.leftOffset = Utilities.millimetersToPoints(leftOffset);
+    this.topOffset = Utilities.millimetersToPoints(topOffset);
+
+    initLogo();
+  }
+
+  private void initLogo() throws DocumentException {
+    try {
+      Resource resource = new ClassPathResource(logoPath);
+      fkLogo = Image.getInstance(ByteStreams.toByteArray(resource.getInputStream()));
+      fkLogo.scalePercent(linearScale);
+    } catch (IOException e) {
+      throw new DocumentException("Unable to initialise FkLogoEventHandler: " + e.getMessage());
     }
+  }
 
-    /**
-     * Constructs an Eventhandler for rendering the FK logotype on the specified pages, with offsets from top left
-     * corner.
-     *
-     * @param activeFromPage From page number to render FK logo, inclusive. 1-indexed.
-     * @param activeToPage To page number.
-     * @param leftOffset Offset in x-axis, as used in other
-     * @param leftOffset The default Y offset, see offsetX for details.
-     * @throws DocumentException If the image couldn't be read or other iText-related exception.
-     */
-    public FkLogoEventHandler(int activeFromPage, int activeToPage, float linearScale, float leftOffset, float topOffset)
-        throws DocumentException {
-        this.activeFromPage = activeFromPage;
-        this.activeToPage = activeToPage;
-        this.linearScale = linearScale;
-        this.leftOffset = Utilities.millimetersToPoints(leftOffset);
-        this.topOffset = Utilities.millimetersToPoints(topOffset);
+  /**
+   * Adds a FK logo to every page in the from-tom interval.
+   *
+   * @see PdfPageEventHelper#onEndPage(PdfWriter, Document)
+   */
+  @Override
+  public void onEndPage(PdfWriter writer, Document document) {
+    if (writer.getPageNumber() >= activeFromPage && writer.getPageNumber() <= activeToPage) {
 
-        initLogo();
+      try {
+        fkLogo.setAbsolutePosition(leftOffset, document.getPageSize().getTop() - topOffset);
+        writer.getDirectContent().addImage(fkLogo);
+      } catch (DocumentException e) {
+        throw new RuntimeException(e);
+      }
     }
-
-    private void initLogo() throws DocumentException {
-        try {
-            Resource resource = new ClassPathResource(logoPath);
-            fkLogo = Image.getInstance(ByteStreams.toByteArray(resource.getInputStream()));
-            fkLogo.scalePercent(linearScale);
-        } catch (IOException e) {
-            throw new DocumentException("Unable to initialise FkLogoEventHandler: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Adds a FK logo to every page in the from-tom interval.
-     *
-     * @see PdfPageEventHelper#onEndPage(PdfWriter,
-     * Document)
-     */
-    @Override
-    public void onEndPage(PdfWriter writer, Document document) {
-        if (writer.getPageNumber() >= activeFromPage && writer.getPageNumber() <= activeToPage) {
-
-            try {
-                fkLogo.setAbsolutePosition(leftOffset, document.getPageSize().getTop() - topOffset);
-                writer.getDirectContent().addImage(fkLogo);
-            } catch (DocumentException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-    }
+  }
 }
 // CHECKSTYLE:ON MagicNumber

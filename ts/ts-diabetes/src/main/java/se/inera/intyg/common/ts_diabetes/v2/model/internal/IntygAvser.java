@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,28 +27,30 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
 public class IntygAvser {
 
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    private EnumSet<IntygAvserKategori> korkortstyp;
+  @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+  @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+  private EnumSet<IntygAvserKategori> korkortstyp;
 
-    public Set<IntygAvserKategori> getKorkortstyp() {
-        if (korkortstyp == null) {
-            korkortstyp = EnumSet.noneOf(IntygAvserKategori.class);
-        }
-        return korkortstyp;
+  public Set<IntygAvserKategori> getKorkortstyp() {
+    if (korkortstyp == null) {
+      korkortstyp = EnumSet.noneOf(IntygAvserKategori.class);
     }
+    return korkortstyp;
+  }
 
-    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
+  public static class IntygAvserEnumSetSerializer
+      extends AbstractEnumSetSerializer<IntygAvserKategori> {
 
-        protected IntygAvserEnumSetSerializer() {
-            super(IntygAvserKategori.class);
-        }
+    protected IntygAvserEnumSetSerializer() {
+      super(IntygAvserKategori.class);
     }
+  }
 
-    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
+  public static class IntygAvserEnumSetDeserializer
+      extends AbstractEnumSetDeserializer<IntygAvserKategori> {
 
-        protected IntygAvserEnumSetDeserializer() {
-            super(IntygAvserKategori.class);
-        }
+    protected IntygAvserEnumSetDeserializer() {
+      super(IntygAvserKategori.class);
     }
+  }
 }

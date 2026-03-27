@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,34 +32,35 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @AutoValue
 public abstract class IntygAvser {
 
-    @JsonCreator
-    public static IntygAvser create(@JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
-        EnumSet<IntygAvserKategori> korkortstyper;
-        if (korkortstyp == null) {
-            korkortstyper = EnumSet.noneOf(IntygAvserKategori.class);
-        } else {
-            korkortstyper = korkortstyp;
-        }
-        return new AutoValue_IntygAvser(korkortstyper);
+  @JsonCreator
+  public static IntygAvser create(
+      @JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
+    EnumSet<IntygAvserKategori> korkortstyper;
+    if (korkortstyp == null) {
+      korkortstyper = EnumSet.noneOf(IntygAvserKategori.class);
+    } else {
+      korkortstyper = korkortstyp;
     }
+    return new AutoValue_IntygAvser(korkortstyper);
+  }
 
-    @Nullable
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    public abstract Set<IntygAvserKategori> getKorkortstyp();
+  @Nullable @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+  @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+  public abstract Set<IntygAvserKategori> getKorkortstyp();
 
-    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
+  public static class IntygAvserEnumSetSerializer
+      extends AbstractEnumSetSerializer<IntygAvserKategori> {
 
-        protected IntygAvserEnumSetSerializer() {
-            super(IntygAvserKategori.class);
-        }
+    protected IntygAvserEnumSetSerializer() {
+      super(IntygAvserKategori.class);
     }
+  }
 
-    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
+  public static class IntygAvserEnumSetDeserializer
+      extends AbstractEnumSetDeserializer<IntygAvserKategori> {
 
-        protected IntygAvserEnumSetDeserializer() {
-            super(IntygAvserKategori.class);
-        }
+    protected IntygAvserEnumSetDeserializer() {
+      super(IntygAvserKategori.class);
     }
-
+  }
 }

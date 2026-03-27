@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -71,183 +71,220 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
-    @Autowired
-    private InternalToCertificate internalToCertificate;
+  @Autowired private InternalToCertificate internalToCertificate;
 
-    @Autowired
-    private CertificateToInternal certificateToInternal;
+  @Autowired private CertificateToInternal certificateToInternal;
 
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
 
-    public static final String SCHEMATRON_FILE = "doi.v1.sch";
-    private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
-    private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
-    private static final String SUPPORTED_DB_MAJOR_VERSION = "1";
-    private Map<String, String> validationMessages;
+  public static final String SCHEMATRON_FILE = "doi.v1.sch";
+  private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
+  private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
+  private static final String SUPPORTED_DB_MAJOR_VERSION = "1";
+  private Map<String, String> validationMessages;
 
-    public DoiModuleApiV1() {
-        super(DoiUtlatandeV1.class);
-        init();
+  public DoiModuleApiV1() {
+    super(DoiUtlatandeV1.class);
+    init();
+  }
+
+  private void init() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("doi-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    private void init() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("doi-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
-    }
+  @Override
+  protected DoiUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
 
-    @Override
-    protected DoiUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
+  @Override
+  protected RegisterCertificateType internalToTransport(DoiUtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
 
-    @Override
-    protected RegisterCertificateType internalToTransport(DoiUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
-    }
+  @Override
+  protected Intyg utlatandeToIntyg(DoiUtlatandeV1 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
 
-    @Override
-    protected Intyg utlatandeToIntyg(DoiUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
+  @Override
+  protected String getSchematronFileName() {
+    return SCHEMATRON_FILE;
+  }
 
-    @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
-    }
+  @Override
+  protected DoiUtlatandeV1 decorateWithSignature(
+      DoiUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
 
-    @Override
-    protected DoiUtlatandeV1 decorateWithSignature(DoiUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
-    }
-
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        try {
-            if (ApplicationOrigin.WEBCERT != applicationOrigin) {
-                throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
-            }
-            DoiUtlatandeV1 intyg = getInternal(internalModel);
-            IntygTexts texts = getTexts(DoiModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
-            DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses, utkastStatus);
-            return new PdfResponse(pdfGenerator.getBytes(),
-                pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
-        } catch (SoSPdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate PDF for " + DoiModuleEntryPoint.MODULE_ID + " certificate!", e);
-        }
-    }
-
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
-        throw new RuntimeException("Not applicable for dodsorsaksintyg.");
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        // This is used for Mina intyg and since that is unsupported for DOI we return empty string
-        return "";
-    }
-
-    @Override
-    public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
-        return Optional.of(new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION));
-    }
-
-    @Override
-    public Optional<Mapper> getMapper() {
-        return Optional.of(new DbToDoiMapper(objectMapper));
-    }
-
-    @Override
-    public Optional<ValidateDraftCreationResponse> validateDraftCreation(Set<String> existingRelatedCertificates) {
-        if (existingRelatedCertificates.stream().noneMatch(KvIntygstyp.DB.getCodeValue()::equalsIgnoreCase)) {
-            return Optional.of(new ValidateDraftCreationResponse("Det finns inget dödsbevis i nuläget inom "
-                + "vårdgivaren. Dödsorsaksintyget bör alltid skapas efter dödsbeviset.", ResultCodeType.INFO));
-        }
-        return Optional.empty();
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider, typeAheadProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof DoiUtlatandeV1) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    try {
+      if (ApplicationOrigin.WEBCERT != applicationOrigin) {
         throw new IllegalArgumentException(
-            "Utlatande was not instance of class DoiUtlatandeV1, utlatande was instance of class: " + message);
+            "Generating PDF not allowed for application origin " + applicationOrigin);
+      }
+      DoiUtlatandeV1 intyg = getInternal(internalModel);
+      IntygTexts texts = getTexts(DoiModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
+      DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses, utkastStatus);
+      return new PdfResponse(
+          pdfGenerator.getBytes(),
+          pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
+    } catch (SoSPdfGeneratorException e) {
+      LOG.error("Failed to generate PDF for certificate!", e);
+      throw new ModuleSystemException(
+          "Failed to generate PDF for " + DoiModuleEntryPoint.MODULE_ID + " certificate!", e);
     }
+  }
 
-    @Override
-    public String getAdditionalInfoLabel() {
-        return "";
-    }
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    throw new RuntimeException("Not applicable for dodsorsaksintyg.");
+  }
 
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(model);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider, typeAheadProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DoiTestabilityCertificateTestdataProvider());
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    // This is used for Mina intyg and since that is unsupported for DOI we return empty string
+    return "";
+  }
 
-    @Override
-    protected DoiUtlatandeV1 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1);
-            return doiUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
+  @Override
+  public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
+    return Optional.of(
+        new GetCopyFromCriteria(DbModuleEntryPoint.MODULE_ID, SUPPORTED_DB_MAJOR_VERSION));
+  }
 
-    @Override
-    protected DoiUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1, created);
-            return doiUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
+  @Override
+  public Optional<Mapper> getMapper() {
+    return Optional.of(new DbToDoiMapper(objectMapper));
+  }
+
+  @Override
+  public Optional<ValidateDraftCreationResponse> validateDraftCreation(
+      Set<String> existingRelatedCertificates) {
+    if (existingRelatedCertificates.stream()
+        .noneMatch(KvIntygstyp.DB.getCodeValue()::equalsIgnoreCase)) {
+      return Optional.of(
+          new ValidateDraftCreationResponse(
+              "Det finns inget dödsbevis i nuläget inom "
+                  + "vårdgivaren. Dödsorsaksintyget bör alltid skapas efter dödsbeviset.",
+              ResultCodeType.INFO));
     }
+    return Optional.empty();
+  }
+
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(
+            internalCertificate, certificateTextProvider, typeAheadProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof DoiUtlatandeV1) {
+      return toInternalModelResponse(utlatande);
+    }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class DoiUtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
+
+  @Override
+  public String getAdditionalInfoLabel() {
+    return "";
+  }
+
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    final var internalCertificate = getInternal(model);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(
+            internalCertificate, certificateTextProvider, typeAheadProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    TestabilityToolkit.fillCertificateWithTestData(
+        certificate, fillType, new DoiTestabilityCertificateTestdataProvider());
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  protected DoiUtlatandeV1 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1);
+      return doiUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
+
+  @Override
+  protected DoiUtlatandeV1 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var doiUtlatandeV1 = objectMapper.readValue(internalModel, DoiUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(doiUtlatandeV1, created);
+      return doiUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
 }

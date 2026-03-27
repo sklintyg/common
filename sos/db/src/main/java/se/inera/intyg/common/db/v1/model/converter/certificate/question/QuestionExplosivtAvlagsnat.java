@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,44 +38,42 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 
-
 public class QuestionExplosivtAvlagsnat {
 
-    public static CertificateDataElement toCertificate(Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
-            .parent(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
-                    .text(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID))
-                    .selectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT))
-                    .unselectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
-                    .selected(dodsdatumSakert)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
-                        .expression(exists(EXPLOSIV_AVLAGSNAT_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
-                        .expression(singleExpression(EXPLOSIV_IMPLANTAT_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
+        .parent(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
+                .text(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_TEXT_ID))
+                .selectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_SELECTED_TEXT))
+                .unselectedText(texts.get(EXPLOSIVT_AVLAGSNAT_QUESTION_UNSELECTED_TEXT))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(EXPLOSIV_AVLAGSNAT_JSON_ID)
+                .selected(dodsdatumSakert)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(EXPLOSIV_AVLAGSNAT_DELSVAR_ID)
+                  .expression(exists(EXPLOSIV_AVLAGSNAT_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(EXPLOSIV_IMPLANTAT_DELSVAR_ID)
+                  .expression(singleExpression(EXPLOSIV_IMPLANTAT_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), EXPLOSIV_AVLAGSNAT_DELSVAR_ID, EXPLOSIV_AVLAGSNAT_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), EXPLOSIV_AVLAGSNAT_DELSVAR_ID, EXPLOSIV_AVLAGSNAT_JSON_ID);
+  }
 }

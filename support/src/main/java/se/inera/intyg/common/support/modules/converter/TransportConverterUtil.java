@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -77,465 +77,514 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 /**
- * Provides utility methods for converting domain objects from transport format to internal Java format.
+ * Provides utility methods for converting domain objects from transport format to internal Java
+ * format.
  */
 @Component
 public final class TransportConverterUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
 
-    private final UnitMapperUtil unitMapperUtil;
-    private static TransportConverterUtil instance = null;
+  private final UnitMapperUtil unitMapperUtil;
+  private static TransportConverterUtil instance = null;
 
-    public TransportConverterUtil(UnitMapperUtil unitMapperUtil) {
-        this.unitMapperUtil = unitMapperUtil;
+  public TransportConverterUtil(UnitMapperUtil unitMapperUtil) {
+    this.unitMapperUtil = unitMapperUtil;
+  }
+
+  @PostConstruct
+  public void initialize() {
+    this.instance = this;
+  }
+
+  static TransportConverterUtil instance() {
+    if (instance == null) {
+      throw new IllegalStateException("TransportConverterUtil is not properly initialized");
     }
+    return instance;
+  }
 
-    @PostConstruct
-    public void initialize() {
-        this.instance = this;
-    }
+  /**
+   * Checks if delsvar can be parsed as string content.
+   *
+   * @param delsvar the Delsvar to parse
+   * @return if delsvar can be parsed as string content
+   */
+  public static boolean isStringContent(Delsvar delsvar) {
+    return delsvar.getContent().stream().allMatch(String.class::isInstance);
+  }
 
-    static TransportConverterUtil instance() {
-        if (instance == null) {
-            throw new IllegalStateException("TransportConverterUtil is not properly initialized");
-        }
-        return instance;
-    }
+  /**
+   * Attempt to parse a non-empty String from a Delsvar.
+   *
+   * @param delsvar the Delsvar to parse
+   * @return the non-empty String content of the Delsvar
+   */
+  public static String getStringContent(Delsvar delsvar) {
+    return delsvar.getContent().stream()
+        .map(content -> ((String) content).trim())
+        .filter(content -> !content.isEmpty())
+        .reduce("", String::concat);
+  }
 
-    /**
-     * Checks if delsvar can be parsed as string content.
-     *
-     * @param delsvar the Delsvar to parse
-     * @return if delsvar can be parsed as string content
-     */
-    public static boolean isStringContent(Delsvar delsvar) {
-        return delsvar.getContent().stream().allMatch(String.class::isInstance);
-    }
+  public static Boolean getBooleanContent(Delsvar delsvar) {
+    return Boolean.valueOf(getStringContent(delsvar));
+  }
 
-    /**
-     * Attempt to parse a non-empty String from a Delsvar.
-     *
-     * @param delsvar the Delsvar to parse
-     * @return the non-empty String content of the Delsvar
-     */
-    public static String getStringContent(Delsvar delsvar) {
-        return delsvar.getContent().stream()
-            .map(content -> ((String) content).trim())
-            .filter(content -> !content.isEmpty())
-            .reduce("", String::concat);
-    }
-
-    public static Boolean getBooleanContent(Delsvar delsvar) {
-        return Boolean.valueOf(getStringContent(delsvar));
-    }
-
-    /**
-     * Attempt to parse a CVType from a Delsvar.
-     *
-     * @param delsvar the Delsvar to parse
-     * @return the CVType converted from the delsvar
-     * @throws ConverterException if the conversion was not successful
-     */
-    public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
-        return parseDelsvarType(delsvar, cvNode -> {
-            final CVType cvType = new CVType();
-            childElements(cvNode, child -> {
+  /**
+   * Attempt to parse a CVType from a Delsvar.
+   *
+   * @param delsvar the Delsvar to parse
+   * @return the CVType converted from the delsvar
+   * @throws ConverterException if the conversion was not successful
+   */
+  public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
+    return parseDelsvarType(
+        delsvar,
+        cvNode -> {
+          final CVType cvType = new CVType();
+          childElements(
+              cvNode,
+              child -> {
                 switch (child.getLocalName()) {
-                    case "code":
-                        cvType.setCode(child.getTextContent());
-                        break;
-                    case "codeSystem":
-                        cvType.setCodeSystem(child.getTextContent());
-                        break;
-                    case "codeSystemVersion":
-                        cvType.setCodeSystemVersion(child.getTextContent());
-                        break;
-                    case "codeSystemName":
-                        cvType.setCodeSystemName(child.getTextContent());
-                        break;
-                    case "displayName":
-                        cvType.setDisplayName(child.getTextContent());
-                        break;
-                    case "originalText":
-                        cvType.setOriginalText(child.getTextContent());
-                        break;
-                    default:
-                        LOG.debug("Unexpected element found while parsing CVType: " + child.getLocalName());
-                        break;
+                  case "code":
+                    cvType.setCode(child.getTextContent());
+                    break;
+                  case "codeSystem":
+                    cvType.setCodeSystem(child.getTextContent());
+                    break;
+                  case "codeSystemVersion":
+                    cvType.setCodeSystemVersion(child.getTextContent());
+                    break;
+                  case "codeSystemName":
+                    cvType.setCodeSystemName(child.getTextContent());
+                    break;
+                  case "displayName":
+                    cvType.setDisplayName(child.getTextContent());
+                    break;
+                  case "originalText":
+                    cvType.setOriginalText(child.getTextContent());
+                    break;
+                  default:
+                    LOG.debug(
+                        "Unexpected element found while parsing CVType: " + child.getLocalName());
+                    break;
                 }
-            });
-            if (Objects.isNull(cvType.getCode()) || Objects.isNull(cvType.getCodeSystem())) {
-                return null;
-            }
-            return cvType;
+              });
+          if (Objects.isNull(cvType.getCode()) || Objects.isNull(cvType.getCodeSystem())) {
+            return null;
+          }
+          return cvType;
         });
-    }
+  }
 
-    /**
-     * Attempt to parse a PQType from a Delsvar.
-     *
-     * @param delsvar the Delsvar to parse
-     * @return the PQType converted from the delsvar
-     * @throws ConverterException if the conversion was not successful
-     */
-    public static PQType getPQSvarContent(Delsvar delsvar) throws ConverterException {
-        return parseDelsvarType(delsvar, pqNode -> {
-            final PQType pqType = new PQType();
-            childElements(pqNode, child -> {
+  /**
+   * Attempt to parse a PQType from a Delsvar.
+   *
+   * @param delsvar the Delsvar to parse
+   * @return the PQType converted from the delsvar
+   * @throws ConverterException if the conversion was not successful
+   */
+  public static PQType getPQSvarContent(Delsvar delsvar) throws ConverterException {
+    return parseDelsvarType(
+        delsvar,
+        pqNode -> {
+          final PQType pqType = new PQType();
+          childElements(
+              pqNode,
+              child -> {
                 switch (child.getLocalName()) {
-                    case "value":
-                        pqType.setValue(Double.parseDouble(child.getTextContent()));
-                        break;
-                    case "unit":
-                        pqType.setUnit(child.getTextContent());
-                        break;
-                    default:
-                        LOG.debug("Unexpected element found while parsing PQType: " + child.getLocalName());
-                        break;
+                  case "value":
+                    pqType.setValue(Double.parseDouble(child.getTextContent()));
+                    break;
+                  case "unit":
+                    pqType.setUnit(child.getTextContent());
+                    break;
+                  default:
+                    LOG.debug(
+                        "Unexpected element found while parsing PQType: " + child.getLocalName());
+                    break;
                 }
-            });
-            if (Objects.isNull(pqType.getUnit()) || Objects.isNull(pqType.getValue())) {
-                return null;
-            }
-            return pqType;
+              });
+          if (Objects.isNull(pqType.getUnit()) || Objects.isNull(pqType.getValue())) {
+            return null;
+          }
+          return pqType;
         });
-    }
+  }
 
-    /**
-     * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
-     *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
-     */
-    public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
-        return parseDelsvarType(delsvar, dpNode -> {
-            final DatePeriodType datePeriodType = new DatePeriodType();
-            childElements(dpNode, child -> {
+  /**
+   * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
+   *
+   * @param delsvar the delsvar to be converted
+   * @throws ConverterException if the conversion was not successful
+   */
+  public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
+    return parseDelsvarType(
+        delsvar,
+        dpNode -> {
+          final DatePeriodType datePeriodType = new DatePeriodType();
+          childElements(
+              dpNode,
+              child -> {
                 switch (child.getLocalName()) {
-                    case "start":
-                        datePeriodType.setStart(LocalDate.parse(child.getTextContent()));
-                        break;
-                    case "end":
-                        datePeriodType.setEnd(LocalDate.parse(child.getTextContent()));
-                        break;
-                    default:
-                        LOG.debug("Unexpected element found while parsing DatePeriodType: " + child.getLocalName());
-                        break;
+                  case "start":
+                    datePeriodType.setStart(LocalDate.parse(child.getTextContent()));
+                    break;
+                  case "end":
+                    datePeriodType.setEnd(LocalDate.parse(child.getTextContent()));
+                    break;
+                  default:
+                    LOG.debug(
+                        "Unexpected element found while parsing DatePeriodType: "
+                            + child.getLocalName());
+                    break;
                 }
-            });
-            if (Objects.isNull(datePeriodType.getStart()) || Objects.isNull(datePeriodType.getEnd())) {
-                return null;
-            }
-            return datePeriodType;
+              });
+          if (Objects.isNull(datePeriodType.getStart())
+              || Objects.isNull(datePeriodType.getEnd())) {
+            return null;
+          }
+          return datePeriodType;
         });
-    }
+  }
 
-    /**
-     * Attempt to parse a {@link PartialDateType} from a {@link Delsvar}.
-     *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
-     */
-    public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
-        return parseDelsvarType(delsvar, pdNode -> {
-            final PartialDateType partialDateType = new PartialDateType();
-            final Holder<String> vh = new Holder<>();
-            childElements(pdNode, child -> {
+  /**
+   * Attempt to parse a {@link PartialDateType} from a {@link Delsvar}.
+   *
+   * @param delsvar the delsvar to be converted
+   * @throws ConverterException if the conversion was not successful
+   */
+  public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
+    return parseDelsvarType(
+        delsvar,
+        pdNode -> {
+          final PartialDateType partialDateType = new PartialDateType();
+          final Holder<String> vh = new Holder<>();
+          childElements(
+              pdNode,
+              child -> {
                 switch (child.getLocalName()) {
-                    case "format":
-                        partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(child.getTextContent()));
-                        break;
-                    case "value":
-                        vh.value = child.getTextContent();
-                        break;
-                    default:
-                        LOG.debug("Unexpected element found while parsing PartialDateType: " + child.getLocalName());
-                        break;
+                  case "format":
+                    partialDateType.setFormat(
+                        PartialDateTypeFormatEnum.fromValue(child.getTextContent()));
+                    break;
+                  case "value":
+                    vh.value = child.getTextContent();
+                    break;
+                  default:
+                    LOG.debug(
+                        "Unexpected element found while parsing PartialDateType: "
+                            + child.getLocalName());
+                    break;
                 }
-            });
-            if (Objects.isNull(partialDateType.getFormat()) || Objects.isNull(vh.value)) {
-                return null;
-            }
-            switch (partialDateType.getFormat()) {
-                case YYYY:
-                    partialDateType.setValue(Year.parse(vh.value));
-                    break;
-                case YYYY_MM:
-                    partialDateType.setValue(YearMonth.parse(vh.value));
-                    break;
-                case YYYY_MM_DD:
-                    partialDateType.setValue(LocalDate.parse(vh.value, DateTimeFormatter.ISO_LOCAL_DATE));
-                    break;
-            }
-            return partialDateType;
+              });
+          if (Objects.isNull(partialDateType.getFormat()) || Objects.isNull(vh.value)) {
+            return null;
+          }
+          switch (partialDateType.getFormat()) {
+            case YYYY:
+              partialDateType.setValue(Year.parse(vh.value));
+              break;
+            case YYYY_MM:
+              partialDateType.setValue(YearMonth.parse(vh.value));
+              break;
+            case YYYY_MM_DD:
+              partialDateType.setValue(LocalDate.parse(vh.value, DateTimeFormatter.ISO_LOCAL_DATE));
+              break;
+          }
+          return partialDateType;
         });
+  }
+
+  /**
+   * Parses the {@link GrundData} from the source Intyg.
+   *
+   * @param source the certificate to be converted
+   * @param patientInfo detail level of patient information
+   * @return the converted GrundData
+   */
+  public static GrundData getGrundData(Intyg source, PatientInfo patientInfo) {
+    GrundData grundData = new GrundData();
+    grundData.setPatient(getPatient(source.getPatient(), patientInfo));
+    grundData.setSkapadAv(getSkapadAv(source.getSkapadAv(), source.getSigneringstidpunkt()));
+    grundData.setSigneringsdatum(source.getSigneringstidpunkt());
+    if (!isNullOrEmpty(source.getRelation())) {
+      grundData.setRelation(getRelation(source));
     }
+    return grundData;
+  }
 
-    /**
-     * Parses the {@link GrundData} from the source Intyg.
-     *
-     * @param source the certificate to be converted
-     * @param patientInfo detail level of patient information
-     * @return the converted GrundData
-     */
-    public static GrundData getGrundData(Intyg source, PatientInfo patientInfo) {
-        GrundData grundData = new GrundData();
-        grundData.setPatient(getPatient(source.getPatient(), patientInfo));
-        grundData.setSkapadAv(getSkapadAv(source.getSkapadAv(), source.getSigneringstidpunkt()));
-        grundData.setSigneringsdatum(source.getSigneringstidpunkt());
-        if (!isNullOrEmpty(source.getRelation())) {
-            grundData.setRelation(getRelation(source));
-        }
-        return grundData;
-    }
+  /**
+   * Creates the metadata for the certificate.
+   *
+   * @param source the source certificate
+   * @param additionalInfo the info to be displayed in Mina intyg
+   * @return the meta data
+   */
+  public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
+    CertificateMetaData metaData = new CertificateMetaData();
+    metaData.setCertificateId(source.getIntygsId().getExtension());
+    metaData.setCertificateType(source.getTyp().getCode().toLowerCase());
+    metaData.setIssuerName(source.getSkapadAv().getFullstandigtNamn());
+    metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
+    metaData.setSignDate(source.getSigneringstidpunkt());
+    metaData.setStatus(getStatusList(source.getStatus()));
+    metaData.setAvailable(isAvailable(metaData.getStatus()));
+    metaData.setAdditionalInfo(additionalInfo);
+    return metaData;
+  }
 
-    /**
-     * Creates the metadata for the certificate.
-     *
-     * @param source the source certificate
-     * @param additionalInfo the info to be displayed in Mina intyg
-     * @return the meta data
-     */
-    public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
-        CertificateMetaData metaData = new CertificateMetaData();
-        metaData.setCertificateId(source.getIntygsId().getExtension());
-        metaData.setCertificateType(source.getTyp().getCode().toLowerCase());
-        metaData.setIssuerName(source.getSkapadAv().getFullstandigtNamn());
-        metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
-        metaData.setSignDate(source.getSigneringstidpunkt());
-        metaData.setStatus(getStatusList(source.getStatus()));
-        metaData.setAvailable(isAvailable(metaData.getStatus()));
-        metaData.setAdditionalInfo(additionalInfo);
-        return metaData;
-    }
-
-    //
-    public static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser) throws ConverterException {
-        for (Object o : delsvar.getContent()) {
-            if (o instanceof Node node) {
-                T value = parser.apply(node);
-                if (Objects.isNull(value)) {
-                    break;
-                } else {
-                    return value;
-                }
-            } else if (o instanceof JAXBElement) {
-                return ((JAXBElement<T>) o).getValue();
-            }
-        }
-        throw new ConverterException("Unexpected error while converting data type, mandatory data is missing");
-    }
-
-    /**
-     * Visit all child elements of parent node.
-     *
-     * @param parentNode the parent node.
-     * @param consumer the consumer of child element nodes.
-     */
-    public static void childElements(Node parentNode, Consumer<Node> consumer) {
-        for (Node n = parentNode.getFirstChild(); n != null; n = n.getNextSibling()) {
-            if (n.getNodeType() == Node.ELEMENT_NODE) {
-                consumer.accept(n);
-            }
-        }
-    }
-
-    private static boolean isAvailable(List<Status> statuses) {
-        final Optional<Status> latestStatus = statuses.stream()
-            .filter(s -> CertificateState.RESTORED.equals(s.getType()) || CertificateState.DELETED.equals(s.getType()))
-            .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed())).findFirst();
-
-        // If neither DELETED or RESTORED at all, it's considered available
-        if (!latestStatus.isPresent()) {
-            return true;
+  //
+  public static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser)
+      throws ConverterException {
+    for (Object o : delsvar.getContent()) {
+      if (o instanceof Node node) {
+        T value = parser.apply(node);
+        if (Objects.isNull(value)) {
+          break;
         } else {
-            // It's available if the latest of these types of statues is a RESTORED status event
-            return CertificateState.RESTORED.equals(latestStatus.get().getType());
+          return value;
         }
+      } else if (o instanceof JAXBElement) {
+        return ((JAXBElement<T>) o).getValue();
+      }
     }
+    throw new ConverterException(
+        "Unexpected error while converting data type, mandatory data is missing");
+  }
 
-    /**
-     * Converts a list of statuses of transport format to internal representation.
-     *
-     * @param certificateStatuses the statuses to be converted
-     * @return the converted statuses
-     */
-    public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
-        List<Status> statuses = new ArrayList<>(certificateStatuses.size());
-        for (IntygsStatus certificateStatus : certificateStatuses) {
-            statuses.add(getStatus(certificateStatus));
-        }
-        return statuses;
+  /**
+   * Visit all child elements of parent node.
+   *
+   * @param parentNode the parent node.
+   * @param consumer the consumer of child element nodes.
+   */
+  public static void childElements(Node parentNode, Consumer<Node> consumer) {
+    for (Node n = parentNode.getFirstChild(); n != null; n = n.getNextSibling()) {
+      if (n.getNodeType() == Node.ELEMENT_NODE) {
+        consumer.accept(n);
+      }
     }
+  }
 
-    /**
-     * Converts a single status on transport format.
-     *
-     * @param certificateStatus the status to be converted
-     * @return the converted status
-     */
-    public static Status getStatus(IntygsStatus certificateStatus) {
-        return new Status(
-            StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
-            certificateStatus.getPart().getCode(),
-            certificateStatus.getTidpunkt());
+  private static boolean isAvailable(List<Status> statuses) {
+    final Optional<Status> latestStatus =
+        statuses.stream()
+            .filter(
+                s ->
+                    CertificateState.RESTORED.equals(s.getType())
+                        || CertificateState.DELETED.equals(s.getType()))
+            .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed()))
+            .findFirst();
+
+    // If neither DELETED or RESTORED at all, it's considered available
+    if (!latestStatus.isPresent()) {
+      return true;
+    } else {
+      // It's available if the latest of these types of statues is a RESTORED status event
+      return CertificateState.RESTORED.equals(latestStatus.get().getType());
     }
+  }
 
-    /**
-     * Returns an internal representation of the creator of the certificate.
-     *
-     * @param source the creator in transport format
-     * @return the converted creator
-     */
-    public static HoSPersonal getSkapadAv(HosPersonal source, LocalDateTime signeringsTidpunkt) {
-        HoSPersonal personal = new HoSPersonal();
-        personal.setPersonId(source.getPersonalId().getExtension());
-        personal.setFullstandigtNamn(source.getFullstandigtNamn());
-        personal.setForskrivarKod(source.getForskrivarkod());
-        personal.setVardenhet(getVardenhet(source.getEnhet(), signeringsTidpunkt));
-        personal.getBefattningsKoder().addAll(createPaTitles(source.getBefattning()));
-        personal.getBefattningar().addAll(source.getBefattning().stream().map(CVType::getCode).toList());
-
-        for (Specialistkompetens kompetens : source.getSpecialistkompetens()) {
-            if (kompetens.getDisplayName() != null) {
-                personal.getSpecialiteter().add(kompetens.getDisplayName());
-            }
-        }
-        return personal;
+  /**
+   * Converts a list of statuses of transport format to internal representation.
+   *
+   * @param certificateStatuses the statuses to be converted
+   * @return the converted statuses
+   */
+  public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
+    List<Status> statuses = new ArrayList<>(certificateStatuses.size());
+    for (IntygsStatus certificateStatus : certificateStatuses) {
+      statuses.add(getStatus(certificateStatus));
     }
+    return statuses;
+  }
 
-    private static List<PaTitle> createPaTitles(List<Befattning> befattningar) {
-        return befattningar.stream()
-            .map(befattning -> {
-                final var paTitle = new PaTitle();
-                paTitle.setKod(befattning.getCode());
-                paTitle.setKlartext(befattning.getDisplayName());
-                return paTitle;
+  /**
+   * Converts a single status on transport format.
+   *
+   * @param certificateStatus the status to be converted
+   * @return the converted status
+   */
+  public static Status getStatus(IntygsStatus certificateStatus) {
+    return new Status(
+        StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
+        certificateStatus.getPart().getCode(),
+        certificateStatus.getTidpunkt());
+  }
+
+  /**
+   * Returns an internal representation of the creator of the certificate.
+   *
+   * @param source the creator in transport format
+   * @return the converted creator
+   */
+  public static HoSPersonal getSkapadAv(HosPersonal source, LocalDateTime signeringsTidpunkt) {
+    HoSPersonal personal = new HoSPersonal();
+    personal.setPersonId(source.getPersonalId().getExtension());
+    personal.setFullstandigtNamn(source.getFullstandigtNamn());
+    personal.setForskrivarKod(source.getForskrivarkod());
+    personal.setVardenhet(getVardenhet(source.getEnhet(), signeringsTidpunkt));
+    personal.getBefattningsKoder().addAll(createPaTitles(source.getBefattning()));
+    personal
+        .getBefattningar()
+        .addAll(source.getBefattning().stream().map(CVType::getCode).toList());
+
+    for (Specialistkompetens kompetens : source.getSpecialistkompetens()) {
+      if (kompetens.getDisplayName() != null) {
+        personal.getSpecialiteter().add(kompetens.getDisplayName());
+      }
+    }
+    return personal;
+  }
+
+  private static List<PaTitle> createPaTitles(List<Befattning> befattningar) {
+    return befattningar.stream()
+        .map(
+            befattning -> {
+              final var paTitle = new PaTitle();
+              paTitle.setKod(befattning.getCode());
+              paTitle.setKlartext(befattning.getDisplayName());
+              return paTitle;
             })
-            .distinct()
-            .toList();
-    }
+        .distinct()
+        .toList();
+  }
 
-    /**
-     * Converts an Enhet to internal representation.
-     *
-     * @param source the transport representation
-     * @return the converted Vardenhet
-     */
-    public static Vardenhet getVardenhet(Enhet source, LocalDateTime signeringsTidpunkt) {
-        final var mapped = getMappedUnit(
+  /**
+   * Converts an Enhet to internal representation.
+   *
+   * @param source the transport representation
+   * @return the converted Vardenhet
+   */
+  public static Vardenhet getVardenhet(Enhet source, LocalDateTime signeringsTidpunkt) {
+    final var mapped =
+        getMappedUnit(
             source.getVardgivare(),
             source.getEnhetsId().getExtension(),
             source.getEnhetsnamn(),
-            signeringsTidpunkt
-        );
+            signeringsTidpunkt);
 
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setPostort(source.getPostort());
-        vardenhet.setPostadress(source.getPostadress());
-        vardenhet.setPostnummer(source.getPostnummer());
-        vardenhet.setEpost(source.getEpost());
-        vardenhet.setArbetsplatsKod(source.getArbetsplatskod().getExtension());
-        vardenhet.setTelefonnummer(source.getTelefonnummer());
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setPostort(source.getPostort());
+    vardenhet.setPostadress(source.getPostadress());
+    vardenhet.setPostnummer(source.getPostnummer());
+    vardenhet.setEpost(source.getEpost());
+    vardenhet.setArbetsplatsKod(source.getArbetsplatskod().getExtension());
+    vardenhet.setTelefonnummer(source.getTelefonnummer());
 
-        vardenhet.setEnhetsid(mapped.issuedUnitId());
-        vardenhet.setEnhetsnamn(mapped.issuedUnitName());
+    vardenhet.setEnhetsid(mapped.issuedUnitId());
+    vardenhet.setEnhetsnamn(mapped.issuedUnitName());
 
-        final var vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(mapped.careProviderId());
-        vardgivare.setVardgivarnamn(mapped.careProviderName());
-        vardenhet.setVardgivare(vardgivare);
+    final var vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(mapped.careProviderId());
+    vardgivare.setVardgivarnamn(mapped.careProviderName());
+    vardenhet.setVardgivare(vardgivare);
 
-        return vardenhet;
+    return vardenhet;
+  }
+
+  private MappedUnit getMappedUnitConfiguration(
+      se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider,
+      String issuingUnitId,
+      String issuingUnitName,
+      LocalDateTime signeringsTidpunkt) {
+    return unitMapperUtil.getMappedUnit(
+        sourceCareProvider.getVardgivareId().getExtension(),
+        sourceCareProvider.getVardgivarnamn(),
+        issuingUnitId,
+        issuingUnitName,
+        signeringsTidpunkt);
+  }
+
+  private static MappedUnit getMappedUnit(
+      se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider,
+      String issuingUnitId,
+      String issuingUnitName,
+      LocalDateTime signeringsTidpunkt) {
+    return instance()
+        .getMappedUnitConfiguration(
+            sourceCareProvider, issuingUnitId, issuingUnitName, signeringsTidpunkt);
+  }
+
+  /**
+   * Converts the transport representation of the patient to internal.
+   *
+   * @param source the transport representation
+   * @param patientInfo detail level of patient information
+   * @return the converted patient
+   */
+  public static Patient getPatient(
+      se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, PatientInfo patientInfo) {
+    String pnr = source.getPersonId().getExtension();
+    Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
+
+    Patient patient = new Patient();
+    patient.setPersonId(personnummer);
+
+    if (patientInfo == PatientInfo.EXTENDED
+        || patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
+      patient.setEfternamn(source.getEfternamn());
+      patient.setFornamn(source.getFornamn());
+      patient.setMellannamn(source.getMellannamn());
+      patient.setPostort(source.getPostort());
+      patient.setPostnummer(source.getPostnummer());
+      patient.setPostadress(source.getPostadress());
+      if (patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
+        patient.setAddressDetailsSourcePU(
+            getAddressDetailsSourcePU(source.getKallaAdressuppgifter()));
+      }
+
+      if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
+        patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
+      } else {
+        patient.setFullstandigtNamn(
+            source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());
+      }
     }
+    return patient;
+  }
 
-    private MappedUnit getMappedUnitConfiguration(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider,
-        String issuingUnitId, String issuingUnitName, LocalDateTime signeringsTidpunkt) {
-        return unitMapperUtil.getMappedUnit(
-            sourceCareProvider.getVardgivareId().getExtension(),
-            sourceCareProvider.getVardgivarnamn(),
-            issuingUnitId,
-            issuingUnitName,
-            signeringsTidpunkt
-        );
+  private static boolean getAddressDetailsSourcePU(
+      se.riv.clinicalprocess.healthcond.certificate.types.v3.KallaAdressuppgifterType
+          kallaAdressuppgifterType) {
+    return kallaAdressuppgifterType != null
+        && kallaAdressuppgifterType.getCode() != null
+        && kallaAdressuppgifterType.getCode().equals(ADDRESS_DETAILS_SOURCE_PU_CODE);
+  }
+
+  public static String signatureTypeToBase64(UnderskriftType underskriftType)
+      throws ConverterException {
+    if (underskriftType == null || underskriftType.getSignature() == null) {
+      return null;
     }
-
-    private static MappedUnit getMappedUnit(
-        se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare sourceCareProvider, String issuingUnitId, String issuingUnitName,
-        LocalDateTime signeringsTidpunkt) {
-        return instance().getMappedUnitConfiguration(sourceCareProvider, issuingUnitId, issuingUnitName, signeringsTidpunkt);
+    try {
+      JAXBElement<SignatureType> signature =
+          new ObjectFactory().createSignature(underskriftType.getSignature());
+      final String s = XmlMarshallerHelper.marshal(signature);
+      return Base64.getEncoder().encodeToString(s.getBytes(UTF_8));
+    } catch (Exception e) {
+      throw new ConverterException(
+          "Error when converting SignatureType to String: " + e.getMessage());
     }
+  }
 
-    /**
-     * Converts the transport representation of the patient to internal.
-     *
-     * @param source the transport representation
-     * @param patientInfo detail level of patient information
-     * @return the converted patient
-     */
-    public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source,
-        PatientInfo patientInfo) {
-        String pnr = source.getPersonId().getExtension();
-        Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
+  private static Relation getRelation(Intyg source) {
+    return getOne(source.getRelation());
+  }
 
-        Patient patient = new Patient();
-        patient.setPersonId(personnummer);
+  private static Relation getOne(
+      List<se.riv.clinicalprocess.healthcond.certificate.v3.Relation> source) {
+    se.riv.clinicalprocess.healthcond.certificate.v3.Relation sourceRelation = source.get(0);
+    Relation relation = new Relation();
+    relation.setRelationIntygsId(sourceRelation.getIntygsId().getExtension());
+    String sourceTyp = sourceRelation.getTyp().getCode();
+    relation.setRelationKod(RelationKod.fromValue(sourceTyp));
+    return relation;
+  }
 
-        if (patientInfo == PatientInfo.EXTENDED || patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
-            patient.setEfternamn(source.getEfternamn());
-            patient.setFornamn(source.getFornamn());
-            patient.setMellannamn(source.getMellannamn());
-            patient.setPostort(source.getPostort());
-            patient.setPostnummer(source.getPostnummer());
-            patient.setPostadress(source.getPostadress());
-            if (patientInfo == PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE) {
-                patient.setAddressDetailsSourcePU(getAddressDetailsSourcePU(source.getKallaAdressuppgifter()));
-            }
-
-            if (Strings.nullToEmpty(source.getMellannamn()).trim().isEmpty()) {
-                patient.setFullstandigtNamn(source.getFornamn() + " " + source.getEfternamn());
-            } else {
-                patient.setFullstandigtNamn(source.getFornamn() + " " + source.getMellannamn() + " " + source.getEfternamn());
-            }
-        }
-        return patient;
-    }
-
-    private static boolean getAddressDetailsSourcePU(
-        se.riv.clinicalprocess.healthcond.certificate.types.v3.KallaAdressuppgifterType kallaAdressuppgifterType) {
-        return kallaAdressuppgifterType != null
-            && kallaAdressuppgifterType.getCode() != null
-            && kallaAdressuppgifterType.getCode().equals(ADDRESS_DETAILS_SOURCE_PU_CODE);
-    }
-
-    public static String signatureTypeToBase64(UnderskriftType underskriftType) throws ConverterException {
-        if (underskriftType == null || underskriftType.getSignature() == null) {
-            return null;
-        }
-        try {
-            JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(underskriftType.getSignature());
-            final String s = XmlMarshallerHelper.marshal(signature);
-            return Base64.getEncoder().encodeToString(s.getBytes(UTF_8));
-        } catch (Exception e) {
-            throw new ConverterException("Error when converting SignatureType to String: " + e.getMessage());
-        }
-    }
-
-    private static Relation getRelation(Intyg source) {
-        return getOne(source.getRelation());
-    }
-
-    private static Relation getOne(List<se.riv.clinicalprocess.healthcond.certificate.v3.Relation> source) {
-        se.riv.clinicalprocess.healthcond.certificate.v3.Relation sourceRelation = source.get(0);
-        Relation relation = new Relation();
-        relation.setRelationIntygsId(sourceRelation.getIntygsId().getExtension());
-        String sourceTyp = sourceRelation.getTyp().getCode();
-        relation.setRelationKod(RelationKod.fromValue(sourceTyp));
-        return relation;
-    }
-
-    private static boolean isNullOrEmpty(List<?> list) {
-        return list == null || list.isEmpty();
-    }
+  private static boolean isNullOrEmpty(List<?> list) {
+    return list == null || list.isEmpty();
+  }
 }

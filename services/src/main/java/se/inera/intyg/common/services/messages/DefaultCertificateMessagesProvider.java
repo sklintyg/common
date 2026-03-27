@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,29 +23,32 @@ import java.util.Map;
 
 public final class DefaultCertificateMessagesProvider implements CertificateMessagesProvider {
 
-    private final Map<String, String> messages;
-    private final Map<String, String> dynamicLabels;
+  private final Map<String, String> messages;
+  private final Map<String, String> dynamicLabels;
 
-    public static CertificateMessagesProvider create(Map<String, String> messages, Map<String, String> dynamicLabels) {
-        return new DefaultCertificateMessagesProvider(messages, dynamicLabels != null ? dynamicLabels : Collections.emptyMap());
-    }
+  public static CertificateMessagesProvider create(
+      Map<String, String> messages, Map<String, String> dynamicLabels) {
+    return new DefaultCertificateMessagesProvider(
+        messages, dynamicLabels != null ? dynamicLabels : Collections.emptyMap());
+  }
 
-    public static CertificateMessagesProvider create(Map<String, String> messages) {
-        return new DefaultCertificateMessagesProvider(messages, Collections.emptyMap());
-    }
+  public static CertificateMessagesProvider create(Map<String, String> messages) {
+    return new DefaultCertificateMessagesProvider(messages, Collections.emptyMap());
+  }
 
-    private DefaultCertificateMessagesProvider(Map<String, String> messages, Map<String, String> dynamicLabels) {
-        this.messages = messages;
-        this.dynamicLabels = dynamicLabels;
-    }
+  private DefaultCertificateMessagesProvider(
+      Map<String, String> messages, Map<String, String> dynamicLabels) {
+    this.messages = messages;
+    this.dynamicLabels = dynamicLabels;
+  }
 
-    @Override
-    public String get(String key) {
-        return messages.get(key);
-    }
+  @Override
+  public String get(String key) {
+    return messages.get(key);
+  }
 
-    @Override
-    public String get(String key, String dynamicKey) {
-        return messages.get(key).replace("{0}", dynamicLabels.getOrDefault(dynamicKey, dynamicKey));
-    }
+  @Override
+  public String get(String key, String dynamicKey) {
+    return messages.get(key).replace("{0}", dynamicLabels.getOrDefault(dynamicKey, dynamicKey));
+  }
 }

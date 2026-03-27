@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,37 +41,31 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionAutoFillMessageWithin28DaysBarn {
 
-    public static CertificateDataElement toCertificate(Personnummer personId, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID)
-            .parent(BARN_CATEGORY_ID)
-            .index(index)
-            .visible(false)
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
-                            .level(MessageLevel.OBSERVE)
-                            .build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(DODSDATUM_DELSVAR_ID)
-                        .expression(
-                            lessThanOrEqual(
-                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
-                                birthDate(personId)
-                                    .plusDays(TWENTY_EIGHT_DAYS)
-                                    .toEpochDay()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Personnummer personId, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID)
+        .parent(BARN_CATEGORY_ID)
+        .index(index)
+        .visible(false)
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
+                        .level(MessageLevel.OBSERVE)
+                        .build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(DODSDATUM_DELSVAR_ID)
+                  .expression(
+                      lessThanOrEqual(
+                          wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
+                          birthDate(personId).plusDays(TWENTY_EIGHT_DAYS).toEpochDay()))
+                  .build()
+            })
+        .build();
+  }
 }

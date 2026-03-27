@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,44 +20,41 @@ package se.inera.intyg.common.services.texts.repo;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
-/**
- * Repository containing the texts used in the certificates.
- */
+/** Repository containing the texts used in the certificates. */
 public interface IntygTextsRepository {
 
-    /**
-     * Lookup if the version and type of intyg is supported.
-     *
-     * @param intygsTyp the type of intyg
-     * @param version the version of the intyg, described in [major.minor]
-     * @return boolean if the specific intyg is supported
-     */
-    boolean isVersionSupported(String intygsTyp, String version);
+  /**
+   * Lookup if the version and type of intyg is supported.
+   *
+   * @param intygsTyp the type of intyg
+   * @param version the version of the intyg, described in [major.minor]
+   * @return boolean if the specific intyg is supported
+   */
+  boolean isVersionSupported(String intygsTyp, String version);
 
-    /**
-     * Returns the latest version for intyg of type <code>intygsType</code>.
-     *
-     * @param intygsTyp the type of intyg
-     * @return the latest version
-     */
-    String getLatestVersion(String intygsTyp);
+  /**
+   * Returns the latest version for intyg of type <code>intygsType</code>.
+   *
+   * @param intygsTyp the type of intyg
+   * @return the latest version
+   */
+  String getLatestVersion(String intygsTyp);
 
-    /**
-     * Returns the latest version for intyg of type <code>intygsType</code> having the same majorVersion as
-     * expressed by <code>version</code>.
-     *
-     * @param intygsTyp the type of intyg
-     * @return the latest version
-     */
-    String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
+  /**
+   * Returns the latest version for intyg of type <code>intygsType</code> having the same
+   * majorVersion as expressed by <code>version</code>.
+   *
+   * @param intygsTyp the type of intyg
+   * @return the latest version
+   */
+  String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
 
-    /**
-     * Returns a map of format Key -> Text for the intyg of specified type and version.
-     *
-     * @param intygsTyp the type
-     * @param version the version
-     * @return the mapping of Key -> Text
-     */
-    IntygTexts getTexts(String intygsTyp, String version);
-
+  /**
+   * Returns a map of format Key -> Text for the intyg of specified type and version.
+   *
+   * @param intygsTyp the type
+   * @param version the version
+   * @return the mapping of Key -> Text
+   */
+  IntygTexts getTexts(String intygsTyp, String version);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,18 +22,18 @@ import java.util.ArrayList;
 
 public class Summary {
 
-    private ArrayList<SummaryPart> summaryPartList = new ArrayList<>();
+  private ArrayList<SummaryPart> summaryPartList = new ArrayList<>();
 
-    public Summary add(String heading, String bodyText) {
-        this.summaryPartList.add(new SummaryPart(heading, bodyText));
-        return this;
-    }
+  public Summary add(String heading, String bodyText) {
+    this.summaryPartList.add(new SummaryPart(heading, bodyText));
+    return this;
+  }
 
-    public ArrayList<SummaryPart> getSummaryPartList() {
-        return summaryPartList;
-    }
+  public ArrayList<SummaryPart> getSummaryPartList() {
+    return summaryPartList;
+  }
 
-    public boolean isEmpty() {
-        return summaryPartList.isEmpty();
-    }
+  public boolean isEmpty() {
+    return summaryPartList.isEmpty();
+  }
 }

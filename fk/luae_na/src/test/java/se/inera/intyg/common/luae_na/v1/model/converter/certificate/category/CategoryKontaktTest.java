@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.luae_na.v1.model.converter.certificate.category;
-
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -37,59 +36,58 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategor
 @ExtendWith(MockitoExtension.class)
 class CategoryKontaktTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryKontakt.toCertificate(getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryKontakt.toCertificate(getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return KONTAKT_CATEGORY_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return null;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return KONTAKT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeConfigCategoryTest extends ConfigCategoryTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryKontakt.toCertificate(0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return KONTAKT_CATEGORY_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return null;
     }
+
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
+
+  @Nested
+  class IncludeConfigCategoryTest extends ConfigCategoryTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryKontakt.toCertificate(0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return KONTAKT_CATEGORY_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
 }

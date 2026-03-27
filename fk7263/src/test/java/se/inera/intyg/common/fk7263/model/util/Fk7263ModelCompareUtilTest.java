@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,200 +43,199 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263ModelCompareUtilTest {
 
-    public static final String CORRECT_DIAGNOSKOD_FROM_FILE = "S47";
-    public static final String CORRECT_DIAGNOSKOD2 = "B88";
+  public static final String CORRECT_DIAGNOSKOD_FROM_FILE = "S47";
+  public static final String CORRECT_DIAGNOSKOD2 = "B88";
 
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  @Spy private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    @Mock
-    private WebcertModuleService moduleService;
+  @Mock private WebcertModuleService moduleService;
 
-    @InjectMocks
-    private Fk7263ModelCompareUtil modelCompareUtil;
+  @InjectMocks private Fk7263ModelCompareUtil modelCompareUtil;
 
-    @Before
-    public void setup() {
-        Answer<Boolean> mockAnswer = new Answer<Boolean>() {
-            @Override
-            public Boolean answer(InvocationOnMock invocation) {
-                String codeFragment = (String) invocation.getArguments()[0];
-                return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment) || CORRECT_DIAGNOSKOD2.equals(codeFragment);
-            }
+  @Before
+  public void setup() {
+    Answer<Boolean> mockAnswer =
+        new Answer<Boolean>() {
+          @Override
+          public Boolean answer(InvocationOnMock invocation) {
+            String codeFragment = (String) invocation.getArguments()[0];
+            return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment)
+                || CORRECT_DIAGNOSKOD2.equals(codeFragment);
+          }
         };
-        doAnswer(mockAnswer).when(moduleService).validateDiagnosisCode(anyString(), anyString());
-    }
+    doAnswer(mockAnswer).when(moduleService).validateDiagnosisCode(anyString(), anyString());
+  }
 
-    @Test
-    public void testModelIsNotChanged() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = utlatandeOld;
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+  @Test
+  public void testModelIsNotChanged() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = utlatandeOld;
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedNedsattningsgradNull() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
-        utlatandeNew.setNedsattMed100(null);
+  @Test
+  public void testModelIsChangedNedsattningsgradNull() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+    utlatandeNew.setNedsattMed100(null);
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedNedsattningsgradDate() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedNedsattningsgradDate() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the date and ensure this is recognized as a change in the model
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
+    // Change the date and ensure this is recognized as a change in the model
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsNotChangedIfInvalidInterval() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsNotChangedIfInvalidInterval() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the dates and ensure this is not recognized as a change in the model
-        utlatandeOld.setNedsattMed100(null);
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
+    // Change the dates and ensure this is not recognized as a change in the model
+    utlatandeOld.setNedsattMed100(null);
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsNotChangedBetweenTwoInvalidIntervals() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsNotChangedBetweenTwoInvalidIntervals() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the date and ensure this is not recognized as a change in the model
-        utlatandeOld.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011"));
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
+    // Change the date and ensure this is not recognized as a change in the model
+    utlatandeOld.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011"));
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedWhenIntervalIsValid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedWhenIntervalIsValid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the date to a valid date and ensure this is recognized as a change in the model
-        utlatandeOld.setNedsattMed100(null);
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
+    // Change the date to a valid date and ensure this is recognized as a change in the model
+    utlatandeOld.setNedsattMed100(null);
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedWhenIntervalBecomesValid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedWhenIntervalBecomesValid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the date to a valid date and ensure this is recognized as a change in the model
-        utlatandeOld.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
+    // Change the date to a valid date and ensure this is recognized as a change in the model
+    utlatandeOld.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04-04"));
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedWhenIntervalBecomesInvalid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedWhenIntervalBecomesInvalid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Change the date and ensure this is recognized as a change in the model
-        utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
+    // Change the date and ensure this is recognized as a change in the model
+    utlatandeNew.setNedsattMed100(new InternalLocalDateInterval("2011-03-03", "2011-04"));
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedDiagnoskod() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedDiagnoskod() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Mess with the diagnose and make sure the change registers
-        utlatandeNew.setDiagnosKod(CORRECT_DIAGNOSKOD2);
+    // Mess with the diagnose and make sure the change registers
+    utlatandeNew.setDiagnosKod(CORRECT_DIAGNOSKOD2);
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsNotChangedOnOtherDiagnoskod() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsNotChangedOnOtherDiagnoskod() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Mess with the diagnose and make sure the change registers
-        utlatandeNew.setDiagnosKod2(CORRECT_DIAGNOSKOD2);
-        utlatandeNew.setDiagnosKod3(CORRECT_DIAGNOSKOD2);
+    // Mess with the diagnose and make sure the change registers
+    utlatandeNew.setDiagnosKod2(CORRECT_DIAGNOSKOD2);
+    utlatandeNew.setDiagnosKod3(CORRECT_DIAGNOSKOD2);
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsChangedDiagnosbeskrivning1() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsChangedDiagnosbeskrivning1() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Mess with the diagnose and make sure the change registers
-        utlatandeNew.setDiagnosBeskrivning1("BLAH");
+    // Mess with the diagnose and make sure the change registers
+    utlatandeNew.setDiagnosBeskrivning1("BLAH");
 
-        assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertTrue(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsNotChangedOnOtherDiagnosbeskrivning() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsNotChangedOnOtherDiagnosbeskrivning() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        // Mess with the diagnose and make sure the change registers
-        utlatandeNew.setDiagnosBeskrivning2("BLAH");
-        utlatandeNew.setDiagnosBeskrivning3("BLAH");
-        utlatandeNew.setDiagnosBeskrivning("BLAH");
-        utlatandeNew.setSamsjuklighet(false);
+    // Mess with the diagnose and make sure the change registers
+    utlatandeNew.setDiagnosBeskrivning2("BLAH");
+    utlatandeNew.setDiagnosBeskrivning3("BLAH");
+    utlatandeNew.setDiagnosBeskrivning("BLAH");
+    utlatandeNew.setSamsjuklighet(false);
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsUnchangedDiagnosFromEmptyToInvalid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsUnchangedDiagnosFromEmptyToInvalid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        utlatandeOld.setDiagnosKod(null);
-        utlatandeNew.setDiagnosKod("BLAH");
+    utlatandeOld.setDiagnosKod(null);
+    utlatandeNew.setDiagnosKod("BLAH");
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsUnchangedDiagnosFromInvalidToInvalid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsUnchangedDiagnosFromInvalidToInvalid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        utlatandeOld.setDiagnosKod("BLAH");
-        utlatandeNew.setDiagnosKod("BLAH");
+    utlatandeOld.setDiagnosKod("BLAH");
+    utlatandeNew.setDiagnosKod("BLAH");
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    @Test
-    public void testModelIsUnchangedDiagnosFromOneInvalidToOtherInvalid() throws Exception {
-        Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
-        Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
+  @Test
+  public void testModelIsUnchangedDiagnosFromOneInvalidToOtherInvalid() throws Exception {
+    Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
+    Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
-        utlatandeOld.setDiagnosKod("BLAH");
-        utlatandeNew.setDiagnosKod("BLOH");
+    utlatandeOld.setDiagnosKod("BLAH");
+    utlatandeNew.setDiagnosKod("BLOH");
 
-        assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
-    }
+    assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
+  }
 
-    private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
-        return objectMapper.readValue(new ClassPathResource(
-            "Fk7263ModuleApiTest/utlatande.json").getFile(), Fk7263Utlatande.class);
-    }
-
+  private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
+    return objectMapper.readValue(
+        new ClassPathResource("Fk7263ModuleApiTest/utlatande.json").getFile(),
+        Fk7263Utlatande.class);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,12 +45,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
  */
 public final class ModelConverter {
 
-    private ModelConverter() {
-    }
+  private ModelConverter() {}
 
-    public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
+  public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
-        CertificateMetaTypeBuilder builder = new CertificateMetaTypeBuilder()
+    CertificateMetaTypeBuilder builder =
+        new CertificateMetaTypeBuilder()
             .certificateId(source.getId())
             .certificateType(source.getType())
             .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
@@ -59,99 +59,104 @@ public final class ModelConverter {
             .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
             .available(String.valueOf(!source.isDeleted()));
 
-        CertificateMetaType meta = builder.build();
+    CertificateMetaType meta = builder.build();
 
-        meta.getStatus().addAll(CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
-        return builder.build();
+    meta.getStatus()
+        .addAll(
+            CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
+    return builder.build();
+  }
+
+  public static VardAdresseringsType toVardAdresseringsType(GrundData intygMetaData) {
+    VardAdresseringsType vardAdresseringsType = new VardAdresseringsType();
+
+    EnhetType enhet = new EnhetType();
+
+    II enhetsId = new II();
+    enhetsId.setRoot(Constants.HSA_ID_OID);
+    enhetsId.setExtension(intygMetaData.getSkapadAv().getVardenhet().getEnhetsid());
+    enhet.setEnhetsId(enhetsId);
+    enhet.setEnhetsnamn(intygMetaData.getSkapadAv().getVardenhet().getEnhetsnamn());
+
+    if (intygMetaData.getSkapadAv().getVardenhet().getArbetsplatsKod() != null) {
+      II arbetsplatsKod = new II();
+      arbetsplatsKod.setRoot(Constants.ARBETSPLATS_KOD_OID);
+      arbetsplatsKod.setExtension(intygMetaData.getSkapadAv().getVardenhet().getArbetsplatsKod());
+      enhet.setArbetsplatskod(arbetsplatsKod);
     }
 
-    public static VardAdresseringsType toVardAdresseringsType(GrundData intygMetaData) {
-        VardAdresseringsType vardAdresseringsType = new VardAdresseringsType();
+    VardgivareType vardGivare = new VardgivareType();
 
-        EnhetType enhet = new EnhetType();
+    II vardGivarId = new II();
+    vardGivarId.setRoot(Constants.HSA_ID_OID);
+    vardGivarId.setExtension(
+        intygMetaData.getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+    vardGivare.setVardgivareId(vardGivarId);
+    vardGivare.setVardgivarnamn(
+        intygMetaData.getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
+    enhet.setVardgivare(vardGivare);
 
-        II enhetsId = new II();
-        enhetsId.setRoot(Constants.HSA_ID_OID);
-        enhetsId.setExtension(intygMetaData.getSkapadAv().getVardenhet().getEnhetsid());
-        enhet.setEnhetsId(enhetsId);
-        enhet.setEnhetsnamn(intygMetaData.getSkapadAv().getVardenhet().getEnhetsnamn());
+    HosPersonalType hosPersonal = new HosPersonalType();
+    hosPersonal.setEnhet(enhet);
+    hosPersonal.setFullstandigtNamn(intygMetaData.getSkapadAv().getFullstandigtNamn());
 
-        if (intygMetaData.getSkapadAv().getVardenhet().getArbetsplatsKod() != null) {
-            II arbetsplatsKod = new II();
-            arbetsplatsKod.setRoot(Constants.ARBETSPLATS_KOD_OID);
-            arbetsplatsKod.setExtension(intygMetaData.getSkapadAv().getVardenhet().getArbetsplatsKod());
-            enhet.setArbetsplatskod(arbetsplatsKod);
-        }
+    II personalId = new II();
+    personalId.setRoot(Constants.HSA_ID_OID);
+    personalId.setExtension(intygMetaData.getSkapadAv().getPersonId());
+    hosPersonal.setPersonalId(personalId);
 
-        VardgivareType vardGivare = new VardgivareType();
+    vardAdresseringsType.setHosPersonal(hosPersonal);
+    return vardAdresseringsType;
+  }
 
-        II vardGivarId = new II();
-        vardGivarId.setRoot(Constants.HSA_ID_OID);
-        vardGivarId.setExtension(intygMetaData.getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-        vardGivare.setVardgivareId(vardGivarId);
-        vardGivare.setVardgivarnamn(intygMetaData.getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
-        enhet.setVardgivare(vardGivare);
+  public static RevokeType buildRevokeTypeFromUtlatande(Utlatande utlatande, String revokeMessage) {
 
-        HosPersonalType hosPersonal = new HosPersonalType();
-        hosPersonal.setEnhet(enhet);
-        hosPersonal.setFullstandigtNamn(intygMetaData.getSkapadAv().getFullstandigtNamn());
+    // Lakarutlatande
+    LakarutlatandeEnkelType utlatandeType = toLakarutlatandeEnkelType(utlatande);
 
-        II personalId = new II();
-        personalId.setRoot(Constants.HSA_ID_OID);
-        personalId.setExtension(intygMetaData.getSkapadAv().getPersonId());
-        hosPersonal.setPersonalId(personalId);
+    // Vardadress
+    VardAdresseringsType vardAdressType = toVardAdresseringsType(utlatande.getGrundData());
 
-        vardAdresseringsType.setHosPersonal(hosPersonal);
-        return vardAdresseringsType;
-    }
+    RevokeType revokeType = new RevokeType();
+    revokeType.setLakarutlatande(utlatandeType);
+    revokeType.setAdressVard(vardAdressType);
+    revokeType.setVardReferensId(buildVardReferensId(utlatande.getId(), LocalDateTime.now()));
+    revokeType.setAvsantTidpunkt(LocalDateTime.now());
+    revokeType.setMeddelande(revokeMessage);
 
-    public static RevokeType buildRevokeTypeFromUtlatande(Utlatande utlatande, String revokeMessage) {
+    return revokeType;
+  }
 
-        // Lakarutlatande
-        LakarutlatandeEnkelType utlatandeType = toLakarutlatandeEnkelType(utlatande);
+  public static String buildVardReferensId(String intygId, LocalDateTime ts) {
+    return Joiner.on('-')
+        .join("REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")));
+  }
 
-        // Vardadress
-        VardAdresseringsType vardAdressType = toVardAdresseringsType(utlatande.getGrundData());
+  public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
+    LakarutlatandeEnkelType lakarutlatande = new LakarutlatandeEnkelType();
 
-        RevokeType revokeType = new RevokeType();
-        revokeType.setLakarutlatande(utlatandeType);
-        revokeType.setAdressVard(vardAdressType);
-        revokeType.setVardReferensId(buildVardReferensId(utlatande.getId(), LocalDateTime.now()));
-        revokeType.setAvsantTidpunkt(LocalDateTime.now());
-        revokeType.setMeddelande(revokeMessage);
+    lakarutlatande.setLakarutlatandeId(utlatande.getId());
+    lakarutlatande.setSigneringsTidpunkt(utlatande.getGrundData().getSigneringsdatum());
 
-        return revokeType;
-    }
-
-    public static String buildVardReferensId(String intygId, LocalDateTime ts) {
-        return Joiner.on('-').join("REVOKE", intygId, ts.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS")));
-    }
-
-    public static LakarutlatandeEnkelType toLakarutlatandeEnkelType(Utlatande utlatande) {
-        LakarutlatandeEnkelType lakarutlatande = new LakarutlatandeEnkelType();
-
-        lakarutlatande.setLakarutlatandeId(utlatande.getId());
-        lakarutlatande.setSigneringsTidpunkt(utlatande.getGrundData().getSigneringsdatum());
-
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        II patientIdHolder = new II();
-        patientIdHolder.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId))
+    Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+    II patientIdHolder = new II();
+    patientIdHolder.setRoot(
+        SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId))
             ? Constants.SAMORDNING_ID_OID
             : Constants.PERSON_ID_OID);
-        patientIdHolder.setExtension(personId.getOriginalPnr());
+    patientIdHolder.setExtension(personId.getOriginalPnr());
 
-        PatientType patient = new PatientType();
-        patient.setPersonId(patientIdHolder);
+    PatientType patient = new PatientType();
+    patient.setPersonId(patientIdHolder);
 
-        lakarutlatande.setPatient(patient);
-        return lakarutlatande;
+    lakarutlatande.setPatient(patient);
+    return lakarutlatande;
+  }
+
+  private static LocalDate toLocalDate(String date) {
+    if (date == null) {
+      return null;
     }
-
-    private static LocalDate toLocalDate(String date) {
-        if (date == null) {
-            return null;
-        }
-        return LocalDate.parse(date);
-    }
-
+    return LocalDate.parse(date);
+  }
 }

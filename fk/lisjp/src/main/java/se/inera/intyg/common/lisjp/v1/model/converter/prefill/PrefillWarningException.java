@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,42 +24,40 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public class PrefillWarningException extends Exception {
 
-    private final Svar svar;
-    private final Delsvar delsvar;
+  private final Svar svar;
+  private final Delsvar delsvar;
 
-    public PrefillWarningException(Svar svar, String message) {
-        super(message);
-        this.svar = svar;
-        this.delsvar = null;
+  public PrefillWarningException(Svar svar, String message) {
+    super(message);
+    this.svar = svar;
+    this.delsvar = null;
+  }
+
+  public PrefillWarningException(Delsvar delsvar, String message) {
+    super(message);
+    this.svar = null;
+    this.delsvar = delsvar;
+  }
+
+  public String getSvarId() {
+    if (svar != null) {
+      return svar.getId();
     }
 
-    public PrefillWarningException(Delsvar delsvar, String message) {
-        super(message);
-        this.svar = null;
-        this.delsvar = delsvar;
+    if (delsvar != null) {
+      return delsvar.getId();
+    }
+    return "n/a";
+  }
+
+  public Serializable getSourceContent() {
+    if (svar != null) {
+      return svar;
     }
 
-    public String getSvarId() {
-        if (svar != null) {
-            return svar.getId();
-        }
-
-        if (delsvar != null) {
-            return delsvar.getId();
-        }
-        return "n/a";
+    if (delsvar != null) {
+      return delsvar;
     }
-
-    public Serializable getSourceContent() {
-        if (svar != null) {
-            return svar;
-        }
-
-        if (delsvar != null) {
-            return delsvar;
-        }
-        return "(no content)";
-    }
-
-
+    return "(no content)";
+  }
 }

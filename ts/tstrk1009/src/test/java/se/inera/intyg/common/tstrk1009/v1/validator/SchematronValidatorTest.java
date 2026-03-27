@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,41 +34,53 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
+  private static final RegisterCertificateValidator VALIDATOR =
+      new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
 
-    @Test
-    public void validMinimalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-min.xml"), Charsets.UTF_8);
-        doPassingTest(inputXml);
-    }
+  @Test
+  public void validMinimalXmlPassesTest() throws Exception {
+    String inputXml =
+        Resources.toString(getResource("v1/scenarios/transport/valid-min.xml"), Charsets.UTF_8);
+    doPassingTest(inputXml);
+  }
 
-    @Test
-    public void validMaximalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-max.xml"), Charsets.UTF_8);
-        doPassingTest(inputXml);
-    }
+  @Test
+  public void validMaximalXmlPassesTest() throws Exception {
+    String inputXml =
+        Resources.toString(getResource("v1/scenarios/transport/valid-max.xml"), Charsets.UTF_8);
+    doPassingTest(inputXml);
+  }
 
-    @Test
-    public void validKanInteTaStallningXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
-        doPassingTest(inputXml);
-    }
+  @Test
+  public void validKanInteTaStallningXmlPassesTest() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
+    doPassingTest(inputXml);
+  }
 
-    // R8 and R10
-    @Test
-    public void invalidKanInteTaStallningXmlFailsTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/invalid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
-        doFailingTest(inputXml, 2);
-    }
+  // R8 and R10
+  @Test
+  public void invalidKanInteTaStallningXmlFailsTest() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/scenarios/transport/invalid-kan-inte-ta-stallning.xml"),
+            Charsets.UTF_8);
+    doFailingTest(inputXml, 2);
+  }
 
-    private void doPassingTest(String inputXml) throws ModuleException {
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
-    }
+  private void doPassingTest(String inputXml) throws ModuleException {
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertTrue(
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
+        response.getValidationErrors().isEmpty());
+  }
 
-    private void doFailingTest(String inputXml, int expectedNumFails) throws ModuleException {
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), expectedNumFails,
-            response.getValidationErrors().size());
-    }
+  private void doFailingTest(String inputXml, int expectedNumFails) throws ModuleException {
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
+        expectedNumFails,
+        response.getValidationErrors().size());
+  }
 }

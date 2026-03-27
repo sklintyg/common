@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_TEXT;
@@ -43,130 +42,117 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public abstract class AbstractQuestionAtgarder {
 
-    public static CertificateDataElement toCertificate(QuestionAtgarderConfigProvider valueManager, String questionId, String parent,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
-                    .list(
-                        valueManager.getCheckboxMultipleCodes()
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(createAtgarderCodeList(valueManager.getValues()))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(questionId)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                valueManager.getMandatoryValidation()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(questionId)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                valueManager.getDisableValidation()
-                            )
-                        )
-                        .id(Collections.singletonList(valueManager.getNotCurrentId()))
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(questionId)
-                        .expression(
-                            exists(valueManager.getNotCurrentId())
-                        )
-                        .id(
-                            Arrays.asList(
-                                valueManager.getDisableValidation()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static List<CertificateDataValueCode> createAtgarderCodeList(List<QuestionAtgarderValue> values) {
-        if (values == null) {
-            return Collections.emptyList();
-        }
-
-        return values.stream()
-            .map(atgard -> CertificateDataValueCode.builder()
-                .id(atgard.getId())
-                .code(atgard.getId())
+  public static CertificateDataElement toCertificate(
+      QuestionAtgarderConfigProvider valueManager,
+      String questionId,
+      String parent,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_TEXT))
+                .list(valueManager.getCheckboxMultipleCodes())
                 .build())
-            .collect(Collectors.toList());
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(createAtgarderCodeList(valueManager.getValues()))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(questionId)
+                  .expression(multipleOrExpressionWithExists(valueManager.getMandatoryValidation()))
+                  .build(),
+              CertificateDataValidationDisableSubElement.builder()
+                  .questionId(questionId)
+                  .expression(multipleOrExpressionWithExists(valueManager.getDisableValidation()))
+                  .id(Collections.singletonList(valueManager.getNotCurrentId()))
+                  .build(),
+              CertificateDataValidationDisableSubElement.builder()
+                  .questionId(questionId)
+                  .expression(exists(valueManager.getNotCurrentId()))
+                  .id(Arrays.asList(valueManager.getDisableValidation()))
+                  .build(),
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<CertificateDataValueCode> createAtgarderCodeList(
+      List<QuestionAtgarderValue> values) {
+    if (values == null) {
+      return Collections.emptyList();
     }
 
-    public static class QuestionAtgarderConfigProvider {
+    return values.stream()
+        .map(
+            atgard ->
+                CertificateDataValueCode.builder().id(atgard.getId()).code(atgard.getId()).build())
+        .collect(Collectors.toList());
+  }
 
-        private final List<CheckboxMultipleCode> checkboxMultipleCodes;
+  public static class QuestionAtgarderConfigProvider {
 
-        private final String[] mandatoryValidation;
-        private final String[] disableValidation;
+    private final List<CheckboxMultipleCode> checkboxMultipleCodes;
 
-        private final String notCurrentId;
+    private final String[] mandatoryValidation;
+    private final String[] disableValidation;
 
-        private final List<QuestionAtgarderValue> values;
+    private final String notCurrentId;
 
+    private final List<QuestionAtgarderValue> values;
 
-        public QuestionAtgarderConfigProvider(List<CheckboxMultipleCode> listOfArbetslivsinriktadeAtgarderVal, String[] mandatoryValidation,
-            String[] disableValidation, List<QuestionAtgarderValue> values, String notCurrentId) {
-            this.checkboxMultipleCodes = listOfArbetslivsinriktadeAtgarderVal;
-            this.mandatoryValidation = mandatoryValidation;
-            this.disableValidation = disableValidation;
-            this.values = values;
-            this.notCurrentId = notCurrentId;
-        }
-
-        public String getNotCurrentId() {
-            return notCurrentId;
-        }
-
-        public List<CheckboxMultipleCode> getCheckboxMultipleCodes() {
-            return checkboxMultipleCodes;
-        }
-
-        public String[] getMandatoryValidation() {
-            return mandatoryValidation;
-        }
-
-        public String[] getDisableValidation() {
-            return disableValidation;
-        }
-
-        public List<QuestionAtgarderValue> getValues() {
-            return values;
-        }
+    public QuestionAtgarderConfigProvider(
+        List<CheckboxMultipleCode> listOfArbetslivsinriktadeAtgarderVal,
+        String[] mandatoryValidation,
+        String[] disableValidation,
+        List<QuestionAtgarderValue> values,
+        String notCurrentId) {
+      this.checkboxMultipleCodes = listOfArbetslivsinriktadeAtgarderVal;
+      this.mandatoryValidation = mandatoryValidation;
+      this.disableValidation = disableValidation;
+      this.values = values;
+      this.notCurrentId = notCurrentId;
     }
 
-    public static class QuestionAtgarderValue {
-
-        private final String id;
-
-        public QuestionAtgarderValue(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
+    public String getNotCurrentId() {
+      return notCurrentId;
     }
+
+    public List<CheckboxMultipleCode> getCheckboxMultipleCodes() {
+      return checkboxMultipleCodes;
+    }
+
+    public String[] getMandatoryValidation() {
+      return mandatoryValidation;
+    }
+
+    public String[] getDisableValidation() {
+      return disableValidation;
+    }
+
+    public List<QuestionAtgarderValue> getValues() {
+      return values;
+    }
+  }
+
+  public static class QuestionAtgarderValue {
+
+    private final String id;
+
+    public QuestionAtgarderValue(String id) {
+      this.id = id;
+    }
+
+    public String getId() {
+      return id;
+    }
+  }
 }

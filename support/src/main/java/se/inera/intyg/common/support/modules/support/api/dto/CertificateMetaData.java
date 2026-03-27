@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,95 +25,94 @@ import se.inera.intyg.common.support.model.Status;
 
 public class CertificateMetaData {
 
-    private String certificateId;
-    private String certificateType;
-    private LocalDate validFrom;
-    private LocalDate validTo;
-    private String issuerName;
-    private String facilityName;
-    private LocalDateTime signDate;
-    private boolean available;
-    private List<Status> status;
-    private String additionalInfo;
+  private String certificateId;
+  private String certificateType;
+  private LocalDate validFrom;
+  private LocalDate validTo;
+  private String issuerName;
+  private String facilityName;
+  private LocalDateTime signDate;
+  private boolean available;
+  private List<Status> status;
+  private String additionalInfo;
 
-    public String getCertificateId() {
-        return certificateId;
-    }
+  public String getCertificateId() {
+    return certificateId;
+  }
 
-    public void setCertificateId(String certificateId) {
-        this.certificateId = certificateId;
-    }
+  public void setCertificateId(String certificateId) {
+    this.certificateId = certificateId;
+  }
 
-    public String getCertificateType() {
-        return certificateType;
-    }
+  public String getCertificateType() {
+    return certificateType;
+  }
 
-    public void setCertificateType(String certificateType) {
-        this.certificateType = certificateType;
-    }
+  public void setCertificateType(String certificateType) {
+    this.certificateType = certificateType;
+  }
 
-    public LocalDate getValidFrom() {
-        return validFrom;
-    }
+  public LocalDate getValidFrom() {
+    return validFrom;
+  }
 
-    public void setValidFrom(LocalDate validFrom) {
-        this.validFrom = validFrom;
-    }
+  public void setValidFrom(LocalDate validFrom) {
+    this.validFrom = validFrom;
+  }
 
-    public LocalDate getValidTo() {
-        return validTo;
-    }
+  public LocalDate getValidTo() {
+    return validTo;
+  }
 
-    public void setValidTo(LocalDate validTo) {
-        this.validTo = validTo;
-    }
+  public void setValidTo(LocalDate validTo) {
+    this.validTo = validTo;
+  }
 
-    public String getIssuerName() {
-        return issuerName;
-    }
+  public String getIssuerName() {
+    return issuerName;
+  }
 
-    public void setIssuerName(String issuerName) {
-        this.issuerName = issuerName;
-    }
+  public void setIssuerName(String issuerName) {
+    this.issuerName = issuerName;
+  }
 
-    public String getFacilityName() {
-        return facilityName;
-    }
+  public String getFacilityName() {
+    return facilityName;
+  }
 
-    public void setFacilityName(String facilityName) {
-        this.facilityName = facilityName;
-    }
+  public void setFacilityName(String facilityName) {
+    this.facilityName = facilityName;
+  }
 
-    public LocalDateTime getSignDate() {
-        return signDate;
-    }
+  public LocalDateTime getSignDate() {
+    return signDate;
+  }
 
-    public void setSignDate(LocalDateTime signDate) {
-        this.signDate = signDate;
-    }
+  public void setSignDate(LocalDateTime signDate) {
+    this.signDate = signDate;
+  }
 
-    public boolean isAvailable() {
-        return available;
-    }
+  public boolean isAvailable() {
+    return available;
+  }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
+  public void setAvailable(boolean available) {
+    this.available = available;
+  }
 
-    public List<Status> getStatus() {
-        return status;
-    }
+  public List<Status> getStatus() {
+    return status;
+  }
 
-    public void setStatus(List<Status> status) {
-        this.status = status;
-    }
+  public void setStatus(List<Status> status) {
+    this.status = status;
+  }
 
-    public String getAdditionalInfo() {
-        return additionalInfo;
-    }
+  public String getAdditionalInfo() {
+    return additionalInfo;
+  }
 
-    public void setAdditionalInfo(String additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
-
+  public void setAdditionalInfo(String additionalInfo) {
+    this.additionalInfo = additionalInfo;
+  }
 }

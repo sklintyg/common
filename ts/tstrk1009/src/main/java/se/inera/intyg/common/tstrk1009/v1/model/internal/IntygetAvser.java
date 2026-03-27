@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,32 +32,35 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @AutoValue
 public abstract class IntygetAvser {
 
-    @JsonCreator
-    public static IntygetAvser create(@JsonProperty("typer") Set<KorkortBehorighetGrupp> korkortBehorigheter) {
+  @JsonCreator
+  public static IntygetAvser create(
+      @JsonProperty("typer") Set<KorkortBehorighetGrupp> korkortBehorigheter) {
 
-        final Set<KorkortBehorighetGrupp> behorigheter = (korkortBehorigheter == null)
+    final Set<KorkortBehorighetGrupp> behorigheter =
+        (korkortBehorigheter == null)
             ? EnumSet.noneOf(KorkortBehorighetGrupp.class)
             : korkortBehorigheter;
 
-        return new AutoValue_IntygetAvser(behorigheter);
+    return new AutoValue_IntygetAvser(behorigheter);
+  }
+
+  @Nullable @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+  @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+  public abstract Set<KorkortBehorighetGrupp> getTyper();
+
+  public static class IntygAvserEnumSetSerializer
+      extends AbstractEnumSetSerializer<KorkortBehorighetGrupp> {
+
+    protected IntygAvserEnumSetSerializer() {
+      super(KorkortBehorighetGrupp.class);
     }
+  }
 
-    @Nullable
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    public abstract Set<KorkortBehorighetGrupp> getTyper();
+  public static class IntygAvserEnumSetDeserializer
+      extends AbstractEnumSetDeserializer<KorkortBehorighetGrupp> {
 
-    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<KorkortBehorighetGrupp> {
-
-        protected IntygAvserEnumSetSerializer() {
-            super(KorkortBehorighetGrupp.class);
-        }
+    protected IntygAvserEnumSetDeserializer() {
+      super(KorkortBehorighetGrupp.class);
     }
-
-    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<KorkortBehorighetGrupp> {
-
-        protected IntygAvserEnumSetDeserializer() {
-            super(KorkortBehorighetGrupp.class);
-        }
-    }
+  }
 }

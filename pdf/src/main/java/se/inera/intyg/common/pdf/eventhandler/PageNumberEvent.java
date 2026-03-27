@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,51 +35,57 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 
 /**
- * Renders the page number. Note that quirky placeholder stuff going on since we don't know the total number of pages
- * until the full PDF have been rendered.
+ * Renders the page number. Note that quirky placeholder stuff going on since we don't know the
+ * total number of pages until the full PDF have been rendered.
  */
 public class PageNumberEvent implements IEventHandler {
 
-    private static final float PAGE_NUMBER_Y_OFFSET = 15f;
-    private static final float SIDE = 20f;
-    private static final float DESCENT = 3;
+  private static final float PAGE_NUMBER_Y_OFFSET = 15f;
+  private static final float SIDE = 20f;
+  private static final float DESCENT = 3;
 
-    private final PdfFont svarFont;
-    private final PdfFormXObject placeholder;
+  private final PdfFont svarFont;
+  private final PdfFormXObject placeholder;
 
-    public PageNumberEvent(PdfFont svarFont) {
-        this.svarFont = svarFont;
-        placeholder = new PdfFormXObject(new Rectangle(0, 0, SIDE, SIDE));
+  public PageNumberEvent(PdfFont svarFont) {
+    this.svarFont = svarFont;
+    placeholder = new PdfFormXObject(new Rectangle(0, 0, SIDE, SIDE));
+  }
+
+  @Override
+  public void handleEvent(Event event) {
+    if (!(event instanceof PdfDocumentEvent)) {
+      return;
     }
-
-    @Override
-    public void handleEvent(Event event) {
-        if (!(event instanceof PdfDocumentEvent)) {
-            return;
-        }
-        final var docEvent = (PdfDocumentEvent) event;
-        final var pdf = docEvent.getDocument();
-        final var page = docEvent.getPage();
-        final var pageNumber = pdf.getPageNumber(page);
-        final var pageSize = page.getPageSize();
-        final var pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
-        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
-            Paragraph p = new Paragraph()
-                .add("Sida ").add(pageNumber + "(")
-                .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-            canvas.showTextAligned(p, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET,
-                TextAlignment.RIGHT);
-            pdfCanvas.addXObjectAt(placeholder, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2),
-                PAGE_NUMBER_Y_OFFSET - DESCENT);
-            pdfCanvas.release();
-        }
+    final var docEvent = (PdfDocumentEvent) event;
+    final var pdf = docEvent.getDocument();
+    final var page = docEvent.getPage();
+    final var pageNumber = pdf.getPageNumber(page);
+    final var pageSize = page.getPageSize();
+    final var pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
+    try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+      Paragraph p =
+          new Paragraph()
+              .add("Sida ")
+              .add(pageNumber + "(")
+              .setFont(svarFont)
+              .setFontSize(SVAR_FONT_SIZE);
+      canvas.showTextAligned(
+          p,
+          pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2),
+          PAGE_NUMBER_Y_OFFSET,
+          TextAlignment.RIGHT);
+      pdfCanvas.addXObjectAt(
+          placeholder,
+          pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2),
+          PAGE_NUMBER_Y_OFFSET - DESCENT);
+      pdfCanvas.release();
     }
+  }
 
-    public void writeTotal(PdfDocument pdf) {
-        Canvas canvas = new Canvas(placeholder, pdf);
-        canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned(pdf.getNumberOfPages() + ")",
-            0, DESCENT, TextAlignment.LEFT);
-    }
+  public void writeTotal(PdfDocument pdf) {
+    Canvas canvas = new Canvas(placeholder, pdf);
+    canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+    canvas.showTextAligned(pdf.getNumberOfPages() + ")", 0, DESCENT, TextAlignment.LEFT);
+  }
 }

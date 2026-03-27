@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,108 +41,107 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Bedomning;
 @ExtendWith(MockitoExtension.class)
 class QuestionBedomningLakareSpecialKompetensTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningLakareSpecialKompetens.toCertificate(
+          Bedomning.builder().build(), 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningLakareSpecialKompetens.toCertificate(Bedomning.builder().build(), 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return BEDOMNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningLakareSpecialKompetens.toCertificate(Bedomning.builder().build(), 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return BEDOMNING_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueTextTests extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        private static final String TEXT = "text";
+  @Nested
+  class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var bedomning = Bedomning.builder()
-                .setLakareSpecialKompetens(TEXT)
-                .build();
-            return QuestionBedomningLakareSpecialKompetens.toCertificate(bedomning, 0, textProvider);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return TEXT;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationTextTests extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningLakareSpecialKompetens.toCertificate(Bedomning.builder().build(), 0, textProvider);
-
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 130;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningLakareSpecialKompetens.toCertificate(
+          Bedomning.builder().build(), 0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return BEHORIGHET_LAKARE_SPECIALKOMPETENS_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTests extends ValueTextTest {
+
+    private static final String TEXT = "text";
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var bedomning = Bedomning.builder().setLakareSpecialKompetens(TEXT).build();
+      return QuestionBedomningLakareSpecialKompetens.toCertificate(bedomning, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return BEHORIGHET_LAKARE_SPECIALKOMPETENS_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return TEXT;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTests extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningLakareSpecialKompetens.toCertificate(
+          Bedomning.builder().build(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 130;
+    }
+  }
 }

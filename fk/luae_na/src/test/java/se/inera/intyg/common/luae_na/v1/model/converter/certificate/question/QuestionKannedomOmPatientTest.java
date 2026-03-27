@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,137 +49,143 @@ import se.inera.intyg.common.support.model.InternalDate;
 @ExtendWith(MockitoExtension.class)
 class QuestionKannedomOmPatientTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+
+      assertEquals(KANNEDOM_SVAR_ID_2, question.getId());
     }
 
-    @Nested
-    class ToCertificate {
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var question = QuestionKannedomOmPatient.toCertificate(null, expectedIndex, texts);
 
-            assertEquals(KANNEDOM_SVAR_ID_2, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-
-            final var question = QuestionKannedomOmPatient.toCertificate(null, expectedIndex, texts);
-
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-
-            assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeConfigCertificateDataConfigDate() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataConfigType.UE_DATE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigId() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigDate) question.getConfig();
-
-            assertEquals(LocalDate.now(), config.getMaxDate());
-        }
-
-        @Test
-        void shouldIncludeMaxDate() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigDate) question.getConfig();
-
-            assertEquals(LocalDate.now(), config.getMaxDate());
-        }
-
-        @Test
-        void shouldIncludeConfigText() {
-            QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            verify(texts, atLeastOnce()).get(KANNEDOM_SVAR_TEXT);
-        }
-
-        @Test
-        void shouldIncludeValueTypeDate() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataValueType.DATE, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var value = (CertificateDataValueDate) question.getValue();
-
-            assertEquals(KANNEDOM_SVAR_JSON_ID_2, value.getId());
-        }
-
-        @Test
-        void shouldIncludeValueDate() {
-            final var expectedText = new InternalDate(LocalDate.now());
-            final var question = QuestionKannedomOmPatient.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataValueDate) question.getValue();
-
-            assertEquals(expectedText.asLocalDate(), value.getDate());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatory() {
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = question.getValidation()[0];
-
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, certificateDataValidationText.getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "$" + KANNEDOM_SVAR_JSON_ID_2;
-            final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationMandatory) question.getValidation()[0];
-
-            assertEquals(expectedExpression, certificateDataValidationText.getExpression());
-        }
+      assertEquals(expectedIndex, question.getIndex());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
 
-        @Test
-        void shouldIncludeValue() {
-            final var expectedValue = LocalDate.now();
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(expectedValue), 0, texts))
-                .build();
-
-            final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
-
-            assertEquals(new InternalDate(expectedValue), actualValue);
-        }
-
-        @Test
-        void shouldIncludeValueNull() {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionKannedomOmPatient.toCertificate(null, 0, texts))
-                .build();
-
-            final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
-
-            assertEquals(null, actualValue);
-        }
+      assertEquals(GRUNDFORMU_CATEGORY_ID, question.getParent());
     }
+
+    @Test
+    void shouldIncludeConfigCertificateDataConfigDate() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataConfigType.UE_DATE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigId() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigDate) question.getConfig();
+
+      assertEquals(LocalDate.now(), config.getMaxDate());
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigDate) question.getConfig();
+
+      assertEquals(LocalDate.now(), config.getMaxDate());
+    }
+
+    @Test
+    void shouldIncludeConfigText() {
+      QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      verify(texts, atLeastOnce()).get(KANNEDOM_SVAR_TEXT);
+    }
+
+    @Test
+    void shouldIncludeValueTypeDate() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataValueType.DATE, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValueId() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var value = (CertificateDataValueDate) question.getValue();
+
+      assertEquals(KANNEDOM_SVAR_JSON_ID_2, value.getId());
+    }
+
+    @Test
+    void shouldIncludeValueDate() {
+      final var expectedText = new InternalDate(LocalDate.now());
+      final var question = QuestionKannedomOmPatient.toCertificate(expectedText, 0, texts);
+      final var value = (CertificateDataValueDate) question.getValue();
+
+      assertEquals(expectedText.asLocalDate(), value.getDate());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatory() {
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var certificateDataValidationText = question.getValidation()[0];
+
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          certificateDataValidationText.getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var expectedExpression = "$" + KANNEDOM_SVAR_JSON_ID_2;
+      final var question = QuestionKannedomOmPatient.toCertificate(null, 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+
+      assertEquals(expectedExpression, certificateDataValidationText.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    @Test
+    void shouldIncludeValue() {
+      final var expectedValue = LocalDate.now();
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionKannedomOmPatient.toCertificate(
+                      new InternalDate(expectedValue), 0, texts))
+              .build();
+
+      final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
+
+      assertEquals(new InternalDate(expectedValue), actualValue);
+    }
+
+    @Test
+    void shouldIncludeValueNull() {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionKannedomOmPatient.toCertificate(null, 0, texts))
+              .build();
+
+      final var actualValue = QuestionKannedomOmPatient.toInternal(certificate);
+
+      assertEquals(null, actualValue);
+    }
+  }
 }

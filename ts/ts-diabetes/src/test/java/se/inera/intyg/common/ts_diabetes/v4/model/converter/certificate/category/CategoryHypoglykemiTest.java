@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,111 +41,124 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 @ExtendWith(MockitoExtension.class)
 class CategoryHypoglykemiTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryHypoglykemi.toCertificate(getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryHypoglykemi.toCertificate(getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_CATEGORY_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return null;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return HYPOGLYKEMI_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeConfigCategoryTest extends ConfigCategoryTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryHypoglykemi.toCertificate(0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return HYPOGLYKEMI_CATEGORY_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return null;
     }
 
-    @Nested
-    class IncludeValidationShowTestRiskForHypoglykemi extends ValidationShowTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryHypoglykemi.toCertificate(0, textProvider);
-        }
+  @Nested
+  class IncludeConfigCategoryTest extends ConfigCategoryTest {
 
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTestIntygAvser extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryHypoglykemi.toCertificate(0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return INTYG_AVSER_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + IntygAvserKategori.VAR1.name() + ") || exists(" + IntygAvserKategori.VAR2.name() + ") || exists("
-                + IntygAvserKategori.VAR3.name()
-                + ") || exists(" + IntygAvserKategori.VAR4.name() + ") || exists(" + IntygAvserKategori.VAR5.name()
-                + ") || exists(" + IntygAvserKategori.VAR6.name() + ") || exists(" + IntygAvserKategori.VAR7.name()
-                + ") || exists(" + IntygAvserKategori.VAR8.name() + ") || exists(" + IntygAvserKategori.VAR9.name() + ")";
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryHypoglykemi.toCertificate(0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return HYPOGLYKEMI_CATEGORY_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTestRiskForHypoglykemi extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryHypoglykemi.toCertificate(0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTestIntygAvser extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryHypoglykemi.toCertificate(0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return INTYG_AVSER_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + IntygAvserKategori.VAR1.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR2.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR3.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR4.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR5.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR6.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR7.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR8.name()
+          + ") || exists("
+          + IntygAvserKategori.VAR9.name()
+          + ")";
+    }
+  }
 }

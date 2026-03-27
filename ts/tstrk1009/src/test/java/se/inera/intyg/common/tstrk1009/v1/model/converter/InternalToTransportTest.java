@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,198 +59,221 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 class InternalToTransportTest {
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  private static final String ENHETSNAMN = "enhetsnamn";
+  private static final String ENHETSID = "enhetsid";
+  private static final String VARDGIVARNAMN = "vardgivarnamn";
+  private static final String POSTADRESS = "postadress";
+  private static final String POSTNUMMER = "postnummer";
+  private static final String POSTORT = "postort";
+  private static final String TELEFONNUMMER = "telefonnummer";
+  private static final String ARBETSPLATSKOD = "0000000";
+  private static final String VARDGIVARID = "vardgivarid";
+  private static final List<String> SPECIALIST_KOMPETENS = Arrays.asList("a", "b", "c");
+  private static final String FULLSTANDIGT_NAMN = "test testorsson";
+  private static final String PERSONID = "personid";
+
+  static Tstrk1009UtlatandeV1 getUtlatande() throws Exception {
+    return getUtlatande(null, null, null);
+  }
+
+  static Tstrk1009UtlatandeV1 getUtlatande(
+      RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
+    utlatande.getGrundData().setSkapadAv(buildHosPersonal());
+
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationKod(relationKod);
+      relation.setMeddelandeId(relationMeddelandeId);
+      relation.setReferensId(referensId);
+      utlatande.getGrundData().setRelation(relation);
     }
 
-    private static final String ENHETSNAMN = "enhetsnamn";
-    private static final String ENHETSID = "enhetsid";
-    private static final String VARDGIVARNAMN = "vardgivarnamn";
-    private static final String POSTADRESS = "postadress";
-    private static final String POSTNUMMER = "postnummer";
-    private static final String POSTORT = "postort";
-    private static final String TELEFONNUMMER = "telefonnummer";
-    private static final String ARBETSPLATSKOD = "0000000";
-    private static final String VARDGIVARID = "vardgivarid";
-    private static final List<String> SPECIALIST_KOMPETENS = Arrays.asList("a", "b", "c");
-    private static final String FULLSTANDIGT_NAMN = "test testorsson";
-    private static final String PERSONID = "personid";
+    return utlatande;
+  }
 
-    static Tstrk1009UtlatandeV1 getUtlatande() throws Exception {
-        return getUtlatande(null, null, null);
-    }
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-    static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId)
-        throws Exception {
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
-        utlatande.getGrundData().setSkapadAv(buildHosPersonal());
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            utlatande.getGrundData().setRelation(relation);
-        }
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-        return utlatande;
-    }
+  @Test
+  void testInternalToTransportConversion() throws Exception {
+    Tstrk1009UtlatandeV1 expected = getUtlatande();
+    RegisterCertificateType transport = InternalToTransport.convert(expected);
+    Tstrk1009UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    assertEquals(
+        objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
+  }
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+  @Test
+  void testInternalToTransportSourceNullShouldThrow() {
+    assertThatThrownBy(() -> InternalToTransport.convert(null))
+        .isExactlyInstanceOf(ConverterException.class)
+        .hasMessage("Source utlatande was null, cannot convert");
+  }
 
-        new TransportConverterUtil(mapper).initialize();
-    }
+  @Test
+  void convertDecorateSvarPaTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    final String referensId = "referensId";
+    Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertEquals(referensId, transport.getSvarPa().getReferensId());
+  }
 
-    @Test
-    void testInternalToTransportConversion() throws Exception {
-        Tstrk1009UtlatandeV1 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
-        Tstrk1009UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
+  @Test
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertNull(transport.getSvarPa().getReferensId());
+  }
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        assertEquals(objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
-    }
+  @Test
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
+    Tstrk1009UtlatandeV1 utlatande = getUtlatande();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 
-    @Test
-    void testInternalToTransportSourceNullShouldThrow() {
-        assertThatThrownBy(() -> InternalToTransport.convert(null))
-            .isExactlyInstanceOf(ConverterException.class)
-            .hasMessage("Source utlatande was null, cannot convert");
-    }
+  @Test
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
+    Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 
-    @Test
-    void convertDecorateSvarPaTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        final String referensId = "referensId";
-        Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertEquals(referensId, transport.getSvarPa().getReferensId());
-    }
+  @Test
+  void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
+    String specialistkompetens1 = "Kirurgi";
+    String specialistkompetens2 = "Allergi";
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-specialitet").asInternalModel();
+    RegisterCertificateType res = InternalToTransport.convert(utlatande);
+    HosPersonal skapadAv = res.getIntyg().getSkapadAv();
+    assertEquals(2, skapadAv.getSpecialistkompetens().size());
+    assertEquals(specialistkompetens1, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+    assertEquals(specialistkompetens2, skapadAv.getSpecialistkompetens().get(1).getDisplayName());
+  }
 
-    @Test
-    void convertDecorateSvarPaReferensIdNullTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertNull(transport.getSvarPa().getReferensId());
-    }
+  @Test
+  void testConvertMapsBefattningCodeToDescriptionIfPossible()
+      throws ScenarioNotFoundException, ConverterException {
+    final String befattning = "203010";
+    final String description = "Läkare legitimerad, specialiseringstjänstgöring";
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-befattning").asInternalModel();
+    RegisterCertificateType res = InternalToTransport.convert(utlatande);
+    HosPersonal skapadAv = res.getIntyg().getSkapadAv();
+    assertEquals(1, skapadAv.getBefattning().size());
+    assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
+    assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
+  }
 
-    @Test
-    void convertDecorateSvarPaNoRelationTest() throws Exception {
-        Tstrk1009UtlatandeV1 utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
+  @Test
+  void testConvertSetsVersionAndUtgavaFromTextVersion()
+      throws ScenarioNotFoundException, ConverterException {
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
+    RegisterCertificateType res = InternalToTransport.convert(utlatande);
+    assertEquals("1.0", res.getIntyg().getVersion());
+  }
 
-    @Test
-    void convertDecorateSvarPaNotKompltTest() throws Exception {
-        Tstrk1009UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
-
-    @Test
-    void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
-        String specialistkompetens1 = "Kirurgi";
-        String specialistkompetens2 = "Allergi";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-specialitet").asInternalModel();
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
-        assertEquals(2, skapadAv.getSpecialistkompetens().size());
-        assertEquals(specialistkompetens1, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
-        assertEquals(specialistkompetens2, skapadAv.getSpecialistkompetens().get(1).getDisplayName());
-    }
-
-    @Test
-    void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
-        final String befattning = "203010";
-        final String description = "Läkare legitimerad, specialiseringstjänstgöring";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-befattning").asInternalModel();
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattning().size());
-        assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
-        assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
-    }
-
-    @Test
-    void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        assertEquals("1.0", res.getIntyg().getVersion());
-    }
-
-    @Test
-    void testConvertToTransportSetsCorrectBehorighetDisplayName() throws ScenarioNotFoundException, ConverterException {
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        final Svar.Delsvar taxiDelsvar = res.getIntyg().getSvar().stream()
+  @Test
+  void testConvertToTransportSetsCorrectBehorighetDisplayName()
+      throws ScenarioNotFoundException, ConverterException {
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
+    RegisterCertificateType res = InternalToTransport.convert(utlatande);
+    final Svar.Delsvar taxiDelsvar =
+        res.getIntyg().getSvar().stream()
             .flatMap(svar -> svar.getDelsvar().stream())
-            .filter(delsvar -> {
-                try {
+            .filter(
+                delsvar -> {
+                  try {
                     return delsvar.getId().equals(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID)
-                        && getCVSvarContent(delsvar).getCode().equals(Korkortsbehorighet.TAXI.getCode());
-                } catch (ConverterException e) {
+                        && getCVSvarContent(delsvar)
+                            .getCode()
+                            .equals(Korkortsbehorighet.TAXI.getCode());
+                  } catch (ConverterException e) {
                     throw new RuntimeException(e);
-                }
-            })
-            .findAny().orElse(null);
-        assertNotNull(taxiDelsvar);
-        assertEquals(Korkortsbehorighet.TAXI.getValue(), getCVSvarContent(taxiDelsvar).getDisplayName());
-    }
+                  }
+                })
+            .findAny()
+            .orElse(null);
+    assertNotNull(taxiDelsvar);
+    assertEquals(
+        Korkortsbehorighet.TAXI.getValue(), getCVSvarContent(taxiDelsvar).getDisplayName());
+  }
 
-    @Test
-    void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
-        utlatande = utlatande.toBuilder().setTextVersion(null).build();
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        assertEquals("1.0", res.getIntyg().getVersion());
+  @Test
+  void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty()
+      throws ScenarioNotFoundException, ConverterException {
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
+    utlatande = utlatande.toBuilder().setTextVersion(null).build();
+    RegisterCertificateType res = InternalToTransport.convert(utlatande);
+    assertEquals("1.0", res.getIntyg().getVersion());
 
-        utlatande = utlatande.toBuilder().setTextVersion("").build();
-        res = InternalToTransport.convert(utlatande);
-        assertEquals("1.0", res.getIntyg().getVersion());
-    }
+    utlatande = utlatande.toBuilder().setTextVersion("").build();
+    res = InternalToTransport.convert(utlatande);
+    assertEquals("1.0", res.getIntyg().getVersion());
+  }
 
-    private static HoSPersonal buildHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
-        hosPersonal.setPersonId(PERSONID);
-        hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);
-        hosPersonal.getSpecialiteter().addAll(SPECIALIST_KOMPETENS);
+  private static HoSPersonal buildHosPersonal() {
+    HoSPersonal hosPersonal = new HoSPersonal();
+    hosPersonal.setPersonId(PERSONID);
+    hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);
+    hosPersonal.getSpecialiteter().addAll(SPECIALIST_KOMPETENS);
 
-        Vardenhet vardenhet = new Vardenhet();
+    Vardenhet vardenhet = new Vardenhet();
 
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(VARDGIVARID);
-        vardgivare.setVardgivarnamn(VARDGIVARNAMN);
-        vardenhet.setVardgivare(vardgivare);
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(VARDGIVARID);
+    vardgivare.setVardgivarnamn(VARDGIVARNAMN);
+    vardenhet.setVardgivare(vardgivare);
 
-        vardenhet.setEnhetsid(ENHETSID);
-        vardenhet.setEnhetsnamn(ENHETSNAMN);
-        vardenhet.setPostadress(POSTADRESS);
-        vardenhet.setPostnummer(POSTNUMMER);
-        vardenhet.setPostort(POSTORT);
-        vardenhet.setTelefonnummer(TELEFONNUMMER);
-        vardenhet.setArbetsplatsKod(ARBETSPLATSKOD);
-        hosPersonal.setVardenhet(vardenhet);
+    vardenhet.setEnhetsid(ENHETSID);
+    vardenhet.setEnhetsnamn(ENHETSNAMN);
+    vardenhet.setPostadress(POSTADRESS);
+    vardenhet.setPostnummer(POSTNUMMER);
+    vardenhet.setPostort(POSTORT);
+    vardenhet.setTelefonnummer(TELEFONNUMMER);
+    vardenhet.setArbetsplatsKod(ARBETSPLATSKOD);
+    hosPersonal.setVardenhet(vardenhet);
 
-        return hosPersonal;
-    }
+    return hosPersonal;
+  }
 }

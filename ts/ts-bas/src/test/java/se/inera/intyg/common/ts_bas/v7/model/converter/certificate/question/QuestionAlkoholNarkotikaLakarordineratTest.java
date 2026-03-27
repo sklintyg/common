@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,143 +45,145 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaLakarordineratTest {
 
+  @Mock CertificateTextProvider textProvider;
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getSelectedText() {
+        return "Ja";
+      }
 
-            @Override
-            protected String getId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
-            }
+      @Override
+      protected String getUnselectedText() {
+        return "Nej";
+      }
 
-            @Override
-            protected String getParent() {
-                return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+      @Override
+      protected String getTextId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return "Ja";
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return "Nej";
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected String getJsonId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return true;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
-                    NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(true).build(), 0, textProvider);
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(missbrukberoendlakarordinerat)";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected String getJsonId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
-                    NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(expectedValue).build(), 0, textProvider);
-            }
+      @Override
+      protected Boolean getBoolean() {
+        return true;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate);
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
+            NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(true).build(),
+            0,
+            textProvider);
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists(missbrukberoendlakarordinerat)";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
+            NarkotikaLakemedel.builder().setLakarordineratLakemedelsbruk(expectedValue).build(),
+            0,
+            textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate);
+      }
+    }
+  }
 }

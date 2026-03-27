@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,54 +46,59 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMotiveringTillInteBaseratPaUndersokning {
 
-    private static final short LIMIT = 150;
-    private static final String LIGHTBULB_ICON = "lightbulb_outline";
+  private static final short LIMIT = 150;
+  private static final String LIGHTBULB_ICON = "lightbulb_outline";
 
+  public static CertificateDataElement toCertificate(
+      String motivering, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1)
+        .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+                .text(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT)
+                .description(
+                    MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace(
+                        "{0}", texts.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID)))
+                .icon(LIGHTBULB_ICON)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+                .text(motivering)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1)
+                  .limit(LIMIT)
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+                  .expression(
+                      multipleAndExpression(
+                          not(
+                              singleExpression(
+                                  GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)),
+                          wrapWithParenthesis(
+                              multipleOrExpression(
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)))))
+                  .build(),
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(String motivering, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT)
-                    .description(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}",
-                        texts.get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID)))
-                    .icon(LIGHTBULB_ICON)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(motivering)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1)
-                        .limit(LIMIT)
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(
-                            multipleAndExpression(
-                                not(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)),
-                                wrapWithParenthesis(
-                                    multipleOrExpression(
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)))))
-                        .build(),
-                }
-            )
-            .build();
-    }
-
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1,
-            MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1,
+        MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
+  }
 }

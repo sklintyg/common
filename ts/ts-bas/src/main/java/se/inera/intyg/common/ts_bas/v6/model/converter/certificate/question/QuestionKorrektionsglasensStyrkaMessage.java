@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.SYNFUNKTIONER_CATEGORY_ID;
@@ -32,30 +31,30 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 
 public class QuestionKorrektionsglasensStyrkaMessage {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider texts) {
-        final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
-        return CertificateDataElement.builder()
-            .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .visible(messageVisiblity(korrektionsglasensStyrka))
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID))
-                            .level(MessageLevel.INFO)
-                            .build()
-                    )
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider texts) {
+    final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
+    return CertificateDataElement.builder()
+        .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .visible(messageVisiblity(korrektionsglasensStyrka))
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(
+                            texts.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID))
+                        .level(MessageLevel.INFO)
+                        .build())
+                .build())
+        .build();
+  }
 
-    private static Boolean messageVisiblity(Boolean korrektionsglasensStyrka) {
-        if (korrektionsglasensStyrka == null) {
-            return false;
-        }
-        return korrektionsglasensStyrka;
+  private static Boolean messageVisiblity(Boolean korrektionsglasensStyrka) {
+    if (korrektionsglasensStyrka == null) {
+      return false;
     }
+    return korrektionsglasensStyrka;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,38 +34,39 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionOvrigt {
 
-    private static final short TEXT_LIMIT = 500;
+  private static final short TEXT_LIMIT = 500;
 
-    public static CertificateDataElement toCertificate(String komentar, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      String komentar, int index, CertificateTextProvider textProvider) {
 
-        return CertificateDataElement.builder()
-            .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID)
-            .parent(OVRIGA_KOMMENTARER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID))
-                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
-                    .text(komentar)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID)
+        .parent(OVRIGA_KOMMENTARER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID))
+                .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
+                .text(komentar)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGA_KOMMENTARER_DELSVARSVAR_ID, OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        OVRIGA_KOMMENTARER_DELSVARSVAR_ID,
+        OVRIGA_KOMMENTARER_DELSVARSVAR_JSON_ID);
+  }
 }

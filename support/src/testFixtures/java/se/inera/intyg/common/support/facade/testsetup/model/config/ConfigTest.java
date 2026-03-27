@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,79 +30,82 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigTest {
 
-    protected abstract CertificateTextProvider getTextProviderMock();
+  protected abstract CertificateTextProvider getTextProviderMock();
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract CertificateDataConfigType getType();
+  protected abstract CertificateDataConfigType getType();
 
-    protected String getHeaderId() {
-        return null;
+  protected String getHeaderId() {
+    return null;
+  }
+
+  protected String getLabelId() {
+    return null;
+  }
+
+  protected String getIconId() {
+    return null;
+  }
+
+  protected abstract String getTextId();
+
+  protected abstract String getDescriptionId();
+
+  @Test
+  void shouldIncludeConfigCertificateDataConfig() {
+    final var question = getElement();
+    assertEquals(getType(), question.getConfig().getType());
+  }
+
+  @Test
+  void shouldIncludeHeader() {
+    final var question = getElement();
+    if (getHeaderId() != null) {
+      assertTrue(question.getConfig().getHeader().trim().length() > 0, "Missing Header");
+      verify(getTextProviderMock(), atLeastOnce()).get(getHeaderId());
     }
+  }
 
-    protected String getLabelId() {
-        return null;
+  @Test
+  void shouldIncludeLabel() {
+    final var question = getElement();
+    if (getLabelId() != null) {
+      assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
+      verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
     }
+  }
 
-    protected String getIconId() {
-        return null;
+  @Test
+  void shouldIncludeIcon() {
+    final var question = getElement();
+    if (getIconId() != null) {
+      assertEquals(getIconId(), question.getConfig().getIcon());
     }
+  }
 
-    protected abstract String getTextId();
-
-    protected abstract String getDescriptionId();
-
-    @Test
-    void shouldIncludeConfigCertificateDataConfig() {
-        final var question = getElement();
-        assertEquals(getType(), question.getConfig().getType());
+  @Test
+  void shouldIncludeConfigText() {
+    final var question = getElement();
+    if (getTextProviderMock() != null
+        && getTextId() != null
+        && !question.getConfig().getText().equals(getTextId())) {
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+    } else {
+      assertEquals(getTextId(), question.getConfig().getText());
     }
+  }
 
-    @Test
-    void shouldIncludeHeader() {
-        final var question = getElement();
-        if (getHeaderId() != null) {
-            assertTrue(question.getConfig().getHeader().trim().length() > 0, "Missing Header");
-            verify(getTextProviderMock(), atLeastOnce()).get(getHeaderId());
-        }
+  @Test
+  void shouldIncludeConfigDescription() {
+    final var question = getElement();
+    if (getDescriptionId() != null
+        && !question.getConfig().getDescription().equals(getDescriptionId())) {
+      assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing description");
+      verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
+    } else {
+      assertEquals(getDescriptionId(), question.getConfig().getDescription());
     }
-
-    @Test
-    void shouldIncludeLabel() {
-        final var question = getElement();
-        if (getLabelId() != null) {
-            assertTrue(question.getConfig().getLabel().trim().length() > 0, "Missing label");
-            verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
-        }
-    }
-
-    @Test
-    void shouldIncludeIcon() {
-        final var question = getElement();
-        if (getIconId() != null) {
-            assertEquals(getIconId(), question.getConfig().getIcon());
-        }
-    }
-
-    @Test
-    void shouldIncludeConfigText() {
-        final var question = getElement();
-        if (getTextProviderMock() != null && getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
-        } else {
-            assertEquals(getTextId(), question.getConfig().getText());
-        }
-    }
-
-    @Test
-    void shouldIncludeConfigDescription() {
-        final var question = getElement();
-        if (getDescriptionId() != null && !question.getConfig().getDescription().equals(getDescriptionId())) {
-            assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing description");
-            verify(getTextProviderMock(), atLeastOnce()).get(getDescriptionId());
-        } else {
-            assertEquals(getDescriptionId(), question.getConfig().getDescription());
-        }
-    }
+  }
 }

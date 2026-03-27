@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,12 +31,11 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 @Builder
 public class CertificateDataValueViewRow implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.VIEW_ROW;
-    List<CertificateDataValueText> columns;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.VIEW_ROW;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueViewRowBuilder {
+  List<CertificateDataValueText> columns;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueViewRowBuilder {}
 }

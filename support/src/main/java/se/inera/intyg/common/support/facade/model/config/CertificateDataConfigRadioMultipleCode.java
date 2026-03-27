@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,27 +31,33 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigRa
 @Builder
 public class CertificateDataConfigRadioMultipleCode implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    Layout layout;
-    List<RadioMultipleCode> list;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigRadioMultipleCodeBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  Layout layout;
+  List<RadioMultipleCode> list;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigRadioMultipleCodeBuilder {}
 }

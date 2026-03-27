@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -96,393 +96,437 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleApi {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TsParentModuleApi.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TsParentModuleApi.class);
 
-    public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
-    public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
-    private static final String ADDITIONAL_INFO_LABEL = "Avser behörighet";
-    private static final String PREAMBLE_FOR_CITIZENS = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
+  public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
+  public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
+  private static final String ADDITIONAL_INFO_LABEL = "Avser behörighet";
+  private static final String PREAMBLE_FOR_CITIZENS =
+      "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+          + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.";
 
-    @Autowired(required = false)
-    protected WebcertModuleService moduleService;
+  @Autowired(required = false)
+  protected WebcertModuleService moduleService;
 
-    @Autowired
-    private InternalDraftValidator<T> validator;
+  @Autowired private InternalDraftValidator<T> validator;
 
-    @Autowired
-    private WebcertModelFactory<T> webcertModelFactory;
+  @Autowired private WebcertModelFactory<T> webcertModelFactory;
 
-    @Autowired
-    protected ObjectMapper objectMapper;
+  @Autowired protected ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    private GetCertificateResponderInterface getCertificateResponderInterface;
+  @Autowired(required = false)
+  private GetCertificateResponderInterface getCertificateResponderInterface;
 
-    @Autowired(required = false)
-    @Qualifier("registerCertificateClient")
-    protected RegisterCertificateResponderInterface registerCertificateResponderInterface;
+  @Autowired(required = false)
+  @Qualifier("registerCertificateClient") protected RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
-    @Autowired(required = false)
-    private RevokeCertificateResponderInterface revokeCertificateClient;
+  @Autowired(required = false)
+  private RevokeCertificateResponderInterface revokeCertificateClient;
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    private Class<T> type;
+  private Class<T> type;
 
-    public TsParentModuleApi(Class<T> type) {
-        this.type = type;
+  public TsParentModuleApi(Class<T> type) {
+    this.type = type;
+  }
+
+  private RegisterCertificateValidator xmlValidator = getRegisterCertificateValidator();
+
+  @Override
+  public CertificateResponse getCertificate(
+      String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    GetCertificateType request = new GetCertificateType();
+    request.setIntygsId(getIntygsId(certificateId));
+    request.setPart(getPart(recipientId));
+
+    try {
+      return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
+    } catch (SOAPFaultException e) {
+      String error =
+          String.format(
+              "Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
+              certificateId, e.getMessage());
+      LOG.error(error);
+      throw new ModuleException(error);
+    }
+  }
+
+  @Override
+  public void registerCertificate(String internalModel, String logicalAddress)
+      throws ModuleException {
+    RegisterCertificateType request;
+    try {
+      request = internalToTransport(getInternal(internalModel));
+    } catch (ConverterException e) {
+      LOG.error("Failed to convert to transport format during registerCertificate", e);
+      throw new ModuleConverterException(
+          "Failed to convert to transport format during registerCertificate", e);
     }
 
-    private RegisterCertificateValidator xmlValidator = getRegisterCertificateValidator();
+    RegisterCertificateResponseType response =
+        registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
 
-    @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
-        GetCertificateType request = new GetCertificateType();
-        request.setIntygsId(getIntygsId(certificateId));
-        request.setPart(getPart(recipientId));
-
-        try {
-            return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
-        } catch (SOAPFaultException e) {
-            String error = String.format("Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
-                certificateId, e.getMessage());
-            LOG.error(error);
-            throw new ModuleException(error);
-        }
+    // check whether call was successful or not
+    if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+      throw new ExternalServiceCallException(
+          response.getResult().getResultText(),
+          "Certificate already exists".equals(response.getResult().getResultText())
+              ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
+              : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
+    } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+      throw new ExternalServiceCallException(
+          response.getResult().getErrorId() + " : " + response.getResult().getResultText());
     }
+  }
 
-    @Override
-    public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
-        RegisterCertificateType request;
-        try {
-            request = internalToTransport(getInternal(internalModel));
-        } catch (ConverterException e) {
-            LOG.error("Failed to convert to transport format during registerCertificate", e);
-            throw new ModuleConverterException("Failed to convert to transport format during registerCertificate", e);
-        }
+  @Override
+  public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
+    return validator.validateDraft(getInternal(internalModel));
+  }
 
-        RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
+  @Override
+  public String createNewInternal(CreateNewDraftHolder draftCertificateHolder)
+      throws ModuleException {
+    try {
+      return toInternalModelResponse(
+          webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
 
-        // check whether call was successful or not
-        if (response.getResult().getResultCode() == ResultCodeType.INFO) {
-            throw new ExternalServiceCallException(response.getResult().getResultText(),
-                "Certificate already exists".equals(response.getResult().getResultText())
-                    ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
-                    : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
-        } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
-            throw new ExternalServiceCallException(response.getResult().getErrorId() + " : " + response.getResult().getResultText());
-        }
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
     }
+  }
 
-    @Override
-    public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
-        return validator.validateDraft(getInternal(internalModel));
+  @Override
+  public String createNewInternalFromTemplate(
+      CreateDraftCopyHolder draftCertificateHolder, Utlatande template) throws ModuleException {
+    try {
+      return toInternalModelResponse(
+          webcertModelFactory.createCopy(draftCertificateHolder, template));
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
     }
+  }
 
-    @Override
-    public String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException {
-        try {
-            return toInternalModelResponse(webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
+  @Override
+  public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
+      throws ModuleException {
+    return createNewInternalFromTemplate(draftCopyHolder, template);
+  }
 
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
+  @Override
+  public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, hosPerson, created);
+  }
+
+  @Override
+  public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, patient, created);
+  }
+
+  @Override
+  public String updateBeforeSigning(
+      String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+      throws ModuleException {
+    return updateInternal(internalModel, hosPerson, signingDate);
+  }
+
+  @Override
+  public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, patient, created);
+  }
+
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    throw new ModuleException("Feature not supported");
+  }
+
+  @Override
+  public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
+    return objectMapper.readValue(utlatandeJson, type);
+  }
+
+  @Override
+  public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created)
+      throws ModuleException, IOException {
+    return getInternal(utlatandeJson, created);
+  }
+
+  @Override
+  public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
+    return true;
+  }
+
+  @Override
+  public String transformToStatisticsService(String inputXml) throws ModuleException {
+    return inputXml;
+  }
+
+  @Override
+  public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    return XmlValidator.validate(xmlValidator, inputXml);
+  }
+
+  @Override
+  public Map<String, List<String>> getModuleSpecificArendeParameters(
+      Utlatande utlatande, List<String> frageIds) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException {
+    try {
+      return utlatandeToIntyg(type.cast(utlatande));
+    } catch (Exception e) {
+      LOG.error("Could not get intyg from utlatande: {}", e.getMessage());
+      throw new ModuleException("Could not get intyg from utlatande", e);
     }
+  }
 
-    @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-        throws ModuleException {
-        try {
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
-    }
-
-    @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-        throws ModuleException {
-        return createNewInternalFromTemplate(draftCopyHolder, template);
-    }
-
-    @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, hosPerson, created);
-    }
-
-    @Override
-    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, patient, created);
-    }
-
-    @Override
-    public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
-        return updateInternal(internalModel, hosPerson, signingDate);
-    }
-
-    @Override
-    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, patient, created);
-    }
-
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus)
-        throws ModuleException {
-        throw new ModuleException("Feature not supported");
-    }
-
-    @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
-        return objectMapper.readValue(utlatandeJson, type);
-    }
-
-    @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
-        return getInternal(utlatandeJson, created);
-    }
-
-    @Override
-    public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        return true;
-    }
-
-    @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
-        return inputXml;
-    }
-
-    @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        return XmlValidator.validate(xmlValidator, inputXml);
-    }
-
-    @Override
-    public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException {
-        try {
-            return utlatandeToIntyg(type.cast(utlatande));
-        } catch (Exception e) {
-            LOG.error("Could not get intyg from utlatande: {}", e.getMessage());
-            throw new ModuleException("Could not get intyg from utlatande", e);
-        }
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        List<CVType> types = new ArrayList<>();
-        try {
-            for (Svar svar : intyg.getSvar()) {
-                if (INTYG_AVSER_SVAR_ID_1.equals(svar.getId())) {
-                    for (Delsvar delsvar : svar.getDelsvar()) {
-                        if (INTYG_AVSER_DELSVAR_ID_1.equals(delsvar.getId())) {
-                            CVType cv = TransportConverterUtil.getCVSvarContent(delsvar);
-                            if (cv != null) {
-                                types.add(cv);
-                            }
-                        }
-                    }
-                }
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    List<CVType> types = new ArrayList<>();
+    try {
+      for (Svar svar : intyg.getSvar()) {
+        if (INTYG_AVSER_SVAR_ID_1.equals(svar.getId())) {
+          for (Delsvar delsvar : svar.getDelsvar()) {
+            if (INTYG_AVSER_DELSVAR_ID_1.equals(delsvar.getId())) {
+              CVType cv = TransportConverterUtil.getCVSvarContent(delsvar);
+              if (cv != null) {
+                types.add(cv);
+              }
             }
-        } catch (ConverterException e) {
-            LOG.error("Failed retrieving additionalInfo for certificate {}: {}", intyg.getIntygsId().getExtension(), e.getMessage());
-            return null;
+          }
         }
-
-        if (types.isEmpty()) {
-            LOG.error("Failed retrieving additionalInfo for certificate {}: Found no types.", intyg.getIntygsId().getExtension());
-            return null;
-        }
-
-        return types.stream()
-            .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-            .map(IntygAvserKod::getDescription)
-            .collect(Collectors.joining(", "));
+      }
+    } catch (ConverterException e) {
+      LOG.error(
+          "Failed retrieving additionalInfo for certificate {}: {}",
+          intyg.getIntygsId().getExtension(),
+          e.getMessage());
+      return null;
     }
 
-    @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        final RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
-        RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
-        if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
-            String message = "Could not send revoke to " + logicalAddress;
-            LOG.error(message);
-            throw new ExternalServiceCallException(message);
-        }
+    if (types.isEmpty()) {
+      LOG.error(
+          "Failed retrieving additionalInfo for certificate {}: Found no types.",
+          intyg.getIntygsId().getExtension());
+      return null;
     }
 
-    @Override
-    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        try {
-            final RevokeCertificateType revoke = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
-            final JAXBElement<RevokeCertificateType> el = new ObjectFactory().createRevokeCertificate(revoke);
-            return XmlMarshallerHelper.marshal(el);
-        } catch (ConverterException e) {
-            throw new ModuleException(e.getMessage());
-        }
+    return types.stream()
+        .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
+        .map(IntygAvserKod::getDescription)
+        .collect(Collectors.joining(", "));
+  }
+
+  @Override
+  public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    final RevokeCertificateType request =
+        JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
+    RevokeCertificateResponseType response =
+        revokeCertificateClient.revokeCertificate(logicalAddress, request);
+    if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
+      String message = "Could not send revoke to " + logicalAddress;
+      LOG.error(message);
+      throw new ExternalServiceCallException(message);
     }
+  }
 
-    @Override
-    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
-        // Note - until we've migrated T-intyg to v3 of RegisterCertificate for WC -> IT, we cannot attach the signature.
-        return jsonModel;
+  @Override
+  public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande)
+      throws ModuleException {
+    try {
+      final RevokeCertificateType revoke =
+          InternalToRevoke.convert(utlatande, skapatAv, meddelande);
+      final JAXBElement<RevokeCertificateType> el =
+          new ObjectFactory().createRevokeCertificate(revoke);
+      return XmlMarshallerHelper.marshal(el);
+    } catch (ConverterException e) {
+      throw new ModuleException(e.getMessage());
     }
+  }
 
-    protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
+  @Override
+  public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+    // Note - until we've migrated T-intyg to v3 of RegisterCertificate for WC -> IT, we cannot
+    // attach the signature.
+    return jsonModel;
+  }
 
-    protected T getInternal(String internalModel) throws ModuleException {
-        try {
-            return objectMapper.readValue(internalModel, type);
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to deserialize internal model", e);
-        }
+  protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
+
+  protected T getInternal(String internalModel) throws ModuleException {
+    try {
+      return objectMapper.readValue(internalModel, type);
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
+  }
 
-    protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            return objectMapper.readValue(internalModel, type);
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to deserialize internal model", e);
-        }
+  protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
+    try {
+      return objectMapper.readValue(internalModel, type);
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
+  }
 
-    protected String toInternalModelResponse(Utlatande internalModel) throws ModuleException {
-        try {
-            return objectMapper.writeValueAsString(internalModel);
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to serialize internal model", e);
-        }
+  protected String toInternalModelResponse(Utlatande internalModel) throws ModuleException {
+    try {
+      return objectMapper.writeValueAsString(internalModel);
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to serialize internal model", e);
     }
+  }
 
-    private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
-        try {
-            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
-            WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
-            return toInternalModelResponse(utlatande);
-        } catch (ModuleException e) {
-            throw new ModuleException("Error while updating internal model", e);
-        }
+  private String updateInternal(
+      String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+      throws ModuleException {
+    try {
+      T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
+      WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
+      return toInternalModelResponse(utlatande);
+    } catch (ModuleException e) {
+      throw new ModuleException("Error while updating internal model", e);
     }
+  }
 
-    private String updateInternal(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        T utlatande = getInternal(internalModel, created);
-        try {
-            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
-        } catch (ConverterException e) {
-            throw new ModuleException("Failed to update internal model with patient", e);
-        }
-        return toInternalModelResponse(utlatande);
+  private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    T utlatande = getInternal(internalModel, created);
+    try {
+      WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+    } catch (ConverterException e) {
+      throw new ModuleException("Failed to update internal model with patient", e);
     }
+    return toInternalModelResponse(utlatande);
+  }
 
-    protected IntygTexts getTexts(String intygsTyp, String version) {
-        if (intygTexts == null) {
-            throw new IllegalStateException("intygTextsService not available in this context");
-        }
-        return intygTexts.getIntygTextsPojo(intygsTyp, version);
+  protected IntygTexts getTexts(String intygsTyp, String version) {
+    if (intygTexts == null) {
+      throw new IllegalStateException("intygTextsService not available in this context");
     }
+    return intygTexts.getIntygTextsPojo(intygsTyp, version);
+  }
 
-    protected abstract RegisterCertificateValidator getRegisterCertificateValidator();
+  protected abstract RegisterCertificateValidator getRegisterCertificateValidator();
 
-    protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
+  protected abstract RegisterCertificateType internalToTransport(T utlatande)
+      throws ConverterException;
 
-    protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
+  protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
 
-    protected T decorateDiagnoserWithDescriptions(T utlatande) {
-        // Default implementation. Only TS certificate types with diagnoses need to override this method.
-        return utlatande;
+  protected T decorateDiagnoserWithDescriptions(T utlatande) {
+    // Default implementation. Only TS certificate types with diagnoses need to override this
+    // method.
+    return utlatande;
+  }
+
+  private IntygId getIntygsId(String certificateId) {
+    IntygId intygId = new IntygId();
+    intygId.setRoot("SE5565594230-B31");
+    intygId.setExtension(certificateId);
+    return intygId;
+  }
+
+  private Part getPart(String recipientId) {
+    Part part = new Part();
+    part.setCode(recipientId);
+    part.setCodeSystem(KV_PART_CODE_SYSTEM);
+    return part;
+  }
+
+  private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {
+    try {
+      T utlatande = transportToInternal(response.getIntyg());
+      String internalModel = toInternalModelResponse(utlatande);
+      CertificateMetaData metaData =
+          TransportConverterUtil.getMetaData(
+              response.getIntyg(), getAdditionalInfo(response.getIntyg()));
+      boolean revoked =
+          response.getIntyg().getStatus().stream()
+              .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
+      return new CertificateResponse(internalModel, utlatande, metaData, revoked);
+    } catch (Exception e) {
+      throw new ModuleException(e);
     }
+  }
 
-    private IntygId getIntygsId(String certificateId) {
-        IntygId intygId = new IntygId();
-        intygId.setRoot("SE5565594230-B31");
-        intygId.setExtension(certificateId);
-        return intygId;
+  protected void handleResponse(
+      RegisterCertificateResponseType response, RegisterCertificateType request)
+      throws ExternalServiceCallException {
+    if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
+      String certificateId = getCertificateId(request);
+      String message = response.getResult().getResultText();
+
+      if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+        LOG.error("Error occurred when sending certificate '{}': {}", certificateId, message);
+        throw new ExternalServiceCallException(message);
+      } else if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+        LOG.info(
+            "Certificate '{}' was sent, but recipient returned result code {}. Message from recipient: {}",
+            certificateId,
+            ResultCodeType.INFO,
+            message);
+      }
     }
+  }
 
-    private Part getPart(String recipientId) {
-        Part part = new Part();
-        part.setCode(recipientId);
-        part.setCodeSystem(KV_PART_CODE_SYSTEM);
-        return part;
-    }
+  private String getCertificateId(RegisterCertificateType request) {
+    return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
+        ? request.getIntyg().getIntygsId().getExtension()
+        : null;
+  }
 
-    private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {
-        try {
-            T utlatande = transportToInternal(response.getIntyg());
-            String internalModel = toInternalModelResponse(utlatande);
-            CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
-            boolean revoked = response.getIntyg().getStatus().stream()
-                .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
-            return new CertificateResponse(internalModel, utlatande, metaData, revoked);
-        } catch (Exception e) {
-            throw new ModuleException(e);
-        }
-    }
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException, IOException {
+    throw new UnsupportedOperationException();
+  }
 
-    protected void handleResponse(RegisterCertificateResponseType response, RegisterCertificateType request)
-        throws ExternalServiceCallException {
-        if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
-            String certificateId = getCertificateId(request);
-            String message = response.getResult().getResultText();
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException, IOException {
+    throw new UnsupportedOperationException();
+  }
 
-            if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
-                LOG.error("Error occurred when sending certificate '{}': {}", certificateId, message);
-                throw new ExternalServiceCallException(message);
-            } else if (response.getResult().getResultCode() == ResultCodeType.INFO) {
-                LOG.info("Certificate '{}' was sent, but recipient returned result code {}. Message from recipient: {}",
-                    certificateId, ResultCodeType.INFO, message);
-            }
-        }
-    }
+  @Override
+  public CertificateTextProvider getTextProvider(
+      String certificateType, String certificateTypeVersion) {
+    final var intygTexts = getTexts(certificateType, certificateTypeVersion);
+    return DefaultCertificateTextProvider.create(intygTexts);
+  }
 
-    private String getCertificateId(RegisterCertificateType request) {
-        return (request.getIntyg() != null && request.getIntyg().getIntygsId() != null)
-            ? request.getIntyg().getIntygsId().getExtension() : null;
-    }
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    throw new UnsupportedOperationException();
+  }
 
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public String getAdditionalInfoLabel() {
+    return ADDITIONAL_INFO_LABEL;
+  }
 
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
-        throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
-        final var intygTexts = getTexts(certificateType, certificateTypeVersion);
-        return DefaultCertificateTextProvider.create(intygTexts);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getAdditionalInfoLabel() {
-        return ADDITIONAL_INFO_LABEL;
-    }
-
-    @Override
-    public CertificateText getPreambleForCitizens() {
-        return CertificateText.builder()
-            .type(CertificateTextType.PREAMBLE_TEXT)
-            .text(PREAMBLE_FOR_CITIZENS)
-            .build();
-    }
+  @Override
+  public CertificateText getPreambleForCitizens() {
+    return CertificateText.builder()
+        .type(CertificateTextType.PREAMBLE_TEXT)
+        .text(PREAMBLE_FOR_CITIZENS)
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -62,123 +62,153 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @SuppressWarnings("checkstyle:EmptyCatchBlock")
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 class RoundTripTest {
 
-    private final CustomObjectMapper objectMapper = new CustomObjectMapper();
-    private final ObjectFactory objectFactory = new ObjectFactory();
-    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory =
-        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
-    private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory =
-        new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
-    private static final Marshaller marshaller;
-    private static final XslTransformer transformer;
+  private final CustomObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectFactory objectFactory = new ObjectFactory();
+  private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory
+      rivtav3ObjectFactory =
+          new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
+  private final se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory
+      transformedObjectFactory =
+          new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
+  private static final Marshaller marshaller;
+  private static final XslTransformer transformer;
 
-    static {
-        try {
-            marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class, DatePeriodType.class,
-                    PartialDateType.class,
-                    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
-                .createMarshaller();
-            transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
+  static {
+    try {
+      marshaller =
+          JAXBContext.newInstance(
+                  RegisterTSDiabetesType.class,
+                  RegisterCertificateType.class,
+                  DatePeriodType.class,
+                  PartialDateType.class,
+                  se.riv
+                      .clinicalprocess
+                      .healthcond
+                      .certificate
+                      .registerCertificate
+                      .v1
+                      .RegisterCertificateType
+                      .class)
+              .createMarshaller();
+      transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
 
-        } catch (JAXBException e) {
-            throw new RuntimeException(e);
-        }
+    } catch (JAXBException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("transform-valid-*").stream()
-            .map(scenario -> Arguments.of(scenario.getName(), scenario));
-    }
+  static Stream<Arguments> scenarioProvider() throws ScenarioNotFoundException {
+    return ScenarioFinder.getInternalScenarios("transform-valid-*").stream()
+        .map(scenario -> Arguments.of(scenario.getName(), scenario));
+  }
 
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testRoundTrip(String name, Scenario scenario) throws Exception {
-        RegisterTSDiabetesType transport = InternalToTransportConverter.convert(scenario.asInternalModel());
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testRoundTrip(String name, Scenario scenario) throws Exception {
+    RegisterTSDiabetesType transport =
+        InternalToTransportConverter.convert(scenario.asInternalModel());
 
-        StringWriter expected = new StringWriter();
-        StringWriter actual = new StringWriter();
-        marshaller.marshal(objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), expected);
-        marshaller.marshal(objectFactory.createRegisterTSDiabetes(transport), actual);
+    StringWriter expected = new StringWriter();
+    StringWriter actual = new StringWriter();
+    marshaller.marshal(
+        objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), expected);
+    marshaller.marshal(objectFactory.createRegisterTSDiabetes(transport), actual);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actual.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
 
-        JsonNode tree = objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
+    JsonNode tree =
+        objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
 
-        TsDiabetesUtlatandeV2 expectedInternal = objectMapper.readValue(
-            getClass().getResourceAsStream("/v2/scenarios/internal/roundtripjson/" + name + ".json"),
+    TsDiabetesUtlatandeV2 expectedInternal =
+        objectMapper.readValue(
+            getClass()
+                .getResourceAsStream("/v2/scenarios/internal/roundtripjson/" + name + ".json"),
             TsDiabetesUtlatandeV2.class);
-        JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
+    JsonNode expectedTree = objectMapper.valueToTree(expectedInternal);
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
 
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testConvertToRivtav3(String name, Scenario scenario) throws Exception {
-        TsDiabetesUtlatandeV2 internal = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
-        RegisterCertificateType actual = new RegisterCertificateType();
-        actual.setIntyg(UtlatandeToIntyg.convert(internal));
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testConvertToRivtav3(String name, Scenario scenario) throws Exception {
+    TsDiabetesUtlatandeV2 internal =
+        TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
+    RegisterCertificateType actual = new RegisterCertificateType();
+    actual.setIntyg(UtlatandeToIntyg.convert(internal));
 
-        StringWriter expected = new StringWriter();
-        StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
+    StringWriter expected = new StringWriter();
+    StringWriter actualSw = new StringWriter();
+    marshaller.marshal(
+        rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()),
+        expected);
+    marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actualSw.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
-    }
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+  }
 
-    @ParameterizedTest(name = "{index}: Scenario: {0}")
-    @MethodSource("scenarioProvider")
-    void testTransportTransform(String name, Scenario scenario) throws Exception {
-        StringWriter transformingString = new StringWriter();
-        marshaller.marshal(objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), transformingString);
-        String actual = transformer.transform(transformingString.toString());
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("scenarioProvider")
+  void testTransportTransform(String name, Scenario scenario) throws Exception {
+    StringWriter transformingString = new StringWriter();
+    marshaller.marshal(
+        objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), transformingString);
+    String actual = transformer.transform(transformingString.toString());
 
-        StringWriter expected = new StringWriter();
-        marshaller.marshal(transformedObjectFactory.createRegisterCertificate(scenario.asTransformedTransportModel()), expected);
+    StringWriter expected = new StringWriter();
+    marshaller.marshal(
+        transformedObjectFactory.createRegisterCertificate(scenario.asTransformedTransportModel()),
+        expected);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expected.toString()))
             .withTest(Input.fromString(actual))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-        assertFalse(diff.hasDifferences(), name + " " + diff.toString());
-    }
+    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+  }
 }

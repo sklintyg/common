@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,63 +33,69 @@ import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
 public class CertificateStateHolderConverterTest {
 
-    @Test
-    public void testToCertificateStatusTypeNull() {
-        List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(null);
+  @Test
+  public void testToCertificateStatusTypeNull() {
+    List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(null);
 
-        assertNotNull(res);
-        assertTrue(res.isEmpty());
-    }
+    assertNotNull(res);
+    assertTrue(res.isEmpty());
+  }
 
-    @Test
-    public void testToCertificateStatusTypeEmptyList() {
-        List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(new ArrayList<>());
+  @Test
+  public void testToCertificateStatusTypeEmptyList() {
+    List<CertificateStatusType> res =
+        CertificateStateHolderConverter.toCertificateStatusType(new ArrayList<>());
 
-        assertNotNull(res);
-        assertTrue(res.isEmpty());
-    }
+    assertNotNull(res);
+    assertTrue(res.isEmpty());
+  }
 
-    @Test
-    public void testToCertificateStatusType() {
-        final String target1 = "target1";
-        final LocalDateTime timestamp1 = LocalDateTime.now();
-        final String target2 = "target2";
-        final LocalDateTime timestamp2 = LocalDateTime.now().minusDays(2);
-        final String target3 = "target3";
-        final LocalDateTime timestamp3 = LocalDateTime.now().minusDays(1);
-        List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder(target1, CertificateState.CANCELLED, timestamp1));
-        source.add(new CertificateStateHolder(target2, CertificateState.RECEIVED, timestamp2));
-        source.add(new CertificateStateHolder(target3, CertificateState.SENT, timestamp3));
-        List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(source);
+  @Test
+  public void testToCertificateStatusType() {
+    final String target1 = "target1";
+    final LocalDateTime timestamp1 = LocalDateTime.now();
+    final String target2 = "target2";
+    final LocalDateTime timestamp2 = LocalDateTime.now().minusDays(2);
+    final String target3 = "target3";
+    final LocalDateTime timestamp3 = LocalDateTime.now().minusDays(1);
+    List<CertificateStateHolder> source = new ArrayList<>();
+    source.add(new CertificateStateHolder(target1, CertificateState.CANCELLED, timestamp1));
+    source.add(new CertificateStateHolder(target2, CertificateState.RECEIVED, timestamp2));
+    source.add(new CertificateStateHolder(target3, CertificateState.SENT, timestamp3));
+    List<CertificateStatusType> res =
+        CertificateStateHolderConverter.toCertificateStatusType(source);
 
-        assertNotNull(res);
-        assertEquals(3, res.size());
-        assertEquals(target1, res.get(0).getTarget());
-        assertEquals(StatusType.CANCELLED, res.get(0).getType());
-        assertEquals(timestamp1, res.get(0).getTimestamp());
-        assertEquals(target2, res.get(1).getTarget());
-        assertEquals(StatusType.RECEIVED, res.get(1).getType());
-        assertEquals(timestamp2, res.get(1).getTimestamp());
-        assertEquals(target3, res.get(2).getTarget());
-        assertEquals(StatusType.SENT, res.get(2).getType());
-        assertEquals(timestamp3, res.get(2).getTimestamp());
-    }
+    assertNotNull(res);
+    assertEquals(3, res.size());
+    assertEquals(target1, res.get(0).getTarget());
+    assertEquals(StatusType.CANCELLED, res.get(0).getType());
+    assertEquals(timestamp1, res.get(0).getTimestamp());
+    assertEquals(target2, res.get(1).getTarget());
+    assertEquals(StatusType.RECEIVED, res.get(1).getType());
+    assertEquals(timestamp2, res.get(1).getTimestamp());
+    assertEquals(target3, res.get(2).getTarget());
+    assertEquals(StatusType.SENT, res.get(2).getType());
+    assertEquals(timestamp3, res.get(2).getTimestamp());
+  }
 
-    @Test
-    public void testToCertificateStatusTypeFiltersInvalidStates() {
-        final String target = "target";
-        final LocalDateTime timestamp = LocalDateTime.now().minusDays(2);
-        List<CertificateStateHolder> source = new ArrayList<>();
-        source.add(new CertificateStateHolder("target1", CertificateState.RESTORED, LocalDateTime.now()));
-        source.add(new CertificateStateHolder(target, CertificateState.RECEIVED, timestamp));
-        source.add(new CertificateStateHolder("target3", CertificateState.DELETED, LocalDateTime.now().minusDays(1)));
-        List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(source);
+  @Test
+  public void testToCertificateStatusTypeFiltersInvalidStates() {
+    final String target = "target";
+    final LocalDateTime timestamp = LocalDateTime.now().minusDays(2);
+    List<CertificateStateHolder> source = new ArrayList<>();
+    source.add(
+        new CertificateStateHolder("target1", CertificateState.RESTORED, LocalDateTime.now()));
+    source.add(new CertificateStateHolder(target, CertificateState.RECEIVED, timestamp));
+    source.add(
+        new CertificateStateHolder(
+            "target3", CertificateState.DELETED, LocalDateTime.now().minusDays(1)));
+    List<CertificateStatusType> res =
+        CertificateStateHolderConverter.toCertificateStatusType(source);
 
-        assertNotNull(res);
-        assertEquals(1, res.size());
-        assertEquals(target, res.get(0).getTarget());
-        assertEquals(StatusType.RECEIVED, res.get(0).getType());
-        assertEquals(timestamp, res.get(0).getTimestamp());
-    }
+    assertNotNull(res);
+    assertEquals(1, res.size());
+    assertEquals(target, res.get(0).getTarget());
+    assertEquals(StatusType.RECEIVED, res.get(0).getType());
+    assertEquals(timestamp, res.get(0).getTimestamp());
+  }
 }

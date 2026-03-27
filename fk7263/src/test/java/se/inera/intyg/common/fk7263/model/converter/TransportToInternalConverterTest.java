@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,425 +46,395 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 /**
  * @author marced
  */
-
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
 class TransportToInternalConverterTest {
 
-    private JAXBContext jaxbContext;
-    private Unmarshaller unmarshaller;
-    private ObjectMapper objectMapper;
-    private static final String RESOURCE_ROOT = "TransportToInternalConverterTest/";
-    @Autowired
-    private ApplicationContext applicationContext;
+  private JAXBContext jaxbContext;
+  private Unmarshaller unmarshaller;
+  private ObjectMapper objectMapper;
+  private static final String RESOURCE_ROOT = "TransportToInternalConverterTest/";
+  @Autowired private ApplicationContext applicationContext;
 
-    private JAXBElement<LakarutlatandeType> readUtlatandeTypeFromFile(String file)
-        throws JAXBException, IOException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = unmarshaller.unmarshal(
+  private JAXBElement<LakarutlatandeType> readUtlatandeTypeFromFile(String file)
+      throws JAXBException, IOException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        unmarshaller.unmarshal(
             new StreamSource(new ClassPathResource(file).getInputStream()),
             LakarutlatandeType.class);
-        return utlatandeElement;
-    }
-
-    @BeforeEach
-    void setUp() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(LakarutlatandeType.class);
-        unmarshaller = jaxbContext.createUnmarshaller();
-        objectMapper = new CustomObjectMapper();
-        applicationContext.getBean(TransportToInternal.class).initialize();
-    }
-
-    @Test
-    void testConversionWithWhitespaces() throws Exception {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "intyg-med-blanksteg.xml");
-
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "intyg-med-blanksteg.json")
-            .getInputStream());
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    @Test
-    void testConversionWithMaximalCertificate() throws JAXBException,
-        IOException, JSONException, ConverterException {
-
-        // read utlatandeType from file
-
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy-maximalt-fk7263-transport.xml");
-
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy-maximalt-fk7263-internal.json")
-            .getInputStream());
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    @Test
-    void testConversionWithMinimalCertificate() throws JAXBException,
-        IOException, JSONException, ConverterException {
-
-        // read utlatandeType from file
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy-minimalt-fk7263-transport.xml");
-
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy-minimalt-fk7263-internal.json")
-            .getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    @Test
-    void testConversionWithNoPrognosAngivelseButMotivering() throws JAXBException,
-        IOException, JSONException, ConverterException {
-
-        // read utlatandeType from file
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy-fk7263-without-prognoskod-transport.xml");
-
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy-fk7263-without-prognoskod-internal.json")
-            .getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    @Test
-    void testConversionWithKSH97PAsCodeSystem() throws JAXBException,
-        IOException, JSONException, ConverterException {
-
-        // read utlatandeType from file
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy-fk7263-with-ksh97.xml");
-
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy-fk7263-with-ksh97.json")
-            .getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-//
-//    // Below are tests for different ways of filling out an FK7263-form,
-//    // see readme in
-//    // /resource/TransportToExternalFK763LegacyConverterTest/legacy for more
-//    // info
-
-    /**
-     * Tests scenario 1, with fields: 1, 8b, 14 - 17.
-     */
-    @Test
-    void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario1.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario1.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 2 with fields: 1, 8b, 10, 14-17.
-     */
-    @Test
-    void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario2.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario2.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 3 with fields: 1, 8b, 10, 13, 14-17.
-     */
-    @Test
-    void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario3.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario3.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 4 with fields: 2b, 4a, 4b, 5, 8a, 8b, 14-17.
-     */
-    @Test
-    void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario4.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario4.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 5 with fields: 2a, 2b, 4a, 4b, 5, 8a, 8b, 14-17.
-     */
-    @Test
-    void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario5.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario5.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 6 with fields: 2a, 2b, 3, 4a, 4b, 5, 8a, 8b, 14-17.
-     */
-    @Test
-    void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario6.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario6.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 7 with fields: 2b, 4a, 4b, 5, 6b, 8a, 8b, 11, 13, 14-17.
-     */
-    @Test
-    void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario7.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario7.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 8 with fields: 2b, 4a, 4b, 5, 8a, 8b, 11, 14-17.
-     */
-    @Test
-    void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario8.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario8.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 9 with fields: 2a, 2b, 4a, 4b, 5, 7, 8a, 8b, 9, 10, 11,
-     * 14-17.
-     */
-    @Test
-    void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario9.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario9.json").getInputStream());
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 10 with fields: 2a, 2b, 3, 4a, 4b, 5, 6b, 7, 8a, 8b, 9,
-     * 10, 12, 14-17.
-     */
-    @Test
-    void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario10.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario10.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 11 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b,
-     * 9, 10, 14-17.
-     */
-    @Test
-    void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario11.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario11.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 12 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b,
-     * 9, 10, 12, 13, 14-17.
-     */
-    @Test
-    void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario12.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario12.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 13 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b,
-     * 9, 10, 11, 12, 13, 14-17.
-     */
-    @Test
-    void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario13.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario13.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 14, arbetsloshet.
-     */
-    @Test
-    void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario14.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario14.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 15, foraldraledighet.
-     */
-    @Test
-    void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario15.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario15.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
-
-    /**
-     * Tests scenario 16, arbetsloshet but with redundant <arbetsuppgift /> present.
-     * This case caused bug INTYG-1413.
-     */
-    @Test
-    void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = readUtlatandeTypeFromFile(RESOURCE_ROOT
-            + "legacy/scenario16.xml");
-        Fk7263Utlatande internalModel = TransportToInternal
-            .convert(utlatandeElement.getValue());
-
-        // serialize utlatande to JSON and compare with expected JSON
-        JsonNode tree = objectMapper.valueToTree(internalModel);
-        JsonNode expectedTree = objectMapper.readTree(new ClassPathResource(
-            RESOURCE_ROOT + "legacy/scenario16.json").getInputStream());
-
-        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
-    }
+    return utlatandeElement;
+  }
+
+  @BeforeEach
+  void setUp() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(LakarutlatandeType.class);
+    unmarshaller = jaxbContext.createUnmarshaller();
+    objectMapper = new CustomObjectMapper();
+    applicationContext.getBean(TransportToInternal.class).initialize();
+  }
+
+  @Test
+  void testConversionWithWhitespaces() throws Exception {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "intyg-med-blanksteg.xml");
+
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "intyg-med-blanksteg.json").getInputStream());
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  @Test
+  void testConversionWithMaximalCertificate()
+      throws JAXBException, IOException, JSONException, ConverterException {
+
+    // read utlatandeType from file
+
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy-maximalt-fk7263-transport.xml");
+
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy-maximalt-fk7263-internal.json")
+                .getInputStream());
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  @Test
+  void testConversionWithMinimalCertificate()
+      throws JAXBException, IOException, JSONException, ConverterException {
+
+    // read utlatandeType from file
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy-minimalt-fk7263-transport.xml");
+
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy-minimalt-fk7263-internal.json")
+                .getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  @Test
+  void testConversionWithNoPrognosAngivelseButMotivering()
+      throws JAXBException, IOException, JSONException, ConverterException {
+
+    // read utlatandeType from file
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy-fk7263-without-prognoskod-transport.xml");
+
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy-fk7263-without-prognoskod-internal.json")
+                .getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  @Test
+  void testConversionWithKSH97PAsCodeSystem()
+      throws JAXBException, IOException, JSONException, ConverterException {
+
+    // read utlatandeType from file
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy-fk7263-with-ksh97.xml");
+
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy-fk7263-with-ksh97.json")
+                .getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  //
+  //    // Below are tests for different ways of filling out an FK7263-form,
+  //    // see readme in
+  //    // /resource/TransportToExternalFK763LegacyConverterTest/legacy for more
+  //    // info
+
+  /** Tests scenario 1, with fields: 1, 8b, 14 - 17. */
+  @Test
+  void testScenario1() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario1.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario1.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 2 with fields: 1, 8b, 10, 14-17. */
+  @Test
+  void testScenario2() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario2.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario2.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 3 with fields: 1, 8b, 10, 13, 14-17. */
+  @Test
+  void testScenario3() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario3.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario3.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 4 with fields: 2b, 4a, 4b, 5, 8a, 8b, 14-17. */
+  @Test
+  void testScenario4() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario4.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario4.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 5 with fields: 2a, 2b, 4a, 4b, 5, 8a, 8b, 14-17. */
+  @Test
+  void testScenario5() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario5.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario5.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 6 with fields: 2a, 2b, 3, 4a, 4b, 5, 8a, 8b, 14-17. */
+  @Test
+  void testScenario6() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario6.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario6.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 7 with fields: 2b, 4a, 4b, 5, 6b, 8a, 8b, 11, 13, 14-17. */
+  @Test
+  void testScenario7() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario7.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario7.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 8 with fields: 2b, 4a, 4b, 5, 8a, 8b, 11, 14-17. */
+  @Test
+  void testScenario8() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario8.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario8.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 9 with fields: 2a, 2b, 4a, 4b, 5, 7, 8a, 8b, 9, 10, 11, 14-17. */
+  @Test
+  void testScenario9() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario9.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario9.json").getInputStream());
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 10 with fields: 2a, 2b, 3, 4a, 4b, 5, 6b, 7, 8a, 8b, 9, 10, 12, 14-17. */
+  @Test
+  void testScenario10() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario10.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario10.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 11 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b, 9, 10, 14-17. */
+  @Test
+  void testScenario11() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario11.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario11.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /**
+   * Tests scenario 12 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b, 9, 10, 12, 13, 14-17.
+   */
+  @Test
+  void testScenario12() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario12.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario12.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /**
+   * Tests scenario 13 with fields: 2a, 2b, 3, 4a, 4b, 5, 6a, 6b, 7, 8a, 8b, 9, 10, 11, 12, 13,
+   * 14-17.
+   */
+  @Test
+  void testScenario13() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario13.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario13.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 14, arbetsloshet. */
+  @Test
+  void testScenario14() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario14.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario14.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /** Tests scenario 15, foraldraledighet. */
+  @Test
+  void testScenario15() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario15.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario15.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
+
+  /**
+   * Tests scenario 16, arbetsloshet but with redundant <arbetsuppgift /> present. This case caused
+   * bug INTYG-1413.
+   */
+  @Test
+  void testScenario16() throws JAXBException, IOException, JSONException, ConverterException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        readUtlatandeTypeFromFile(RESOURCE_ROOT + "legacy/scenario16.xml");
+    Fk7263Utlatande internalModel = TransportToInternal.convert(utlatandeElement.getValue());
+
+    // serialize utlatande to JSON and compare with expected JSON
+    JsonNode tree = objectMapper.valueToTree(internalModel);
+    JsonNode expectedTree =
+        objectMapper.readTree(
+            new ClassPathResource(RESOURCE_ROOT + "legacy/scenario16.json").getInputStream());
+
+    JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+  }
 }

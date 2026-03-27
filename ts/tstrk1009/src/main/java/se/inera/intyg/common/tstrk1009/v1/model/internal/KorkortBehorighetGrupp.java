@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,20 +28,20 @@ import static se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorigh
 import com.google.common.collect.ImmutableSet;
 
 public enum KorkortBehorighetGrupp {
-    ALLA(getAllaBehorigheter()),
-    A_B_TRAKTOR(getABTraktorBehorigheter()),
-    C_E(getCEBehorigHeter()),
-    D(getDBehorigHeter()),
-    TAXI(getTaxiBehorigheter()),
-    KANINTETASTALLNING(getKanintetastallning());
+  ALLA(getAllaBehorigheter()),
+  A_B_TRAKTOR(getABTraktorBehorigheter()),
+  C_E(getCEBehorigHeter()),
+  D(getDBehorigHeter()),
+  TAXI(getTaxiBehorigheter()),
+  KANINTETASTALLNING(getKanintetastallning());
 
-    private final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter;
+  private final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter;
 
-    KorkortBehorighetGrupp(final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter) {
-        this.korkortsbehorigheter = korkortsbehorigheter;
-    }
+  KorkortBehorighetGrupp(final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter) {
+    this.korkortsbehorigheter = korkortsbehorigheter;
+  }
 
-    public ImmutableSet<Korkortsbehorighet> getKorkortsbehorigheter() {
-        return korkortsbehorigheter;
-    }
+  public ImmutableSet<Korkortsbehorighet> getKorkortsbehorigheter() {
+    return korkortsbehorigheter;
+  }
 }

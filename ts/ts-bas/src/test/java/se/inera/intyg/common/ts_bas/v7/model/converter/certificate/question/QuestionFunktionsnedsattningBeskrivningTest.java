@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,131 +43,130 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionFunktionsnedsattningBeskrivningTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeMandatoryValidationTests extends ValidationMandatoryTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected String getQuestionId() {
-            return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getExpression() {
-            return "$" + TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 180;
-        }
+    @Override
+    protected String getTextId() {
+      return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeMandatoryValidationTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFunktionsnedsattningBeskrivning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 180;
+    }
+  }
 }

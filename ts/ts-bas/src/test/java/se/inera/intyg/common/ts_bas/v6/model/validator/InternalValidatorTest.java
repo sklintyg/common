@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,126 +36,155 @@ import se.inera.intyg.common.ts_bas.v6.validator.TsBasValidator;
 
 public class InternalValidatorTest {
 
-    private TsBasValidator validator;
+  private TsBasValidator validator;
 
-    @Before
-    public void setUp() throws Exception {
-        validator = new TsBasValidator();
+  @Before
+  public void setUp() throws Exception {
+    validator = new TsBasValidator();
+  }
+
+  @Test
+  public void testValidate() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
+      TsBasUtlatandeV6 utlatande = scenario.asInternalModel();
+      ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+
+      assertEquals(
+          "Error in scenario "
+              + scenario.getName()
+              + "\n"
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+          ValidationStatus.VALID,
+          validationResponse.getStatus());
+
+      assertTrue(
+          "Error in scenario "
+              + scenario.getName()
+              + "\n"
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
+          validationResponse.getValidationErrors().isEmpty());
     }
+  }
 
-    @Test
-    public void testValidate() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            TsBasUtlatandeV6 utlatande = scenario.asInternalModel();
-            ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+  @Test
+  public void testValidateWithErrors() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
-            assertEquals(
-                "Error in scenario " + scenario.getName() + "\n"
-                    + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-                ValidationStatus.VALID, validationResponse.getStatus());
+      TsBasUtlatandeV6 utlatande = scenario.asInternalModel();
+      ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-            assertTrue(
-                "Error in scenario " + scenario.getName() + "\n"
-                    + Joiner.on(", ").join(validationResponse.getValidationErrors()), validationResponse
-                    .getValidationErrors().isEmpty());
-
-        }
+      assertEquals(ValidationStatus.INVALID, validationResponse.getStatus());
     }
+  }
 
-    @Test
-    public void testValidateWithErrors() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
-
-            TsBasUtlatandeV6 utlatande = scenario.asInternalModel();
-            ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-
-            assertEquals(ValidationStatus.INVALID, validationResponse.getStatus());
-        }
-    }
-
-    @Test
-    public void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
+  @Test
+  public void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
             .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-        assertEquals("diabetes.behandlingsTyp", getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+    assertEquals(
+        "diabetes.behandlingsTyp",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-    @Test
-    public void testInvalidSynskarpa() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+  @Test
+  public void testInvalidSynskarpa() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-        assertEquals("syn.vansterOga.utanKorrektion", getSingleElement(validationResponse.getValidationErrors()).getField());
-    }
+    assertEquals(
+        "syn.vansterOga.utanKorrektion",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
 
-    @Test
-    public void testFunktionshinderBeskrivningMissing() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
+  @Test
+  public void testFunktionshinderBeskrivningMissing() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
             .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-        assertEquals("funktionsnedsattning.beskrivning", getSingleElement(validationResponse.getValidationErrors())
-            .getField());
+    assertEquals(
+        "funktionsnedsattning.beskrivning",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
+
+  @Test
+  public void testIdentitetMissing() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("invalid-missing-identitet").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+
+    assertEquals(
+        "vardkontakt.idkontroll",
+        getSingleElement(validationResponse.getValidationErrors()).getField());
+  }
+
+  @Test
+  public void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
+    Boolean sjukhusEllerLakar = utlatande.getSjukhusvard().getSjukhusEllerLakarkontakt();
+    Sjukhusvard.Builder sjukhusvard = Sjukhusvard.builder();
+    sjukhusvard.setSjukhusEllerLakarkontakt(sjukhusEllerLakar);
+    utlatande = utlatande.toBuilder().setSjukhusvard(sjukhusvard.build()).build();
+
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    int index = 0;
+    assertEquals(
+        "sjukhusvard.tidpunkt", validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "sjukhusvard.vardinrattning",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "sjukhusvard.anledning", validationResponse.getValidationErrors().get(index++).getField());
+  }
+
+  @Test
+  public void testInvalidMinimalR35TestFails() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("fail-minimal-r35").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    int index = 0;
+    assertEquals(
+        "syn.hogerOga.medKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.vansterOga.medKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.binokulart.medKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+  }
+
+  @Test
+  public void testInvalidMinimalTestFails() throws Exception {
+    TsBasUtlatandeV6 utlatande =
+        ScenarioFinder.getInternalScenario("fail-annat-felsynskarpa").asInternalModel();
+    ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+    int index = 0;
+    assertEquals(
+        "syn.hogerOga.medKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+    assertEquals(
+        "syn.vansterOga.medKorrektion",
+        validationResponse.getValidationErrors().get(index++).getField());
+  }
+
+  /**
+   * Utility method for getting a single element from a collection.
+   *
+   * @param collection the collection
+   * @return a single element, throws IllegalArgumentException in case the collection contains more
+   *     than one element
+   */
+  public static <T> T getSingleElement(Collection<T> collection) {
+    if (collection.size() != 1) {
+      throw new java.lang.IllegalArgumentException("Expected collection with exactly one element");
     }
-
-    @Test
-    public void testIdentitetMissing() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("invalid-missing-identitet")
-            .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-
-        assertEquals("vardkontakt.idkontroll", getSingleElement(validationResponse.getValidationErrors())
-            .getField());
-    }
-
-    @Test
-    public void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
-        Boolean sjukhusEllerLakar = utlatande.getSjukhusvard().getSjukhusEllerLakarkontakt();
-        Sjukhusvard.Builder sjukhusvard = Sjukhusvard.builder();
-        sjukhusvard.setSjukhusEllerLakarkontakt(sjukhusEllerLakar);
-        utlatande = utlatande.toBuilder().setSjukhusvard(sjukhusvard.build()).build();
-
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        int index = 0;
-        assertEquals("sjukhusvard.tidpunkt", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("sjukhusvard.vardinrattning", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("sjukhusvard.anledning", validationResponse.getValidationErrors().get(index++).getField());
-    }
-
-    @Test
-    public void testInvalidMinimalR35TestFails() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-minimal-r35")
-            .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        int index = 0;
-        assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.vansterOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.binokulart.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-    }
-
-    @Test
-    public void testInvalidMinimalTestFails() throws Exception {
-        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-annat-felsynskarpa")
-            .asInternalModel();
-        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-        int index = 0;
-        assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("syn.vansterOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
-    }
-
-    /**
-     * Utility method for getting a single element from a collection.
-     *
-     * @param collection the collection
-     * @return a single element, throws IllegalArgumentException in case the collection contains more than one element
-     */
-    public static <T> T getSingleElement(Collection<T> collection) {
-        if (collection.size() != 1) {
-            throw new java.lang.IllegalArgumentException("Expected collection with exactly one element");
-        }
-        return collection.iterator().next();
-    }
+    return collection.iterator().next();
+  }
 }

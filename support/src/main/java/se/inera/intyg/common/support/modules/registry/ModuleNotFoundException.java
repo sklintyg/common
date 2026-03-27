@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,21 +20,21 @@ package se.inera.intyg.common.support.modules.registry;
 
 public class ModuleNotFoundException extends Exception {
 
-    private static final long serialVersionUID = 2806302183790886656L;
+  private static final long serialVersionUID = 2806302183790886656L;
 
-    public ModuleNotFoundException() {
-        super();
-    }
+  public ModuleNotFoundException() {
+    super();
+  }
 
-    public ModuleNotFoundException(String arg0, Throwable arg1) {
-        super(arg0, arg1);
-    }
+  public ModuleNotFoundException(String arg0, Throwable arg1) {
+    super(arg0, arg1);
+  }
 
-    public ModuleNotFoundException(String arg0) {
-        super(arg0);
-    }
+  public ModuleNotFoundException(String arg0) {
+    super(arg0);
+  }
 
-    public ModuleNotFoundException(Throwable arg0) {
-        super(arg0);
-    }
+  public ModuleNotFoundException(Throwable arg0) {
+    super(arg0);
+  }
 }

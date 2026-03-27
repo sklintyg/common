@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,16 +27,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryKontakt {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(KONTAKT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(KONTAKT_CATEGORY_TEXT_ID))
-                    .build()
-            )
-            .build();
-    }
-
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(KONTAKT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(textProvider.get(KONTAKT_CATEGORY_TEXT_ID))
+                .build())
+        .build();
+  }
 }

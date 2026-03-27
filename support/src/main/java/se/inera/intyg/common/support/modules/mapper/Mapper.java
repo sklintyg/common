@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,16 +27,11 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
  */
 public interface Mapper {
 
-    /**
-     * Map data from an existing certificate to an already (newly created) existing draft.
-     */
-    Mapper map(Utlatande source, CreateDraftCopyHolder draftData) throws ModuleException;
+  /** Map data from an existing certificate to an already (newly created) existing draft. */
+  Mapper map(Utlatande source, CreateDraftCopyHolder draftData) throws ModuleException;
 
-    /**
-     * Get internal model as JSON.
-     */
-    String json() throws ModuleException;
+  /** Get internal model as JSON. */
+  String json() throws ModuleException;
 
-    Utlatande utlatande();
-
+  Utlatande utlatande();
 }

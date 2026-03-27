@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,49 +39,51 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
 public class QuestionStadigvarandeMedicineringBeskrivning {
 
-    private static final short TEXT_LIMIT = 180;
+  private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(Medicinering medicinering, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Medicinering medicinering, int index, CertificateTextProvider textProvider) {
 
-        final var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
+    final var beskrivning = medicinering != null ? medicinering.getBeskrivning() : null;
 
-        return CertificateDataElement.builder()
-            .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .parent(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
-                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
-                    .text(beskrivning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-                        .expression(singleExpression(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-                        .expression(singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+        .parent(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
+                .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                .text(beskrivning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                  .expression(
+                      singleExpression(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                  .expression(
+                      singleExpression(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
-            MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
+        MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
+  }
 }

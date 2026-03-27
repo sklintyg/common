@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,64 +27,85 @@ import java.util.Set;
 import org.springframework.core.io.ClassPathResource;
 
 /**
- * Created by marced on 2017-10-11.
- * The purpose of this class is to help getting the fieldsnames and structure from a template PDF and it's acroforms
- * fields.
+ * Created by marced on 2017-10-11. The purpose of this class is to help getting the fieldsnames and
+ * structure from a template PDF and it's acroforms fields.
  */
 public class ListAcrofields {
 
-    public static void main(String[] args) throws Exception {
+  public static void main(String[] args) throws Exception {
 
-        final File file = new ClassPathResource(DEFAULT_PDF_TEMPLATE).getFile();
-        PdfReader pdfReader = new PdfReader(file.getAbsolutePath());
-        final AcroFields acroFields = pdfReader.getAcroFields();
-        final Set<String> fieldNames = acroFields.getFields().keySet();
+    final File file = new ClassPathResource(DEFAULT_PDF_TEMPLATE).getFile();
+    PdfReader pdfReader = new PdfReader(file.getAbsolutePath());
+    final AcroFields acroFields = pdfReader.getAcroFields();
+    final Set<String> fieldNames = acroFields.getFields().keySet();
 
-        fieldNames.stream().forEach(s -> {
-            String rawFileName = acroFields.getTranslatedFieldName(s);
-            String constantName = rawFileName.toUpperCase().replace(" ", "_").replace("Å", "A").replace("Ä", "A").replace("Ö", "O")
-                .replace("/", "_");
-            String possibleValues = getStates(acroFields, s);
-            String type = getType(acroFields.getFieldType(s));
-            String comment = "\n//Type " + type + (possibleValues.length() > 0 ? " - values [" + possibleValues + "]" : "");
-            System.out.println(comment + "\nprivate static final String FIELD_" + constantName + " = \"" + rawFileName + "\";");
-        });
+    fieldNames.stream()
+        .forEach(
+            s -> {
+              String rawFileName = acroFields.getTranslatedFieldName(s);
+              String constantName =
+                  rawFileName
+                      .toUpperCase()
+                      .replace(" ", "_")
+                      .replace("Å", "A")
+                      .replace("Ä", "A")
+                      .replace("Ö", "O")
+                      .replace("/", "_");
+              String possibleValues = getStates(acroFields, s);
+              String type = getType(acroFields.getFieldType(s));
+              String comment =
+                  "\n//Type "
+                      + type
+                      + (possibleValues.length() > 0 ? " - values [" + possibleValues + "]" : "");
+              System.out.println(
+                  comment
+                      + "\nprivate static final String FIELD_"
+                      + constantName
+                      + " = \""
+                      + rawFileName
+                      + "\";");
+            });
 
-        fieldNames.stream().forEach(s -> {
-            String possibleValues = getStates(acroFields, s);
-            String type = getType(acroFields.getFieldType(s));
-            System.out.println(acroFields.getTranslatedFieldName(s) + " " + type + " values [" + possibleValues + "]");
-        });
+    fieldNames.stream()
+        .forEach(
+            s -> {
+              String possibleValues = getStates(acroFields, s);
+              String type = getType(acroFields.getFieldType(s));
+              System.out.println(
+                  acroFields.getTranslatedFieldName(s)
+                      + " "
+                      + type
+                      + " values ["
+                      + possibleValues
+                      + "]");
+            });
+  }
+
+  private static String getType(int fieldType) {
+    switch (fieldType) {
+      case AcroFields.FIELD_TYPE_NONE:
+        return "NONE";
+      case AcroFields.FIELD_TYPE_PUSHBUTTON:
+        return "BUTTON";
+      case AcroFields.FIELD_TYPE_CHECKBOX:
+        return "CHECKBOX";
+      case AcroFields.FIELD_TYPE_RADIOBUTTON:
+        return "RADIOBUTTON";
+      case AcroFields.FIELD_TYPE_TEXT:
+        return "TEXT";
+      case AcroFields.FIELD_TYPE_LIST:
+        return "LIST";
+      case AcroFields.FIELD_TYPE_COMBO:
+        return "COMBO";
+      case AcroFields.FIELD_TYPE_SIGNATURE:
+        return "SIGNATURE";
+      default:
+        return "?";
     }
+  }
 
-    private static String getType(int fieldType) {
-        switch (fieldType) {
-            case AcroFields.FIELD_TYPE_NONE:
-                return "NONE";
-            case AcroFields.FIELD_TYPE_PUSHBUTTON:
-                return "BUTTON";
-            case AcroFields.FIELD_TYPE_CHECKBOX:
-                return "CHECKBOX";
-            case AcroFields.FIELD_TYPE_RADIOBUTTON:
-                return "RADIOBUTTON";
-            case AcroFields.FIELD_TYPE_TEXT:
-                return "TEXT";
-            case AcroFields.FIELD_TYPE_LIST:
-                return "LIST";
-            case AcroFields.FIELD_TYPE_COMBO:
-                return "COMBO";
-            case AcroFields.FIELD_TYPE_SIGNATURE:
-                return "SIGNATURE";
-            default:
-                return "?";
-
-        }
-
-    }
-
-    private static String getStates(AcroFields fields, String fieldName) {
-        String[] values = fields.getAppearanceStates(fieldName);
-        return String.join(",", values);
-    }
-
+  private static String getStates(AcroFields fields, String fieldName) {
+    String[] values = fields.getAppearanceStates(fieldName);
+    return String.join(",", values);
+  }
 }

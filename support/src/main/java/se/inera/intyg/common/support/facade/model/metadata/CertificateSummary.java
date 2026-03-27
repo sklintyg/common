@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,11 +29,9 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateSummary.Ce
 @Builder
 public class CertificateSummary {
 
-    String label;
-    String value;
+  String label;
+  String value;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateSummaryBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateSummaryBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,90 +49,94 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
 
-/**
- * Factory for creating a editable model.
- */
+/** Factory for creating a editable model. */
 @Component("ts-bas.v6.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatandeV6> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    /**
-     * Create a new TS-bas draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link TsBasUtlatandeV6}
-     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException if something unforeseen happens
-     */
-    @Override
-    public TsBasUtlatandeV6 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
-        TsBasUtlatandeV6.Builder template = TsBasUtlatandeV6.builder();
-        GrundData grundData = new GrundData();
+  /**
+   * Create a new TS-bas draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link TsBasUtlatandeV6}
+   * @throws se.inera.intyg.common.support.model.converter.util.ConverterException if something
+   *     unforeseen happens
+   */
+  @Override
+  public TsBasUtlatandeV6 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+    TsBasUtlatandeV6.Builder template = TsBasUtlatandeV6.builder();
+    GrundData grundData = new GrundData();
 
-        template.setId(newDraftData.getCertificateId());
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    template.setId(newDraftData.getCertificateId());
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
-        template.setGrundData(grundData);
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    template.setGrundData(grundData);
 
-        template.setBedomning(Bedomning.builder().setKorkortstyp(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
-        template.setDiabetes(Diabetes.builder().build());
-        template.setFunktionsnedsattning(Funktionsnedsattning.builder().build());
-        template.setHjartKarl(HjartKarl.builder().build());
-        template.setHorselBalans(HorselBalans.builder().build());
-        template.setIntygAvser(IntygAvser.create(null));
-        template.setMedicinering(Medicinering.builder().build());
-        template.setMedvetandestorning(Medvetandestorning.builder().build());
-        template.setNarkotikaLakemedel(NarkotikaLakemedel.builder().build());
-        template.setSjukhusvard(Sjukhusvard.builder().build());
-        template.setSyn(Syn.builder().build());
-        template.setVardkontakt(Vardkontakt.create(null, null));
+    template.setBedomning(
+        Bedomning.builder().setKorkortstyp(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
+    template.setDiabetes(Diabetes.builder().build());
+    template.setFunktionsnedsattning(Funktionsnedsattning.builder().build());
+    template.setHjartKarl(HjartKarl.builder().build());
+    template.setHorselBalans(HorselBalans.builder().build());
+    template.setIntygAvser(IntygAvser.create(null));
+    template.setMedicinering(Medicinering.builder().build());
+    template.setMedvetandestorning(Medvetandestorning.builder().build());
+    template.setNarkotikaLakemedel(NarkotikaLakemedel.builder().build());
+    template.setSjukhusvard(Sjukhusvard.builder().build());
+    template.setSyn(Syn.builder().build());
+    template.setVardkontakt(Vardkontakt.create(null, null));
 
-        return template.build();
+    return template.build();
+  }
+
+  @Override
+  public TsBasUtlatandeV6 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!TsBasUtlatandeV6.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type TsBasUtlatandeV6");
+    }
+    TsBasUtlatandeV6 tsBasUtlatande = (TsBasUtlatandeV6) template;
+    LOG.trace(
+        "Creating copy with id {} from {}", copyData.getCertificateId(), tsBasUtlatande.getId());
+
+    TsBasUtlatandeV6.Builder templateBuilder = tsBasUtlatande.toBuilder();
+
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    GrundData grundData = tsBasUtlatande.getGrundData();
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInCopy(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
+
+  private void resetDataInCopy(GrundData grundData) {
+    grundData.setSigneringsdatum(null);
+  }
+
+  private void populateWithId(TsBasUtlatandeV6.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.isNullOrEmpty(utlatandeId)) {
+      throw new ConverterException("No certificateID found");
     }
 
-    @Override
-    public TsBasUtlatandeV6 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!TsBasUtlatandeV6.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type TsBasUtlatandeV6");
-        }
-        TsBasUtlatandeV6 tsBasUtlatande = (TsBasUtlatandeV6) template;
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsBasUtlatande.getId());
+    utlatande.setId(utlatandeId);
+  }
 
-        TsBasUtlatandeV6.Builder templateBuilder = tsBasUtlatande.toBuilder();
+  private void resetDataInGrundData(GrundData grundData) {
+    Patient patient = new Patient();
+    patient.setPersonId(grundData.getPatient().getPersonId());
+    grundData.setPatient(patient);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        GrundData grundData = tsBasUtlatande.getGrundData();
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-        resetDataInCopy(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
-    }
-
-    private void resetDataInCopy(GrundData grundData) {
-        grundData.setSigneringsdatum(null);
-    }
-
-    private void populateWithId(TsBasUtlatandeV6.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.isNullOrEmpty(utlatandeId)) {
-            throw new ConverterException("No certificateID found");
-        }
-
-        utlatande.setId(utlatandeId);
-    }
-
-    private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-
-        grundData.setSigneringsdatum(null);
-    }
-
+    grundData.setSigneringsdatum(null);
+  }
 }

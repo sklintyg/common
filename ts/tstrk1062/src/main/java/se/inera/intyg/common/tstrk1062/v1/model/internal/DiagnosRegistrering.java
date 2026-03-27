@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,16 +28,16 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class DiagnosRegistrering {
 
-    @JsonCreator
-    public static DiagnosRegistrering create(@JsonProperty(ALLMANT_INMATNING_DELSVAR_JSON_ID) DiagnosRegistreringsTyp typ) {
-        return new AutoValue_DiagnosRegistrering(typ);
-    }
+  @JsonCreator
+  public static DiagnosRegistrering create(
+      @JsonProperty(ALLMANT_INMATNING_DELSVAR_JSON_ID) DiagnosRegistreringsTyp typ) {
+    return new AutoValue_DiagnosRegistrering(typ);
+  }
 
-    @Nullable
-    public abstract DiagnosRegistreringsTyp getTyp();
+  @Nullable public abstract DiagnosRegistreringsTyp getTyp();
 
-    public enum DiagnosRegistreringsTyp {
-        DIAGNOS_KODAD,
-        DIAGNOS_FRITEXT;
-    }
+  public enum DiagnosRegistreringsTyp {
+    DIAGNOS_KODAD,
+    DIAGNOS_FRITEXT;
+  }
 }

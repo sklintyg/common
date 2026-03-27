@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,33 +36,33 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionKorrektionsglasensStyrka {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
-        return CertificateDataElement.builder()
-            .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
-                    .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID))
-                    .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID)
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
-                    .selected(korrektionsglasensStyrka)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var korrektionsglasensStyrka = syn != null ? syn.getKorrektionsglasensStyrka() : null;
+    return CertificateDataElement.builder()
+        .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxBoolean.builder()
+                .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
+                .text(textProvider.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_TEXT_ID))
+                .label(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_TEXT_ID)
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID)
+                .selected(korrektionsglasensStyrka)
+                .build())
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID,
-            UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID,
+        UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID);
+  }
 }

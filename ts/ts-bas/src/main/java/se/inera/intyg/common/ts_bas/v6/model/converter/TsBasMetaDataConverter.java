@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,39 +32,44 @@ import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
 
 public final class TsBasMetaDataConverter {
 
-    private TsBasMetaDataConverter() {
-    }
+  private TsBasMetaDataConverter() {}
 
-    public static CertificateMetaData toCertificateMetaData(IntygMeta intygMeta, TSBasIntyg intyg) {
-        CertificateMetaData metaData = new CertificateMetaData();
-        metaData.setCertificateId(intyg.getIntygsId());
-        metaData.setCertificateType(intyg.getIntygsTyp());
-        metaData.setIssuerName(intyg.getGrundData().getSkapadAv().getFullstandigtNamn());
-        metaData.setFacilityName(intyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        metaData.setSignDate(LocalDateTime.parse(intyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        metaData.setAdditionalInfo(intygMeta.getAdditionalInfo());
-        metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
-        List<Status> statuses = toStatusList(intygMeta.getStatus());
-        metaData.setStatus(statuses);
-        return metaData;
-    }
+  public static CertificateMetaData toCertificateMetaData(IntygMeta intygMeta, TSBasIntyg intyg) {
+    CertificateMetaData metaData = new CertificateMetaData();
+    metaData.setCertificateId(intyg.getIntygsId());
+    metaData.setCertificateType(intyg.getIntygsTyp());
+    metaData.setIssuerName(intyg.getGrundData().getSkapadAv().getFullstandigtNamn());
+    metaData.setFacilityName(intyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    metaData.setSignDate(
+        LocalDateTime.parse(
+            intyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    metaData.setAdditionalInfo(intygMeta.getAdditionalInfo());
+    metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
+    List<Status> statuses = toStatusList(intygMeta.getStatus());
+    metaData.setStatus(statuses);
+    return metaData;
+  }
 
-    public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
-        List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size())
+  public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
+    List<Status> statuses =
+        certificateStatuses != null
+            ? new ArrayList<>(certificateStatuses.size())
             : Collections.<Status>emptyList();
-        if (certificateStatuses != null) {
-            for (IntygStatus certificateStatus : certificateStatuses) {
-                if (certificateStatus != null) {
-                    statuses.add(toStatus(certificateStatus));
-                }
-            }
+    if (certificateStatuses != null) {
+      for (IntygStatus certificateStatus : certificateStatuses) {
+        if (certificateStatus != null) {
+          statuses.add(toStatus(certificateStatus));
         }
-        return statuses;
+      }
     }
+    return statuses;
+  }
 
-    public static Status toStatus(IntygStatus certificateStatus) {
-        return new Status(CertificateState.valueOf(certificateStatus.getType().value()),
-            certificateStatus.getTarget(),
-            LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-    }
+  public static Status toStatus(IntygStatus certificateStatus) {
+    return new Status(
+        CertificateState.valueOf(certificateStatus.getType().value()),
+        certificateStatus.getTarget(),
+        LocalDateTime.parse(
+            certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,29 +31,32 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public abstract class ValueViewTextTest<T> extends ValueTest {
 
-    protected abstract CertificateDataElement getElement(T expectedValue);
+  protected abstract CertificateDataElement getElement(T expectedValue);
 
-    protected abstract List<InputExpectedValuePair<T, CertificateDataValueViewText>> inputExpectedValuePairList();
+  protected abstract List<InputExpectedValuePair<T, CertificateDataValueViewText>>
+      inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T, CertificateDataValueViewText>> inputExpectedValuePairStream() {
-        return inputExpectedValuePairList().stream();
-    }
+  protected Stream<InputExpectedValuePair<T, CertificateDataValueViewText>>
+      inputExpectedValuePairStream() {
+    return inputExpectedValuePairList().stream();
+  }
 
-    @Override
-    protected CertificateDataElement getElement() {
-        return getElement(null);
-    }
+  @Override
+  protected CertificateDataElement getElement() {
+    return getElement(null);
+  }
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.VIEW_TEXT;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.VIEW_TEXT;
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeViewTextValue(InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
-        final var question = getElement(inputExpectedValuePair.getInput());
-        final var value = (CertificateDataValueViewText) question.getValue();
-        assertEquals(inputExpectedValuePair.getExpectedValue(), value);
-    }
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeViewTextValue(
+      InputExpectedValuePair<T, CertificateDataValueCodeList> inputExpectedValuePair) {
+    final var question = getElement(inputExpectedValuePair.getInput());
+    final var value = (CertificateDataValueViewText) question.getValue();
+    assertEquals(inputExpectedValuePair.getExpectedValue(), value);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,53 +33,59 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
-/**
- * Renders the texts in the right and left margins.
- */
+/** Renders the texts in the right and left margins. */
 public class MarginTexts implements IEventHandler {
 
-    private static final float FONT_SIZE = 10f;
-    private final PrintConfig printConfig;
-    private final PdfFont svarFont;
+  private static final float FONT_SIZE = 10f;
+  private final PrintConfig printConfig;
+  private final PdfFont svarFont;
 
-    public MarginTexts(PrintConfig printConfig, PdfFont svarFont) {
-        this.printConfig = printConfig;
-        this.svarFont = svarFont;
+  public MarginTexts(PrintConfig printConfig, PdfFont svarFont) {
+    this.printConfig = printConfig;
+    this.svarFont = svarFont;
+  }
+
+  @Override
+  public void handleEvent(Event event) {
+    if (!(event instanceof PdfDocumentEvent)) {
+      return;
     }
+    final var docEvent = (PdfDocumentEvent) event;
+    final var pdf = docEvent.getDocument();
+    final var page = docEvent.getPage();
+    final var pageSize = page.getPageSize();
+    final var pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
 
-    @Override
-    public void handleEvent(Event event) {
-        if (!(event instanceof PdfDocumentEvent)) {
-            return;
-        }
-        final var docEvent = (PdfDocumentEvent) event;
-        final var pdf = docEvent.getDocument();
-        final var page = docEvent.getPage();
-        final var pageSize = page.getPageSize();
-        final var pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
+    try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+      canvas.setFont(svarFont).setFontSize(FONT_SIZE);
 
-        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
-            canvas.setFont(svarFont).setFontSize(FONT_SIZE);
+      // Left margin
+      canvas.showTextAligned(
+          printConfig.getLeftMarginTypText(),
+          millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+          millimetersToPoints(PAGE_MARGIN_LEFT),
+          TextAlignment.LEFT,
+          VerticalAlignment.MIDDLE,
+          (float) Math.PI / 2);
 
-            // Left margin
-            canvas.showTextAligned(printConfig.getLeftMarginTypText(),
-                millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
-
-            // Right margin, visas endast för signerat intyg, ej heller på sista sidan om det är ett informationsblad.
-            if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && renderIntygsId(pdf, page)) {
-                canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
-                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                    millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
-            }
-        }
+      // Right margin, visas endast för signerat intyg, ej heller på sista sidan om det är ett
+      // informationsblad.
+      if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && renderIntygsId(pdf, page)) {
+        canvas.showTextAligned(
+            "Intygs-ID: " + printConfig.getIntygsId(),
+            pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            TextAlignment.LEFT,
+            VerticalAlignment.MIDDLE,
+            (float) Math.PI / 2);
+      }
     }
+  }
 
-    private boolean renderIntygsId(PdfDocument pdf, PdfPage page) {
-        if (printConfig.hasSummaryPage()) {
-            return pdf.getPageNumber(page) != pdf.getNumberOfPages();
-        }
-        return true;
+  private boolean renderIntygsId(PdfDocument pdf, PdfPage page) {
+    if (printConfig.hasSummaryPage()) {
+      return pdf.getPageNumber(page) != pdf.getNumberOfPages();
     }
+    return true;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,7 +26,6 @@ import java.util.Objects;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataIcfValue;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
@@ -39,6 +38,7 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosis;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisList;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInteger;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -48,262 +48,277 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 public final class ValueToolkit {
 
-    private ValueToolkit() {
+  private ValueToolkit() {}
 
+  public static Boolean booleanValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueBoolean)) {
+      return null;
     }
 
-    public static Boolean booleanValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueBoolean)) {
-            return null;
-        }
-
-        final var booleanDataValue = (CertificateDataValueBoolean) dataValue;
-        if (!Objects.equals(booleanDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        return booleanDataValue.getSelected();
+    final var booleanDataValue = (CertificateDataValueBoolean) dataValue;
+    if (!Objects.equals(booleanDataValue.getId(), valueId)) {
+      return null;
     }
 
-    public static String textValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueText)) {
-            return null;
-        }
+    return booleanDataValue.getSelected();
+  }
 
-        final var textDataValue = (CertificateDataValueText) dataValue;
-        if (!Objects.equals(textDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        if (textDataValue.getText() == null || textDataValue.getText().isEmpty()) {
-            return null;
-        }
-
-        return textDataValue.getText();
+  public static String textValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueText)) {
+      return null;
     }
 
-    public static String integerValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueInteger)) {
-            return null;
-        }
-
-        final var integerDataValue = (CertificateDataValueInteger) dataValue;
-        if (!Objects.equals(integerDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        if (integerDataValue.getValue() == null) {
-            return null;
-        }
-        return String.valueOf(integerDataValue.getValue());
+    final var textDataValue = (CertificateDataValueText) dataValue;
+    if (!Objects.equals(textDataValue.getId(), valueId)) {
+      return null;
     }
 
-    public static Integer yearValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueYear)) {
-            return null;
-        }
-
-        final var yearDataValue = (CertificateDataValueYear) dataValue;
-        if (!Objects.equals(yearDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        if (yearDataValue.getYear() == null) {
-            return null;
-        }
-
-        return yearDataValue.getYear();
+    if (textDataValue.getText() == null || textDataValue.getText().isEmpty()) {
+      return null;
     }
 
-    public static String uncertainDateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataUncertainDateValue)) {
-            return null;
-        }
+    return textDataValue.getText();
+  }
 
-        final var uncertainDateValue = (CertificateDataUncertainDateValue) dataValue;
-        if (!Objects.equals(uncertainDateValue.getId(), valueId)) {
-            return null;
-        }
-
-        return uncertainDateValue.getValue();
+  public static String integerValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueInteger)) {
+      return null;
     }
 
-    public static String icfTextValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataIcfValue)) {
-            return null;
-        }
-
-        final var icfDataValue = (CertificateDataIcfValue) dataValue;
-        if (!Objects.equals(icfDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        return icfDataValue.getText();
+    final var integerDataValue = (CertificateDataValueInteger) dataValue;
+    if (!Objects.equals(integerDataValue.getId(), valueId)) {
+      return null;
     }
 
-    public static List<String> icfCodeValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataIcfValue)) {
-            return null;
-        }
+    if (integerDataValue.getValue() == null) {
+      return null;
+    }
+    return String.valueOf(integerDataValue.getValue());
+  }
 
-        final var icfDataValue = (CertificateDataIcfValue) dataValue;
-        if (!Objects.equals(icfDataValue.getId(), valueId)) {
-            return null;
-        }
-
-        return icfDataValue.getIcfCodes();
+  public static Integer yearValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueYear)) {
+      return null;
     }
 
-    public static LocalDate dateListValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueDateList)) {
-            return null;
-        }
+    final var yearDataValue = (CertificateDataValueYear) dataValue;
+    if (!Objects.equals(yearDataValue.getId(), valueId)) {
+      return null;
+    }
 
-        final var dateListDataValue = (CertificateDataValueDateList) dataValue;
-        final var dateValue = dateListDataValue.getList()
-            .stream()
+    if (yearDataValue.getYear() == null) {
+      return null;
+    }
+
+    return yearDataValue.getYear();
+  }
+
+  public static String uncertainDateValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataUncertainDateValue)) {
+      return null;
+    }
+
+    final var uncertainDateValue = (CertificateDataUncertainDateValue) dataValue;
+    if (!Objects.equals(uncertainDateValue.getId(), valueId)) {
+      return null;
+    }
+
+    return uncertainDateValue.getValue();
+  }
+
+  public static String icfTextValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataIcfValue)) {
+      return null;
+    }
+
+    final var icfDataValue = (CertificateDataIcfValue) dataValue;
+    if (!Objects.equals(icfDataValue.getId(), valueId)) {
+      return null;
+    }
+
+    return icfDataValue.getText();
+  }
+
+  public static List<String> icfCodeValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataIcfValue)) {
+      return null;
+    }
+
+    final var icfDataValue = (CertificateDataIcfValue) dataValue;
+    if (!Objects.equals(icfDataValue.getId(), valueId)) {
+      return null;
+    }
+
+    return icfDataValue.getIcfCodes();
+  }
+
+  public static LocalDate dateListValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueDateList)) {
+      return null;
+    }
+
+    final var dateListDataValue = (CertificateDataValueDateList) dataValue;
+    final var dateValue =
+        dateListDataValue.getList().stream()
             .filter(item -> item.getId().equals(valueId))
             .findAny()
             .orElse(null);
-        if (dateValue == null) {
-            return null;
-        }
-
-        return dateValue.getDate();
+    if (dateValue == null) {
+      return null;
     }
 
-    public static LocalDate dateValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueDate)) {
-            return null;
-        }
+    return dateValue.getDate();
+  }
 
-        final var dateValue = (CertificateDataValueDate) dataValue;
-        if (dateValue.getId() == null || !dateValue.getId().equalsIgnoreCase(valueId)) {
-            return null;
-        }
-        return dateValue.getDate();
+  public static LocalDate dateValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueDate)) {
+      return null;
     }
 
-    public static String codeValue(Map<String, CertificateDataElement> data, String questionId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueCode)) {
-            return null;
-        }
+    final var dateValue = (CertificateDataValueDate) dataValue;
+    if (dateValue.getId() == null || !dateValue.getId().equalsIgnoreCase(valueId)) {
+      return null;
+    }
+    return dateValue.getDate();
+  }
 
-        final var codeDataValue = (CertificateDataValueCode) dataValue;
-        return codeDataValue.getCode();
+  public static String codeValue(Map<String, CertificateDataElement> data, String questionId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueCode)) {
+      return null;
     }
 
-    public static List<CertificateDataValueCode> codeListValue(Map<String, CertificateDataElement> data, String questionId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueCodeList)) {
-            return Collections.emptyList();
-        }
+    final var codeDataValue = (CertificateDataValueCode) dataValue;
+    return codeDataValue.getCode();
+  }
 
-        final var codeListDataValue = (CertificateDataValueCodeList) dataValue;
-        return codeListDataValue.getList();
+  public static List<CertificateDataValueCode> codeListValue(
+      Map<String, CertificateDataElement> data, String questionId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueCodeList)) {
+      return Collections.emptyList();
     }
 
-    public static List<CertificateDataValueDiagnosis> diagnosisListValue(Map<String, CertificateDataElement> data, String questionId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueDiagnosisList)) {
-            return Collections.emptyList();
-        }
+    final var codeListDataValue = (CertificateDataValueCodeList) dataValue;
+    return codeListDataValue.getList();
+  }
 
-        final var diagnosisListDataValue = (CertificateDataValueDiagnosisList) dataValue;
-        return diagnosisListDataValue.getList();
+  public static List<CertificateDataValueDiagnosis> diagnosisListValue(
+      Map<String, CertificateDataElement> data, String questionId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueDiagnosisList)) {
+      return Collections.emptyList();
     }
 
-    public static List<CertificateDataValueDateRange> dateRangeListValue(Map<String, CertificateDataElement> data, String questionId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueDateRangeList)) {
-            return Collections.emptyList();
-        }
+    final var diagnosisListDataValue = (CertificateDataValueDiagnosisList) dataValue;
+    return diagnosisListDataValue.getList();
+  }
 
-        final var dateRangeListDataValue = (CertificateDataValueDateRangeList) dataValue;
-        return dateRangeListDataValue.getList();
+  public static List<CertificateDataValueDateRange> dateRangeListValue(
+      Map<String, CertificateDataElement> data, String questionId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueDateRangeList)) {
+      return Collections.emptyList();
     }
 
-    private static CertificateDataValue getValue(Map<String, CertificateDataElement> data, String questionId) {
-        final var element = data.get(questionId);
-        if (element == null) {
-            return null;
-        }
+    final var dateRangeListDataValue = (CertificateDataValueDateRangeList) dataValue;
+    return dateRangeListDataValue.getList();
+  }
 
-        return element.getValue();
+  private static CertificateDataValue getValue(
+      Map<String, CertificateDataElement> data, String questionId) {
+    final var element = data.get(questionId);
+    if (element == null) {
+      return null;
     }
 
-    public static InternalLocalDateInterval dateRangeValue(Map<String, CertificateDataElement> data, String questionId, String valueId) {
-        final var dataValue = getValue(data, questionId);
-        if (!(dataValue instanceof CertificateDataValueDateRange)) {
-            return null;
-        }
+    return element.getValue();
+  }
 
-        final var dateRangeValue = (CertificateDataValueDateRange) dataValue;
-        if (!Objects.equals(dateRangeValue.getId(), valueId)) {
-            return null;
-        }
-
-        return getInternalLocalDateInterval(dateRangeValue);
+  public static InternalLocalDateInterval dateRangeValue(
+      Map<String, CertificateDataElement> data, String questionId, String valueId) {
+    final var dataValue = getValue(data, questionId);
+    if (!(dataValue instanceof CertificateDataValueDateRange)) {
+      return null;
     }
 
-    public static InternalLocalDateInterval getInternalLocalDateInterval(CertificateDataValueDateRange dateRangeValue) {
-        if (dateRangeValue.getFrom() == null && dateRangeValue.getTo() == null) {
-            return null;
-        }
-
-        final var internalLocalDateInterval = new InternalLocalDateInterval();
-
-        if (dateRangeValue.getFrom() != null) {
-            internalLocalDateInterval.setFrom(new InternalDate(dateRangeValue.getFrom()));
-        }
-
-        if (dateRangeValue.getTo() != null) {
-            internalLocalDateInterval.setTom(new InternalDate(dateRangeValue.getTo()));
-        }
-        return internalLocalDateInterval;
+    final var dateRangeValue = (CertificateDataValueDateRange) dataValue;
+    if (!Objects.equals(dateRangeValue.getId(), valueId)) {
+      return null;
     }
 
-    public static boolean isNumeric(String stringNumber) {
-        if (stringNumber == null || stringNumber.isEmpty()) {
-            return false;
-        }
-        try {
-            Integer.parseInt(stringNumber);
-        } catch (NumberFormatException exception) {
-            return false;
-        }
-        return true;
+    return getInternalLocalDateInterval(dateRangeValue);
+  }
+
+  public static InternalLocalDateInterval getInternalLocalDateInterval(
+      CertificateDataValueDateRange dateRangeValue) {
+    if (dateRangeValue.getFrom() == null && dateRangeValue.getTo() == null) {
+      return null;
     }
 
-    public static GrundData grundData(CertificateMetadata metadata, GrundData grundData) {
-        if (metadata == null) {
-            return grundData;
-        }
-        var updatedGrundData = grundData;
-        var updatedStaff = grundData.getSkapadAv() != null ? grundData.getSkapadAv() : new HoSPersonal();
-        var updatedCareUnit = updatedStaff.getVardenhet() != null ? updatedStaff.getVardenhet() : new Vardenhet();
-        updatedCareUnit.setPostadress(metadata.getUnit().getAddress());
-        updatedCareUnit.setPostort(metadata.getUnit().getCity());
-        updatedCareUnit.setPostnummer(metadata.getUnit().getZipCode());
-        updatedCareUnit.setTelefonnummer(metadata.getUnit().getPhoneNumber());
-        updatedStaff.setVardenhet(updatedCareUnit);
-        updatedGrundData.setSkapadAv(updatedStaff);
+    final var internalLocalDateInterval = new InternalLocalDateInterval();
 
-        if (!metadata.getPatient().isAddressFromPU()) {
-            updatedGrundData.getPatient().setPostadress(metadata.getPatient().getStreet());
-            updatedGrundData.getPatient().setPostort(metadata.getPatient().getCity());
-            updatedGrundData.getPatient().setPostnummer(metadata.getPatient().getZipCode());
-        }
-        return updatedGrundData;
+    if (dateRangeValue.getFrom() != null) {
+      internalLocalDateInterval.setFrom(new InternalDate(dateRangeValue.getFrom()));
     }
+
+    if (dateRangeValue.getTo() != null) {
+      internalLocalDateInterval.setTom(new InternalDate(dateRangeValue.getTo()));
+    }
+    return internalLocalDateInterval;
+  }
+
+  public static boolean isNumeric(String stringNumber) {
+    if (stringNumber == null || stringNumber.isEmpty()) {
+      return false;
+    }
+    try {
+      Integer.parseInt(stringNumber);
+    } catch (NumberFormatException exception) {
+      return false;
+    }
+    return true;
+  }
+
+  public static GrundData grundData(CertificateMetadata metadata, GrundData grundData) {
+    if (metadata == null) {
+      return grundData;
+    }
+    var updatedGrundData = grundData;
+    var updatedStaff =
+        grundData.getSkapadAv() != null ? grundData.getSkapadAv() : new HoSPersonal();
+    var updatedCareUnit =
+        updatedStaff.getVardenhet() != null ? updatedStaff.getVardenhet() : new Vardenhet();
+    updatedCareUnit.setPostadress(metadata.getUnit().getAddress());
+    updatedCareUnit.setPostort(metadata.getUnit().getCity());
+    updatedCareUnit.setPostnummer(metadata.getUnit().getZipCode());
+    updatedCareUnit.setTelefonnummer(metadata.getUnit().getPhoneNumber());
+    updatedStaff.setVardenhet(updatedCareUnit);
+    updatedGrundData.setSkapadAv(updatedStaff);
+
+    if (!metadata.getPatient().isAddressFromPU()) {
+      updatedGrundData.getPatient().setPostadress(metadata.getPatient().getStreet());
+      updatedGrundData.getPatient().setPostort(metadata.getPatient().getCity());
+      updatedGrundData.getPatient().setPostnummer(metadata.getPatient().getZipCode());
+    }
+    return updatedGrundData;
+  }
 }

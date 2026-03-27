@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,49 +23,49 @@ import se.inera.intyg.common.support.facade.model.CertificateStatus;
 
 public class CertificateEventDTO {
 
-    private String certificateId;
-    private LocalDateTime timestamp;
-    private CertificateEventTypeDTO type;
-    private String relatedCertificateId;
-    private CertificateStatus relatedCertificateStatus;
+  private String certificateId;
+  private LocalDateTime timestamp;
+  private CertificateEventTypeDTO type;
+  private String relatedCertificateId;
+  private CertificateStatus relatedCertificateStatus;
 
-    public String getCertificateId() {
-        return certificateId;
-    }
+  public String getCertificateId() {
+    return certificateId;
+  }
 
-    public void setCertificateId(String certificateId) {
-        this.certificateId = certificateId;
-    }
+  public void setCertificateId(String certificateId) {
+    this.certificateId = certificateId;
+  }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+  public LocalDateTime getTimestamp() {
+    return timestamp;
+  }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+  public void setTimestamp(LocalDateTime timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    public CertificateEventTypeDTO getType() {
-        return type;
-    }
+  public CertificateEventTypeDTO getType() {
+    return type;
+  }
 
-    public void setType(CertificateEventTypeDTO type) {
-        this.type = type;
-    }
+  public void setType(CertificateEventTypeDTO type) {
+    this.type = type;
+  }
 
-    public String getRelatedCertificateId() {
-        return relatedCertificateId;
-    }
+  public String getRelatedCertificateId() {
+    return relatedCertificateId;
+  }
 
-    public void setRelatedCertificateId(String relatedCertificateId) {
-        this.relatedCertificateId = relatedCertificateId;
-    }
+  public void setRelatedCertificateId(String relatedCertificateId) {
+    this.relatedCertificateId = relatedCertificateId;
+  }
 
-    public CertificateStatus getRelatedCertificateStatus() {
-        return relatedCertificateStatus;
-    }
+  public CertificateStatus getRelatedCertificateStatus() {
+    return relatedCertificateStatus;
+  }
 
-    public void setRelatedCertificateStatus(CertificateStatus relatedCertificateStatus) {
-        this.relatedCertificateStatus = relatedCertificateStatus;
-    }
+  public void setRelatedCertificateStatus(CertificateStatus relatedCertificateStatus) {
+    this.relatedCertificateStatus = relatedCertificateStatus;
+  }
 }

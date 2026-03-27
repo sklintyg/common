@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,13 +31,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate
 @Builder
 public class CertificateDataValueDateRangeList implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.DATE_RANGE_LIST;
-    String id;
-    List<CertificateDataValueDateRange> list;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.DATE_RANGE_LIST;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueDateRangeListBuilder {
+  String id;
+  List<CertificateDataValueDateRange> list;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueDateRangeListBuilder {}
 }

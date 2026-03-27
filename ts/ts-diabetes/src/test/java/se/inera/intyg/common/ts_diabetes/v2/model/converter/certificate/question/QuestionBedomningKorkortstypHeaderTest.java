@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
@@ -34,51 +33,51 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigHeaderT
 @ExtendWith(MockitoExtension.class)
 class QuestionBedomningKorkortstypHeaderTest {
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstypHeader.toCertificate(0);
-        }
-
-        @Override
-        protected String getId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return BEDOMNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortstypHeader.toCertificate(0);
     }
 
-    @Nested
-    class IncludeConfigHeaderTests extends ConfigHeaderTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstypHeader.toCertificate(0);
-        }
-
-        @Override
-        protected String getTextId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getId() {
+      return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
     }
+
+    @Override
+    protected String getParent() {
+      return BEDOMNING_CATEGORY_ID;
+    }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigHeaderTests extends ConfigHeaderTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortstypHeader.toCertificate(0);
+    }
+
+    @Override
+    protected String getTextId() {
+      return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
 }

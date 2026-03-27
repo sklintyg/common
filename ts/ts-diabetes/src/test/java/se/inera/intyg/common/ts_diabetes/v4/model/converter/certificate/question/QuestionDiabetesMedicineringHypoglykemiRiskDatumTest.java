@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -54,173 +53,182 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesMedicineringHypoglykemiRiskDatumTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          null, null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(null, null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ALLMANT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigDateTest extends ConfigDateTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(null, personId, 0, textProvider);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected String getTextId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected LocalDate getMinDate() {
-            return LocalDate.parse("1912-12-12");
-        }
-
-        @Override
-        protected LocalDate getMaxDate() {
-            return LocalDate.now();
-        }
+    @Override
+    protected String getParent() {
+      return ALLMANT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueDateTest extends ValueDateTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var allmant = Allmant.builder()
-                .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-12-15"))
-                .build();
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(allmant, null, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigDateTest extends ConfigDateTest {
 
-        @Override
-        protected String getJsonId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected LocalDate getDate() {
-            return LocalDate.parse("2022-12-15");
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          null, personId, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected String getJsonId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalDateValueTest extends InternalValueTest<Allmant, InternalDate> {
-
-        @Override
-        protected CertificateDataElement getElement(Allmant input) {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(input, null, 0, textProvider);
-        }
-
-        @Override
-        protected InternalDate toInternalValue(Certificate certificate) {
-            return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Allmant, InternalDate>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(Allmant.builder()
-                    .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-12-15"))
-                    .build(), new InternalDate("2022-12-15")),
-                new InputExpectedValuePair<>(Allmant.builder()
-                    .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate(""))
-                    .build(), null),
-                new InputExpectedValuePair<>(null, null)
-            );
-        }
+    @Override
+    protected String getTextId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected LocalDate getMinDate() {
+      return LocalDate.parse("1912-12-12");
+    }
+
+    @Override
+    protected LocalDate getMaxDate() {
+      return LocalDate.now();
+    }
+  }
+
+  @Nested
+  class IncludeValueDateTest extends ValueDateTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var allmant =
+          Allmant.builder()
+              .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-12-15"))
+              .build();
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          allmant, null, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
+    }
+
+    @Override
+    protected LocalDate getDate() {
+      return LocalDate.parse("2022-12-15");
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          null, null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          null, null, 0, textProvider);
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID;
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalDateValueTest extends InternalValueTest<Allmant, InternalDate> {
+
+    @Override
+    protected CertificateDataElement getElement(Allmant input) {
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+          input, null, 0, textProvider);
+    }
+
+    @Override
+    protected InternalDate toInternalValue(Certificate certificate) {
+      return QuestionDiabetesMedicineringHypoglykemiRiskDatum.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Allmant, InternalDate>> inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Allmant.builder()
+                  .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-12-15"))
+                  .build(),
+              new InternalDate("2022-12-15")),
+          new InputExpectedValuePair<>(
+              Allmant.builder()
+                  .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate(""))
+                  .build(),
+              null),
+          new InputExpectedValuePair<>(null, null));
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,53 +42,52 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 @ExtendWith(MockitoExtension.class)
 class QuestionMedicinskBehandlingPlaneradBehandlingHeaderTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question =
+          QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(0, texts);
+      assertEquals(PLANERADBEHANDLING_SVAR_ID_20, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
-                0, texts);
-            assertEquals(PLANERADBEHANDLING_SVAR_ID_20, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
-                expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
-                0, texts);
-            assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
-                0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(PLANERADBEHANDLING_SVAR_TEXT);
-        }
-
-        @Test
-        void shouldIncludeHeaderConfigType() {
-            final var question = QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
-                0, texts);
-            assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question =
+          QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(0, texts);
+      assertEquals(MEDICINSKABEHANDLINGAR_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question =
+          QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(PLANERADBEHANDLING_SVAR_TEXT);
+    }
+
+    @Test
+    void shouldIncludeHeaderConfigType() {
+      final var question =
+          QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(0, texts);
+      assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
+    }
+  }
 }

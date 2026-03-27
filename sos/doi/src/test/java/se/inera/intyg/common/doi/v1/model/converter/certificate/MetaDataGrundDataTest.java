@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,118 +41,113 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class MetaDataGrundDataTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    final var unit = new Vardenhet();
+
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
+
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    grundData.setPatient(patient);
+
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    private DoiUtlatandeV1 internalCertificate;
+
+    @Nested
+    class CommonMetadata {
+
+      @BeforeEach
+      void setUp() {
+        internalCertificate =
+            DoiUtlatandeV1.builder()
+                .setGrundData(grundData)
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .build();
+      }
+
+      @Test
+      void shouldIncludeId() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertEquals(internalCertificate.getId(), metadata.getId());
+      }
+
+      @Test
+      void shouldIncludeType() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertEquals(internalCertificate.getTyp(), metadata.getType());
+      }
+
+      @Test
+      void shouldIncludeTypeVersion() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertEquals(internalCertificate.getTextVersion(), metadata.getTypeVersion());
+      }
+
+      @Test
+      void shouldIncludeName() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertEquals("Dödsorsaksintyg", metadata.getName());
+      }
+
+      @Test
+      void shouldIncludeDescription() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertTrue(metadata.getDescription().trim().length() > 0, "Should contain description");
+      }
+
+      @Test
+      void shouldIncludeUnit() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertNotNull(metadata.getUnit(), "Missing unit!");
+      }
+
+      @Test
+      void shouldIncludeIssuedBy() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
+      }
+
+      @Test
+      void shouldIncludePatient() {
+        final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
+        assertNotNull(metadata.getPatient(), "Missing patient!");
+      }
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    private CertificateMetadata metadata;
 
     @BeforeEach
-    void setup() {
-        final var unit = new Vardenhet();
-
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
-
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        grundData.setPatient(patient);
-
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+    void setUp() {
+      metadata =
+          CertificateMetadata.builder()
+              .unit(Unit.builder().build())
+              .patient(Patient.builder().build())
+              .build();
     }
 
-    @Nested
-    class ToCertificate {
-
-        private DoiUtlatandeV1 internalCertificate;
-
-        @Nested
-        class CommonMetadata {
-
-            @BeforeEach
-            void setUp() {
-                internalCertificate = DoiUtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeId() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertEquals(internalCertificate.getId(), metadata.getId());
-            }
-
-            @Test
-            void shouldIncludeType() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertEquals(internalCertificate.getTyp(), metadata.getType());
-            }
-
-            @Test
-            void shouldIncludeTypeVersion() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertEquals(internalCertificate.getTextVersion(), metadata.getTypeVersion());
-            }
-
-            @Test
-            void shouldIncludeName() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertEquals("Dödsorsaksintyg", metadata.getName());
-            }
-
-            @Test
-            void shouldIncludeDescription() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertTrue(metadata.getDescription().trim().length() > 0, "Should contain description");
-            }
-
-            @Test
-            void shouldIncludeUnit() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertNotNull(metadata.getUnit(), "Missing unit!");
-            }
-
-            @Test
-            void shouldIncludeIssuedBy() {
-                final var metadata = MetaDataGrundData.toCertificate(
-                    internalCertificate, texts);
-                assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
-            }
-
-            @Test
-            void shouldIncludePatient() {
-                final var metadata = MetaDataGrundData.toCertificate(internalCertificate, texts);
-                assertNotNull(metadata.getPatient(), "Missing patient!");
-            }
-        }
+    @Test
+    void shouldIncludeGrundData() {
+      final var actualGrundData = toInternal(metadata, grundData);
+      assertNotNull(actualGrundData, "Missing grundData!");
     }
-
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        private CertificateMetadata metadata;
-
-        @BeforeEach
-        void setUp() {
-            metadata = CertificateMetadata.builder()
-                .unit(Unit.builder().build())
-                .patient(Patient.builder().build())
-                .build();
-        }
-
-        @Test
-        void shouldIncludeGrundData() {
-            final var actualGrundData = toInternal(metadata, grundData);
-            assertNotNull(actualGrundData, "Missing grundData!");
-        }
-    }
+  }
 }

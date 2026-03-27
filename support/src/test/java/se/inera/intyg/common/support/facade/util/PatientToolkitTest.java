@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,37 +27,37 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class PatientToolkitTest {
 
-    @Test
-    void shallReturnBirthDateForPersonId() {
-        final var expectedBirthDate = LocalDate.of(1912, 12, 12);
-        final var personId = Personnummer.createPersonnummer("19121212-1212").get();
-        final var actualBirthDate = PatientToolkit.birthDate(personId);
-        assertEquals(expectedBirthDate, actualBirthDate);
-    }
+  @Test
+  void shallReturnBirthDateForPersonId() {
+    final var expectedBirthDate = LocalDate.of(1912, 12, 12);
+    final var personId = Personnummer.createPersonnummer("19121212-1212").get();
+    final var actualBirthDate = PatientToolkit.birthDate(personId);
+    assertEquals(expectedBirthDate, actualBirthDate);
+  }
 
-    @Test
-    void shallReturnBirthDateForPersonIdAsCoordinationNumber() {
-        final var expectedBirthDate = LocalDate.of(1912, 12, 12);
-        final var personId = Personnummer.createPersonnummer("19121272-1212").get();
-        final var actualBirthDate = PatientToolkit.birthDate(personId);
-        assertEquals(expectedBirthDate, actualBirthDate);
-    }
+  @Test
+  void shallReturnBirthDateForPersonIdAsCoordinationNumber() {
+    final var expectedBirthDate = LocalDate.of(1912, 12, 12);
+    final var personId = Personnummer.createPersonnummer("19121272-1212").get();
+    final var actualBirthDate = PatientToolkit.birthDate(personId);
+    assertEquals(expectedBirthDate, actualBirthDate);
+  }
 
-    @Test
-    void shallReturnBirthYearForPersonId() {
-        final var expectedBirthYear = 1912;
-        final var personId = Personnummer.createPersonnummer("19121212-1212").get();
-        final var actualBirthYear = PatientToolkit.birthYear(personId);
-        assertEquals(expectedBirthYear, actualBirthYear);
-    }
+  @Test
+  void shallReturnBirthYearForPersonId() {
+    final var expectedBirthYear = 1912;
+    final var personId = Personnummer.createPersonnummer("19121212-1212").get();
+    final var actualBirthYear = PatientToolkit.birthYear(personId);
+    assertEquals(expectedBirthYear, actualBirthYear);
+  }
 
-    @Test
-    void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthYear() {
-        assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthYear(null));
-    }
+  @Test
+  void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthYear() {
+    assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthYear(null));
+  }
 
-    @Test
-    void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthDate() {
-        assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthDate(null));
-    }
+  @Test
+  void shallThrowIllegalArgumentExceptionIfPersonIdIsNullBirthDate() {
+    assertThrows(IllegalArgumentException.class, () -> PatientToolkit.birthDate(null));
+  }
 }

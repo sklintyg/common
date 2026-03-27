@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
 
 public class QuestionNedsattNjurfunktion {
 
-    public static CertificateDataElement toCertificate(Njurar njurar, int index, CertificateTextProvider textProvider) {
-        final var nedsattNjurfunktion = njurar != null && njurar.getNedsattNjurfunktion() != null ? njurar.getNedsattNjurfunktion() : null;
-        return CertificateDataElement.builder()
-            .id(NEDSATT_NJURFUNKTION_SVAR_ID)
-            .index(index)
-            .parent(NJURFUNKTION_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(NEDSATT_NJURFUNKTION_JSON_ID)
-                    .text(textProvider.get(NEDSATT_NJURFUNKTION_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(NEDSATT_NJURFUNKTION_JSON_ID)
-                    .selected(nedsattNjurfunktion)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(NEDSATT_NJURFUNKTION_SVAR_ID)
-                        .expression(exists(NEDSATT_NJURFUNKTION_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Njurar njurar, int index, CertificateTextProvider textProvider) {
+    final var nedsattNjurfunktion =
+        njurar != null && njurar.getNedsattNjurfunktion() != null
+            ? njurar.getNedsattNjurfunktion()
+            : null;
+    return CertificateDataElement.builder()
+        .id(NEDSATT_NJURFUNKTION_SVAR_ID)
+        .index(index)
+        .parent(NJURFUNKTION_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(NEDSATT_NJURFUNKTION_JSON_ID)
+                .text(textProvider.get(NEDSATT_NJURFUNKTION_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(NEDSATT_NJURFUNKTION_JSON_ID)
+                .selected(nedsattNjurfunktion)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(NEDSATT_NJURFUNKTION_SVAR_ID)
+                  .expression(exists(NEDSATT_NJURFUNKTION_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), NEDSATT_NJURFUNKTION_SVAR_ID, NEDSATT_NJURFUNKTION_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), NEDSATT_NJURFUNKTION_SVAR_ID, NEDSATT_NJURFUNKTION_JSON_ID);
+  }
 }

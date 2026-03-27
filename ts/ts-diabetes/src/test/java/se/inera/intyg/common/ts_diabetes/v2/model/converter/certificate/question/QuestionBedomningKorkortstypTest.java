@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -47,104 +46,107 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 @ExtendWith(MockitoExtension.class)
 class QuestionBedomningKorkortstypTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortstyp.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstyp.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortstyp.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Bedomning> {
-
-        @Override
-        protected CertificateDataElement getElement(Bedomning expectedValue) {
-            return QuestionBedomningKorkortstyp.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Bedomning, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            final var bedomningOneValue = new Bedomning();
-            bedomningOneValue.getKorkortstyp().add(BedomningKorkortstyp.C1);
-
-            final var bedomningEmptyValue = new Bedomning();
-            bedomningEmptyValue.getKorkortstyp();
-
-            final var bedomningMultipleValues = new Bedomning();
-            bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.C1);
-            bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.D1E);
-
-            return List.of(
-                new InputExpectedValuePair<>(null,
-                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
-                new InputExpectedValuePair<>(bedomningEmptyValue,
-                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
-                new InputExpectedValuePair<>(new Bedomning(),
-                    CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
-                new InputExpectedValuePair<>(bedomningOneValue, CertificateDataValueViewText.builder().text("C1").build()),
-                new InputExpectedValuePair<>(bedomningMultipleValues, CertificateDataValueViewText.builder()
-                    .text("C1, D1E").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortstyp.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<Bedomning> {
+
+    @Override
+    protected CertificateDataElement getElement(Bedomning expectedValue) {
+      return QuestionBedomningKorkortstyp.toCertificate(expectedValue, 0, texts);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Bedomning, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      final var bedomningOneValue = new Bedomning();
+      bedomningOneValue.getKorkortstyp().add(BedomningKorkortstyp.C1);
+
+      final var bedomningEmptyValue = new Bedomning();
+      bedomningEmptyValue.getKorkortstyp();
+
+      final var bedomningMultipleValues = new Bedomning();
+      bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.C1);
+      bedomningMultipleValues.getKorkortstyp().add(BedomningKorkortstyp.D1E);
+
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
+          new InputExpectedValuePair<>(
+              bedomningEmptyValue,
+              CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
+          new InputExpectedValuePair<>(
+              new Bedomning(),
+              CertificateDataValueViewText.builder().text("Kan inte ta ställning").build()),
+          new InputExpectedValuePair<>(
+              bedomningOneValue, CertificateDataValueViewText.builder().text("C1").build()),
+          new InputExpectedValuePair<>(
+              bedomningMultipleValues,
+              CertificateDataValueViewText.builder().text("C1, D1E").build()));
+    }
+  }
 }

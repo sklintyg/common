@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,39 +26,37 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata;
 
 public final class CertificateBuilder {
 
-    private Map<String, CertificateDataElement> data = new HashMap<>();
-    private CertificateMetadata metadata;
+  private Map<String, CertificateDataElement> data = new HashMap<>();
+  private CertificateMetadata metadata;
 
-    public static CertificateBuilder create() {
-        return new CertificateBuilder();
+  public static CertificateBuilder create() {
+    return new CertificateBuilder();
+  }
+
+  private CertificateBuilder() {}
+
+  public CertificateBuilder addElement(CertificateDataElement element) {
+    this.data.put(element.getId(), element);
+    return this;
+  }
+
+  public CertificateBuilder conditionalAddElement(
+      CertificateDataElement element, boolean condition) {
+    if (condition) {
+      this.data.put(element.getId(), element);
     }
+    return this;
+  }
 
-    private CertificateBuilder() {
+  public CertificateBuilder metadata(CertificateMetadata metadata) {
+    this.metadata = metadata;
+    return this;
+  }
 
-    }
-
-    public CertificateBuilder addElement(CertificateDataElement element) {
-        this.data.put(element.getId(), element);
-        return this;
-    }
-
-    public CertificateBuilder conditionalAddElement(CertificateDataElement element, boolean condition) {
-        if (condition) {
-            this.data.put(element.getId(), element);
-        }
-        return this;
-    }
-
-    public CertificateBuilder metadata(CertificateMetadata metadata) {
-        this.metadata = metadata;
-        return this;
-    }
-
-    public Certificate build() {
-        final var certificate = new Certificate();
-        certificate.setMetadata(metadata);
-        certificate.setData(data);
-        return certificate;
-    }
-
+  public Certificate build() {
+    final var certificate = new Certificate();
+    certificate.setMetadata(metadata);
+    certificate.setData(data);
+    return certificate;
+  }
 }

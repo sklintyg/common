@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,61 +33,59 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 
 public final class CertificateStateHolderConverter {
 
+  private CertificateStateHolderConverter() {}
 
-    private CertificateStateHolderConverter() {
+  public static List<IntygsStatus> toIntygsStatusType(List<CertificateStateHolder> source) {
+    if (source == null || source.isEmpty()) {
+      return Collections.emptyList();
     }
 
-    public static List<IntygsStatus> toIntygsStatusType(List<CertificateStateHolder> source) {
-        if (source == null || source.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<IntygsStatus> states = new ArrayList<>();
-        for (CertificateStateHolder state : source) {
-            states.add(toIntygsStatusType(state));
-        }
-        return states;
+    List<IntygsStatus> states = new ArrayList<>();
+    for (CertificateStateHolder state : source) {
+      states.add(toIntygsStatusType(state));
     }
+    return states;
+  }
 
-    private static IntygsStatus toIntygsStatusType(CertificateStateHolder source) {
-        IntygsStatus status = new IntygsStatus();
-        status.setStatus(toStatuskod(source.getState()));
-        status.setTidpunkt(source.getTimestamp());
-        status.setPart(toPart(source.getTarget()));
+  private static IntygsStatus toIntygsStatusType(CertificateStateHolder source) {
+    IntygsStatus status = new IntygsStatus();
+    status.setStatus(toStatuskod(source.getState()));
+    status.setTidpunkt(source.getTimestamp());
+    status.setPart(toPart(source.getTarget()));
 
-        return status;
+    return status;
+  }
+
+  private static Statuskod toStatuskod(CertificateState state) {
+    StatusKod statuskodEnum = toStatusKod(state);
+    Statuskod statuskod = new Statuskod();
+    statuskod.setCodeSystem(KV_STATUS_CODE_SYSTEM);
+    statuskod.setCode(statuskodEnum.name());
+    statuskod.setDisplayName(statuskodEnum.getDisplayName());
+    return statuskod;
+  }
+
+  private static StatusKod toStatusKod(CertificateState state) {
+    switch (state) {
+      case RECEIVED:
+        return StatusKod.RECEIV;
+      case SENT:
+        return StatusKod.SENTTO;
+      case CANCELLED:
+        return StatusKod.CANCEL;
+      case DELETED:
+        return StatusKod.DELETE;
+      case RESTORED:
+        return StatusKod.RESTOR;
+      default:
+        throw new IllegalArgumentException(state.toString());
     }
+  }
 
-    private static Statuskod toStatuskod(CertificateState state) {
-        StatusKod statuskodEnum = toStatusKod(state);
-        Statuskod statuskod = new Statuskod();
-        statuskod.setCodeSystem(KV_STATUS_CODE_SYSTEM);
-        statuskod.setCode(statuskodEnum.name());
-        statuskod.setDisplayName(statuskodEnum.getDisplayName());
-        return statuskod;
-    }
-
-    private static StatusKod toStatusKod(CertificateState state) {
-        switch (state) {
-            case RECEIVED:
-                return StatusKod.RECEIV;
-            case SENT:
-                return StatusKod.SENTTO;
-            case CANCELLED:
-                return StatusKod.CANCEL;
-            case DELETED:
-                return StatusKod.DELETE;
-            case RESTORED:
-                return StatusKod.RESTOR;
-            default:
-                throw new IllegalArgumentException(state.toString());
-        }
-    }
-
-    private static Part toPart(String target) {
-        Part part = new Part();
-        part.setCode(target);
-        part.setCodeSystem(KV_PART_CODE_SYSTEM);
-        return part;
-    }
+  private static Part toPart(String target) {
+    Part part = new Part();
+    part.setCode(target);
+    part.setCodeSystem(KV_PART_CODE_SYSTEM);
+    return part;
+  }
 }

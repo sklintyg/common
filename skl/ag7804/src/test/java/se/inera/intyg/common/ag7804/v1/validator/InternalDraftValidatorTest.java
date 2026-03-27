@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,20 +66,18 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
 
-    @Mock
-    WebcertModuleService moduleService;
+  @Mock WebcertModuleService moduleService;
 
-    @InjectMocks
-    InternalDraftValidatorImpl validator;
+  @InjectMocks InternalDraftValidatorImpl validator;
 
-    @InjectMocks
-    ValidatorUtil validatorUtil;
+  @InjectMocks ValidatorUtil validatorUtil;
 
-    Ag7804UtlatandeV1.Builder builderTemplate;
+  Ag7804UtlatandeV1.Builder builderTemplate;
 
-    @Before
-    public void setUp() throws Exception {
-        builderTemplate = Ag7804UtlatandeV1.builder()
+  @Before
+  public void setUp() throws Exception {
+    builderTemplate =
+        Ag7804UtlatandeV1.builder()
             .setId("intygsId")
             .setGrundData(buildGrundData(LocalDateTime.now()))
             .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
@@ -89,1178 +87,1327 @@ public class InternalDraftValidatorTest {
             .setFunktionsnedsattning("funktionsnedsattning")
             .setAktivitetsbegransning("aktivitetsbegransning")
             .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null))
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(7))))))
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(7))))))
             .setArbetslivsinriktadeAtgarder(
-                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
-            .setArbetslivsinriktadeAtgarderBeskrivning("arbetslivsinriktadeAtgarderAktuelltBeskrivning")
+                List.of(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
+            .setArbetslivsinriktadeAtgarderBeskrivning(
+                "arbetslivsinriktadeAtgarderAktuelltBeskrivning")
             .setTextVersion("");
 
-        when(moduleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(moduleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
 
-        // use reflection to set InternalValidatorUtil in InternalDraftValidator
-        Field field = InternalDraftValidatorImpl.class.getDeclaredField("validatorUtil");
-        field.setAccessible(true);
-        field.set(validator, validatorUtil);
-    }
+    // use reflection to set InternalValidatorUtil in InternalDraftValidator
+    Field field = InternalDraftValidatorImpl.class.getDeclaredField("validatorUtil");
+    field.setAccessible(true);
+    field.set(validator, validatorUtil);
+  }
 
-    @Test
-    public void validateDraft() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+  @Test
+  public void validateDraft() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertFalse(res.hasErrorMessages());
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertFalse(res.hasErrorMessages());
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateGrundForMUMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setUndersokningAvPatienten(null)
-            .build();
+  @Test
+  public void validateGrundForMUMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setUndersokningAvPatienten(null).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
+    assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUUndersokningAvPatienten() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
-            .build();
+  @Test
+  public void validateGrundForMUUndersokningAvPatienten() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setUndersokningAvPatienten(new InternalDate(LocalDate.now())).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateGrundForMUUndersokningAvPatientenInvalidDate() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setUndersokningAvPatienten(new InternalDate("invalid"))
-            .build();
+  @Test
+  public void validateGrundForMUUndersokningAvPatientenInvalidDate() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setUndersokningAvPatienten(new InternalDate("invalid")).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
+    assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("undersokningAvPatienten", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("undersokningAvPatienten", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUTelefonkontaktMedPatienten() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now()))
-            .build();
+  @Test
+  public void validateGrundForMUTelefonkontaktMedPatienten() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now())).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateGrundForMUTelefonkontaktMedPatientenInvalidDate() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setTelefonkontaktMedPatienten(new InternalDate("invalid"))
-            .build();
+  @Test
+  public void validateGrundForMUTelefonkontaktMedPatientenInvalidDate() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setTelefonkontaktMedPatienten(new InternalDate("invalid")).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
+    assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("telefonkontaktMedPatienten", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("telefonkontaktMedPatienten", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUJournaluppgifter() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setJournaluppgifter(new InternalDate(LocalDate.now()))
-            .build();
+  @Test
+  public void validateGrundForMUJournaluppgifter() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setJournaluppgifter(new InternalDate(LocalDate.now())).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateGrundForMUJournaluppgifterInvalidDate() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setJournaluppgifter(new InternalDate("invalid"))
-            .build();
+  @Test
+  public void validateGrundForMUJournaluppgifterInvalidDate() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setJournaluppgifter(new InternalDate("invalid")).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
+    assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUAnnatGrundForMU() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateGrundForMUAnnatGrundForMU() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning("annatGrundForMUBeskrivning")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateGrundForMUAnnatGrundForMUInvalidDate() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateGrundForMUAnnatGrundForMUInvalidDate() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setAnnatGrundForMU(new InternalDate("invalid"))
             .setAnnatGrundForMUBeskrivning("annatGrundForMUBeskrivning")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
+    assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("annatGrundForMU", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("annatGrundForMU", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUAnnatGrundForMUBeskrivingMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
-            .build();
+  @Test
+  public void validateGrundForMUAnnatGrundForMUBeskrivingMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setAnnatGrundForMU(new InternalDate(LocalDate.now())).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUAnnatGrundForMUBeskrivingOnly() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setAnnatGrundForMUBeskrivning("annatGrundForMUBeskrivning")
-            .build();
+  @Test
+  public void validateGrundForMUAnnatGrundForMUBeskrivingOnly() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setAnnatGrundForMUBeskrivning("annatGrundForMUBeskrivning").build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.grund-for-mu.annat.beskrivning.invalid_combination", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.grund-for-mu.annat.beskrivning.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateGrundForMUFutureDateError() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setJournaluppgifter(new InternalDate(LocalDate.now().plusDays(1)))
-            .build();
+  @Test
+  public void validateGrundForMUFutureDateError() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setJournaluppgifter(new InternalDate(LocalDate.now().plusDays(1))).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
-        assertEquals("common.validation.c-06", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
+    assertEquals("common.validation.c-06", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSysselsattningMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(new ArrayList<>())
-            .build();
+  @Test
+  public void validateSysselsattningMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setSysselsattning(new ArrayList<>()).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSysselsattningTypMissing()  {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(List.of(Sysselsattning.create(null)))
-            .build();
+  @Test
+  public void validateSysselsattningTypMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setSysselsattning(List.of(Sysselsattning.create(null))).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSysselsattningNuvarandeArbete() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSysselsattningNuvarandeArbete() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateSysselsattningNuvarandeArbeteBeskrivingMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSysselsattningNuvarandeArbeteBeskrivingMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("sysselsattning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("nuvarandeArbete", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("sysselsattning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("nuvarandeArbete", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSysselsattningNuvarandeArbeteBeskrivingOnly() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSysselsattningNuvarandeArbeteBeskrivingOnly() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.sysselsattning.nuvarandearbete.invalid_combination", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.sysselsattning.nuvarandearbete.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSysselsattningTooMany() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
-                Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE)))
+  @Test
+  public void validateSysselsattningTooMany() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSysselsattning(
+                Arrays.asList(
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE),
+                    Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(2, res.getValidationErrors().size());
-        List<String> errorMessages = res.getValidationErrors().stream().map(ValidationMessage::getMessage).collect(Collectors.toList());
+    assertEquals(2, res.getValidationErrors().size());
+    List<String> errorMessages =
+        res.getValidationErrors().stream()
+            .map(ValidationMessage::getMessage)
+            .collect(Collectors.toList());
 
-        assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.too-many"));
-        assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.invalid_combination"));
-    }
+    assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.too-many"));
+    assertTrue(errorMessages.contains("ag7804.validation.sysselsattning.invalid_combination"));
+  }
 
-    @Test
-    public void validateDiagnosisOnskarFormedlaUnknown() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setOnskarFormedlaDiagnos(null)
+  @Test
+  public void validateDiagnosisOnskarFormedlaUnknown() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setOnskarFormedlaDiagnos(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100, res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateDiagnosisNotWantedButPresent() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setOnskarFormedlaDiagnos(false).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(DIAGNOS_SVAR_JSON_ID_6, res.getValidationErrors().get(0).getField());
+    assertEquals(
+        ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateDiagnosis() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setDiagnoser(List.of(Diagnos.create(null, null, null, null))).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(2, res.getValidationErrors().size());
+    assertEquals(
+        "common.validation.diagnos.codemissing", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals(
+        "common.validation.diagnos.description.missing",
+        res.getValidationErrors().get(1).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+  }
+
+  @Test
+  public void validateFunktionsnedsattningMissing() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateFunktionsnedsattningBlank() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateAktivitetsbegransningMissing() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateAktivitetsbegransningBlank() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningarEmpty() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setSjukskrivningar(new ArrayList<>()).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.missing",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningSjukskrivingsgradMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        null,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals(ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100, res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateDiagnosisNotWantedButPresent() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setOnskarFormedlaDiagnos(false)
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals(DIAGNOS_SVAR_JSON_ID_6, res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
-
-    }
-
-    @Test
-    public void validateDiagnosis() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(List.of(Diagnos.create(null, null, null, null)))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(2, res.getValidationErrors().size());
-        assertEquals("common.validation.diagnos.codemissing", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("common.validation.diagnos.description.missing", res.getValidationErrors().get(1).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
-    }
-
-    @Test
-    public void validateFunktionsnedsattningMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setFunktionsnedsattning(null)
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateFunktionsnedsattningBlank() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setFunktionsnedsattning(" ")
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateAktivitetsbegransningMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setAktivitetsbegransning(null)
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateAktivitetsbegransningBlank() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setAktivitetsbegransning(" ")
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningarEmpty() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(new ArrayList<>())
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.missing", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningSjukskrivingsgradMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(null,
-                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() {
-        InternalLocalDateInterval date1 = new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-            new InternalDate(LocalDate.now().plusDays(2)));
-        InternalLocalDateInterval date2 = new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(4)),
+  @Test
+  public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() {
+    InternalLocalDateInterval date1 =
+        new InternalLocalDateInterval(
+            new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)));
+    InternalLocalDateInterval date2 =
+        new InternalLocalDateInterval(
+            new InternalDate(LocalDate.now().plusDays(4)),
             new InternalDate(LocalDate.now().plusDays(6)));
 
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(
-                Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date1),
-                Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date2)))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
-            res.getValidationErrors().get(0).getMessage());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.periodHELT_NEDSATT.missing",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodInvalidAvoidsNullpointer()  {
-        InternalLocalDateInterval intervalMissingTom = new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate());
-        // work-around for constructor not allowing null values (but might exist in json)
-        intervalMissingTom.setTom(null);
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodFromDateOutOfRange() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                new InternalLocalDateInterval(new InternalDate(LocalDate.parse("1800-01-01")), new InternalDate(LocalDate.now())))))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodTomDateOutOfRange() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.parse("2100-01-01"))))))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodNoOverlap() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                            new InternalDate(LocalDate.now().plusDays(2)))),
-                    Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now().plusDays(3)), new InternalDate(LocalDate.now().plusDays(4))))))
-            .setArbetstidsforlaggning(false)
+                Arrays.asList(
+                    Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date1),
+                    Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, date2)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+  }
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
-
-    @Test
-    public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukskrivningPeriodMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
-                            new InternalDate(LocalDate.now().plusDays(2)))),
-                    Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
-            .setArbetstidsforlaggning(false)
+                List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(2, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
-        assertEquals("sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.periodHELT_NEDSATT.missing",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukskrivningPeriodInvalidAvoidsNullpointer() {
+    InternalLocalDateInterval intervalMissingTom =
+        new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate());
+    // work-around for constructor not allowing null values (but might exist in json)
+    intervalMissingTom.setTom(null);
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(1)),
-                            new InternalDate(LocalDate.now().plusDays(2)))),
-                    Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
-            .setArbetstidsforlaggning(false)
+                List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(2, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
-        assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningPeriodOverlapSameStartDate() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukskrivningPeriodFromDateOutOfRange() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(new InternalDate(LocalDate.now()),
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.parse("1800-01-01")),
+                            new InternalDate(LocalDate.now())))))
+            .build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningPeriodTomDateOutOfRange() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.parse("2100-01-01"))))))
+            .build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningPeriodNoOverlap() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                Arrays.asList(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
                             new InternalDate(LocalDate.now().plusDays(2)))),
-                    Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                        new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2))))))
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(3)),
+                            new InternalDate(LocalDate.now().plusDays(4))))))
             .setArbetstidsforlaggning(false)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(4, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
-        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
-        assertEquals("bedomning", res.getValidationErrors().get(2).getCategory());
-        assertEquals("sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(2).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(2).getType());
-        assertEquals("bedomning", res.getValidationErrors().get(3).getCategory());
-        assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
-        assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(3).getType());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningFalse() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                Arrays.asList(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertEquals(2, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningTrue() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                Arrays.asList(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
+            .setArbetstidsforlaggning(false)
+            .build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(2, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+    assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningPeriodOverlapSameStartDate() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                Arrays.asList(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2)))),
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
+            .setArbetstidsforlaggning(false)
+            .build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(4, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
+    assertEquals("bedomning", res.getValidationErrors().get(2).getCategory());
+    assertEquals(
+        "sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(2).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(2).getType());
+    assertEquals("bedomning", res.getValidationErrors().get(3).getCategory());
+    assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
+    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(3).getType());
+  }
+
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningFalse() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
+            .setArbetstidsforlaggning(false)
+            .build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
+
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningTrue() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(true)
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(true)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("arbetstidsforlaggningMotivering", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("arbetstidsforlaggningMotivering", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.NEDSATT_HALFTEN,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggning(false)
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggningMotivering("arbetstidsforlaggningMotivering")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(
-                new InternalDate(LocalDate.now().plusDays(1)), new InternalDate(LocalDate.now().plusDays(2))))))
+  @Test
+  public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setSjukskrivningar(
+                List.of(
+                    Sjukskrivning.create(
+                        SjukskrivningsGrad.HELT_NEDSATT,
+                        new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now().plusDays(1)),
+                            new InternalDate(LocalDate.now().plusDays(2))))))
             .setArbetstidsforlaggningMotivering(null)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(0, res.getValidationErrors().size());
-    }
+    assertEquals(0, res.getValidationErrors().size());
+  }
 
-    @Test
-    public void validateBedomningFMB() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateBedomningFMB() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setForsakringsmedicinsktBeslutsstod("forskningsmedicinsktBeslutsstod")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateBedomningFMBNull() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setForsakringsmedicinsktBeslutsstod(null)
+  @Test
+  public void validateBedomningFMBNull() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setForsakringsmedicinsktBeslutsstod(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
+
+  @Test
+  public void validateBedomningFMBBlank() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setForsakringsmedicinsktBeslutsstod(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBedomningPrognosMissing() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setPrognos(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("prognos", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBedomningPrognosTypMissing() {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setPrognos(Prognos.create(null, null)).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("prognos", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBedomningPrognosAterXAntalDagar() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setPrognos(
+                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateBedomningFMBBlank() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setForsakringsmedicinsktBeslutsstod(" ")
+  @Test
+  public void validateBedomningPrognosAterXAntalDagarPrognosDagarTillArbeteMissing()
+      throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, null)).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("prognos.dagarTillArbete", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBedomningPrognosPrognosDagarTillArbeteOnly() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setPrognos(
+                Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, PrognosDagarTillArbeteTyp.DAGAR_30))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.bedomning.prognos.dagarTillArbete.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateBedomningPrognosMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPrognos(null)
-            .build();
+  @Test
+  public void validateAtgarderMissing() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate.setArbetslivsinriktadeAtgarder(new ArrayList<>()).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("prognos", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("atgarder", res.getValidationErrors().get(0).getCategory());
+    assertEquals("arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateBedomningPrognosTypMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPrognos(Prognos.create(null, null))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("prognos", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateBedomningPrognosAterXAntalDagar() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
-
-    @Test
-    public void validateBedomningPrognosAterXAntalDagarPrognosDagarTillArbeteMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, null))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-        assertEquals("prognos.dagarTillArbete", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateBedomningPrognosPrognosDagarTillArbeteOnly() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, PrognosDagarTillArbeteTyp.DAGAR_30))
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.bedomning.prognos.dagarTillArbete.invalid_combination",
-            res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateAtgarderMissing() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setArbetslivsinriktadeAtgarder(new ArrayList<>())
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("atgarder", res.getValidationErrors().get(0).getCategory());
-        assertEquals("arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateAtgarderInteAktuell() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateAtgarderInteAktuell() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                List.of(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning(null)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateAtgarderInteAktuellCombined() {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateAtgarderInteAktuellCombined() {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                Arrays.asList(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(2, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.atgarder.inte_aktuellt_no_combine", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("ag7804.validation.atgarder.invalid_combination", res.getValidationErrors().get(1).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
-    }
+    assertEquals(2, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.atgarder.inte_aktuellt_no_combine",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals(
+        "ag7804.validation.atgarder.invalid_combination",
+        res.getValidationErrors().get(1).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+  }
 
-    @Test
-    public void validateAtgarderInteAktuellBeskrivning() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateAtgarderInteAktuellBeskrivning() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
+                List.of(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning("beskrivning")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.atgarder.invalid_combination", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.atgarder.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateAtgarderAktuell() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateAtgarderAktuell() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                List.of(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                List.of(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
             .setArbetslivsinriktadeAtgarderBeskrivning("Beskrivning arbetsanpassning")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateAtgarderTooMany() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateAtgarderTooMany() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
+                Arrays.asList(
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSTRANING),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.BESOK_PA_ARBETSPLATSEN),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ERGONOMISK_BEDOMNING),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.HJALPMEDEL),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.KONTAKT_MED_FORETAGSHALSOVARD),
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.OMFORDELNING_AV_ARBETSUPPGIFTER),
                     ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
+                    ArbetslivsinriktadeAtgarder.create(
+                        ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        List<String> errors = res.getValidationErrors()
-            .stream().map(ValidationMessage::getMessage).collect(Collectors.toList());
-        assertEquals(2, res.getValidationErrors().size());
-        assertTrue("Expected too-many", errors.contains("ag7804.validation.atgarder.too-many"));
-        assertTrue("Expected invalid_combination",
-            errors.contains("ag7804.validation.atgarder.typ.invalid_combination"));
-    }
+    List<String> errors =
+        res.getValidationErrors().stream()
+            .map(ValidationMessage::getMessage)
+            .collect(Collectors.toList());
+    assertEquals(2, res.getValidationErrors().size());
+    assertTrue("Expected too-many", errors.contains("ag7804.validation.atgarder.too-many"));
+    assertTrue(
+        "Expected invalid_combination",
+        errors.contains("ag7804.validation.atgarder.typ.invalid_combination"));
+  }
 
-    @Test
-    public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setArbetslivsinriktadeAtgarder(Arrays.asList(
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)))
+  @Test
+  public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetslivsinriktadeAtgarder(
+                Arrays.asList(
+                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+                    ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.atgarder.typ.invalid_combination",
-            res.getValidationErrors().get(0).getMessage());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.atgarder.typ.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+  }
 
-    @Test
-    public void validateKontaktNull() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedAg(null)
-            .build();
+  @Test
+  public void validateKontaktNull() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setKontaktMedAg(null).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateKontaktTrue() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateKontaktTrue() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setKontaktMedAg(true)
             .setAnledningTillKontakt("anledningTillKontakt")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateKontaktTrueNoAnledning() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedAg(true)
-            .build();
+  @Test
+  public void validateKontaktTrueNoAnledning() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setKontaktMedAg(true).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateKontaktFalse() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedAg(false)
-            .build();
+  @Test
+  public void validateKontaktFalse() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setKontaktMedAg(false).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertTrue(res.getValidationErrors().isEmpty());
-    }
+    assertTrue(res.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validateKontaktFalseAndAnledning() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateKontaktFalseAndAnledning() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setKontaktMedAg(false)
             .setAnledningTillKontakt("anledningTillKontakt")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.kontakt.invalid_combination", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.kontakt.invalid_combination",
+        res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateBlankstegAnledningTillKontakt() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setAnledningTillKontakt(" ")
-            .build();
+  @Test
+  public void validateBlankstegAnledningTillKontakt() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setAnledningTillKontakt(" ").build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
 
-    @Test
-    public void validateBlankstegAnnatGrundForMUBeskrivning() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateBlankstegAnnatGrundForMUBeskrivning() throws Exception {
+    Ag7804UtlatandeV1 utlatande =
+        builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning(" ")
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(2, res.getValidationErrors().size());
-        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-        assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(1).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+    assertEquals(2, res.getValidationErrors().size());
+    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(1).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
+  }
+
+  @Test
+  public void validateBlankstegPagaendeBehandling() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setPagaendeBehandling(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBlankstegPlaneradBehandling() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setPlaneradBehandling(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateBlankstegOvrigt() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.setOvrigt(" ").build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals(
+        "ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostadressMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(null);
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostadressBlank() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(" ");
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostnummerMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(null);
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostnummerBlank() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(" ");
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostnummerInvalid() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer("invalid");
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostortMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(null);
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetPostortBlank() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(" ");
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetTelefonnummerMissing() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(null);
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  @Test
+  public void validateEnhetTelefonnummerBlank() throws Exception {
+    Ag7804UtlatandeV1 utlatande = builderTemplate.build();
+    utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(" ");
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    assertEquals(1, res.getValidationErrors().size());
+    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals(
+        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+  }
+
+  private List<Diagnos> buildDiagnoser(String... diagnosKoder) {
+    List<Diagnos> diagnoser = new ArrayList<>();
+
+    for (String kod : diagnosKoder) {
+      diagnoser.add(Diagnos.create(kod, "ICD-10-SE", "En beskrivning...", "Ett namn..."));
     }
 
-    @Test
-    public void validateBlankstegPagaendeBehandling() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPagaendeBehandling(" ")
-            .build();
+    return diagnoser;
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  private GrundData buildGrundData(LocalDateTime timeStamp) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("vardgivareId");
+    vardgivare.setVardgivarnamn("vardgivareNamn");
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("enhetId");
+    vardenhet.setEnhetsnamn("enhetNamn");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setPostadress("postadress");
+    vardenhet.setPostnummer("11111");
+    vardenhet.setPostort("postort");
+    vardenhet.setTelefonnummer("0112312313");
 
-    @Test
-    public void validateBlankstegPlaneradBehandling() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setPlaneradBehandling(" ")
-            .build();
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setPersonId("HSAID_123");
+    skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    Patient patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+    patient.setPostadress("postadress");
+    patient.setPostnummer("11111");
+    patient.setPostort("postort");
 
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
+    GrundData grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(timeStamp);
 
-    @Test
-    public void validateBlankstegOvrigt() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-            .setOvrigt(" ")
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("ag7804.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostadressMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(null);
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostadressBlank() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(" ");
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostnummerMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(null);
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostnummerBlank() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(" ");
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostnummerInvalid() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer("invalid");
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostortMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(null);
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetPostortBlank() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(" ");
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetTelefonnummerMissing() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(null);
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateEnhetTelefonnummerBlank() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate.build();
-        utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(" ");
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
-        assertEquals("grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    private List<Diagnos> buildDiagnoser(String... diagnosKoder) {
-        List<Diagnos> diagnoser = new ArrayList<>();
-
-        for (String kod : diagnosKoder) {
-            diagnoser.add(Diagnos.create(kod, "ICD-10-SE", "En beskrivning...", "Ett namn..."));
-        }
-
-        return diagnoser;
-    }
-
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
-
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
-
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
-
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
-
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
-
-        return grundData;
-    }
-
+    return grundData;
+  }
 }

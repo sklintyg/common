@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,12 +29,10 @@ import se.inera.intyg.common.support.facade.model.config.Accordion.AccordionBuil
 @Builder
 public class Accordion {
 
-    String openText;
-    String closeText;
-    String header;
+  String openText;
+  String closeText;
+  String header;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class AccordionBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class AccordionBuilder {}
 }

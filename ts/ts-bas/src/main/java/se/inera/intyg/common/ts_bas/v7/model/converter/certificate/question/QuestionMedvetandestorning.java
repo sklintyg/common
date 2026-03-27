@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 
 public class QuestionMedvetandestorning {
 
-    public static CertificateDataElement toCertificate(Medvetandestorning medvetande, int index,
-        CertificateTextProvider textProvider) {
-        final var medvetandestorning =
-            medvetande != null && medvetande.getMedvetandestorning() != null ? medvetande.getMedvetandestorning()
-                : null;
-        return CertificateDataElement.builder()
-            .id(MEDVETANDESTORNING_SVAR_ID)
-            .parent(MEDVETANDESTORNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(MEDVETANDESTORNING_JSON_ID)
-                    .text(textProvider.get(MEDVETANDESTORNING_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(MEDVETANDESTORNING_JSON_ID)
-                    .selected(medvetandestorning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(MEDVETANDESTORNING_SVAR_ID)
-                        .expression(exists(MEDVETANDESTORNING_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Medvetandestorning medvetande, int index, CertificateTextProvider textProvider) {
+    final var medvetandestorning =
+        medvetande != null && medvetande.getMedvetandestorning() != null
+            ? medvetande.getMedvetandestorning()
+            : null;
+    return CertificateDataElement.builder()
+        .id(MEDVETANDESTORNING_SVAR_ID)
+        .parent(MEDVETANDESTORNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(MEDVETANDESTORNING_JSON_ID)
+                .text(textProvider.get(MEDVETANDESTORNING_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(MEDVETANDESTORNING_JSON_ID)
+                .selected(medvetandestorning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(MEDVETANDESTORNING_SVAR_ID)
+                  .expression(exists(MEDVETANDESTORNING_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), MEDVETANDESTORNING_SVAR_ID, MEDVETANDESTORNING_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), MEDVETANDESTORNING_SVAR_ID, MEDVETANDESTORNING_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,19 +20,19 @@ package se.inera.intyg.common.pdf.model;
 
 public class SummaryPart {
 
-    private String heading;
-    private String bodyText;
+  private String heading;
+  private String bodyText;
 
-    public SummaryPart(String heading, String bodyText) {
-        this.heading = heading;
-        this.bodyText = bodyText;
-    }
+  public SummaryPart(String heading, String bodyText) {
+    this.heading = heading;
+    this.bodyText = bodyText;
+  }
 
-    public String getHeading() {
-        return heading;
-    }
+  public String getHeading() {
+    return heading;
+  }
 
-    public String getBodyText() {
-        return bodyText;
-    }
+  public String getBodyText() {
+    return bodyText;
+  }
 }

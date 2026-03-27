@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,35 +33,38 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator LUSE_VALIDATOR = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
+  private static final RegisterCertificateValidator LUSE_VALIDATOR =
+      new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
 
-    static {
-        // avoid com.helger debug log
-        GlobalDebug.setDebugModeDirect(false);
-    }
+  static {
+    // avoid com.helger debug log
+    GlobalDebug.setDebugModeDirect(false);
+  }
 
-    @Test
-    public void brokenXmlFails() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/luse2_broken.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void brokenXmlFails() throws Exception {
+    String inputXml = Resources.toString(getResource("v1/luse2_broken.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
+    assertFalse(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void diagnosMedBidiagnos2UtanBidiagnos1Fails() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/med-bidiagnos2-utan-bidiagnos1_broken.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void diagnosMedBidiagnos2UtanBidiagnos1Fails() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/med-bidiagnos2-utan-bidiagnos1_broken.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
+    assertFalse(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validXmlPasses() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/luse2.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void validXmlPasses() throws Exception {
+    String inputXml = Resources.toString(getResource("v1/luse2.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
+    assertTrue(response.getValidationErrors().isEmpty());
+  }
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 }

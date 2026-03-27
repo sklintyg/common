@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,28 +27,28 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear
 
 public abstract class ValueYearTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract Integer getYear();
+  protected abstract Integer getYear();
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.YEAR;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.YEAR;
+  }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueYear) question.getValue();
-        assertEquals(getJsonId(), value.getId());
-    }
+  @Test
+  void shouldIncludeValueId() {
+    final var question = getElement();
+    final var value = (CertificateDataValueYear) question.getValue();
+    assertEquals(getJsonId(), value.getId());
+  }
 
-    @Test
-    void shouldIncludeValueYear() {
-        final var question = getElement();
-        final var value = (CertificateDataValueYear) question.getValue();
-        assertEquals(getYear(), value.getYear());
-    }
+  @Test
+  void shouldIncludeValueYear() {
+    final var question = getElement();
+    final var value = (CertificateDataValueYear) question.getValue();
+    assertEquals(getYear(), value.getYear());
+  }
 }

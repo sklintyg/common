@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.RESOR_TILL_FRAN_ARBETE_CATEGORY_ID;
@@ -29,20 +28,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionResorTillFranArbete {
 
-    public static CertificateDataElement toCertificate(Boolean kanResorTillFran, int index) {
-        return CertificateDataElement.builder()
-            .id(RESOR_TILL_FRAN_ARBETE_SVAR_ID)
-            .parent(RESOR_TILL_FRAN_ARBETE_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(kanResorTillFran))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(Boolean kanResorTillFran, int index) {
+    return CertificateDataElement.builder()
+        .id(RESOR_TILL_FRAN_ARBETE_SVAR_ID)
+        .parent(RESOR_TILL_FRAN_ARBETE_CATEGORY_ID)
+        .index(index)
+        .config(CertificateDataConfigViewText.builder().build())
+        .value(CertificateDataValueViewText.builder().text(booleanValue(kanResorTillFran)).build())
+        .build();
+  }
 }

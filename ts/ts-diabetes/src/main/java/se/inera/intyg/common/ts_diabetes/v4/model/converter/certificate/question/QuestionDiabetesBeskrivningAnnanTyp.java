@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,47 +39,48 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 
 public class QuestionDiabetesBeskrivningAnnanTyp {
 
-    private static final short TEXT_LIMIT = 53;
+  private static final short TEXT_LIMIT = 53;
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var beskrivningAnnanTypAvDiabetes = allmant != null ? allmant.getBeskrivningAnnanTypAvDiabetes() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
-            .parent(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .text(textProvider.get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID))
-                    .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
-                    .text(beskrivningAnnanTypAvDiabetes)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
-                        .expression(singleExpression(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-                        .expression(singleExpression(KvTypAvDiabetes.ANNAN.getCode()))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider textProvider) {
+    final var beskrivningAnnanTypAvDiabetes =
+        allmant != null ? allmant.getBeskrivningAnnanTypAvDiabetes() : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
+        .parent(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .text(textProvider.get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID))
+                .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+                .text(beskrivningAnnanTypAvDiabetes)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
+                  .expression(singleExpression(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+                  .expression(singleExpression(KvTypAvDiabetes.ANNAN.getCode()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
-            ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
+        ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID);
+  }
 }

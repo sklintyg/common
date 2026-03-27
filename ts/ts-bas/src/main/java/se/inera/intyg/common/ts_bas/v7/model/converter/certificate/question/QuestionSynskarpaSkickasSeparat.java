@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,52 +48,53 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionSynskarpaSkickasSeparat {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var synskarpaSkickaSeparat = syn != null ? syn.getSynskarpaSkickasSeparat() : null;
-        return CertificateDataElement.builder()
-            .id(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID)
-            .parent(SYNKARPA_SKICKAS_SEPARAT_HEADER_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
-                    .label(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
-                    .selected(synskarpaSkickaSeparat)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationDisable.builder()
-                        .questionId(VARDEN_FOR_SYNSKARPA_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                VANSTER_OGA_UTAN_KORREKTION_JSON_ID, VANSTER_OGA_MED_KORREKTION_JSON_ID,
-                                HOGER_OGA_UTAN_KORREKTION_JSON_ID, HOGER_OGA_MED_KORREKTION_JSON_ID,
-                                BINOKULART_UTAN_KORREKTION_JSON_ID,
-                                BINOKULART_MED_KORREKTION_JSON_ID))
-                        .build(),
-                    CertificateDataValidationDisable.builder()
-                        .questionId(VARDEN_FOR_SYNSKARPA_ID)
-                        .expression(
-                            multipleOrExpression(
-                                KONTAKTLINSER_VANSTER_OGA_JSON_ID,
-                                KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID))
-                        .build()
-                }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var synskarpaSkickaSeparat = syn != null ? syn.getSynskarpaSkickasSeparat() : null;
+    return CertificateDataElement.builder()
+        .id(SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID)
+        .parent(SYNKARPA_SKICKAS_SEPARAT_HEADER_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxBoolean.builder()
+                .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
+                .label(textProvider.get(SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(SYNKARPA_SKICKAS_SEPARAT_JSON_ID)
+                .selected(synskarpaSkickaSeparat)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationDisable.builder()
+                  .questionId(VARDEN_FOR_SYNSKARPA_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          VANSTER_OGA_UTAN_KORREKTION_JSON_ID,
+                          VANSTER_OGA_MED_KORREKTION_JSON_ID,
+                          HOGER_OGA_UTAN_KORREKTION_JSON_ID,
+                          HOGER_OGA_MED_KORREKTION_JSON_ID,
+                          BINOKULART_UTAN_KORREKTION_JSON_ID,
+                          BINOKULART_MED_KORREKTION_JSON_ID))
+                  .build(),
+              CertificateDataValidationDisable.builder()
+                  .questionId(VARDEN_FOR_SYNSKARPA_ID)
+                  .expression(
+                      multipleOrExpression(
+                          KONTAKTLINSER_VANSTER_OGA_JSON_ID,
+                          KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-            )
-            .build();
-    }
-
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID, SYNKARPA_SKICKAS_SEPARAT_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID,
+        SYNKARPA_SKICKAS_SEPARAT_JSON_ID);
+  }
 }

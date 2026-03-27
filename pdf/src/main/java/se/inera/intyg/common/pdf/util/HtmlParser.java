@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,27 +23,24 @@ import com.itextpdf.styledxmlparser.jsoup.nodes.Document;
 
 public final class HtmlParser {
 
-    private HtmlParser() {
+  private HtmlParser() {}
 
+  public static String toTextExcludeElement(String textContainingHtml, String elementToExclude) {
+    final var document = toDocument(textContainingHtml);
+
+    removeElements(document, elementToExclude);
+
+    return document.text();
+  }
+
+  private static Document toDocument(String textContainingHtml) {
+    return Jsoup.parse(textContainingHtml);
+  }
+
+  private static void removeElements(Document document, String elementToRemove) {
+    final var icons = document.select(elementToRemove);
+    for (final var icon : icons) {
+      icon.remove();
     }
-
-    public static String toTextExcludeElement(String textContainingHtml, String elementToExclude) {
-        final var document = toDocument(textContainingHtml);
-
-        removeElements(document, elementToExclude);
-
-        return document.text();
-    }
-
-    private static Document toDocument(String textContainingHtml) {
-        return Jsoup.parse(textContainingHtml);
-    }
-
-    private static void removeElements(Document document, String elementToRemove) {
-        final var icons = document.select(elementToRemove);
-        for (final var icon : icons) {
-            icon.remove();
-        }
-    }
-
+  }
 }

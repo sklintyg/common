@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,18 +24,20 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public class ValidationContext {
 
-    private final TSDiabetesIntyg utlatande;
+  private final TSDiabetesIntyg utlatande;
 
-    public ValidationContext(TSDiabetesIntyg utlatande) {
-        this.utlatande = utlatande;
-    }
+  public ValidationContext(TSDiabetesIntyg utlatande) {
+    this.utlatande = utlatande;
+  }
 
-    public boolean isHogreContext() {
-        for (KorkortsbehorighetTsDiabetes intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
-            if (intygAvser != null && IntygAvserKod.isHogreKorkortsbehorighet(IntygAvserKod.valueOf(intygAvser.value().value()))) {
-                return true;
-            }
-        }
-        return false;
+  public boolean isHogreContext() {
+    for (KorkortsbehorighetTsDiabetes intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
+      if (intygAvser != null
+          && IntygAvserKod.isHogreKorkortsbehorighet(
+              IntygAvserKod.valueOf(intygAvser.value().value()))) {
+        return true;
+      }
     }
+    return false;
+  }
 }

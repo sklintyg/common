@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
-
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
@@ -31,13 +29,18 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionSysselsattningYrke extends AbstractQuestionSysselsattningYrke {
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, NUVARANDE_ARBETE_SVAR_ID_29, TYP_AV_SYSSELSATTNING_SVAR_ID_28, NUVARANDE_ARBETE_SVAR_JSON_ID_29, index,
-            texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        NUVARANDE_ARBETE_SVAR_ID_29,
+        TYP_AV_SYSSELSATTNING_SVAR_ID_28,
+        NUVARANDE_ARBETE_SVAR_JSON_ID_29,
+        index,
+        texts);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return toInternal(certificate, NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_SVAR_JSON_ID_29);
-    }
+  public static String toInternal(Certificate certificate) {
+    return toInternal(certificate, NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_SVAR_JSON_ID_29);
+  }
 }

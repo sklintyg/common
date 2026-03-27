@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,80 +40,69 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionGrunderDodsorsaksuppgifter {
 
+  public static CertificateDataElement toCertificate(
+      List<Dodsorsaksgrund> dodsorsaksgrundList, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(GRUNDER_DELSVAR_ID)
+        .parent(DODSORSAKS_UPPGIFTER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(GRUNDER_QUESTION_TEXT_ID))
+                .list(
+                    Arrays.asList(
+                        CheckboxMultipleCode.builder()
+                            .id(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name())
+                            .label(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.getBeskrivning())
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name())
+                            .label(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.getBeskrivning())
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(Dodsorsaksgrund.KLINISK_OBDUKTION.name())
+                            .label(Dodsorsaksgrund.KLINISK_OBDUKTION.getBeskrivning())
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name())
+                            .label(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.getBeskrivning())
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name())
+                            .label(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.getBeskrivning())
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(
+                    dodsorsaksgrundList.stream()
+                        .map(QuestionGrunderDodsorsaksuppgifter::getValueCode)
+                        .collect(Collectors.toList()))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(GRUNDER_DELSVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name(),
+                          Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name(),
+                          Dodsorsaksgrund.KLINISK_OBDUKTION.name(),
+                          Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name(),
+                          Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(List<Dodsorsaksgrund> dodsorsaksgrundList, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(GRUNDER_DELSVAR_ID)
-            .parent(DODSORSAKS_UPPGIFTER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(GRUNDER_QUESTION_TEXT_ID))
-                    .list(
-                        Arrays.asList(
-                            CheckboxMultipleCode.builder()
-                                .id(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name())
-                                .label(Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.getBeskrivning())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name())
-                                .label(Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.getBeskrivning())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(Dodsorsaksgrund.KLINISK_OBDUKTION.name())
-                                .label(Dodsorsaksgrund.KLINISK_OBDUKTION.getBeskrivning())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name())
-                                .label(Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.getBeskrivning())
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name())
-                                .label(Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.getBeskrivning())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        dodsorsaksgrundList.stream()
-                            .map(QuestionGrunderDodsorsaksuppgifter::getValueCode)
-                            .collect(Collectors.toList())
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDER_DELSVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                Dodsorsaksgrund.UNDERSOKNING_FORE_DODEN.name(),
-                                Dodsorsaksgrund.UNDERSOKNING_EFTER_DODEN.name(),
-                                Dodsorsaksgrund.KLINISK_OBDUKTION.name(),
-                                Dodsorsaksgrund.RATTSMEDICINSK_OBDUKTION.name(),
-                                Dodsorsaksgrund.RATTSMEDICINSK_BESIKTNING.name()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  private static CertificateDataValueCode getValueCode(Dodsorsaksgrund orsak) {
+    return CertificateDataValueCode.builder().id(orsak.name()).code(orsak.name()).build();
+  }
 
-    private static CertificateDataValueCode getValueCode(Dodsorsaksgrund orsak) {
-        return CertificateDataValueCode.builder()
-            .id(orsak.name())
-            .code(orsak.name())
-            .build();
-    }
-
-    public static List<Dodsorsaksgrund> toInternal(Certificate certificate) {
-        return codeListValue(certificate.getData(), GRUNDER_DELSVAR_ID).stream()
-            .map(certificateDataValueCode -> Dodsorsaksgrund.valueOf(certificateDataValueCode.getCode()))
-            .collect(Collectors.toList());
-    }
+  public static List<Dodsorsaksgrund> toInternal(Certificate certificate) {
+    return codeListValue(certificate.getData(), GRUNDER_DELSVAR_ID).stream()
+        .map(
+            certificateDataValueCode -> Dodsorsaksgrund.valueOf(certificateDataValueCode.getCode()))
+        .collect(Collectors.toList());
+  }
 }

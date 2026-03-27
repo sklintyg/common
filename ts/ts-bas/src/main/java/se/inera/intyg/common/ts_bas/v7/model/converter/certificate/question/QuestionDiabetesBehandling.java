@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,96 +49,96 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 public class QuestionDiabetesBehandling {
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
-        final var insulin = diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
-        final var kost = diabetes != null && diabetes.getKost() != null ? diabetes.getKost() : null;
-        final var tabletter = diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
-        return CertificateDataElement.builder()
-            .id(BEHANDLING_DIABETES_SVAR_ID)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(BEHANDLING_DIABETES_SVAR_TEXT_ID))
-                    .list(
-                        List.of(
-                            CheckboxMultipleCode.builder()
-                                .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                                .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                                .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                                .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        getValues(kost, tabletter, insulin)
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(BEHANDLING_DIABETES_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                KOSTBEHANDLING_DELSVAR_JSON_ID, TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(TYP_AV_DIABETES_SVAR_ID)
-                        .expression(exists(DiabetesKod.DIABETES_TYP_2.name()))
-                        .build()
-                }
-            )
-            .build();
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider texts) {
+    final var insulin =
+        diabetes != null && diabetes.getInsulin() != null ? diabetes.getInsulin() : null;
+    final var kost = diabetes != null && diabetes.getKost() != null ? diabetes.getKost() : null;
+    final var tabletter =
+        diabetes != null && diabetes.getTabletter() != null ? diabetes.getTabletter() : null;
+    return CertificateDataElement.builder()
+        .id(BEHANDLING_DIABETES_SVAR_ID)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(BEHANDLING_DIABETES_SVAR_TEXT_ID))
+                .list(
+                    List.of(
+                        CheckboxMultipleCode.builder()
+                            .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                            .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                            .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                            .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(getValues(kost, tabletter, insulin))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(BEHANDLING_DIABETES_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          KOSTBEHANDLING_DELSVAR_JSON_ID,
+                          TABLETTBEHANDLING_DELSVAR_JSON_ID,
+                          INSULINBEHANDLING_DELSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(TYP_AV_DIABETES_SVAR_ID)
+                  .expression(exists(DiabetesKod.DIABETES_TYP_2.name()))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<CertificateDataValueCode> getValues(
+      Boolean kost, Boolean tabletter, Boolean insulin) {
+    List<CertificateDataValueCode> certificateDataValueCodes = new ArrayList<>();
+    if (kost != null && kost) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+              .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
+              .build());
+    }
+    if (tabletter != null && tabletter) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+              .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+              .build());
+    }
+    if (insulin != null && insulin) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+              .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
+              .build());
+    }
+    return certificateDataValueCodes;
+  }
+
+  public static Boolean toInternal(Certificate certificate, String id) {
+    final var value = codeListValue(certificate.getData(), BEHANDLING_DIABETES_SVAR_ID);
+    if (value == null || value.isEmpty()) {
+      return false;
     }
 
-    private static List<CertificateDataValueCode> getValues(Boolean kost, Boolean tabletter, Boolean insulin) {
-        List<CertificateDataValueCode> certificateDataValueCodes = new ArrayList<>();
-        if (kost != null && kost) {
-            certificateDataValueCodes.add(
-                CertificateDataValueCode.builder()
-                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                    .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                    .build());
-        }
-        if (tabletter != null && tabletter) {
-            certificateDataValueCodes.add(CertificateDataValueCode.builder()
-                .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                .build());
-        }
-        if (insulin != null && insulin) {
-            certificateDataValueCodes.add(
-                CertificateDataValueCode.builder()
-                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                    .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                    .build());
-        }
-        return certificateDataValueCodes;
+    for (CertificateDataValueCode code : value) {
+      if (code.getId() != null && code.getId().equals(id)) {
+        return true;
+      }
     }
 
-    public static Boolean toInternal(Certificate certificate, String id) {
-        final var value = codeListValue(certificate.getData(), BEHANDLING_DIABETES_SVAR_ID);
-        if (value == null || value.isEmpty()) {
-            return false;
-        }
-
-        for (CertificateDataValueCode code : value) {
-            if (code.getId() != null && code.getId().equals(id)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

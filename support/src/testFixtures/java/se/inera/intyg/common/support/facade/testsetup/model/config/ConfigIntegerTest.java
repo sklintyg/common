@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,44 +26,44 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigIntegerTest extends ConfigTest {
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract Integer getMin();
+  protected abstract Integer getMin();
 
-    protected abstract Integer getMax();
+  protected abstract Integer getMax();
 
-    protected abstract String getUnitOfMeasurement();
+  protected abstract String getUnitOfMeasurement();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_INTEGER;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_INTEGER;
+  }
 
-    @Test
-    void shouldIncludeConfigId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigInteger) question.getConfig();
-        assertEquals(getJsonId(), config.getId());
-    }
+  @Test
+  void shouldIncludeConfigId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigInteger) question.getConfig();
+    assertEquals(getJsonId(), config.getId());
+  }
 
-    @Test
-    void shouldIncludeMinValue() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigInteger) question.getConfig();
-        assertEquals(getMin(), config.getMin());
-    }
+  @Test
+  void shouldIncludeMinValue() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigInteger) question.getConfig();
+    assertEquals(getMin(), config.getMin());
+  }
 
-    @Test
-    void shouldIncludeMaxValue() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigInteger) question.getConfig();
-        assertEquals(getMax(), config.getMax());
-    }
+  @Test
+  void shouldIncludeMaxValue() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigInteger) question.getConfig();
+    assertEquals(getMax(), config.getMax());
+  }
 
-    @Test
-    void shouldIncludeUnit() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigInteger) question.getConfig();
-        assertEquals(getUnitOfMeasurement(), config.getUnitOfMeasurement());
-    }
+  @Test
+  void shouldIncludeUnit() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigInteger) question.getConfig();
+    assertEquals(getUnitOfMeasurement(), config.getUnitOfMeasurement());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,36 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionDubbelseende {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var dubbelseende = syn != null ? syn.getDiplopi() : null;
-        return CertificateDataElement.builder()
-            .id(DUBBELSEENDE_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(DUBBELSEENDE_JSON_ID)
-                    .text(textProvider.get(DUBBELSEENDE_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(DUBBELSEENDE_JSON_ID)
-                    .selected(dubbelseende)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DUBBELSEENDE_SVAR_ID)
-                        .expression(exists(DUBBELSEENDE_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var dubbelseende = syn != null ? syn.getDiplopi() : null;
+    return CertificateDataElement.builder()
+        .id(DUBBELSEENDE_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(DUBBELSEENDE_JSON_ID)
+                .text(textProvider.get(DUBBELSEENDE_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(DUBBELSEENDE_JSON_ID)
+                .selected(dubbelseende)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DUBBELSEENDE_SVAR_ID)
+                  .expression(exists(DUBBELSEENDE_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), DUBBELSEENDE_SVAR_ID, DUBBELSEENDE_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), DUBBELSEENDE_SVAR_ID, DUBBELSEENDE_JSON_ID);
+  }
 }

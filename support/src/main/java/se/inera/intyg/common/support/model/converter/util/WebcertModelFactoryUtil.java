@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,78 +30,86 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 
 public final class WebcertModelFactoryUtil {
 
-    private WebcertModelFactoryUtil() {
+  private WebcertModelFactoryUtil() {}
+
+  public static void updateSkapadAv(
+      Utlatande utlatande, HoSPersonal hosPerson, LocalDateTime signeringsdatum) {
+    utlatande.getGrundData().setSkapadAv(hosPerson);
+    utlatande.getGrundData().setSigneringsdatum(signeringsdatum);
+  }
+
+  public static void populateGrunddataFromCreateDraftCopyHolder(
+      GrundData grundData, CreateDraftCopyHolder copyData) throws ConverterException {
+    validateRequest(copyData.getSkapadAv());
+
+    if (grundData
+        .getSkapadAv()
+        .getVardenhet()
+        .getEnhetsid()
+        .equals(copyData.getSkapadAv().getVardenhet().getEnhetsid())) {
+      // grundData is the copied information that we received from the original certificate. This
+      // object contains
+      // information that we want to preserve if the enhet is the same as in the logged in user. See
+      // INTYG-2835.
+      populateWithMissingInfo(
+          copyData.getSkapadAv().getVardenhet(), grundData.getSkapadAv().getVardenhet());
     }
 
-    public static void updateSkapadAv(Utlatande utlatande, HoSPersonal hosPerson, LocalDateTime signeringsdatum) {
-        utlatande.getGrundData().setSkapadAv(hosPerson);
-        utlatande.getGrundData().setSigneringsdatum(signeringsdatum);
+    grundData.setSkapadAv(copyData.getSkapadAv());
+    grundData.setRelation(copyData.getRelation());
+    grundData.setTestIntyg(copyData.isTestIntyg());
+
+    if (copyData.hasPatient()) {
+      populateWithPatientInfo(grundData, copyData.getPatient());
     }
 
-    public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData)
-        throws ConverterException {
-        validateRequest(copyData.getSkapadAv());
+    if (copyData.hasNewPersonnummer()) {
+      grundData.getPatient().setPersonId(copyData.getNewPersonnummer());
+    }
+  }
 
-        if (grundData.getSkapadAv().getVardenhet().getEnhetsid().equals(copyData.getSkapadAv().getVardenhet().getEnhetsid())) {
-            // grundData is the copied information that we received from the original certificate. This object contains
-            // information that we want to preserve if the enhet is the same as in the logged in user. See INTYG-2835.
-            populateWithMissingInfo(copyData.getSkapadAv().getVardenhet(), grundData.getSkapadAv().getVardenhet());
-        }
+  public static void populateGrunddataFromCreateNewDraftHolder(
+      GrundData grundData, CreateNewDraftHolder newDraftData) throws ConverterException {
+    validateRequest(newDraftData.getSkapadAv());
+    grundData.setSkapadAv(newDraftData.getSkapadAv());
+    grundData.setTestIntyg(newDraftData.isTestIntyg());
+    populateWithPatientInfo(grundData, newDraftData.getPatient());
+  }
 
-        grundData.setSkapadAv(copyData.getSkapadAv());
-        grundData.setRelation(copyData.getRelation());
-        grundData.setTestIntyg(copyData.isTestIntyg());
-
-        if (copyData.hasPatient()) {
-            populateWithPatientInfo(grundData, copyData.getPatient());
-        }
-
-        if (copyData.hasNewPersonnummer()) {
-            grundData.getPatient().setPersonId(copyData.getNewPersonnummer());
-        }
+  public static void populateWithPatientInfo(GrundData grundData, Patient patient)
+      throws ConverterException {
+    if (patient == null) {
+      throw new ConverterException("Got null while trying to populateWithPatientInfo");
     }
 
-    public static void populateGrunddataFromCreateNewDraftHolder(GrundData grundData,
-        CreateNewDraftHolder newDraftData) throws ConverterException {
-        validateRequest(newDraftData.getSkapadAv());
-        grundData.setSkapadAv(newDraftData.getSkapadAv());
-        grundData.setTestIntyg(newDraftData.isTestIntyg());
-        populateWithPatientInfo(grundData, newDraftData.getPatient());
+    grundData.setPatient(patient);
+    // INTYG-5573, if adress is incomplete dont use it, to stay consistent how other parts of
+    // Webcert behave.
+    if (!patient.isCompleteAddressProvided()) {
+      patient.setPostadress(null);
+      patient.setPostnummer(null);
+      patient.setPostort(null);
     }
+  }
 
-    public static void populateWithPatientInfo(GrundData grundData, Patient patient) throws ConverterException {
-        if (patient == null) {
-            throw new ConverterException("Got null while trying to populateWithPatientInfo");
-        }
-
-        grundData.setPatient(patient);
-        // INTYG-5573, if adress is incomplete dont use it, to stay consistent how other parts of Webcert behave.
-        if (!patient.isCompleteAddressProvided()) {
-            patient.setPostadress(null);
-            patient.setPostnummer(null);
-            patient.setPostort(null);
-        }
+  private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
+    if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {
+      target.setPostadress(source.getPostadress());
     }
-
-    private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
-        if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {
-            target.setPostadress(source.getPostadress());
-        }
-        if (Strings.nullToEmpty(target.getPostnummer()).trim().isEmpty()) {
-            target.setPostnummer(source.getPostnummer());
-        }
-        if (Strings.nullToEmpty(target.getPostort()).trim().isEmpty()) {
-            target.setPostort(source.getPostort());
-        }
-        if (Strings.nullToEmpty(target.getTelefonnummer()).trim().isEmpty()) {
-            target.setTelefonnummer(source.getTelefonnummer());
-        }
-
+    if (Strings.nullToEmpty(target.getPostnummer()).trim().isEmpty()) {
+      target.setPostnummer(source.getPostnummer());
     }
-
-    private static void validateRequest(HoSPersonal skapadAv) throws ConverterException {
-        if (skapadAv == null) {
-            throw new ConverterException("Got null while trying to populateWithSkapadAv");
-        }
+    if (Strings.nullToEmpty(target.getPostort()).trim().isEmpty()) {
+      target.setPostort(source.getPostort());
     }
+    if (Strings.nullToEmpty(target.getTelefonnummer()).trim().isEmpty()) {
+      target.setTelefonnummer(source.getTelefonnummer());
+    }
+  }
+
+  private static void validateRequest(HoSPersonal skapadAv) throws ConverterException {
+    if (skapadAv == null) {
+      throw new ConverterException("Got null while trying to populateWithSkapadAv");
+    }
+  }
 }

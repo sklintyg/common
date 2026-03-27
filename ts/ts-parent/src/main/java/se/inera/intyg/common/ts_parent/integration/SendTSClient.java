@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,78 +40,79 @@ import org.xml.sax.InputSource;
 
 public abstract class SendTSClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SendTSClient.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SendTSClient.class);
 
-    private final MessageFactory messageFactory;
-    private final DocumentBuilderFactory builderFactory;
+  private final MessageFactory messageFactory;
+  private final DocumentBuilderFactory builderFactory;
 
-    private Service service;
+  private Service service;
 
-    private final String url;
+  private final String url;
 
-    /**
-     * @param url the RegisterCertificate ws-endpoint
-     */
-    public SendTSClient(String url) {
-        LOGGER.info("RegisterCertificate for {} invoked", url);
-        this.url = url;
+  /**
+   * @param url the RegisterCertificate ws-endpoint
+   */
+  public SendTSClient(String url) {
+    LOGGER.info("RegisterCertificate for {} invoked", url);
+    this.url = url;
 
-        setupService();
+    setupService();
 
-        try {
-            messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
-            builderFactory = DocumentBuilderFactory.newInstance();
-        } catch (SOAPException e) {
-            throw new RuntimeException(e);
-        }
+    try {
+      messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
+      builderFactory = DocumentBuilderFactory.newInstance();
+    } catch (SOAPException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    public SOAPMessage registerCertificate(String message, String logicalAddress) {
-        LOGGER.debug("Creating SoapMessage in sendTsClient");
+  public SOAPMessage registerCertificate(String message, String logicalAddress) {
+    LOGGER.debug("Creating SoapMessage in sendTsClient");
 
-        try {
-            builderFactory.setNamespaceAware(true);
+    try {
+      builderFactory.setNamespaceAware(true);
 
-            SOAPMessage soapMessage = messageFactory.createMessage();
-            soapMessage.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
+      SOAPMessage soapMessage = messageFactory.createMessage();
+      soapMessage.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
 
-            SOAPEnvelope soapEnvelope = soapMessage.getSOAPPart().getEnvelope();
-            SOAPBody soapBody = soapEnvelope.getBody();
-            SOAPHeader soapHeader = soapEnvelope.getHeader();
-            SOAPElement address = soapHeader.addChildElement("To", "ns", "http://www.w3.org/2005/08/addressing");
-            address.addTextNode(logicalAddress);
+      SOAPEnvelope soapEnvelope = soapMessage.getSOAPPart().getEnvelope();
+      SOAPBody soapBody = soapEnvelope.getBody();
+      SOAPHeader soapHeader = soapEnvelope.getHeader();
+      SOAPElement address =
+          soapHeader.addChildElement("To", "ns", "http://www.w3.org/2005/08/addressing");
+      address.addTextNode(logicalAddress);
 
-            // Create a Document from the message
-            DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(message)));
+      // Create a Document from the message
+      DocumentBuilder builder = builderFactory.newDocumentBuilder();
+      Document doc = builder.parse(new InputSource(new StringReader(message)));
 
-            // Add doc to soap body and save
-            soapBody.addDocument(doc);
-            soapMessage.saveChanges();
+      // Add doc to soap body and save
+      soapBody.addDocument(doc);
+      soapMessage.saveChanges();
 
-            // Create dispatcher and set SOAP actions
-            Dispatch<SOAPMessage> dispSOAPMsg = createDispatchMessage();
-            return dispSOAPMsg.invoke(soapMessage);
+      // Create dispatcher and set SOAP actions
+      Dispatch<SOAPMessage> dispSOAPMsg = createDispatchMessage();
+      return dispSOAPMsg.invoke(soapMessage);
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    protected abstract Dispatch<SOAPMessage> createDispatchMessage();
+  protected abstract Dispatch<SOAPMessage> createDispatchMessage();
 
-    protected abstract void setupService();
+  protected abstract void setupService();
 
-    void setupService(Service service, QName port) {
-        this.service = service;
-        this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
-    }
+  void setupService(Service service, QName port) {
+    this.service = service;
+    this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
+  }
 
-    Dispatch<SOAPMessage> createDispatchMessage(String namespace, QName port) {
-        Dispatch<SOAPMessage> dispSOAPMsg = service.createDispatch(port, SOAPMessage.class, Service.Mode.MESSAGE);
-        dispSOAPMsg.getRequestContext().put(Dispatch.SOAPACTION_USE_PROPERTY, true);
-        dispSOAPMsg.getRequestContext().put(Dispatch.SOAPACTION_URI_PROPERTY, namespace);
-        return dispSOAPMsg;
-    }
-
+  Dispatch<SOAPMessage> createDispatchMessage(String namespace, QName port) {
+    Dispatch<SOAPMessage> dispSOAPMsg =
+        service.createDispatch(port, SOAPMessage.class, Service.Mode.MESSAGE);
+    dispSOAPMsg.getRequestContext().put(Dispatch.SOAPACTION_USE_PROPERTY, true);
+    dispSOAPMsg.getRequestContext().put(Dispatch.SOAPACTION_URI_PROPERTY, namespace);
+    return dispSOAPMsg;
+  }
 }

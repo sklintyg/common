@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -62,313 +61,399 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class QuestionPrognosTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+
+    final var unit = new Vardenhet();
+
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
+
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    private Ag7804UtlatandeV1 internalCertificate;
+
+    @BeforeEach
+    void createInternalCertificateToConvert() {
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
+    }
+
+    @Test
+    void shouldIncludeQuestionElement() {
+      final var expectedIndex = 23;
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertAll(
+          "Validating question",
+          () -> assertEquals(PROGNOS_SVAR_ID_39, question.getId()),
+          () -> assertEquals(expectedIndex, question.getIndex()),
+          () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
+          () -> assertNotNull(question.getValue(), "Missing value"),
+          () -> assertNotNull(question.getValidation(), "Missing validation"),
+          () -> assertNotNull(question.getConfig(), "Missing config"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfig() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+          question.getConfig().getType());
+
+      final var certificateDataConfigMultipleCodeOptionalDropdown =
+          (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0,
+                  "Missing text"),
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown.getDescription().trim().length()
+                      > 0,
+                  "Missing description"),
+          () ->
+              assertNull(
+                  certificateDataConfigMultipleCodeOptionalDropdown.getHeader(),
+                  "Should not have a header"),
+          () ->
+              assertNull(
+                  certificateDataConfigMultipleCodeOptionalDropdown.getIcon(),
+                  "Should not have an iconr"),
+          () ->
+              assertNull(
+                  certificateDataConfigMultipleCodeOptionalDropdown.getLabel(),
+                  "Should not have a label"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfigStorSannolikhet() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+          question.getConfig().getType());
+
+      final var certificateDataConfigMultipleCodeOptionalDropdown =
+          (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertEquals(
+                  PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
+                  certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown
+                          .getList()
+                          .get(0)
+                          .getLabel()
+                          .trim()
+                          .length()
+                      > 0,
+                  "Missing label"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfigAntalDagar() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+          question.getConfig().getType());
+
+      final var certificateDataConfigMultipleCodeOptionalDropdown =
+          (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertEquals(
+                  PrognosTyp.ATER_X_ANTAL_DGR.getId(),
+                  certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
+          () ->
+              assertEquals(
+                  RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
+                  certificateDataConfigMultipleCodeOptionalDropdown
+                      .getList()
+                      .get(1)
+                      .getDropdownQuestionId(),
+                  "missing dropdown question id"),
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown
+                          .getList()
+                          .get(1)
+                          .getLabel()
+                          .trim()
+                          .length()
+                      > 0,
+                  "Missing label"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfigSannoliktInte() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+          question.getConfig().getType());
+
+      final var certificateDataConfigMultipleCodeOptionalDropdown =
+          (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertEquals(
+                  PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
+                  certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getId()),
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown
+                          .getList()
+                          .get(2)
+                          .getLabel()
+                          .trim()
+                          .length()
+                      > 0,
+                  "Missing label"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfigPrognosOklar() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN,
+          question.getConfig().getType());
+
+      final var certificateDataConfigMultipleCodeOptionalDropdown =
+          (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertEquals(
+                  PrognosTyp.PROGNOS_OKLAR.getId(),
+                  certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getId()),
+          () ->
+              assertTrue(
+                  certificateDataConfigMultipleCodeOptionalDropdown
+                          .getList()
+                          .get(3)
+                          .getLabel()
+                          .trim()
+                          .length()
+                      > 0,
+                  "Missing label"));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueStorSannolikhet() {
+      final var expectedPrognos = Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null);
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setPrognos(expectedPrognos)
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueAntalDagar() {
+      final var expectedPrognos =
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30);
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setPrognos(expectedPrognos)
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueSannoliktInte() {
+      final var expectedPrognos =
+          Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null);
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setPrognos(expectedPrognos)
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValuePrognosOklar() {
+      final var expectedPrognos = Prognos.create(PrognosTyp.PROGNOS_OKLAR, null);
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setPrognos(expectedPrognos)
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
+          () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValidationMandatory() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertAll(
+          "Validation question validation",
+          () ->
+              assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
+          () ->
+              assertEquals(
+                  "exists(STOR_SANNOLIKHET) || exists(ATER_X_ANTAL_DGR) || exists(SANNOLIKT_INTE) || exists(PROGNOS_OKLAR)",
+                  certificateDataValidationMandatory.getExpression()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValidationHide() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
+
+      final var certificateDataValidationHide =
+          (CertificateDataValidationHide) question.getValidation()[1];
+      assertAll(
+          "Validation question validation",
+          () ->
+              assertEquals(
+                  AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+          () ->
+              assertEquals(
+                  "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                  certificateDataValidationHide.getExpression()));
+    }
+  }
+
+  @Mock WebcertModuleService moduleService;
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    private Ag7804UtlatandeV1 internalCertificate;
 
     @BeforeEach
     void setup() {
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-
-        final var unit = new Vardenhet();
-
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
-
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(new GrundData())
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
     }
 
-    @Nested
-    class ToCertificate {
-
-        private Ag7804UtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeQuestionElement() {
-            final var expectedIndex = 23;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertAll("Validating question",
-                () -> assertEquals(PROGNOS_SVAR_ID_39, question.getId()),
-                () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(CATEGORY_BEDOMNING, question.getParent()),
-                () -> assertNotNull(question.getValue(), "Missing value"),
-                () -> assertNotNull(question.getValidation(), "Missing validation"),
-                () -> assertNotNull(question.getConfig(), "Missing config")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigMultipleCodeOptionalDropdown =
-                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertTrue(
-                    certificateDataConfigMultipleCodeOptionalDropdown.getText().trim().length() > 0, "Missing text"),
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getDescription().trim().length() > 0,
-                    "Missing description"),
-                () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getHeader(), "Should not have a header"),
-                () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getIcon(), "Should not have an iconr"),
-                () -> assertNull(certificateDataConfigMultipleCodeOptionalDropdown.getLabel(), "Should not have a label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigStorSannolikhet() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigMultipleCodeOptionalDropdown =
-                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosTyp.MED_STOR_SANNOLIKHET.getId(),
-                    certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getId()),
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(0).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigAntalDagar() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigMultipleCodeOptionalDropdown =
-                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosTyp.ATER_X_ANTAL_DGR.getId(),
-                    certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getId()),
-                () -> assertEquals(RespConstants.PROGNOS_BESKRIVNING_DELSVAR_ID_39,
-                    certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getDropdownQuestionId(),
-                    "missing dropdown question id"),
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(1).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigSannoliktInte() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigMultipleCodeOptionalDropdown =
-                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING.getId(),
-                    certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getId()),
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(2).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfigPrognosOklar() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE_OPTIONAL_DROPDOWN, question.getConfig().getType());
-
-            final var certificateDataConfigMultipleCodeOptionalDropdown =
-                (CertificateDataConfigRadioMultipleCodeOptionalDropdown) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertEquals(PrognosTyp.PROGNOS_OKLAR.getId(),
-                    certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getId()),
-                () -> assertTrue(certificateDataConfigMultipleCodeOptionalDropdown.getList().get(3).getLabel().trim().length() > 0,
-                    "Missing label")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueStorSannolikhet() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null);
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueAntalDagar() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30);
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueSannoliktInte() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null);
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValuePrognosOklar() {
-            final var expectedPrognos = Prognos.create(PrognosTyp.PROGNOS_OKLAR, null);
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setPrognos(expectedPrognos)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getId()),
-                () -> assertEquals(expectedPrognos.getTyp().getId(), certificateDataValueCode.getCode())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationMandatory() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(PROGNOS_SVAR_ID_39, certificateDataValidationMandatory.getQuestionId()),
-                () -> assertEquals(
-                    "exists(STOR_SANNOLIKHET) || exists(ATER_X_ANTAL_DGR) || exists(SANNOLIKT_INTE) || exists(PROGNOS_OKLAR)",
-                    certificateDataValidationMandatory.getExpression()
-                )
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(PROGNOS_SVAR_ID_39);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[1];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
+    Stream<Prognos> prognosValues() {
+      return Stream.of(
+          Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null),
+          Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null),
+          Prognos.create(PrognosTyp.PROGNOS_OKLAR, null),
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30),
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60),
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_90),
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_180),
+          Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_365),
+          null);
     }
 
-    @Mock
-    WebcertModuleService moduleService;
+    @ParameterizedTest
+    @MethodSource("prognosValues")
+    void shouldIncludePrognosValue(Prognos expectedValue) {
+      final var index = 1;
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionPrognos.toCertificate(expectedValue, index, texts))
+              .addElement(QuestionPrognosTimePeriod.toCertificate(expectedValue, index, texts))
+              .build();
 
-        private Ag7804UtlatandeV1 internalCertificate;
+      final var updatedCertificate =
+          CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-        @BeforeEach
-        void setup() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        Stream<Prognos> prognosValues() {
-            return Stream.of(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null),
-                Prognos.create(PrognosTyp.SANNOLIKT_EJ_ATERGA_TILL_SYSSELSATTNING, null),
-                Prognos.create(PrognosTyp.PROGNOS_OKLAR, null),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_90),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_180),
-                Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_365), null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("prognosValues")
-        void shouldIncludePrognosValue(Prognos expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    QuestionPrognos.toCertificate(expectedValue, index, texts))
-                .addElement(
-                    QuestionPrognosTimePeriod.toCertificate(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getPrognos());
-        }
+      assertEquals(expectedValue, updatedCertificate.getPrognos());
     }
+  }
 }

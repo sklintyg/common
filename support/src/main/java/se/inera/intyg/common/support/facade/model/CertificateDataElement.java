@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,25 +29,21 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.validation.ValidationError;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 
-
 @JsonDeserialize(builder = CertificateDataElementBuilder.class)
 @Value
 @Builder
 public class CertificateDataElement {
 
-    private String id;
-    private String parent;
-    private int index;
-    @With
-    private CertificateDataConfig config;
-    private CertificateDataValue value;
-    private CertificateDataValidation[] validation;
-    private ValidationError[] validationError;
-    private CertificateDataElementStyleEnum style;
-    private Boolean visible;
+  private String id;
+  private String parent;
+  private int index;
+  @With private CertificateDataConfig config;
+  private CertificateDataValue value;
+  private CertificateDataValidation[] validation;
+  private ValidationError[] validationError;
+  private CertificateDataElementStyleEnum style;
+  private Boolean visible;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataElementBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataElementBuilder {}
 }

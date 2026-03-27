@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,43 +24,42 @@ import java.io.StringReader;
 import javax.xml.transform.stream.StreamSource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
-//import com.helger.commons.xml.transform.StringStreamResult;
+// import com.helger.commons.xml.transform.StringStreamResult;
 
-/**
- * Setup marshalling for applicable XML-beans (scan by package names).
- */
+/** Setup marshalling for applicable XML-beans (scan by package names). */
 final class XmlMarshaller {
 
-    Jaxb2Marshaller jaxb2Marshaller;
+  Jaxb2Marshaller jaxb2Marshaller;
 
-    XmlMarshaller() {
-        jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan(
-            "se.riv.clinicalprocess",
-            "se.riv.ehr",
-            "se.riv.infrastructure",
-            "se.riv.strategicresourcemanagement",
-            "se.riv.intygsbestallning",
-            "se.riv.population",
-            "se.riv.informationsecurity",
-            "se.riv.insuranceprocess",
-            "se.inera.ifv",
-            "se.inera.intygstjanster.ts",
-            "org.w3");
-        try {
-            jaxb2Marshaller.afterPropertiesSet();
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
+  XmlMarshaller() {
+    jaxb2Marshaller = new Jaxb2Marshaller();
+    jaxb2Marshaller.setPackagesToScan(
+        "se.riv.clinicalprocess",
+        "se.riv.ehr",
+        "se.riv.infrastructure",
+        "se.riv.strategicresourcemanagement",
+        "se.riv.intygsbestallning",
+        "se.riv.population",
+        "se.riv.informationsecurity",
+        "se.riv.insuranceprocess",
+        "se.inera.ifv",
+        "se.inera.intygstjanster.ts",
+        "org.w3");
+    try {
+      jaxb2Marshaller.afterPropertiesSet();
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
     }
+  }
 
-    <T> String marshal(final JAXBElement<T> element) {
-        final StringStreamResult result = new StringStreamResult();
-        jaxb2Marshaller.marshal(element, result);
-        return result.getAsString();
-    }
+  <T> String marshal(final JAXBElement<T> element) {
+    final StringStreamResult result = new StringStreamResult();
+    jaxb2Marshaller.marshal(element, result);
+    return result.getAsString();
+  }
 
-    <T> JAXBElement<T> unmarshal(final String xmlString) {
-        return (JAXBElement<T>) jaxb2Marshaller.unmarshal(new StreamSource(new StringReader(xmlString)));
-    }
+  <T> JAXBElement<T> unmarshal(final String xmlString) {
+    return (JAXBElement<T>)
+        jaxb2Marshaller.unmarshal(new StreamSource(new StringReader(xmlString)));
+  }
 }

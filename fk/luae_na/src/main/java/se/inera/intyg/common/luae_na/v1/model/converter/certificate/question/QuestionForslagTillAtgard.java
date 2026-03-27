@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,28 +33,28 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionForslagTillAtgard {
 
-    public static CertificateDataElement toCertificate(String forslagTillAtgard, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(FORSLAG_TILL_ATGARD_SVAR_ID_24)
-            .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(FORSLAG_TILL_ATGARD_TEXT_ID))
-                    .description(textProvider.get(FORSLAG_TILL_ATGARD_DESCRIPTION_ID))
-                    .id(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24)
-                    .text(forslagTillAtgard)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String forslagTillAtgard, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(FORSLAG_TILL_ATGARD_SVAR_ID_24)
+        .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(FORSLAG_TILL_ATGARD_TEXT_ID))
+                .description(textProvider.get(FORSLAG_TILL_ATGARD_DESCRIPTION_ID))
+                .id(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24)
+                .text(forslagTillAtgard)
+                .build())
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FORSLAG_TILL_ATGARD_SVAR_ID_24, FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(), FORSLAG_TILL_ATGARD_SVAR_ID_24, FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24);
+  }
 }

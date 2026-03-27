@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,56 +46,63 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private UtlatandeToIntyg() {
+  private UtlatandeToIntyg() {}
+
+  public static Intyg convert(DbUtlatandeV1 utlatande) {
+    Intyg intyg =
+        InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
+    intyg.setTyp(getTypAvIntyg(KvIntygstyp.DB));
+    intyg.getSvar().addAll(getSvar(utlatande));
+    intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
+    return intyg;
+  }
+
+  private static List<Svar> getSvar(DbUtlatandeV1 utlatande) {
+    List<Svar> svar = getSharedSvar(utlatande);
+
+    // Svar 5
+    if (utlatande.getExplosivAvlagsnat() != null || utlatande.getExplosivImplantat() != null) {
+      InternalConverterUtil.SvarBuilder explosiv = aSvar(EXPLOSIV_IMPLANTAT_SVAR_ID);
+      if (utlatande.getExplosivImplantat() != null) {
+        explosiv.withDelsvar(
+            EXPLOSIV_IMPLANTAT_DELSVAR_ID, utlatande.getExplosivImplantat().toString());
+      }
+      if (utlatande.getExplosivAvlagsnat() != null) {
+        explosiv.withDelsvar(
+            EXPLOSIV_AVLAGSNAT_DELSVAR_ID, utlatande.getExplosivAvlagsnat().toString());
+      }
+      svar.add(explosiv.build());
     }
 
-    public static Intyg convert(DbUtlatandeV1 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
-        intyg.setTyp(getTypAvIntyg(KvIntygstyp.DB));
-        intyg.getSvar().addAll(getSvar(utlatande));
-        intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
-        return intyg;
-    }
+    // Svar 6
+    if (utlatande.getUndersokningYttre() != null || utlatande.getUndersokningDatum() != null) {
+      InternalConverterUtil.SvarBuilder undersokning = aSvar(UNDERSOKNING_SVAR_ID);
 
-
-    private static List<Svar> getSvar(DbUtlatandeV1 utlatande) {
-        List<Svar> svar = getSharedSvar(utlatande);
-
-        // Svar 5
-        if (utlatande.getExplosivAvlagsnat() != null || utlatande.getExplosivImplantat() != null) {
-            InternalConverterUtil.SvarBuilder explosiv = aSvar(EXPLOSIV_IMPLANTAT_SVAR_ID);
-            if (utlatande.getExplosivImplantat() != null) {
-                explosiv.withDelsvar(EXPLOSIV_IMPLANTAT_DELSVAR_ID, utlatande.getExplosivImplantat().toString());
-            }
-            if (utlatande.getExplosivAvlagsnat() != null) {
-                explosiv.withDelsvar(EXPLOSIV_AVLAGSNAT_DELSVAR_ID, utlatande.getExplosivAvlagsnat().toString());
-            }
-            svar.add(explosiv.build());
+      if (utlatande.getUndersokningYttre() != null) {
+        if (utlatande.getUndersokningYttre() == Undersokning.JA) {
+          undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.TRUE.toString());
+        } else {
+          undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.FALSE.toString());
+          undersokning.withDelsvar(
+              UNDERSOKNING_DETALJER_DELSVAR_ID,
+              aCV(
+                  UNDERSOKNING_DETALJER_CODE_SYSTEM,
+                  utlatande.getUndersokningYttre().getTransport(),
+                  utlatande.getUndersokningYttre().getBeskrivning()));
         }
-
-        // Svar 6
-        if (utlatande.getUndersokningYttre() != null || utlatande.getUndersokningDatum() != null) {
-            InternalConverterUtil.SvarBuilder undersokning = aSvar(UNDERSOKNING_SVAR_ID);
-
-            if (utlatande.getUndersokningYttre() != null) {
-                if (utlatande.getUndersokningYttre() == Undersokning.JA) {
-                    undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.TRUE.toString());
-                } else {
-                    undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.FALSE.toString());
-                    undersokning.withDelsvar(UNDERSOKNING_DETALJER_DELSVAR_ID,
-                        aCV(UNDERSOKNING_DETALJER_CODE_SYSTEM, utlatande.getUndersokningYttre().getTransport(),
-                            utlatande.getUndersokningYttre().getBeskrivning()));
-                }
-            }
-            if (utlatande.getUndersokningDatum() != null && utlatande.getUndersokningDatum().isValidDate()) {
-                undersokning.withDelsvar(UNDERSOKNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getUndersokningDatum()));
-            }
-            svar.add(undersokning.build());
-        }
-
-        // Svar 7
-        addIfNotNull(svar, POLISANMALAN_SVAR_ID, POLISANMALAN_DELSVAR_ID, utlatande.getPolisanmalan());
-
-        return svar;
+      }
+      if (utlatande.getUndersokningDatum() != null
+          && utlatande.getUndersokningDatum().isValidDate()) {
+        undersokning.withDelsvar(
+            UNDERSOKNING_DATUM_DELSVAR_ID,
+            getInternalDateContent(utlatande.getUndersokningDatum()));
+      }
+      svar.add(undersokning.build());
     }
+
+    // Svar 7
+    addIfNotNull(svar, POLISANMALAN_SVAR_ID, POLISANMALAN_DELSVAR_ID, utlatande.getPolisanmalan());
+
+    return svar;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,37 +34,36 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMedicinskBehandlingSubstansintag {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(SUBSTANSINTAG_DELSVAR_ID_21)
-            .parent(SUBSTANSINTAG_SVAR_ID_21)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
-                    .text(texts.get(SUBSTANSINTAG_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String textValue, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(SUBSTANSINTAG_DELSVAR_ID_21)
+        .parent(SUBSTANSINTAG_SVAR_ID_21)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                .text(texts.get(SUBSTANSINTAG_DELSVAR_TEXT))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                .text(textValue)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(SUBSTANSINTAG_SVAR_JSON_ID_21)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), SUBSTANSINTAG_DELSVAR_ID_21, SUBSTANSINTAG_SVAR_JSON_ID_21);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(), SUBSTANSINTAG_DELSVAR_ID_21, SUBSTANSINTAG_SVAR_JSON_ID_21);
+  }
 }

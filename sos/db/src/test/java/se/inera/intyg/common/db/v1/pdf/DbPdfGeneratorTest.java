@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,75 +41,84 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Created by marced on 2017-10-11.
- */
+/** Created by marced on 2017-10-11. */
 @RunWith(MockitoJUnitRunner.class)
 public class DbPdfGeneratorTest {
 
-    protected IntygTexts intygTexts;
+  protected IntygTexts intygTexts;
 
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    @Before
-    public void initTexts() throws IOException {
-        Properties props = new Properties();
-        props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
-        intygTexts = new IntygTexts("1.0", "", null, null, null,
-            null, props);
+  @Before
+  public void initTexts() throws IOException {
+    Properties props = new Properties();
+    props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
+    intygTexts = new IntygTexts("1.0", "", null, null, null, null, props);
+  }
+
+  @Test
+  public void testGenerate() throws Exception {
+    testSingleScenario(
+        "v1/DbPdfGenerator/dbUtlatande-all-true.json", "all-true", UtkastStatus.SIGNED);
+    testSingleScenario(
+        "v1/DbPdfGenerator/dbUtlatande-all-false.json", "all-false", UtkastStatus.SIGNED);
+    testSingleScenario(
+        "v1/DbPdfGenerator/dbUtlatande-utkast.json", "utkast", UtkastStatus.DRAFT_COMPLETE);
+    testSingleScenario(
+        "v1/DbPdfGenerator/dbUtlatande-utkast.json", "utkast-locked", UtkastStatus.DRAFT_LOCKED);
+  }
+
+  @Test
+  public void testCompareAcroFields() throws Exception {
+    final File jsonFile =
+        new ClassPathResource("v1/DbPdfGenerator/dbUtlatande-all-true.json").getFile();
+    DbUtlatandeV1 intyg = objectMapper.readValue(jsonFile, DbUtlatandeV1.class);
+
+    byte[] generatorResult =
+        new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), UtkastStatus.SIGNED).getBytes();
+
+    final AcroFields expectedFields = readAcroFields("v1/DbPdfGenerator/dbUtlatande-all-true.pdf");
+
+    // read expected PDF fields
+    PdfReader reader = new PdfReader(generatorResult);
+    AcroFields generatedFields = reader.getAcroFields();
+
+    // compare expected field values with field values in generated PDF
+    for (String fieldKey : generatedFields.getFields().keySet()) {
+      assertEquals(
+          "Value for field " + fieldKey + " is not the expected",
+          expectedFields.getField(fieldKey),
+          generatedFields.getField(fieldKey));
     }
+  }
 
-    @Test
-    public void testGenerate() throws Exception {
-        testSingleScenario("v1/DbPdfGenerator/dbUtlatande-all-true.json", "all-true", UtkastStatus.SIGNED);
-        testSingleScenario("v1/DbPdfGenerator/dbUtlatande-all-false.json", "all-false", UtkastStatus.SIGNED);
-        testSingleScenario("v1/DbPdfGenerator/dbUtlatande-utkast.json", "utkast", UtkastStatus.DRAFT_COMPLETE);
-        testSingleScenario("v1/DbPdfGenerator/dbUtlatande-utkast.json", "utkast-locked", UtkastStatus.DRAFT_LOCKED);
-    }
+  private void testSingleScenario(String jsonPath, String testName, UtkastStatus utkastStatus)
+      throws Exception {
+    final File file = new ClassPathResource(jsonPath).getFile();
+    DbUtlatandeV1 intyg = objectMapper.readValue(file, DbUtlatandeV1.class);
+    byte[] generatorResult =
+        new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), utkastStatus, true).getBytes();
+    writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-" + testName);
+  }
 
-    @Test
-    public void testCompareAcroFields() throws Exception {
-        final File jsonFile = new ClassPathResource("v1/DbPdfGenerator/dbUtlatande-all-true.json").getFile();
-        DbUtlatandeV1 intyg = objectMapper.readValue(jsonFile, DbUtlatandeV1.class);
+  private AcroFields readAcroFields(String pathToPdf) throws IOException {
+    PdfReader pdfReader =
+        new PdfReader(new ClassPathResource(pathToPdf).getFile().getAbsolutePath());
+    return pdfReader.getAcroFields();
+  }
 
-        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), UtkastStatus.SIGNED).getBytes();
+  private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String namingPrefix)
+      throws IOException {
+    String dir = "build/tmp";
 
-        final AcroFields expectedFields = readAcroFields("v1/DbPdfGenerator/dbUtlatande-all-true.pdf");
+    File file =
+        new File(String.format("%s/%s-%s-%s", dir, origin.name(), namingPrefix, "-generator.pdf"));
+    FileOutputStream fop = new FileOutputStream(file);
 
-        // read expected PDF fields
-        PdfReader reader = new PdfReader(generatorResult);
-        AcroFields generatedFields = reader.getAcroFields();
+    file.createNewFile();
 
-        // compare expected field values with field values in generated PDF
-        for (String fieldKey : generatedFields.getFields().keySet()) {
-            assertEquals("Value for field " + fieldKey + " is not the expected",
-                expectedFields.getField(fieldKey), generatedFields.getField(fieldKey));
-        }
-    }
-
-    private void testSingleScenario(String jsonPath, String testName, UtkastStatus utkastStatus) throws Exception {
-        final File file = new ClassPathResource(jsonPath).getFile();
-        DbUtlatandeV1 intyg = objectMapper.readValue(file, DbUtlatandeV1.class);
-        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), utkastStatus, true).getBytes();
-        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-" + testName);
-    }
-
-    private AcroFields readAcroFields(String pathToPdf) throws IOException {
-        PdfReader pdfReader = new PdfReader(new ClassPathResource(pathToPdf).getFile().getAbsolutePath());
-        return pdfReader.getAcroFields();
-    }
-
-    private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String namingPrefix) throws IOException {
-        String dir = "build/tmp";
-
-        File file = new File(String.format("%s/%s-%s-%s", dir, origin.name(), namingPrefix, "-generator.pdf"));
-        FileOutputStream fop = new FileOutputStream(file);
-
-        file.createNewFile();
-
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
-    }
-
+    fop.write(pdf);
+    fop.flush();
+    fop.close();
+  }
 }

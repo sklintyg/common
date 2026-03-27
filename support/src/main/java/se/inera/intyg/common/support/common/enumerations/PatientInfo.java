@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,5 +19,7 @@
 package se.inera.intyg.common.support.common.enumerations;
 
 public enum PatientInfo {
-    BASIC, EXTENDED, EXTENDED_WITH_ADDRESS_DETAILS_SOURCE
+  BASIC,
+  EXTENDED,
+  EXTENDED_WITH_ADDRESS_DETAILS_SOURCE
 }

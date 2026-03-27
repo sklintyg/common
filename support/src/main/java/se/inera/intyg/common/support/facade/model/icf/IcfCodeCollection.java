@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,11 +30,9 @@ import se.inera.intyg.common.support.facade.model.icf.IcfCodeCollection.IcfCodeC
 @Builder
 public class IcfCodeCollection {
 
-    private List<Icd10Code> icd10Codes;
-    private List<IcfCode> icfCodes;
+  private List<Icd10Code> icd10Codes;
+  private List<IcfCode> icfCodes;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class IcfCodeCollectionBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class IcfCodeCollectionBuilder {}
 }

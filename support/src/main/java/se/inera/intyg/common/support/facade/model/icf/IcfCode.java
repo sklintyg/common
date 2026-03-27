@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,13 +29,11 @@ import se.inera.intyg.common.support.facade.model.icf.IcfCode.IcfCodeBuilder;
 @Builder
 public class IcfCode {
 
-    private String title;
-    private String description;
-    private String includes;
-    private String code;
+  private String title;
+  private String description;
+  private String includes;
+  private String code;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class IcfCodeBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class IcfCodeBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,114 +18,117 @@
  */
 package se.inera.intyg.common.support.modules.support;
 
-/**
- * Defines the contract for modules so they can be discovered by an application.
- */
+/** Defines the contract for modules so they can be discovered by an application. */
 public interface ModuleEntryPoint {
 
-    /**
-     * Returns the unique id for the module. The id should only contain the a-z, 0-9 and '_' characters.
-     *
-     * @return the unique module id
-     */
-    String getModuleId();
+  /**
+   * Returns the unique id for the module. The id should only contain the a-z, 0-9 and '_'
+   * characters.
+   *
+   * @return the unique module id
+   */
+  String getModuleId();
 
-    /**
-     * Returns the friendly name of the module, suitable for display in the GUI.
-     *
-     * @return the friendly name of the module
-     */
-    String getModuleName();
+  /**
+   * Returns the friendly name of the module, suitable for display in the GUI.
+   *
+   * @return the friendly name of the module
+   */
+  String getModuleName();
 
-    /**
-     * Returns description for the module, suitable for display in the GUI.
-     *
-     * @return the friendly description of the module
-     */
-    String getModuleDescription();
+  /**
+   * Returns description for the module, suitable for display in the GUI.
+   *
+   * @return the friendly description of the module
+   */
+  String getModuleDescription();
 
-    /**
-     * Returns a detailed description for the module, suitable for display in the GUI.
-     *
-     * @return the detailed description of the module
-     */
-    String getDetailedModuleDescription();
+  /**
+   * Returns a detailed description for the module, suitable for display in the GUI.
+   *
+   * @return the detailed description of the module
+   */
+  String getDetailedModuleDescription();
 
-    /**
-     * Returns a unique external id for the module.
-     *
-     * @return the id of the intyg type used outside of the application, e.g in xml transport format
-     */
-    String getExternalId();
+  /**
+   * Returns a unique external id for the module.
+   *
+   * @return the id of the intyg type used outside of the application, e.g in xml transport format
+   */
+  String getExternalId();
 
-    /**
-     * Returns the issuing party's id for the module type.
-     *
-     * @return the id used by the issuer.
-     */
-    String getIssuerTypeId();
+  /**
+   * Returns the issuing party's id for the module type.
+   *
+   * @return the id used by the issuer.
+   */
+  String getIssuerTypeId();
 
-    /**
-     * Returns the identifier of the default recipient of this module, or null if no default recipient is specified.
-     *
-     * @return the identifier of the default recipient or null if none is specified
-     */
-    String getDefaultRecipient();
+  /**
+   * Returns the identifier of the default recipient of this module, or null if no default recipient
+   * is specified.
+   *
+   * @return the identifier of the default recipient or null if none is specified
+   */
+  String getDefaultRecipient();
 
-    /**
-     * Returns the module css path.
-     *
-     * @param originator the calling application
-     * @return the module css path for the calling application
-     */
-    String getModuleCssPath(ApplicationOrigin originator);
+  /**
+   * Returns the module css path.
+   *
+   * @param originator the calling application
+   * @return the module css path for the calling application
+   */
+  String getModuleCssPath(ApplicationOrigin originator);
 
-    /**
-     * Returns the module script path.
-     *
-     * @param originator the calling application
-     * @return the module script path for the calling application
-     */
-    String getModuleScriptPath(ApplicationOrigin originator);
+  /**
+   * Returns the module script path.
+   *
+   * @param originator the calling application
+   * @return the module script path for the calling application
+   */
+  String getModuleScriptPath(ApplicationOrigin originator);
 
-    /**
-     * Returns the path to a resource containing the dependencies for the module.
-     *
-     * @param originator the calling application
-     * @return the path to the module dependency definition for the calling application
-     */
-    String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
+  /**
+   * Returns the path to a resource containing the dependencies for the module.
+   *
+   * @param originator the calling application
+   * @return the path to the module dependency definition for the calling application
+   */
+  String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
 
-    /**
-     * For legacy reasons, some intyg types (e.g fk7263) do not always specify an version in persisted module
-     * utlatande json. This method provided a fallback version to be overridden in each module implementation.
-     *
-     * @return fallbackversion or null if not applicable.
-     */
-    default String getDefaultFallbackIntygTypeVersion() {
-        return null;
-    }
+  /**
+   * For legacy reasons, some intyg types (e.g fk7263) do not always specify an version in persisted
+   * module utlatande json. This method provided a fallback version to be overridden in each module
+   * implementation.
+   *
+   * @return fallbackversion or null if not applicable.
+   */
+  default String getDefaultFallbackIntygTypeVersion() {
+    return null;
+  }
 
-    /**
-     * Different certificate types handle identification of the type in different ways.
-     *
-     * MODULE_ID is used as the type to store in the database and to identify the module.
-     * ISSUER_TYPE_ID is used for displaying the type in GUI and on printed certificates.
-     * EXTERNAL_ID is used when exchanging the certificate in XML format and matches the code in the used code system.
-     *
-     * When aggregating and handling certificate types between webcert and certificate service it is not possible to always use MODULE_ID,
-     * because it differs between webcert and certificate service for some certificate types e.g. lisjp (wc) vs fk7804 (cs).
-     *
-     * It is not possible either to use ISSUER_TYPE_ID because it can be formatted differently and all certificate types do not have an
-     * issuer type id e.g. db and doi.
-     *
-     * Therefore, a new method is added to be able to identify the certificate type in integrations between webcert and
-     * certificate service.
-     *
-     * By default, the method returns MODULE_ID to keep the current behavior for all existing certificates and will be overridden when
-     * necessary e.g. for lisjp/fk7804.
-     */
-    default String certificateServiceTypeId() {
-        return getModuleId();
-    }
+  /**
+   * Different certificate types handle identification of the type in different ways.
+   *
+   * <p>MODULE_ID is used as the type to store in the database and to identify the module.
+   * ISSUER_TYPE_ID is used for displaying the type in GUI and on printed certificates. EXTERNAL_ID
+   * is used when exchanging the certificate in XML format and matches the code in the used code
+   * system.
+   *
+   * <p>When aggregating and handling certificate types between webcert and certificate service it
+   * is not possible to always use MODULE_ID, because it differs between webcert and certificate
+   * service for some certificate types e.g. lisjp (wc) vs fk7804 (cs).
+   *
+   * <p>It is not possible either to use ISSUER_TYPE_ID because it can be formatted differently and
+   * all certificate types do not have an issuer type id e.g. db and doi.
+   *
+   * <p>Therefore, a new method is added to be able to identify the certificate type in integrations
+   * between webcert and certificate service.
+   *
+   * <p>By default, the method returns MODULE_ID to keep the current behavior for all existing
+   * certificates and will be overridden when necessary e.g. for lisjp/fk7804.
+   */
+  default String certificateServiceTypeId() {
+    return getModuleId();
+  }
 }

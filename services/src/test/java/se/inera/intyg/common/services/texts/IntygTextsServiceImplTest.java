@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,66 +40,63 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 @RunWith(MockitoJUnitRunner.class)
 public class IntygTextsServiceImplTest {
 
-    @Mock
-    private IntygTextsRepository repo;
+  @Mock private IntygTextsRepository repo;
 
-    @Mock
-    private CustomObjectMapper mapper;
+  @Mock private CustomObjectMapper mapper;
 
-    @InjectMocks
-    private final IntygTextsServiceImpl service = new IntygTextsServiceImpl();
+  @InjectMocks private final IntygTextsServiceImpl service = new IntygTextsServiceImpl();
 
-    @Test
-    public void testGetVersion() {
-        when(repo.getLatestVersion(any(String.class))).thenReturn("1.0");
-        String result = service.getLatestVersion("LISJP");
-        verify(repo, times(1)).getLatestVersion("LISJP");
-        assertEquals("result should be what repo returns", result, "1.0");
-    }
+  @Test
+  public void testGetVersion() {
+    when(repo.getLatestVersion(any(String.class))).thenReturn("1.0");
+    String result = service.getLatestVersion("LISJP");
+    verify(repo, times(1)).getLatestVersion("LISJP");
+    assertEquals("result should be what repo returns", result, "1.0");
+  }
 
-    @Test
-    public void testGetVersionNull() {
-        when(repo.getLatestVersion(any(String.class))).thenReturn(null);
-        String result = service.getLatestVersion("LISJP");
-        verify(repo, times(1)).getLatestVersion("LISJP");
-        assertNull("result should be what repo returns", result);
-    }
+  @Test
+  public void testGetVersionNull() {
+    when(repo.getLatestVersion(any(String.class))).thenReturn(null);
+    String result = service.getLatestVersion("LISJP");
+    verify(repo, times(1)).getLatestVersion("LISJP");
+    assertNull("result should be what repo returns", result);
+  }
 
-    @Test
-    public void testGetTexts() throws JsonProcessingException {
-        when(repo.getTexts(any(String.class), any(String.class))).thenReturn(null);
-        when(mapper.writeValueAsString(any())).thenReturn("null");
-        String result = service.getIntygTexts("LISJP", "0.9");
-        verify(repo, times(1)).getTexts("LISJP", "0.9");
-        verify(mapper, times(1)).writeValueAsString(null);
-        assertEquals("result should be what mapper returns", result, "null");
-    }
+  @Test
+  public void testGetTexts() throws JsonProcessingException {
+    when(repo.getTexts(any(String.class), any(String.class))).thenReturn(null);
+    when(mapper.writeValueAsString(any())).thenReturn("null");
+    String result = service.getIntygTexts("LISJP", "0.9");
+    verify(repo, times(1)).getTexts("LISJP", "0.9");
+    verify(mapper, times(1)).writeValueAsString(null);
+    assertEquals("result should be what mapper returns", result, "null");
+  }
 
-    @Test
-    public void shallReturnFalseIfNotLatestMajorVersion() {
-        doReturn("2.0").when(repo).getLatestVersion("LISJP");
-        final var actual = service.isLatestMajorVersion("LISJP", "1.2");
-        assertFalse(actual);
-    }
+  @Test
+  public void shallReturnFalseIfNotLatestMajorVersion() {
+    doReturn("2.0").when(repo).getLatestVersion("LISJP");
+    final var actual = service.isLatestMajorVersion("LISJP", "1.2");
+    assertFalse(actual);
+  }
 
-    @Test
-    public void shallReturnTrueIfLatestMajorVersion() {
-        doReturn("2.0").when(repo).getLatestVersion("LISJP");
-        final var actual = service.isLatestMajorVersion("LISJP", "2.0");
-        assertTrue(actual);
-    }
+  @Test
+  public void shallReturnTrueIfLatestMajorVersion() {
+    doReturn("2.0").when(repo).getLatestVersion("LISJP");
+    final var actual = service.isLatestMajorVersion("LISJP", "2.0");
+    assertTrue(actual);
+  }
 
-    @Test
-    public void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
-        doReturn("2.1").when(repo).getLatestVersion("LISJP");
-        final var actual = service.isLatestMajorVersion("LISJP", "2.0");
-        assertTrue(actual);
-    }
+  @Test
+  public void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
+    doReturn("2.1").when(repo).getLatestVersion("LISJP");
+    final var actual = service.isLatestMajorVersion("LISJP", "2.0");
+    assertTrue(actual);
+  }
 
-    @Test
-    public void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
-        doReturn(null).when(repo).getLatestVersion("fk7263");
-        final var actual = service.isLatestMajorVersion("fk7263", "1.0");
-        assertTrue(actual);
-    }
+  @Test
+  public void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
+    doReturn(null).when(repo).getLatestVersion("fk7263");
+    final var actual = service.isLatestMajorVersion("fk7263", "1.0");
+    assertTrue(actual);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,30 +31,36 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigMe
 @Builder
 public class CertificateDataConfigMedicalInvestigation implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_MEDICAL_INVESTIGATION;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    String typeText;
-    String dateText;
-    String informationSourceText;
-    String informationSourceDescription;
-    List<MedicalInvestigation> list;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_MEDICAL_INVESTIGATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigMedicalInvestigationBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  String typeText;
+  String dateText;
+  String informationSourceText;
+  String informationSourceDescription;
+  List<MedicalInvestigation> list;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigMedicalInvestigationBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 @Builder
 public class CertificateDataValueBoolean implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.BOOLEAN;
-    String id;
-    Boolean selected;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.BOOLEAN;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueBooleanBuilder {
+  String id;
+  Boolean selected;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueBooleanBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -102,434 +102,575 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 class UtlatandeToIntygTest {
 
-    TsTrk1062UtlatandeV1.Builder builderTemplate;
+  TsTrk1062UtlatandeV1.Builder builderTemplate;
 
-    @Mock
-    private WebcertModuleService webcertModuleService;
+  @Mock private WebcertModuleService webcertModuleService;
 
-    @BeforeEach
-    void setUp() {
-        builderTemplate = TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now()));
-        lenient().when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-    }
+  @BeforeEach
+  void setUp() {
+    builderTemplate =
+        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now()));
+    lenient()
+        .when(webcertModuleService.validateDiagnosisCode(anyString(), anyString()))
+        .thenReturn(true);
+  }
 
-    @Test
-    void convertUtlatandeIntygsTyp() {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .build();
+  @Test
+  void convertUtlatandeIntygsTyp() {
+    final TsTrk1062UtlatandeV1 utlatande = builderTemplate.build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        assertIntygsTyp(utlatande, intyg);
-    }
+    assertIntygsTyp(utlatande, intyg);
+  }
 
-    @Test
-    void convertUtlatandeIntygsVersion() {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setTextVersion("TextVersion")
-            .build();
+  @Test
+  void convertUtlatandeIntygsVersion() {
+    final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setTextVersion("TextVersion").build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        assertEquals("Intygsversion is not equal", utlatande.getTextVersion(), intyg.getVersion());
-    }
+    assertEquals("Intygsversion is not equal", utlatande.getTextVersion(), intyg.getVersion());
+  }
 
-    @Test
-    void convertUtlatandeIntygAvses() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+  @Test
+  void convertUtlatandeIntygAvses() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
             .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertIntygAvser(utlatande.getIntygAvser(), svar.getAllDelsvar(INTYG_AVSER_SVAR_ID_1, INTYG_AVSER_DELSVAR_ID_1));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertIntygAvser(
+        utlatande.getIntygAvser(),
+        svar.getAllDelsvar(INTYG_AVSER_SVAR_ID_1, INTYG_AVSER_DELSVAR_ID_1));
+  }
 
-    @Test
-    void convertUtlatandeIdKontroll() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
-            .build();
+  @Test
+  void convertUtlatandeIdKontroll() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate.setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT)).build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertIdKontroll(utlatande.getIdKontroll(), svar.getDelsvar(ID_KONTROLL_SVAR_ID_1, ID_KONTROLL_DELSVAR_ID_1));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertIdKontroll(
+        utlatande.getIdKontroll(),
+        svar.getDelsvar(ID_KONTROLL_SVAR_ID_1, ID_KONTROLL_DELSVAR_ID_1));
+  }
 
-    @Test
-    void convertUtlatandeDiagnosFritext() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
+  @Test
+  void convertUtlatandeDiagnosFritext() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setDiagnosRegistrering(
+                DiagnosRegistrering.create(
+                    DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
             .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertDiagnosFritext(utlatande.getDiagnosFritext(),
-            svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID),
-            svar.getDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertDiagnosFritext(
+        utlatande.getDiagnosFritext(),
+        svar.getDelsvar(
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID),
+        svar.getDelsvar(
+            ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID, ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID));
+  }
 
-    @Test
-    void convertUtlatandeWithDiagnosKodadToIntyg() throws Exception {
-        final DiagnosKodad diagnosKodadA01 = DiagnosKodad.create("A01",
-            "ICD_10_SE", "Beskrivning för A01", "DisplayName för A01", "2018");
+  @Test
+  void convertUtlatandeWithDiagnosKodadToIntyg() throws Exception {
+    final DiagnosKodad diagnosKodadA01 =
+        DiagnosKodad.create(
+            "A01", "ICD_10_SE", "Beskrivning för A01", "DisplayName för A01", "2018");
 
-        final DiagnosKodad diagnosKodadB01 = DiagnosKodad.create("B01",
-            "ICD_10_SE", "Beskrivning för B01", "DisplayName för B01", "2019");
+    final DiagnosKodad diagnosKodadB01 =
+        DiagnosKodad.create(
+            "B01", "ICD_10_SE", "Beskrivning för B01", "DisplayName för B01", "2019");
 
-        final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
-        diagnosKodadList.add(diagnosKodadA01);
-        diagnosKodadList.add(diagnosKodadB01);
+    final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
+    diagnosKodadList.add(diagnosKodadA01);
+    diagnosKodadList.add(diagnosKodadB01);
 
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setDiagnosRegistrering(
+                DiagnosRegistrering.create(
+                    DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
             .setDiagnosKodad(diagnosKodadList)
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertDiagnosKodad(utlatande.getDiagnosKodad(), svar);
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertDiagnosKodad(utlatande.getDiagnosKodad(), svar);
+  }
 
-    @Test
-    void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setLakemedelsbehandling(Lakemedelsbehandling.create(false, null, null, null, null, null, null,
-                null))
+  @Test
+  void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setLakemedelsbehandling(
+                Lakemedelsbehandling.create(false, null, null, null, null, null, null, null))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertLakemedelsbehandlingNej(utlatande.getLakemedelsbehandling(), svar);
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertLakemedelsbehandlingNej(utlatande.getLakemedelsbehandling(), svar);
+  }
 
-    @Test
-    void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell behandling", true, true, true, null,
-                null))
+  @Test
+  void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setLakemedelsbehandling(
+                Lakemedelsbehandling.create(
+                    true, true, "Aktuell behandling", true, true, true, null, null))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertLakemedelsbehandlingJaPagar(utlatande.getLakemedelsbehandling(), svar);
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertLakemedelsbehandlingJaPagar(utlatande.getLakemedelsbehandling(), svar);
+  }
 
-    @Test
-    void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, "Förra månaden",
-                "Avslutad orsak."))
+  @Test
+  void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setLakemedelsbehandling(
+                Lakemedelsbehandling.create(
+                    true, false, null, null, null, null, "Förra månaden", "Avslutad orsak."))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertLakemedelsbehandlingJaAvslutad(utlatande.getLakemedelsbehandling(), svar);
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertLakemedelsbehandlingJaAvslutad(utlatande.getLakemedelsbehandling(), svar);
+  }
 
-    @Test
-    void convertUtlatandeBedomningAvSymptom() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setBedomningAvSymptom("Bedömning av...")
-            .build();
+  @Test
+  void convertUtlatandeBedomningAvSymptom() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate.setBedomningAvSymptom("Bedömning av...").build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertBedomningAvSymptom(utlatande.getBedomningAvSymptom(),
-            svar.getDelsvar(SYMPTOM_BEDOMNING_SVAR_ID, SYMPTOM_BEDOMNING_DELSVAR_ID));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertBedomningAvSymptom(
+        utlatande.getBedomningAvSymptom(),
+        svar.getDelsvar(SYMPTOM_BEDOMNING_SVAR_ID, SYMPTOM_BEDOMNING_DELSVAR_ID));
+  }
 
-    @Test
-    void convertUtlatandeWithPrognosTillstandNej() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+  @Test
+  void convertUtlatandeWithPrognosTillstandNej() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
             .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.NEJ))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertPrognosTillstandAsBoolean("false", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertPrognosTillstandAsBoolean(
+        "false", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
+  }
 
-    @Test
-    void convertUtlatandeWithPrognosTillstandJa() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+  @Test
+  void convertUtlatandeWithPrognosTillstandJa() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
             .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertPrognosTillstandAsBoolean("true", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertPrognosTillstandAsBoolean(
+        "true", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
+  }
 
-    @Test
-    void convertUtlatandeWithPrognosTillstandKanEjBedoma() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
+  @Test
+  void convertUtlatandeWithPrognosTillstandKanEjBedoma() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setPrognosTillstand(
+                PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertPrognosTillstandAsCode(utlatande.getPrognosTillstand(), svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
-    }
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertPrognosTillstandAsCode(
+        utlatande.getPrognosTillstand(),
+        svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
+  }
 
-    @Test
-    void convertUtlatandeOvrigaKommentarer() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setOvrigaKommentarer("Ovriga kommentarer")
+  @Test
+  void convertUtlatandeOvrigaKommentarer() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate.setOvrigaKommentarer("Ovriga kommentarer").build();
+
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertOvrigaKommentarer(
+        utlatande.getOvrigaKommentarer(),
+        svar.getDelsvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID, OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID));
+  }
+
+  @Test
+  void convertUtlatandeBedomning() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        builderTemplate
+            .setBedomning(
+                Bedomning.builder()
+                    .setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11))
+                    .build())
             .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertOvrigaKommentarer(utlatande.getOvrigaKommentarer(),
-            svar.getDelsvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID, OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID));
+    final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
+    assertBedomning(
+        utlatande.getBedomning(),
+        svar.getAllDelsvar(BEDOMNING_UPPFYLLER_SVAR_ID, BEDOMNING_UPPFYLLER_DELSVAR_ID));
+  }
+
+  private void assertBedomning(Bedomning bedomning, List<Svar.Delsvar> delsvarList)
+      throws ConverterException {
+    final Set<Bedomning.BehorighetsTyp> behorighetsTyper = bedomning.getUppfyllerBehorighetskrav();
+
+    assertEquals(
+        "Number of UppfyllerBehorighetsKrav not equal",
+        behorighetsTyper.size(),
+        delsvarList.size());
+
+    int i = 0;
+    for (Bedomning.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
+      final Svar.Delsvar delsvar = delsvarList.get(i++);
+      assertEquals(
+          "Behorighetstyp not equal",
+          behorighetsTyp.toString(),
+          getCVSvarContent(delsvar).getCode());
     }
+  }
 
-    @Test
-    void convertUtlatandeBedomning() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
-            .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
-            .build();
+  private void assertIntygsTyp(final TsTrk1062UtlatandeV1 utlatande, Intyg intyg) {
+    assertEquals(
+        "Intygstyp.code is not equal",
+        KvIntygstyp.TSTRK1062.getCodeValue(),
+        intyg.getTyp().getCode());
+    assertEquals(
+        "Intygstyp.codeSystem is not equal",
+        KvIntygstyp.TSTRK1062.getCodeSystem(),
+        intyg.getTyp().getCodeSystem());
+    assertEquals(
+        "Intygstyp.displayName is not equal",
+        KvIntygstyp.TSTRK1062.getDisplayName(),
+        intyg.getTyp().getDisplayName());
+  }
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+  private void assertOvrigaKommentarer(String ovrigaKommentarer, Svar.Delsvar delsvar) {
+    assertNotNull("ÖvrigaKommentarer should not be null", delsvar);
+    assertEquals("ÖvrigaKommentarer not equal", ovrigaKommentarer, getStringContent(delsvar));
+  }
 
-        final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
-        assertBedomning(utlatande.getBedomning(), svar.getAllDelsvar(BEDOMNING_UPPFYLLER_SVAR_ID, BEDOMNING_UPPFYLLER_DELSVAR_ID));
+  private void assertBedomningAvSymptom(String bedomningAvSymptom, Svar.Delsvar delsvar) {
+    assertNotNull("BedömningAvSymptom should not be null", delsvar);
+    assertEquals("BedömningAvSymptom not equal", bedomningAvSymptom, getStringContent(delsvar));
+  }
+
+  private void assertPrognosTillstandAsBoolean(String prognosTillstand, Svar.Delsvar delsvar) {
+    assertNotNull("PrognosTillstand should not be null", delsvar);
+    assertEquals("PrognosTillstand not equal", prognosTillstand, getStringContent(delsvar));
+  }
+
+  private void assertPrognosTillstandAsCode(PrognosTillstand prognosTillstand, Svar.Delsvar delsvar)
+      throws ConverterException {
+    assertNotNull("PrognosTillstand should not be null", delsvar);
+    assertEquals(
+        "PrognosTillstand.kod not equal",
+        prognosTillstand.getTyp().getCode(),
+        getCVSvarContent(delsvar).getCode());
+    assertEquals(
+        "PrognosTillstand.kodsystem not equal",
+        KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM,
+        getCVSvarContent(delsvar).getCodeSystem());
+    assertEquals(
+        "PrognosTillstand.beskrivning not equal",
+        prognosTillstand.getTyp().getDescription(),
+        getCVSvarContent(delsvar).getDisplayName());
+  }
+
+  private void assertIdKontroll(IdKontroll idKontroll, Svar.Delsvar delsvar)
+      throws ConverterException {
+    assertEquals(
+        "Idkontroll not equal", idKontroll.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
+  }
+
+  private void assertIntygAvser(IntygAvser intygAvser, List<Svar.Delsvar> delsvarList)
+      throws ConverterException {
+    final Set<IntygAvser.BehorighetsTyp> behorighetsTyper = intygAvser.getBehorigheter();
+
+    assertEquals("Number of IntygAvser not equal", behorighetsTyper.size(), delsvarList.size());
+
+    int i = 0;
+    for (IntygAvser.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
+      final Svar.Delsvar delsvar = delsvarList.get(i++);
+      assertEquals(
+          "Behorighetstyp not equal",
+          behorighetsTyp.toString(),
+          getCVSvarContent(delsvar).getCode());
     }
+  }
 
-    private void assertBedomning(Bedomning bedomning, List<Svar.Delsvar> delsvarList) throws ConverterException {
-        final Set<Bedomning.BehorighetsTyp> behorighetsTyper = bedomning.getUppfyllerBehorighetskrav();
+  private void assertDiagnosFritext(
+      DiagnosFritext diagnosFritext, Svar.Delsvar delsvarFritext, Svar.Delsvar delsvarArtal)
+      throws ConverterException {
+    assertEquals(
+        "DiagnosFritext not equal",
+        diagnosFritext.getDiagnosFritext(),
+        getStringContent(delsvarFritext));
+    assertEquals(
+        "DiagnosArtal not equal",
+        diagnosFritext.getDiagnosArtal(),
+        getPartialDateContent(delsvarArtal).getValue().toString());
+  }
 
-        assertEquals("Number of UppfyllerBehorighetsKrav not equal", behorighetsTyper.size(), delsvarList.size());
+  private void assertDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, SvarsWrapper svar)
+      throws ConverterException {
+    final List<Svar> svarList = svar.getSvarList(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID);
 
-        int i = 0;
-        for (Bedomning.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
-            final Svar.Delsvar delsvar = delsvarList.get(i++);
-            assertEquals("Behorighetstyp not equal", behorighetsTyp.toString(), getCVSvarContent(delsvar).getCode());
-        }
+    assertEquals("DiagnosKodad is not same length", diagnosKodad.size(), svarList.size());
+
+    for (int i = 0; i < svarList.size(); i++) {
+      final Svar.Delsvar delsvarKod =
+          svar.getDelsvar(
+              ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1, ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
+      final Svar.Delsvar delsvarBeskrivning =
+          svar.getDelsvar(
+              ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID,
+              i + 1,
+              ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID);
+      final Svar.Delsvar delsvarArtal =
+          svar.getDelsvar(
+              ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID,
+              i + 1,
+              ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
+
+      assertEquals(
+          "DiagnosKod not equal",
+          diagnosKodad.get(i).getDiagnosKod(),
+          getCVSvarContent(delsvarKod).getCode());
+      assertEquals(
+          "KodSystem not equal",
+          "1.2.752.116.1.1.1.1.3",
+          getCVSvarContent(delsvarKod).getCodeSystem());
+      assertEquals(
+          "Beskrivning not equal",
+          diagnosKodad.get(i).getDiagnosBeskrivning(),
+          getStringContent(delsvarBeskrivning));
+      assertEquals(
+          "Artal not equal",
+          diagnosKodad.get(i).getDiagnosArtal(),
+          getPartialDateContent(delsvarArtal).getValue().toString());
     }
+  }
 
-    private void assertIntygsTyp(final TsTrk1062UtlatandeV1 utlatande, Intyg intyg) {
-        assertEquals("Intygstyp.code is not equal", KvIntygstyp.TSTRK1062.getCodeValue(), intyg.getTyp().getCode());
-        assertEquals("Intygstyp.codeSystem is not equal", KvIntygstyp.TSTRK1062.getCodeSystem(), intyg.getTyp().getCodeSystem());
-        assertEquals("Intygstyp.displayName is not equal", KvIntygstyp.TSTRK1062.getDisplayName(), intyg.getTyp().getDisplayName());
-    }
+  private void assertLakemedelsbehandlingNej(
+      Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
+    final Svar.Delsvar delsvarHarHaft =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertEquals(
+        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
-    private void assertOvrigaKommentarer(String ovrigaKommentarer, Svar.Delsvar delsvar) {
-        assertNotNull("ÖvrigaKommentarer should not be null", delsvar);
-        assertEquals("ÖvrigaKommentarer not equal", ovrigaKommentarer, getStringContent(delsvar));
-    }
+    final Svar.Delsvar delsvarPagar =
+        svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
+    assertNull("Pagar should be null", delsvarPagar);
 
-    private void assertBedomningAvSymptom(String bedomningAvSymptom, Svar.Delsvar delsvar) {
-        assertNotNull("BedömningAvSymptom should not be null", delsvar);
-        assertEquals("BedömningAvSymptom not equal", bedomningAvSymptom, getStringContent(delsvar));
-    }
+    final Svar.Delsvar delsvarAktuell =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
+    assertNull("Aktuell should be null", delsvarAktuell);
 
-    private void assertPrognosTillstandAsBoolean(String prognosTillstand, Svar.Delsvar delsvar) {
-        assertNotNull("PrognosTillstand should not be null", delsvar);
-        assertEquals("PrognosTillstand not equal", prognosTillstand, getStringContent(delsvar));
-    }
+    final Svar.Delsvar delsvarPagatt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
+    assertNull("Pagar should be null", delsvarPagatt);
 
-    private void assertPrognosTillstandAsCode(PrognosTillstand prognosTillstand, Svar.Delsvar delsvar) throws ConverterException {
-        assertNotNull("PrognosTillstand should not be null", delsvar);
-        assertEquals("PrognosTillstand.kod not equal", prognosTillstand.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
-        assertEquals("PrognosTillstand.kodsystem not equal", KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM,
-            getCVSvarContent(delsvar).getCodeSystem());
-        assertEquals("PrognosTillstand.beskrivning not equal", prognosTillstand.getTyp().getDescription(),
-            getCVSvarContent(delsvar).getDisplayName());
-    }
+    final Svar.Delsvar delsvarEffekt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
+    assertNull("Effekt should be null", delsvarEffekt);
 
-    private void assertIdKontroll(IdKontroll idKontroll, Svar.Delsvar delsvar) throws ConverterException {
-        assertEquals("Idkontroll not equal", idKontroll.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
-    }
+    final Svar.Delsvar delsvarFoljsamhet =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+    assertNull("Foljsamhet should be null", delsvarFoljsamhet);
 
-    private void assertIntygAvser(IntygAvser intygAvser, List<Svar.Delsvar> delsvarList) throws ConverterException {
-        final Set<IntygAvser.BehorighetsTyp> behorighetsTyper = intygAvser.getBehorigheter();
+    final Svar.Delsvar delsvarAvslutadTidpunkt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+    assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
 
-        assertEquals("Number of IntygAvser not equal", behorighetsTyper.size(), delsvarList.size());
+    final Svar.Delsvar delsvarAvslutadOrsak =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+    assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
+  }
 
-        int i = 0;
-        for (IntygAvser.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
-            final Svar.Delsvar delsvar = delsvarList.get(i++);
-            assertEquals("Behorighetstyp not equal", behorighetsTyp.toString(), getCVSvarContent(delsvar).getCode());
-        }
-    }
+  private void assertLakemedelsbehandlingJaPagar(
+      Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
+    final Svar.Delsvar delsvarHarHaft =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertEquals(
+        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
-    private void assertDiagnosFritext(DiagnosFritext diagnosFritext, Svar.Delsvar delsvarFritext, Svar.Delsvar delsvarArtal)
-        throws ConverterException {
-        assertEquals("DiagnosFritext not equal", diagnosFritext.getDiagnosFritext(), getStringContent(delsvarFritext));
-        assertEquals("DiagnosArtal not equal", diagnosFritext.getDiagnosArtal(), getPartialDateContent(delsvarArtal).getValue().toString());
-    }
+    final Svar.Delsvar delsvarPagar =
+        svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
+    assertNotNull("Pagar should not be null", delsvarPagar);
+    assertEquals(
+        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
 
-    private void assertDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, SvarsWrapper svar) throws ConverterException {
-        final List<Svar> svarList = svar.getSvarList(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID);
+    final Svar.Delsvar delsvarAktuell =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
+    assertNotNull("Aktuell should not be null", delsvarAktuell);
+    assertEquals(
+        "Aktuell not equal", lakemedelsbehandling.getAktuell(), getStringContent(delsvarAktuell));
 
-        assertEquals("DiagnosKodad is not same length", diagnosKodad.size(), svarList.size());
+    final Svar.Delsvar delsvarPagatt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
+    assertNotNull("Pagar should not be null", delsvarPagatt);
+    assertEquals(
+        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagatt));
 
-        for (int i = 0; i < svarList.size(); i++) {
-            final Svar.Delsvar delsvarKod = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
-            final Svar.Delsvar delsvarBeskrivning = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID);
-            final Svar.Delsvar delsvarArtal = svar.getDelsvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, i + 1,
-                ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
+    final Svar.Delsvar delsvarEffekt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
+    assertNotNull("Effekt should not be null", delsvarEffekt);
+    assertEquals(
+        "Effekt not equal", lakemedelsbehandling.getEffekt(), getBooleanContent(delsvarEffekt));
 
-            assertEquals("DiagnosKod not equal", diagnosKodad.get(i).getDiagnosKod(), getCVSvarContent(delsvarKod).getCode());
-            assertEquals("KodSystem not equal", "1.2.752.116.1.1.1.1.3", getCVSvarContent(delsvarKod).getCodeSystem());
-            assertEquals("Beskrivning not equal", diagnosKodad.get(i).getDiagnosBeskrivning(), getStringContent(delsvarBeskrivning));
-            assertEquals("Artal not equal", diagnosKodad.get(i).getDiagnosArtal(),
-                getPartialDateContent(delsvarArtal).getValue().toString());
-        }
-    }
+    final Svar.Delsvar delsvarFoljsamhet =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+    assertNotNull("Foljsamhet should not be null", delsvarFoljsamhet);
+    assertEquals(
+        "Foljsamhet not equal",
+        lakemedelsbehandling.getFoljsamhet(),
+        getBooleanContent(delsvarFoljsamhet));
 
-    private void assertLakemedelsbehandlingNej(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
-        final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-        assertNotNull("HarHaft should not be null", delsvarHarHaft);
-        assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
+    final Svar.Delsvar delsvarAvslutadTidpunkt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+    assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
 
-        final Svar.Delsvar delsvarPagar = svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-        assertNull("Pagar should be null", delsvarPagar);
+    final Svar.Delsvar delsvarAvslutadOrsak =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+    assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
+  }
 
-        final Svar.Delsvar delsvarAktuell = svar.getDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-        assertNull("Aktuell should be null", delsvarAktuell);
+  private void assertLakemedelsbehandlingJaAvslutad(
+      Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
+    final Svar.Delsvar delsvarHarHaft =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertEquals(
+        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
 
-        final Svar.Delsvar delsvarPagatt = svar.getDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-        assertNull("Pagar should be null", delsvarPagatt);
+    final Svar.Delsvar delsvarPagar =
+        svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
+    assertNotNull("Pagar should not be null", delsvarPagar);
+    assertEquals(
+        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
 
-        final Svar.Delsvar delsvarEffekt = svar.getDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-        assertNull("Effekt should be null", delsvarEffekt);
+    final Svar.Delsvar delsvarAktuell =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
+    assertNull("Aktuell should be null", delsvarAktuell);
 
-        final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-        assertNull("Foljsamhet should be null", delsvarFoljsamhet);
+    final Svar.Delsvar delsvarPagatt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
+    assertNull("Pagar should be null", delsvarPagatt);
 
-        final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-        assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
+    final Svar.Delsvar delsvarEffekt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
+    assertNull("Effekt should be null", delsvarEffekt);
 
-        final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-        assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
-    }
+    final Svar.Delsvar delsvarFoljsamhet =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+    assertNull("Foljsamhet should be null", delsvarFoljsamhet);
 
-    private void assertLakemedelsbehandlingJaPagar(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
-        final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-        assertNotNull("HarHaft should not be null", delsvarHarHaft);
-        assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
+    final Svar.Delsvar delsvarAvslutadTidpunkt =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+    assertNotNull("AvslutadTidpunkt should not be null", delsvarAvslutadTidpunkt);
+    assertEquals(
+        "AvslutadTidpunkt not equal",
+        lakemedelsbehandling.getAvslutadTidpunkt(),
+        getStringContent(delsvarAvslutadTidpunkt));
 
-        final Svar.Delsvar delsvarPagar = svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-        assertNotNull("Pagar should not be null", delsvarPagar);
-        assertEquals("Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
+    final Svar.Delsvar delsvarAvslutadOrsak =
+        svar.getDelsvar(
+            LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+    assertNotNull("AvslutadOrsak should not be null", delsvarAvslutadOrsak);
+    assertEquals(
+        "AvslutadOrsak not equal",
+        lakemedelsbehandling.getAvslutadOrsak(),
+        getStringContent(delsvarAvslutadOrsak));
+  }
 
-        final Svar.Delsvar delsvarAktuell = svar.getDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-        assertNotNull("Aktuell should not be null", delsvarAktuell);
-        assertEquals("Aktuell not equal", lakemedelsbehandling.getAktuell(), getStringContent(delsvarAktuell));
+  private GrundData buildGrundData(LocalDateTime timeStamp) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("vardgivareId");
+    vardgivare.setVardgivarnamn("vardgivareNamn");
 
-        final Svar.Delsvar delsvarPagatt = svar.getDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-        assertNotNull("Pagar should not be null", delsvarPagatt);
-        assertEquals("Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagatt));
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("enhetId");
+    vardenhet.setEnhetsnamn("enhetNamn");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setPostadress("postadress");
+    vardenhet.setPostnummer("11111");
+    vardenhet.setPostort("postort");
+    vardenhet.setTelefonnummer("0112312313");
 
-        final Svar.Delsvar delsvarEffekt = svar.getDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-        assertNotNull("Effekt should not be null", delsvarEffekt);
-        assertEquals("Effekt not equal", lakemedelsbehandling.getEffekt(), getBooleanContent(delsvarEffekt));
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setPersonId("HSAID_123");
+    skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
-        final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-        assertNotNull("Foljsamhet should not be null", delsvarFoljsamhet);
-        assertEquals("Foljsamhet not equal", lakemedelsbehandling.getFoljsamhet(), getBooleanContent(delsvarFoljsamhet));
+    Patient patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPostadress("postadress");
+    patient.setPostnummer("11111");
+    patient.setPostort("postort");
 
-        final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-        assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
+    GrundData grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(timeStamp);
 
-        final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-        assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
-    }
-
-    private void assertLakemedelsbehandlingJaAvslutad(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar)
-        throws ConverterException {
-        final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-        assertNotNull("HarHaft should not be null", delsvarHarHaft);
-        assertEquals("HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
-
-        final Svar.Delsvar delsvarPagar = svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-        assertNotNull("Pagar should not be null", delsvarPagar);
-        assertEquals("Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
-
-        final Svar.Delsvar delsvarAktuell = svar.getDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-        assertNull("Aktuell should be null", delsvarAktuell);
-
-        final Svar.Delsvar delsvarPagatt = svar.getDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-        assertNull("Pagar should be null", delsvarPagatt);
-
-        final Svar.Delsvar delsvarEffekt = svar.getDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-        assertNull("Effekt should be null", delsvarEffekt);
-
-        final Svar.Delsvar delsvarFoljsamhet = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID,
-            LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-        assertNull("Foljsamhet should be null", delsvarFoljsamhet);
-
-        final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-        assertNotNull("AvslutadTidpunkt should not be null", delsvarAvslutadTidpunkt);
-        assertEquals("AvslutadTidpunkt not equal", lakemedelsbehandling.getAvslutadTidpunkt(),
-            getStringContent(delsvarAvslutadTidpunkt));
-
-        final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
-            LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-        assertNotNull("AvslutadOrsak should not be null", delsvarAvslutadOrsak);
-        assertEquals("AvslutadOrsak not equal", lakemedelsbehandling.getAvslutadOrsak(), getStringContent(delsvarAvslutadOrsak));
-    }
-
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
-
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
-
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
-
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
-
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
-
-        return grundData;
-    }
+    return grundData;
+  }
 }

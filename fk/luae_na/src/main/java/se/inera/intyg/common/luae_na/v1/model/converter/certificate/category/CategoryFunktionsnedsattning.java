@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,55 +48,64 @@ import se.inera.intyg.common.support.facade.model.validation.ExpressionTypeEnum;
 
 public class CategoryFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID))
-                    .description(textProvider.get(FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationCategoryMandatory.builder()
-                        .expressionType(ExpressionTypeEnum.OR)
-                        .questions(
-                            List.of(
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13))
-                                    .build(),
-                                CertificateDataValidationMandatory.builder()
-                                    .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14)
-                                    .expression(singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14))
-                                    .build()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(textProvider.get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID))
+                .description(textProvider.get(FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationCategoryMandatory.builder()
+                  .expressionType(ExpressionTypeEnum.OR)
+                  .questions(
+                      List.of(
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8)
+                              .expression(
+                                  singleExpression(
+                                      FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9)
+                              .expression(
+                                  singleExpression(
+                                      FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10)
+                              .expression(
+                                  singleExpression(
+                                      FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11)
+                              .expression(
+                                  singleExpression(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12)
+                              .expression(
+                                  singleExpression(
+                                      FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13)
+                              .expression(
+                                  singleExpression(
+                                      FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13))
+                              .build(),
+                          CertificateDataValidationMandatory.builder()
+                              .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14)
+                              .expression(
+                                  singleExpression(FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14))
+                              .build()))
+                  .build()
+            })
+        .build();
+  }
 }

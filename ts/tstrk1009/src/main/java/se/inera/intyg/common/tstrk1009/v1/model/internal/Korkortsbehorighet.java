@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,79 +22,79 @@ import com.google.common.collect.ImmutableSet;
 import java.util.stream.Stream;
 
 public enum Korkortsbehorighet {
-    AM("VAR12", "AM", "Moped klass I"),
-    A1("VAR13", "A1", "Lätt motorcykel"),
-    A2("VAR14", "A2", "Mellanstor motorcykel"),
-    A("VAR15", "A", "Motorcykel"),
-    B("VAR16", "B", "Personbil och lätt lastbil"),
-    BE("VAR17", "BE", "Personbil, lätt lastbil och ett eller flera släpfordon"),
-    TRAKTOR("VAR18", "Traktor", "Traktor"),
-    C1("VAR1", "C1", "Medeltung lastbil och enbart ett lätt släpfordon"),
-    C1E("VAR2", "C1E", "Medeltung lastbil och ett eller flera släpfordon oavsett vikt"),
-    C("VAR3", "C", "Tung lastbil och enbart ett lätt släpfordon"),
-    CE("VAR4", "CE", "Tung lastbil och ett eller flera släpfordon oavsett vikt"),
-    D1("VAR5", "D1", "Mellanstor buss"),
-    D1E("VAR6", "D1E", "Mellanstor buss och ett eller flera släpfordon oavsett vikt"),
-    D("VAR7", "D", "Buss"),
-    DE("VAR8", "DE", "Buss och enbart ett lätt släpfordon"),
-    TAXI("VAR9", "Taxi", "Taxiförarlegitimation"),
-    ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)", "Annan körkortsbehörighet"),
-    KANINTETASTALLNING("VAR11", "Kan inte ta ställning", "Kan inte ta ställning");
+  AM("VAR12", "AM", "Moped klass I"),
+  A1("VAR13", "A1", "Lätt motorcykel"),
+  A2("VAR14", "A2", "Mellanstor motorcykel"),
+  A("VAR15", "A", "Motorcykel"),
+  B("VAR16", "B", "Personbil och lätt lastbil"),
+  BE("VAR17", "BE", "Personbil, lätt lastbil och ett eller flera släpfordon"),
+  TRAKTOR("VAR18", "Traktor", "Traktor"),
+  C1("VAR1", "C1", "Medeltung lastbil och enbart ett lätt släpfordon"),
+  C1E("VAR2", "C1E", "Medeltung lastbil och ett eller flera släpfordon oavsett vikt"),
+  C("VAR3", "C", "Tung lastbil och enbart ett lätt släpfordon"),
+  CE("VAR4", "CE", "Tung lastbil och ett eller flera släpfordon oavsett vikt"),
+  D1("VAR5", "D1", "Mellanstor buss"),
+  D1E("VAR6", "D1E", "Mellanstor buss och ett eller flera släpfordon oavsett vikt"),
+  D("VAR7", "D", "Buss"),
+  DE("VAR8", "DE", "Buss och enbart ett lätt släpfordon"),
+  TAXI("VAR9", "Taxi", "Taxiförarlegitimation"),
+  ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)", "Annan körkortsbehörighet"),
+  KANINTETASTALLNING("VAR11", "Kan inte ta ställning", "Kan inte ta ställning");
 
-    private final String code;
-    private final String value;
-    private final String description;
+  private final String code;
+  private final String value;
+  private final String description;
 
-    Korkortsbehorighet(final String code, final String value, final String description) {
-        this.code = code;
-        this.value = value;
-        this.description = description;
-    }
+  Korkortsbehorighet(final String code, final String value, final String description) {
+    this.code = code;
+    this.value = value;
+    this.description = description;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public static Korkortsbehorighet fromCode(final String code) {
-        return Stream.of(Korkortsbehorighet.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  public static Korkortsbehorighet fromCode(final String code) {
+    return Stream.of(Korkortsbehorighet.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 
-    /**
-     * Hjälpmetoder för att hämta olika subset av kodverket som
-     * resulterar i att specifika regler ytterligare måste valideras för intyget.
-     */
-    public static ImmutableSet<Korkortsbehorighet> getAllaBehorigheter() {
-        return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
-    }
+  /**
+   * Hjälpmetoder för att hämta olika subset av kodverket som resulterar i att specifika regler
+   * ytterligare måste valideras för intyget.
+   */
+  public static ImmutableSet<Korkortsbehorighet> getAllaBehorigheter() {
+    return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+  }
 
-    public static ImmutableSet<Korkortsbehorighet> getABTraktorBehorigheter() {
-        return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
-    }
+  public static ImmutableSet<Korkortsbehorighet> getABTraktorBehorigheter() {
+    return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
+  }
 
-    public static ImmutableSet<Korkortsbehorighet> getCEBehorigHeter() {
-        return ImmutableSet.of(C1, C1E, C, CE);
-    }
+  public static ImmutableSet<Korkortsbehorighet> getCEBehorigHeter() {
+    return ImmutableSet.of(C1, C1E, C, CE);
+  }
 
-    public static ImmutableSet<Korkortsbehorighet> getDBehorigHeter() {
-        return ImmutableSet.of(D1, D1E, D, DE);
-    }
+  public static ImmutableSet<Korkortsbehorighet> getDBehorigHeter() {
+    return ImmutableSet.of(D1, D1E, D, DE);
+  }
 
-    public static ImmutableSet<Korkortsbehorighet> getTaxiBehorigheter() {
-        return ImmutableSet.of(TAXI);
-    }
+  public static ImmutableSet<Korkortsbehorighet> getTaxiBehorigheter() {
+    return ImmutableSet.of(TAXI);
+  }
 
-    public static ImmutableSet<Korkortsbehorighet> getKanintetastallning() {
-        return ImmutableSet.of(KANINTETASTALLNING);
-    }
-
-
+  public static ImmutableSet<Korkortsbehorighet> getKanintetastallning() {
+    return ImmutableSet.of(KANINTETASTALLNING);
+  }
 }

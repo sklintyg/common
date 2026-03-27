@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,49 +42,56 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 
 public class QuestionHypoglykemiAllvarligSenasteTolvManaderna {
 
-    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
-        final var allvarligSenasteTolvManaderna =
-            hypoglykemi != null && hypoglykemi.getAllvarligSenasteTolvManaderna() != null
-                ? hypoglykemi.getAllvarligSenasteTolvManaderna() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID)
-            .parent(HYPOGLYKEMI_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
-                    .text(textProvider.get(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TEXT_ID))
-                    .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
-                    .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
-                    .selected(allvarligSenasteTolvManaderna)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID)
-                        .expression(multipleOrExpressionWithExists(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
-                            IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(), IntygAvserKategori.VAR5.name(),
-                            IntygAvserKategori.VAR6.name(), IntygAvserKategori.VAR7.name(), IntygAvserKategori.VAR8.name(),
-                            IntygAvserKategori.VAR9.name())
-                        )
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID)
-                        .expression(exists(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
+    final var allvarligSenasteTolvManaderna =
+        hypoglykemi != null && hypoglykemi.getAllvarligSenasteTolvManaderna() != null
+            ? hypoglykemi.getAllvarligSenasteTolvManaderna()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID)
+        .parent(HYPOGLYKEMI_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
+                .text(textProvider.get(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TEXT_ID))
+                .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
+                .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
+                .selected(allvarligSenasteTolvManaderna)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(INTYG_AVSER_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          IntygAvserKategori.VAR1.name(),
+                          IntygAvserKategori.VAR2.name(),
+                          IntygAvserKategori.VAR3.name(),
+                          IntygAvserKategori.VAR4.name(),
+                          IntygAvserKategori.VAR5.name(),
+                          IntygAvserKategori.VAR6.name(),
+                          IntygAvserKategori.VAR7.name(),
+                          IntygAvserKategori.VAR8.name(),
+                          IntygAvserKategori.VAR9.name()))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID)
+                  .expression(exists(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID,
-            HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_SVAR_ID,
+        HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID);
+  }
 }

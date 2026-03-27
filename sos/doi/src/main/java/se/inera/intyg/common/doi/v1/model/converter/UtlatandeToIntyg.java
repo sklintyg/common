@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -68,156 +68,196 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private static final int ADDRESS_MAX_LENGTH = 50;
+  private static final int ADDRESS_MAX_LENGTH = 50;
 
-    private UtlatandeToIntyg() {
+  private UtlatandeToIntyg() {}
+
+  public static Intyg convert(DoiUtlatandeV1 utlatande) {
+    Intyg intyg =
+        InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
+    truncatePatientAddressIfNeeded(intyg);
+    intyg.setTyp(getTypAvIntyg(KvIntygstyp.DOI));
+    intyg.getSvar().addAll(getSvar(utlatande));
+    intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
+    return intyg;
+  }
+
+  private static void truncatePatientAddressIfNeeded(Intyg intyg) {
+    final var patientAddress = intyg.getPatient().getPostadress();
+    if (patientAddress.length() > ADDRESS_MAX_LENGTH) {
+      intyg.getPatient().setPostadress(patientAddress.substring(0, ADDRESS_MAX_LENGTH));
+    }
+  }
+
+  private static List<Svar> getSvar(DoiUtlatandeV1 utlatande) {
+    List<Svar> svar = getSharedSvar(utlatande);
+
+    // Svar 8
+    if (utlatande.getTerminalDodsorsak() != null
+        && (utlatande.getTerminalDodsorsak().getBeskrivning() != null
+            || utlatande.getTerminalDodsorsak().getDatum() != null
+            || utlatande.getTerminalDodsorsak().getSpecifikation() != null)) {
+      InternalConverterUtil.SvarBuilder dodsorsak = aSvar(DODSORSAK_SVAR_ID);
+      if (utlatande.getTerminalDodsorsak().getBeskrivning() != null) {
+        dodsorsak.withDelsvar(
+            DODSORSAK_DELSVAR_ID, utlatande.getTerminalDodsorsak().getBeskrivning());
+      }
+      if (utlatande.getTerminalDodsorsak().getDatum() != null) {
+        dodsorsak.withDelsvar(
+            DODSORSAK_DATUM_DELSVAR_ID,
+            getInternalDateContent(utlatande.getTerminalDodsorsak().getDatum()));
+      }
+      final Specifikation terminalSpecifikation =
+          utlatande.getTerminalDodsorsak().getSpecifikation();
+      if (terminalSpecifikation != null) {
+        dodsorsak.withDelsvar(
+            DODSORSAK_SPECIFIKATION_DELSVAR_ID,
+            aCV(
+                terminalSpecifikation.getCodeSystem(),
+                terminalSpecifikation.getId(),
+                terminalSpecifikation.getLabel()));
+      }
+      svar.add(dodsorsak.build());
     }
 
-    public static Intyg convert(DoiUtlatandeV1 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE);
-        truncatePatientAddressIfNeeded(intyg);
-        intyg.setTyp(getTypAvIntyg(KvIntygstyp.DOI));
-        intyg.getSvar().addAll(getSvar(utlatande));
-        intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
-        return intyg;
+    // Svar 9
+    if (utlatande.getFoljd() != null && !utlatande.getFoljd().isEmpty()) {
+      for (int i = 0; i < utlatande.getFoljd().size(); i++) {
+        Dodsorsak dodsorsak = utlatande.getFoljd().get(i);
+        if (dodsorsak.getBeskrivning() != null
+            || dodsorsak.getDatum() != null
+            || dodsorsak.getSpecifikation() != null) {
+          InternalConverterUtil.SvarBuilder foljdSvar = aSvar(FOLJD_SVAR_ID, i + 1);
+          if (dodsorsak.getBeskrivning() != null) {
+            foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, dodsorsak.getBeskrivning());
+          }
+          if (dodsorsak.getDatum() != null && dodsorsak.getDatum().isValidDate()) {
+            foljdSvar.withDelsvar(
+                FOLJD_DATUM_DELSVAR_ID, getInternalDateContent(dodsorsak.getDatum()));
+          }
+
+          final Specifikation dodsorsakSpecifikation = dodsorsak.getSpecifikation();
+          if (dodsorsakSpecifikation != null) {
+            foljdSvar.withDelsvar(
+                FOLJD_SPECIFIKATION_DELSVAR_ID,
+                aCV(
+                    dodsorsakSpecifikation.getCodeSystem(),
+                    dodsorsakSpecifikation.getId(),
+                    dodsorsakSpecifikation.getLabel()));
+          }
+          svar.add(foljdSvar.build());
+        }
+      }
     }
 
-    private static void truncatePatientAddressIfNeeded(Intyg intyg) {
-        final var patientAddress = intyg.getPatient().getPostadress();
-        if (patientAddress.length() > ADDRESS_MAX_LENGTH) {
-            intyg.getPatient().setPostadress(patientAddress.substring(0, ADDRESS_MAX_LENGTH));
+    // Svar 10
+    if (utlatande.getBidragandeSjukdomar() != null
+        && !utlatande.getBidragandeSjukdomar().isEmpty()) {
+      for (Dodsorsak bidragandeSjukdom : utlatande.getBidragandeSjukdomar()) {
+        if (bidragandeSjukdom.getBeskrivning() != null
+            || bidragandeSjukdom.getDatum() != null
+            || bidragandeSjukdom.getSpecifikation() != null) {
+          InternalConverterUtil.SvarBuilder sjukdomSvar = aSvar(BIDRAGANDE_SJUKDOM_SVAR_ID);
+          if (bidragandeSjukdom.getBeskrivning() != null) {
+            sjukdomSvar.withDelsvar(
+                BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
+          }
+          if (bidragandeSjukdom.getDatum() != null && bidragandeSjukdom.getDatum().isValidDate()) {
+            sjukdomSvar.withDelsvar(
+                BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID,
+                getInternalDateContent(bidragandeSjukdom.getDatum()));
+          }
+
+          final Specifikation bidragandeSpecifikation = bidragandeSjukdom.getSpecifikation();
+          if (bidragandeSpecifikation != null) {
+            sjukdomSvar.withDelsvar(
+                BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID,
+                aCV(
+                    bidragandeSpecifikation.getCodeSystem(),
+                    bidragandeSpecifikation.getId(),
+                    bidragandeSpecifikation.getLabel()));
+          }
+          svar.add(sjukdomSvar.build());
         }
+      }
     }
 
-    private static List<Svar> getSvar(DoiUtlatandeV1 utlatande) {
-        List<Svar> svar = getSharedSvar(utlatande);
-
-        // Svar 8
-        if (utlatande.getTerminalDodsorsak() != null && (utlatande.getTerminalDodsorsak().getBeskrivning() != null
-            || utlatande.getTerminalDodsorsak().getDatum() != null || utlatande.getTerminalDodsorsak().getSpecifikation() != null)) {
-            InternalConverterUtil.SvarBuilder dodsorsak = aSvar(DODSORSAK_SVAR_ID);
-            if (utlatande.getTerminalDodsorsak().getBeskrivning() != null) {
-                dodsorsak.withDelsvar(DODSORSAK_DELSVAR_ID, utlatande.getTerminalDodsorsak().getBeskrivning());
-            }
-            if (utlatande.getTerminalDodsorsak().getDatum() != null) {
-                dodsorsak.withDelsvar(DODSORSAK_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getTerminalDodsorsak().getDatum()));
-            }
-            final Specifikation terminalSpecifikation = utlatande.getTerminalDodsorsak().getSpecifikation();
-            if (terminalSpecifikation != null) {
-                dodsorsak.withDelsvar(DODSORSAK_SPECIFIKATION_DELSVAR_ID,
-                    aCV(terminalSpecifikation.getCodeSystem(), terminalSpecifikation.getId(), terminalSpecifikation.getLabel()));
-            }
-            svar.add(dodsorsak.build());
+    // Svar 11
+    if (utlatande.getOperation() != null
+        || utlatande.getOperationDatum() != null
+        || utlatande.getOperationAnledning() != null) {
+      InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
+      if (utlatande.getOperation() != null) {
+        switch (utlatande.getOperation()) {
+          case JA:
+            operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.TRUE.toString());
+            break;
+          case NEJ:
+            operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.FALSE.toString());
+            break;
+          case UPPGIFT_SAKNAS:
+            operation.withDelsvar(
+                OPERATION_OM_DELSVAR_ID,
+                aCV(
+                    KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM,
+                    UPPGIFT_SAKNAS_CODE,
+                    UPPGIFT_SAKNAS_DISPLAY_NAME));
+            break;
         }
-
-        // Svar 9
-        if (utlatande.getFoljd() != null && !utlatande.getFoljd().isEmpty()) {
-            for (int i = 0; i < utlatande.getFoljd().size(); i++) {
-                Dodsorsak dodsorsak = utlatande.getFoljd().get(i);
-                if (dodsorsak.getBeskrivning() != null || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null) {
-                    InternalConverterUtil.SvarBuilder foljdSvar = aSvar(FOLJD_SVAR_ID, i + 1);
-                    if (dodsorsak.getBeskrivning() != null) {
-                        foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, dodsorsak.getBeskrivning());
-                    }
-                    if (dodsorsak.getDatum() != null && dodsorsak.getDatum().isValidDate()) {
-                        foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, getInternalDateContent(dodsorsak.getDatum()));
-                    }
-
-                    final Specifikation dodsorsakSpecifikation = dodsorsak.getSpecifikation();
-                    if (dodsorsakSpecifikation != null) {
-                        foljdSvar.withDelsvar(FOLJD_SPECIFIKATION_DELSVAR_ID,
-                            aCV(dodsorsakSpecifikation.getCodeSystem(), dodsorsakSpecifikation.getId(), dodsorsakSpecifikation.getLabel()));
-                    }
-                    svar.add(foljdSvar.build());
-                }
-            }
-        }
-
-        // Svar 10
-        if (utlatande.getBidragandeSjukdomar() != null && !utlatande.getBidragandeSjukdomar().isEmpty()) {
-            for (Dodsorsak bidragandeSjukdom : utlatande.getBidragandeSjukdomar()) {
-                if (bidragandeSjukdom.getBeskrivning() != null || bidragandeSjukdom.getDatum() != null
-                    || bidragandeSjukdom.getSpecifikation() != null) {
-                    InternalConverterUtil.SvarBuilder sjukdomSvar = aSvar(BIDRAGANDE_SJUKDOM_SVAR_ID);
-                    if (bidragandeSjukdom.getBeskrivning() != null) {
-                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
-                    }
-                    if (bidragandeSjukdom.getDatum() != null && bidragandeSjukdom.getDatum().isValidDate()) {
-                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, getInternalDateContent(bidragandeSjukdom.getDatum()));
-                    }
-
-                    final Specifikation bidragandeSpecifikation = bidragandeSjukdom.getSpecifikation();
-                    if (bidragandeSpecifikation != null) {
-                        sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID,
-                            aCV(bidragandeSpecifikation.getCodeSystem(), bidragandeSpecifikation.getId(),
-                                bidragandeSpecifikation.getLabel()));
-                    }
-                    svar.add(sjukdomSvar.build());
-                }
-            }
-        }
-
-        // Svar 11
-        if (utlatande.getOperation() != null || utlatande.getOperationDatum() != null || utlatande.getOperationAnledning() != null) {
-            InternalConverterUtil.SvarBuilder operation = aSvar(OPERATION_SVAR_ID);
-            if (utlatande.getOperation() != null) {
-                switch (utlatande.getOperation()) {
-                    case JA:
-                        operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.TRUE.toString());
-                        break;
-                    case NEJ:
-                        operation.withDelsvar(OPERATION_OM_DELSVAR_ID, Boolean.FALSE.toString());
-                        break;
-                    case UPPGIFT_SAKNAS:
-                        operation.withDelsvar(OPERATION_OM_DELSVAR_ID,
-                            aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM, UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME));
-                        break;
-                }
-            }
-            if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()) {
-                operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getOperationDatum()));
-            }
-            if (utlatande.getOperationAnledning() != null) {
-                operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
-            }
-            svar.add(operation.build());
-        }
-
-        // Svar 12
-        if (utlatande.getForgiftning() != null || utlatande.getForgiftningOrsak() != null || utlatande.getForgiftningDatum() != null
-            || utlatande.getForgiftningUppkommelse() != null) {
-            InternalConverterUtil.SvarBuilder forgiftning = aSvar(FORGIFTNING_SVAR_ID);
-            if (utlatande.getForgiftning() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_OM_DELSVAR_ID, utlatande.getForgiftning().toString());
-            }
-            if (utlatande.getForgiftningOrsak() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_ORSAK_DELSVAR_ID,
-                    aCV(FORGIFTNING_ORSAK_CODE_SYSTEM,
-                        utlatande.getForgiftningOrsak().name(),
-                        utlatande.getForgiftningOrsak().getBeskrivning()));
-            }
-            if (utlatande.getForgiftningDatum() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getForgiftningDatum()));
-            }
-            if (utlatande.getForgiftningUppkommelse() != null) {
-                forgiftning.withDelsvar(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, utlatande.getForgiftningUppkommelse());
-            }
-            svar.add(forgiftning.build());
-        }
-
-        // Svar 13
-        if (utlatande.getGrunder() != null && !utlatande.getGrunder().isEmpty()) {
-            for (Dodsorsaksgrund grund : utlatande.getGrunder()) {
-                svar.add(aSvar(
-                    GRUNDER_SVAR_ID).withDelsvar(
-                        GRUNDER_DELSVAR_ID, aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))
-                    .build());
-            }
-        }
-
-        // Svar 14
-        addIfNotBlank(svar, LAND_SVAR_ID, LAND_DELSVAR_ID, utlatande.getLand());
-
-        return svar;
+      }
+      if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()) {
+        operation.withDelsvar(
+            OPERATION_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getOperationDatum()));
+      }
+      if (utlatande.getOperationAnledning() != null) {
+        operation.withDelsvar(OPERATION_ANLEDNING_DELSVAR_ID, utlatande.getOperationAnledning());
+      }
+      svar.add(operation.build());
     }
+
+    // Svar 12
+    if (utlatande.getForgiftning() != null
+        || utlatande.getForgiftningOrsak() != null
+        || utlatande.getForgiftningDatum() != null
+        || utlatande.getForgiftningUppkommelse() != null) {
+      InternalConverterUtil.SvarBuilder forgiftning = aSvar(FORGIFTNING_SVAR_ID);
+      if (utlatande.getForgiftning() != null) {
+        forgiftning.withDelsvar(FORGIFTNING_OM_DELSVAR_ID, utlatande.getForgiftning().toString());
+      }
+      if (utlatande.getForgiftningOrsak() != null) {
+        forgiftning.withDelsvar(
+            FORGIFTNING_ORSAK_DELSVAR_ID,
+            aCV(
+                FORGIFTNING_ORSAK_CODE_SYSTEM,
+                utlatande.getForgiftningOrsak().name(),
+                utlatande.getForgiftningOrsak().getBeskrivning()));
+      }
+      if (utlatande.getForgiftningDatum() != null) {
+        forgiftning.withDelsvar(
+            FORGIFTNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getForgiftningDatum()));
+      }
+      if (utlatande.getForgiftningUppkommelse() != null) {
+        forgiftning.withDelsvar(
+            FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, utlatande.getForgiftningUppkommelse());
+      }
+      svar.add(forgiftning.build());
+    }
+
+    // Svar 13
+    if (utlatande.getGrunder() != null && !utlatande.getGrunder().isEmpty()) {
+      for (Dodsorsaksgrund grund : utlatande.getGrunder()) {
+        svar.add(
+            aSvar(GRUNDER_SVAR_ID)
+                .withDelsvar(
+                    GRUNDER_DELSVAR_ID,
+                    aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))
+                .build());
+      }
+    }
+
+    // Svar 14
+    addIfNotBlank(svar, LAND_SVAR_ID, LAND_DELSVAR_ID, utlatande.getLand());
+
+    return svar;
+  }
 }

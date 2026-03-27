@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,23 +23,23 @@ import static org.springframework.util.Assert.notNull;
 
 public class PdfResponse {
 
-    private final byte[] pdfData;
+  private final byte[] pdfData;
 
-    private final String filename;
+  private final String filename;
 
-    public PdfResponse(byte[] pdfData, String filename) {
-        notNull(pdfData, "'pdfData' must not be null");
-        hasText(filename, "'filename' must not be empty");
-        this.pdfData = pdfData;
-        this.filename = filename;
-    }
+  public PdfResponse(byte[] pdfData, String filename) {
+    notNull(pdfData, "'pdfData' must not be null");
+    hasText(filename, "'filename' must not be empty");
+    this.pdfData = pdfData;
+    this.filename = filename;
+  }
 
-    public byte[] getPdfData() {
-        // If we want to have true immutability we need to copy the byte[] here. But is it worth it?
-        return pdfData;
-    }
+  public byte[] getPdfData() {
+    // If we want to have true immutability we need to copy the byte[] here. But is it worth it?
+    return pdfData;
+  }
 
-    public String getFilename() {
-        return filename;
-    }
+  public String getFilename() {
+    return filename;
+  }
 }

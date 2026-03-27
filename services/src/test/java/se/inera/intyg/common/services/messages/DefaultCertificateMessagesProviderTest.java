@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,37 +26,37 @@ import org.junit.jupiter.api.Test;
 
 class DefaultCertificateMessagesProviderTest {
 
-    @Test
-    void shallReturnMessageIfKeyIsPresent() {
-        final var expectedValue = "value";
-        final var messages = Map.of("key", "value");
-        final var provider = DefaultCertificateMessagesProvider.create(messages, null);
-        assertEquals(expectedValue, provider.get("key"));
-    }
+  @Test
+  void shallReturnMessageIfKeyIsPresent() {
+    final var expectedValue = "value";
+    final var messages = Map.of("key", "value");
+    final var provider = DefaultCertificateMessagesProvider.create(messages, null);
+    assertEquals(expectedValue, provider.get("key"));
+  }
 
-    @Test
-    void shallReturnNullIfKeyIsMissing() {
-        final var messages = Map.of("key", "value");
-        final var provider = DefaultCertificateMessagesProvider.create(messages, null);
-        assertNull(provider.get("notKey"));
-    }
+  @Test
+  void shallReturnNullIfKeyIsMissing() {
+    final var messages = Map.of("key", "value");
+    final var provider = DefaultCertificateMessagesProvider.create(messages, null);
+    assertNull(provider.get("notKey"));
+  }
 
-    @Test
-    void shallReplaceDynamicKeyWithValue() {
-        final var messages = Map.of("key", "text with dynamic key {0}");
-        final var dynamicKeyMap = Map.of("dynamicKey", "dynamicValue");
-        final var provider = DefaultCertificateMessagesProvider.create(messages, dynamicKeyMap);
-        final var actualMessage = provider.get("key", "dynamicKey");
-        assertEquals("text with dynamic key dynamicValue", actualMessage);
-    }
+  @Test
+  void shallReplaceDynamicKeyWithValue() {
+    final var messages = Map.of("key", "text with dynamic key {0}");
+    final var dynamicKeyMap = Map.of("dynamicKey", "dynamicValue");
+    final var provider = DefaultCertificateMessagesProvider.create(messages, dynamicKeyMap);
+    final var actualMessage = provider.get("key", "dynamicKey");
+    assertEquals("text with dynamic key dynamicValue", actualMessage);
+  }
 
-    @Test
-    void shallReturnDynamicKeyAsValueIfKeyIsMissing() {
-        final var messages = Map.of("key", "text without key value = {0}");
-        final var dynamicKeyMap = Map.of("dynamicKey", "dynamicValue");
-        final var provider = DefaultCertificateMessagesProvider.create(messages, dynamicKeyMap);
-        final var expectedValue = "text without key value = notDynamicKey";
-        final var actualValue = provider.get("key", "notDynamicKey");
-        assertEquals(expectedValue, actualValue);
-    }
+  @Test
+  void shallReturnDynamicKeyAsValueIfKeyIsMissing() {
+    final var messages = Map.of("key", "text without key value = {0}");
+    final var dynamicKeyMap = Map.of("dynamicKey", "dynamicValue");
+    final var provider = DefaultCertificateMessagesProvider.create(messages, dynamicKeyMap);
+    final var expectedValue = "text without key value = notDynamicKey";
+    final var actualValue = provider.get("key", "notDynamicKey");
+    assertEquals(expectedValue, actualValue);
+  }
 }

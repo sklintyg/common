@@ -27,48 +27,52 @@ import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabet
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
 
 @Configuration
-// This config-class should be moved to webcert (same as the intygstjanst-specific classes) once webcert converts to java-config
-// For time being the class will not be used unless profile webcert is active, this is to make sure it isn't loaded by intygstjanst.
+// This config-class should be moved to webcert (same as the intygstjanst-specific classes) once
+// webcert converts to java-config
+// For time being the class will not be used unless profile webcert is active, this is to make sure
+// it isn't loaded by intygstjanst.
 @Profile("webcert")
 public class TsDiabetesWcCxfConfig {
 
-    /**
-     * Creates the {@code diabetesGetClient} JAX-WS proxy client pointing at the
-     * intygstjänst {@code GetTSDiabetes v1} endpoint.
-     *
-     * <p>Equivalent XML:
-     * <pre>{@code
-     * <jaxws:client id="diabetesGetClient"
-     *               serviceClass="...GetTSDiabetesResponderInterface"
-     *               address="${intygstjanst.gettsdiabetes.endpoint.url}"/>
-     * }</pre>
-     */
-    @Bean("diabetesGetClient")
-    public GetTSDiabetesResponderInterface diabetesGetClient(
-        @Value("${intygstjanst.gettsdiabetes.endpoint.url}") String address) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(GetTSDiabetesResponderInterface.class);
-        factory.setAddress(address);
-        return (GetTSDiabetesResponderInterface) factory.create();
-    }
+  /**
+   * Creates the {@code diabetesGetClient} JAX-WS proxy client pointing at the intygstjänst {@code
+   * GetTSDiabetes v1} endpoint.
+   *
+   * <p>Equivalent XML:
+   *
+   * <pre>{@code
+   * <jaxws:client id="diabetesGetClient"
+   *               serviceClass="...GetTSDiabetesResponderInterface"
+   *               address="${intygstjanst.gettsdiabetes.endpoint.url}"/>
+   * }</pre>
+   */
+  @Bean("diabetesGetClient")
+  public GetTSDiabetesResponderInterface diabetesGetClient(
+      @Value("${intygstjanst.gettsdiabetes.endpoint.url}") String address) {
+    final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+    factory.setServiceClass(GetTSDiabetesResponderInterface.class);
+    factory.setAddress(address);
+    return (GetTSDiabetesResponderInterface) factory.create();
+  }
 
-    /**
-     * Creates the {@code diabetesRegisterClient} JAX-WS proxy client pointing at the
-     * intygstjänst {@code RegisterTSDiabetes v1} endpoint.
-     *
-     * <p>Equivalent XML:
-     * <pre>{@code
-     * <jaxws:client id="diabetesRegisterClient"
-     *               serviceClass="...RegisterTSDiabetesResponderInterface"
-     *               address="${intygstjanst.registertsdiabetes.endpoint.url}"/>
-     * }</pre>
-     */
-    @Bean("diabetesRegisterClient")
-    public RegisterTSDiabetesResponderInterface diabetesRegisterClient(
-        @Value("${intygstjanst.registertsdiabetes.endpoint.url}") String address) {
-        final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(RegisterTSDiabetesResponderInterface.class);
-        factory.setAddress(address);
-        return (RegisterTSDiabetesResponderInterface) factory.create();
-    }
+  /**
+   * Creates the {@code diabetesRegisterClient} JAX-WS proxy client pointing at the intygstjänst
+   * {@code RegisterTSDiabetes v1} endpoint.
+   *
+   * <p>Equivalent XML:
+   *
+   * <pre>{@code
+   * <jaxws:client id="diabetesRegisterClient"
+   *               serviceClass="...RegisterTSDiabetesResponderInterface"
+   *               address="${intygstjanst.registertsdiabetes.endpoint.url}"/>
+   * }</pre>
+   */
+  @Bean("diabetesRegisterClient")
+  public RegisterTSDiabetesResponderInterface diabetesRegisterClient(
+      @Value("${intygstjanst.registertsdiabetes.endpoint.url}") String address) {
+    final JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
+    factory.setServiceClass(RegisterTSDiabetesResponderInterface.class);
+    factory.setAddress(address);
+    return (RegisterTSDiabetesResponderInterface) factory.create();
+  }
 }

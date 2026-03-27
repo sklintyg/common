@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,34 +28,33 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class PrognosTillstand {
 
-    @JsonCreator
-    public static PrognosTillstand create(@JsonProperty(SYMPTOM_PROGNOS_DELSVAR_JSON_ID) PrognosTillstandTyp typ) {
-        return new AutoValue_PrognosTillstand(typ);
+  @JsonCreator
+  public static PrognosTillstand create(
+      @JsonProperty(SYMPTOM_PROGNOS_DELSVAR_JSON_ID) PrognosTillstandTyp typ) {
+    return new AutoValue_PrognosTillstand(typ);
+  }
+
+  @Nullable public abstract PrognosTillstandTyp getTyp();
+
+  public enum PrognosTillstandTyp {
+    JA("true", "Ja"),
+    NEJ("false", "Nej"),
+    KANEJBEDOMA("NI", "Kan ej bedöma");
+
+    final String code;
+    final String description;
+
+    PrognosTillstandTyp(String code, String description) {
+      this.code = code;
+      this.description = description;
     }
 
-    @Nullable
-    public abstract PrognosTillstandTyp getTyp();
-
-    public enum PrognosTillstandTyp {
-
-        JA("true", "Ja"),
-        NEJ("false", "Nej"),
-        KANEJBEDOMA("NI", "Kan ej bedöma");
-
-        final String code;
-        final String description;
-
-        PrognosTillstandTyp(String code, String description) {
-            this.code = code;
-            this.description = description;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
+    public String getCode() {
+      return code;
     }
+
+    public String getDescription() {
+      return description;
+    }
+  }
 }

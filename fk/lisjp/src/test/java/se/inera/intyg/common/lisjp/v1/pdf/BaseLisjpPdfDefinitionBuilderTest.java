@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,75 +41,84 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Created by marced on 2017-03-08.
- */
-
+/** Created by marced on 2017-03-08. */
 @ContextConfiguration(classes = {BaseLisjpPdfDefinitionBuilderTest.TestConfiguration.class})
-@TestPropertySource(properties = {
-    "texts.file.directory=classpath:v1/text",
-})
+@TestPropertySource(
+    properties = {
+      "texts.file.directory=classpath:v1/text",
+    })
 public abstract class BaseLisjpPdfDefinitionBuilderTest {
 
-    protected List<LisjpUtlatandeV1> intygList = new ArrayList<>();
+  protected List<LisjpUtlatandeV1> intygList = new ArrayList<>();
 
-    @Autowired
-    ObjectMapper objectMapper;
+  @Autowired ObjectMapper objectMapper;
 
-    @Autowired
-    IntygTextsServiceImpl intygTextsService;
+  @Autowired IntygTextsServiceImpl intygTextsService;
 
-    @Autowired
-    IntygTextsRepositoryImpl repo;
+  @Autowired IntygTextsRepositoryImpl repo;
 
-    @Before
-    public void initIntyg() throws IOException {
+  @Before
+  public void initIntyg() throws IOException {
 
-        intygList.add(
-            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(
-            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatandeV1.class));
-        intygList.add(objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatandeV1.class));
+    intygList.add(
+        objectMapper.readValue(
+            new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(),
+            LisjpUtlatandeV1.class));
+    intygList.add(
+        objectMapper.readValue(
+            new ClassPathResource("v1/PdfGeneratorTest/maximalt_utlatande.json").getFile(),
+            LisjpUtlatandeV1.class));
+    intygList.add(
+        objectMapper.readValue(
+            new ClassPathResource("v1/PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(),
+            LisjpUtlatandeV1.class));
+  }
+
+  void writePdfToFile(
+      byte[] pdf,
+      ApplicationOrigin origin,
+      String scenarioName,
+      String namingPrefix,
+      String textVersion)
+      throws IOException {
+    String dir = "build/tmp";
+    File file =
+        new File(
+            String.format(
+                "%s/%s-%s-%s-v%s-%s",
+                dir, origin.name(), scenarioName, namingPrefix, textVersion, "lisjp.pdf"));
+    file.getParentFile().mkdirs();
+    FileOutputStream fop = new FileOutputStream(file);
+
+    file.createNewFile();
+
+    fop.write(pdf);
+    fop.flush();
+    fop.close();
+  }
+
+  // Expose autowire candidates to Spring
+  @Configuration
+  static class TestConfiguration {
+
+    @Bean
+    public ResourceLoader resourceLoader() {
+      return new DefaultResourceLoader();
     }
 
-    void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix, String textVersion)
-        throws IOException {
-        String dir = "build/tmp";
-        File file = new File(String.format("%s/%s-%s-%s-v%s-%s", dir, origin.name(), scenarioName, namingPrefix, textVersion, "lisjp.pdf"));
-        file.getParentFile().mkdirs();
-        FileOutputStream fop = new FileOutputStream(file);
-
-        file.createNewFile();
-
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
+    @Bean
+    public IntygTextsRepository repo() {
+      return new IntygTextsRepositoryImpl();
     }
 
-    //Expose autowire candidates to Spring
-    @Configuration
-    static class TestConfiguration {
-
-        @Bean
-        public ResourceLoader resourceLoader() {
-            return new DefaultResourceLoader();
-        }
-
-        @Bean
-        public IntygTextsRepository repo() {
-            return new IntygTextsRepositoryImpl();
-        }
-
-        @Bean
-        public IntygTextsService intygTextsService() {
-            return new IntygTextsServiceImpl();
-        }
-
-        @Bean
-        public CustomObjectMapper customObjectMapper() {
-            return new CustomObjectMapper();
-        }
+    @Bean
+    public IntygTextsService intygTextsService() {
+      return new IntygTextsServiceImpl();
     }
 
+    @Bean
+    public CustomObjectMapper customObjectMapper() {
+      return new CustomObjectMapper();
+    }
+  }
 }

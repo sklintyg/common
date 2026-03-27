@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,13 +33,21 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class QuestionDiagnoser extends AbstractQuestionDiagnoser {
 
-    public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
-        return toCertificate(diagnoser, DIAGNOS_SVAR_ID_6, DIAGNOS_CATEGORY_ID, DIAGNOS_SVAR_TEXT_ID, DIAGNOS_SVAR_DESCRIPTION_ID, null,
-            index,
-            textProvider);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        diagnoser,
+        DIAGNOS_SVAR_ID_6,
+        DIAGNOS_CATEGORY_ID,
+        DIAGNOS_SVAR_TEXT_ID,
+        DIAGNOS_SVAR_DESCRIPTION_ID,
+        null,
+        index,
+        textProvider);
+  }
 
-    public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService webcertModuleService) {
-        return toInternal(certificate, DIAGNOS_SVAR_ID_6, webcertModuleService);
-    }
+  public static List<Diagnos> toInternal(
+      Certificate certificate, WebcertModuleService webcertModuleService) {
+    return toInternal(certificate, DIAGNOS_SVAR_ID_6, webcertModuleService);
+  }
 }

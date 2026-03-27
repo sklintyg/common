@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -74,213 +74,245 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
- * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
+ * The contract between the certificate module and the generic components (Intygstjänsten,
+ * Mina-Intyg & Webcert).
  */
 @Component("moduleapi.ts-bas.v7")
 public class TsBasModuleApiV7 extends TsParentModuleApi<TsBasUtlatandeV7> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApiV7.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApiV7.class);
 
-    @Autowired(required = false)
-    @Qualifier("sendTSClientFactory")
-    private SendTSClientFactory sendTSClientFactory;
+  @Autowired(required = false)
+  @Qualifier("sendTSClientFactory") private SendTSClientFactory sendTSClientFactory;
 
-    @Autowired(required = false)
-    @Qualifier("tsBasRegisterCertificateVersion")
-    private String registerCertificateVersion;
+  @Autowired(required = false)
+  @Qualifier("tsBasRegisterCertificateVersion") private String registerCertificateVersion;
 
-    @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+  @Autowired(required = false)
+  private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
-    private SendTSClient sendTsBasClient;
-    private Map<String, String> validationMessages;
-    @Autowired
-    private InternalToCertificate internalToCertificate;
+  private SendTSClient sendTsBasClient;
+  private Map<String, String> validationMessages;
+  @Autowired private InternalToCertificate internalToCertificate;
 
-    @Autowired
-    private CertificateToInternal certificateToInternal;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
+  @Autowired private CertificateToInternal certificateToInternal;
 
-    @Value("${pdf.footer.app.name.text:1177 intyg}")
-    private String pdfFooterAppName;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  @Value("${pdf.footer.app.name.text:1177 intyg}")
+  private String pdfFooterAppName;
 
-    public TsBasModuleApiV7() {
-        super(TsBasUtlatandeV7.class);
-        initMessages();
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
+
+  public TsBasModuleApiV7() {
+    super(TsBasUtlatandeV7.class);
+    initMessages();
+  }
+
+  @PostConstruct
+  public void init() {
+    if (registerCertificateVersion == null) {
+      registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
     }
 
-    @PostConstruct
-    public void init() {
-        if (registerCertificateVersion == null) {
-            registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
-        }
-
-        if (sendTSClientFactory != null) {
-            sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
-        } else {
-            LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
-        }
+    if (sendTSClientFactory != null) {
+      sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
+    } else {
+      LOG.debug(
+          "SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
     }
+  }
 
-    private void initMessages() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("ts-bas-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
+  private void initMessages() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("ts-bas-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        TsBasUtlatandeV7 utlatande = getInternal(internalModel);
-        IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    TsBasUtlatandeV7 utlatande = getInternal(internalModel);
+    IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
 
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus, pdfFooterAppName);
+    Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+    return new PdfGenerator()
+        .generatePdf(
+            utlatande.getId(),
+            internalModel,
+            personId,
+            texts,
+            statuses,
+            applicationOrigin,
+            utkastStatus,
+            pdfFooterAppName);
+  }
+
+  @Override
+  public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
+      throws ModuleException {
+    try {
+      SOAPMessage response = sendTsBasClient.registerCertificate(xmlBody, logicalAddress);
+      SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
+      if (contents.getBody().hasFault()) {
+        throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
+      }
+    } catch (Exception e) {
+      LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
+      throw new ModuleException("Error in sendCertificateToRecipient.", e);
     }
+  }
 
-    @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        try {
-            SOAPMessage response = sendTsBasClient.registerCertificate(xmlBody, logicalAddress);
-            SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
-            if (contents.getBody().hasFault()) {
-                throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
-            }
-        } catch (Exception e) {
-            LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
-            throw new ModuleException("Error in sendCertificateToRecipient.", e);
-        }
+  @Override
+  public TsBasUtlatandeV7 getUtlatandeFromXml(String xmlBody) throws ModuleException {
+    try {
+      JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+      return transportToInternal(el.getValue().getIntyg());
+    } catch (ConverterException | MarshallingFailureException e) {
+      LOG.error("Could not get utlatande from xml: {}", e.getMessage());
+      throw new ModuleException("Could not get utlatande from xml", e);
     }
+  }
 
-    @Override
-    public TsBasUtlatandeV7 getUtlatandeFromXml(String xmlBody) throws ModuleException {
-        try {
-            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
-            return transportToInternal(el.getValue().getIntyg());
-        } catch (ConverterException | MarshallingFailureException e) {
-            LOG.error("Could not get utlatande from xml: {}", e.getMessage());
-            throw new ModuleException("Could not get utlatande from xml", e);
-        }
+  @Override
+  protected Intyg utlatandeToIntyg(TsBasUtlatandeV7 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
+
+  @Override
+  protected RegisterCertificateValidator getRegisterCertificateValidator() {
+    return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V7);
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(TsBasUtlatandeV7 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
+
+  @Override
+  protected TsBasUtlatandeV7 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
+
+  @Override
+  public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+    if (signatureXml == null) {
+      return jsonModel;
     }
+    String base64EncodedSignatureXml =
+        Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+    return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+  }
 
-    @Override
-    protected Intyg utlatandeToIntyg(TsBasUtlatandeV7 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof TsBasUtlatandeV7) {
+      return toInternalModelResponse(utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class TsBasUtlatandeV7, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V7);
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    final var internalCertificate = getInternal(model);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    TestabilityToolkit.fillCertificateWithTestData(
+        certificate, fillType, new TsBasV7TestabilityCertificateTestdataProvider());
+    final var updateInternalCertificate =
+        certificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
+      throws ModuleException {
+    try {
+      TsBasUtlatandeV7 utlatande =
+          decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
+      return toInternalModelResponse(utlatande);
+    } catch (ModuleException e) {
+      throw new ModuleException("Error while updating internal model with signature", e);
     }
+  }
 
-    @Override
-    protected RegisterCertificateType internalToTransport(TsBasUtlatandeV7 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+  private TsBasUtlatandeV7 decorateWithSignature(
+      TsBasUtlatandeV7 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
+
+  @Override
+  protected TsBasUtlatandeV7 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
+      return tsBasUtlatandeV7;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
+  }
 
-    @Override
-    protected TsBasUtlatandeV7 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
+  @Override
+  protected TsBasUtlatandeV7 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7, created);
+      return tsBasUtlatandeV7;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
-
-    @Override
-    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
-        if (signatureXml == null) {
-            return jsonModel;
-        }
-        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
-        return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof TsBasUtlatandeV7) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class TsBasUtlatandeV7, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(model);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new TsBasV7TestabilityCertificateTestdataProvider());
-        final var updateInternalCertificate = certificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
-        throws ModuleException {
-        try {
-            TsBasUtlatandeV7 utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
-            return toInternalModelResponse(utlatande);
-        } catch (ModuleException e) {
-            throw new ModuleException("Error while updating internal model with signature", e);
-        }
-    }
-
-    private TsBasUtlatandeV7 decorateWithSignature(TsBasUtlatandeV7 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
-    }
-
-    @Override
-    protected TsBasUtlatandeV7 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7);
-            return tsBasUtlatandeV7;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
-
-    @Override
-    protected TsBasUtlatandeV7 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var tsBasUtlatandeV7 = objectMapper.readValue(internalModel, TsBasUtlatandeV7.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV7, created);
-            return tsBasUtlatandeV7;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
-
+  }
 }

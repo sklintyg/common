@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,31 +21,33 @@ package se.inera.intyg.common.tstrk1009.v1.model.internal;
 import java.util.stream.Stream;
 
 public enum IdKontroll {
-    ID_KORT("IDK1", "ID-kort"),
-    FORETAG_ELLER_TJANSTEKORT("IDK2", "Företagskort eller tjänstekort"),
-    KORKORT("IDK3", "Svenskt körkort"),
-    PERS_KANNEDOM("IDK4", "Personlig kännedom"),
-    FORSAKRAN_KAP18("IDK5", "Försäkran enligt 18 kap. 4 §"),
-    PASS("IDK6", "Pass");
+  ID_KORT("IDK1", "ID-kort"),
+  FORETAG_ELLER_TJANSTEKORT("IDK2", "Företagskort eller tjänstekort"),
+  KORKORT("IDK3", "Svenskt körkort"),
+  PERS_KANNEDOM("IDK4", "Personlig kännedom"),
+  FORSAKRAN_KAP18("IDK5", "Försäkran enligt 18 kap. 4 §"),
+  PASS("IDK6", "Pass");
 
-    final String code;
-    final String description;
+  final String code;
+  final String description;
 
-    IdKontroll(final String code, final String description) {
-        this.code = code;
-        this.description = description;
-    }
+  IdKontroll(final String code, final String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    public static IdKontroll fromCode(final String code) {
-        return Stream.of(IdKontroll.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  public static IdKontroll fromCode(final String code) {
+    return Stream.of(IdKontroll.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 }

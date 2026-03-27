@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,30 +18,28 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
-/**
- * Created by marced on 2018-12-13.
- */
+/** Created by marced on 2018-12-13. */
 public class GetCopyFromCandidate {
 
-    private String intygType;
-    private String intygTypeVersion;
-    private String intygId;
+  private String intygType;
+  private String intygTypeVersion;
+  private String intygId;
 
-    public GetCopyFromCandidate(String intygType, String intygTypeVersion, String intygId) {
-        this.intygType = intygType;
-        this.intygTypeVersion = intygTypeVersion;
-        this.intygId = intygId;
-    }
+  public GetCopyFromCandidate(String intygType, String intygTypeVersion, String intygId) {
+    this.intygType = intygType;
+    this.intygTypeVersion = intygTypeVersion;
+    this.intygId = intygId;
+  }
 
-    public String getIntygType() {
-        return intygType;
-    }
+  public String getIntygType() {
+    return intygType;
+  }
 
-    public String getIntygTypeVersion() {
-        return intygTypeVersion;
-    }
+  public String getIntygTypeVersion() {
+    return intygTypeVersion;
+  }
 
-    public String getIntygId() {
-        return intygId;
-    }
+  public String getIntygId() {
+    return intygId;
+  }
 }

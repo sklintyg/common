@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -50,143 +49,140 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesDiagnosArTest {
 
-    @Mock
-    private CertificateTextProvider texts;
-    private Personnummer patientId = Personnummer.createPersonnummer("19121212-1212").get();
+  @Mock private CertificateTextProvider texts;
+  private Personnummer patientId = Personnummer.createPersonnummer("19121212-1212").get();
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ALLMANT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigYearTests extends ConfigYearTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        }
-
-        @Override
-        protected Integer getMinYear() {
-            return 1912;
-        }
-
-        @Override
-        protected Integer getMaxYear() {
-            return LocalDate.now().getYear();
-        }
+    @Override
+    protected String getParent() {
+      return ALLMANT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueYearTests extends ValueYearTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr("2022").build(), patientId, 0, texts);
-        }
+  @Nested
+  class IncludeConfigYearTests extends ConfigYearTest {
 
-        @Override
-        protected String getJsonId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        }
-
-        @Override
-        protected Integer getYear() {
-            return 2022;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTests extends InternalValueTest<String, String> {
-
-        @Override
-        protected CertificateDataElement getElement(String input) {
-            return QuestionDiabetesDiagnosAr.toCertificate(Allmant.builder().setDiabetesDiagnosAr(input).build(), patientId, 0, texts);
-        }
-
-        @Override
-        protected String toInternalValue(Certificate certificate) {
-            return QuestionDiabetesDiagnosAr.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<String, String>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, null),
-                new InputExpectedValuePair<>("1912", "1912")
-            );
-        }
+    @Override
+    protected String getTextId() {
+      return ALLMANT_DIABETES_DIAGNOS_AR_TEXT_ID;
     }
 
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
 
+    @Override
+    protected String getJsonId() {
+      return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+    }
+
+    @Override
+    protected Integer getMinYear() {
+      return 1912;
+    }
+
+    @Override
+    protected Integer getMaxYear() {
+      return LocalDate.now().getYear();
+    }
+  }
+
+  @Nested
+  class IncludeValueYearTests extends ValueYearTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesDiagnosAr.toCertificate(
+          Allmant.builder().setDiabetesDiagnosAr("2022").build(), patientId, 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+    }
+
+    @Override
+    protected Integer getYear() {
+      return 2022;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesDiagnosAr.toCertificate(null, patientId, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTests extends InternalValueTest<String, String> {
+
+    @Override
+    protected CertificateDataElement getElement(String input) {
+      return QuestionDiabetesDiagnosAr.toCertificate(
+          Allmant.builder().setDiabetesDiagnosAr(input).build(), patientId, 0, texts);
+    }
+
+    @Override
+    protected String toInternalValue(Certificate certificate) {
+      return QuestionDiabetesDiagnosAr.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<String, String>> inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(null, null), new InputExpectedValuePair<>("1912", "1912"));
+    }
+  }
 }

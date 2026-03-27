@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,49 +40,52 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 
 public class QuestionOvrigtKomplikationerAvSjukdomenAnges {
 
-    private static final short textLimit = 189;
+  private static final short textLimit = 189;
 
-    public static CertificateDataElement toCertificate(Ovrigt ovrigt, int index, CertificateTextProvider textProvider) {
-        final var komplikationerAvSjukdomenAnges =
-            ovrigt != null && ovrigt.getKomplikationerAvSjukdomenAnges() != null ? ovrigt.getKomplikationerAvSjukdomenAnges() : null;
-        return CertificateDataElement.builder()
-            .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID)
-            .parent(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
-                    .text(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID))
-                    .description(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
-                    .text(komplikationerAvSjukdomenAnges)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
-                        .expression(singleExpression(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID)
-                        .expression(singleExpression(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
-                        .limit(textLimit)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Ovrigt ovrigt, int index, CertificateTextProvider textProvider) {
+    final var komplikationerAvSjukdomenAnges =
+        ovrigt != null && ovrigt.getKomplikationerAvSjukdomenAnges() != null
+            ? ovrigt.getKomplikationerAvSjukdomenAnges()
+            : null;
+    return CertificateDataElement.builder()
+        .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID)
+        .parent(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
+                .text(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID))
+                .description(
+                    textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
+                .text(komplikationerAvSjukdomenAnges)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
+                  .expression(singleExpression(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID)
+                  .expression(singleExpression(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
+                  .limit(textLimit)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID,
-            OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID,
+        OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID);
+  }
 }

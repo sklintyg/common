@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,31 +24,32 @@ import java.util.List;
 
 public class ModuleValidationException extends ModuleException {
 
-    private static final long serialVersionUID = -4808921021590102478L;
+  private static final long serialVersionUID = -4808921021590102478L;
 
-    private final List<String> validationEntries;
+  private final List<String> validationEntries;
 
-    public ModuleValidationException(List<String> validationEntries) {
-        super(Joiner.on(',').join(validationEntries));
-        this.validationEntries = validationEntries;
-    }
+  public ModuleValidationException(List<String> validationEntries) {
+    super(Joiner.on(',').join(validationEntries));
+    this.validationEntries = validationEntries;
+  }
 
-    public ModuleValidationException(List<String> validationEntries, String message, Throwable cause) {
-        super(message, cause);
-        this.validationEntries = validationEntries;
-    }
+  public ModuleValidationException(
+      List<String> validationEntries, String message, Throwable cause) {
+    super(message, cause);
+    this.validationEntries = validationEntries;
+  }
 
-    public ModuleValidationException(List<String> validationEntries, String message) {
-        super(message);
-        this.validationEntries = validationEntries;
-    }
+  public ModuleValidationException(List<String> validationEntries, String message) {
+    super(message);
+    this.validationEntries = validationEntries;
+  }
 
-    public ModuleValidationException(List<String> validationEntries, Throwable cause) {
-        super(Joiner.on(',').join(validationEntries), cause);
-        this.validationEntries = validationEntries;
-    }
+  public ModuleValidationException(List<String> validationEntries, Throwable cause) {
+    super(Joiner.on(',').join(validationEntries), cause);
+    this.validationEntries = validationEntries;
+  }
 
-    public List<String> getValidationEntries() {
-        return Collections.unmodifiableList(validationEntries);
-    }
+  public List<String> getValidationEntries() {
+    return Collections.unmodifiableList(validationEntries);
+  }
 }

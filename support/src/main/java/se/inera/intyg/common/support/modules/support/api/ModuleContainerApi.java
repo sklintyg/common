@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,20 +27,19 @@ import se.inera.intyg.schemas.contract.Personnummer;
  */
 public interface ModuleContainerApi {
 
-    /**
-     * Signal the reception of a certificate to the module container.
-     */
-    void certificateReceived(CertificateHolder certificate) throws CertificateAlreadyExistsException, InvalidCertificateException;
+  /** Signal the reception of a certificate to the module container. */
+  void certificateReceived(CertificateHolder certificate)
+      throws CertificateAlreadyExistsException, InvalidCertificateException;
 
-    /**
-     * Get a certificate from the module container.
-     */
-    CertificateHolder getCertificate(String certificateId, Personnummer personId, boolean checkConsent) throws InvalidCertificateException;
+  /** Get a certificate from the module container. */
+  CertificateHolder getCertificate(
+      String certificateId, Personnummer personId, boolean checkConsent)
+      throws InvalidCertificateException;
 
-    /**
-     * Logs the event of a certificate retrieved by a part. It's placed here as modules do not have access to an applications monitoringlog
-     * service.
-     */
-    void logCertificateRetrieved(String certificateId, String certificateType, String careUnit, String partId);
-
+  /**
+   * Logs the event of a certificate retrieved by a part. It's placed here as modules do not have
+   * access to an applications monitoringlog service.
+   */
+  void logCertificateRetrieved(
+      String certificateId, String certificateType, String careUnit, String partId);
 }

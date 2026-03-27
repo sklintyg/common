@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,24 +30,26 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
-public class QuestionFunktionsnedsattningIntellektuell extends AbstractQuestionFunktionsnedsattning {
+public class QuestionFunktionsnedsattningIntellektuell
+    extends AbstractQuestionFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(String funktionsnedsattningIntellektuell, int index,
-        CertificateTextProvider textProvider) {
-        return toCertificate(
-            funktionsnedsattningIntellektuell,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID,
-            index,
-            textProvider
-        );
-    }
+  public static CertificateDataElement toCertificate(
+      String funktionsnedsattningIntellektuell, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        funktionsnedsattningIntellektuell,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_TEXT_ID,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_DESCRIPTION_ID,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_DELSVAR_TEXT_ID,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID,
+        index,
+        textProvider);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID,
-            FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return ValueToolkit.textValue(
+        certificate.getData(),
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID,
+        FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,28 +33,30 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionFormagaTrotsBegransning {
 
-    public static CertificateDataElement toCertificate(String formagaTrotsBegransning, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(FORMAGATROTSBEGRANSNING_SVAR_ID_23)
-            .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(FORMAGATROTSBEGRANSNING_TEXT_ID))
-                    .description(textProvider.get(FORMAGATROTSBEGRANSNING_DESCRIPTION_ID))
-                    .id(FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23)
-                    .text(formagaTrotsBegransning)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String formagaTrotsBegransning, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(FORMAGATROTSBEGRANSNING_SVAR_ID_23)
+        .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(FORMAGATROTSBEGRANSNING_TEXT_ID))
+                .description(textProvider.get(FORMAGATROTSBEGRANSNING_DESCRIPTION_ID))
+                .id(FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23)
+                .text(formagaTrotsBegransning)
+                .build())
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FORMAGATROTSBEGRANSNING_SVAR_ID_23, FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        FORMAGATROTSBEGRANSNING_SVAR_ID_23,
+        FORMAGATROTSBEGRANSNING_SVAR_JSON_ID_23);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,168 +48,180 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 @ExtendWith(MockitoExtension.class)
 class QuestionHypoglykemiKontrollSjukdomstillstandVarforTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextFieldTest extends ConfigTextFieldTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var hypoglykemi = Hypoglykemi.builder().setKontrollSjukdomstillstandVarfor(getText()).build();
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(hypoglykemi, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextFieldTest extends ConfigTextFieldTest {
 
-        @Override
-        protected String getJsonId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID + ")"
-                + " && " + "!" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
-        }
+    @Override
+    protected String getTextId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_TEXT_ID;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 53;
-        }
+    @Override
+    protected String getDescriptionId() {
+      return null;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            final var hypoglykemi = Hypoglykemi.builder().setKontrollSjukdomstillstandVarfor(expectedValue).build();
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(hypoglykemi, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toInternal(certificate);
-        }
+    @Override
+    protected String getJsonId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
     }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var hypoglykemi =
+          Hypoglykemi.builder().setKontrollSjukdomstillstandVarfor(getText()).build();
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          hypoglykemi, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID
+          + ")"
+          + " && "
+          + "!"
+          + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 53;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      final var hypoglykemi =
+          Hypoglykemi.builder().setKontrollSjukdomstillstandVarfor(expectedValue).build();
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+          hypoglykemi, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toInternal(certificate);
+    }
+  }
 }

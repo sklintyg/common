@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,26 +26,28 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationMandatoryTest extends ValidationTest {
 
-    protected abstract String getQuestionId();
+  protected abstract String getQuestionId();
 
-    protected abstract String getExpression();
+  protected abstract String getExpression();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.MANDATORY_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.MANDATORY_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeValidationMandatoryQuestionId() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[getValidationIndex()];
-        assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
-    }
+  @Test
+  void shouldIncludeValidationMandatoryQuestionId() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationMandatory) question.getValidation()[getValidationIndex()];
+    assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
+  }
 
-    @Test
-    void shouldIncludeValidationMandatoryExpression() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationMandatory) question.getValidation()[getValidationIndex()];
-        assertEquals(getExpression(), certificateDataValidation.getExpression());
-    }
+  @Test
+  void shouldIncludeValidationMandatoryExpression() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationMandatory) question.getValidation()[getValidationIndex()];
+    assertEquals(getExpression(), certificateDataValidation.getExpression());
+  }
 }

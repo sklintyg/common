@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,46 +20,43 @@ package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a Boolean modelvalue as 'Ja' if true else 'Ej angivet'.
- */
+/** Renders a Boolean modelvalue as 'Ja' if true else 'Ej angivet'. */
 public class UVBooleanStatement extends UVComponent {
 
-    public UVBooleanStatement(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVBooleanStatement(UVRenderer renderer) {
+    super(renderer);
+  }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        // Handle any modelPropOverride for this "modelProp"
-        if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
-            return true;
-        }
-        String displayValue = getBooleanStatementValue((String) currentUvNode.get(MODEL_PROP));
-        parent.add(new Paragraph(displayValue).setItalic()
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    // Handle any modelPropOverride for this "modelProp"
+    if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
+      return true;
+    }
+    String displayValue = getBooleanStatementValue((String) currentUvNode.get(MODEL_PROP));
+    parent.add(
+        new Paragraph(displayValue)
+            .setItalic()
             .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
             .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
             .setMarginTop(0f)
             .setFont(renderer.svarFont)
             .setFontSize(SVAR_FONT_SIZE));
 
-        return true;
-    }
+    return true;
+  }
 
-    /**
-     * Resolves the boolean value of the supplied modelProp and returns 'Ja' or 'Ej angivet'.
-     */
-    private String getBooleanStatementValue(String modelProp) {
-        Object eval = renderer.evalValueFromModel(modelProp);
-        if (eval != null) {
-            if (eval instanceof Boolean) {
-                return (Boolean) eval ? "Ja" : EJ_ANGIVET_STR;
-            }
-        }
-        return EJ_ANGIVET_STR;
+  /** Resolves the boolean value of the supplied modelProp and returns 'Ja' or 'Ej angivet'. */
+  private String getBooleanStatementValue(String modelProp) {
+    Object eval = renderer.evalValueFromModel(modelProp);
+    if (eval != null) {
+      if (eval instanceof Boolean) {
+        return (Boolean) eval ? "Ja" : EJ_ANGIVET_STR;
+      }
     }
+    return EJ_ANGIVET_STR;
+  }
 }

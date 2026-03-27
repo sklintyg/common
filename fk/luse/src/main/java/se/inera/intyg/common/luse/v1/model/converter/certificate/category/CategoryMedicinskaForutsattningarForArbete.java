@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,15 +27,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryMedicinskaForutsattningarForArbete {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(textProvider.get(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID))
+                .build())
+        .build();
+  }
 }

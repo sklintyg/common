@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,15 +26,14 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Prognos {
 
-    @JsonCreator
-    public static Prognos create(@JsonProperty("prognos") PrognosTyp typ,
-        @JsonProperty("dagarTillArbete") PrognosDagarTillArbeteTyp dagarTillArbete) {
-        return new AutoValue_Prognos(typ, dagarTillArbete);
-    }
+  @JsonCreator
+  public static Prognos create(
+      @JsonProperty("prognos") PrognosTyp typ,
+      @JsonProperty("dagarTillArbete") PrognosDagarTillArbeteTyp dagarTillArbete) {
+    return new AutoValue_Prognos(typ, dagarTillArbete);
+  }
 
-    @Nullable
-    public abstract PrognosTyp getTyp();
+  @Nullable public abstract PrognosTyp getTyp();
 
-    @Nullable
-    public abstract PrognosDagarTillArbeteTyp getDagarTillArbete();
+  @Nullable public abstract PrognosDagarTillArbeteTyp getDagarTillArbete();
 }

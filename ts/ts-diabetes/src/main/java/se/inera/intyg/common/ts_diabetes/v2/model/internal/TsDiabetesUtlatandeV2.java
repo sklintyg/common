@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,131 +24,131 @@ import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
 public class TsDiabetesUtlatandeV2 implements Utlatande {
 
-    private String id;
+  private String id;
 
-    private String typ = TsDiabetesEntryPoint.MODULE_ID;
+  private String typ = TsDiabetesEntryPoint.MODULE_ID;
 
-    private GrundData grundData = new GrundData();
+  private GrundData grundData = new GrundData();
 
-    private String signature;
+  private String signature;
 
-    private String kommentar;
+  private String kommentar;
 
-    private Vardkontakt vardkontakt;
+  private Vardkontakt vardkontakt;
 
-    private IntygAvser intygAvser;
+  private IntygAvser intygAvser;
 
-    private Diabetes diabetes;
+  private Diabetes diabetes;
 
-    private Hypoglykemier hypoglykemier;
+  private Hypoglykemier hypoglykemier;
 
-    private Syn syn;
+  private Syn syn;
 
-    private Bedomning bedomning;
+  private Bedomning bedomning;
 
-    private String textVersion;
+  private String textVersion;
 
-    @Override
-    public String getId() {
-        return id;
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  @Override
+  public GrundData getGrundData() {
+    return grundData;
+  }
+
+  public void setGrundData(GrundData grundData) {
+    this.grundData = grundData;
+  }
+
+  @Override
+  public String getTyp() {
+    return typ;
+  }
+
+  public void setTyp(String typAvUtlatande) {
+    this.typ = typAvUtlatande;
+  }
+
+  public String getKommentarer() {
+    return kommentar;
+  }
+
+  public void setKommentarer(String kommentar) {
+    this.kommentar = kommentar;
+  }
+
+  public String getKommentar() {
+    return kommentar;
+  }
+
+  public void setKommentar(String kommentar) {
+    this.kommentar = kommentar;
+  }
+
+  public Vardkontakt getVardkontakt() {
+    return vardkontakt;
+  }
+
+  public void setVardkontakt(Vardkontakt vardkontakt) {
+    this.vardkontakt = vardkontakt;
+  }
+
+  public IntygAvser getIntygAvser() {
+    if (intygAvser == null) {
+      intygAvser = new IntygAvser();
     }
+    return intygAvser;
+  }
 
-    public void setId(String id) {
-        this.id = id;
+  public Diabetes getDiabetes() {
+    if (diabetes == null) {
+      diabetes = new Diabetes();
     }
+    return diabetes;
+  }
 
-    @Override
-    public GrundData getGrundData() {
-        return grundData;
+  public Hypoglykemier getHypoglykemier() {
+    if (hypoglykemier == null) {
+      hypoglykemier = new Hypoglykemier();
     }
+    return hypoglykemier;
+  }
 
-    public void setGrundData(GrundData grundData) {
-        this.grundData = grundData;
+  public Syn getSyn() {
+    if (syn == null) {
+      syn = new Syn();
     }
+    return syn;
+  }
 
-    @Override
-    public String getTyp() {
-        return typ;
+  public Bedomning getBedomning() {
+    if (bedomning == null) {
+      bedomning = new Bedomning();
     }
+    return bedomning;
+  }
 
-    public void setTyp(String typAvUtlatande) {
-        this.typ = typAvUtlatande;
-    }
+  @Override
+  public String getTextVersion() {
+    return textVersion;
+  }
 
-    public String getKommentarer() {
-        return kommentar;
-    }
+  public void setTextVersion(String textVersion) {
+    this.textVersion = textVersion;
+  }
 
-    public void setKommentarer(String kommentar) {
-        this.kommentar = kommentar;
-    }
+  @Override
+  public String getSignature() {
+    return signature;
+  }
 
-    public String getKommentar() {
-        return kommentar;
-    }
-
-    public void setKommentar(String kommentar) {
-        this.kommentar = kommentar;
-    }
-
-    public Vardkontakt getVardkontakt() {
-        return vardkontakt;
-    }
-
-    public void setVardkontakt(Vardkontakt vardkontakt) {
-        this.vardkontakt = vardkontakt;
-    }
-
-    public IntygAvser getIntygAvser() {
-        if (intygAvser == null) {
-            intygAvser = new IntygAvser();
-        }
-        return intygAvser;
-    }
-
-    public Diabetes getDiabetes() {
-        if (diabetes == null) {
-            diabetes = new Diabetes();
-        }
-        return diabetes;
-    }
-
-    public Hypoglykemier getHypoglykemier() {
-        if (hypoglykemier == null) {
-            hypoglykemier = new Hypoglykemier();
-        }
-        return hypoglykemier;
-    }
-
-    public Syn getSyn() {
-        if (syn == null) {
-            syn = new Syn();
-        }
-        return syn;
-    }
-
-    public Bedomning getBedomning() {
-        if (bedomning == null) {
-            bedomning = new Bedomning();
-        }
-        return bedomning;
-    }
-
-    @Override
-    public String getTextVersion() {
-        return textVersion;
-    }
-
-    public void setTextVersion(String textVersion) {
-        this.textVersion = textVersion;
-    }
-
-    @Override
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
-    }
+  public void setSignature(String signature) {
+    this.signature = signature;
+  }
 }

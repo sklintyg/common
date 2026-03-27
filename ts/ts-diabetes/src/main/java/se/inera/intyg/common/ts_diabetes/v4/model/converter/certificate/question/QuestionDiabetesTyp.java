@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,67 +43,64 @@ import se.inera.intyg.common.ts_diabetes.v4.model.kodverk.KvTypAvDiabetes;
 
 public class QuestionDiabetesTyp {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider texts) {
-        final var diabetesTyp = allmant != null && allmant.getTypAvDiabetes() != null ? allmant.getTypAvDiabetes() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-            .index(index)
-            .parent(ALLMANT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(ALLMANT_TYP_AV_DIABETES_TEXT_ID))
-                    .layout(Layout.ROWS)
-                    .list(
-                        List.of(
-                            RadioMultipleCode.builder()
-                                .id(KvTypAvDiabetes.TYP1.getCode())
-                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(KvTypAvDiabetes.TYP2.getCode())
-                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(KvTypAvDiabetes.LADA.getCode())
-                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_LADA_LABEL_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(KvTypAvDiabetes.ANNAN.getCode())
-                                .label(texts.get(ALLMANT_TYP_AV_DIABETES_ANNAN_LABEL_ID))
-                                .build())
-                    )
-                    .build()
-            )
-            .value(
-                diabetesTyp != null
-                    ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider texts) {
+    final var diabetesTyp =
+        allmant != null && allmant.getTypAvDiabetes() != null ? allmant.getTypAvDiabetes() : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+        .index(index)
+        .parent(ALLMANT_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(ALLMANT_TYP_AV_DIABETES_TEXT_ID))
+                .layout(Layout.ROWS)
+                .list(
+                    List.of(
+                        RadioMultipleCode.builder()
+                            .id(KvTypAvDiabetes.TYP1.getCode())
+                            .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP1_LABEL_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(KvTypAvDiabetes.TYP2.getCode())
+                            .label(texts.get(ALLMANT_TYP_AV_DIABETES_TYP2_LABEL_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(KvTypAvDiabetes.LADA.getCode())
+                            .label(texts.get(ALLMANT_TYP_AV_DIABETES_LADA_LABEL_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(KvTypAvDiabetes.ANNAN.getCode())
+                            .label(texts.get(ALLMANT_TYP_AV_DIABETES_ANNAN_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            diabetesTyp != null
+                ? CertificateDataValueCode.builder()
                     .id(diabetesTyp.getCode())
                     .code(diabetesTyp.getCode())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                KvTypAvDiabetes.TYP1.getCode(),
-                                KvTypAvDiabetes.TYP2.getCode(),
-                                KvTypAvDiabetes.LADA.getCode(),
-                                KvTypAvDiabetes.ANNAN.getCode()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          KvTypAvDiabetes.TYP1.getCode(),
+                          KvTypAvDiabetes.TYP2.getCode(),
+                          KvTypAvDiabetes.LADA.getCode(),
+                          KvTypAvDiabetes.ANNAN.getCode()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static KvTypAvDiabetes toInternal(Certificate certificate) {
-        final var codeValue = codeValue(certificate.getData(), ALLMANT_TYP_AV_DIABETES_SVAR_ID);
-        if (codeValue == null || codeValue.isEmpty()) {
-            return null;
-        }
-        return KvTypAvDiabetes.fromCode(codeValue);
+  public static KvTypAvDiabetes toInternal(Certificate certificate) {
+    final var codeValue = codeValue(certificate.getData(), ALLMANT_TYP_AV_DIABETES_SVAR_ID);
+    if (codeValue == null || codeValue.isEmpty()) {
+      return null;
     }
+    return KvTypAvDiabetes.fromCode(codeValue);
+  }
 }

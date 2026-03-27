@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,44 +37,43 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMedicinskaForutsattningarForArbete {
 
-    private static final short TEXT_LIMIT = (short) 3500;
+  private static final short TEXT_LIMIT = (short) 3500;
 
-    public static CertificateDataElement toCertificate(String medicinskaForutsattningarForArbete, int index,
-        CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID)
-            .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
-                    .text(textProvider.get(MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID))
-                    .description(textProvider.get(MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
-                    .text(medicinskaForutsattningarForArbete)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID)
-                        .expression(singleExpression(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String medicinskaForutsattningarForArbete, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID)
+        .parent(CATEGORY_MEDICINSKAFORUTSATTNINGARFORARBETE)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
+                .text(textProvider.get(MEDICINSKAFORUTSATTNINGARFORARBETE_TEXT_ID))
+                .description(textProvider.get(MEDICINSKAFORUTSATTNINGARFORARBETE_DESCRIPTION_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
+                .text(medicinskaForutsattningarForArbete)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID)
+                  .expression(singleExpression(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID,
-            MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID,
+        MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID);
+  }
 }

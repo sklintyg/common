@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -85,24 +85,23 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * @author andreaskaltenbach
  */
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 public class Fk7263ModuleApiTest {
 
   public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
-  public static final String TESTFILE_UTLATANDE_MINIMAL = "Fk7263ModuleApiTest/utlatande-minimal.json";
+  public static final String TESTFILE_UTLATANDE_MINIMAL =
+      "Fk7263ModuleApiTest/utlatande-minimal.json";
 
-  @Mock
-  private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
+  @Mock private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
+
   @Spy
   private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory = new WebcertModelFactoryImpl();
-  @Spy
-  private ObjectMapper objectMapper = new CustomObjectMapper();
-  @Mock
-  private UnitMapperUtil unitMapperUtil;
 
-  @InjectMocks
-  private Fk7263ModuleApi fk7263ModuleApi;
+  @Spy private ObjectMapper objectMapper = new CustomObjectMapper();
+  @Mock private UnitMapperUtil unitMapperUtil;
+
+  @InjectMocks private Fk7263ModuleApi fk7263ModuleApi;
 
   @Test
   void updateChangesHosPersonalInfo() throws IOException, ModuleException {
@@ -122,27 +121,29 @@ public class Fk7263ModuleApiTest {
     hosPerson.setVardenhet(vardenhet);
 
     final var signingDate = LocalDate.parse("2014-08-01").atStartOfDay();
-    final var updatedHolder = fk7263ModuleApi.updateBeforeSigning(toJsonString(utlatande),
-        hosPerson, signingDate);
+    final var updatedHolder =
+        fk7263ModuleApi.updateBeforeSigning(toJsonString(utlatande), hosPerson, signingDate);
     final var updatedIntyg = objectMapper.readValue(updatedHolder, Fk7263Utlatande.class);
 
     assertEquals(signingDate, updatedIntyg.getGrundData().getSigneringsdatum());
     assertEquals("nyId", updatedIntyg.getGrundData().getSkapadAv().getPersonId());
     assertEquals("nyNamn", updatedIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
     assertEquals("nyForskrivarkod", updatedIntyg.getGrundData().getSkapadAv().getForskrivarKod());
-    assertEquals(vardenhet.getEnhetsnamn(), updatedIntyg.getGrundData().getSkapadAv().getVardenhet()
-        .getEnhetsnamn());
+    assertEquals(
+        vardenhet.getEnhetsnamn(),
+        updatedIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
   }
 
   @Test
   void updatePatientBeforeSave() throws IOException, ModuleException {
     final var utlatande = getUtlatandeFromFile();
     final var updatedPatient = createUpdatedPatient();
-    final var res = fk7263ModuleApi.updateBeforeSave(toJsonString(utlatande), updatedPatient,
-        LocalDateTime.now());
+    final var res =
+        fk7263ModuleApi.updateBeforeSave(
+            toJsonString(utlatande), updatedPatient, LocalDateTime.now());
     assertNotNull(res);
-    assertEquals(updatedPatient,
-        fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
+    assertEquals(
+        updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
   }
 
   @Test
@@ -150,11 +151,12 @@ public class Fk7263ModuleApiTest {
     final var utlatande = getUtlatandeFromFile();
     final var updatedPatient = createUpdatedPatient();
 
-    final var res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient,
-        LocalDateTime.now());
+    final var res =
+        fk7263ModuleApi.updateBeforeViewing(
+            toJsonString(utlatande), updatedPatient, LocalDateTime.now());
     assertNotNull(res);
-    assertEquals(updatedPatient,
-        fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
+    assertEquals(
+        updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
   }
 
   @Test
@@ -188,7 +190,8 @@ public class Fk7263ModuleApiTest {
     assertNotNull(holder);
     final var creatededUtlatande = objectMapper.readValue(holder, Fk7263Utlatande.class);
     assertNull(creatededUtlatande.getGrundData().getPatient().getEfternamn());
-    assertEquals("191212121212",
+    assertEquals(
+        "191212121212",
         creatededUtlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
   }
 
@@ -215,8 +218,9 @@ public class Fk7263ModuleApiTest {
 
   @Test
   void testSendCertificateWhenRecipientIsOtherThanFk() throws Exception {
-    final var xml = marshall(
-        Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+    final var xml =
+        marshall(
+            Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
 
@@ -224,19 +228,20 @@ public class Fk7263ModuleApiTest {
     response.setResult(ResultOfCallUtil.okResult());
 
     when(registerMedicalCertificateClient.registerMedicalCertificate(
-        any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(
-        response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class)))
+        .thenReturn(response);
 
     fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null);
 
-    verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address),
-        Mockito.any(RegisterMedicalCertificateType.class));
+    verify(registerMedicalCertificateClient)
+        .registerMedicalCertificate(eq(address), Mockito.any(RegisterMedicalCertificateType.class));
   }
 
   @Test
   void testSendFullCertificateWhenRecipientIsFk() throws Exception {
-    final var xml = marshall(
-        Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+    final var xml =
+        marshall(
+            Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
 
@@ -244,20 +249,21 @@ public class Fk7263ModuleApiTest {
     response.setResult(ResultOfCallUtil.okResult());
 
     when(registerMedicalCertificateClient.registerMedicalCertificate(
-        any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(
-        response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class)))
+        .thenReturn(response);
 
     fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
 
-    verify(registerMedicalCertificateClient).registerMedicalCertificate(Mockito.eq(address),
-        any(RegisterMedicalCertificateType.class));
+    verify(registerMedicalCertificateClient)
+        .registerMedicalCertificate(Mockito.eq(address), any(RegisterMedicalCertificateType.class));
   }
 
   @Test
   void testSendMinimalCertificateWhenRecipientIsFk() throws Exception {
-    final var xml = marshall(
-        Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(),
-            Charsets.UTF_8));
+    final var xml =
+        marshall(
+            Resources.toString(
+                new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8));
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
@@ -266,22 +272,22 @@ public class Fk7263ModuleApiTest {
     response.setResult(ResultOfCallUtil.okResult());
 
     when(registerMedicalCertificateClient.registerMedicalCertificate(
-        any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(
-        response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class)))
+        .thenReturn(response);
 
     fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
 
-    verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address),
-        any(RegisterMedicalCertificateType.class));
+    verify(registerMedicalCertificateClient)
+        .registerMedicalCertificate(eq(address), any(RegisterMedicalCertificateType.class));
   }
 
   @Test
   void whenFkIsRecipientAndBadCertificateThenThrowException() {
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
-    assertThrows(ModuleException.class, () ->
-        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA")
-    );
+    assertThrows(
+        ModuleException.class,
+        () -> fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA"));
   }
 
   @Test
@@ -290,8 +296,13 @@ public class Fk7263ModuleApiTest {
     RegisterMedicalCertificateType request = InternalToTransport.getJaxbObject(utlatande);
     request = fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request);
 
-    assertEquals("ICD-10", request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod()
-        .getCodeSystemName());
+    assertEquals(
+        "ICD-10",
+        request
+            .getLakarutlatande()
+            .getMedicinsktTillstand()
+            .getTillstandskod()
+            .getCodeSystemName());
   }
 
   @Test
@@ -300,9 +311,9 @@ public class Fk7263ModuleApiTest {
     final var utlatande = getUtlatandeFromFile();
     final var request = InternalToTransport.getJaxbObject(utlatande);
     request.getLakarutlatande().setMedicinsktTillstand(null);
-    assertThrows(ModuleException.class, () ->
-        fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request)
-    );
+    assertThrows(
+        ModuleException.class,
+        () -> fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request));
   }
 
   @Test
@@ -311,9 +322,9 @@ public class Fk7263ModuleApiTest {
     final var utlatande = getUtlatandeFromFile();
     final var request = InternalToTransport.getJaxbObject(utlatande);
     request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(null);
-    assertThrows(ModuleException.class, () ->
-        fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request)
-    );
+    assertThrows(
+        ModuleException.class,
+        () -> fk7263ModuleApi.whenFkIsRecipientThenSetCodeSystemToICD10(request));
   }
 
   @Test
@@ -364,7 +375,8 @@ public class Fk7263ModuleApiTest {
     s.setId("32");
     final var delsvar = new Delsvar();
     delsvar.setId("32.2");
-    delsvar.getContent()
+    delsvar
+        .getContent()
         .add(aDatePeriod(LocalDate.parse(middleDate2), LocalDate.parse(middleDate3)));
     s.getDelsvar().add(delsvar);
     final var s2 = new Svar();
@@ -434,34 +446,37 @@ public class Fk7263ModuleApiTest {
 
   @Test
   void testRegisterCertificateAlreadyExists() throws Exception {
-    final var json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(),
-        Charsets.UTF_8);
+    final var json =
+        Resources.toString(
+            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
 
     final var response = new RegisterMedicalCertificateResponseType();
-    response.setResult(ResultOfCallUtil.infoResult(
-        RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS));
+    response.setResult(
+        ResultOfCallUtil.infoResult(
+            RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS));
 
     when(registerMedicalCertificateClient.registerMedicalCertificate(
-        any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(
-        response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class)))
+        .thenReturn(response);
 
     try {
       fk7263ModuleApi.registerCertificate(json, "logicalAddress");
       fail();
     } catch (ExternalServiceCallException e) {
       assertEquals(ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
-      assertEquals(RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS,
-          e.getMessage());
+      assertEquals(
+          RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS, e.getMessage());
     }
   }
 
   @Test
   void testRegisterCertificateGenericInfoResult() throws Exception {
-    final var json = Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(),
-        Charsets.UTF_8);
+    final var json =
+        Resources.toString(
+            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
@@ -470,8 +485,8 @@ public class Fk7263ModuleApiTest {
     response.setResult(ResultOfCallUtil.infoResult("INFO"));
 
     when(registerMedicalCertificateClient.registerMedicalCertificate(
-        any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(
-        response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class)))
+        .thenReturn(response);
 
     try {
       fk7263ModuleApi.registerCertificate(json, "logicalAddress");
@@ -520,27 +535,28 @@ public class Fk7263ModuleApiTest {
 
   @Test
   void shouldReturnPreambleForCitizens() {
-    final var expectedResult = CertificateText
-        .builder()
-        .type(CertificateTextType.PREAMBLE_TEXT)
-        .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-            + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
-            + "Om du vill ansöka om sjukpenning, gör du det på {linkFK}.")
-        .links(List.of(
-            CertificateLink.builder()
-                .url("http://www.forsakringskassan.se/sjuk")
-                .name("Försäkringskassan")
-                .id("linkFK")
-                .build()
-        ))
-        .build();
+    final var expectedResult =
+        CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text(
+                "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                    + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+                    + "Om du vill ansöka om sjukpenning, gör du det på {linkFK}.")
+            .links(
+                List.of(
+                    CertificateLink.builder()
+                        .url("http://www.forsakringskassan.se/sjuk")
+                        .name("Försäkringskassan")
+                        .id("linkFK")
+                        .build()))
+            .build();
 
     assertEquals(expectedResult, fk7263ModuleApi.getPreambleForCitizens());
   }
 
   private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
-    return new CustomObjectMapper().readValue(new ClassPathResource(
-        TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
+    return new CustomObjectMapper()
+        .readValue(new ClassPathResource(TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
   }
 
   private String toJsonString(Fk7263Utlatande utlatande) throws ModuleException {
@@ -598,8 +614,10 @@ public class Fk7263ModuleApiTest {
   private String marshall(String jsonString) throws Exception {
     final var internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
     final var external = InternalToTransport.getJaxbObject(internal);
-    final var el = new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
-        .ObjectFactory().createRegisterMedicalCertificate(external);
+    final var el =
+        new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
+                .ObjectFactory()
+            .createRegisterMedicalCertificate(external);
     return XmlMarshallerHelper.marshal(el);
   }
 }

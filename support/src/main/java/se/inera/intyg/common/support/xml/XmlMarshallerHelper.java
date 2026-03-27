@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,21 +23,19 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 public final class XmlMarshallerHelper {
 
-    private static XmlMarshaller marshaller = new XmlMarshaller();
+  private static XmlMarshaller marshaller = new XmlMarshaller();
 
-    private XmlMarshallerHelper() {
-    }
+  private XmlMarshallerHelper() {}
 
-    public static Jaxb2Marshaller marshaller() {
-        return marshaller.jaxb2Marshaller;
-    }
+  public static Jaxb2Marshaller marshaller() {
+    return marshaller.jaxb2Marshaller;
+  }
 
-    public static <T> String marshal(final JAXBElement<T> element) {
-        return marshaller.marshal(element);
-    }
+  public static <T> String marshal(final JAXBElement<T> element) {
+    return marshaller.marshal(element);
+  }
 
-    public static <T> JAXBElement<T> unmarshal(final String xmlString) {
-        return marshaller.unmarshal(xmlString);
-    }
-
+  public static <T> JAXBElement<T> unmarshal(final String xmlString) {
+    return marshaller.unmarshal(xmlString);
+  }
 }

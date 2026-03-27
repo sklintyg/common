@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,17 +29,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHe
 
 public class QuestionAktivitetsbegransningarHeader {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_SVAR_ID)
-            .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigHeader.builder()
-                    .text(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_TEXT_ID))
-                    .description(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(AKTIVITETSBEGRANSNING_SVAR_ID)
+        .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigHeader.builder()
+                .text(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_TEXT_ID))
+                .description(textProvider.get(AKTIVITETSBEGRANSNING_SVAR_DESCRIPTION_ID))
+                .build())
+        .build();
+  }
 }

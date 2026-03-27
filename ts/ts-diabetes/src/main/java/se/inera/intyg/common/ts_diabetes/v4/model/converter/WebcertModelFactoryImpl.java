@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,75 +45,86 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4
 @Component("ts-diabetes.v4.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUtlatandeV4> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    /**
-     * Create a new ts-diabetes V4 draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link TsDiabetesUtlatandeV4} or throws a ConverterException if something unforeseen happens
-     */
-    @Override
-    public TsDiabetesUtlatandeV4 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+  /**
+   * Create a new ts-diabetes V4 draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link TsDiabetesUtlatandeV4} or throws a ConverterException if something unforeseen
+   *     happens
+   */
+  @Override
+  public TsDiabetesUtlatandeV4 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
 
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        final var template = TsDiabetesUtlatandeV4.builder();
-        final var grundData = new GrundData();
+    final var template = TsDiabetesUtlatandeV4.builder();
+    final var grundData = new GrundData();
 
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
-        resetDataInGrundData(grundData);
-        template.setSignature(null);
-        // initialize otherwise empty utlatande
-        template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
-        template.setAllmant(Allmant.builder().build());
-        template.setOvrigt(Ovrigt.builder().build());
-        template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    resetDataInGrundData(grundData);
+    template.setSignature(null);
+    // initialize otherwise empty utlatande
+    template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
+    template.setAllmant(Allmant.builder().build());
+    template.setOvrigt(Ovrigt.builder().build());
+    template.setBedomning(
+        Bedomning.builder()
+            .setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class))
+            .build());
 
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        return template.setGrundData(grundData).build();
+    return template.setGrundData(grundData).build();
+  }
+
+  @Override
+  public TsDiabetesUtlatandeV4 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!(template instanceof TsDiabetesUtlatandeV4)) {
+      throw new ConverterException("Template is not of type TsDiabetesUtlatandeV4");
     }
 
-    @Override
-    public TsDiabetesUtlatandeV4 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!(template instanceof TsDiabetesUtlatandeV4)) {
-            throw new ConverterException("Template is not of type TsDiabetesUtlatandeV4");
-        }
+    final var tsDiabetesUtlatandeV4 = (TsDiabetesUtlatandeV4) template;
 
-        final var tsDiabetesUtlatandeV4 = (TsDiabetesUtlatandeV4) template;
+    LOG.trace(
+        "Creating copy with id {} from {}",
+        copyData.getCertificateId(),
+        tsDiabetesUtlatandeV4.getId());
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsDiabetesUtlatandeV4.getId());
+    final var templateBuilder = tsDiabetesUtlatandeV4.toBuilder();
+    final var grundData = tsDiabetesUtlatandeV4.getGrundData();
 
-        final var templateBuilder = tsDiabetesUtlatandeV4.toBuilder();
-        final var grundData = tsDiabetesUtlatandeV4.getGrundData();
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInGrundData(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
 
-        resetDataInGrundData(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
+  private void populateWithId(TsDiabetesUtlatandeV4.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(TsDiabetesUtlatandeV4.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
+  private void resetDataInGrundData(GrundData grundData) {
+    final var patient = new Patient();
+    patient.setPersonId(grundData.getPatient().getPersonId());
+    grundData.setPatient(patient);
 
-    private void resetDataInGrundData(GrundData grundData) {
-        final var patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-
-        grundData.setSigneringsdatum(null);
-    }
+    grundData.setSigneringsdatum(null);
+  }
 }

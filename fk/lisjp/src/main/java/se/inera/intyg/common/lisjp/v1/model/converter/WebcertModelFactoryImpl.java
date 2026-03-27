@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,83 +38,94 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 
-/**
- * Factory for creating an editable model.
- */
+/** Factory for creating an editable model. */
 @Component("lisjp.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatandeV1> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
-    @Autowired(required = false)
-    protected WebcertModuleService moduleService;
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    /**
-     * Create a new lisjp draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link LisjpUtlatandeV1} or throws a ConverterException if something unforeseen happens
-     */
-    @Override
-    public LisjpUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+  @Autowired(required = false)
+  protected WebcertModuleService moduleService;
 
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-        LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
-        GrundData grundData = new GrundData();
+  /**
+   * Create a new lisjp draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link LisjpUtlatandeV1} or throws a ConverterException if something unforeseen happens
+   */
+  @Override
+  public LisjpUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
 
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
-        resetDataInGrundData(grundData);
-        template.setSignature(null);
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        // Default to latest minor version available for major version of intygtype
-        String fullVersion = intygTexts.getLatestVersionForSameMajorVersion(LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion());
-        template.setTextVersion(fullVersion);
-        if (newDraftData.getForifyllnad().isPresent()) {
-            PrefillHandler prefillHandler = new PrefillHandler(moduleService, newDraftData.getCertificateId(), LisjpEntryPoint.MODULE_ID,
-                fullVersion);
-            PrefillResult prefillResult = prefillHandler.prefill(template, newDraftData.getForifyllnad().get());
-            LOG.info("Prefill result log: " + prefillResult.toJsonReport());
-        }
-        return template.setGrundData(grundData).build();
+    LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
+    GrundData grundData = new GrundData();
+
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    resetDataInGrundData(grundData);
+    template.setSignature(null);
+
+    // Default to latest minor version available for major version of intygtype
+    String fullVersion =
+        intygTexts.getLatestVersionForSameMajorVersion(
+            LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion());
+    template.setTextVersion(fullVersion);
+    if (newDraftData.getForifyllnad().isPresent()) {
+      PrefillHandler prefillHandler =
+          new PrefillHandler(
+              moduleService,
+              newDraftData.getCertificateId(),
+              LisjpEntryPoint.MODULE_ID,
+              fullVersion);
+      PrefillResult prefillResult =
+          prefillHandler.prefill(template, newDraftData.getForifyllnad().get());
+      LOG.info("Prefill result log: " + prefillResult.toJsonReport());
+    }
+    return template.setGrundData(grundData).build();
+  }
+
+  @Override
+  public LisjpUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!LisjpUtlatandeV1.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type LisjpUtlatandeV1");
     }
 
-    @Override
-    public LisjpUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!LisjpUtlatandeV1.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type LisjpUtlatandeV1");
-        }
+    LisjpUtlatandeV1 lisjpUtlatandeV1 = (LisjpUtlatandeV1) template;
 
-        LisjpUtlatandeV1 lisjpUtlatandeV1 = (LisjpUtlatandeV1) template;
+    LOG.trace(
+        "Creating copy with id {} from {}", copyData.getCertificateId(), lisjpUtlatandeV1.getId());
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), lisjpUtlatandeV1.getId());
+    LisjpUtlatandeV1.Builder templateBuilder = lisjpUtlatandeV1.toBuilder();
+    GrundData grundData = lisjpUtlatandeV1.getGrundData();
+    templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
 
-        LisjpUtlatandeV1.Builder templateBuilder = lisjpUtlatandeV1.toBuilder();
-        GrundData grundData = lisjpUtlatandeV1.getGrundData();
-        templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInGrundData(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
 
-        resetDataInGrundData(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
+  private void populateWithId(LisjpUtlatandeV1.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(LisjpUtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
+  private void resetDataInGrundData(GrundData grundData) {
+    Patient patient = new Patient();
+    patient.setPersonId(grundData.getPatient().getPersonId());
+    grundData.setPatient(patient);
 
-    private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-
-        grundData.setSigneringsdatum(null);
-    }
+    grundData.setSigneringsdatum(null);
+  }
 }

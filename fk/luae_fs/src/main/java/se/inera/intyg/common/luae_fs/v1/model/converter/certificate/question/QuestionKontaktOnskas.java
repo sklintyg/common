@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,31 +37,31 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionKontaktOnskas {
 
-    public static CertificateDataElement toCertificate(Boolean kontaktOnskas, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
-            .parent(KONTAKT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .text(textProvider.get(KONTAKT_ONSKAS_SVAR_TEXT_ID))
-                    .description(textProvider.get(KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID))
-                    .label(textProvider.get(KONTAKT_ONSKAS_DELSVAR_TEXT_ID))
-                    .selectedText(ANSWER_YES)
-                    .unselectedText(ANSWER_NOT_SELECTED)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(kontaktOnskas)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean kontaktOnskas, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(KONTAKT_ONSKAS_SVAR_ID_26)
+        .parent(KONTAKT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxBoolean.builder()
+                .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                .text(textProvider.get(KONTAKT_ONSKAS_SVAR_TEXT_ID))
+                .description(textProvider.get(KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID))
+                .label(textProvider.get(KONTAKT_ONSKAS_DELSVAR_TEXT_ID))
+                .selectedText(ANSWER_YES)
+                .unselectedText(ANSWER_NOT_SELECTED)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                .selected(kontaktOnskas)
+                .build())
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
+  }
 }

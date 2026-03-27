@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.category;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -37,59 +36,58 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigCategor
 @ExtendWith(MockitoExtension.class)
 class CategoryArbetsformogaPrognosTest {
 
-    @Mock
-    CertificateMessagesProvider messagesProvider;
+  @Mock CertificateMessagesProvider messagesProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(messagesProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryArbetsformogaPrognos.toCertificate(0, messagesProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryArbetsformogaPrognos.toCertificate(0, messagesProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return null;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeConfigCategoryTests extends ConfigCategoryWithMessageProviderTest {
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return CategoryArbetsformogaPrognos.toCertificate(0, messagesProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return null;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigCategoryTests extends ConfigCategoryWithMessageProviderTest {
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return messagesProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return CategoryArbetsformogaPrognos.toCertificate(0, messagesProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return ARBETSFORMAGA_PROGNOS_CATEGORY_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
 }

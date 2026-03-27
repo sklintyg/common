@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,108 +29,118 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
-/**
- * Created by marced on 18/08/16.
- */
+/** Created by marced on 18/08/16. */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
-        String minaIntygMarginText)
-        throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, utkastStatus, true, minaIntygMarginText);
+  public PdfDefaultGenerator(
+      Fk7263Utlatande intyg,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus,
+      String minaIntygMarginText)
+      throws PdfGeneratorException {
+    this(intyg, statuses, applicationOrigin, utkastStatus, true, minaIntygMarginText);
+  }
+
+  PdfDefaultGenerator(
+      Fk7263Utlatande intyg,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus,
+      boolean flatten,
+      String minaIntygMarginText)
+      throws PdfGeneratorException {
+    try {
+      this.intyg = intyg;
+
+      outputStream = new ByteArrayOutputStream();
+
+      PdfReader pdfReader = new PdfReader(PDF_TEMPLATE);
+      PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
+      fields = pdfStamper.getAcroFields();
+      boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
+      boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+
+      if (isUtkast) {
+        clearSkapadAvForUtkast(this.intyg.getGrundData());
+      }
+
+      generatePdf();
+
+      switch (applicationOrigin) {
+        case MINA_INTYG:
+          // perform additional decoration for MI originated pdf (no need to check isUtkast in MI)
+          maskSendToFkInformation(pdfStamper);
+          markAsElectronicCopy(pdfStamper);
+          createRightMarginText(
+              pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), minaIntygMarginText);
+          break;
+        case WEBCERT:
+          // perform additional decoration for WC originated pdf
+          if (isCertificateSentToFK(statuses)) {
+            maskSendToFkInformation(pdfStamper);
+            markAsElectronicCopy(pdfStamper);
+          }
+
+          if (!isUtkast && !isLocked) {
+            // Only signed intyg prints should have these decorations
+            createRightMarginText(
+                pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+            createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
+          }
+
+          break;
+        default:
+          break;
+      }
+
+      // Add applicable watermarks
+      addIntygStateWatermark(
+          pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
+
+      pdfStamper.setFormFlattening(flatten);
+      pdfStamper.close();
+
+    } catch (Exception e) {
+      throw new PdfGeneratorException(e);
     }
+  }
 
-    PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
-        boolean flatten, String minaIntygMarginText)
-        throws PdfGeneratorException {
-        try {
-            this.intyg = intyg;
+  private void clearSkapadAvForUtkast(GrundData grundData) {
 
-            outputStream = new ByteArrayOutputStream();
+    HoSPersonal skapadAv = grundData.getSkapadAv();
 
-            PdfReader pdfReader = new PdfReader(PDF_TEMPLATE);
-            PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
-            fields = pdfStamper.getAcroFields();
-            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
-            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+    skapadAv.setFullstandigtNamn("");
+    skapadAv.setPersonId("");
+    skapadAv.getVardenhet().setArbetsplatsKod("");
+    skapadAv.clearAllBefattningsKoder();
+    skapadAv.getSpecialiteter().clear();
+  }
 
-            if (isUtkast) {
-                clearSkapadAvForUtkast(this.intyg.getGrundData());
-            }
+  private void generatePdf() {
+    // Mandatory fields
+    fillPatientDetails();
+    fillRecommendationsKontaktMedForetagshalsovarden();
+    fillCapacityRelativeToNuvarandeArbete();
+    fillCapacityRelativeToOtherThanNuvarandeArbete();
+    fillCapacity();
+    fillTravel();
+    fillSignerCodes();
+    fillSignerNameAndAddress();
 
-            generatePdf();
-
-            switch (applicationOrigin) {
-                case MINA_INTYG:
-                    // perform additional decoration for MI originated pdf (no need to check isUtkast in MI)
-                    maskSendToFkInformation(pdfStamper);
-                    markAsElectronicCopy(pdfStamper);
-                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), minaIntygMarginText);
-                    break;
-                case WEBCERT:
-                    // perform additional decoration for WC originated pdf
-                    if (isCertificateSentToFK(statuses)) {
-                        maskSendToFkInformation(pdfStamper);
-                        markAsElectronicCopy(pdfStamper);
-                    }
-
-                    if (!isUtkast && !isLocked) {
-                        // Only signed intyg prints should have these decorations
-                        createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
-                        createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-
-            // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
-
-            pdfStamper.setFormFlattening(flatten);
-            pdfStamper.close();
-
-        } catch (Exception e) {
-            throw new PdfGeneratorException(e);
-        }
-    }
-
-    private void clearSkapadAvForUtkast(GrundData grundData) {
-
-        HoSPersonal skapadAv = grundData.getSkapadAv();
-
-        skapadAv.setFullstandigtNamn("");
-        skapadAv.setPersonId("");
-        skapadAv.getVardenhet().setArbetsplatsKod("");
-        skapadAv.clearAllBefattningsKoder();
-        skapadAv.getSpecialiteter().clear();
-    }
-
-    private void generatePdf() {
-        // Mandatory fields
-        fillPatientDetails();
-        fillRecommendationsKontaktMedForetagshalsovarden();
-        fillCapacityRelativeToNuvarandeArbete();
-        fillCapacityRelativeToOtherThanNuvarandeArbete();
-        fillCapacity();
-        fillTravel();
-        fillSignerCodes();
-        fillSignerNameAndAddress();
-
-        // not mandatory - but filled in a standard pdf print copy
-        fillRecommendationsOther();
-        fillArbetsformaga();
-        fillDiagnose();
-        fillDiseaseCause();
-        fillPrognose();
-        fillIsSuspenseDueToInfection();
-        fillBasedOn();
-        fillDisability();
-        fillOther();
-        fillActivityLimitation();
-        fillMeasures();
-        fillRehabilitation();
-        fillFkContact();
-    }
+    // not mandatory - but filled in a standard pdf print copy
+    fillRecommendationsOther();
+    fillArbetsformaga();
+    fillDiagnose();
+    fillDiseaseCause();
+    fillPrognose();
+    fillIsSuspenseDueToInfection();
+    fillBasedOn();
+    fillDisability();
+    fillOther();
+    fillActivityLimitation();
+    fillMeasures();
+    fillRehabilitation();
+    fillFkContact();
+  }
 }

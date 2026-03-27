@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,50 +42,54 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 
 public class QuestionHypoglykemiKontrollSjukdomstillstandVarfor {
 
-    private static final short textLimit = 53;
+  private static final short textLimit = 53;
 
-    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
-        final var kontrollVarfor =
-            hypoglykemi != null && hypoglykemi.getKontrollSjukdomstillstandVarfor() != null
-                ? hypoglykemi.getKontrollSjukdomstillstandVarfor() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID)
-            .parent(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
-                    .text(textProvider.get(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
-                    .text(kontrollVarfor)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID)
-                        .expression(multipleAndExpression(exists(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID),
-                            not(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID)))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
-                        .limit(textLimit)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
+    final var kontrollVarfor =
+        hypoglykemi != null && hypoglykemi.getKontrollSjukdomstillstandVarfor() != null
+            ? hypoglykemi.getKontrollSjukdomstillstandVarfor()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID)
+        .parent(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
+                .text(textProvider.get(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
+                .text(kontrollVarfor)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_SVAR_ID)
+                  .expression(
+                      multipleAndExpression(
+                          exists(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID),
+                          not(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID)))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID)
+                  .expression(
+                      singleExpression(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
+                  .limit(textLimit)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID,
-            HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_DELSVAR_ID,
+        HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID);
+  }
 }

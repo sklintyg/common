@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,81 +35,68 @@ import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 
-/**
- * Created by marced on 2018-09-03.
- */
+/** Created by marced on 2018-09-03. */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Hypoglykemier.Builder.class)
 public abstract class Hypoglykemier {
 
-    @Nullable
-    public abstract Boolean getEgenkontrollBlodsocker();
+  @Nullable public abstract Boolean getEgenkontrollBlodsocker();
 
-    @Nullable
-    public abstract Boolean getNedsattHjarnfunktion();
+  @Nullable public abstract Boolean getNedsattHjarnfunktion();
 
-    @Nullable
-    public abstract Boolean getSjukdomenUnderKontroll();
+  @Nullable public abstract Boolean getSjukdomenUnderKontroll();
 
-    @Nullable
-    public abstract Boolean getFormagaVarningstecken();
+  @Nullable public abstract Boolean getFormagaVarningstecken();
 
-    @Nullable
-    public abstract Boolean getAterkommandeSenasteAret();
+  @Nullable public abstract Boolean getAterkommandeSenasteAret();
 
-    @Nullable
-    public abstract InternalDate getAterkommandeSenasteTidpunkt();
+  @Nullable public abstract InternalDate getAterkommandeSenasteTidpunkt();
 
-    @Nullable
-    public abstract Boolean getAterkommandeSenasteKvartalet();
+  @Nullable public abstract Boolean getAterkommandeSenasteKvartalet();
 
-    @Nullable
-    public abstract InternalDate getSenasteTidpunktVaken();
+  @Nullable public abstract InternalDate getSenasteTidpunktVaken();
 
-    @Nullable
-    public abstract Boolean getForekomstTrafik();
+  @Nullable public abstract Boolean getForekomstTrafik();
 
-    @Nullable
-    public abstract InternalDate getForekomstTrafikTidpunkt();
+  @Nullable public abstract InternalDate getForekomstTrafikTidpunkt();
 
-    public static Builder builder() {
-        return new AutoValue_Hypoglykemier.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Hypoglykemier.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Hypoglykemier build();
+    public abstract Hypoglykemier build();
 
-        @JsonProperty(HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID)
-        public abstract Builder setEgenkontrollBlodsocker(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID)
+    public abstract Builder setEgenkontrollBlodsocker(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID)
-        public abstract Builder setNedsattHjarnfunktion(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID)
+    public abstract Builder setNedsattHjarnfunktion(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID)
-        public abstract Builder setSjukdomenUnderKontroll(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID)
+    public abstract Builder setSjukdomenUnderKontroll(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID)
-        public abstract Builder setFormagaVarningstecken(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_FORMAGA_VARNINGSTECKEN_JSON_ID)
+    public abstract Builder setFormagaVarningstecken(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
-        public abstract Builder setAterkommandeSenasteAret(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
+    public abstract Builder setAterkommandeSenasteAret(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
-        public abstract Builder setAterkommandeSenasteTidpunkt(InternalDate value);
+    @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+    public abstract Builder setAterkommandeSenasteTidpunkt(InternalDate value);
 
-        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID)
-        public abstract Builder setAterkommandeSenasteKvartalet(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID)
+    public abstract Builder setAterkommandeSenasteKvartalet(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID)
-        public abstract Builder setSenasteTidpunktVaken(InternalDate value);
+    @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID)
+    public abstract Builder setSenasteTidpunktVaken(InternalDate value);
 
-        @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID)
-        public abstract Builder setForekomstTrafik(Boolean value);
+    @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID)
+    public abstract Builder setForekomstTrafik(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID)
-        public abstract Builder setForekomstTrafikTidpunkt(InternalDate value);
-
-    }
+    @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID)
+    public abstract Builder setForekomstTrafikTidpunkt(InternalDate value);
+  }
 }

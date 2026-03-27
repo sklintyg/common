@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANSWER_NO;
@@ -42,44 +41,40 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionKontakt {
 
-    private QuestionKontakt() {
+  private QuestionKontakt() {}
 
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean value, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(KONTAKT_ONSKAS_SVAR_ID_26)
+        .index(index)
+        .parent(KONTAKT_CATEGORY_ID)
+        .config(
+            CertificateDataConfigCheckboxBoolean.builder()
+                .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
+                .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
+                .selectedText(texts.get(ANSWER_YES))
+                .unselectedText(texts.get(ANSWER_NO))
+                .label(texts.get(KONTAKT_ONSKAS_DELSVAR_TEXT))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
+                .selected(Boolean.TRUE.equals(value) ? true : null)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(Boolean value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(KONTAKT_ONSKAS_SVAR_ID_26)
-            .index(index)
-            .parent(KONTAKT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .text(texts.get(KONTAKT_ONSKAS_SVAR_TEXT))
-                    .description(texts.get(KONTAKT_ONSKAS_SVAR_BESKRIVNING))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
-                    .label(texts.get(KONTAKT_ONSKAS_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-                    .selected(Boolean.TRUE.equals(value) ? true : null)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), KONTAKT_ONSKAS_SVAR_ID_26, KONTAKT_ONSKAS_SVAR_JSON_ID_26);
+  }
 }

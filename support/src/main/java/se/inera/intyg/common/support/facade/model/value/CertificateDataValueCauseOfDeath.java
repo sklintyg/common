@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,15 +30,14 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCaus
 @Builder
 public class CertificateDataValueCauseOfDeath implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.CAUSE_OF_DEATH;
-    String id;
-    CertificateDataValueDate debut;
-    CertificateDataValueText description;
-    CertificateDataValueCode specification;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.CAUSE_OF_DEATH;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueCauseOfDeathBuilder {
+  String id;
+  CertificateDataValueDate debut;
+  CertificateDataValueText description;
+  CertificateDataValueCode specification;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueCauseOfDeathBuilder {}
 }

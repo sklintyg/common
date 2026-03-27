@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,111 +39,115 @@ import org.slf4j.LoggerFactory;
 
 public final class MessagesParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MessagesParser.class);
-    private static final Pattern START_POSITION_PATTERN = Pattern.compile("^\\s*[\\'\\\"]sv[\\'\\\"]\\s?:\\s?\\{");
-    private static final Pattern END_POSITION_PATTERN = Pattern.compile("^\\s*\\},");
-    private static final String STRING_CONCAT_REGEXP = "[\\'\\\"]\\s*\\+\\s*[\\'\\\"]";
+  private static final Logger LOG = LoggerFactory.getLogger(MessagesParser.class);
+  private static final Pattern START_POSITION_PATTERN =
+      Pattern.compile("^\\s*[\\'\\\"]sv[\\'\\\"]\\s?:\\s?\\{");
+  private static final Pattern END_POSITION_PATTERN = Pattern.compile("^\\s*\\},");
+  private static final String STRING_CONCAT_REGEXP = "[\\'\\\"]\\s*\\+\\s*[\\'\\\"]";
 
-    private final List<Map<String, String>> list;
+  private final List<Map<String, String>> list;
 
-    private MessagesParser() {
-        list = new ArrayList<>();
+  private MessagesParser() {
+    list = new ArrayList<>();
+  }
+
+  public static MessagesParser create() {
+    return new MessagesParser();
+  }
+
+  public MessagesParser parse(InputStream inputStream) {
+    list.add(toMap(inputStream));
+    return this;
+  }
+
+  public Map<String, String> collect() {
+    Map<String, String> combinedMap = new HashMap<>();
+    try {
+      for (final var map : list) {
+        combinedMap =
+            Stream.concat(combinedMap.entrySet().stream(), map.entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      }
+      return combinedMap;
+    } catch (IllegalStateException exception) {
+      LOG.error("Maps contains same keys. This need to be resolved.");
+      throw new IllegalStateException(
+          "Maps contains same keys. This need to be resolved.", exception);
     }
+  }
 
-    public static MessagesParser create() {
-        return new MessagesParser();
-    }
+  private Map<String, String> toMap(InputStream inputStream) {
+    String json = parseAsJson(inputStream);
 
-    public MessagesParser parse(InputStream inputStream) {
-        list.add(toMap(inputStream));
-        return this;
-    }
+    json = removeStringConcatinations(json);
 
-    public Map<String, String> collect() {
-        Map<String, String> combinedMap = new HashMap<>();
-        try {
-            for (final var map : list) {
-                combinedMap = Stream.concat(combinedMap.entrySet().stream(), map.entrySet().stream())
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            }
-            return combinedMap;
-        } catch (IllegalStateException exception) {
-            LOG.error("Maps contains same keys. This need to be resolved.");
-            throw new IllegalStateException("Maps contains same keys. This need to be resolved.", exception);
+    return jsonToMap(json);
+  }
+
+  private String parseAsJson(InputStream inputStream) {
+    final var json = new StringBuilder();
+    boolean startPositionFound = false;
+    boolean endPositionFound = false;
+    try (BufferedReader br =
+        new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (findEndPosition(line)) {
+          endPositionFound = true;
+          json.append("}");
+          break;
         }
-    }
-
-    private Map<String, String> toMap(InputStream inputStream) {
-        String json = parseAsJson(inputStream);
-
-        json = removeStringConcatinations(json);
-
-        return jsonToMap(json);
-    }
-
-    private String parseAsJson(InputStream inputStream) {
-        final var json = new StringBuilder();
-        boolean startPositionFound = false;
-        boolean endPositionFound = false;
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (findEndPosition(line)) {
-                    endPositionFound = true;
-                    json.append("}");
-                    break;
-                }
-                if (startPositionFound) {
-                    json.append(line).append("\n");
-                }
-                if (findStartPosition(line)) {
-                    startPositionFound = true;
-                    json.append("{\n");
-                }
-            }
-        } catch (IOException exception) {
-            LOG.error("Could not parse message file as json.");
-            throw new RuntimeException("Could not parse message file as json.", exception);
+        if (startPositionFound) {
+          json.append(line).append("\n");
         }
-
-        validateParsedResult(startPositionFound, endPositionFound);
-
-        return json.toString();
-    }
-
-    private void validateParsedResult(boolean startPositionFound, boolean endPositionFound) {
-        if (!startPositionFound || !endPositionFound) {
-            final var message = String.format("No start or end position found. Start position found: %s. End position found: %s",
-                startPositionFound, endPositionFound);
-            LOG.error(message);
-            throw new RuntimeException(message);
+        if (findStartPosition(line)) {
+          startPositionFound = true;
+          json.append("{\n");
         }
+      }
+    } catch (IOException exception) {
+      LOG.error("Could not parse message file as json.");
+      throw new RuntimeException("Could not parse message file as json.", exception);
     }
 
-    private boolean findStartPosition(String line) {
-        return START_POSITION_PATTERN.matcher(line).matches();
-    }
+    validateParsedResult(startPositionFound, endPositionFound);
 
-    private boolean findEndPosition(String line) {
-        return END_POSITION_PATTERN.matcher(line).matches();
-    }
+    return json.toString();
+  }
 
-    private String removeStringConcatinations(String json) {
-        return json.replaceAll(STRING_CONCAT_REGEXP, "");
+  private void validateParsedResult(boolean startPositionFound, boolean endPositionFound) {
+    if (!startPositionFound || !endPositionFound) {
+      final var message =
+          String.format(
+              "No start or end position found. Start position found: %s. End position found: %s",
+              startPositionFound, endPositionFound);
+      LOG.error(message);
+      throw new RuntimeException(message);
     }
+  }
 
-    private Map<String, String> jsonToMap(String json) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-            mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-            TypeReference<HashMap<String, String>> typeRef = new TypeReference<>() {
-            };
-            return mapper.readValue(json, typeRef);
-        } catch (JsonProcessingException exception) {
-            LOG.error("Could not convert json to map");
-            throw new RuntimeException("Could not convert json to map", exception);
-        }
+  private boolean findStartPosition(String line) {
+    return START_POSITION_PATTERN.matcher(line).matches();
+  }
+
+  private boolean findEndPosition(String line) {
+    return END_POSITION_PATTERN.matcher(line).matches();
+  }
+
+  private String removeStringConcatinations(String json) {
+    return json.replaceAll(STRING_CONCAT_REGEXP, "");
+  }
+
+  private Map<String, String> jsonToMap(String json) {
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+      mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+      TypeReference<HashMap<String, String>> typeRef = new TypeReference<>() {};
+      return mapper.readValue(json, typeRef);
+    } catch (JsonProcessingException exception) {
+      LOG.error("Could not convert json to map");
+      throw new RuntimeException("Could not convert json to map", exception);
     }
-
+  }
 }

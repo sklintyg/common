@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,13 +29,12 @@ import lombok.Value;
 @Builder
 public class CertificateDataValueText implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.TEXT;
-    String id;
-    String text;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.TEXT;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueTextBuilder {
+  String id;
+  String text;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueTextBuilder {}
 }

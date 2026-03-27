@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.model.value;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,12 +30,11 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 @Builder
 public class CertificateDataValueViewText implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.VIEW_TEXT;
-    String text;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.VIEW_TEXT;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueViewTextBuilder {
+  String text;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueViewTextBuilder {}
 }

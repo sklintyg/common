@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,56 +33,58 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
 public abstract class Bedomning {
 
-    @Nullable
-    @JsonSerialize(using = Bedomning.BehorighetsTypSetEnumSetSerializer.class)
+  @Nullable @JsonSerialize(using = Bedomning.BehorighetsTypSetEnumSetSerializer.class)
+  @JsonDeserialize(using = Bedomning.BehorighetsTypSetDeserializer.class)
+  public abstract Set<BehorighetsTyp> getUppfyllerBehorighetskrav();
+
+  public static class BehorighetsTypSetEnumSetSerializer
+      extends AbstractEnumSetSerializer<BehorighetsTyp> {
+
+    protected BehorighetsTypSetEnumSetSerializer() {
+      super(BehorighetsTyp.class);
+    }
+  }
+
+  public static class BehorighetsTypSetDeserializer
+      extends AbstractEnumSetDeserializer<BehorighetsTyp> {
+
+    protected BehorighetsTypSetDeserializer() {
+      super(BehorighetsTyp.class);
+    }
+  }
+
+  public static Builder builder() {
+    return new AutoValue_Bedomning.Builder();
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract Bedomning build();
+
+    @JsonProperty(BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID)
     @JsonDeserialize(using = Bedomning.BehorighetsTypSetDeserializer.class)
-    public abstract Set<BehorighetsTyp> getUppfyllerBehorighetskrav();
+    public abstract Builder setUppfyllerBehorighetskrav(
+        Set<BehorighetsTyp> uppfyllerBehorighetskrav);
+  }
 
-    public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
-
-        protected BehorighetsTypSetEnumSetSerializer() {
-            super(BehorighetsTyp.class);
-        }
-    }
-
-    public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
-
-        protected BehorighetsTypSetDeserializer() {
-            super(BehorighetsTyp.class);
-        }
-    }
-
-    public static Builder builder() {
-        return new AutoValue_Bedomning.Builder();
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract Bedomning build();
-
-        @JsonProperty(BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID)
-        @JsonDeserialize(using = Bedomning.BehorighetsTypSetDeserializer.class)
-        public abstract Builder setUppfyllerBehorighetskrav(Set<BehorighetsTyp> uppfyllerBehorighetskrav);
-    }
-
-    public enum BehorighetsTyp {
-        VAR12,
-        VAR13,
-        VAR14,
-        VAR15,
-        VAR16,
-        VAR17,
-        VAR18,
-        VAR1,
-        VAR2,
-        VAR3,
-        VAR4,
-        VAR5,
-        VAR6,
-        VAR7,
-        VAR8,
-        VAR9,
-        VAR11
-    }
+  public enum BehorighetsTyp {
+    VAR12,
+    VAR13,
+    VAR14,
+    VAR15,
+    VAR16,
+    VAR17,
+    VAR18,
+    VAR1,
+    VAR2,
+    VAR3,
+    VAR4,
+    VAR5,
+    VAR6,
+    VAR7,
+    VAR8,
+    VAR9,
+    VAR11
+  }
 }

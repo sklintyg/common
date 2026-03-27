@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,24 +29,24 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigCategoryWithMessageProviderTest extends ConfigTest {
 
-    protected abstract CertificateMessagesProvider getMessageProviderMock();
+  protected abstract CertificateMessagesProvider getMessageProviderMock();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.CATEGORY;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.CATEGORY;
+  }
 
-    @Override
-    protected CertificateTextProvider getTextProviderMock() {
-        return null;
-    }
+  @Override
+  protected CertificateTextProvider getTextProviderMock() {
+    return null;
+  }
 
-    @Test
-    void shouldIncludeConfigText() {
-        final var question = getElement();
-        if (getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(getMessageProviderMock(), atLeastOnce()).get(getTextId());
-        }
+  @Test
+  void shouldIncludeConfigText() {
+    final var question = getElement();
+    if (getTextId() != null && !question.getConfig().getText().equals(getTextId())) {
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(getMessageProviderMock(), atLeastOnce()).get(getTextId());
     }
+  }
 }

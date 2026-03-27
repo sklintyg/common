@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,31 +33,35 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
 public class IntygTextsTsBasRepositoryTestHelper extends IntygTextsRepositoryImpl {
 
-    public IntygTextsTsBasRepositoryTestHelper() {
-        super.intygTexts = new HashSet<>();
+  public IntygTextsTsBasRepositoryTestHelper() {
+    super.intygTexts = new HashSet<>();
+  }
+
+  @Override
+  public void update() {
+
+    try {
+      Document e =
+          DocumentBuilderFactory.newInstance()
+              .newDocumentBuilder()
+              .parse(
+                  new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
+      Element root = e.getDocumentElement();
+      String version = root.getAttribute("version");
+      String intygsTyp = root.getAttribute("typ").toLowerCase();
+      LocalDate giltigFrom = super.getDate(root, "giltigFrom");
+      LocalDate giltigTo = super.getDate(root, "giltigTom");
+      SortedMap texts = super.getTexter(root);
+      List tillaggsFragor = this.getTillaggsfragor(e);
+
+      Properties prop = new Properties();
+      prop.putAll(ImmutableMap.of("formId", "test", "blankettId", "test", "blankettVersion", "01"));
+
+      super.intygTexts.add(
+          new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
+    } catch (Exception e1) {
+      e1.printStackTrace();
+      throw new RuntimeException(e1.getMessage());
     }
-
-    @Override
-    public void update() {
-
-        try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
-            Element root = e.getDocumentElement();
-            String version = root.getAttribute("version");
-            String intygsTyp = root.getAttribute("typ").toLowerCase();
-            LocalDate giltigFrom = super.getDate(root, "giltigFrom");
-            LocalDate giltigTo = super.getDate(root, "giltigTom");
-            SortedMap texts = super.getTexter(root);
-            List tillaggsFragor = this.getTillaggsfragor(e);
-
-            Properties prop = new Properties();
-            prop.putAll(ImmutableMap.of("formId", "test", "blankettId", "test", "blankettVersion", "01"));
-
-            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            throw new RuntimeException(e1.getMessage());
-        }
-    }
+  }
 }

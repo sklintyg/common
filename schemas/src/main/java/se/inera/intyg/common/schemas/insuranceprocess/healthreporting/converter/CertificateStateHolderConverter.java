@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,28 +31,29 @@ import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
  */
 public final class CertificateStateHolderConverter {
 
-    private CertificateStateHolderConverter() {
+  private CertificateStateHolderConverter() {}
+
+  public static List<CertificateStatusType> toCertificateStatusType(
+      List<CertificateStateHolder> source) {
+    if (source == null || source.isEmpty()) {
+      return Collections.emptyList();
     }
 
-    public static List<CertificateStatusType> toCertificateStatusType(List<CertificateStateHolder> source) {
-        if (source == null || source.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<CertificateStatusType> states = new ArrayList<>();
-        for (CertificateStateHolder state : source) {
-            if (!(state.getState() == CertificateState.DELETED || state.getState() == CertificateState.RESTORED)) {
-                states.add(toCertificateStatusType(state));
-            }
-        }
-        return states;
+    List<CertificateStatusType> states = new ArrayList<>();
+    for (CertificateStateHolder state : source) {
+      if (!(state.getState() == CertificateState.DELETED
+          || state.getState() == CertificateState.RESTORED)) {
+        states.add(toCertificateStatusType(state));
+      }
     }
+    return states;
+  }
 
-    private static CertificateStatusType toCertificateStatusType(CertificateStateHolder source) {
-        CertificateStatusType status = new CertificateStatusType();
-        status.setTarget(source.getTarget());
-        status.setTimestamp(source.getTimestamp());
-        status.setType(StatusType.valueOf(source.getState().name()));
-        return status;
-    }
+  private static CertificateStatusType toCertificateStatusType(CertificateStateHolder source) {
+    CertificateStatusType status = new CertificateStatusType();
+    status.setTarget(source.getTarget());
+    status.setTimestamp(source.getTimestamp());
+    status.setType(StatusType.valueOf(source.getState().name()));
+    return status;
+  }
 }

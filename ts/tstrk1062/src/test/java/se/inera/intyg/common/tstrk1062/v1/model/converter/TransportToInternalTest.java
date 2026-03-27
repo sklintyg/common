@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,219 +48,287 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class TransportToInternalTest {
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void convertIntygsTyp() throws Exception {
-        final String href = "v1/transport/scenarios/convert/intygAvser.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertIntygsTyp() throws Exception {
+    final String href = "v1/transport/scenarios/convert/intygAvser.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertEquals("", TsTrk1062EntryPoint.MODULE_ID, utlatande.getTyp());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertEquals("", TsTrk1062EntryPoint.MODULE_ID, utlatande.getTyp());
+  }
 
-    @Test
-    public void convertIntygAvser() throws Exception {
-        final String href = "v1/transport/scenarios/convert/intygAvser.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertIntygAvser() throws Exception {
+    final String href = "v1/transport/scenarios/convert/intygAvser.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("IntygAvser should not be null", utlatande.getIntygAvser());
-        assertEquals("IntygAvser size not equal", 1, utlatande.getIntygAvser().getBehorigheter().size());
-        assertEquals("IntygAvser not equal", IntygAvser.BehorighetsTyp.IAV11,
-            utlatande.getIntygAvser().getBehorigheter().iterator().next());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("IntygAvser should not be null", utlatande.getIntygAvser());
+    assertEquals(
+        "IntygAvser size not equal", 1, utlatande.getIntygAvser().getBehorigheter().size());
+    assertEquals(
+        "IntygAvser not equal",
+        IntygAvser.BehorighetsTyp.IAV11,
+        utlatande.getIntygAvser().getBehorigheter().iterator().next());
+  }
 
-    @Test
-    public void convertIdKontroll() throws Exception {
-        final String href = "v1/transport/scenarios/convert/idKontroll.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertIdKontroll() throws Exception {
+    final String href = "v1/transport/scenarios/convert/idKontroll.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("IdKontroll should not be null", utlatande.getIdKontroll());
-        assertEquals("IdKontroll not equal", IdKontrollKod.ID_KORT, utlatande.getIdKontroll().getTyp());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("IdKontroll should not be null", utlatande.getIdKontroll());
+    assertEquals("IdKontroll not equal", IdKontrollKod.ID_KORT, utlatande.getIdKontroll().getTyp());
+  }
 
-    @Test
-    public void convertDiagnosFritext() throws Exception {
-        final String href = "v1/transport/scenarios/convert/diagnosFritext.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertDiagnosFritext() throws Exception {
+    final String href = "v1/transport/scenarios/convert/diagnosFritext.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("DiagnosFritext should not be null", utlatande.getDiagnosFritext());
-        assertEquals("DiagnosFritext not equal", "Test", utlatande.getDiagnosFritext().getDiagnosFritext());
-        assertEquals("DiagnosFritextArtal not equal", "2018", utlatande.getDiagnosFritext().getDiagnosArtal());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("DiagnosFritext should not be null", utlatande.getDiagnosFritext());
+    assertEquals(
+        "DiagnosFritext not equal", "Test", utlatande.getDiagnosFritext().getDiagnosFritext());
+    assertEquals(
+        "DiagnosFritextArtal not equal", "2018", utlatande.getDiagnosFritext().getDiagnosArtal());
+  }
 
-    @Test
-    public void convertDiagnosKodad() throws Exception {
-        final String href = "v1/transport/scenarios/convert/diagnosKodad.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertDiagnosKodad() throws Exception {
+    final String href = "v1/transport/scenarios/convert/diagnosKodad.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("DiagnosKodad should not be null", utlatande.getDiagnosKodad());
-        assertEquals("DiagnosKodad size not equal", 4, utlatande.getDiagnosKodad().size());
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("DiagnosKodad should not be null", utlatande.getDiagnosKodad());
+    assertEquals("DiagnosKodad size not equal", 4, utlatande.getDiagnosKodad().size());
 
-        assertEquals("DiagnosKod not equal", "A01", utlatande.getDiagnosKodad().get(0).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(0).getDiagnosKodSystem());
-        assertEquals("DiagnosBeskrivning not equal", "Tyfoidfeber och paratyfoidfeber",
-            utlatande.getDiagnosKodad().get(0).getDiagnosBeskrivning());
-        assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(0).getDiagnosArtal());
+    assertEquals("DiagnosKod not equal", "A01", utlatande.getDiagnosKodad().get(0).getDiagnosKod());
+    assertEquals(
+        "DiagnosKodSystem not equal",
+        "ICD_10_SE",
+        utlatande.getDiagnosKodad().get(0).getDiagnosKodSystem());
+    assertEquals(
+        "DiagnosBeskrivning not equal",
+        "Tyfoidfeber och paratyfoidfeber",
+        utlatande.getDiagnosKodad().get(0).getDiagnosBeskrivning());
+    assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(0).getDiagnosArtal());
 
-        assertEquals("DiagnosKod not equal", "B02", utlatande.getDiagnosKodad().get(1).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(1).getDiagnosKodSystem());
-        assertEquals("DiagnosBeskrivning not equal", "Bältros", utlatande.getDiagnosKodad().get(1).getDiagnosBeskrivning());
-        assertEquals("Artal not equal", "2017", utlatande.getDiagnosKodad().get(1).getDiagnosArtal());
+    assertEquals("DiagnosKod not equal", "B02", utlatande.getDiagnosKodad().get(1).getDiagnosKod());
+    assertEquals(
+        "DiagnosKodSystem not equal",
+        "ICD_10_SE",
+        utlatande.getDiagnosKodad().get(1).getDiagnosKodSystem());
+    assertEquals(
+        "DiagnosBeskrivning not equal",
+        "Bältros",
+        utlatande.getDiagnosKodad().get(1).getDiagnosBeskrivning());
+    assertEquals("Artal not equal", "2017", utlatande.getDiagnosKodad().get(1).getDiagnosArtal());
 
-        assertEquals("DiagnosKod not equal", "C03", utlatande.getDiagnosKodad().get(2).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(2).getDiagnosKodSystem());
-        assertEquals("DiagnosBeskrivning not equal", "Malign tumör i tandköttet",
-            utlatande.getDiagnosKodad().get(2).getDiagnosBeskrivning());
-        assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(2).getDiagnosArtal());
+    assertEquals("DiagnosKod not equal", "C03", utlatande.getDiagnosKodad().get(2).getDiagnosKod());
+    assertEquals(
+        "DiagnosKodSystem not equal",
+        "ICD_10_SE",
+        utlatande.getDiagnosKodad().get(2).getDiagnosKodSystem());
+    assertEquals(
+        "DiagnosBeskrivning not equal",
+        "Malign tumör i tandköttet",
+        utlatande.getDiagnosKodad().get(2).getDiagnosBeskrivning());
+    assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(2).getDiagnosArtal());
 
-        assertEquals("DiagnosKod not equal", "D04", utlatande.getDiagnosKodad().get(3).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(3).getDiagnosKodSystem());
-        assertEquals("DiagnosBeskrivning not equal", "Cancer in situ i huden", utlatande.getDiagnosKodad().get(3).getDiagnosBeskrivning());
-        assertEquals("Artal not equal", "2011", utlatande.getDiagnosKodad().get(3).getDiagnosArtal());
-    }
+    assertEquals("DiagnosKod not equal", "D04", utlatande.getDiagnosKodad().get(3).getDiagnosKod());
+    assertEquals(
+        "DiagnosKodSystem not equal",
+        "ICD_10_SE",
+        utlatande.getDiagnosKodad().get(3).getDiagnosKodSystem());
+    assertEquals(
+        "DiagnosBeskrivning not equal",
+        "Cancer in situ i huden",
+        utlatande.getDiagnosKodad().get(3).getDiagnosBeskrivning());
+    assertEquals("Artal not equal", "2011", utlatande.getDiagnosKodad().get(3).getDiagnosArtal());
+  }
 
-    @Test
-    public void convertLakemedelsbehandlingSaknas() throws Exception {
-        final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingSaknas.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertLakemedelsbehandlingSaknas() throws Exception {
+    final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingSaknas.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
-        assertEquals("HarHaft not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getHarHaft());
-        assertNull("Pagar is not null", utlatande.getLakemedelsbehandling().getPagar());
-        assertNull("Aktuell is not null", utlatande.getLakemedelsbehandling().getAktuell());
-        assertNull("Pagatt is not null", utlatande.getLakemedelsbehandling().getPagatt());
-        assertNull("Effekt is not null", utlatande.getLakemedelsbehandling().getEffekt());
-        assertNull("Foljsamhet is not null", utlatande.getLakemedelsbehandling().getFoljsamhet());
-        assertNull("AvslutadTidpunk is not null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
-        assertNull("AvslutadOrsak is not null", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
+    assertEquals(
+        "HarHaft not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getHarHaft());
+    assertNull("Pagar is not null", utlatande.getLakemedelsbehandling().getPagar());
+    assertNull("Aktuell is not null", utlatande.getLakemedelsbehandling().getAktuell());
+    assertNull("Pagatt is not null", utlatande.getLakemedelsbehandling().getPagatt());
+    assertNull("Effekt is not null", utlatande.getLakemedelsbehandling().getEffekt());
+    assertNull("Foljsamhet is not null", utlatande.getLakemedelsbehandling().getFoljsamhet());
+    assertNull(
+        "AvslutadTidpunk is not null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
+    assertNull("AvslutadOrsak is not null", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
+  }
 
-    @Test
-    public void convertLakemedelsbehandlingPagar() throws Exception {
-        final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingPagar.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertLakemedelsbehandlingPagar() throws Exception {
+    final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingPagar.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
-        assertEquals("HarHaft not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft());
-        assertEquals("Pagar not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagar());
-        assertEquals("Aktuell not equal", "Läkemedel a, b och c", utlatande.getLakemedelsbehandling().getAktuell());
-        assertEquals("Pagatt not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagatt());
-        assertEquals("Effekt not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getEffekt());
-        assertEquals("Foljsamhet not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getFoljsamhet());
-        assertNull("AvslutadTidpunk is not null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
-        assertNull("AvslutadOrsak is not null", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
+    assertEquals(
+        "HarHaft not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft());
+    assertEquals("Pagar not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagar());
+    assertEquals(
+        "Aktuell not equal",
+        "Läkemedel a, b och c",
+        utlatande.getLakemedelsbehandling().getAktuell());
+    assertEquals("Pagatt not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagatt());
+    assertEquals(
+        "Effekt not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getEffekt());
+    assertEquals(
+        "Foljsamhet not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getFoljsamhet());
+    assertNull(
+        "AvslutadTidpunk is not null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
+    assertNull("AvslutadOrsak is not null", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
+  }
 
-    @Test
-    public void convertLakemedelsbehandlingAvslutad() throws Exception {
-        final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingAvslutad.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertLakemedelsbehandlingAvslutad() throws Exception {
+    final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingAvslutad.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
-        assertEquals("HarHaft not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft());
-        assertEquals("Pagar not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getPagar());
-        assertNull("Aktuell is not null", utlatande.getLakemedelsbehandling().getAktuell());
-        assertNull("Pagatt is not null", utlatande.getLakemedelsbehandling().getPagatt());
-        assertNull("Effekt is not null", utlatande.getLakemedelsbehandling().getEffekt());
-        assertNull("Foljsamhet is not null", utlatande.getLakemedelsbehandling().getFoljsamhet());
-        assertNotNull("AvslutadTidpunk is null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
-        assertEquals("AvslutadTidpunkt not equal", "2019-01-10", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
-        assertEquals("AvslutadOrsak not equal", "Behandlingen var fruktlös", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("Lakemedelsbehandling should not be null", utlatande.getLakemedelsbehandling());
+    assertEquals(
+        "HarHaft not equal", Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft());
+    assertEquals("Pagar not equal", Boolean.FALSE, utlatande.getLakemedelsbehandling().getPagar());
+    assertNull("Aktuell is not null", utlatande.getLakemedelsbehandling().getAktuell());
+    assertNull("Pagatt is not null", utlatande.getLakemedelsbehandling().getPagatt());
+    assertNull("Effekt is not null", utlatande.getLakemedelsbehandling().getEffekt());
+    assertNull("Foljsamhet is not null", utlatande.getLakemedelsbehandling().getFoljsamhet());
+    assertNotNull(
+        "AvslutadTidpunk is null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
+    assertEquals(
+        "AvslutadTidpunkt not equal",
+        "2019-01-10",
+        utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
+    assertEquals(
+        "AvslutadOrsak not equal",
+        "Behandlingen var fruktlös",
+        utlatande.getLakemedelsbehandling().getAvslutadOrsak());
+  }
 
-    @Test
-    public void convertSymptomBedomningTrue() throws Exception {
-        final String href = "v1/transport/scenarios/convert/symptomBedomningTrue.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertSymptomBedomningTrue() throws Exception {
+    final String href = "v1/transport/scenarios/convert/symptomBedomningTrue.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertEquals("BedomningAvSymptom not equal", "Bedömning av aktuella symptom", utlatande.getBedomningAvSymptom());
-        assertEquals("PrognosTillstand not equal", PrognosTillstand.PrognosTillstandTyp.JA, utlatande.getPrognosTillstand().getTyp());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertEquals(
+        "BedomningAvSymptom not equal",
+        "Bedömning av aktuella symptom",
+        utlatande.getBedomningAvSymptom());
+    assertEquals(
+        "PrognosTillstand not equal",
+        PrognosTillstand.PrognosTillstandTyp.JA,
+        utlatande.getPrognosTillstand().getTyp());
+  }
 
-    @Test
-    public void convertSymptomBedomningFalse() throws Exception {
-        final String href = "v1/transport/scenarios/convert/symptomBedomningFalse.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertSymptomBedomningFalse() throws Exception {
+    final String href = "v1/transport/scenarios/convert/symptomBedomningFalse.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertEquals("BedomningAvSymptom not equal", "Bedömning av aktuella symptom", utlatande.getBedomningAvSymptom());
-        assertEquals("PrognosTillstand not equal", PrognosTillstand.PrognosTillstandTyp.NEJ, utlatande.getPrognosTillstand().getTyp());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertEquals(
+        "BedomningAvSymptom not equal",
+        "Bedömning av aktuella symptom",
+        utlatande.getBedomningAvSymptom());
+    assertEquals(
+        "PrognosTillstand not equal",
+        PrognosTillstand.PrognosTillstandTyp.NEJ,
+        utlatande.getPrognosTillstand().getTyp());
+  }
 
-    @Test
-    public void convertSymptomBedomningNI() throws Exception {
-        final String href = "v1/transport/scenarios/convert/symptomBedomningNI.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertSymptomBedomningNI() throws Exception {
+    final String href = "v1/transport/scenarios/convert/symptomBedomningNI.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertEquals("BedomningAvSymptom not equal", "Bedömning av aktuella symptom", utlatande.getBedomningAvSymptom());
-        assertEquals("PrognosTillstand not equal", PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA,
-            utlatande.getPrognosTillstand().getTyp());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertEquals(
+        "BedomningAvSymptom not equal",
+        "Bedömning av aktuella symptom",
+        utlatande.getBedomningAvSymptom());
+    assertEquals(
+        "PrognosTillstand not equal",
+        PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA,
+        utlatande.getPrognosTillstand().getTyp());
+  }
 
-    @Test
-    public void convertOvrigt() throws Exception {
-        final String href = "v1/transport/scenarios/convert/ovrigaKommentarer.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertOvrigt() throws Exception {
+    final String href = "v1/transport/scenarios/convert/ovrigaKommentarer.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertEquals("OvrigaKommentarer not equal", "Inga övriga kommentarer", utlatande.getOvrigaKommentarer());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertEquals(
+        "OvrigaKommentarer not equal", "Inga övriga kommentarer", utlatande.getOvrigaKommentarer());
+  }
 
-    @Test
-    public void convertBedomning() throws Exception {
-        final String href = "v1/transport/scenarios/convert/bedomning.xml";
-        final Intyg intyg = getIntyg(href);
-        final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
+  @Test
+  public void convertBedomning() throws Exception {
+    final String href = "v1/transport/scenarios/convert/bedomning.xml";
+    final Intyg intyg = getIntyg(href);
+    final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
 
-        assertNotNull("Utlatande should not be null", utlatande);
-        assertNotNull("Bedomning should not be null", utlatande.getBedomning());
-        assertEquals("Bedomning size not equal", 1, utlatande.getBedomning().getUppfyllerBehorighetskrav().size());
-        assertEquals("Bedomning not equal", Bedomning.BehorighetsTyp.VAR12,
-            utlatande.getBedomning().getUppfyllerBehorighetskrav().iterator().next());
-    }
+    assertNotNull("Utlatande should not be null", utlatande);
+    assertNotNull("Bedomning should not be null", utlatande.getBedomning());
+    assertEquals(
+        "Bedomning size not equal",
+        1,
+        utlatande.getBedomning().getUppfyllerBehorighetskrav().size());
+    assertEquals(
+        "Bedomning not equal",
+        Bedomning.BehorighetsTyp.VAR12,
+        utlatande.getBedomning().getUppfyllerBehorighetskrav().iterator().next());
+  }
 
-    private Intyg getIntyg(String href) throws IOException {
-        final String xml = Resources.toString(getResource(href), Charsets.UTF_8);
-        return JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg();
-    }
+  private Intyg getIntyg(String href) throws IOException {
+    final String xml = Resources.toString(getResource(href), Charsets.UTF_8);
+    return JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg();
+  }
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 }

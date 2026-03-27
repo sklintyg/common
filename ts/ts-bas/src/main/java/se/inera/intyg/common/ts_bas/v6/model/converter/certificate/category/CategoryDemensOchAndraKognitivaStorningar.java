@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.category;
 
 import static se.inera.intyg.common.ts_bas.v6.codes.RespConstantsV6.DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID;
@@ -28,15 +27,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryDemensOchAndraKognitivaStorningar {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(textProvider.get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_TEXT_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(DEMENS_KOGNITIV_FUNKTION_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(textProvider.get(DEMENS_KOGNITIV_FUNKTION_CATEGORY_TEXT_ID))
+                .build())
+        .build();
+  }
 }

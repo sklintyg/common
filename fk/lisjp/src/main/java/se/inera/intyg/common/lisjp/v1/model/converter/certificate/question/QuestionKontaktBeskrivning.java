@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
@@ -31,13 +30,23 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionKontaktBeskrivning extends AbstractQuestionKontaktBeskrivning {
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, KONTAKT_ONSKAS_SVAR_ID_26,
-            ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT, KONTAKT_ONSKAS_SVAR_JSON_ID_26, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
+        KONTAKT_ONSKAS_SVAR_ID_26,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT,
+        KONTAKT_ONSKAS_SVAR_JSON_ID_26,
+        index,
+        texts);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return toInternal(certificate, ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
-    }
+  public static String toInternal(Certificate certificate) {
+    return toInternal(
+        certificate,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
+  }
 }

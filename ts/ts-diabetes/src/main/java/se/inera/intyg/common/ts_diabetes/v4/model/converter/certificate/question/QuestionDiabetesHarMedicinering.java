@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,42 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 
 public class QuestionDiabetesHarMedicinering {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var harMedicineringForDiabetes =
-            allmant != null && allmant.getMedicineringForDiabetes() != null ? allmant.getMedicineringForDiabetes() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
-            .parent(ALLMANT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
-                    .text(textProvider.get(ALLMANT_MEDICINERING_FOR_DIABETES_TEXT_ID))
-                    .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
-                    .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
-                    .selected(harMedicineringForDiabetes)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
-                        .expression(exists(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider textProvider) {
+    final var harMedicineringForDiabetes =
+        allmant != null && allmant.getMedicineringForDiabetes() != null
+            ? allmant.getMedicineringForDiabetes()
+            : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
+        .parent(ALLMANT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
+                .text(textProvider.get(ALLMANT_MEDICINERING_FOR_DIABETES_TEXT_ID))
+                .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
+                .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID)
+                .selected(harMedicineringForDiabetes)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID)
+                  .expression(exists(ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID, ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        ALLMANT_MEDICINERING_FOR_DIABETES_SVAR_ID,
+        ALLMANT_MEDICINERING_FOR_DIABETES_JSON_ID);
+  }
 }

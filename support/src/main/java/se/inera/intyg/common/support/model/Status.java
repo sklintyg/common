@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,43 +25,43 @@ import java.time.LocalDateTime;
  */
 public class Status {
 
-    private CertificateState type;
+  private CertificateState type;
 
-    private String target;
+  private String target;
 
-    private LocalDateTime timestamp;
+  private LocalDateTime timestamp;
 
-    public Status(CertificateState type, String target, LocalDateTime timestamp) {
-        this.type = type;
-        this.target = target;
-        this.timestamp = timestamp;
-    }
+  public Status(CertificateState type, String target, LocalDateTime timestamp) {
+    this.type = type;
+    this.target = target;
+    this.timestamp = timestamp;
+  }
 
-    public Status() {
-        // Needed for deserialization
-    }
+  public Status() {
+    // Needed for deserialization
+  }
 
-    public CertificateState getType() {
-        return type;
-    }
+  public CertificateState getType() {
+    return type;
+  }
 
-    public void setType(CertificateState type) {
-        this.type = type;
-    }
+  public void setType(CertificateState type) {
+    this.type = type;
+  }
 
-    public final String getTarget() {
-        return target;
-    }
+  public final String getTarget() {
+    return target;
+  }
 
-    public final void setTarget(String target) {
-        this.target = target;
-    }
+  public final void setTarget(String target) {
+    this.target = target;
+  }
 
-    public final LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+  public final LocalDateTime getTimestamp() {
+    return timestamp;
+  }
 
-    public final void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
+  public final void setTimestamp(LocalDateTime timestamp) {
+    this.timestamp = timestamp;
+  }
 }

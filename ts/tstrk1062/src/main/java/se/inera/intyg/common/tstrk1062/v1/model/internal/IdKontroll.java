@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,13 +29,11 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 @AutoValue
 public abstract class IdKontroll {
 
-    @JsonCreator
-    public static IdKontroll create(@JsonProperty(ID_KONTROLL_DELSVAR_JSON_ID) IdKontrollKod typ) {
+  @JsonCreator
+  public static IdKontroll create(@JsonProperty(ID_KONTROLL_DELSVAR_JSON_ID) IdKontrollKod typ) {
 
-        return new AutoValue_IdKontroll(typ);
-    }
+    return new AutoValue_IdKontroll(typ);
+  }
 
-    @Nullable
-    public abstract IdKontrollKod getTyp();
-
+  @Nullable public abstract IdKontrollKod getTyp();
 }

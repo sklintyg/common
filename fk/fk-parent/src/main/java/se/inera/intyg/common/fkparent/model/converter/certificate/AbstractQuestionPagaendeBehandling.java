@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fkparent.model.converter.certificate;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
@@ -36,37 +35,35 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public abstract class AbstractQuestionPagaendeBehandling {
 
-    public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
-                    .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
-                    .id(jsonId)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(jsonId)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String value,
+      String questionId,
+      String parent,
+      String jsonId,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .header(texts.get(PAGAENDEBEHANDLING_SVAR_TEXT))
+                .text(texts.get(PAGAENDEBEHANDLING_DELSVAR_TEXT))
+                .id(jsonId)
+                .build())
+        .value(CertificateDataValueText.builder().id(jsonId).text(value).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate, String questionId, String jsonId) {
-        return textValue(certificate.getData(), questionId, jsonId);
-    }
+  public static String toInternal(Certificate certificate, String questionId, String jsonId) {
+    return textValue(certificate.getData(), questionId, jsonId);
+  }
 }

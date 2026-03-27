@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -61,86 +61,109 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private static final String DEFAULT_VERSION = "1.0";
+  private static final String DEFAULT_VERSION = "1.0";
 
-    private UtlatandeToIntyg() {
+  private UtlatandeToIntyg() {}
+
+  public static Intyg convert(Tstrk1009UtlatandeV1 utlatande) {
+    Intyg intyg = getIntyg(utlatande, PatientInfo.BASIC);
+
+    complementArbetsplatskodIfMissing(intyg);
+
+    intyg.setTyp(getTypAvIntyg(KvIntygstyp.TSTRK1009));
+    intyg.getSvar().addAll(getSvar(utlatande));
+    intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
+    intyg.setUnderskrift(base64StringToUnderskriftType(utlatande));
+
+    return intyg;
+  }
+
+  private static void complementArbetsplatskodIfMissing(Intyg intyg) {
+    if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension())
+        .trim()
+        .isEmpty()) {
+      intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
+    }
+  }
+
+  private static void formatPersonId(Intyg intyg) {
+    String personId = intyg.getPatient().getPersonId().getExtension();
+
+    Optional<Personnummer> personnummer = Personnummer.createPersonnummer(personId);
+    if (personnummer.isPresent()) {
+      intyg.getPatient().getPersonId().setExtension(personnummer.get().getPersonnummerWithDash());
+    }
+  }
+
+  private static List<Svar> getSvar(final Tstrk1009UtlatandeV1 utlatande) {
+    List<Svar> svarList = Lists.newArrayList();
+
+    if (nonNull(utlatande.getIdentitetStyrktGenom())) {
+      svarList.add(
+          aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
+              .withDelsvar(
+                  IDENTITET_STYRKT_GENOM_DELSVAR_ID,
+                  aCV(
+                      KV_ID_KONTROLL_KODSYSTEM,
+                      utlatande.getIdentitetStyrktGenom().getTyp().getCode(),
+                      utlatande.getIdentitetStyrktGenom().getTyp().getDescription()))
+              .build());
     }
 
-    public static Intyg convert(Tstrk1009UtlatandeV1 utlatande) {
-        Intyg intyg = getIntyg(utlatande, PatientInfo.BASIC);
-
-        complementArbetsplatskodIfMissing(intyg);
-
-        intyg.setTyp(getTypAvIntyg(KvIntygstyp.TSTRK1009));
-        intyg.getSvar().addAll(getSvar(utlatande));
-        intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
-        intyg.setUnderskrift(base64StringToUnderskriftType(utlatande));
-
-        return intyg;
+    if (nonNull(utlatande.getAnmalanAvser())) {
+      svarList.add(
+          aSvar(ANMALAN_AVSER_SVAR_ID)
+              .withDelsvar(
+                  ANMALAN_AVSER_DELSVAR_ID,
+                  aCV(
+                      KV_KORKORTSOLAMPLIGHET_KODSYSTEM,
+                      utlatande.getAnmalanAvser().getTyp().getCode(),
+                      utlatande.getAnmalanAvser().getTyp().getDescription()))
+              .build());
     }
 
+    addIfNotBlank(
+        svarList,
+        MEDICINSKA_FORHALLANDEN_SVAR_ID,
+        MEDICINSKA_FORHALLANDEN_DELSVAR_ID,
+        utlatande.getMedicinskaForhallanden());
 
-    private static void complementArbetsplatskodIfMissing(Intyg intyg) {
-        if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {
-            intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
-        }
+    if (nonNull(utlatande.getSenasteUndersokningsdatum())
+        && utlatande.getSenasteUndersokningsdatum().isValidDate()) {
+      svarList.add(
+          aSvar(SENASTE_UNDERSOKNINGSDATUM_SVAR_ID)
+              .withDelsvar(
+                  SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID,
+                  getInternalDateContent(utlatande.getSenasteUndersokningsdatum()))
+              .build());
     }
 
-    private static void formatPersonId(Intyg intyg) {
-        String personId = intyg.getPatient().getPersonId().getExtension();
-
-        Optional<Personnummer> personnummer = Personnummer.createPersonnummer(personId);
-        if (personnummer.isPresent()) {
-            intyg.getPatient().getPersonId().setExtension(personnummer.get().getPersonnummerWithDash());
+    int intygetAvserBehorigheterInstans = 1;
+    if (nonNull(utlatande.getIntygetAvserBehorigheter())
+        && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
+      for (final KorkortBehorighetGrupp behorighetsGrupp :
+          utlatande.getIntygetAvserBehorigheter().getTyper()) {
+        for (final Korkortsbehorighet korkortsbehorighet :
+            behorighetsGrupp.getKorkortsbehorigheter()) {
+          svarList.add(
+              aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
+                  .withDelsvar(
+                      INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
+                      aCV(
+                          KV_KORKORTSBEHORIGHET_KODSYSTEM,
+                          korkortsbehorighet.getCode(),
+                          korkortsbehorighet.getValue()))
+                  .build());
         }
+      }
     }
 
-    private static List<Svar> getSvar(final Tstrk1009UtlatandeV1 utlatande) {
-        List<Svar> svarList = Lists.newArrayList();
+    addIfNotNull(
+        svarList,
+        INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID,
+        INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID,
+        utlatande.getInformationOmTsBeslutOnskas());
 
-        if (nonNull(utlatande.getIdentitetStyrktGenom())) {
-            svarList.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
-                .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
-                    aCV(KV_ID_KONTROLL_KODSYSTEM,
-                        utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp()
-                            .getDescription()))
-                .build());
-        }
-
-        if (nonNull(utlatande.getAnmalanAvser())) {
-            svarList.add(aSvar(ANMALAN_AVSER_SVAR_ID)
-                .withDelsvar(ANMALAN_AVSER_DELSVAR_ID,
-                    aCV(KV_KORKORTSOLAMPLIGHET_KODSYSTEM,
-                        utlatande.getAnmalanAvser().getTyp().getCode(), utlatande.getAnmalanAvser().getTyp().getDescription()))
-                .build());
-        }
-
-        addIfNotBlank(svarList, MEDICINSKA_FORHALLANDEN_SVAR_ID, MEDICINSKA_FORHALLANDEN_DELSVAR_ID, utlatande.getMedicinskaForhallanden());
-
-        if (nonNull(utlatande.getSenasteUndersokningsdatum()) && utlatande.getSenasteUndersokningsdatum().isValidDate()) {
-            svarList.add(aSvar(SENASTE_UNDERSOKNINGSDATUM_SVAR_ID)
-                .withDelsvar(SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID,
-                    getInternalDateContent(utlatande.getSenasteUndersokningsdatum()))
-                .build());
-        }
-
-        int intygetAvserBehorigheterInstans = 1;
-        if (nonNull(utlatande.getIntygetAvserBehorigheter())
-            && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
-            for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter().getTyper()) {
-                for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {
-                    svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
-                        .withDelsvar(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
-                            aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getValue()))
-                        .build());
-                }
-            }
-        }
-
-        addIfNotNull(svarList, INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID, INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID,
-            utlatande.getInformationOmTsBeslutOnskas());
-
-        return svarList;
-    }
-
+    return svarList;
+  }
 }

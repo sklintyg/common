@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,22 +23,23 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class DaoUtil {
 
-    private DaoUtil() {
+  private DaoUtil() {}
+
+  /**
+   * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
+   * Please observe that this method is only to be used in the DAO and other interactions with the
+   * config layer!
+   *
+   * @param personnummer Personnummer
+   * @return pnr as a String with format yyyyMMdd-xxxx, or the original pnr if formatting was
+   *     unsuccessful.
+   */
+  public static String formatPnrForPersistence(Personnummer personnummer) {
+    Optional<Personnummer> optional = Optional.ofNullable(personnummer);
+    if (!optional.isPresent()) {
+      return null;
     }
 
-    /**
-     * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
-     * Please observe that this method is only to be used in the DAO and other interactions with the config layer!
-     *
-     * @param personnummer Personnummer
-     * @return pnr as a String with format yyyyMMdd-xxxx, or the original pnr if formatting was unsuccessful.
-     */
-    public static String formatPnrForPersistence(Personnummer personnummer) {
-        Optional<Personnummer> optional = Optional.ofNullable(personnummer);
-        if (!optional.isPresent()) {
-            return null;
-        }
-
-        return personnummer.getPersonnummerWithDash();
-    }
+    return personnummer.getPersonnummerWithDash();
+  }
 }

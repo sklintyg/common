@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,144 +45,193 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 @Component("ag7804.v1.ValidatorUtil")
 public class ValidatorUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtil.class);
-    private static final int MIN_SIZE_PSYKISK_DIAGNOS = 4;
-    private static final int MIN_SIZE_DIAGNOS = 3;
-    private static final int MAX_SIZE_DIAGNOS = 5;
+  private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtil.class);
+  private static final int MIN_SIZE_PSYKISK_DIAGNOS = 4;
+  private static final int MIN_SIZE_DIAGNOS = 3;
+  private static final int MAX_SIZE_DIAGNOS = 5;
 
-    @Autowired(required = false)
-    private WebcertModuleService moduleService;
+  @Autowired(required = false)
+  private WebcertModuleService moduleService;
 
-    public static void validateGrundForMuDate(InternalDate date, List<ValidationMessage> validationMessages, GrundForMu type) {
+  public static void validateGrundForMuDate(
+      InternalDate date, List<ValidationMessage> validationMessages, GrundForMu type) {
 
-        boolean isValid = validateDate(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName(), null,
+    boolean isValid =
+        validateDate(
+            date,
+            validationMessages,
+            CATEGORY_GRUNDFORMU,
+            type.getFieldName(),
+            null,
             GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
 
-        // R35: For syntactically valid dates, verify it's not a future date
-        if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
-                CATEGORY_GRUNDFORMU, type.getFieldName(), ValidationMessageType.OTHER,
-                "common.validation.c-06", GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
-        }
+    // R35: For syntactically valid dates, verify it's not a future date
+    if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
+      se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_GRUNDFORMU,
+          type.getFieldName(),
+          ValidationMessageType.OTHER,
+          "common.validation.c-06",
+          GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1);
+    }
+  }
 
+  public void validateDiagnose(
+      List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
 
+    if (diagnoser == null || diagnoser.isEmpty()) {
+      se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          DIAGNOS_SVAR_JSON_ID_6,
+          ValidationMessageType.EMPTY,
+          "common.validation.diagnos.missing",
+          DIAGNOS_SVAR_ID_6);
+      return;
     }
 
-    public void validateDiagnose(List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
-
-        if (diagnoser == null || diagnoser.isEmpty()) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
-                CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6, ValidationMessageType.EMPTY,
-                "common.validation.diagnos.missing", DIAGNOS_SVAR_ID_6);
-            return;
-        }
-
-        if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
-            // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(validationMessages,
-                CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
-                ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a", DIAGNOS_SVAR_ID_6);
-            return;
-        }
-
-        // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
-        String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
-
-        for (int i = 0; i < diagnoser.size(); i++) {
-            Diagnos diagnos = diagnoser.get(i);
-
-            /*
-             * R10 För delfråga 6.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
-             * (t.ex. F32).
-             * R11 För delfråga 6.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
-             * Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i
-             * ICD-10).
-             * R12: Alla skall ha samma kodverk
-             */
-            if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
-                se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                    ValidationMessageType.EMPTY, "common.validation.diagnos.codemissing", DIAGNOS_SVAR_ID_6);
-            } else {
-                String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
-                if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
-                    && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
-                    se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                        validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.psykisk.length-4", DIAGNOS_SVAR_ID_6);
-                } else if (trimDiagnoskod.length() < MIN_SIZE_DIAGNOS) {
-                    se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                        validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.length-3", DIAGNOS_SVAR_ID_6);
-                } else if (trimDiagnoskod.length() > MAX_SIZE_DIAGNOS) {
-                    se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                        validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.length-5", DIAGNOS_SVAR_ID_6);
-                } else {
-                    validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                        "common.validation.diagnos.invalid", validationMessages,
-                        DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod");
-                }
-            }
-            if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
-                se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
-                    ValidationMessageType.EMPTY,
-                    "common.validation.diagnos.description.missing", DIAGNOS_SVAR_ID_6);
-            }
-            if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
-                && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
-                se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                    validationMessages, CATEGORY_DIAGNOS, DIAGNOS_SVAR_JSON_ID_6 + ".diagnoskodsystem",
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    "common.validation.diagnos.invalid_combination", DIAGNOS_SVAR_ID_6);
-            }
-        }
+    if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
+      // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra
+      // fel visas.
+      se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
+          ValidationMessageType.INCORRECT_COMBINATION,
+          "common.validation.c-13a",
+          DIAGNOS_SVAR_ID_6);
+      return;
     }
 
-    private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-        List<ValidationMessage> validationMessages, String fieldId) {
-        // if moduleService is not available, skip this validation
-        if (moduleService == null) {
-            LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
-            return;
-        }
+    // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
+    String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
 
-        if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
-                validationMessages, CATEGORY_DIAGNOS, fieldId,
-                ValidationMessageType.INVALID_FORMAT, msgKey, DIAGNOS_SVAR_ID_6);
-        }
+    for (int i = 0; i < diagnoser.size(); i++) {
+      Diagnos diagnos = diagnoser.get(i);
 
+      /*
+       * R10 För delfråga 6.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
+       * (t.ex. F32).
+       * R11 För delfråga 6.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
+       * Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i
+       * ICD-10).
+       * R12: Alla skall ha samma kodverk
+       */
+      if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
+        se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+            ValidationMessageType.EMPTY,
+            "common.validation.diagnos.codemissing",
+            DIAGNOS_SVAR_ID_6);
+      } else {
+        String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
+        if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
+            && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
+          se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.psykisk.length-4",
+              DIAGNOS_SVAR_ID_6);
+        } else if (trimDiagnoskod.length() < MIN_SIZE_DIAGNOS) {
+          se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.length-3",
+              DIAGNOS_SVAR_ID_6);
+        } else if (trimDiagnoskod.length() > MAX_SIZE_DIAGNOS) {
+          se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.length-5",
+              DIAGNOS_SVAR_ID_6);
+        } else {
+          validateDiagnosKod(
+              diagnos.getDiagnosKod(),
+              diagnos.getDiagnosKodSystem(),
+              "common.validation.diagnos.invalid",
+              validationMessages,
+              DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod");
+        }
+      }
+      if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
+        se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            DIAGNOS_SVAR_JSON_ID_6 + "[" + i + "].diagnoskod",
+            ValidationMessageType.EMPTY,
+            "common.validation.diagnos.description.missing",
+            DIAGNOS_SVAR_ID_6);
+      }
+      if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
+          && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
+        se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            DIAGNOS_SVAR_JSON_ID_6 + ".diagnoskodsystem",
+            ValidationMessageType.INCORRECT_COMBINATION,
+            "common.validation.diagnos.invalid_combination",
+            DIAGNOS_SVAR_ID_6);
+      }
+    }
+  }
+
+  private void validateDiagnosKod(
+      String diagnosKod,
+      String kodsystem,
+      String msgKey,
+      List<ValidationMessage> validationMessages,
+      String fieldId) {
+    // if moduleService is not available, skip this validation
+    if (moduleService == null) {
+      LOG.warn(
+          "Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
+      return;
     }
 
-    private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
-        Diagnos diagnos = diagnoser.get(0);
-        return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
-            || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
+    if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
+      se.inera.intyg.common.support.validate.ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          fieldId,
+          ValidationMessageType.INVALID_FORMAT,
+          msgKey,
+          DIAGNOS_SVAR_ID_6);
     }
+  }
 
-    public enum GrundForMu {
-        UNDERSOKNING,
-        JOURNALUPPGIFTER,
-        ANNAT,
-        TELEFONKONTAKT;
+  private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
+    Diagnos diagnos = diagnoser.get(0);
+    return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
+        || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
+  }
 
-        public String getFieldName() {
-            switch (this) {
-                case UNDERSOKNING:
-                    return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-                case JOURNALUPPGIFTER:
-                    return GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-                case ANNAT:
-                    return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-                case TELEFONKONTAKT:
-                    return GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
-            }
-            return "annat";
-        }
+  public enum GrundForMu {
+    UNDERSOKNING,
+    JOURNALUPPGIFTER,
+    ANNAT,
+    TELEFONKONTAKT;
+
+    public String getFieldName() {
+      switch (this) {
+        case UNDERSOKNING:
+          return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+        case JOURNALUPPGIFTER:
+          return GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
+        case ANNAT:
+          return GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+        case TELEFONKONTAKT:
+          return GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
+      }
+      return "annat";
     }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,22 +26,24 @@ import org.junit.Test;
 
 public class PatientDetailResolveOrderTest {
 
-    @Test
-    public void constructorShouldThrowWhenGivenNullList() {
-        List<PatientDetailResolveOrder.ResolveOrder> any = ImmutableList.of();
+  @Test
+  public void constructorShouldThrowWhenGivenNullList() {
+    List<PatientDetailResolveOrder.ResolveOrder> any = ImmutableList.of();
 
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", null, any)).isExactlyInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", any, null)).isExactlyInstanceOf(NullPointerException.class);
-    }
+    assertThatThrownBy(() -> new PatientDetailResolveOrder("", null, any))
+        .isExactlyInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> new PatientDetailResolveOrder("", any, null))
+        .isExactlyInstanceOf(NullPointerException.class);
+  }
 
-    @Test
-    public void disallowUsingPredecessorStrategyWithoutPredecessor() {
-        List<PatientDetailResolveOrder.ResolveOrder> predecessorStrat = ImmutableList
-            .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
-        List<PatientDetailResolveOrder.ResolveOrder> other = ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PU);
+  @Test
+  public void disallowUsingPredecessorStrategyWithoutPredecessor() {
+    List<PatientDetailResolveOrder.ResolveOrder> predecessorStrat =
+        ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
+    List<PatientDetailResolveOrder.ResolveOrder> other =
+        ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PU);
 
-        assertThatThrownBy(() -> new PatientDetailResolveOrder("", predecessorStrat, other))
-            .isExactlyInstanceOf(IllegalArgumentException.class);
-    }
-
+    assertThatThrownBy(() -> new PatientDetailResolveOrder("", predecessorStrat, other))
+        .isExactlyInstanceOf(IllegalArgumentException.class);
+  }
 }

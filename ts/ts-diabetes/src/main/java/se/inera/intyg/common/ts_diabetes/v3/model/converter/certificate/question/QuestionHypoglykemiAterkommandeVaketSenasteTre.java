@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,24 +31,24 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
 
 public class QuestionHypoglykemiAterkommandeVaketSenasteTre {
 
-    public static CertificateDataElement toCertificate(Hypoglykemier hypoglykemi, int index, CertificateTextProvider textProvider) {
-        final var aterkommandeVaketSenasteTre =
-            hypoglykemi != null && hypoglykemi.getAterkommandeSenasteKvartalet() != null
-                ? hypoglykemi.getAterkommandeSenasteKvartalet() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
-            .parent(HYPOGLYKEMI_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(aterkommandeVaketSenasteTre))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemier hypoglykemi, int index, CertificateTextProvider textProvider) {
+    final var aterkommandeVaketSenasteTre =
+        hypoglykemi != null && hypoglykemi.getAterkommandeSenasteKvartalet() != null
+            ? hypoglykemi.getAterkommandeSenasteKvartalet()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
+        .parent(HYPOGLYKEMI_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(booleanValue(aterkommandeVaketSenasteTre))
+                .build())
+        .build();
+  }
 }

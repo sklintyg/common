@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,57 +22,44 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Implements KV_FKMU_0007.
- */
+/** Implements KV_FKMU_0007. */
 public enum PrognosDagarTillArbeteTyp {
-    /**
-     * 30 dagarm.
-     */
-    DAGAR_30("TRETTIO_DGR", "30 dagar"),
-    /**
-     * 60 dagar.
-     */
-    DAGAR_60("SEXTIO_DGR", "60 dagar"),
-    /**
-     * 90 dagar.
-     */
-    DAGAR_90("NITTIO_DGR", "90 dagar"),
-    /**
-     * 180 dagar.
-     */
-    DAGAR_180("HUNDRAATTIO_DAGAR", "180 dagar"),
-    /**
-     * 365 dagar.
-     */
-    DAGAR_365("TREHUNDRASEXTIOFEM_DAGAR", "365 dagar");
+  /** 30 dagarm. */
+  DAGAR_30("TRETTIO_DGR", "30 dagar"),
+  /** 60 dagar. */
+  DAGAR_60("SEXTIO_DGR", "60 dagar"),
+  /** 90 dagar. */
+  DAGAR_90("NITTIO_DGR", "90 dagar"),
+  /** 180 dagar. */
+  DAGAR_180("HUNDRAATTIO_DAGAR", "180 dagar"),
+  /** 365 dagar. */
+  DAGAR_365("TREHUNDRASEXTIOFEM_DAGAR", "365 dagar");
 
-    private final String id;
-    private final String label;
+  private final String id;
+  private final String label;
 
-    PrognosDagarTillArbeteTyp(String id, String label) {
-        this.id = id;
-        this.label = label;
+  PrognosDagarTillArbeteTyp(String id, String label) {
+    this.id = id;
+    this.label = label;
+  }
+
+  @JsonValue
+  public String getId() {
+    return id;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+  public static PrognosDagarTillArbeteTyp fromId(@JsonProperty("id") String id) {
+    String normId = id != null ? id.trim() : null;
+    for (PrognosDagarTillArbeteTyp typ : values()) {
+      if (typ.id.equals(normId)) {
+        return typ;
+      }
     }
-
-    @JsonValue
-    public String getId() {
-        return id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static PrognosDagarTillArbeteTyp fromId(@JsonProperty("id") String id) {
-        String normId = id != null ? id.trim() : null;
-        for (PrognosDagarTillArbeteTyp typ : values()) {
-            if (typ.id.equals(normId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
+    throw new IllegalArgumentException();
+  }
 }

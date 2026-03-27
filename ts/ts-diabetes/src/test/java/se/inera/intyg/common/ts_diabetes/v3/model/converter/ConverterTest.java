@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -68,99 +68,111 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 @ContextConfiguration(classes = {BefattningService.class})
 public class ConverterTest {
 
-    @InjectMocks
-    private InternalDraftValidatorImpl internalValidator;
+  @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    public ConverterTest() {
-        MockitoAnnotations.initMocks(this);
+  public ConverterTest() {
+    MockitoAnnotations.initMocks(this);
+  }
+
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
+
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
+
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
+
+  @Test
+  public void doSchematronValidationTsDiabetesV3() throws Exception {
+    String xmlContents =
+        Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+
+    RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+    assertTrue(generalValidator.validateGeneral(xmlContents));
+
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+
+    assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+  }
+
+  @Test
+  public void outputJsonFromXml() throws Exception {
+
+    String xmlContents =
+        Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+    RegisterCertificateType transport =
+        JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
+
+    String json = getJsonFromTransport(transport);
+    TsDiabetesUtlatandeV3 utlatandeFromJson =
+        objectMapper.readValue(json, TsDiabetesUtlatandeV3.class);
+
+    RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson);
+    String convertedXML = getXmlFromModel(transportConvertedALot);
+
+    // Do schematron validation on the xml-string from the converted transport format
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+    assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
+
+    // Why not validate internal model as well?
+    internalValidator.validateDraft(utlatandeFromJson);
+  }
+
+  private String getErrorString(SchematronOutputType result) {
+    StringBuilder errorMsg = new StringBuilder();
+    SVRLHelper.getAllFailedAssertions(result).stream()
+        .map(AbstractSVRLMessage::getText)
+        .collect(Collectors.toList())
+        .forEach(errorMsg::append);
+    return errorMsg.toString();
+  }
+
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  private String getXmlFromModel(RegisterCertificateType transport)
+      throws IOException, JAXBException {
+    StringWriter sw = new StringWriter();
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(
+            RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
+    ObjectFactory objectFactory = new ObjectFactory();
+    JAXBElement<RegisterCertificateType> requestElement =
+        objectFactory.createRegisterCertificate(transport);
+    jaxbContext.createMarshaller().marshal(requestElement, sw);
+    return sw.toString();
+  }
+
+  private String getJsonFromTransport(RegisterCertificateType transport) throws ConverterException {
+    StringWriter jsonWriter = new StringWriter();
+    TsDiabetesUtlatandeV3 internal =
+        se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal.convert(
+            transport.getIntyg());
+    try {
+      objectMapper.writeValue(jsonWriter, internal);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
-
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
-
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
-
-    @Test
-    public void doSchematronValidationTsDiabetesV3() throws Exception {
-        String xmlContents = Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
-
-        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-        assertTrue(generalValidator.validateGeneral(xmlContents));
-
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
-
-        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-    }
-
-    @Test
-    public void outputJsonFromXml() throws Exception {
-
-        String xmlContents = Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
-        RegisterCertificateType transport = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
-
-        String json = getJsonFromTransport(transport);
-        TsDiabetesUtlatandeV3 utlatandeFromJson = objectMapper.readValue(json, TsDiabetesUtlatandeV3.class);
-
-        RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson);
-        String convertedXML = getXmlFromModel(transportConvertedALot);
-
-        // Do schematron validation on the xml-string from the converted transport format
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-        assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
-
-        // Why not validate internal model as well?
-        internalValidator.validateDraft(utlatandeFromJson);
-    }
-
-    private String getErrorString(SchematronOutputType result) {
-        StringBuilder errorMsg = new StringBuilder();
-        SVRLHelper.getAllFailedAssertions(result).stream()
-            .map(AbstractSVRLMessage::getText)
-            .collect(Collectors.toList())
-            .forEach(errorMsg::append);
-        return errorMsg.toString();
-    }
-
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
-
-    private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
-        StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
-        ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
-        jaxbContext.createMarshaller().marshal(requestElement, sw);
-        return sw.toString();
-    }
-
-    private String getJsonFromTransport(RegisterCertificateType transport) throws ConverterException {
-        StringWriter jsonWriter = new StringWriter();
-        TsDiabetesUtlatandeV3 internal = se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal
-            .convert(transport.getIntyg());
-        try {
-            objectMapper.writeValue(jsonWriter, internal);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jsonWriter.toString();
-    }
-
+    return jsonWriter.toString();
+  }
 }

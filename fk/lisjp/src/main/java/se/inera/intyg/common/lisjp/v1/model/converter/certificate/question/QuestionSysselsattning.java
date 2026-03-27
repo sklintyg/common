@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.SYSSELSATTNING_CATEGORY_ID;
@@ -33,24 +32,26 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionSysselsattning extends AbstractQuestionSysselsattning {
 
-    public static CertificateDataElement toCertificate(List<Sysselsattning> value, int index,
-        CertificateTextProvider texts) {
-        final var configProvider = new QuestionSyssesattningConfigProvider(
-            convertValue(value)
-        );
-        return toCertificate(configProvider, TYP_AV_SYSSELSATTNING_SVAR_ID_28, SYSSELSATTNING_CATEGORY_ID, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Sysselsattning> value, int index, CertificateTextProvider texts) {
+    final var configProvider = new QuestionSyssesattningConfigProvider(convertValue(value));
+    return toCertificate(
+        configProvider, TYP_AV_SYSSELSATTNING_SVAR_ID_28, SYSSELSATTNING_CATEGORY_ID, index, texts);
+  }
 
-    private static List<QuestionSysselsattningValue> convertValue(List<Sysselsattning> value) {
-        if (value == null) {
-            return Collections.emptyList();
-        }
-        return value.stream()
-            .map(sysselsattning -> new QuestionSysselsattningValue(Objects.requireNonNull(sysselsattning.getTyp()).getId()))
-            .collect(Collectors.toList());
+  private static List<QuestionSysselsattningValue> convertValue(List<Sysselsattning> value) {
+    if (value == null) {
+      return Collections.emptyList();
     }
+    return value.stream()
+        .map(
+            sysselsattning ->
+                new QuestionSysselsattningValue(
+                    Objects.requireNonNull(sysselsattning.getTyp()).getId()))
+        .collect(Collectors.toList());
+  }
 
-    public static List<Sysselsattning> toInternal(Certificate certificate) {
-        return toInternal(certificate, TYP_AV_SYSSELSATTNING_SVAR_ID_28);
-    }
+  public static List<Sysselsattning> toInternal(Certificate certificate) {
+    return toInternal(certificate, TYP_AV_SYSSELSATTNING_SVAR_ID_28);
+  }
 }

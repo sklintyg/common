@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,148 +41,142 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
-/**
- * Created by marced on 2016-10-25.
- */
+/** Created by marced on 2016-10-25. */
 @RunWith(MockitoJUnitRunner.class)
 public class FkBasePdfDefinitionBuilderTest {
 
-    private static final String KEY_MISSING_TEXT = "missingtext";
-    private static final String KEY_TEXT_FOUND_BASE = "textfound";
-    private static final String KEY_TEXT_FOUND = "DFR_" + KEY_TEXT_FOUND_BASE + ".1.RBK";
+  private static final String KEY_MISSING_TEXT = "missingtext";
+  private static final String KEY_TEXT_FOUND_BASE = "textfound";
+  private static final String KEY_TEXT_FOUND = "DFR_" + KEY_TEXT_FOUND_BASE + ".1.RBK";
 
-    private static final String FKASSA_RECIPIENT_ID = "FKASSA";
+  private static final String FKASSA_RECIPIENT_ID = "FKASSA";
 
-    private IntygTexts intygTexts = getIntygTexts();
+  private IntygTexts intygTexts = getIntygTexts();
 
-    private class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
+  private class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
 
-        public FkBasePdfDefinitionBuilderForTest(IntygTexts intygTexts) {
-            this.intygTexts = intygTexts;
-        }
+    public FkBasePdfDefinitionBuilderForTest(IntygTexts intygTexts) {
+      this.intygTexts = intygTexts;
     }
+  }
 
-    @InjectMocks
-    private FkBasePdfDefinitionBuilder builder = new FkBasePdfDefinitionBuilderForTest(intygTexts);
+  @InjectMocks
+  private FkBasePdfDefinitionBuilder builder = new FkBasePdfDefinitionBuilderForTest(intygTexts);
 
-    @Test
-    public void testIsSentToFk() throws Exception {
+  @Test
+  public void testIsSentToFk() throws Exception {
 
-        assertFalse(builder.isSentToFk(null));
+    assertFalse(builder.isSentToFk(null));
 
-        List<Status> statuses = new ArrayList<>();
-        assertFalse(builder.isSentToFk(statuses));
+    List<Status> statuses = new ArrayList<>();
+    assertFalse(builder.isSentToFk(statuses));
 
-        statuses.add(new Status(null, null, LocalDateTime.now()));
-        assertFalse(builder.isSentToFk(statuses));
+    statuses.add(new Status(null, null, LocalDateTime.now()));
+    assertFalse(builder.isSentToFk(statuses));
 
-        statuses.add(new Status(CertificateState.SENT, null, LocalDateTime.now()));
-        statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
-        assertFalse(builder.isSentToFk(statuses));
+    statuses.add(new Status(CertificateState.SENT, null, LocalDateTime.now()));
+    statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
+    assertFalse(builder.isSentToFk(statuses));
 
-        statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
-        assertTrue(builder.isSentToFk(statuses));
+    statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
+    assertTrue(builder.isSentToFk(statuses));
+  }
 
-    }
+  @Test
+  public void testIsMakulerad() throws Exception {
 
-    @Test
-    public void testIsMakulerad() throws Exception {
+    assertFalse(builder.isMakulerad(null));
 
-        assertFalse(builder.isMakulerad(null));
+    List<Status> statuses = new ArrayList<>();
+    assertFalse(builder.isMakulerad(statuses));
 
-        List<Status> statuses = new ArrayList<>();
-        assertFalse(builder.isMakulerad(statuses));
+    statuses.add(new Status(null, null, LocalDateTime.now()));
+    assertFalse(builder.isMakulerad(statuses));
 
-        statuses.add(new Status(null, null, LocalDateTime.now()));
-        assertFalse(builder.isMakulerad(statuses));
+    statuses.add(new Status(CertificateState.SENT, null, LocalDateTime.now()));
+    statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
+    assertFalse(builder.isMakulerad(statuses));
 
-        statuses.add(new Status(CertificateState.SENT, null, LocalDateTime.now()));
-        statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
-        assertFalse(builder.isMakulerad(statuses));
+    statuses.add(new Status(CertificateState.CANCELLED, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
+    assertTrue(builder.isMakulerad(statuses));
+  }
 
-        statuses.add(new Status(CertificateState.CANCELLED, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
-        assertTrue(builder.isMakulerad(statuses));
+  @Test
+  public void testNullSafeString() throws Exception {
+    InternalDate date = null;
+    assertEquals("", builder.nullSafeString(date));
 
-    }
+    date = new InternalDate();
+    assertEquals(date.getDate(), builder.nullSafeString(date));
 
-    @Test
-    public void testNullSafeString() throws Exception {
-        InternalDate date = null;
-        assertEquals("", builder.nullSafeString(date));
+    String str = null;
+    assertEquals("", builder.nullSafeString(str));
 
-        date = new InternalDate();
-        assertEquals(date.getDate(), builder.nullSafeString(date));
+    str = "test";
+    assertEquals(str, builder.nullSafeString(str));
+  }
 
-        String str = null;
-        assertEquals("", builder.nullSafeString(str));
+  @Test
+  public void buildTillagsfragorPageNull() {
+    FkPage page = builder.buildTillagsfragorPage(null);
 
-        str = "test";
-        assertEquals(str, builder.nullSafeString(str));
+    assertNull(page);
+  }
 
-    }
+  @Test
+  public void buildTillagsfragorPageEmptyList() {
+    ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of();
+    FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
 
-    @Test
-    public void buildTillagsfragorPageNull() {
-        FkPage page = builder.buildTillagsfragorPage(null);
+    assertNull(page);
+  }
 
-        assertNull(page);
-    }
+  @Test
+  public void buildTillagsfragorPageMissingText() {
 
-    @Test
-    public void buildTillagsfragorPageEmptyList() {
-        ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of();
-        FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
+    Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_MISSING_TEXT, "");
 
-        assertNull(page);
-    }
+    ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
+    FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
 
-    @Test
-    public void buildTillagsfragorPageMissingText() {
+    assertNull(page);
+  }
 
-        Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_MISSING_TEXT, "");
+  @Test
+  public void buildTillagsfragorPage() {
 
-        ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
-        FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
+    Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_TEXT_FOUND_BASE, "svar");
 
-        assertNull(page);
-    }
+    ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
+    FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
 
-    @Test
-    public void buildTillagsfragorPage() {
+    assertNotNull(page);
+  }
 
-        Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_TEXT_FOUND_BASE, "svar");
+  @Test
+  public void testGetText() {
+    String text = builder.getText(KEY_TEXT_FOUND);
 
-        ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of(tillaggsfraga);
-        FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
+    assertEquals("text", text);
+  }
 
-        assertNotNull(page);
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testGetTextMissingText() throws Exception {
+    builder.getText(KEY_MISSING_TEXT);
+  }
 
-    @Test
-    public void testGetText() {
-        String text = builder.getText(KEY_TEXT_FOUND);
+  @Test
+  public void testGetTextMissingAllowed() {
+    String text = builder.getText(KEY_MISSING_TEXT, true);
 
-        assertEquals("text", text);
-    }
+    assertNull(text);
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetTextMissingText() throws Exception {
-        builder.getText(KEY_MISSING_TEXT);
-    }
+  private static IntygTexts getIntygTexts() {
+    SortedMap<String, String> texts = new TreeMap<>();
 
-    @Test
-    public void testGetTextMissingAllowed() {
-        String text = builder.getText(KEY_MISSING_TEXT, true);
+    texts.put(KEY_TEXT_FOUND, "text");
 
-        assertNull(text);
-    }
-
-    private static IntygTexts getIntygTexts() {
-        SortedMap<String, String> texts = new TreeMap<>();
-
-        texts.put(KEY_TEXT_FOUND, "text");
-
-        return new IntygTexts("1.0.0.0", "", null, null, texts, null, null);
-    }
-
+    return new IntygTexts("1.0.0.0", "", null, null, texts, null, null);
+  }
 }

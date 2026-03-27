@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -73,486 +73,513 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 class TransportConverterUtilTest {
 
-    /* Exception messages */
-    private static final String UNEXPECTED_CONVERSION_ERROR = "Unexpected error while converting data type, mandatory data is missing";
+  /* Exception messages */
+  private static final String UNEXPECTED_CONVERSION_ERROR =
+      "Unexpected error while converting data type, mandatory data is missing";
 
-    @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
-    public static class XmlRoot<T> {
+  @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
+  public static class XmlRoot<T> {
 
-        @XmlElement
-        private T data;
+    @XmlElement private T data;
 
-        public T getData() {
-            return data;
-        }
-
-        static <T> XmlRoot<T> of(T data) {
-            XmlRoot r = new XmlRoot();
-            r.data = data;
-            return r;
-        }
+    public T getData() {
+      return data;
     }
 
-    JAXBContext jaxbContext;
-
-    {
-        try {
-            jaxbContext = JAXBContext.newInstance(XmlRoot.class, PQType.class, CVType.class, DatePeriodType.class,
-                PartialDateType.class);
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
+    static <T> XmlRoot<T> of(T data) {
+      XmlRoot r = new XmlRoot();
+      r.data = data;
+      return r;
     }
+  }
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  JAXBContext jaxbContext;
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
-
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
+  {
+    try {
+      jaxbContext =
+          JAXBContext.newInstance(
+              XmlRoot.class,
+              PQType.class,
+              CVType.class,
+              DatePeriodType.class,
+              PartialDateType.class);
+    } catch (JAXBException e) {
+      e.printStackTrace();
     }
+  }
 
-    @Test
-    void testGetMetaData() {
-        final String intygId = "intygId";
-        final String intygstyp = "LUSE";
-        String skapadAvFullstandigtNamn = "skapad av namn";
-        String enhetsnamn = "enhetsnamn";
-        final LocalDateTime signeringstidpunkt = LocalDateTime.now().minusDays(1);
-        final LocalDateTime statustidpunkt = LocalDateTime.now();
-        final String additionalInfo = "Additional Info";
-        IntygsStatus status = new IntygsStatus();
-        status.setPart(new Part());
-        status.getPart().setCode("FKASSA");
-        status.setStatus(new Statuskod());
-        status.getStatus().setCode(StatusKod.SENTTO.name());
-        status.setTidpunkt(statustidpunkt);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        Intyg intyg = buildIntyg(intygId, intygstyp, skapadAvFullstandigtNamn, enhetsnamn, signeringstidpunkt, List.of(status));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
-        assertNotNull(res);
-        assertEquals(intygId, res.getCertificateId());
-        assertEquals(intygstyp.toLowerCase(), res.getCertificateType());
-        assertEquals(skapadAvFullstandigtNamn, res.getIssuerName());
-        assertEquals(enhetsnamn, res.getFacilityName());
-        assertEquals(signeringstidpunkt, res.getSignDate());
-        assertEquals(1, res.getStatus().size());
-        assertEquals(CertificateState.SENT, res.getStatus().get(0).getType());
-        assertEquals("FKASSA", res.getStatus().get(0).getTarget());
-        assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
-        assertEquals(additionalInfo, res.getAdditionalInfo());
-        assertTrue(res.isAvailable());
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
+
+  @Test
+  void testGetMetaData() {
+    final String intygId = "intygId";
+    final String intygstyp = "LUSE";
+    String skapadAvFullstandigtNamn = "skapad av namn";
+    String enhetsnamn = "enhetsnamn";
+    final LocalDateTime signeringstidpunkt = LocalDateTime.now().minusDays(1);
+    final LocalDateTime statustidpunkt = LocalDateTime.now();
+    final String additionalInfo = "Additional Info";
+    IntygsStatus status = new IntygsStatus();
+    status.setPart(new Part());
+    status.getPart().setCode("FKASSA");
+    status.setStatus(new Statuskod());
+    status.getStatus().setCode(StatusKod.SENTTO.name());
+    status.setTidpunkt(statustidpunkt);
+
+    Intyg intyg =
+        buildIntyg(
+            intygId,
+            intygstyp,
+            skapadAvFullstandigtNamn,
+            enhetsnamn,
+            signeringstidpunkt,
+            List.of(status));
+
+    CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
+    assertNotNull(res);
+    assertEquals(intygId, res.getCertificateId());
+    assertEquals(intygstyp.toLowerCase(), res.getCertificateType());
+    assertEquals(skapadAvFullstandigtNamn, res.getIssuerName());
+    assertEquals(enhetsnamn, res.getFacilityName());
+    assertEquals(signeringstidpunkt, res.getSignDate());
+    assertEquals(1, res.getStatus().size());
+    assertEquals(CertificateState.SENT, res.getStatus().get(0).getType());
+    assertEquals("FKASSA", res.getStatus().get(0).getTarget());
+    assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
+    assertEquals(additionalInfo, res.getAdditionalInfo());
+    assertTrue(res.isAvailable());
+  }
+
+  @Test
+  void testGetMetaDataAvailableStatuses() {
+    final LocalDateTime time = LocalDateTime.now();
+    IntygsStatus skickad = buildStatus(time, "", StatusKod.RECEIV);
+    IntygsStatus arkiverad = buildStatus(time.plusHours(1), "", StatusKod.DELETE);
+    IntygsStatus nullDate = buildStatus(null, "", StatusKod.SENTTO);
+
+    Intyg intyg = buildIntyg(Arrays.asList(skickad, nullDate, arkiverad));
+
+    CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, "");
+    assertFalse(res.isAvailable(), "Should have been unavailable with just a single DELETE");
+
+    // Add a restored event
+    intyg.getStatus().add(buildStatus(time.plusHours(2), "", StatusKod.RESTOR));
+    res = TransportConverterUtil.getMetaData(intyg, "");
+    assertTrue(res.isAvailable(), "Should have been available with a later RESTOR");
+
+    // Add another archive  event
+    intyg.getStatus().add(buildStatus(time.plusHours(3), "", StatusKod.DELETE));
+    res = TransportConverterUtil.getMetaData(intyg, "");
+    assertFalse(res.isAvailable(), "Should have been unavailable with a later DELETE");
+
+    // Add another (to early) restored event
+    intyg.getStatus().add(buildStatus(time.minusHours(2), "", StatusKod.RESTOR));
+    res = TransportConverterUtil.getMetaData(intyg, "");
+    assertFalse(res.isAvailable(), "Should have been unavailable with a to early RESTOR");
+
+    // Finally, add add another restored event
+    intyg.getStatus().add(buildStatus(time.plusHours(5), "", StatusKod.RESTOR));
+    res = TransportConverterUtil.getMetaData(intyg, "");
+    assertTrue(res.isAvailable(), "Should have been available with a RESTOR as lastest event");
+  }
+
+  private IntygsStatus buildStatus(
+      LocalDateTime statustidpunkt, String partCode, StatusKod statusKod) {
+    final IntygsStatus s = new IntygsStatus();
+    s.setPart(new Part());
+    s.getPart().setCode(partCode);
+    s.setStatus(new Statuskod());
+    s.getStatus().setCode(statusKod.name());
+    s.setTidpunkt(statustidpunkt);
+    return s;
+  }
+
+  private Intyg buildIntyg(List<IntygsStatus> statuses) {
+    return buildIntyg("1", "fk7263", "Doctor No", "enhet1", LocalDateTime.now(), statuses);
+  }
+
+  private Intyg buildIntyg(
+      String intygId,
+      String intygstyp,
+      String skapadAvFullstandigtNamn,
+      String enhetsnamn,
+      LocalDateTime signeringstidpunkt,
+      List<IntygsStatus> statuses) {
+    Intyg intyg = new Intyg();
+    intyg.setIntygsId(new IntygId());
+    intyg.getIntygsId().setExtension(intygId);
+    intyg.setTyp(new TypAvIntyg());
+    intyg.getTyp().setCode(intygstyp);
+    intyg.setSkapadAv(new HosPersonal());
+    intyg.getSkapadAv().setFullstandigtNamn(skapadAvFullstandigtNamn);
+    intyg.getSkapadAv().setEnhet(new Enhet());
+    intyg.getSkapadAv().getEnhet().setEnhetsnamn(enhetsnamn);
+    intyg.setSigneringstidpunkt(signeringstidpunkt);
+    intyg.getStatus().addAll(statuses);
+    return intyg;
+  }
+
+  @Test
+  void testGetCVTypeContentSuccess() throws Exception {
+    String code = "1";
+    String codeSystem = "TEST";
+    Delsvar delsvar = buildCVTypeDelsvar(code, codeSystem, null, null, null, null);
+    CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
+    CVType expected = buildCVType(code, codeSystem, null, null, null, null);
+    assertEquals(expected.getCode(), actual.getCode());
+    assertEquals(expected.getCodeSystem(), actual.getCodeSystem());
+  }
+
+  @Test
+  void testCVTypeContentSuccess() throws Exception {
+    CVType expected = new CVType();
+    expected.setCode("code");
+    expected.setCodeSystem("codeSystem");
+    expected.setCodeSystemName("codeSystemName");
+    expected.setDisplayName("displayName");
+    expected.setOriginalText("originalText");
+    CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testCVTypeContentMissingCodeSystem() {
+    CVType cvType = new CVType();
+    cvType.setCode("code");
+    assertThrows(
+        ConverterException.class,
+        () -> TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType))));
+  }
+
+  @Test
+  void testPQTypeContentSuccess() throws Exception {
+    PQType expected = new PQType();
+    expected.setUnit("cm");
+    expected.setValue(100);
+    PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testDatePeriodSuccess() throws Exception {
+    DatePeriodType expected = new DatePeriodType();
+    expected.setStart(LocalDate.now());
+    expected.setEnd(LocalDate.now().plusDays(2));
+    DatePeriodType actual =
+        TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testPartialDateYearSuccess() throws Exception {
+    PartialDateType expected = new PartialDateType();
+    expected.setValue(Year.parse("2019"));
+    expected.setFormat(PartialDateTypeFormatEnum.YYYY);
+    PartialDateType actual =
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testPartialDateYearMonthSuccess() throws Exception {
+    PartialDateType expected = new PartialDateType();
+    expected.setValue(YearMonth.parse("2019-01"));
+    expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
+    PartialDateType actual =
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testPartialDateFullSuccess() throws Exception {
+    PartialDateType expected = new PartialDateType();
+    expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
+    expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
+    PartialDateType actual =
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+    assertThat(actual).usingRecursiveComparison().withStrictTypeChecking().isEqualTo(expected);
+  }
+
+  @Test
+  void testPartialDateMissingFormat() {
+    PartialDateType type = new PartialDateType();
+    type.setValue(YearMonth.parse("2019-01"));
+    assertThrows(
+        ConverterException.class,
+        () -> TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type))));
+  }
+
+  @Test
+  void testPartialDateInvalidData() throws Exception {
+    PartialDateType type = new PartialDateType();
+    type.setValue(Year.parse("2019"));
+    type.setFormat(PartialDateTypeFormatEnum.YYYY);
+    Node pd = toNode(type);
+    for (Node n = pd.getFirstChild(); n != null; n = n.getNextSibling()) {
+      n.setTextContent("XXX");
     }
+    final var delsvar = buildDelsvar(pd);
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> TransportConverterUtil.getPartialDateContent(delsvar));
+  }
 
-    @Test
-    void testGetMetaDataAvailableStatuses() {
-        final LocalDateTime time = LocalDateTime.now();
-        IntygsStatus skickad = buildStatus(time, "", StatusKod.RECEIV);
-        IntygsStatus arkiverad = buildStatus(time.plusHours(1), "", StatusKod.DELETE);
-        IntygsStatus nullDate = buildStatus(null, "", StatusKod.SENTTO);
+  @Test
+  void testGetStringContentWithWhitespaceSuccess() {
+    String expected = "String with freetext";
+    Delsvar delsvar = buildDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
+    String actual = TransportConverterUtil.getStringContent(delsvar);
+    assertEquals(expected, actual);
+  }
 
-        Intyg intyg = buildIntyg(Arrays.asList(skickad, nullDate, arkiverad));
+  @Test
+  void testGetCVTypeContentWithOptionalSuccess() throws Exception {
+    String code = "1";
+    String codeSystem = "TEST";
+    String codeSystemName = "NAME";
+    String codeSystemVersion = "VERSION";
+    String displayName = "DISPLAYNAME";
+    String originalText = "ORIGINAL TEXT";
+    Delsvar delsvar =
+        buildCVTypeDelsvar(
+            code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
+    CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
+    CVType expected =
+        buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
+    assertEquals(expected.getCode(), actual.getCode());
+    assertEquals(expected.getCodeSystem(), actual.getCodeSystem());
+    assertEquals(expected.getCodeSystemName(), actual.getCodeSystemName());
+    assertEquals(expected.getCodeSystemVersion(), actual.getCodeSystemVersion());
+    assertEquals(expected.getDisplayName(), actual.getDisplayName());
+    assertEquals(expected.getOriginalText(), actual.getOriginalText());
+  }
 
-        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse(res.isAvailable(), "Should have been unavailable with just a single DELETE");
+  @Test
+  void testGetCVTypeDifferentContentFails() throws Exception {
+    String code = "1";
 
-        //Add a restored event
-        intyg.getStatus().add(buildStatus(time.plusHours(2), "", StatusKod.RESTOR));
-        res = TransportConverterUtil.getMetaData(intyg, "");
-        assertTrue(res.isAvailable(), "Should have been available with a later RESTOR");
+    Delsvar delsvar = buildCVTypeDelsvar(code, "ANOTHER", null, null, null, null);
+    CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
 
-        //Add another archive  event
-        intyg.getStatus().add(buildStatus(time.plusHours(3), "", StatusKod.DELETE));
-        res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse(res.isAvailable(), "Should have been unavailable with a later DELETE");
+    CVType expected = buildCVType(code, "TEST", null, null, null, null);
+    assertEquals(expected.getCode(), actual.getCode());
+    assertNotEquals(expected.getCodeSystem(), actual.getCodeSystem());
+  }
 
-        //Add another (to early) restored event
-        intyg.getStatus().add(buildStatus(time.minusHours(2), "", StatusKod.RESTOR));
-        res = TransportConverterUtil.getMetaData(intyg, "");
-        assertFalse(res.isAvailable(), "Should have been unavailable with a to early RESTOR");
+  /* Breaking tests */
+  @Test
+  void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
+    Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
+    Exception exception =
+        assertThrows(
+            ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
+    assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
+  }
 
-        //Finally, add add another restored event
-        intyg.getStatus().add(buildStatus(time.plusHours(5), "", StatusKod.RESTOR));
-        res = TransportConverterUtil.getMetaData(intyg, "");
-        assertTrue(res.isAvailable(), "Should have been available with a RESTOR as lastest event");
+  @Test
+  void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() {
+    Delsvar delsvar = new Delsvar();
+    delsvar.getContent().add(1);
+    Exception exception =
+        assertThrows(
+            ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
+    assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
+  }
+
+  @Test
+  void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() {
+    Delsvar delsvar = new Delsvar();
+    delsvar.getContent().add(null);
+    Exception exception =
+        assertThrows(
+            ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
+    assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
+  }
+
+  @Test
+  void testSpecialistkompetensUsesDisplayName() {
+    final String specialistkompetensKlartext = "klartext";
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    Specialistkompetens specialistkompetens = new Specialistkompetens();
+    specialistkompetens.setCode("kod");
+    specialistkompetens.setDisplayName(specialistkompetensKlartext);
+    source.getSpecialistkompetens().add(specialistkompetens);
+    Specialistkompetens specialistkompetensWithNullKlartext = new Specialistkompetens();
+    specialistkompetensWithNullKlartext.setCode("kod2");
+    specialistkompetensWithNullKlartext.setDisplayName(null); // will not be used
+    source.getSpecialistkompetens().add(specialistkompetensWithNullKlartext);
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertEquals(1, skapadAv.getSpecialiteter().size());
+    assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().getFirst());
+  }
+
+  @Test
+  void testBefattningUsesCode() {
+    final String befattningKod = "kod";
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    Befattning befattning = new Befattning();
+    befattning.setCode(befattningKod);
+    befattning.setDisplayName("klartext");
+    source.getBefattning().add(befattning);
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertEquals(1, skapadAv.getBefattningar().size());
+    assertEquals(befattningKod, skapadAv.getBefattningar().getFirst());
+  }
+
+  @Test
+  void testBefattningsKoderContainsKod() {
+    final String befattningKod = "kod";
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    Befattning befattning = new Befattning();
+    befattning.setCode(befattningKod);
+    befattning.setDisplayName("klartext");
+    source.getBefattning().add(befattning);
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertEquals(befattningKod, skapadAv.getBefattningsKoder().getFirst().getKod());
+  }
+
+  @Test
+  void testBefattningsKoderContainsKlartext() {
+    final String befattningKlartext = "klartext";
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    Befattning befattning = new Befattning();
+    befattning.setCode("kod");
+    befattning.setDisplayName(befattningKlartext);
+    source.getBefattning().add(befattning);
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertEquals(befattningKlartext, skapadAv.getBefattningsKoder().getFirst().getKlartext());
+  }
+
+  @Test
+  void testBefattningsKoderNoDuplicates() {
+    final String befattningKlartext = "klartext";
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    Befattning befattning = new Befattning();
+    befattning.setCode("kod");
+    befattning.setDisplayName(befattningKlartext);
+    source.getBefattning().addAll(List.of(befattning, befattning));
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertEquals(1, skapadAv.getBefattningsKoder().size());
+  }
+
+  @Test
+  void testBefattningsKoderEmptyWhenNoBefattning() {
+    HosPersonal source = new HosPersonal();
+    source.setPersonalId(new HsaId());
+    source.setEnhet(new Enhet());
+    source.getEnhet().setEnhetsId(new HsaId());
+    source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
+    source.getEnhet().setVardgivare(new Vardgivare());
+    source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
+    final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
+    HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
+    assertTrue(
+        skapadAv.getBefattningsKoder().isEmpty(), "Should be empty when no Befattning in source");
+  }
+
+  // returns data node
+  Node toNode(Object bean) throws JAXBException {
+    DOMResult res = new DOMResult();
+    jaxbContext.createMarshaller().marshal(XmlRoot.of(bean), res);
+    return res.getNode().getFirstChild().getFirstChild();
+  }
+
+  private Delsvar buildDelsvar(List<Object> content) {
+    Delsvar delsvar = new Delsvar();
+    delsvar.getContent().addAll(content);
+    return delsvar;
+  }
+
+  private Delsvar buildDelsvar(Object content) {
+    return buildDelsvar(List.of(content));
+  }
+
+  private CVType buildCVType(
+      String code,
+      String codeSystem,
+      String codeSystemName,
+      String codeSystemVersion,
+      String displayName,
+      String originalText) {
+    CVType cvType = new CVType();
+    cvType.setCode(code);
+    cvType.setCodeSystem(codeSystem);
+    if (codeSystemName != null) {
+      cvType.setCodeSystemName(codeSystemName);
     }
-
-    private IntygsStatus buildStatus(LocalDateTime statustidpunkt, String partCode, StatusKod statusKod) {
-        final IntygsStatus s = new IntygsStatus();
-        s.setPart(new Part());
-        s.getPart().setCode(partCode);
-        s.setStatus(new Statuskod());
-        s.getStatus().setCode(statusKod.name());
-        s.setTidpunkt(statustidpunkt);
-        return s;
+    if (codeSystemVersion != null) {
+      cvType.setCodeSystemVersion(codeSystemVersion);
     }
-
-
-    private Intyg buildIntyg(List<IntygsStatus> statuses) {
-        return buildIntyg("1", "fk7263", "Doctor No", "enhet1", LocalDateTime.now(), statuses);
+    if (displayName != null) {
+      cvType.setDisplayName(displayName);
     }
-
-    private Intyg buildIntyg(String intygId, String intygstyp, String skapadAvFullstandigtNamn, String enhetsnamn,
-        LocalDateTime signeringstidpunkt, List<IntygsStatus> statuses) {
-        Intyg intyg = new Intyg();
-        intyg.setIntygsId(new IntygId());
-        intyg.getIntygsId().setExtension(intygId);
-        intyg.setTyp(new TypAvIntyg());
-        intyg.getTyp().setCode(intygstyp);
-        intyg.setSkapadAv(new HosPersonal());
-        intyg.getSkapadAv().setFullstandigtNamn(skapadAvFullstandigtNamn);
-        intyg.getSkapadAv().setEnhet(new Enhet());
-        intyg.getSkapadAv().getEnhet().setEnhetsnamn(enhetsnamn);
-        intyg.setSigneringstidpunkt(signeringstidpunkt);
-        intyg.getStatus().addAll(statuses);
-        return intyg;
+    if (originalText != null) {
+      cvType.setOriginalText(originalText);
     }
+    return cvType;
+  }
 
-    @Test
-    void testGetCVTypeContentSuccess() throws Exception {
-        String code = "1";
-        String codeSystem = "TEST";
-        Delsvar delsvar = buildCVTypeDelsvar(code, codeSystem, null, null, null, null);
-        CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
-        CVType expected = buildCVType(code, codeSystem, null, null, null, null);
-        assertEquals(expected.getCode(), actual.getCode());
-        assertEquals(expected.getCodeSystem(), actual.getCodeSystem());
-    }
-
-    @Test
-    void testCVTypeContentSuccess() throws Exception {
-        CVType expected = new CVType();
-        expected.setCode("code");
-        expected.setCodeSystem("codeSystem");
-        expected.setCodeSystemName("codeSystemName");
-        expected.setDisplayName("displayName");
-        expected.setOriginalText("originalText");
-        CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testCVTypeContentMissingCodeSystem() {
-        CVType cvType = new CVType();
-        cvType.setCode("code");
-        assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType))));
-    }
-
-    @Test
-    void testPQTypeContentSuccess() throws Exception {
-        PQType expected = new PQType();
-        expected.setUnit("cm");
-        expected.setValue(100);
-        PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testDatePeriodSuccess() throws Exception {
-        DatePeriodType expected = new DatePeriodType();
-        expected.setStart(LocalDate.now());
-        expected.setEnd(LocalDate.now().plusDays(2));
-        DatePeriodType actual = TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testPartialDateYearSuccess() throws Exception {
-        PartialDateType expected = new PartialDateType();
-        expected.setValue(Year.parse("2019"));
-        expected.setFormat(PartialDateTypeFormatEnum.YYYY);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testPartialDateYearMonthSuccess() throws Exception {
-        PartialDateType expected = new PartialDateType();
-        expected.setValue(YearMonth.parse("2019-01"));
-        expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testPartialDateFullSuccess() throws Exception {
-        PartialDateType expected = new PartialDateType();
-        expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
-        expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
-        assertThat(actual)
-            .usingRecursiveComparison()
-            .withStrictTypeChecking()
-            .isEqualTo(expected);
-    }
-
-    @Test
-    void testPartialDateMissingFormat() {
-        PartialDateType type = new PartialDateType();
-        type.setValue(YearMonth.parse("2019-01"));
-        assertThrows(ConverterException.class, () -> TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type))));
-    }
-
-    @Test
-    void testPartialDateInvalidData() throws Exception {
-        PartialDateType type = new PartialDateType();
-        type.setValue(Year.parse("2019"));
-        type.setFormat(PartialDateTypeFormatEnum.YYYY);
-        Node pd = toNode(type);
-        for (Node n = pd.getFirstChild(); n != null; n = n.getNextSibling()) {
-            n.setTextContent("XXX");
-        }
-        final var delsvar = buildDelsvar(pd);
-        assertThrows(IllegalArgumentException.class, () -> TransportConverterUtil.getPartialDateContent(delsvar));
-    }
-
-
-    @Test
-    void testGetStringContentWithWhitespaceSuccess() {
-        String expected = "String with freetext";
-        Delsvar delsvar = buildDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
-        String actual = TransportConverterUtil.getStringContent(delsvar);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testGetCVTypeContentWithOptionalSuccess() throws Exception {
-        String code = "1";
-        String codeSystem = "TEST";
-        String codeSystemName = "NAME";
-        String codeSystemVersion = "VERSION";
-        String displayName = "DISPLAYNAME";
-        String originalText = "ORIGINAL TEXT";
-        Delsvar delsvar = buildCVTypeDelsvar(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
-        CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
-        CVType expected = buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
-        assertEquals(expected.getCode(), actual.getCode());
-        assertEquals(expected.getCodeSystem(), actual.getCodeSystem());
-        assertEquals(expected.getCodeSystemName(), actual.getCodeSystemName());
-        assertEquals(expected.getCodeSystemVersion(), actual.getCodeSystemVersion());
-        assertEquals(expected.getDisplayName(), actual.getDisplayName());
-        assertEquals(expected.getOriginalText(), actual.getOriginalText());
-    }
-
-    @Test
-    void testGetCVTypeDifferentContentFails() throws Exception {
-        String code = "1";
-
-        Delsvar delsvar = buildCVTypeDelsvar(code, "ANOTHER", null, null, null, null);
-        CVType actual = TransportConverterUtil.getCVSvarContent(delsvar);
-
-        CVType expected = buildCVType(code, "TEST", null, null, null, null);
-        assertEquals(expected.getCode(), actual.getCode());
-        assertNotEquals(expected.getCodeSystem(), actual.getCodeSystem());
-    }
-
-    /* Breaking tests */
-    @Test
-    void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
-        Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
-        Exception exception =
-            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
-        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() {
-        Delsvar delsvar = new Delsvar();
-        delsvar.getContent().add(1);
-        Exception exception =
-            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
-        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
-    }
-
-    @Test
-    void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() {
-        Delsvar delsvar = new Delsvar();
-        delsvar.getContent().add(null);
-        Exception exception =
-            assertThrows(ConverterException.class, () -> TransportConverterUtil.getCVSvarContent(delsvar));
-        assertEquals(UNEXPECTED_CONVERSION_ERROR, exception.getMessage());
-    }
-
-    @Test
-    void testSpecialistkompetensUsesDisplayName() {
-        final String specialistkompetensKlartext = "klartext";
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        Specialistkompetens specialistkompetens = new Specialistkompetens();
-        specialistkompetens.setCode("kod");
-        specialistkompetens.setDisplayName(specialistkompetensKlartext);
-        source.getSpecialistkompetens().add(specialistkompetens);
-        Specialistkompetens specialistkompetensWithNullKlartext = new Specialistkompetens();
-        specialistkompetensWithNullKlartext.setCode("kod2");
-        specialistkompetensWithNullKlartext.setDisplayName(null); // will not be used
-        source.getSpecialistkompetens().add(specialistkompetensWithNullKlartext);
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertEquals(1, skapadAv.getSpecialiteter().size());
-        assertEquals(specialistkompetensKlartext, skapadAv.getSpecialiteter().getFirst());
-    }
-
-    @Test
-    void testBefattningUsesCode() {
-        final String befattningKod = "kod";
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        Befattning befattning = new Befattning();
-        befattning.setCode(befattningKod);
-        befattning.setDisplayName("klartext");
-        source.getBefattning().add(befattning);
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(befattningKod, skapadAv.getBefattningar().getFirst());
-    }
-
-    @Test
-    void testBefattningsKoderContainsKod() {
-        final String befattningKod = "kod";
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        Befattning befattning = new Befattning();
-        befattning.setCode(befattningKod);
-        befattning.setDisplayName("klartext");
-        source.getBefattning().add(befattning);
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertEquals(befattningKod, skapadAv.getBefattningsKoder().getFirst().getKod());
-    }
-
-    @Test
-    void testBefattningsKoderContainsKlartext() {
-        final String befattningKlartext = "klartext";
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        Befattning befattning = new Befattning();
-        befattning.setCode("kod");
-        befattning.setDisplayName(befattningKlartext);
-        source.getBefattning().add(befattning);
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertEquals(befattningKlartext, skapadAv.getBefattningsKoder().getFirst().getKlartext());
-    }
-
-    @Test
-    void testBefattningsKoderNoDuplicates() {
-        final String befattningKlartext = "klartext";
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        Befattning befattning = new Befattning();
-        befattning.setCode("kod");
-        befattning.setDisplayName(befattningKlartext);
-        source.getBefattning().addAll(List.of(befattning, befattning));
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertEquals(1, skapadAv.getBefattningsKoder().size());
-    }
-
-    @Test
-    void testBefattningsKoderEmptyWhenNoBefattning() {
-        HosPersonal source = new HosPersonal();
-        source.setPersonalId(new HsaId());
-        source.setEnhet(new Enhet());
-        source.getEnhet().setEnhetsId(new HsaId());
-        source.getEnhet().setArbetsplatskod(new ArbetsplatsKod());
-        source.getEnhet().setVardgivare(new Vardgivare());
-        source.getEnhet().getVardgivare().setVardgivareId(new HsaId());
-        final var signeringsTidpunkt = LocalDateTime.now().minusDays(1);
-        HoSPersonal skapadAv = TransportConverterUtil.getSkapadAv(source, signeringsTidpunkt);
-        assertTrue(skapadAv.getBefattningsKoder().isEmpty(), "Should be empty when no Befattning in source");
-    }
-
-    // returns data node
-    Node toNode(Object bean) throws JAXBException {
-        DOMResult res = new DOMResult();
-        jaxbContext.createMarshaller().marshal(XmlRoot.of(bean), res);
-        return res.getNode().getFirstChild().getFirstChild();
-    }
-
-    private Delsvar buildDelsvar(List<Object> content) {
-        Delsvar delsvar = new Delsvar();
-        delsvar.getContent().addAll(content);
-        return delsvar;
-    }
-
-    private Delsvar buildDelsvar(Object content) {
-        return buildDelsvar(List.of(content));
-    }
-
-    private CVType buildCVType(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
-        String originalText) {
-        CVType cvType = new CVType();
-        cvType.setCode(code);
-        cvType.setCodeSystem(codeSystem);
-        if (codeSystemName != null) {
-            cvType.setCodeSystemName(codeSystemName);
-        }
-        if (codeSystemVersion != null) {
-            cvType.setCodeSystemVersion(codeSystemVersion);
-        }
-        if (displayName != null) {
-            cvType.setDisplayName(displayName);
-        }
-        if (originalText != null) {
-            cvType.setOriginalText(originalText);
-        }
-        return cvType;
-    }
-
-    private Delsvar buildCVTypeDelsvar(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
-        String originalText) throws Exception {
-        CVType cvType = buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
-        return buildDelsvar(toNode((cvType)));
-    }
-
+  private Delsvar buildCVTypeDelsvar(
+      String code,
+      String codeSystem,
+      String codeSystemName,
+      String codeSystemVersion,
+      String displayName,
+      String originalText)
+      throws Exception {
+    CVType cvType =
+        buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
+    return buildDelsvar(toNode((cvType)));
+  }
 }

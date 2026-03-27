@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,40 +36,43 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionFunktionsnedsattningPaverkan {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String debut, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      String debut, int index, CertificateTextProvider textProvider) {
 
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(CertificateDataConfigTextArea.builder()
+    return CertificateDataElement.builder()
+        .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16)
+        .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
                 .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
                 .text(textProvider.get(FUNKTIONSNEDSATTNING_PAVERKAN_TEXT_ID))
-                .build()
-            )
-            .value(CertificateDataValueText.builder()
+                .build())
+        .value(
+            CertificateDataValueText.builder()
                 .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
                 .text(debut)
-                .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16,
+        FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16);
+  }
 }

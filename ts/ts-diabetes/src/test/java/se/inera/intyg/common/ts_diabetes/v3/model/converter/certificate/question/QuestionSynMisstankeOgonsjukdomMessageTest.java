@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -39,69 +38,68 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMessage
 @ExtendWith(MockitoExtension.class)
 class QuestionSynMisstankeOgonsjukdomMessageTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSynMisstankeOgonsjukdomMessage.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSynMisstankeOgonsjukdomMessage.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SYN_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_ID;
     }
 
-    @Nested
-    class IncludeConfigMessageTests extends ConfigMessageTest {
-
-        @Override
-        protected String getMessageId() {
-            return SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSynMisstankeOgonsjukdomMessage.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SYN_CATEGORY_ID;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigMessageTests extends ConfigMessageTest {
+
+    @Override
+    protected String getMessageId() {
+      return SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID;
+    }
+
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
+    }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSynMisstankeOgonsjukdomMessage.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
 }

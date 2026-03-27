@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,150 +64,156 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ContextConfiguration(classes = {BefattningService.class})
 public class WebcertModelFactoryTest {
 
-    private static final String INTYG_TYPE_VERSION_1 = "1.0";
-    private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
+  private static final String INTYG_TYPE_VERSION_1 = "1.0";
+  private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
 
-    @Mock
-    private IntygTextsService intygTexts;
+  @Mock private IntygTextsService intygTexts;
 
-    @InjectMocks
-    private WebcertModelFactoryImpl factory;
+  @InjectMocks private WebcertModelFactoryImpl factory;
 
-    @Before
-    public void setUpMocks() {
-        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-            .thenReturn(INTYG_TYPE_VERSION_1_1);
-    }
+  @Before
+  public void setUpMocks() {
+    when(intygTexts.getLatestVersionForSameMajorVersion(
+            eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+        .thenReturn(INTYG_TYPE_VERSION_1_1);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    public WebcertModelFactoryTest() {
-        MockitoAnnotations.initMocks(this);
-    }
+  public WebcertModelFactoryTest() {
+    MockitoAnnotations.initMocks(this);
+  }
 
+  @Test
+  public void testCreateEditableModel()
+      throws JsonParseException, JsonMappingException, IOException, ConverterException {
+    TsDiabetesUtlatandeV2 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
-    @Test
-    public void testCreateEditableModel() throws JsonParseException, JsonMappingException, IOException, ConverterException {
-        TsDiabetesUtlatandeV2 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
+    assertNotNull(utlatande);
+    assertEquals(TsDiabetesEntryPoint.MODULE_ID, utlatande.getTyp());
+    assertNotNull(utlatande.getGrundData().getSkapadAv());
+    assertNotNull(utlatande.getGrundData().getPatient());
 
-        assertNotNull(utlatande);
-        assertEquals(TsDiabetesEntryPoint.MODULE_ID, utlatande.getTyp());
-        assertNotNull(utlatande.getGrundData().getSkapadAv());
-        assertNotNull(utlatande.getGrundData().getPatient());
+    /** Just verify some stuff from the json to make sure all is well.. */
+    assertEquals("testID", utlatande.getId());
+    assertEquals(
+        "Johnny Jobs Appleseed", utlatande.getGrundData().getPatient().getFullstandigtNamn());
+    assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
+    assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
+    assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
+    assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
+  }
 
-        /** Just verify some stuff from the json to make sure all is well.. */
-        assertEquals("testID", utlatande.getId());
-        assertEquals("Johnny Jobs Appleseed", utlatande.getGrundData().getPatient().getFullstandigtNamn());
-        assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
-        assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
-        assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
-        assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
-    }
+  @Test
+  public void testUpdateSkapadAv() {
+    final String personId = "personid";
+    final String fullstandigtName = "fullständigt namn";
+    final String forskrivarKod = "förskrivarkod";
+    final String befattning = "befattning";
+    final List<String> specialiseringar = Arrays.asList("specialitet1", "specialitet2");
+    final LocalDateTime signingDate = LocalDateTime.now();
 
-    @Test
-    public void testUpdateSkapadAv() {
-        final String personId = "personid";
-        final String fullstandigtName = "fullständigt namn";
-        final String forskrivarKod = "förskrivarkod";
-        final String befattning = "befattning";
-        final List<String> specialiseringar = Arrays.asList("specialitet1", "specialitet2");
-        final LocalDateTime signingDate = LocalDateTime.now();
+    TsDiabetesUtlatandeV2 utlatande = new TsDiabetesUtlatandeV2();
+    utlatande.getGrundData().setSkapadAv(new HoSPersonal());
+    HoSPersonal hosPerson = createHosPersonal();
+    WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
 
-        TsDiabetesUtlatandeV2 utlatande = new TsDiabetesUtlatandeV2();
-        utlatande.getGrundData().setSkapadAv(new HoSPersonal());
-        HoSPersonal hosPerson = createHosPersonal();
-        WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
+    assertEquals(personId, utlatande.getGrundData().getSkapadAv().getPersonId());
+    assertEquals(fullstandigtName, utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
+    assertEquals(forskrivarKod, utlatande.getGrundData().getSkapadAv().getForskrivarKod());
+    assertEquals(signingDate, utlatande.getGrundData().getSigneringsdatum());
+    assertEquals(
+        Arrays.asList(befattning), utlatande.getGrundData().getSkapadAv().getBefattningar());
+    assertEquals(specialiseringar, utlatande.getGrundData().getSkapadAv().getSpecialiteter());
 
-        assertEquals(personId, utlatande.getGrundData().getSkapadAv().getPersonId());
-        assertEquals(fullstandigtName, utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
-        assertEquals(forskrivarKod, utlatande.getGrundData().getSkapadAv().getForskrivarKod());
-        assertEquals(signingDate, utlatande.getGrundData().getSigneringsdatum());
-        assertEquals(Arrays.asList(befattning), utlatande.getGrundData().getSkapadAv().getBefattningar());
-        assertEquals(specialiseringar, utlatande.getGrundData().getSkapadAv().getSpecialiteter());
+    // assert befattningar and specialiteter are cleared before they are updated
+    WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
+    assertEquals(
+        Arrays.asList(befattning), utlatande.getGrundData().getSkapadAv().getBefattningar());
+    assertEquals(specialiseringar, utlatande.getGrundData().getSkapadAv().getSpecialiteter());
+  }
 
-        // assert befattningar and specialiteter are cleared before they are updated
-        WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
-        assertEquals(Arrays.asList(befattning), utlatande.getGrundData().getSkapadAv().getBefattningar());
-        assertEquals(specialiseringar, utlatande.getGrundData().getSkapadAv().getSpecialiteter());
-    }
+  @Test
+  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+      throws ConverterException {
+    // this to follow schema during CertificateStatusUpdateForCareV2
+    TsDiabetesUtlatandeV2 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+    assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
+  }
 
-    @Test
-    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV2
-        TsDiabetesUtlatandeV2 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
-    }
+  @Test(expected = ConverterException.class)
+  public void testCreateCopyCertificateIdMissing() throws Exception {
+    factory.createCopy(
+        new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatandeV2());
+  }
 
-    @Test(expected = ConverterException.class)
-    public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatandeV2());
-    }
+  @Test
+  public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+    // Given
+    final TsDiabetesUtlatandeV2 tsDiabetesUtlatandeV2 = new TsDiabetesUtlatandeV2();
+    tsDiabetesUtlatandeV2.getGrundData().setSigneringsdatum(LocalDateTime.now());
+    final HoSPersonal hoSPersonal = new HoSPersonal();
+    final Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("1234");
+    hoSPersonal.setVardenhet(vardenhet);
+    tsDiabetesUtlatandeV2.getGrundData().setSkapadAv(hoSPersonal);
+    tsDiabetesUtlatandeV2.getGrundData().setPatient(new Patient());
 
-    @Test
-    public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
-        //Given
-        final TsDiabetesUtlatandeV2 tsDiabetesUtlatandeV2 = new TsDiabetesUtlatandeV2();
-        tsDiabetesUtlatandeV2.getGrundData().setSigneringsdatum(LocalDateTime.now());
-        final HoSPersonal hoSPersonal = new HoSPersonal();
-        final Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("1234");
-        hoSPersonal.setVardenhet(vardenhet);
-        tsDiabetesUtlatandeV2.getGrundData().setSkapadAv(hoSPersonal);
-        tsDiabetesUtlatandeV2.getGrundData().setPatient(new Patient());
+    // When
+    TsDiabetesUtlatandeV2 utlatande =
+        factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsDiabetesUtlatandeV2);
 
-        //When
-        TsDiabetesUtlatandeV2 utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsDiabetesUtlatandeV2);
+    // Then
+    assertNull(utlatande.getGrundData().getSigneringsdatum());
+  }
 
-        //Then
-        assertNull(utlatande.getGrundData().getSigneringsdatum());
-    }
+  private CreateNewDraftHolder buildNewDraftData(String intygId) {
+    Patient patient = new Patient();
+    patient.setFornamn("Johnny");
+    patient.setMellannamn("Jobs");
+    patient.setEfternamn("Appleseed");
+    patient.setFullstandigtNamn("Johnny Jobs Appleseed");
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPostadress("Testvägen 12");
+    patient.setPostnummer("13337");
+    patient.setPostort("Huddinge");
+    return new CreateNewDraftHolder(intygId, "1.0", createHosPersonal(), patient);
+  }
 
-    private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        Patient patient = new Patient();
-        patient.setFornamn("Johnny");
-        patient.setMellannamn("Jobs");
-        patient.setEfternamn("Appleseed");
-        patient.setFullstandigtNamn("Johnny Jobs Appleseed");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("Testvägen 12");
-        patient.setPostnummer("13337");
-        patient.setPostort("Huddinge");
-        return new CreateNewDraftHolder(intygId, "1.0", createHosPersonal(), patient);
-    }
+  private HoSPersonal createHosPersonal() {
+    HoSPersonal hosPerson = new HoSPersonal();
+    hosPerson.setPersonId("personid");
+    hosPerson.setFullstandigtNamn("fullständigt namn");
+    hosPerson.setVardenhet(createVardenhet());
+    hosPerson.setForskrivarKod("förskrivarkod");
+    hosPerson.getBefattningar().add("befattning");
+    hosPerson.getSpecialiteter().add("specialitet1");
+    hosPerson.getSpecialiteter().add("specialitet2");
+    return hosPerson;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
-        hosPerson.setPersonId("personid");
-        hosPerson.setFullstandigtNamn("fullständigt namn");
-        hosPerson.setVardenhet(createVardenhet());
-        hosPerson.setForskrivarKod("förskrivarkod");
-        hosPerson.getBefattningar().add("befattning");
-        hosPerson.getSpecialiteter().add("specialitet1");
-        hosPerson.getSpecialiteter().add("specialitet2");
-        return hosPerson;
-    }
-
-    private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("hsaId");
-        vardenhet.setEnhetsnamn("ve1");
-        vardenhet.setVardgivare(new Vardgivare());
-        vardenhet.getVardgivare().setVardgivarid("vg1");
-        vardenhet.getVardgivare().setVardgivarnamn("vg1");
-        return vardenhet;
-    }
+  private Vardenhet createVardenhet() {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("hsaId");
+    vardenhet.setEnhetsnamn("ve1");
+    vardenhet.setVardgivare(new Vardgivare());
+    vardenhet.getVardgivare().setVardgivarid("vg1");
+    vardenhet.getVardgivare().setVardgivarnamn("vg1");
+    return vardenhet;
+  }
 }

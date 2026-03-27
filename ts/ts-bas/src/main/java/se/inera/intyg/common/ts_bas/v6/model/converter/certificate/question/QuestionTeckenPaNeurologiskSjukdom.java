@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,23 +31,22 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Neurologi;
 
 public class QuestionTeckenPaNeurologiskSjukdom {
 
-    public static CertificateDataElement toCertificate(Neurologi neurologi, int index, CertificateTextProvider textProvider) {
-        final var neurologiskSjukdom =
-            neurologi != null && neurologi.getNeurologiskSjukdom() != null ? neurologi.getNeurologiskSjukdom() : null;
-        return CertificateDataElement.builder()
-            .id(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
-            .parent(NEUROLOGISK_SJUKDOM_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(neurologiskSjukdom))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Neurologi neurologi, int index, CertificateTextProvider textProvider) {
+    final var neurologiskSjukdom =
+        neurologi != null && neurologi.getNeurologiskSjukdom() != null
+            ? neurologi.getNeurologiskSjukdom()
+            : null;
+    return CertificateDataElement.builder()
+        .id(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
+        .parent(NEUROLOGISK_SJUKDOM_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder().text(booleanValue(neurologiskSjukdom)).build())
+        .build();
+  }
 }

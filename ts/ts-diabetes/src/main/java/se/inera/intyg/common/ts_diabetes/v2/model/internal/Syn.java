@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,108 +20,107 @@ package se.inera.intyg.common.ts_diabetes.v2.model.internal;
 
 public class Syn {
 
-    private Boolean separatOgonlakarintyg;
+  private Boolean separatOgonlakarintyg;
 
-    private Boolean synfaltsprovningUtanAnmarkning;
+  private Boolean synfaltsprovningUtanAnmarkning;
 
-    private Synskarpevarden hoger;
+  private Synskarpevarden hoger;
 
-    private Synskarpevarden vanster;
+  private Synskarpevarden vanster;
 
-    private Synskarpevarden binokulart;
+  private Synskarpevarden binokulart;
 
-    private Boolean diplopi;
+  private Boolean diplopi;
 
-    private Boolean synfaltsprovning;
+  private Boolean synfaltsprovning;
 
-    private Boolean provningOgatsRorlighet;
+  private Boolean provningOgatsRorlighet;
 
-    public Boolean getSeparatOgonlakarintyg() {
-        return separatOgonlakarintyg;
+  public Boolean getSeparatOgonlakarintyg() {
+    return separatOgonlakarintyg;
+  }
+
+  public void setSeparatOgonlakarintyg(Boolean separatOgonlakarintyg) {
+    this.separatOgonlakarintyg = separatOgonlakarintyg;
+  }
+
+  public Boolean getSynfaltsprovningUtanAnmarkning() {
+    return synfaltsprovningUtanAnmarkning;
+  }
+
+  public void setSynfaltsprovningUtanAnmarkning(Boolean synfaltsprovningUtanAnmarkning) {
+    this.synfaltsprovningUtanAnmarkning = synfaltsprovningUtanAnmarkning;
+  }
+
+  public void setHoger(Double utanKorr, Double medKorr) {
+    if (hoger == null) {
+      hoger = new Synskarpevarden();
     }
+    hoger.setUtanKorrektion(utanKorr);
+    hoger.setMedKorrektion(medKorr != null ? medKorr : null);
+  }
 
-    public void setSeparatOgonlakarintyg(Boolean separatOgonlakarintyg) {
-        this.separatOgonlakarintyg = separatOgonlakarintyg;
+  public void setVanster(Double utanKorr, Double medKorr) {
+    if (vanster == null) {
+      vanster = new Synskarpevarden();
     }
+    vanster.setUtanKorrektion(utanKorr);
+    vanster.setMedKorrektion(medKorr != null ? medKorr : null);
+  }
 
-    public Boolean getSynfaltsprovningUtanAnmarkning() {
-        return synfaltsprovningUtanAnmarkning;
+  public void setBinokulart(Double utanKorr, Double medKorr) {
+    if (binokulart == null) {
+      binokulart = new Synskarpevarden();
     }
+    binokulart.setUtanKorrektion(utanKorr);
+    binokulart.setMedKorrektion(medKorr != null ? medKorr : null);
+  }
 
-    public void setSynfaltsprovningUtanAnmarkning(Boolean synfaltsprovningUtanAnmarkning) {
-        this.synfaltsprovningUtanAnmarkning = synfaltsprovningUtanAnmarkning;
-    }
+  public Synskarpevarden getHoger() {
+    return hoger;
+  }
 
-    public void setHoger(Double utanKorr, Double medKorr) {
-        if (hoger == null) {
-            hoger = new Synskarpevarden();
-        }
-        hoger.setUtanKorrektion(utanKorr);
-        hoger.setMedKorrektion(medKorr != null ? medKorr : null);
-    }
+  public void setHoger(Synskarpevarden hoger) {
+    this.hoger = hoger;
+  }
 
-    public void setVanster(Double utanKorr, Double medKorr) {
-        if (vanster == null) {
-            vanster = new Synskarpevarden();
-        }
-        vanster.setUtanKorrektion(utanKorr);
-        vanster.setMedKorrektion(medKorr != null ? medKorr : null);
-    }
+  public Synskarpevarden getVanster() {
+    return vanster;
+  }
 
-    public void setBinokulart(Double utanKorr, Double medKorr) {
-        if (binokulart == null) {
-            binokulart = new Synskarpevarden();
-        }
-        binokulart.setUtanKorrektion(utanKorr);
-        binokulart.setMedKorrektion(medKorr != null ? medKorr : null);
-    }
+  public void setVanster(Synskarpevarden vanster) {
+    this.vanster = vanster;
+  }
 
-    public Synskarpevarden getHoger() {
-        return hoger;
-    }
+  public Synskarpevarden getBinokulart() {
+    return binokulart;
+  }
 
-    public void setHoger(Synskarpevarden hoger) {
-        this.hoger = hoger;
-    }
+  public void setBinokulart(Synskarpevarden binokulart) {
+    this.binokulart = binokulart;
+  }
 
-    public Synskarpevarden getVanster() {
-        return vanster;
-    }
+  public Boolean getDiplopi() {
+    return diplopi;
+  }
 
-    public void setVanster(Synskarpevarden vanster) {
-        this.vanster = vanster;
-    }
+  public void setDiplopi(Boolean diplopi) {
+    this.diplopi = diplopi;
+  }
 
-    public Synskarpevarden getBinokulart() {
-        return binokulart;
-    }
+  public Boolean getSynfaltsprovning() {
+    return synfaltsprovning;
+  }
 
-    public void setBinokulart(Synskarpevarden binokulart) {
-        this.binokulart = binokulart;
-    }
+  public void setSynfaltsprovning(Boolean synfaltsprovning) {
+    this.synfaltsprovning = synfaltsprovning;
+  }
 
-    public Boolean getDiplopi() {
-        return diplopi;
-    }
+  public Boolean getProvningOgatsRorlighet() {
+    return provningOgatsRorlighet;
+  }
 
-    public void setDiplopi(Boolean diplopi) {
-        this.diplopi = diplopi;
-    }
-
-    public Boolean getSynfaltsprovning() {
-        return synfaltsprovning;
-    }
-
-    public void setSynfaltsprovning(Boolean synfaltsprovning) {
-        this.synfaltsprovning = synfaltsprovning;
-    }
-
-    public Boolean getProvningOgatsRorlighet() {
-        return provningOgatsRorlighet;
-    }
-
-    public void setProvningOgatsRorlighet(Boolean provningOgatsRorlighet) {
-        this.provningOgatsRorlighet = provningOgatsRorlighet;
-    }
-
+  public void setProvningOgatsRorlighet(Boolean provningOgatsRorlighet) {
+    this.provningOgatsRorlighet = provningOgatsRorlighet;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,7 +28,4 @@ public record UnitMapping(
     LocalDateTime issuedDateTimeFrom,
     LocalDateTime issuedDateTimeTo,
     Map<UnitMappingKey, CareProviderInfo> careProviderMapping,
-    Map<UnitMappingKey, IssuedUnitInfo> issuedUnitMapping
-) {
-
-}
+    Map<UnitMappingKey, IssuedUnitInfo> issuedUnitMapping) {}

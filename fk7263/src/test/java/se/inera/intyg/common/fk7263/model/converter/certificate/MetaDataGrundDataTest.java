@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate;
 
 import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.MODULE_DETAILED_DESCRIPTION;
@@ -39,64 +38,65 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class MetaDataGrundDataTest {
 
-    private GrundData grundData;
-    private CertificateMetadata metadata;
+  private GrundData grundData;
+  private CertificateMetadata metadata;
 
-    @BeforeEach
-    void setup() {
-        final var unit = new Vardenhet();
-        final var skapadAv = new HoSPersonal();
-        final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
-        metadata = CertificateMetadata.builder()
+  @BeforeEach
+  void setup() {
+    final var unit = new Vardenhet();
+    final var skapadAv = new HoSPersonal();
+    final var patient = new se.inera.intyg.common.support.model.common.internal.Patient();
+    metadata =
+        CertificateMetadata.builder()
             .unit(Unit.builder().build())
             .patient(Patient.builder().build())
             .build();
 
-        grundData = new GrundData();
-        skapadAv.setVardenhet(unit);
-        grundData.setSkapadAv(skapadAv);
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        grundData.setPatient(patient);
-    }
+    grundData = new GrundData();
+    skapadAv.setVardenhet(unit);
+    grundData.setSkapadAv(skapadAv);
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    grundData.setPatient(patient);
+  }
+
+  @Nested
+  class ToCertificate {
 
     @Nested
-    class ToCertificate {
+    class IncludeTestCommonMetadata extends CommonMetaDataTest {
 
-        @Nested
-        class IncludeTestCommonMetadata extends CommonMetaDataTest {
+      @Override
+      protected CertificateMetadata getMetaData() {
+        return MetaDataGrundData.toCertificate((Fk7263Utlatande) getInternalCertificate());
+      }
 
-            @Override
-            protected CertificateMetadata getMetaData() {
-                return MetaDataGrundData.toCertificate((Fk7263Utlatande) getInternalCertificate());
-            }
+      @Override
+      protected Utlatande getInternalCertificate() {
+        final var utlatande = new Fk7263Utlatande();
+        utlatande.setGrundData(grundData);
+        utlatande.setId("id");
+        return utlatande;
+      }
 
-            @Override
-            protected Utlatande getInternalCertificate() {
-                final var utlatande = new Fk7263Utlatande();
-                utlatande.setGrundData(grundData);
-                utlatande.setId("id");
-                return utlatande;
-            }
+      @Override
+      protected String getName() {
+        return MODULE_NAME;
+      }
 
-            @Override
-            protected String getName() {
-                return MODULE_NAME;
-            }
+      @Override
+      protected String getDescription() {
+        return MODULE_DETAILED_DESCRIPTION;
+      }
 
-            @Override
-            protected String getDescription() {
-                return MODULE_DETAILED_DESCRIPTION;
-            }
+      @Override
+      protected CertificateTextProvider getTextProvider() {
+        return null;
+      }
 
-            @Override
-            protected CertificateTextProvider getTextProvider() {
-                return null;
-            }
-
-            @Override
-            protected String getTypeName() {
-                return Fk7263EntryPoint.ISSUER_TYPE_ID;
-            }
-        }
+      @Override
+      protected String getTypeName() {
+        return Fk7263EntryPoint.ISSUER_TYPE_ID;
+      }
     }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,14 +22,12 @@ package se.inera.intyg.common.ts_parent.integration;
  * @author Magnus Ekstrand on 2018-09-27.
  */
 public enum RegisterCertificateVersionType {
+  VERSION_V1("v1"),
+  VERSION_V3("v3");
 
-    VERSION_V1("v1"),
-    VERSION_V3("v3");
+  private final String name;
 
-    private final String name;
-
-    RegisterCertificateVersionType(String name) {
-        this.name = name;
-    }
-
+  RegisterCertificateVersionType(String name) {
+    this.name = name;
+  }
 }

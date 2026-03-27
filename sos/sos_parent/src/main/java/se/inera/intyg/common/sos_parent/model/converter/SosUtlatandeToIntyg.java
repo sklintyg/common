@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,47 +43,59 @@ import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
-/**
- * Converters for shared svar between DB and DOI.
- */
+/** Converters for shared svar between DB and DOI. */
 public final class SosUtlatandeToIntyg {
 
-    private SosUtlatandeToIntyg() {
+  private SosUtlatandeToIntyg() {}
+
+  public static List<Svar> getSharedSvar(SosUtlatande utlatande) {
+    List<Svar> svar = new ArrayList<>();
+
+    // Svar 1
+    addIfNotBlank(
+        svar,
+        IDENTITET_STYRKT_SVAR_ID,
+        IDENTITET_STYRKT_DELSVAR_ID,
+        utlatande.getIdentitetStyrkt());
+
+    // Svar 2
+    if (utlatande.getDodsdatumSakert() != null
+        || utlatande.getDodsdatum() != null
+        || utlatande.getAntraffatDodDatum() != null) {
+      InternalConverterUtil.SvarBuilder dodsdatum = aSvar(DODSDATUM_SVAR_ID);
+      if (utlatande.getDodsdatumSakert() != null) {
+        dodsdatum.withDelsvar(
+            DODSDATUM_SAKERT_DELSVAR_ID, utlatande.getDodsdatumSakert().toString());
+      }
+      dodsdatum.withDelsvar(
+          DODSDATUM_DELSVAR_ID, getInternalDateContentFillWithZeros(utlatande.getDodsdatum()));
+      if (utlatande.getAntraffatDodDatum() != null
+          && utlatande.getAntraffatDodDatum().isValidDate()) {
+        dodsdatum.withDelsvar(
+            ANTRAFFAT_DOD_DATUM_DELSVAR_ID,
+            getInternalDateContent(utlatande.getAntraffatDodDatum()));
+      }
+      svar.add(dodsdatum.build());
+    }
+    // Svar 3
+    if (utlatande.getDodsplatsBoende() != null || utlatande.getDodsplatsKommun() != null) {
+      InternalConverterUtil.SvarBuilder dodsplats =
+          aSvar(DODSPLATS_SVAR_ID)
+              .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
+      if (utlatande.getDodsplatsBoende() != null) {
+        dodsplats.withDelsvar(
+            DODSPLATS_BOENDE_DELSVAR_ID,
+            aCV(
+                DODSPLATS_BOENDE_CODE_SYSTEM,
+                utlatande.getDodsplatsBoende().name(),
+                utlatande.getDodsplatsBoende().getBeskrivning()));
+      }
+      svar.add(dodsplats.build());
     }
 
-    public static List<Svar> getSharedSvar(SosUtlatande utlatande) {
-        List<Svar> svar = new ArrayList<>();
+    // Svar 4
+    addIfNotNull(svar, BARN_SVAR_ID, BARN_DELSVAR_ID, utlatande.getBarn());
 
-        // Svar 1
-        addIfNotBlank(svar, IDENTITET_STYRKT_SVAR_ID, IDENTITET_STYRKT_DELSVAR_ID, utlatande.getIdentitetStyrkt());
-
-        // Svar 2
-        if (utlatande.getDodsdatumSakert() != null || utlatande.getDodsdatum() != null || utlatande.getAntraffatDodDatum() != null) {
-            InternalConverterUtil.SvarBuilder dodsdatum = aSvar(DODSDATUM_SVAR_ID);
-            if (utlatande.getDodsdatumSakert() != null) {
-                dodsdatum.withDelsvar(DODSDATUM_SAKERT_DELSVAR_ID, utlatande.getDodsdatumSakert().toString());
-            }
-            dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, getInternalDateContentFillWithZeros(utlatande.getDodsdatum()));
-            if (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate()) {
-                dodsdatum.withDelsvar(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getAntraffatDodDatum()));
-            }
-            svar.add(dodsdatum.build());
-        }
-        // Svar 3
-        if (utlatande.getDodsplatsBoende() != null || utlatande.getDodsplatsKommun() != null) {
-            InternalConverterUtil.SvarBuilder dodsplats = aSvar(DODSPLATS_SVAR_ID)
-                .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
-            if (utlatande.getDodsplatsBoende() != null) {
-                dodsplats.withDelsvar(DODSPLATS_BOENDE_DELSVAR_ID,
-                    aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
-                        utlatande.getDodsplatsBoende().getBeskrivning()));
-            }
-            svar.add(dodsplats.build());
-        }
-
-        // Svar 4
-        addIfNotNull(svar, BARN_SVAR_ID, BARN_DELSVAR_ID, utlatande.getBarn());
-
-        return svar;
-    }
+    return svar;
+  }
 }

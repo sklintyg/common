@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,46 +33,45 @@ import se.inera.intyg.common.support.model.InternalDate;
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.
  *
- * -registers additional serializers and deserializers for date and time types
- * -registers a specialized serializer to represent certificate-specific data as JSON
+ * <p>-registers additional serializers and deserializers for date and time types -registers a
+ * specialized serializer to represent certificate-specific data as JSON
  *
  * @author andreaskaltenbach
  */
 @Component("objectMapper")
 public class CustomObjectMapper extends ObjectMapper {
 
+  private static final long serialVersionUID = 1L;
+
+  public CustomObjectMapper() {
+    // NON_NULL indicates that only properties with non-null values are to be included.
+    setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    registerModule(new CustomModule());
+  }
+
+  private static final class CustomModule extends SimpleModule {
+
     private static final long serialVersionUID = 1L;
 
-    public CustomObjectMapper() {
-        // NON_NULL indicates that only properties with non-null values are to be included.
-        setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        registerModule(new CustomModule());
+    private CustomModule() {
+      addSerializer(Temporal.class, new TemporalSerializer());
+      addDeserializer(Temporal.class, new TemporalDeserializer());
+
+      addSerializer(InternalDate.class, new InternalDateSerializer());
+      addDeserializer(InternalDate.class, new InternalDateDeserializer());
+
+      addSerializer(LocalDateTime.class, new CustomLocalDateTimeSerializer());
+      addDeserializer(LocalDateTime.class, new CustomLocalDateTimeDeserializer());
+
+      addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
+      /*
+       * Using a custom crafted deserializer that handles dates
+       * on the UTC format. The original LocalDateDeserializer class do not
+       * handle the UTC format.
+       */
+      addDeserializer(LocalDate.class, new CustomLocalDateDeserializer());
     }
-
-    private static final class CustomModule extends SimpleModule {
-
-        private static final long serialVersionUID = 1L;
-
-        private CustomModule() {
-            addSerializer(Temporal.class, new TemporalSerializer());
-            addDeserializer(Temporal.class, new TemporalDeserializer());
-
-            addSerializer(InternalDate.class, new InternalDateSerializer());
-            addDeserializer(InternalDate.class, new InternalDateDeserializer());
-
-            addSerializer(LocalDateTime.class, new CustomLocalDateTimeSerializer());
-            addDeserializer(LocalDateTime.class, new CustomLocalDateTimeDeserializer());
-
-            addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
-            /*
-             * Using a custom crafted deserializer that handles dates
-             * on the UTC format. The original LocalDateDeserializer class do not
-             * handle the UTC format.
-             */
-            addDeserializer(LocalDate.class, new CustomLocalDateDeserializer());
-        }
-
-    }
+  }
 }

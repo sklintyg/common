@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,18 +29,16 @@ import se.inera.intyg.common.support.facade.model.metadata.Unit.UnitBuilder;
 @Builder
 public class Unit {
 
-    private String unitId;
-    private String unitName;
-    private String address;
-    private String zipCode;
-    private String city;
-    private String phoneNumber;
-    private String email;
-    private Boolean isInactive;
-    private String workplaceCode;
+  private String unitId;
+  private String unitName;
+  private String address;
+  private String zipCode;
+  private String city;
+  private String phoneNumber;
+  private String email;
+  private Boolean isInactive;
+  private String workplaceCode;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class UnitBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class UnitBuilder {}
 }

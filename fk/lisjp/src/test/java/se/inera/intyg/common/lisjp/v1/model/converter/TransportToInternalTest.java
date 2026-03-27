@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,47 +51,54 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @Before
-    public void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+  @Before
+  public void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
 
-    public static LisjpUtlatandeV1 getUtlatande() {
-        LisjpUtlatandeV1.Builder utlatande = LisjpUtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
-        utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+  public static LisjpUtlatandeV1 getUtlatande() {
+    LisjpUtlatandeV1.Builder utlatande = LisjpUtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
+    utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+    utlatande.setDiagnoser(
+        asList(
+            (Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
             Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setPagaendeBehandling("Medicin");
-        utlatande.setPlaneradBehandling("Mer medicin");
+    utlatande.setAktivitetsbegransning("Väldigt sjuk");
+    utlatande.setPagaendeBehandling("Medicin");
+    utlatande.setPlaneradBehandling("Mer medicin");
 
-        utlatande.setArbetslivsinriktadeAtgarder(
-            asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
+    utlatande.setArbetslivsinriktadeAtgarder(
+        asList(
+            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
 
-        utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.STUDIER)));
-        utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
-        utlatande.setFunktionsnedsattning("Funktionsnedsättning");
+    utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.STUDIER)));
+    utlatande.setPrognos(
+        Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
+    utlatande.setFunktionsnedsattning("Funktionsnedsättning");
 
-        utlatande.setOvrigt("Trevlig kille");
-        utlatande.setKontaktMedFk(true);
-        utlatande.setAnledningTillKontakt("Känner mig ensam");
-        utlatande.setTillaggsfragor(asList(Tillaggsfraga.create("9001", "Svar text 1"), Tillaggsfraga.create("9002", "Svar text 2")));
-        return utlatande.build();
-    }
+    utlatande.setOvrigt("Trevlig kille");
+    utlatande.setKontaktMedFk(true);
+    utlatande.setAnledningTillKontakt("Känner mig ensam");
+    utlatande.setTillaggsfragor(
+        asList(
+            Tillaggsfraga.create("9001", "Svar text 1"),
+            Tillaggsfraga.create("9002", "Svar text 2")));
+    return utlatande.build();
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        LisjpUtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
-        LisjpUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
-
+  @Test
+  public void endToEnd() throws Exception {
+    LisjpUtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate =
+        InternalToTransport.convert(originalUtlatande, webcertModuleService);
+    LisjpUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

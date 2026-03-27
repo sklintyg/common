@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,60 +37,56 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionUndersokningYttre {
 
-    public static CertificateDataElement toCertificate(Undersokning undersokning, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(UNDERSOKNING_YTTRE_DELSVAR_ID)
-            .parent(UNDERSOKNING_YTTRE_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(UNDERSOKNING_YTTRE_QUESTION_TEXT_ID))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCode.builder()
-                                .id(Undersokning.JA.name())
-                                .label(Undersokning.JA.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(Undersokning.UNDERSOKNING_SKA_GORAS.name())
-                                .label(Undersokning.UNDERSOKNING_SKA_GORAS.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
-                                .label(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.getBeskrivning())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                undersokning != null ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      Undersokning undersokning, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(UNDERSOKNING_YTTRE_DELSVAR_ID)
+        .parent(UNDERSOKNING_YTTRE_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(UNDERSOKNING_YTTRE_QUESTION_TEXT_ID))
+                .list(
+                    Arrays.asList(
+                        RadioMultipleCode.builder()
+                            .id(Undersokning.JA.name())
+                            .label(Undersokning.JA.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(Undersokning.UNDERSOKNING_SKA_GORAS.name())
+                            .label(Undersokning.UNDERSOKNING_SKA_GORAS.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
+                            .label(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.getBeskrivning())
+                            .build()))
+                .build())
+        .value(
+            undersokning != null
+                ? CertificateDataValueCode.builder()
                     .id(undersokning.name())
                     .code(undersokning.name())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                Undersokning.JA.name(),
-                                Undersokning.UNDERSOKNING_SKA_GORAS.name(),
-                                Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          Undersokning.JA.name(),
+                          Undersokning.UNDERSOKNING_SKA_GORAS.name(),
+                          Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Undersokning toInternal(Certificate certificate) {
-        final var codeValueString = codeValue(certificate.getData(), UNDERSOKNING_YTTRE_DELSVAR_ID);
-        if (codeValueString == null) {
-            return null;
-        }
-        return Undersokning.valueOf(codeValueString);
+  public static Undersokning toInternal(Certificate certificate) {
+    final var codeValueString = codeValue(certificate.getData(), UNDERSOKNING_YTTRE_DELSVAR_ID);
+    if (codeValueString == null) {
+      return null;
     }
+    return Undersokning.valueOf(codeValueString);
+  }
 }

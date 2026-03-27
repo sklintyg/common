@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANSWER_NO;
@@ -42,65 +41,54 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionDiagnosOnskasFormedlas {
 
-    public static CertificateDataElement toCertificate(Boolean value, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-            .index(index)
-            .parent(CATEGORY_DIAGNOS)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(ONSKAR_FORMEDLA_DIAGNOS_TEXT))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCode.builder()
-                                .id(YES_ID)
-                                .label(ANSWER_YES)
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(NO_ID)
-                                .label(ANSWER_NO)
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCode.builder()
-                    .id(convertRadioBooleanToCode(value))
-                    .code(convertRadioBooleanToCode(value))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression(multipleOrExpressionWithExists(YES_ID, NO_ID))
-                        .build(),
-                    CertificateDataValidationHighlight.builder()
-                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
-                        .expression("1")
-                        .build(),
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean value, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+        .index(index)
+        .parent(CATEGORY_DIAGNOS)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(ONSKAR_FORMEDLA_DIAGNOS_TEXT))
+                .list(
+                    Arrays.asList(
+                        RadioMultipleCode.builder().id(YES_ID).label(ANSWER_YES).build(),
+                        RadioMultipleCode.builder().id(NO_ID).label(ANSWER_NO).build()))
+                .build())
+        .value(
+            CertificateDataValueCode.builder()
+                .id(convertRadioBooleanToCode(value))
+                .code(convertRadioBooleanToCode(value))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                  .expression(multipleOrExpressionWithExists(YES_ID, NO_ID))
+                  .build(),
+              CertificateDataValidationHighlight.builder()
+                  .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100)
+                  .expression("1")
+                  .build(),
+            })
+        .build();
+  }
 
-    private static String convertRadioBooleanToCode(Boolean value) {
-        if (value == null) {
-            return null;
-        } else if (value) {
-            return YES_ID;
-        } else {
-            return NO_ID;
-        }
+  private static String convertRadioBooleanToCode(Boolean value) {
+    if (value == null) {
+      return null;
+    } else if (value) {
+      return YES_ID;
+    } else {
+      return NO_ID;
     }
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        final var code = codeValue(certificate.getData(), ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
-        if (code == null) {
-            return null;
-        }
-        return code.equals(YES_ID);
+  public static Boolean toInternal(Certificate certificate) {
+    final var code = codeValue(certificate.getData(), ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100);
+    if (code == null) {
+      return null;
     }
+    return code.equals(YES_ID);
+  }
 }

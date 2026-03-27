@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,40 +34,40 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
 class CategoryExplosivtImplantatTest {
 
-    private CertificateTextProvider texts;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
-        assertEquals(EXPLOSIVT_IMPLANTAT_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
+    assertEquals(EXPLOSIVT_IMPLANTAT_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryExplosivtImplantat.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategoryExplosivtImplantat.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryText() {
-        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
+  @Test
+  void shouldIncludeCategoryText() {
+    final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
 
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID);
-    }
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(EXPLOSIVT_IMPLANTAT_CATEGORY_TEXT_ID);
+  }
 
-    @Test
-    void shouldIncludeCategoryDescription() {
-        final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
+  @Test
+  void shouldIncludeCategoryDescription() {
+    final var category = CategoryExplosivtImplantat.toCertificate(0, texts);
 
-        assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing description");
-        verify(texts, atLeastOnce()).get(EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID);
-    }
+    assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing description");
+    verify(texts, atLeastOnce()).get(EXPLOSIVT_IMPLANTAT_CATEGORY_DESCRIPTION_ID);
+  }
 }

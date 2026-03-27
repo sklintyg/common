@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,38 +32,33 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Behandling.Builder.class)
 public abstract class Behandling {
 
-    @Nullable
-    public abstract Boolean getInsulin();
+  @Nullable public abstract Boolean getInsulin();
 
-    @Nullable
-    public abstract Boolean getTabletter();
+  @Nullable public abstract Boolean getTabletter();
 
-    @Nullable
-    public abstract Boolean getAnnan();
+  @Nullable public abstract Boolean getAnnan();
 
-    @Nullable
-    public abstract String getAnnanAngeVilken();
+  @Nullable public abstract String getAnnanAngeVilken();
 
-    public static Builder builder() {
-        return new AutoValue_Behandling.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Behandling.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Behandling build();
+    public abstract Behandling build();
 
-        @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-        public abstract Builder setInsulin(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+    public abstract Builder setInsulin(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-        public abstract Builder setTabletter(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+    public abstract Builder setTabletter(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-        public abstract Builder setAnnan(Boolean value);
+    @JsonProperty(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+    public abstract Builder setAnnan(Boolean value);
 
-        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
-        public abstract Builder setAnnanAngeVilken(String value);
-    }
-
+    @JsonProperty(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
+    public abstract Builder setAnnanAngeVilken(String value);
+  }
 }

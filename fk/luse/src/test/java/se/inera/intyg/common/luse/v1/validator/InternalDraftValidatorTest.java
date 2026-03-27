@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,42 +32,46 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 
-/**
- * Created by eriklupander on 2016-11-29.
- */
+/** Created by eriklupander on 2016-11-29. */
 public class InternalDraftValidatorTest {
 
-    private InternalDraftValidatorImpl testee = new InternalDraftValidatorImpl();
+  private InternalDraftValidatorImpl testee = new InternalDraftValidatorImpl();
 
-    @Test
-    public void testUnderlagWithEmptyStringOnFranVardgivareHamtasTriggersError() throws ScenarioNotFoundException {
-        LuseUtlatandeV1 utlatande = LuseUtlatandeV1.builder()
+  @Test
+  public void testUnderlagWithEmptyStringOnFranVardgivareHamtasTriggersError()
+      throws ScenarioNotFoundException {
+    LuseUtlatandeV1 utlatande =
+        LuseUtlatandeV1.builder()
             .setId("123")
             .setTextVersion("1")
             .setGrundData(buildGrundData())
             .setUnderlagFinns(true)
-            .setUnderlag(buildUnderlagList()).build();
+            .setUnderlag(buildUnderlagList())
+            .build();
 
-        List<ValidationMessage> validationMessages = new ArrayList<>();
-        testee.validateUnderlag(utlatande, validationMessages);
-        assertEquals(1, validationMessages.size());
-        assertEquals("luse.validation.underlag.hamtas-fran.missing", validationMessages.get(0).getMessage());
-    }
+    List<ValidationMessage> validationMessages = new ArrayList<>();
+    testee.validateUnderlag(utlatande, validationMessages);
+    assertEquals(1, validationMessages.size());
+    assertEquals(
+        "luse.validation.underlag.hamtas-fran.missing", validationMessages.get(0).getMessage());
+  }
 
-    private GrundData buildGrundData() {
-        GrundData grundData = new GrundData();
+  private GrundData buildGrundData() {
+    GrundData grundData = new GrundData();
 
-        return grundData;
-    }
+    return grundData;
+  }
 
-    private List<Underlag> buildUnderlagList() {
-        return Arrays.asList(buildUnderlag());
-    }
+  private List<Underlag> buildUnderlagList() {
+    return Arrays.asList(buildUnderlag());
+  }
 
-    private Underlag buildUnderlag() {
-        Underlag underlag = Underlag.create(Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE, new InternalDate(LocalDate.now()), "");
-        return underlag;
-    }
-
-
+  private Underlag buildUnderlag() {
+    Underlag underlag =
+        Underlag.create(
+            Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+            new InternalDate(LocalDate.now()),
+            "");
+    return underlag;
+  }
 }

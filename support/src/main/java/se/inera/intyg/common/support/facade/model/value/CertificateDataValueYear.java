@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueYear
 @Builder
 public class CertificateDataValueYear implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.YEAR;
-    String id;
-    Integer year;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.YEAR;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueYearBuilder {
+  String id;
+  Integer year;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueYearBuilder {}
 }

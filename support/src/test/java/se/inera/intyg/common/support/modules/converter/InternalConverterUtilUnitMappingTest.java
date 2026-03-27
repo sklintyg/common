@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,48 +37,47 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 @ExtendWith(MockitoExtension.class)
 class InternalConverterUtilUnitMappingTest {
 
-    @Mock
-    private UnitMapperUtil unitMapperUtil;
+  @Mock private UnitMapperUtil unitMapperUtil;
 
-    @InjectMocks
-    private InternalConverterUtil internalConverterUtil;
+  @InjectMocks private InternalConverterUtil internalConverterUtil;
 
+  @Test
+  void shouldUseCareProviderMapperUtil() {
+    HoSPersonal skapadAv = new HoSPersonal();
+    Vardenhet vardenhet = new Vardenhet();
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("TSTNMT2321000156-BETA");
+    vardgivare.setVardgivarnamn("Beta Regionen");
+    vardenhet.setVardgivare(vardgivare);
+    skapadAv.setVardenhet(vardenhet);
+    vardenhet.setEnhetsid("UNIT_ID");
+    vardenhet.setEnhetsnamn("UNIT_NAME");
 
-    @Test
-    void shouldUseCareProviderMapperUtil() {
-        HoSPersonal skapadAv = new HoSPersonal();
-        Vardenhet vardenhet = new Vardenhet();
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("TSTNMT2321000156-BETA");
-        vardgivare.setVardgivarnamn("Beta Regionen");
-        vardenhet.setVardgivare(vardgivare);
-        skapadAv.setVardenhet(vardenhet);
-        vardenhet.setEnhetsid("UNIT_ID");
-        vardenhet.setEnhetsnamn("UNIT_NAME");
+    var careProvider = new Vardgivare();
+    careProvider.setVardgivarid("TSTNMT2321000156-BETA");
+    careProvider.setVardgivarnamn("Beta Regionen");
+    final var certificateIssuedDate = LocalDateTime.now().minusDays(1);
 
-        var careProvider = new Vardgivare();
-        careProvider.setVardgivarid("TSTNMT2321000156-BETA");
-        careProvider.setVardgivarnamn("Beta Regionen");
-        final var certificateIssuedDate = LocalDateTime.now().minusDays(1);
-
-        internalConverterUtil.initialize();
-        when(unitMapperUtil.getMappedUnit(
+    internalConverterUtil.initialize();
+    when(unitMapperUtil.getMappedUnit(
             careProvider.getVardgivarid(),
             careProvider.getVardgivarnamn(),
             "UNIT_ID",
             "UNIT_NAME",
             certificateIssuedDate))
-            .thenReturn(
-                new MappedUnit("TSTNMT2321000156-BETA", "Beta Regionen", "UPDATED_UNIT_ID", "UPDATED_UNIT_NAME"));
+        .thenReturn(
+            new MappedUnit(
+                "TSTNMT2321000156-BETA", "Beta Regionen", "UPDATED_UNIT_ID", "UPDATED_UNIT_NAME"));
 
-        var result = InternalConverterUtil.getSkapadAv(skapadAv, certificateIssuedDate);
-        assertAll(() -> {
-            assertEquals("TSTNMT2321000156-BETA",
-                result.getEnhet().getVardgivare().getVardgivareId().getExtension());
-            assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
-            assertEquals("UPDATED_UNIT_ID", result.getEnhet().getEnhetsId().getExtension());
-            assertEquals("UPDATED_UNIT_NAME", result.getEnhet().getEnhetsnamn());
+    var result = InternalConverterUtil.getSkapadAv(skapadAv, certificateIssuedDate);
+    assertAll(
+        () -> {
+          assertEquals(
+              "TSTNMT2321000156-BETA",
+              result.getEnhet().getVardgivare().getVardgivareId().getExtension());
+          assertEquals("Beta Regionen", result.getEnhet().getVardgivare().getVardgivarnamn());
+          assertEquals("UPDATED_UNIT_ID", result.getEnhet().getEnhetsId().getExtension());
+          assertEquals("UPDATED_UNIT_NAME", result.getEnhet().getEnhetsnamn());
         });
-    }
-
+  }
 }

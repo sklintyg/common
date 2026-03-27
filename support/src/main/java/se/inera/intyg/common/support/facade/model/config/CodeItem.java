@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,12 +29,10 @@ import se.inera.intyg.common.support.facade.model.config.CodeItem.CodeItemBuilde
 @Builder
 public class CodeItem {
 
-    String id;
-    String label;
-    String code;
+  String id;
+  String label;
+  String code;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CodeItemBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CodeItemBuilder {}
 }

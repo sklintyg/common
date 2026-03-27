@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,71 +53,81 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @Before
-    public void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+  @Before
+  public void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    public static LuaefsUtlatandeV1 getUtlatande() {
-        LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
-        utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
-        utlatande.setAnhorigsBeskrivningAvPatienten(new InternalDate("2015-10-11"));
-        utlatande.setJournaluppgifter(new InternalDate("2015-10-10"));
-        utlatande.setAnnatGrundForMU(new InternalDate("2015-10-12"));
-        utlatande.setAnnatGrundForMUBeskrivning("Lider av svår discofobi");
+  public static LuaefsUtlatandeV1 getUtlatande() {
+    LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
+    utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+    utlatande.setAnhorigsBeskrivningAvPatienten(new InternalDate("2015-10-11"));
+    utlatande.setJournaluppgifter(new InternalDate("2015-10-10"));
+    utlatande.setAnnatGrundForMU(new InternalDate("2015-10-12"));
+    utlatande.setAnnatGrundForMUBeskrivning("Lider av svår discofobi");
 
-        utlatande.setKannedomOmPatient(new InternalDate("2015-10-10"));
-        utlatande.setUnderlagFinns(true);
-        utlatande.setUnderlag(buildUnderlag());
+    utlatande.setKannedomOmPatient(new InternalDate("2015-10-10"));
+    utlatande.setUnderlagFinns(true);
+    utlatande.setUnderlag(buildUnderlag());
 
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+    utlatande.setDiagnoser(
+        asList(
+            (Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
             Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
             Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
 
-        utlatande.setFunktionsnedsattningDebut("Debut 1");
-        utlatande.setFunktionsnedsattningPaverkan("Påverkan 1");
+    utlatande.setFunktionsnedsattningDebut("Debut 1");
+    utlatande.setFunktionsnedsattningPaverkan("Påverkan 1");
 
-        utlatande.setOvrigt("Trevlig kille");
-        utlatande.setKontaktMedFk(true);
-        utlatande.setAnledningTillKontakt("Känner mig ensam");
-        utlatande.setTillaggsfragor(asList(Tillaggsfraga.create("9001", "Svar text 1"), Tillaggsfraga.create("9002", "Svar text 2")));
-        return utlatande.build();
-    }
+    utlatande.setOvrigt("Trevlig kille");
+    utlatande.setKontaktMedFk(true);
+    utlatande.setAnledningTillKontakt("Känner mig ensam");
+    utlatande.setTillaggsfragor(
+        asList(
+            Tillaggsfraga.create("9001", "Svar text 1"),
+            Tillaggsfraga.create("9002", "Svar text 2")));
+    return utlatande.build();
+  }
 
-    private static List<Underlag> buildUnderlag() {
-        Underlag underlag = Underlag.create(Underlag.UnderlagsTyp.UNDERLAG_FRAN_FYSIOTERAPEUT, new InternalDate("2015-10-10"), "Postledes");
-        return Arrays.asList(underlag);
-    }
+  private static List<Underlag> buildUnderlag() {
+    Underlag underlag =
+        Underlag.create(
+            Underlag.UnderlagsTyp.UNDERLAG_FRAN_FYSIOTERAPEUT,
+            new InternalDate("2015-10-10"),
+            "Postledes");
+    return Arrays.asList(underlag);
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        LuaefsUtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
-        LuaefsUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
-
+  @Test
+  public void endToEnd() throws Exception {
+    LuaefsUtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate =
+        InternalToTransport.convert(originalUtlatande, webcertModuleService);
+    LuaefsUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -55,152 +55,158 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBoolea
 @ExtendWith(MockitoExtension.class)
 class QuestionDodsdatumSakertTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionDodsdatumSakert.toCertificate(true, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeSelectedText() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT);
-        }
-
-        @Test
-        void shouldIncludeUnselectedText() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT);
-        }
-
-        @Test
-        void shouldIncludeDescription() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing description");
-            verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID);
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigType() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigValueId() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            final var certificateDataConfigRadioBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
-            assertEquals(DODSDATUM_SAKERT_JSON_ID, certificateDataConfigRadioBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueType() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueId() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(DODSDATUM_SAKERT_JSON_ID, certificateDataValueBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueTrue() {
-            final var expectedBooleanValue = Boolean.TRUE;
-            final var question = QuestionDodsdatumSakert.toCertificate(expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueFalse() {
-            final var expectedBooleanValue = Boolean.FALSE;
-            final var question = QuestionDodsdatumSakert.toCertificate(expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueEmpty() {
-            final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertNull(certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("exists(" + DODSDATUM_SAKERT_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionDodsdatumSakert.toCertificate(true, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeSelectedText() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_SELECTED_TEXT);
+    }
+
+    @Test
+    void shouldIncludeUnselectedText() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_UNSELECTED_TEXT);
+    }
+
+    @Test
+    void shouldIncludeDescription() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getDescription().trim().length() > 0, "Missing description");
+      verify(texts, atLeastOnce()).get(DODSDATUM_SAKERT_QUESTION_DESCRIPTION_ID);
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigType() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigValueId() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      final var certificateDataConfigRadioBoolean =
+          (CertificateDataConfigRadioBoolean) question.getConfig();
+      assertEquals(DODSDATUM_SAKERT_JSON_ID, certificateDataConfigRadioBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueType() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueId() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(DODSDATUM_SAKERT_JSON_ID, certificateDataValueBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueTrue() {
+      final var expectedBooleanValue = Boolean.TRUE;
+      final var question = QuestionDodsdatumSakert.toCertificate(expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueFalse() {
+      final var expectedBooleanValue = Boolean.FALSE;
+      final var question = QuestionDodsdatumSakert.toCertificate(expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueEmpty() {
+      final var question = QuestionDodsdatumSakert.toCertificate(null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertNull(certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(DODSDATUM_SAKERT_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionDodsdatumSakert.toCertificate(true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          "exists(" + DODSDATUM_SAKERT_JSON_ID + ")",
+          certificateDataValidationMandatory.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionDodsdatumSakert.toCertificate(expectedValue, 0, texts);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionDodsdatumSakert.toCertificate(expectedValue, 0, texts);
-            }
-
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionDodsdatumSakert.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionDodsdatumSakert.toInternal(certificate);
+      }
     }
+  }
 }

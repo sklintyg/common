@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,55 +31,53 @@ import java.util.Set;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-/**
- * Created by marced on 2018-09-03.
- */
+/** Created by marced on 2018-09-03. */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
 public abstract class Bedomning {
 
-    @Nullable
-    @JsonSerialize(using = Bedomning.BedomningKorkortstypSetEnumSetSerializer.class)
+  @Nullable @JsonSerialize(using = Bedomning.BedomningKorkortstypSetEnumSetSerializer.class)
+  @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
+  public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
+
+  @Nullable public abstract Boolean getLampligtInnehav();
+
+  @Nullable public abstract String getBorUndersokasBeskrivning();
+
+  public static class BedomningKorkortstypSetEnumSetSerializer
+      extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
+    protected BedomningKorkortstypSetEnumSetSerializer() {
+      super(BedomningKorkortstyp.class);
+    }
+  }
+
+  public static class BedomningKorkortstypSetDeserializer
+      extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+
+    protected BedomningKorkortstypSetDeserializer() {
+      super(BedomningKorkortstyp.class);
+    }
+  }
+
+  public static Builder builder() {
+    return new AutoValue_Bedomning.Builder();
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract Bedomning build();
+
+    @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)
     @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
-    public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
+    public abstract Builder setUppfyllerBehorighetskrav(
+        Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
 
-    @Nullable
-    public abstract Boolean getLampligtInnehav();
+    @JsonProperty(BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID)
+    public abstract Builder setLampligtInnehav(Boolean lampligtInnehav);
 
-    @Nullable
-    public abstract String getBorUndersokasBeskrivning();
-
-    public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
-
-        protected BedomningKorkortstypSetEnumSetSerializer() {
-            super(BedomningKorkortstyp.class);
-        }
-    }
-
-    public static class BedomningKorkortstypSetDeserializer extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
-
-        protected BedomningKorkortstypSetDeserializer() {
-            super(BedomningKorkortstyp.class);
-        }
-    }
-
-    public static Builder builder() {
-        return new AutoValue_Bedomning.Builder();
-    }
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract Bedomning build();
-
-        @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)
-        @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
-        public abstract Builder setUppfyllerBehorighetskrav(Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
-
-        @JsonProperty(BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID)
-        public abstract Builder setLampligtInnehav(Boolean lampligtInnehav);
-
-        @JsonProperty(BEDOMNING_BOR_UNDERSOKAS_JSON_ID)
-        public abstract Builder setBorUndersokasBeskrivning(String borUndersokasBeskrivning);
-    }
+    @JsonProperty(BEDOMNING_BOR_UNDERSOKAS_JSON_ID)
+    public abstract Builder setBorUndersokasBeskrivning(String borUndersokasBeskrivning);
+  }
 }

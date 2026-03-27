@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.doubleValue;
@@ -43,100 +42,111 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 
 public class QuestionSynSynskarpa {
 
-    private static final String NOT_SPECIFIED = "-";
+  private static final String NOT_SPECIFIED = "-";
 
-    public static CertificateDataElement toCertificate(Synfunktion synfunktion, int index, CertificateTextProvider textProvider) {
-        final var hogerOga = synfunktion != null && synfunktion.getHoger() != null ? synfunktion.getHoger() : null;
-        final var vansterOga = synfunktion != null && synfunktion.getVanster() != null ? synfunktion.getVanster() : null;
-        final var binokulart = synfunktion != null && synfunktion.getBinokulart() != null ? synfunktion.getBinokulart() : null;
-        return CertificateDataElement.builder()
-            .id(SYN_VARDEN_SYNSKARPA_SVAR_ID)
-            .parent(SYN_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewTable.builder()
-                    .columns(
-                        List.of(
-                            ViewColumn.builder()
-                                .id(SYNSKARPA_TYP_ID)
-                                .build(),
-                            ViewColumn.builder()
-                                .id(UTAN_KORREKTION_ID)
-                                .text(UTAN_KORREKTION_TEXT)
-                                .build(),
-                            ViewColumn.builder()
-                                .id(MED_KORREKTION_ID)
-                                .text(MED_KORREKTION_TEXT)
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewTable.builder()
-                    .rows(
-                        List.of(
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(HOGER_OGA_LABEL))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(hogerOga != null && hogerOga.getUtanKorrektion() != null ? doubleValue(
-                                                hogerOga.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(hogerOga != null && hogerOga.getMedKorrektion() != null ? doubleValue(
-                                                hogerOga.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build()
-                                    )
-                                ).build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(VANSTER_OGA_LABEL))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(vansterOga != null && vansterOga.getUtanKorrektion() != null ? doubleValue(
-                                                vansterOga.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(vansterOga != null && vansterOga.getMedKorrektion() != null ? doubleValue(
-                                                vansterOga.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build()
-                                    )
-                                ).build(),
-                            CertificateDataValueViewRow.builder()
-                                .columns(
-                                    List.of(
-                                        CertificateDataValueText.builder()
-                                            .id(SYNSKARPA_TYP_ID)
-                                            .text(textProvider.get(BINOKULART_LABEL))
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(UTAN_KORREKTION_ID)
-                                            .text(binokulart != null && binokulart.getUtanKorrektion() != null ? doubleValue(
-                                                binokulart.getUtanKorrektion()) : NOT_SPECIFIED)
-                                            .build(),
-                                        CertificateDataValueText.builder()
-                                            .id(MED_KORREKTION_ID)
-                                            .text(binokulart != null && binokulart.getMedKorrektion() != null ? doubleValue(
-                                                binokulart.getMedKorrektion()) : NOT_SPECIFIED)
-                                            .build()
-                                    )
-                                ).build()
-                        )
-                    )
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Synfunktion synfunktion, int index, CertificateTextProvider textProvider) {
+    final var hogerOga =
+        synfunktion != null && synfunktion.getHoger() != null ? synfunktion.getHoger() : null;
+    final var vansterOga =
+        synfunktion != null && synfunktion.getVanster() != null ? synfunktion.getVanster() : null;
+    final var binokulart =
+        synfunktion != null && synfunktion.getBinokulart() != null
+            ? synfunktion.getBinokulart()
+            : null;
+    return CertificateDataElement.builder()
+        .id(SYN_VARDEN_SYNSKARPA_SVAR_ID)
+        .parent(SYN_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewTable.builder()
+                .columns(
+                    List.of(
+                        ViewColumn.builder().id(SYNSKARPA_TYP_ID).build(),
+                        ViewColumn.builder()
+                            .id(UTAN_KORREKTION_ID)
+                            .text(UTAN_KORREKTION_TEXT)
+                            .build(),
+                        ViewColumn.builder()
+                            .id(MED_KORREKTION_ID)
+                            .text(MED_KORREKTION_TEXT)
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueViewTable.builder()
+                .rows(
+                    List.of(
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(HOGER_OGA_LABEL))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            hogerOga != null && hogerOga.getUtanKorrektion() != null
+                                                ? doubleValue(hogerOga.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            hogerOga != null && hogerOga.getMedKorrektion() != null
+                                                ? doubleValue(hogerOga.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build()))
+                            .build(),
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(VANSTER_OGA_LABEL))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            vansterOga != null
+                                                    && vansterOga.getUtanKorrektion() != null
+                                                ? doubleValue(vansterOga.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            vansterOga != null
+                                                    && vansterOga.getMedKorrektion() != null
+                                                ? doubleValue(vansterOga.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build()))
+                            .build(),
+                        CertificateDataValueViewRow.builder()
+                            .columns(
+                                List.of(
+                                    CertificateDataValueText.builder()
+                                        .id(SYNSKARPA_TYP_ID)
+                                        .text(textProvider.get(BINOKULART_LABEL))
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(UTAN_KORREKTION_ID)
+                                        .text(
+                                            binokulart != null
+                                                    && binokulart.getUtanKorrektion() != null
+                                                ? doubleValue(binokulart.getUtanKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build(),
+                                    CertificateDataValueText.builder()
+                                        .id(MED_KORREKTION_ID)
+                                        .text(
+                                            binokulart != null
+                                                    && binokulart.getMedKorrektion() != null
+                                                ? doubleValue(binokulart.getMedKorrektion())
+                                                : NOT_SPECIFIED)
+                                        .build()))
+                            .build()))
+                .build())
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,85 +42,83 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Specifically tests the renewal of ag7804 where certain fields are nulled out.
- */
+/** Specifically tests the renewal of ag7804 where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
 public class Ag7804ModuleApiRenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "v1/Ag7804ModelCompareUtil/utlatande.json";
+  public static final String TESTFILE_UTLATANDE = "v1/Ag7804ModelCompareUtil/utlatande.json";
 
-    @Spy
-    private WebcertModelFactoryImpl webcertModelFactory;
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  @Spy private WebcertModelFactoryImpl webcertModelFactory;
+  @Spy private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    @InjectMocks
-    private Ag7804ModuleApiV1 moduleApi;
+  @InjectMocks private Ag7804ModuleApiV1 moduleApi;
 
-    @BeforeEach
-    void init() {
-        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
-    }
+  @BeforeEach
+  void init() {
+    ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+  }
 
-    @Test
-    public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
+  @Test
+  public void testRenewalTransfersAppropriateFieldsToNewDraft()
+      throws ModuleException, IOException {
 
-        final var original = getUtlatandeFromFile();
-        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
-        assertNotNull(renewalFromTemplate);
+    final var original = getUtlatandeFromFile();
+    final var renewalFromTemplate =
+        moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+    assertNotNull(renewalFromTemplate);
 
-        // Create two instances to compare field by field.
-        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Ag7804UtlatandeV1.class);
+    // Create two instances to compare field by field.
+    final var renewCopy =
+        new CustomObjectMapper().readValue(renewalFromTemplate, Ag7804UtlatandeV1.class);
 
-        //Retained values
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
-        assertEquals(original.getGrundData().getPatient().getFullstandigtNamn(),
-            renewCopy.getGrundData().getPatient().getFullstandigtNamn());
-        assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
-        assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
-        assertEquals(original.getForsakringsmedicinsktBeslutsstod(), renewCopy.getForsakringsmedicinsktBeslutsstod());
-        assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
-        assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    // Retained values
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    assertEquals(
+        original.getGrundData().getPatient().getFullstandigtNamn(),
+        renewCopy.getGrundData().getPatient().getFullstandigtNamn());
+    assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
+    assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
+    assertEquals(
+        original.getForsakringsmedicinsktBeslutsstod(),
+        renewCopy.getForsakringsmedicinsktBeslutsstod());
+    assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
+    assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
-        // Blanked out values
-        assertNull(renewCopy.getOnskarFormedlaDiagnos());
+    // Blanked out values
+    assertNull(renewCopy.getOnskarFormedlaDiagnos());
 
-        assertNull(renewCopy.getUndersokningAvPatienten());
-        assertNull(renewCopy.getTelefonkontaktMedPatienten());
-        assertNull(renewCopy.getJournaluppgifter());
-        assertNull(renewCopy.getAnnatGrundForMU());
-        assertNull(renewCopy.getAnnatGrundForMUBeskrivning());
+    assertNull(renewCopy.getUndersokningAvPatienten());
+    assertNull(renewCopy.getTelefonkontaktMedPatienten());
+    assertNull(renewCopy.getJournaluppgifter());
+    assertNull(renewCopy.getAnnatGrundForMU());
+    assertNull(renewCopy.getAnnatGrundForMUBeskrivning());
 
-        assertNull(renewCopy.getPrognos());
+    assertNull(renewCopy.getPrognos());
 
-        assertNull(renewCopy.getKontaktMedAg());
-        assertNull(renewCopy.getAnledningTillKontakt());
+    assertNull(renewCopy.getKontaktMedAg());
+    assertNull(renewCopy.getAnledningTillKontakt());
+  }
 
-    }
+  private CreateDraftCopyHolder createCopyHolder() {
+    final var draftCopyHolder = new CreateDraftCopyHolder("certificateId", createHosPersonal());
+    draftCopyHolder.setIntygTypeVersion("1");
+    draftCopyHolder.setRelation(new Relation());
+    return draftCopyHolder;
+  }
 
-    private CreateDraftCopyHolder createCopyHolder() {
-        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
-        draftCopyHolder.setIntygTypeVersion("1");
-        draftCopyHolder.setRelation(new Relation());
-        return draftCopyHolder;
-    }
+  private HoSPersonal createHosPersonal() {
+    final var hosPersonal = new HoSPersonal();
+    hosPersonal.setPersonId("hsaId");
+    hosPersonal.setFullstandigtNamn("namn");
+    hosPersonal.setVardenhet(new Vardenhet());
+    hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
+    return hosPersonal;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        final var hosPersonal = new HoSPersonal();
-        hosPersonal.setPersonId("hsaId");
-        hosPersonal.setFullstandigtNamn("namn");
-        hosPersonal.setVardenhet(new Vardenhet());
-        hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
-        return hosPersonal;
-    }
-
-    private Ag7804UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
-    }
-
+  private Ag7804UtlatandeV1 getUtlatandeFromFile() throws IOException {
+    return new CustomObjectMapper()
+        .readValue(new ClassPathResource(TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
+  }
 }

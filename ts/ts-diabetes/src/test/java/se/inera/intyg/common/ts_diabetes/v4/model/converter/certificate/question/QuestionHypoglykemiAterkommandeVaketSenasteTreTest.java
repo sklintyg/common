@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,161 +49,163 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 @ExtendWith(MockitoExtension.class)
 class QuestionHypoglykemiAterkommandeVaketSenasteTreTest {
 
+  @Mock private CertificateTextProvider textProvider;
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(
+          null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
-            doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
-        }
-
-        @Override
-        protected String getTextId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getSelectedText() {
-            return "Ja";
-        }
-
-        @Override
-        protected String getUnselectedText() {
-            return "Nej";
-        }
+    @Override
+    protected String getParent() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueBooleanTest extends ValueBooleanTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var hypoglykemi = Hypoglykemi.builder().setAterkommandeVaketSenasteTre(true).build();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(hypoglykemi, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
 
-        @Override
-        protected String getJsonId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
-        }
-
-        @Override
-        protected Boolean getBoolean() {
-            return true;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
+      doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID + ")";
-        }
+    @Override
+    protected String getId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            final var hypoglykemi = Hypoglykemi.builder().setAterkommandeVaketSenasteTre(expectedValue).build();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(hypoglykemi, 0, textProvider);
-        }
-
-        @Override
-        protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTre.toInternal(certificate);
-        }
+    @Override
+    protected String getTextId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getSelectedText() {
+      return "Ja";
+    }
+
+    @Override
+    protected String getUnselectedText() {
+      return "Nej";
+    }
+  }
+
+  @Nested
+  class IncludeValueBooleanTest extends ValueBooleanTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var hypoglykemi = Hypoglykemi.builder().setAterkommandeVaketSenasteTre(true).build();
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(
+          hypoglykemi, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+    }
+
+    @Override
+    protected Boolean getBoolean() {
+      return true;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID + ")";
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      final var hypoglykemi =
+          Hypoglykemi.builder().setAterkommandeVaketSenasteTre(expectedValue).build();
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(
+          hypoglykemi, 0, textProvider);
+    }
+
+    @Override
+    protected Boolean toInternalBooleanValue(Certificate certificate) {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTre.toInternal(certificate);
+    }
+  }
 }
