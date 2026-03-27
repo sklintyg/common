@@ -157,7 +157,6 @@ subprojects {
     apply plugin: 'com.diffplug.spotless'
 
     spotless {
-        enforceCheck = false
         java {
             target 'src/*/java/**/*.java'
             licenseHeaderFile(rootProject.file('spotless.license.txt'), 'package ')
