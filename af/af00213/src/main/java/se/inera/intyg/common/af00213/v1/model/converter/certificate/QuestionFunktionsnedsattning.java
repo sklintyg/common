@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,41 +39,41 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(String funktionsnedsattning, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
-            .index(index)
-            .parent(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
-                    .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_DESCRIPTION))
-                    .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
-                    .text(funktionsnedsattning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String funktionsnedsattning, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
+        .index(index)
+        .parent(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_TEXT))
+                .description(texts.get(FUNKTIONSNEDSATTNING_DELSVAR_DESCRIPTION))
+                .id(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
+                .text(funktionsnedsattning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_12)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_DELSVAR_ID_12, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        FUNKTIONSNEDSATTNING_DELSVAR_ID_12,
+        FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12);
+  }
 }

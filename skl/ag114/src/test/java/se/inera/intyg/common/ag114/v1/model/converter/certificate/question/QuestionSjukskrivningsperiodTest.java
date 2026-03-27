@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -52,162 +51,158 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 @ExtendWith(MockitoExtension.class)
 class QuestionSjukskrivningsperiodTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SJUKSKRIVNINGSGRAD_HEADER_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigDateRangeTests extends ConfigDateRangeTest {
-
-        @Override
-        protected String getJsonId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
-        }
-
-        @Override
-        protected String getFromLabel() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_FROM_ID;
-        }
-
-        @Override
-        protected String getToLabel() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_TOM_ID;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SJUKSKRIVNINGSGRAD_HEADER_ID;
     }
 
-    @Nested
-    class IncludeValueDateRangeTests extends ValueDateRangeTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        private final InternalLocalDateInterval dateRange = new InternalLocalDateInterval();
+  @Nested
+  class IncludeConfigDateRangeTests extends ConfigDateRangeTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            dateRange.setFrom(new InternalDate(LocalDate.now()));
-            dateRange.setTom(new InternalDate(LocalDate.now()));
-            return QuestionSjukskrivningsperiod.toCertificate(dateRange, 0, texts);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
-        }
-
-        @Override
-        protected LocalDate getFromDate() {
-            return dateRange.fromAsLocalDate();
-        }
-
-        @Override
-        protected LocalDate getToDate() {
-            return dateRange.tomAsLocalDate();
-        }
+    @Override
+    protected String getJsonId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected String getFromLabel() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_FROM_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalDateRangeFromValueTests extends InternalValueTest<InternalLocalDateInterval, InternalLocalDateInterval> {
-
-        @Override
-        protected CertificateDataElement getElement(InternalLocalDateInterval input) {
-            return QuestionSjukskrivningsperiod.toCertificate(input, 0, texts);
-        }
-
-        @Override
-        protected InternalLocalDateInterval toInternalValue(Certificate certificate) {
-            return QuestionSjukskrivningsperiod.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<InternalLocalDateInterval, InternalLocalDateInterval>> inputExpectedValuePairList() {
-            final var dateRange = new InternalLocalDateInterval();
-            dateRange.setFrom(new InternalDate(LocalDate.now()));
-
-            return List.of(
-                new InputExpectedValuePair<>(
-                    null,
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now()), null)
-                ),
-                new InputExpectedValuePair<>(
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null),
-                    new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null)
-                ),
-                new InputExpectedValuePair<>(
-                    new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15))),
-                    new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15)))
-                )
-            );
-        }
+    @Override
+    protected String getToLabel() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_TOM_ID;
     }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValueDateRangeTests extends ValueDateRangeTest {
+
+    private final InternalLocalDateInterval dateRange = new InternalLocalDateInterval();
+
+    @Override
+    protected CertificateDataElement getElement() {
+      dateRange.setFrom(new InternalDate(LocalDate.now()));
+      dateRange.setTom(new InternalDate(LocalDate.now()));
+      return QuestionSjukskrivningsperiod.toCertificate(dateRange, 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
+    }
+
+    @Override
+    protected LocalDate getFromDate() {
+      return dateRange.fromAsLocalDate();
+    }
+
+    @Override
+    protected LocalDate getToDate() {
+      return dateRange.tomAsLocalDate();
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiod.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalDateRangeFromValueTests
+      extends InternalValueTest<InternalLocalDateInterval, InternalLocalDateInterval> {
+
+    @Override
+    protected CertificateDataElement getElement(InternalLocalDateInterval input) {
+      return QuestionSjukskrivningsperiod.toCertificate(input, 0, texts);
+    }
+
+    @Override
+    protected InternalLocalDateInterval toInternalValue(Certificate certificate) {
+      return QuestionSjukskrivningsperiod.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<InternalLocalDateInterval, InternalLocalDateInterval>>
+        inputExpectedValuePairList() {
+      final var dateRange = new InternalLocalDateInterval();
+      dateRange.setFrom(new InternalDate(LocalDate.now()));
+
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, new InternalLocalDateInterval(new InternalDate(LocalDate.now()), null)),
+          new InputExpectedValuePair<>(
+              new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null),
+              new InternalLocalDateInterval(new InternalDate(LocalDate.now().plusDays(10)), null)),
+          new InputExpectedValuePair<>(
+              new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15))),
+              new InternalLocalDateInterval(null, new InternalDate(LocalDate.now().plusDays(15)))));
+    }
+  }
 }

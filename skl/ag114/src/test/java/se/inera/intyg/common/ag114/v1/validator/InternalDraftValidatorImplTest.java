@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -65,164 +65,169 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 @ContextConfiguration(classes = TestConfiguration.class)
 public class InternalDraftValidatorImplTest {
 
-    @Autowired
-    private InternalDraftValidator<Ag114UtlatandeV1> internalValidator;
+  @Autowired private InternalDraftValidator<Ag114UtlatandeV1> internalValidator;
 
-    private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().size();
-    }
+  private static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().size();
+  }
 
-    @Test
-    public void testSuccessMinimalUtlatande() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("pass-minimal");
-        assertEquals(0, getNumberOfInternalValidationErrors(res));
-    }
+  @Test
+  public void testSuccessMinimalUtlatande() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("pass-minimal");
+    assertEquals(0, getNumberOfInternalValidationErrors(res));
+  }
 
-    @Test
-    public void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("pass-maxed");
-        assertEquals(0, getNumberOfInternalValidationErrors(res));
-    }
+  @Test
+  public void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("pass-maxed");
+    assertEquals(0, getNumberOfInternalValidationErrors(res));
+  }
 
-    @Test
-    public void testFailsWhenMissingGrundForMU() throws ScenarioNotFoundException {
-        Ag114UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-missing-grundformu").asInternalModel();
+  @Test
+  public void testFailsWhenMissingGrundForMU() throws ScenarioNotFoundException {
+    Ag114UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-missing-grundformu").asInternalModel();
 
-        ValidateDraftResponse res = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_GRUNDFORMU, error.getCategory());
-        Assert.assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, error.getQuestionId());
-    }
+    ValidateDraftResponse res = internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_GRUNDFORMU, error.getCategory());
+    Assert.assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingSysselsattning() throws ScenarioNotFoundException {
-        Ag114UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-missing-sysselsattning").asInternalModel();
+  @Test
+  public void testFailsWhenMissingSysselsattning() throws ScenarioNotFoundException {
+    Ag114UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-missing-sysselsattning").asInternalModel();
 
-        ValidateDraftResponse res = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_SYSSELSATTNING, error.getCategory());
-        Assert.assertEquals(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID, error.getQuestionId());
-    }
+    ValidateDraftResponse res = internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_SYSSELSATTNING, error.getCategory());
+    Assert.assertEquals(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(TYP_AV_SYSSELSATTNING_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingNuvarandeArbete() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-nuvarandearbete");
+  @Test
+  public void testFailsWhenMissingNuvarandeArbete() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-nuvarandearbete");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_SYSSELSATTNING, error.getCategory());
-        Assert.assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_2, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(NUVARANDE_ARBETE_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_SYSSELSATTNING, error.getCategory());
+    Assert.assertEquals(NUVARANDE_ARBETE_SVAR_JSON_ID_2, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(NUVARANDE_ARBETE_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingFormedlaDiagnos() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnosformedling");
+  @Test
+  public void testFailsWhenMissingFormedlaDiagnos() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnosformedling");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
-        Assert.assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
+    Assert.assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingDiagnoserButOnskarFormedla_R14() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnoser");
+  @Test
+  public void testFailsWhenMissingDiagnoserButOnskarFormedla_R14()
+      throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnoser");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
-        Assert.assertEquals(TYP_AV_DIAGNOS_SVAR_JSON_ID_4, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(TYP_AV_DIAGNOS_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
+    Assert.assertEquals(TYP_AV_DIAGNOS_SVAR_JSON_ID_4, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(TYP_AV_DIAGNOS_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingDiagnosKod1ButOnskarFormedla_R14() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnos1");
+  @Test
+  public void testFailsWhenMissingDiagnosKod1ButOnskarFormedla_R14()
+      throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnos1");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
-        Assert.assertEquals(TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[1].diagnosbeskrivning", error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(TYP_AV_DIAGNOS_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_DIAGNOS, error.getCategory());
+    Assert.assertEquals(TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[1].diagnosbeskrivning", error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(TYP_AV_DIAGNOS_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingNedsattArbetsformaga() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-arbetsformaga");
+  @Test
+  public void testFailsWhenMissingNedsattArbetsformaga() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-arbetsformaga");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_ARBETSFORMAGA, error.getCategory());
-        Assert.assertEquals(NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(NEDSATT_ARBETSFORMAGA_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_ARBETSFORMAGA, error.getCategory());
+    Assert.assertEquals(NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(NEDSATT_ARBETSFORMAGA_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenMissingSjukskrivningsgrad() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-sjukskrivningsgrad");
+  @Test
+  public void testFailsWhenMissingSjukskrivningsgrad() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-sjukskrivningsgrad");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-        Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
-    }
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+    Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
+  }
 
-    @Test
-    public void testFailsWhenInvalidSjukskrivningsgrad() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsgrad");
+  @Test
+  public void testFailsWhenInvalidSjukskrivningsgrad() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsgrad");
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-        Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
-        assertEquals(ValidationMessageType.OTHER, error.getType());
-        assertEquals(AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT, error.getMessage());
-        assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+    Assert.assertEquals(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1, error.getField());
+    assertEquals(ValidationMessageType.OTHER, error.getType());
+    assertEquals(AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT, error.getMessage());
+    assertEquals(SJUKSKRIVNINGSGRAD_SVAR_ID, error.getQuestionId());
+  }
 
-    }
+  @Test
+  public void testFailsWhenInvalidSjukskrivningsperiod() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsperiod");
 
-    @Test
-    public void testFailsWhenInvalidSjukskrivningsperiod() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsperiod");
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+    Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", error.getField());
+    assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
+    assertEquals(COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER, error.getMessage());
+    assertEquals(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID, error.getQuestionId());
+  }
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-        Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", error.getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
-        assertEquals(COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER, error.getMessage());
-        assertEquals(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID, error.getQuestionId());
-    }
+  @Test
+  public void testFailsWhenMissingAnledningTillKontakt() throws ScenarioNotFoundException {
+    ValidateDraftResponse res = validateScenarioFile("fail-missing-kontaktanledning");
 
-    @Test
-    public void testFailsWhenMissingAnledningTillKontakt() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-kontaktanledning");
+    assertEquals(1, getNumberOfInternalValidationErrors(res));
+    ValidationMessage error = res.getValidationErrors().get(0);
+    Assert.assertEquals(CATEGORY_KONTAKT, error.getCategory());
+    Assert.assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9, error.getField());
+    assertEquals(ValidationMessageType.EMPTY, error.getType());
+    assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_ID, error.getQuestionId());
+  }
 
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_KONTAKT, error.getCategory());
-        Assert.assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-        assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_ID, error.getQuestionId());
-    }
-
-    private ValidateDraftResponse validateScenarioFile(String scenario) throws ScenarioNotFoundException {
-        Ag114UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario(scenario).asInternalModel();
-        return internalValidator.validateDraft(utlatandeFromJson);
-    }
+  private ValidateDraftResponse validateScenarioFile(String scenario)
+      throws ScenarioNotFoundException {
+    Ag114UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario(scenario).asInternalModel();
+    return internalValidator.validateDraft(utlatandeFromJson);
+  }
 }

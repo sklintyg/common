@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -48,141 +47,139 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTe
 @ExtendWith(MockitoExtension.class)
 class QuestionArbetsformagaTrotsSjukdomTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return CATEGORY_ARBETSFORMAGA_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
+      @Override
+      protected String getId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getSelectedText() {
+        return ANSWER_YES;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getUnselectedText() {
+        return ANSWER_NO;
+      }
 
-            @Override
-            protected String getId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected String getParent() {
-                return CATEGORY_ARBETSFORMAGA_ID;
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getTextId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID;
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
-
-            @Override
-            protected String getId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return ANSWER_YES;
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return ANSWER_NO;
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_DESCRIPTION_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_DESCRIPTION_ID;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionArbetsformagaTrotsSjukdom.toCertificate(expectedValue, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionArbetsformagaTrotsSjukdom.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return null;
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists(" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID + ")";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdom.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionArbetsformagaTrotsSjukdom.toCertificate(expectedValue, 0, textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionArbetsformagaTrotsSjukdom.toInternal(certificate);
+      }
+    }
+  }
 }

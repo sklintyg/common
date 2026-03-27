@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,59 +40,44 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 
 public final class InternalToCertificate {
 
-    private InternalToCertificate() {
+  private InternalToCertificate() {}
 
-    }
+  public static Certificate convert(
+      Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    int index = 0;
 
-    public static Certificate convert(Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        int index = 0;
-
-        return CertificateBuilder.create()
-            .metadata(
-                MetaDataGrundData.toCertificate(internalCertificate, texts)
-            )
-            .addElement(
-                CategoryFunktionsNedsattning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHarFunktionsnedsattning.toCertificate(internalCertificate.getHarFunktionsnedsattning(), index++, texts)
-            )
-            .addElement(
-                QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
-            )
-            .addElement(
-                CategoryAktivitetsbegransning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHarAktivitetsbegransning.toCertificate(internalCertificate.getHarAktivitetsbegransning(), index++, texts)
-            )
-            .addElement(
-                QuestionAktivitetsbegransning.toCertificate(internalCertificate.getAktivitetsbegransning(), index++, texts)
-            )
-            .addElement(
-                CategoryUtredningBehandling.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHarUtredningBehandling.toCertificate(internalCertificate.getHarUtredningBehandling(), index++, texts)
-            )
-            .addElement(
-                QuestionUtredningBehandling.toCertificate(internalCertificate.getUtredningBehandling(), index++, texts)
-            )
-            .addElement(
-                CategoryArbetspaverkan.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHarArbetspaverkan.toCertificate(internalCertificate.getHarArbetetsPaverkan(), index++, texts)
-            )
-            .addElement(
-                QuestionArbetspaverkan.toCertificate(internalCertificate.getArbetetsPaverkan(), index++, texts)
-            )
-            .addElement(
-                CategoryOvrigt.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionOvrigt.toCerticate(internalCertificate.getOvrigt(), index, texts)
-            )
-            .build();
-    }
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+        .addElement(CategoryFunktionsNedsattning.toCertificate(index++, texts))
+        .addElement(
+            QuestionHarFunktionsnedsattning.toCertificate(
+                internalCertificate.getHarFunktionsnedsattning(), index++, texts))
+        .addElement(
+            QuestionFunktionsnedsattning.toCertificate(
+                internalCertificate.getFunktionsnedsattning(), index++, texts))
+        .addElement(CategoryAktivitetsbegransning.toCertificate(index++, texts))
+        .addElement(
+            QuestionHarAktivitetsbegransning.toCertificate(
+                internalCertificate.getHarAktivitetsbegransning(), index++, texts))
+        .addElement(
+            QuestionAktivitetsbegransning.toCertificate(
+                internalCertificate.getAktivitetsbegransning(), index++, texts))
+        .addElement(CategoryUtredningBehandling.toCertificate(index++, texts))
+        .addElement(
+            QuestionHarUtredningBehandling.toCertificate(
+                internalCertificate.getHarUtredningBehandling(), index++, texts))
+        .addElement(
+            QuestionUtredningBehandling.toCertificate(
+                internalCertificate.getUtredningBehandling(), index++, texts))
+        .addElement(CategoryArbetspaverkan.toCertificate(index++, texts))
+        .addElement(
+            QuestionHarArbetspaverkan.toCertificate(
+                internalCertificate.getHarArbetetsPaverkan(), index++, texts))
+        .addElement(
+            QuestionArbetspaverkan.toCertificate(
+                internalCertificate.getArbetetsPaverkan(), index++, texts))
+        .addElement(CategoryOvrigt.toCertificate(index++, texts))
+        .addElement(QuestionOvrigt.toCerticate(internalCertificate.getOvrigt(), index, texts))
+        .build();
+  }
 }

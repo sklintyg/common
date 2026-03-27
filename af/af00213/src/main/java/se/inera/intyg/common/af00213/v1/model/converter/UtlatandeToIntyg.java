@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,61 +48,69 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private UtlatandeToIntyg() {
+  private UtlatandeToIntyg() {}
+
+  public static Intyg convert(Af00213UtlatandeV1 utlatande) {
+    Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
+    intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00213));
+    intyg.getSvar().addAll(getSvar(utlatande));
+    intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
+    return intyg;
+  }
+
+  private static List<Svar> getSvar(Af00213UtlatandeV1 source) {
+    List<Svar> svars = new ArrayList<>();
+
+    if (source.getHarFunktionsnedsattning() != null) {
+      svars.add(
+          aSvar(FUNKTIONSNEDSATTNING_SVAR_ID_1)
+              .withDelsvar(
+                  FUNKTIONSNEDSATTNING_DELSVAR_ID_11,
+                  source.getHarFunktionsnedsattning().toString())
+              .withDelsvar(FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning())
+              .build());
     }
 
-    public static Intyg convert(Af00213UtlatandeV1 utlatande) {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
-        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AF00213));
-        intyg.getSvar().addAll(getSvar(utlatande));
-        intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
-        return intyg;
+    if (source.getHarAktivitetsbegransning() != null) {
+      svars.add(
+          aSvar(AKTIVITETSBEGRANSNING_SVAR_ID_2)
+              .withDelsvar(
+                  AKTIVITETSBEGRANSNING_DELSVAR_ID_21,
+                  source.getHarAktivitetsbegransning().toString())
+              .withDelsvar(AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning())
+              .build());
     }
 
-    private static List<Svar> getSvar(Af00213UtlatandeV1 source) {
-        List<Svar> svars = new ArrayList<>();
-
-        if (source.getHarFunktionsnedsattning() != null) {
-            svars.add(aSvar(FUNKTIONSNEDSATTNING_SVAR_ID_1)
-                .withDelsvar(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, source.getHarFunktionsnedsattning().toString())
-                .withDelsvar(FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning())
-                .build());
-        }
-
-        if (source.getHarAktivitetsbegransning() != null) {
-            svars.add(aSvar(AKTIVITETSBEGRANSNING_SVAR_ID_2)
-                .withDelsvar(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, source.getHarAktivitetsbegransning().toString())
-                .withDelsvar(AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning())
-                .build());
-        }
-
-        if (source.getHarUtredningBehandling() != null) {
-            svars.add(aSvar(UTREDNING_BEHANDLING_SVAR_ID_3)
-                .withDelsvar(UTREDNING_BEHANDLING_DELSVAR_ID_31, source.getHarUtredningBehandling().toString())
-                .withDelsvar(UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling())
-                .build());
-        }
-
-        if (source.getHarArbetetsPaverkan() != null) {
-            svars.add(aSvar(ARBETETS_PAVERKAN_SVAR_ID_4)
-                .withDelsvar(ARBETETS_PAVERKAN_DELSVAR_ID_41, source.getHarArbetetsPaverkan().toString())
-                .withDelsvar(ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan())
-                .build());
-        }
-
-        addIfNotBlank(svars, OVRIGT_SVAR_ID_5, OVRIGT_DELSVAR_ID_5, buildOvrigaUpplysningar(source));
-
-        return svars;
+    if (source.getHarUtredningBehandling() != null) {
+      svars.add(
+          aSvar(UTREDNING_BEHANDLING_SVAR_ID_3)
+              .withDelsvar(
+                  UTREDNING_BEHANDLING_DELSVAR_ID_31, source.getHarUtredningBehandling().toString())
+              .withDelsvar(UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling())
+              .build());
     }
 
-    // Original taken and then modified from luse/../UtlatandeToIntyg.java, INTYG-3024
-    private static String buildOvrigaUpplysningar(Af00213UtlatandeV1 source) {
-        String ovrigt = null;
-
-        if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {
-            ovrigt = source.getOvrigt();
-        }
-        return ovrigt;
+    if (source.getHarArbetetsPaverkan() != null) {
+      svars.add(
+          aSvar(ARBETETS_PAVERKAN_SVAR_ID_4)
+              .withDelsvar(
+                  ARBETETS_PAVERKAN_DELSVAR_ID_41, source.getHarArbetetsPaverkan().toString())
+              .withDelsvar(ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan())
+              .build());
     }
 
+    addIfNotBlank(svars, OVRIGT_SVAR_ID_5, OVRIGT_DELSVAR_ID_5, buildOvrigaUpplysningar(source));
+
+    return svars;
+  }
+
+  // Original taken and then modified from luse/../UtlatandeToIntyg.java, INTYG-3024
+  private static String buildOvrigaUpplysningar(Af00213UtlatandeV1 source) {
+    String ovrigt = null;
+
+    if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {
+      ovrigt = source.getOvrigt();
+    }
+    return ovrigt;
+  }
 }

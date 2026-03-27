@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,131 +38,168 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 // CHECKSTYLE:ON LineLength
 
-/**
- * Derived from the ValidatorUtilFK.
- */
+/** Derived from the ValidatorUtilFK. */
 @Component
 public class ValidatorUtilSKL {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtilSKL.class);
-    private static final int MIN_SIZE_PSYKISK_DIAGNOS = 4;
-    private static final int MIN_SIZE_DIAGNOS = 3;
-    private static final int MAX_SIZE_DIAGNOS = 5;
-    private static final String CATEGORY_DIAGNOS = "diagnos";
+  private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtilSKL.class);
+  private static final int MIN_SIZE_PSYKISK_DIAGNOS = 4;
+  private static final int MIN_SIZE_DIAGNOS = 3;
+  private static final int MAX_SIZE_DIAGNOS = 5;
+  private static final String CATEGORY_DIAGNOS = "diagnos";
 
-    @Autowired(required = false)
-    private WebcertModuleService moduleService;
+  @Autowired(required = false)
+  private WebcertModuleService moduleService;
 
-    public void validateDiagnose(List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
+  public void validateDiagnose(
+      List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
 
-        if (diagnoser == null || diagnoser.isEmpty()) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                TYP_AV_DIAGNOS_SVAR_JSON_ID_4,
-                ValidationMessageType.EMPTY,
-                "common.validation.diagnos.missing", TYP_AV_DIAGNOS_SVAR_ID);
-            return;
-        }
-
-        if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
-            // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[0].row",
-                ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a", TYP_AV_DIAGNOS_SVAR_ID);
-            return;
-        }
-
-        // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
-        String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
-
-        for (int i = 0; i < diagnoser.size(); i++) {
-            Diagnos diagnos = diagnoser.get(i);
-
-            /*
-             * R8 För delfråga 4.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
-             * (t.ex. F32).
-             * R9 För delfråga 4.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
-             * Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i
-             * ICD-10).
-             */
-            if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
-                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                    TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
-                    ValidationMessageType.EMPTY, "common.validation.diagnos.codemissing", TYP_AV_DIAGNOS_SVAR_ID);
-            } else {
-                String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
-                if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
-                    && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
-                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                        TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.psykisk.length-4", TYP_AV_DIAGNOS_SVAR_ID);
-                } else if (trimDiagnoskod.length() < MIN_SIZE_DIAGNOS) {
-                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                        TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.length-3", TYP_AV_DIAGNOS_SVAR_ID);
-                } else if (trimDiagnoskod.length() > MAX_SIZE_DIAGNOS) {
-                    ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                        TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.diagnos.length-5", TYP_AV_DIAGNOS_SVAR_ID);
-                } else {
-                    validateDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(),
-                        "common.validation.diagnos.invalid", validationMessages);
-                }
-            }
-            if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
-                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                    TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnosbeskrivning",
-                    ValidationMessageType.EMPTY,
-                    "common.validation.diagnos.description.missing", TYP_AV_DIAGNOS_SVAR_ID);
-            }
-            if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
-                && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
-                ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS,
-                    TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + ".diagnoskodsystem",
-                    ValidationMessageType.INCORRECT_COMBINATION,
-                    "common.validation.diagnos.invalid_combination", TYP_AV_DIAGNOS_SVAR_ID);
-            }
-        }
+    if (diagnoser == null || diagnoser.isEmpty()) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          TYP_AV_DIAGNOS_SVAR_JSON_ID_4,
+          ValidationMessageType.EMPTY,
+          "common.validation.diagnos.missing",
+          TYP_AV_DIAGNOS_SVAR_ID);
+      return;
     }
 
-    private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-        List<ValidationMessage> validationMessages) {
-        // if moduleService is not available, skip this validation
-        if (moduleService == null) {
-            LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
-            return;
-        }
-
-        if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
-            ValidatorUtil.addValidationErrorWithQuestionId(validationMessages, CATEGORY_DIAGNOS, TYP_AV_DIAGNOS_SVAR_JSON_ID_4,
-                ValidationMessageType.INVALID_FORMAT, msgKey, TYP_AV_DIAGNOS_SVAR_ID);
-        }
-
+    if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
+      // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra
+      // fel visas.
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[0].row",
+          ValidationMessageType.INCORRECT_COMBINATION,
+          "common.validation.c-13a",
+          TYP_AV_DIAGNOS_SVAR_ID);
+      return;
     }
 
-    private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
-        Diagnos diagnos = diagnoser.get(0);
-        return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
-            || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
-    }
+    // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
+    String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
 
-    public boolean isIntInRange(String intString, int min, int max) {
-        final Integer parsedInteger = Ints.tryParse(intString);
+    for (int i = 0; i < diagnoser.size(); i++) {
+      Diagnos diagnos = diagnoser.get(i);
 
-        if (parsedInteger == null) {
-            return false;
+      /*
+       * R8 För delfråga 4.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
+       * (t.ex. F32).
+       * R9 För delfråga 4.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
+       * Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i
+       * ICD-10).
+       */
+      if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
+        ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
+            ValidationMessageType.EMPTY,
+            "common.validation.diagnos.codemissing",
+            TYP_AV_DIAGNOS_SVAR_ID);
+      } else {
+        String trimDiagnoskod = diagnos.getDiagnosKod().trim().toUpperCase();
+        if ((trimDiagnoskod.startsWith("Z73") || trimDiagnoskod.startsWith("F"))
+            && trimDiagnoskod.length() < MIN_SIZE_PSYKISK_DIAGNOS) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.psykisk.length-4",
+              TYP_AV_DIAGNOS_SVAR_ID);
+        } else if (trimDiagnoskod.length() < MIN_SIZE_DIAGNOS) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.length-3",
+              TYP_AV_DIAGNOS_SVAR_ID);
+        } else if (trimDiagnoskod.length() > MAX_SIZE_DIAGNOS) {
+          ValidatorUtil.addValidationErrorWithQuestionId(
+              validationMessages,
+              CATEGORY_DIAGNOS,
+              TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnoskod",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.diagnos.length-5",
+              TYP_AV_DIAGNOS_SVAR_ID);
+        } else {
+          validateDiagnosKod(
+              diagnos.getDiagnosKod(),
+              diagnos.getDiagnosKodSystem(),
+              "common.validation.diagnos.invalid",
+              validationMessages);
         }
+      }
+      if (Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()) {
+        ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[" + i + "].diagnosbeskrivning",
+            ValidationMessageType.EMPTY,
+            "common.validation.diagnos.description.missing",
+            TYP_AV_DIAGNOS_SVAR_ID);
+      }
+      if (!Strings.nullToEmpty(diagnos.getDiagnosKodSystem()).trim().isEmpty()
+          && !kodverk.equals(diagnos.getDiagnosKodSystem().trim())) {
+        ValidatorUtil.addValidationErrorWithQuestionId(
+            validationMessages,
+            CATEGORY_DIAGNOS,
+            TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + ".diagnoskodsystem",
+            ValidationMessageType.INCORRECT_COMBINATION,
+            "common.validation.diagnos.invalid_combination",
+            TYP_AV_DIAGNOS_SVAR_ID);
+      }
+    }
+  }
 
-        if (intString.length() > 1 && intString.charAt(0) == '0') {
-            return false;
-        }
-
-        return parsedInteger >= min && parsedInteger <= max;
+  private void validateDiagnosKod(
+      String diagnosKod,
+      String kodsystem,
+      String msgKey,
+      List<ValidationMessage> validationMessages) {
+    // if moduleService is not available, skip this validation
+    if (moduleService == null) {
+      LOG.warn(
+          "Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
+      return;
     }
 
-    public boolean hasNoContent(String stringValue) {
-        return (stringValue == null || stringValue.trim().isEmpty());
+    if (!moduleService.validateDiagnosisCode(diagnosKod, kodsystem)) {
+      ValidatorUtil.addValidationErrorWithQuestionId(
+          validationMessages,
+          CATEGORY_DIAGNOS,
+          TYP_AV_DIAGNOS_SVAR_JSON_ID_4,
+          ValidationMessageType.INVALID_FORMAT,
+          msgKey,
+          TYP_AV_DIAGNOS_SVAR_ID);
     }
+  }
+
+  private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
+    Diagnos diagnos = diagnoser.get(0);
+    return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
+        || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
+  }
+
+  public boolean isIntInRange(String intString, int min, int max) {
+    final Integer parsedInteger = Ints.tryParse(intString);
+
+    if (parsedInteger == null) {
+      return false;
+    }
+
+    if (intString.length() > 1 && intString.charAt(0) == '0') {
+      return false;
+    }
+
+    return parsedInteger >= min && parsedInteger <= max;
+  }
+
+  public boolean hasNoContent(String stringValue) {
+    return (stringValue == null || stringValue.trim().isEmpty());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,145 +32,219 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("ag114.v1.sch");
+  private static final RegisterCertificateValidator VALIDATOR =
+      new RegisterCertificateValidator("ag114.v1.sch");
 
-    static {
-        // avoid com.helger debug log
-        GlobalDebug.setDebugModeDirect(false);
-    }
+  static {
+    // avoid com.helger debug log
+    GlobalDebug.setDebugModeDirect(false);
+  }
 
-    private URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+  private URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 
-    @Test
-    public void validXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/pass-minimal.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void validXmlPassesTest() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/pass-minimal.xml"), StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertTrue(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void failsOnInvalidSjukskrivningsgrad() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"),
+  @Test
+  public void failsOnInvalidSjukskrivningsgrad() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%"));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%"));
+  }
 
-    @Test
-    public void failsOnInvalidSjukskrivningsPeriod() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsperiod.xml"),
+  @Test
+  public void failsOnInvalidSjukskrivningsPeriod() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsperiod.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("'from' måste vara mindre än eller lika med 'to'"));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains("'from' måste vara mindre än eller lika med 'to'"));
+  }
 
-    @Test
-    public void failsOnMissingArbetsformaga() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-arbetsformaga.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains(
-            "Om 'Finns arbetsförmåga trots sjukdom' besvarats med 'Ja' måste 'Beskriv arbetsförmåga trots sjukdom' besvaras."));
-    }
-
-    @Test
-    public void failsOnMissingDiagnoses() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnoser.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains(
-            "Om 'Önskar förmedla diagnos (FRG 3.1)' besvaras med 'Ja' är frågan 'Typ av diagnos (FRG 4)' obligatorisk att besvara."));
-    }
-
-    @Test
-    public void failsOnMissingDiagnosBeskrivning() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnos1.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("Sträng kan inte vara tom."));
-    }
-
-    @Test
-    public void failsOnMissingOnskarFormedlaDiagnos() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedling.xml"),
+  @Test
+  public void failsOnMissingArbetsformaga() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-arbetsformaga.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("Ett 'AG1-14' måste innehålla 1 'Önskar förmedla diagnoser'."));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "Om 'Finns arbetsförmåga trots sjukdom' besvarats med 'Ja' måste 'Beskriv arbetsförmåga trots sjukdom' besvaras."));
+  }
 
-    @Test
-    public void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
-        String inputXml = Resources
-            .toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("'Önskar förmedla diagnoser' måste ha ett 'Önskar förmedla diagnoser'."));
-    }
-
-    @Test
-    public void failsOnMissingKontaktanledning() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"),
+  @Test
+  public void failsOnMissingDiagnoses() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-diagnoser.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras."));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "Om 'Önskar förmedla diagnos (FRG 3.1)' besvaras med 'Ja' är frågan 'Typ av diagnos (FRG 4)' obligatorisk att besvara."));
+  }
 
-    @Test
-    public void failsOnMissingNuvarandeArbete() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-nuvarandearbete.xml"),
+  @Test
+  public void failsOnMissingDiagnosBeskrivning() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-diagnos1.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("Sträng kan inte vara tom."));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(response.getValidationErrors().get(0).contains("Sträng kan inte vara tom."));
+  }
 
-    @Test
-    public void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
-        String inputXml = Resources
-            .toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningbedomningavnedsattningavarbetsformaga.xml"),
-                StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'."));
-    }
-
-    @Test
-    public void failsOnMissingSjukskrivningsgrad() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"),
+  @Test
+  public void failsOnMissingOnskarFormedlaDiagnos() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-diagnosformedling.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'."));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains("Ett 'AG1-14' måste innehålla 1 'Önskar förmedla diagnoser'."));
+  }
 
-    @Test
-    public void failsOnMissingSjukskrivningsperiod() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"),
+  @Test
+  public void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"),
             StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
-            .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'."));
-    }
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains("'Önskar förmedla diagnoser' måste ha ett 'Önskar förmedla diagnoser'."));
+  }
 
-    @Test
-    public void failsOnMissingSysselsattning() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sysselsattning.xml"), StandardCharsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0)
+  @Test
+  public void failsOnMissingKontaktanledning() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras."));
+  }
+
+  @Test
+  public void failsOnMissingNuvarandeArbete() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-nuvarandearbete.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(response.getValidationErrors().get(0).contains("Sträng kan inte vara tom."));
+  }
+
+  @Test
+  public void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource(
+                "v1/transport/scenarios/fail-missing-sjukskrivningbedomningavnedsattningavarbetsformaga.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'."));
+  }
+
+  @Test
+  public void failsOnMissingSjukskrivningsgrad() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'."));
+  }
+
+  @Test
+  public void failsOnMissingSjukskrivningsperiod() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
+            .contains(
+                "'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'."));
+  }
+
+  @Test
+  public void failsOnMissingSysselsattning() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/scenarios/fail-missing-sysselsattning.xml"),
+            StandardCharsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertEquals(1, response.getValidationErrors().size());
+    assertTrue(
+        response
+            .getValidationErrors()
+            .get(0)
             .contains("'Typ av sysselsättning' måste ha värdet NUVARANDE_ARBETE."));
-    }
-
+  }
 }

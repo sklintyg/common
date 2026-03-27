@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,47 +38,48 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionAnnatBeskrivning {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String annatBeskrivning, int index, CertificateTextProvider texts) {
+  public static CertificateDataElement toCertificate(
+      String annatBeskrivning, int index, CertificateTextProvider texts) {
 
-        return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
-                    .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
-                    .text(annatBeskrivning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID)
-                        .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID)
+        .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
+                .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
+                .text(annatBeskrivning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID)
+                  .expression(singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID)
+                  .expression(
+                      singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID,
-            GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID,
+        GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID);
+  }
 }

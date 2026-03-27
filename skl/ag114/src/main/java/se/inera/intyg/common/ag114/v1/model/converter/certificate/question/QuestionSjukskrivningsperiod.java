@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_HEADER_ID;
@@ -40,41 +39,44 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 public class QuestionSjukskrivningsperiod {
 
-    public static CertificateDataElement toCertificate(InternalLocalDateInterval sjukskrivningsPeriod, int index,
-        CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID)
-            .index(index)
-            .parent(SJUKSKRIVNINGSGRAD_HEADER_ID)
-            .config(
-                CertificateDataConfigDateRange.builder()
-                    .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
-                    .text(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_TEXT_ID))
-                    .fromLabel(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_FROM_ID))
-                    .toLabel(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_TOM_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueDateRange.builder()
-                    .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
-                    .from(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.fromAsLocalDate()
+  public static CertificateDataElement toCertificate(
+      InternalLocalDateInterval sjukskrivningsPeriod,
+      int index,
+      CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID)
+        .index(index)
+        .parent(SJUKSKRIVNINGSGRAD_HEADER_ID)
+        .config(
+            CertificateDataConfigDateRange.builder()
+                .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
+                .text(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_TEXT_ID))
+                .fromLabel(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_FROM_ID))
+                .toLabel(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_LABEL_TOM_ID))
+                .build())
+        .value(
+            CertificateDataValueDateRange.builder()
+                .id(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID)
+                .from(
+                    sjukskrivningsPeriod != null
+                        ? sjukskrivningsPeriod.fromAsLocalDate()
                         : LocalDate.now())
-                    .to(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.tomAsLocalDate()
-                        : null)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID)
-                        .expression(singleExpression(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+                .to(sjukskrivningsPeriod != null ? sjukskrivningsPeriod.tomAsLocalDate() : null)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID)
+                  .expression(singleExpression(SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static InternalLocalDateInterval toInternal(Certificate certificate) {
-        return dateRangeValue(certificate.getData(), SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID, SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID);
-    }
+  public static InternalLocalDateInterval toInternal(Certificate certificate) {
+    return dateRangeValue(
+        certificate.getData(),
+        SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID,
+        SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID);
+  }
 }

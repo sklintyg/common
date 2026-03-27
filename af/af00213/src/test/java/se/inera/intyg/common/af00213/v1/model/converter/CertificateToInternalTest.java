@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,22 +49,23 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @DisplayName("Should convert Certificate to AF00213")
 class CertificateToInternalTest {
 
-    private CertificateTextProvider texts;
-    private Af00213UtlatandeV1 expectedInternalCertificate;
-    private Certificate certificate;
+  private CertificateTextProvider texts;
+  private Af00213UtlatandeV1 expectedInternalCertificate;
+  private Certificate certificate;
 
-    @BeforeEach
-    private void setup() {
-        final var grundData = new GrundData();
-        final var hosPersonal = new HoSPersonal();
-        final var vardenhet = new Vardenhet();
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        hosPersonal.setVardenhet(vardenhet);
-        grundData.setSkapadAv(hosPersonal);
-        grundData.setPatient(patient);
+  @BeforeEach
+  private void setup() {
+    final var grundData = new GrundData();
+    final var hosPersonal = new HoSPersonal();
+    final var vardenhet = new Vardenhet();
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    hosPersonal.setVardenhet(vardenhet);
+    grundData.setSkapadAv(hosPersonal);
+    grundData.setPatient(patient);
 
-        expectedInternalCertificate = Af00213UtlatandeV1.builder()
+    expectedInternalCertificate =
+        Af00213UtlatandeV1.builder()
             .setGrundData(grundData)
             .setId("id")
             .setTextVersion("TextVersion")
@@ -79,86 +80,132 @@ class CertificateToInternalTest {
             .setOvrigt("Övrigt")
             .build();
 
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
 
-        certificate = CertificateBuilder.create()
+    certificate =
+        CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
-            .addElement(QuestionHarFunktionsnedsattning.toCertificate(expectedInternalCertificate.getHarFunktionsnedsattning(), 0, texts))
-            .addElement(QuestionFunktionsnedsattning.toCertificate(expectedInternalCertificate.getFunktionsnedsattning(), 0, texts))
-            .addElement(QuestionHarAktivitetsbegransning.toCertificate(expectedInternalCertificate.getHarAktivitetsbegransning(), 0, texts))
-            .addElement(QuestionAktivitetsbegransning.toCertificate(expectedInternalCertificate.getAktivitetsbegransning(), 0, texts))
-            .addElement(QuestionHarUtredningBehandling.toCertificate(expectedInternalCertificate.getHarUtredningBehandling(), 0, texts))
-            .addElement(QuestionUtredningBehandling.toCertificate(expectedInternalCertificate.getUtredningBehandling(), 0, texts))
-            .addElement(QuestionHarArbetspaverkan.toCertificate(expectedInternalCertificate.getHarArbetetsPaverkan(), 0, texts))
-            .addElement(QuestionArbetspaverkan.toCertificate(expectedInternalCertificate.getArbetetsPaverkan(), 0, texts))
-            .addElement(QuestionOvrigt.toCerticate(expectedInternalCertificate.getOvrigt(), 0, texts))
+            .addElement(
+                QuestionHarFunktionsnedsattning.toCertificate(
+                    expectedInternalCertificate.getHarFunktionsnedsattning(), 0, texts))
+            .addElement(
+                QuestionFunktionsnedsattning.toCertificate(
+                    expectedInternalCertificate.getFunktionsnedsattning(), 0, texts))
+            .addElement(
+                QuestionHarAktivitetsbegransning.toCertificate(
+                    expectedInternalCertificate.getHarAktivitetsbegransning(), 0, texts))
+            .addElement(
+                QuestionAktivitetsbegransning.toCertificate(
+                    expectedInternalCertificate.getAktivitetsbegransning(), 0, texts))
+            .addElement(
+                QuestionHarUtredningBehandling.toCertificate(
+                    expectedInternalCertificate.getHarUtredningBehandling(), 0, texts))
+            .addElement(
+                QuestionUtredningBehandling.toCertificate(
+                    expectedInternalCertificate.getUtredningBehandling(), 0, texts))
+            .addElement(
+                QuestionHarArbetspaverkan.toCertificate(
+                    expectedInternalCertificate.getHarArbetetsPaverkan(), 0, texts))
+            .addElement(
+                QuestionArbetspaverkan.toCertificate(
+                    expectedInternalCertificate.getArbetetsPaverkan(), 0, texts))
+            .addElement(
+                QuestionOvrigt.toCerticate(expectedInternalCertificate.getOvrigt(), 0, texts))
             .build();
-    }
+  }
 
-    @Test
-    void shallIncludeId() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
-    }
+  @Test
+  void shallIncludeId() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
+  }
 
-    @Test
-    void shallIncludeTextVersion() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
-    }
+  @Test
+  void shallIncludeTextVersion() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
+  }
 
-    @Test
-    void shallIncludeGrundData() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
-    }
+  @Test
+  void shallIncludeGrundData() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+  }
 
-    @Test
-    void shallIncludeHarFunktionsNedsattning() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHarFunktionsnedsattning(), actualInternalCertificate.getHarFunktionsnedsattning());
-    }
+  @Test
+  void shallIncludeHarFunktionsNedsattning() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHarFunktionsnedsattning(),
+        actualInternalCertificate.getHarFunktionsnedsattning());
+  }
 
-    @Test
-    void shallIncludeFunktionsNedsattning() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getFunktionsnedsattning(), actualInternalCertificate.getFunktionsnedsattning());
-    }
+  @Test
+  void shallIncludeFunktionsNedsattning() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getFunktionsnedsattning(),
+        actualInternalCertificate.getFunktionsnedsattning());
+  }
 
-    @Test
-    void shallIncludeHarAktivitetsbegransning() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHarAktivitetsbegransning(), actualInternalCertificate.getHarAktivitetsbegransning());
-    }
+  @Test
+  void shallIncludeHarAktivitetsbegransning() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHarAktivitetsbegransning(),
+        actualInternalCertificate.getHarAktivitetsbegransning());
+  }
 
-    @Test
-    void shallIncludeAktivitetsbegransning() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAktivitetsbegransning(), actualInternalCertificate.getAktivitetsbegransning());
-    }
+  @Test
+  void shallIncludeAktivitetsbegransning() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAktivitetsbegransning(),
+        actualInternalCertificate.getAktivitetsbegransning());
+  }
 
-    @Test
-    void shallIncludeHarUtredningBehandling() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHarUtredningBehandling(), actualInternalCertificate.getHarUtredningBehandling());
-    }
+  @Test
+  void shallIncludeHarUtredningBehandling() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHarUtredningBehandling(),
+        actualInternalCertificate.getHarUtredningBehandling());
+  }
 
-    @Test
-    void shallIncludeUtredningBehandling() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getUtredningBehandling(), actualInternalCertificate.getUtredningBehandling());
-    }
+  @Test
+  void shallIncludeUtredningBehandling() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getUtredningBehandling(),
+        actualInternalCertificate.getUtredningBehandling());
+  }
 
-    @Test
-    void shallIncludeHarArbetetsPaverkan() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHarArbetetsPaverkan(), actualInternalCertificate.getHarArbetetsPaverkan());
-    }
+  @Test
+  void shallIncludeHarArbetetsPaverkan() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHarArbetetsPaverkan(),
+        actualInternalCertificate.getHarArbetetsPaverkan());
+  }
 
-    @Test
-    void shallIncludeArbetetsPaverkan() {
-        final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getArbetetsPaverkan(), actualInternalCertificate.getArbetetsPaverkan());
-    }
+  @Test
+  void shallIncludeArbetetsPaverkan() {
+    final var actualInternalCertificate =
+        CertificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getArbetetsPaverkan(),
+        actualInternalCertificate.getArbetetsPaverkan());
+  }
 }

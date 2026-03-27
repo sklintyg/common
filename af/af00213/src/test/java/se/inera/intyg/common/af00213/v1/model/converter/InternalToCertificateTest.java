@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,23 +51,24 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @DisplayName("Should convert AF00213Utlatande to Certificate")
 class InternalToCertificateTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
-    private Af00213UtlatandeV1 internalCertificate;
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+  private Af00213UtlatandeV1 internalCertificate;
 
-    @BeforeEach
-    void setup() {
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        final var unit = new Vardenhet();
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
+  @BeforeEach
+  void setup() {
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    final var unit = new Vardenhet();
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
 
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
 
-        internalCertificate = Af00213UtlatandeV1.builder()
+    internalCertificate =
+        Af00213UtlatandeV1.builder()
             .setGrundData(grundData)
             .setId("id")
             .setTextVersion("TextVersion")
@@ -82,97 +83,99 @@ class InternalToCertificateTest {
             .setOvrigt("Övrigt")
             .build();
 
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shallIncludeMetaData() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertNotNull(actualCertificate.getMetadata(), "Metadata is missing!");
-    }
+  @Test
+  void shallIncludeMetaData() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertNotNull(actualCertificate.getMetadata(), "Metadata is missing!");
+  }
 
-    @Test
-    void shallIncludeCategoryFunktionsnedsattningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(0, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryFunktionsnedsattningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(0, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionHarFunktionsnedsattningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(1, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionHarFunktionsnedsattningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(1, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_11).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionFunktionsnedsattningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(2, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionFunktionsnedsattningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(2, actualCertificate.getData().get(FUNKTIONSNEDSATTNING_DELSVAR_ID_12).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryAktivitetsbegransningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(3, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryAktivitetsbegransningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(3, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionHarAktivitetsbegransningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(4, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionHarAktivitetsbegransningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(
+        4, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAktivitetsbegransningInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(5, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAktivitetsbegransningInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(
+        5, actualCertificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_22).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryUtredningBehandlingInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(6, actualCertificate.getData().get(UTREDNING_BEHANDLING_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryUtredningBehandlingInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(6, actualCertificate.getData().get(UTREDNING_BEHANDLING_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionHarUtredningBehandlingInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(7, actualCertificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionHarUtredningBehandlingInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(7, actualCertificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_31).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionUtredningBehandlingInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(8, actualCertificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionUtredningBehandlingInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(8, actualCertificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryArbetspaverkanInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(9, actualCertificate.getData().get(ARBETETS_PAVERKAN_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryArbetspaverkanInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(9, actualCertificate.getData().get(ARBETETS_PAVERKAN_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionHarArbetspaverkanInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(10, actualCertificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionHarArbetspaverkanInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(10, actualCertificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_41).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionArbetspaverkanInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(11, actualCertificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionArbetspaverkanInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(11, actualCertificate.getData().get(ARBETETS_PAVERKAN_DELSVAR_ID_42).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryOvrigtInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(12, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryOvrigtInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(12, actualCertificate.getData().get(OVRIGT_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOvrigtInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
-        assertEquals(13, actualCertificate.getData().get(OVRIGT_DELSVAR_ID_5).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOvrigtInCorrectPosition() {
+    final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts);
+    assertEquals(13, actualCertificate.getData().get(OVRIGT_DELSVAR_ID_5).getIndex());
+  }
 }

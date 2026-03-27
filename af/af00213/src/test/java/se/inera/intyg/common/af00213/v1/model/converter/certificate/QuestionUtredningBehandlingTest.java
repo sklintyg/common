@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -60,179 +60,212 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionUtredningBehandlingTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    private Af00213UtlatandeV1 internalCertificate;
 
     @BeforeEach
     void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      internalCertificate =
+          Af00213UtlatandeV1.builder()
+              .setGrundData(new GrundData())
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
+    }
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeUtredningBehandlingValue(String expectedValue) {
+      final var index = 1;
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionUtredningBehandling.toCertificate(expectedValue, index, texts))
+              .build();
+
+      final var updatedCertificate =
+          CertificateToInternal.convert(certificate, internalCertificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(updatedCertificate.getUtredningBehandling());
+      } else {
+        assertEquals(expectedValue, updatedCertificate.getUtredningBehandling());
+      }
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    private GrundData grundData;
+
+    @BeforeEach
+    void setup() {
+      final var unit = new Vardenhet();
+
+      final var skapadAv = new HoSPersonal();
+      skapadAv.setVardenhet(unit);
+
+      grundData = new GrundData();
+      grundData.setSkapadAv(skapadAv);
+
+      final var patient = new Patient();
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+      grundData.setPatient(patient);
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class QuestionUtredningOchBehandling {
 
-        private Af00213UtlatandeV1 internalCertificate;
+      private Af00213UtlatandeV1 internalCertificate;
 
-        @BeforeEach
-        void setup() {
-            internalCertificate = Af00213UtlatandeV1.builder()
-                .setGrundData(new GrundData())
+      @BeforeEach
+      void createAf00213ToConvert() {
+        internalCertificate =
+            Af00213UtlatandeV1.builder()
+                .setGrundData(grundData)
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .setUtredningBehandling("Text som beskriver Utredning/Behandling.")
+                .build();
+      }
+
+      @Test
+      void shouldIncludeQuestionElement() {
+        final var expectedIndex = 8;
+
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
+
+        assertAll(
+            "Validating question Funktionsnedsättning",
+            () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_32, question.getId()),
+            () -> assertEquals(expectedIndex, question.getIndex()),
+            () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_31, question.getParent()),
+            () -> assertNotNull(question.getValue(), "Should include a value"),
+            () -> assertNotNull(question.getValidation(), "Should include validation"),
+            () -> assertNotNull(question.getConfig(), "Should include config"));
+      }
+
+      @Test
+      void shouldIncludeQuestionConfig() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
+
+        assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
+
+        final var certificateDataConfigTextArea =
+            (CertificateDataConfigTextArea) question.getConfig();
+        assertAll(
+            "Validating question configuration",
+            () ->
+                assertTrue(
+                    certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
+            () ->
+                assertTrue(
+                    certificateDataConfigTextArea.getDescription().trim().length() > 0,
+                    "Missing description"),
+            () ->
+                assertEquals(
+                    UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataConfigTextArea.getId()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValue() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
+
+        final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+        assertAll(
+            "Validating question value",
+            () ->
+                assertEquals(
+                    UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataTextValue.getId()),
+            () ->
+                assertEquals(
+                    internalCertificate.getUtredningBehandling(),
+                    certificateDataTextValue.getText()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValueEmpty() {
+        internalCertificate =
+            Af00213UtlatandeV1.builder()
+                .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
                 .build();
-        }
 
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeUtredningBehandlingValue(String expectedValue) {
-            final var index = 1;
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionUtredningBehandling.toCertificate(expectedValue, index, texts))
-                .build();
+        final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+        assertAll(
+            "Validating question value",
+            () ->
+                assertEquals(
+                    UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataTextValue.getId()),
+            () -> assertNull(certificateDataTextValue.getText()));
+      }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+      @Test
+      void shouldIncludeQuestionValidationMandatory() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(updatedCertificate.getUtredningBehandling());
-            } else {
-                assertEquals(expectedValue, updatedCertificate.getUtredningBehandling());
-            }
-        }
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
+
+        final var certificateDataValidationMandatory =
+            (CertificateDataValidationMandatory) question.getValidation()[0];
+        assertAll(
+            "Validation question validation",
+            () ->
+                assertEquals(
+                    UTREDNING_BEHANDLING_DELSVAR_ID_32,
+                    certificateDataValidationMandatory.getQuestionId()),
+            () ->
+                assertEquals(
+                    "$" + UTREDNING_BEHANDLING_SVAR_JSON_ID_32,
+                    certificateDataValidationMandatory.getExpression()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValidationShow() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
+
+        final var certificateDataValidationShow =
+            (CertificateDataValidationShow) question.getValidation()[1];
+        assertAll(
+            "Validation question validation",
+            () ->
+                assertEquals(
+                    UTREDNING_BEHANDLING_DELSVAR_ID_31,
+                    certificateDataValidationShow.getQuestionId()),
+            () ->
+                assertEquals(
+                    "$" + UTREDNING_BEHANDLING_SVAR_JSON_ID_31,
+                    certificateDataValidationShow.getExpression()));
+      }
     }
-
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        private GrundData grundData;
-
-        @BeforeEach
-        void setup() {
-            final var unit = new Vardenhet();
-
-            final var skapadAv = new HoSPersonal();
-            skapadAv.setVardenhet(unit);
-
-            grundData = new GrundData();
-            grundData.setSkapadAv(skapadAv);
-
-            final var patient = new Patient();
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-            grundData.setPatient(patient);
-        }
-
-        @Nested
-        class QuestionUtredningOchBehandling {
-
-            private Af00213UtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createAf00213ToConvert() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setUtredningBehandling("Text som beskriver Utredning/Behandling.")
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeQuestionElement() {
-                final var expectedIndex = 8;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                assertAll("Validating question Funktionsnedsättning",
-                    () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_32, question.getId()),
-                    () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_31, question.getParent()),
-                    () -> assertNotNull(question.getValue(), "Should include a value"),
-                    () -> assertNotNull(question.getValidation(), "Should include validation"),
-                    () -> assertNotNull(question.getConfig(), "Should include config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
-
-                final var certificateDataConfigTextArea = (CertificateDataConfigTextArea) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigTextArea.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigTextArea.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataConfigTextArea.getId())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataTextValue.getId()),
-                    () -> assertEquals(internalCertificate.getUtredningBehandling(), certificateDataTextValue.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataTextValue.getId()),
-                    () -> assertNull(certificateDataTextValue.getText())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-                assertAll("Validation question validation",
-                    () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_32, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals("$" + UTREDNING_BEHANDLING_SVAR_JSON_ID_32, certificateDataValidationMandatory.getExpression())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(UTREDNING_BEHANDLING_DELSVAR_ID_32);
-
-                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(UTREDNING_BEHANDLING_DELSVAR_ID_31, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals("$" + UTREDNING_BEHANDLING_SVAR_JSON_ID_31, certificateDataValidationShow.getExpression())
-                );
-            }
-        }
-    }
+  }
 }

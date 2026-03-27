@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -48,175 +47,174 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionArbetsformagaTrotsSjukdomBeskrivningTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getTextId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected String getParent() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
-            }
-
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
-            }
-        }
-
-        @Nested
-        class IncludeValueTextTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate("arbetsformagaBeskrivning", 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
-            }
-
-            @Override
-            protected String getText() {
-                return "arbetsformagaBeskrivning";
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeValidationShowTests extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Nested
-        class IncludeValidationTextTests extends ValidationTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 2;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 3500;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueTextTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(
+            "arbetsformagaBeskrivning", 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(expectedValue, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionArbetsformagaTrotsSjukdomBeskrivning.toInternal(certificate);
-            }
-        }
-
+      @Override
+      protected String getText() {
+        return "arbetsformagaBeskrivning";
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + ARBETSFORMAGA_TROTS_SJUKDOM_BESKRIVNING_SVAR_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+
+    @Nested
+    class IncludeValidationShowTests extends ValidationShowTest {
+
+      @Override
+      protected String getQuestionId() {
+        return ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+    }
+
+    @Nested
+    class IncludeValidationTextTests extends ValidationTextTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 2;
+      }
+
+      @Override
+      protected short getLimit() {
+        return 3500;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(
+            expectedValue, 0, textProvider);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionArbetsformagaTrotsSjukdomBeskrivning.toInternal(certificate);
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,45 +33,62 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
 
-    private InternalDraftValidator internalValidator = new InternalDraftValidatorImpl();
+  private InternalDraftValidator internalValidator = new InternalDraftValidatorImpl();
 
-    private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().size();
-    }
+  private static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().size();
+  }
 
-    @Test
-    public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
-        final int numErrors = 1;
-        Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
+    final int numErrors = 1;
+    Af00213UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 
-    @Test
-    public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
-        final int numErrors = 1;
-        Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
+    final int numErrors = 1;
+    Af00213UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 
-    @Test
-    public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
-        final int numErrors = 1;
-        Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
+    final int numErrors = 1;
+    Af00213UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 
-    @Test
-    public void testUtredningBehandlingSaknas() throws ScenarioNotFoundException {
-        final int numErrors = 1;
-        Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-utredningBehandlingSaknas").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testUtredningBehandlingSaknas() throws ScenarioNotFoundException {
+    final int numErrors = 1;
+    Af00213UtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("fail-utredningBehandlingSaknas").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 }

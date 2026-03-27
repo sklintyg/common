@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,153 +47,151 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueIntegerTe
 @ExtendWith(MockitoExtension.class)
 class QuestionSjukskrivningsgradTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return SJUKSKRIVNINGSGRAD_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SJUKSKRIVNINGSGRAD_HEADER_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return SJUKSKRIVNINGSGRAD_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigIntegerTests extends ConfigIntegerTest {
-
-        @Override
-        protected String getJsonId() {
-            return SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
-        }
-
-        @Override
-        protected Integer getMin() {
-            return 0;
-        }
-
-        @Override
-        protected Integer getMax() {
-            return 100;
-        }
-
-        @Override
-        protected String getUnitOfMeasurement() {
-            return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SJUKSKRIVNINGSGRAD_HEADER_ID;
     }
 
-    @Nested
-    class IncludeValueIntegerTests extends ValueIntegerTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsgrad.toCertificate("100", 0, texts);
-        }
+  @Nested
+  class IncludeConfigIntegerTests extends ConfigIntegerTest {
 
-        @Override
-        protected String getJsonId() {
-            return SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
-        }
-
-        @Override
-        protected Integer getValue() {
-            return 100;
-        }
-
-        @Override
-        protected String getUnitOfMeasurement() {
-            return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
-        }
+    @Override
+    protected String getJsonId() {
+      return SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return SJUKSKRIVNINGSGRAD_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + SJUKSKRIVNINGSGRAD_SVAR_JSON_ID + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected Integer getMin() {
+      return 0;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalValueTests extends InternalValueTest<String, String> {
-
-        @Override
-        protected CertificateDataElement getElement(String input) {
-            return QuestionSjukskrivningsgrad.toCertificate(input, 0, texts);
-        }
-
-        @Override
-        protected String toInternalValue(Certificate certificate) {
-            return QuestionSjukskrivningsgrad.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<String, String>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, null),
-                new InputExpectedValuePair<>("", null),
-                new InputExpectedValuePair<>("100", "100"),
-                new InputExpectedValuePair<>("test", null),
-                new InputExpectedValuePair<>("50   ", null)
-            );
-        }
+    @Override
+    protected Integer getMax() {
+      return 100;
     }
+
+    @Override
+    protected String getUnitOfMeasurement() {
+      return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
+    }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return SJUKSKRIVNINGSGRAD_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValueIntegerTests extends ValueIntegerTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsgrad.toCertificate("100", 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return SJUKSKRIVNINGSGRAD_SVAR_JSON_ID;
+    }
+
+    @Override
+    protected Integer getValue() {
+      return 100;
+    }
+
+    @Override
+    protected String getUnitOfMeasurement() {
+      return SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return SJUKSKRIVNINGSGRAD_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + SJUKSKRIVNINGSGRAD_SVAR_JSON_ID + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsgrad.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalValueTests extends InternalValueTest<String, String> {
+
+    @Override
+    protected CertificateDataElement getElement(String input) {
+      return QuestionSjukskrivningsgrad.toCertificate(input, 0, texts);
+    }
+
+    @Override
+    protected String toInternalValue(Certificate certificate) {
+      return QuestionSjukskrivningsgrad.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<String, String>> inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(null, null),
+          new InputExpectedValuePair<>("", null),
+          new InputExpectedValuePair<>("100", "100"),
+          new InputExpectedValuePair<>("test", null),
+          new InputExpectedValuePair<>("50   ", null));
+    }
+  }
 }

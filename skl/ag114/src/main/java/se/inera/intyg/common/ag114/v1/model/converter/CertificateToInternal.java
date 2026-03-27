@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -45,72 +44,49 @@ import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-
 @Component(value = "certificateToInternalAg1-14")
 public class CertificateToInternal {
 
-    private final WebcertModuleService webcertModuleService;
+  private final WebcertModuleService webcertModuleService;
 
-    public CertificateToInternal(@Autowired(required = false) WebcertModuleService webcertModuleService) {
-        this.webcertModuleService = webcertModuleService;
-    }
+  public CertificateToInternal(
+      @Autowired(required = false) WebcertModuleService webcertModuleService) {
+    this.webcertModuleService = webcertModuleService;
+  }
 
-    public Ag114UtlatandeV1 convert(Certificate certificate, Ag114UtlatandeV1 internalCertificate) {
-        return
-            Ag114UtlatandeV1.builder()
-                .setId(internalCertificate.getId())
-                .setTextVersion(internalCertificate.getTextVersion())
-                .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-                .setUndersokningAvPatienten(
-                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-                .setTelefonkontaktMedPatienten(
-                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1)
-                )
-                .setJournaluppgifter(
-                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                )
-                .setAnnatGrundForMU(
-                    QuestionIntygetBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                )
-                .setAnnatGrundForMUBeskrivning(
-                    QuestionAnnatBeskrivning.toInternal(certificate)
-                )
-                .setSysselsattning(
-                    QuestionSysselsattningTyp.toInternal()
-                )
-                .setNuvarandeArbete(
-                    QuestionNuvarandeArbete.toInternal(certificate)
-                )
-                .setOnskarFormedlaDiagnos(
-                    QuestionOnskaFormedlaDiagnos.toInternal(certificate)
-                )
-                .setDiagnoser(
-                    QuestionDiagnos.toInternal(certificate, webcertModuleService)
-                )
-                .setNedsattArbetsformaga(
-                    QuestionNedsattArbetsformaga.toInternal(certificate)
-                )
-                .setArbetsformagaTrotsSjukdom(
-                    QuestionArbetsformagaTrotsSjukdom.toInternal(certificate)
-                )
-                .setArbetsformagaTrotsSjukdomBeskrivning(
-                    QuestionArbetsformagaTrotsSjukdomBeskrivning.toInternal(certificate)
-                )
-                .setOvrigaUpplysningar(
-                    QuestionOvrigaUpplysningar.toInternal(certificate)
-                )
-                .setKontaktMedArbetsgivaren(
-                    QuestionKontaktMedArbetsgivaren.toInternal(certificate)
-                )
-                .setAnledningTillKontakt(
-                    QuestionAnledningTillKontakt.toInternal(certificate)
-                )
-                .setSjukskrivningsgrad(
-                    QuestionSjukskrivningsgrad.toInternal(certificate)
-                )
-                .setSjukskrivningsperiod(
-                    QuestionSjukskrivningsperiod.toInternal(certificate)
-                )
-                .build();
-    }
+  public Ag114UtlatandeV1 convert(Certificate certificate, Ag114UtlatandeV1 internalCertificate) {
+    return Ag114UtlatandeV1.builder()
+        .setId(internalCertificate.getId())
+        .setTextVersion(internalCertificate.getTextVersion())
+        .setGrundData(
+            MetaDataGrundData.toInternal(
+                certificate.getMetadata(), internalCertificate.getGrundData()))
+        .setUndersokningAvPatienten(
+            QuestionIntygetBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
+        .setTelefonkontaktMedPatienten(
+            QuestionIntygetBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1))
+        .setJournaluppgifter(
+            QuestionIntygetBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
+        .setAnnatGrundForMU(
+            QuestionIntygetBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+        .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
+        .setSysselsattning(QuestionSysselsattningTyp.toInternal())
+        .setNuvarandeArbete(QuestionNuvarandeArbete.toInternal(certificate))
+        .setOnskarFormedlaDiagnos(QuestionOnskaFormedlaDiagnos.toInternal(certificate))
+        .setDiagnoser(QuestionDiagnos.toInternal(certificate, webcertModuleService))
+        .setNedsattArbetsformaga(QuestionNedsattArbetsformaga.toInternal(certificate))
+        .setArbetsformagaTrotsSjukdom(QuestionArbetsformagaTrotsSjukdom.toInternal(certificate))
+        .setArbetsformagaTrotsSjukdomBeskrivning(
+            QuestionArbetsformagaTrotsSjukdomBeskrivning.toInternal(certificate))
+        .setOvrigaUpplysningar(QuestionOvrigaUpplysningar.toInternal(certificate))
+        .setKontaktMedArbetsgivaren(QuestionKontaktMedArbetsgivaren.toInternal(certificate))
+        .setAnledningTillKontakt(QuestionAnledningTillKontakt.toInternal(certificate))
+        .setSjukskrivningsgrad(QuestionSjukskrivningsgrad.toInternal(certificate))
+        .setSjukskrivningsperiod(QuestionSjukskrivningsperiod.toInternal(certificate))
+        .build();
+  }
 }

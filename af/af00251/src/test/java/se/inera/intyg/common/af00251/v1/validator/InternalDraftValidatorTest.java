@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,14 +59,14 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
 
+  InternalDraftValidatorImpl validator = new InternalDraftValidatorImpl();
 
-    InternalDraftValidatorImpl validator = new InternalDraftValidatorImpl();
+  AF00251UtlatandeV1.Builder builderTemplate;
 
-    AF00251UtlatandeV1.Builder builderTemplate;
-
-    @Before
-    public void setUp() {
-        builderTemplate = AF00251UtlatandeV1.builder()
+  @Before
+  public void setUp() {
+    builderTemplate =
+        AF00251UtlatandeV1.builder()
             .setId("intygsId")
             .setGrundData(buildGrundData(LocalDateTime.now()))
             .setUndersokningsDatum(new InternalDate(LocalDate.now()))
@@ -80,729 +80,808 @@ public class InternalDraftValidatorTest {
             .setFunktionsnedsattning("funktionsnedsättning")
             .setAktivitetsbegransning("aktivitetsnedsättning")
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setChecked(true)
-                .setNiva(44)
-                .setPeriod(new InternalLocalDateInterval(
-                    new InternalDate(LocalDate.now()),
-                    new InternalDate(LocalDate.now()
-                        .plusDays(5))))
-                .build()))
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("många pauser")
-                .build())
-            .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
-                .setAnpassningar("Behöver hjälp.")
-                .build())
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setNiva(44)
+                        .setPeriod(
+                            new InternalLocalDateInterval(
+                                new InternalDate(LocalDate.now()),
+                                new InternalDate(LocalDate.now().plusDays(5))))
+                        .build()))
+            .setBegransningSjukfranvaro(
+                BegransningSjukfranvaro.builder()
+                    .setKanBegransas(true)
+                    .setBeskrivning("många pauser")
+                    .build())
+            .setPrognosAtergang(
+                PrognosAtergang.builder()
+                    .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
+                    .setAnpassningar("Behöver hjälp.")
+                    .build())
             .setTextVersion("");
-    }
+  }
 
-    @Test
-    public void validateDraft() {
-        AF00251UtlatandeV1 utlatande = builderTemplate.build();
+  @Test
+  public void validateDraft() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertThat(res.hasErrorMessages(), is(false));
-        assertThat(res.getValidationErrors(), is(empty()));
-    }
+    assertThat(res.hasErrorMessages(), is(false));
+    assertThat(res.getValidationErrors(), is(empty()));
+  }
 
-    @Test
-    public void validateMedicinskUnderlagNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateMedicinskUnderlagNull() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setUndersokningsDatum(null)
             .setAnnatDatum(null)
             .setAnnatBeskrivning(null)
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokning"), is(ValidationMessageType.EMPTY));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_MEDICINSKT_UNDERLAG),
+        is("undersokning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-    @Test
-    public void validateMedicinskUnderlagInvalidDate() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setUndersokningsDatum(new InternalDate("123123123321321"))
-            .build();
+  @Test
+  public void validateMedicinskUnderlagInvalidDate() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setUndersokningsDatum(new InternalDate("123123123321321")).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokningsDatum"), is(ValidationMessageType.INVALID_FORMAT));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_MEDICINSKT_UNDERLAG),
+        is("undersokningsDatum"),
+        is(ValidationMessageType.INVALID_FORMAT));
+  }
 
-    @Test
-    public void validateMedicinskUnderlagInvalidInstanceAnnatWithNoDescription() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setAnnatBeskrivning(null)
-            .build();
+  @Test
+  public void validateMedicinskUnderlagInvalidInstanceAnnatWithNoDescription() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setAnnatBeskrivning(null).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatBeskrivning"),
-            is(ValidationMessageType.EMPTY));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_MEDICINSKT_UNDERLAG),
+        is("annatBeskrivning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-    @Test
-    public void validateMedicinskUnderlagFutureAnnatDatum() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setAnnatDatum(new InternalDate(LocalDate.now().plusDays(5)))
-            .build();
+  @Test
+  public void validateMedicinskUnderlagFutureAnnatDatum() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setAnnatDatum(new InternalDate(LocalDate.now().plusDays(5))).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatDatum"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.undersokning.future-date"));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_MEDICINSKT_UNDERLAG),
+        is("annatDatum"),
+        is(ValidationMessageType.INVALID_FORMAT),
+        is("af00251.validation.undersokning.future-date"));
+  }
 
-    @Test
-    public void validateMedicinskUnderlagFutureUndersokningsDatum() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateMedicinskUnderlagFutureUndersokningsDatum() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setUndersokningsDatum(new InternalDate(LocalDate.now().plusDays(5)))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokningsDatum"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.undersokning.future-date"));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_MEDICINSKT_UNDERLAG),
+        is("undersokningsDatum"),
+        is(ValidationMessageType.INVALID_FORMAT),
+        is("af00251.validation.undersokning.future-date"));
+  }
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(null)
+  @Test
+  public void validateArbetsmarknadspolitisktProgramNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setArbetsmarknadspolitisktProgram(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+  }
+
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceEmpty() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setArbetsmarknadspolitisktProgram(builder().build()).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(2));
+  }
+
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoOmfattning() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetsmarknadspolitisktProgram(builder().setMedicinskBedomning("bedömning").build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+  }
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceEmpty() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder().build())
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoBedomning() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetsmarknadspolitisktProgram(builder().setOmfattning(Omfattning.HELTID).build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(2));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+  }
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoOmfattning() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder()
-                .setMedicinskBedomning("bedömning")
-                .build())
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidNoHours() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetsmarknadspolitisktProgram(builder().setOmfattning(Omfattning.DELTID).build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(2));
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoBedomning() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder()
-                .setOmfattning(Omfattning.HELTID)
-                .build())
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_ARBETSMARKNADS_PROGRAM),
+        is("arbetsmarknadspolitisktProgram.medicinskBedomning"),
+        is(ValidationMessageType.EMPTY));
+    assertValidationMessage(
+        validationErrors.get(1),
+        is(CATEGORY_ARBETSMARKNADS_PROGRAM),
+        is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
+        is(ValidationMessageType.EMPTY));
+  }
+
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetsmarknadspolitisktProgram(
+                builder()
+                    .setOmfattning(Omfattning.DELTID)
+                    .setMedicinskBedomning("bedömning")
+                    .setOmfattningDeltid(0)
+                    .build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidNoHours() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder()
-                .setOmfattning(Omfattning.DELTID)
-                .build())
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_ARBETSMARKNADS_PROGRAM),
+        is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
+        is(ValidationMessageType.INVALID_FORMAT),
+        is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+  }
+
+  @Test
+  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMax() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setArbetsmarknadspolitisktProgram(
+                builder()
+                    .setOmfattning(Omfattning.DELTID)
+                    .setMedicinskBedomning("bedömning")
+                    .setOmfattningDeltid(40)
+                    .build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(2));
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.medicinskBedomning"),
-            is(ValidationMessageType.EMPTY));
-        assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.EMPTY));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_ARBETSMARKNADS_PROGRAM),
+        is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
+        is(ValidationMessageType.INVALID_FORMAT),
+        is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+  }
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder()
-                .setOmfattning(Omfattning.DELTID)
-                .setMedicinskBedomning("bedömning")
-                .setOmfattningDeltid(0)
-                .build())
-            .build();
+  @Test
+  public void validateFunktionsnedsattningNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(null).build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_KONSEKVENSER),
+        is("funktionsnedsattning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT),
-            is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
-    }
+  @Test
+  public void validateFunktionsnedsattningEmtpy() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning("").build();
 
-    @Test
-    public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMax() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(builder()
-                .setOmfattning(Omfattning.DELTID)
-                .setMedicinskBedomning("bedömning")
-                .setOmfattningDeltid(40)
-                .build())
-            .build();
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_KONSEKVENSER),
+        is("funktionsnedsattning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+  @Test
+  public void validateAktivitetsbegransningNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(null).build();
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT),
-            is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateFunktionsnedsattningNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setFunktionsnedsattning(null)
-            .build();
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_KONSEKVENSER),
+        is("aktivitetsbegransning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  @Test
+  public void validateAktivitetsbegransningEmtpy() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning("").build();
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_KONSEKVENSER), is("funktionsnedsattning"), is(ValidationMessageType.EMPTY));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateFunktionsnedsattningEmtpy() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setFunktionsnedsattning("")
-            .build();
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_KONSEKVENSER),
+        is("aktivitetsbegransning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  @Test
+  public void validateHarForhinderNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setHarForhinder(null).build();
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_KONSEKVENSER), is("funktionsnedsattning"), is(ValidationMessageType.EMPTY));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateAktivitetsbegransningNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setAktivitetsbegransning(null)
-            .build();
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("harForhinder"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  @Test
+  public void validateHarForhinderTrueWithNullSjukfranvaro() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setHarForhinder(true).setSjukfranvaro(null).build();
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_KONSEKVENSER), is("aktivitetsbegransning"), is(ValidationMessageType.EMPTY));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateAktivitetsbegransningEmtpy() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setAktivitetsbegransning("")
-            .build();
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro"),
+        is(ValidationMessageType.EMPTY),
+        is("af00251.validation.sjukfranvaro.missing"));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  @Test
+  public void validateHarForhinderFalseWithSjukfranvaro() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setHarForhinder(false).build();
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_KONSEKVENSER), is("aktivitetsbegransning"), is(ValidationMessageType.EMPTY));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateHarForhinderNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setHarForhinder(null)
-            .build();
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(1));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("harForhinder"),
+        is(ValidationMessageType.INCORRECT_COMBINATION),
+        is("af00251.validation.harForhinder.forbidden-sjukfranvaro"));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  @Test
+  public void validateSjukfranvaroNull() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setHarForhinder(false).setSjukfranvaro(null).build();
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("harForhinder"), is(ValidationMessageType.EMPTY));
-    }
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-    @Test
-    public void validateHarForhinderTrueWithNullSjukfranvaro() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(0));
+  }
+
+  @Test
+  public void validateSjukfranvaroEmty() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setHarForhinder(false).setSjukfranvaro(new ArrayList<>()).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertThat(validationErrors, hasSize(0));
+  }
+
+  @Test
+  public void validateSjukfranvaroTooMany() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(null)
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setPeriod(new InternalLocalDateInterval("2018-08-01", "2018-08-30"))
+                        .setNiva(100)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setPeriod(new InternalLocalDateInterval("2018-09-01", "2018-09-30"))
+                        .setNiva(80)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-30"))
+                        .setNiva(60)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-11-30"))
+                        .setNiva(40)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setChecked(true)
+                        .setPeriod(new InternalLocalDateInterval("2018-12-01", "2018-12-30"))
+                        .setNiva(20)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro"), is(ValidationMessageType.EMPTY),
-            is("af00251.validation.sjukfranvaro.missing"));
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-    @Test
-    public void validateHarForhinderFalseWithSjukfranvaro() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setHarForhinder(false)
-            .build();
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro"),
+        is(ValidationMessageType.OTHER),
+        is("af00251.validation.sjukfranvaro.too-many"));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("harForhinder"), is(ValidationMessageType.INCORRECT_COMBINATION),
-            is("af00251.validation.harForhinder.forbidden-sjukfranvaro"));
-    }
-
-    @Test
-    public void validateSjukfranvaroNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setHarForhinder(false)
-            .setSjukfranvaro(null)
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
-    }
-
-    @Test
-    public void validateSjukfranvaroEmty() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setHarForhinder(false)
-            .setSjukfranvaro(new ArrayList<>())
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
-    }
-
-    @Test
-    public void validateSjukfranvaroTooMany() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukfranvaroNivaMin() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-08-01", "2018-08-30"))
-                    .setNiva(100)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-09-01", "2018-09-30"))
-                    .setNiva(80)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-30"))
-                    .setNiva(60)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-11-30"))
-                    .setNiva(40)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-12-01", "2018-12-30"))
-                    .setNiva(20)
-                    .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                        .setNiva(0)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro"),
-            is(ValidationMessageType.OTHER), is("af00251.validation.sjukfranvaro.too-many"));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].niva"),
+        is(ValidationMessageType.INVALID_FORMAT));
+  }
 
-    @Test
-    public void validateSjukfranvaroNivaMin() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukfranvaroNivaMax() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                .setNiva(0)
-                .setChecked(true)
-                .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                        .setNiva(101)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].niva"),
-            is(ValidationMessageType.INVALID_FORMAT));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].niva"),
+        is(ValidationMessageType.INVALID_FORMAT));
+  }
 
-    @Test
-    public void validateSjukfranvaroNivaMax() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukfranvaroPeriodInvalidInterval() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                .setNiva(101)
-                .setChecked(true)
-                .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-10-31"))
+                        .setNiva(90)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].niva"),
-            is(ValidationMessageType.INVALID_FORMAT));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period"),
+        is(ValidationMessageType.INCORRECT_COMBINATION));
+  }
 
-    @Test
-    public void validateSjukfranvaroPeriodInvalidInterval() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukfranvaroPeriodIntervalOverlap() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-10-31"))
-                .setNiva(90)
-                .setChecked(true)
-                .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                        .setNiva(90)
+                        .setChecked(true)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-09-15", "2018-10-15"))
+                        .setNiva(80)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 2);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period"),
-            is(ValidationMessageType.INCORRECT_COMBINATION));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period.from"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
 
-    @Test
-    public void validateSjukfranvaroPeriodIntervalOverlap() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+    assertValidationMessage(
+        validationErrors.get(1),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[1].period.tom"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
+  }
+
+  @Test
+  public void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                    .setNiva(90)
-                    .setChecked(true)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-09-15", "2018-10-15"))
-                    .setNiva(80)
-                    .setChecked(true)
-                    .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("qwerty", "asd"))
+                        .setNiva(90)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 2);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 2);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period.from"),
+        is(ValidationMessageType.INVALID_FORMAT));
 
-        assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.tom"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
-    }
+    assertValidationMessage(
+        validationErrors.get(1),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period.tom"),
+        is(ValidationMessageType.INVALID_FORMAT));
+  }
 
-    @Test
-    public void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
+  @Test
+  public void validateSjukfranvaroPeriodIntervalOverlapSameStart() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
             .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("qwerty", "asd"))
-                .setNiva(90)
-                .setChecked(true)
-                .build()))
+            .setSjukfranvaro(
+                Arrays.asList(
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                        .setNiva(90)
+                        .setChecked(true)
+                        .build(),
+                    Sjukfranvaro.builder()
+                        .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-15"))
+                        .setNiva(80)
+                        .setChecked(true)
+                        .build()))
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 2);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 4);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
-            is(ValidationMessageType.INVALID_FORMAT));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period.from"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
+    assertValidationMessage(
+        validationErrors.get(1),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[0].period.tom"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
 
-        assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.tom"),
-            is(ValidationMessageType.INVALID_FORMAT));
-    }
+    assertValidationMessage(
+        validationErrors.get(2),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[1].period.from"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
+    assertValidationMessage(
+        validationErrors.get(3),
+        is(CATEGORY_BEDOMNING),
+        is("sjukfranvaro[1].period.tom"),
+        is(ValidationMessageType.PERIOD_OVERLAP));
+  }
 
-    @Test
-    public void validateSjukfranvaroPeriodIntervalOverlapSameStart() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                    .setNiva(90)
-                    .setChecked(true)
-                    .build(),
-                Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-15"))
-                    .setNiva(80)
-                    .setChecked(true)
-                    .build()))
+  @Test
+  public void validateBegransningSjukfranvaroNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setBegransningSjukfranvaro(null).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
+
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("begransningSjukfranvaro.kanBegransas"),
+        is(ValidationMessageType.EMPTY));
+  }
+
+  @Test
+  public void validateBegransningSjukfranvaroBooleanNull() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder().build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 4);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
-        assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.tom"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("begransningSjukfranvaro.kanBegransas"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        assertValidationMessage(validationErrors.get(2),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.from"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
-        assertValidationMessage(validationErrors.get(3),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.tom"),
-            is(ValidationMessageType.PERIOD_OVERLAP));
-    }
-
-    @Test
-    public void validateBegransningSjukfranvaroNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(null)
+  @Test
+  public void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setBegransningSjukfranvaro(
+                BegransningSjukfranvaro.builder().setKanBegransas(true).build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
-            is(ValidationMessageType.EMPTY));
-    }
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("begransningSjukfranvaro.beskrivning"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-    @Test
-    public void validateBegransningSjukfranvaroBooleanNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .build())
+  @Test
+  public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setBegransningSjukfranvaro(
+                BegransningSjukfranvaro.builder()
+                    .setKanBegransas(true)
+                    .setBeskrivning("hej")
+                    .build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 0);
+  }
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
-            is(ValidationMessageType.EMPTY));
-    }
-
-    @Test
-    public void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .build())
+  @Test
+  public void validateBegransningSjukfranvaroBooleanFalse() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setBegransningSjukfranvaro(
+                BegransningSjukfranvaro.builder().setKanBegransas(false).build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 0);
+  }
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.beskrivning"),
-            is(ValidationMessageType.EMPTY));
-    }
+  @Test
+  public void validatePrognosAtergangNull() {
+    AF00251UtlatandeV1 utlatande = builderTemplate.setPrognosAtergang(null).build();
 
-    @Test
-    public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("hej")
-                .build())
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
+
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("prognosAtergang.prognos"),
+        is(ValidationMessageType.EMPTY));
+  }
+
+  @Test
+  public void validatePrognosAtergangEmpty() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate.setPrognosAtergang(PrognosAtergang.builder().build()).build();
+
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
+
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("prognosAtergang.prognos"),
+        is(ValidationMessageType.EMPTY));
+  }
+
+  @Test
+  public void validatePrognosAtergangOk() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setPrognosAtergang(
+                PrognosAtergang.builder()
+                    .setPrognos(PrognosAtergang.Prognos.UTAN_ANPASSNING)
+                    .build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 0);
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 0);
+  }
 
-    @Test
-    public void validateBegransningSjukfranvaroBooleanFalse() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(false)
-                .build())
+  @Test
+  public void validatePrognosAtergangMedAnpassningNoText() {
+    AF00251UtlatandeV1 utlatande =
+        builderTemplate
+            .setPrognosAtergang(
+                PrognosAtergang.builder()
+                    .setPrognos(PrognosAtergang.Prognos.MED_ANPASSNING)
+                    .build())
             .build();
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 0);
-    }
+    final List<ValidationMessage> validationErrors = res.getValidationErrors();
+    assertValidationMessages(validationErrors, 1);
 
-    @Test
-    public void validatePrognosAtergangNull() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setPrognosAtergang(null)
-            .build();
+    assertValidationMessage(
+        validationErrors.get(0),
+        is(CATEGORY_BEDOMNING),
+        is("prognosAtergang.anpassningar"),
+        is(ValidationMessageType.EMPTY));
+  }
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+  private GrundData buildGrundData(LocalDateTime timeStamp) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("vardgivareId");
+    vardgivare.setVardgivarnamn("vardgivareNamn");
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("enhetId");
+    vardenhet.setEnhetsnamn("enhetNamn");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setPostadress("postadress");
+    vardenhet.setPostnummer("11111");
+    vardenhet.setPostort("postort");
+    vardenhet.setTelefonnummer("0112312313");
 
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("prognosAtergang.prognos"),
-            is(ValidationMessageType.EMPTY));
-    }
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setPersonId("HSAID_123");
+    skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
-    @Test
-    public void validatePrognosAtergangEmpty() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setPrognosAtergang(PrognosAtergang.builder()
-                .build())
-            .build();
+    Patient patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPostadress("postadress");
+    patient.setPostnummer("11111");
+    patient.setPostort("postort");
 
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
+    GrundData grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(timeStamp);
 
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
-
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("prognosAtergang.prognos"),
-            is(ValidationMessageType.EMPTY));
-    }
-
-    @Test
-    public void validatePrognosAtergangOk() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.UTAN_ANPASSNING)
-                .build())
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 0);
-
-    }
-
-    @Test
-    public void validatePrognosAtergangMedAnpassningNoText() {
-        AF00251UtlatandeV1 utlatande = builderTemplate
-            .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.MED_ANPASSNING)
-                .build())
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertValidationMessages(validationErrors, 1);
-
-        assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("prognosAtergang.anpassningar"),
-            is(ValidationMessageType.EMPTY));
-    }
-
-
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
-
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
-
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
-
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212")
-            .get());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
-
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
-
-        return grundData;
-    }
-
+    return grundData;
+  }
 }

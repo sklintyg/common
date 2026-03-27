@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,36 +26,30 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- *
- */
+/** */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_BegransningSjukfranvaro.Builder.class)
 public abstract class BegransningSjukfranvaro {
 
-    // Fråga 7.1 - Kan sjukfrånvaro begränsas
-    @Nullable
-    public abstract Boolean getKanBegransas();
+  // Fråga 7.1 - Kan sjukfrånvaro begränsas
+  @Nullable public abstract Boolean getKanBegransas();
 
-    // Fråga 7.2 - Beskrivning av hur sjukfrånvaro begränsas
-    @Nullable
-    public abstract String getBeskrivning();
+  // Fråga 7.2 - Beskrivning av hur sjukfrånvaro begränsas
+  @Nullable public abstract String getBeskrivning();
 
-    public static BegransningSjukfranvaro.Builder builder() {
-        return new AutoValue_BegransningSjukfranvaro.Builder();
-    }
+  public static BegransningSjukfranvaro.Builder builder() {
+    return new AutoValue_BegransningSjukfranvaro.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract BegransningSjukfranvaro build();
+    public abstract BegransningSjukfranvaro build();
 
-        @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71)
-        public abstract BegransningSjukfranvaro.Builder setKanBegransas(Boolean kanBegransas);
+    @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71)
+    public abstract BegransningSjukfranvaro.Builder setKanBegransas(Boolean kanBegransas);
 
-        @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72)
-        public abstract BegransningSjukfranvaro.Builder setBeskrivning(String beskrivning);
-    }
-
-
+    @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72)
+    public abstract BegransningSjukfranvaro.Builder setBeskrivning(String beskrivning);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_DIAGNOS_ID;
@@ -38,22 +37,31 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class QuestionDiagnos extends AbstractQuestionDiagnoser {
 
-    public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
-        return toCertificate(diagnoser, TYP_AV_DIAGNOS_SVAR_ID, CATEGORY_DIAGNOS_ID, TYP_AV_DIAGNOS_SVAR_TEXT_ID, null,
-            getAdditionalValidations(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID), index,
-            textProvider);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        diagnoser,
+        TYP_AV_DIAGNOS_SVAR_ID,
+        CATEGORY_DIAGNOS_ID,
+        TYP_AV_DIAGNOS_SVAR_TEXT_ID,
+        null,
+        getAdditionalValidations(
+            ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID),
+        index,
+        textProvider);
+  }
 
-    public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService webcertModuleService) {
-        return toInternal(certificate, TYP_AV_DIAGNOS_SVAR_ID, webcertModuleService);
-    }
+  public static List<Diagnos> toInternal(
+      Certificate certificate, WebcertModuleService webcertModuleService) {
+    return toInternal(certificate, TYP_AV_DIAGNOS_SVAR_ID, webcertModuleService);
+  }
 
-    private static List<CertificateDataValidation> getAdditionalValidations(String questionId, String jsonId) {
-        return List.of(
-            CertificateDataValidationShow.builder()
-                .questionId(questionId)
-                .expression(singleExpression(jsonId))
-                .build()
-        );
-    }
+  private static List<CertificateDataValidation> getAdditionalValidations(
+      String questionId, String jsonId) {
+    return List.of(
+        CertificateDataValidationShow.builder()
+            .questionId(questionId)
+            .expression(singleExpression(jsonId))
+            .build());
+  }
 }

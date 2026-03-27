@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,27 +30,24 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public class MetaDataGrundData {
 
-    public static CertificateMetadata toCertificate(Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        return CertificateMetadata.builder()
-            .id(internalCertificate.getId())
-            .type(internalCertificate.getTyp())
-            .typeName(Af00213EntryPoint.ISSUER_TYPE_ID)
-            .typeVersion(internalCertificate.getTextVersion())
-            .name("Arbetsförmedlingens medicinska utlåtande")
-            .description(texts.get(DESCRIPTION))
-            .unit(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
-            )
-            .issuedBy(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
-            )
-            .patient(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
-            )
-            .build();
-    }
+  public static CertificateMetadata toCertificate(
+      Af00213UtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    return CertificateMetadata.builder()
+        .id(internalCertificate.getId())
+        .type(internalCertificate.getTyp())
+        .typeName(Af00213EntryPoint.ISSUER_TYPE_ID)
+        .typeVersion(internalCertificate.getTextVersion())
+        .name("Arbetsförmedlingens medicinska utlåtande")
+        .description(texts.get(DESCRIPTION))
+        .unit(
+            MetaDataToolkit.toCertificate(
+                internalCertificate.getGrundData().getSkapadAv().getVardenhet()))
+        .issuedBy(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv()))
+        .patient(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient()))
+        .build();
+  }
 
-    public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
-        return grundData(metadata, grundData);
-    }
+  public static GrundData toInternal(CertificateMetadata metadata, GrundData grundData) {
+    return grundData(metadata, grundData);
+  }
 }

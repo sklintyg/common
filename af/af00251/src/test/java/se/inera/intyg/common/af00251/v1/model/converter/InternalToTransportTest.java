@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -71,156 +71,162 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 public class InternalToTransportTest {
 
-    private static URL getResource(String href) {
-        return Thread.currentThread()
-            .getContextClassLoader()
-            .getResource(href);
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  public static AF00251UtlatandeV1.Builder getUtlatande() {
+    return getUtlatande(null, null, null);
+  }
+
+  public static AF00251UtlatandeV1.Builder getUtlatande(
+      RelationKod relationKod, String relationMeddelandeId, String referensId) {
+    AF00251UtlatandeV1.Builder utlatande = AF00251UtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setTextVersion("1.0");
+    GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+    grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationKod(relationKod);
+      relation.setMeddelandeId(relationMeddelandeId);
+      relation.setReferensId(referensId);
+      grundData.setRelation(relation);
     }
+    utlatande.setGrundData(grundData);
 
-    public static AF00251UtlatandeV1.Builder getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
+    utlatande.setUndersokningsDatum(new InternalDate(LocalDate.now()));
 
-    public static AF00251UtlatandeV1.Builder getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        AF00251UtlatandeV1.Builder utlatande = AF00251UtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
-
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
-
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
-
-        utlatande.setUndersokningsDatum(new InternalDate(LocalDate.now()));
-
-        utlatande.setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
+    utlatande.setArbetsmarknadspolitisktProgram(
+        ArbetsmarknadspolitisktProgram.builder()
             .setMedicinskBedomning("Arbetsprov")
             .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
             .setOmfattningDeltid(4)
             .build());
-        utlatande.setFunktionsnedsattning("Funktionsnedsättning");
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setHarForhinder(true);
+    utlatande.setFunktionsnedsattning("Funktionsnedsättning");
+    utlatande.setAktivitetsbegransning("Väldigt sjuk");
+    utlatande.setHarForhinder(true);
 
-        utlatande.setSjukfranvaro(Lists.newArrayList(
+    utlatande.setSjukfranvaro(
+        Lists.newArrayList(
             Sjukfranvaro.builder()
                 .setChecked(true)
                 .setNiva(4)
-                .setPeriod(new InternalLocalDateInterval(
-                    new InternalDate(LocalDate.now()),
-                    new InternalDate(LocalDate.now()
-                        .plusDays(5))))
+                .setPeriod(
+                    new InternalLocalDateInterval(
+                        new InternalDate(LocalDate.now()),
+                        new InternalDate(LocalDate.now().plusDays(5))))
                 .build()));
 
-        utlatande.setBegransningSjukfranvaro(
-            BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("Använd hjälpmedel")
-                .build());
+    utlatande.setBegransningSjukfranvaro(
+        BegransningSjukfranvaro.builder()
+            .setKanBegransas(true)
+            .setBeskrivning("Använd hjälpmedel")
+            .build());
 
-        utlatande.setPrognosAtergang(
-            PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
-                .setAnpassningar("Jobba halvtid")
-                .build());
+    utlatande.setPrognosAtergang(
+        PrognosAtergang.builder()
+            .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
+            .setAnpassningar("Jobba halvtid")
+            .build());
 
-        return utlatande;
-    }
+    return utlatande;
+  }
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void doSchematronValidationAF00251() throws Exception {
-        String xmlContents = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
+  @Test
+  public void doSchematronValidationAF00251() throws Exception {
+    String xmlContents = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
 
-        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-        assertTrue(generalValidator.validateGeneral(xmlContents));
+    RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+    assertTrue(generalValidator.validateGeneral(xmlContents));
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(AF00251ModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(AF00251ModuleApiV1.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
-        final List<SVRLFailedAssert> failedAssertions = SVRLHelper.getAllFailedAssertions(result);
-        assertThat(failedAssertions
-            .stream()
-            .map(SVRLFailedAssert::toString)
-            .collect(Collectors.joining("\n")), failedAssertions, hasSize(0));
-    }
+    final List<SVRLFailedAssert> failedAssertions = SVRLHelper.getAllFailedAssertions(result);
+    assertThat(
+        failedAssertions.stream().map(SVRLFailedAssert::toString).collect(Collectors.joining("\n")),
+        failedAssertions,
+        hasSize(0));
+  }
 
-    @Test
-    public void testInternalToTransportConversion() throws Exception {
-        AF00251UtlatandeV1 expected = getUtlatande().build();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
-        AF00251UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
+  @Test
+  public void testInternalToTransportConversion() throws Exception {
+    AF00251UtlatandeV1 expected = getUtlatande().build();
+    RegisterCertificateType transport = InternalToTransport.convert(expected);
+    AF00251UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
-        assertEquals(expected, actual);
-    }
+    assertEquals(expected, actual);
+  }
 
-    @Test
-    public void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
-    }
+  @Test
+  public void testInternalToTransportSourceNull() throws Exception {
+    assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
+  }
 
-    @Test
-    public void convertDecorateSvarPaTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        final String referensId = "referensId";
-        AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId).build();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa()
-            .getMeddelandeId());
-        assertEquals(referensId, transport.getSvarPa()
-            .getReferensId());
-    }
+  @Test
+  public void convertDecorateSvarPaTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    final String referensId = "referensId";
+    AF00251UtlatandeV1 utlatande =
+        getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId).build();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertEquals(referensId, transport.getSvarPa().getReferensId());
+  }
 
-    @Test
-    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null).build();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa()
-            .getMeddelandeId());
-        assertNull(transport.getSvarPa()
-            .getReferensId());
-    }
+  @Test
+  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null).build();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertNull(transport.getSvarPa().getReferensId());
+  }
 
-    @Test
-    public void convertDecorateSvarPaNoRelationTest() throws Exception {
-        AF00251UtlatandeV1 utlatande = getUtlatande().build();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
+  @Test
+  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+    AF00251UtlatandeV1 utlatande = getUtlatande().build();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 
-    @Test
-    public void convertDecorateSvarPaNotKompltTest() throws Exception {
-        AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null).build();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
+  @Test
+  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+    AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null).build();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 }

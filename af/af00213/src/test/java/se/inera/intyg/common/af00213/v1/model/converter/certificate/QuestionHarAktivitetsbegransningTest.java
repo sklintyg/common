@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -61,199 +61,243 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionHarAktivitetsbegransningTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    private Af00213UtlatandeV1 internalCertificate;
 
     @BeforeEach
     void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      internalCertificate =
+          Af00213UtlatandeV1.builder()
+              .setGrundData(new GrundData())
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
+    }
+
+    Stream<Boolean> booleanValues() {
+      return Stream.of(true, false, null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("booleanValues")
+    void shouldIncludeHarAktivitetsbegransningValue(Boolean expectedValue) {
+      final var index = 1;
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionHarAktivitetsbegransning.toCertificate(expectedValue, index, texts))
+              .build();
+
+      final var updatedCertificate =
+          CertificateToInternal.convert(certificate, internalCertificate);
+
+      assertEquals(expectedValue, updatedCertificate.getHarAktivitetsbegransning());
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    private GrundData grundData;
+
+    @BeforeEach
+    void setup() {
+      final var unit = new Vardenhet();
+
+      final var skapadAv = new HoSPersonal();
+      skapadAv.setVardenhet(unit);
+
+      grundData = new GrundData();
+      grundData.setSkapadAv(skapadAv);
+
+      final var patient = new Patient();
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+      grundData.setPatient(patient);
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class QuestionHarAktivitetsbegransning {
 
-        private Af00213UtlatandeV1 internalCertificate;
+      private Af00213UtlatandeV1 internalCertificate;
 
-        @BeforeEach
-        void setup() {
-            internalCertificate = Af00213UtlatandeV1.builder()
-                .setGrundData(new GrundData())
+      @BeforeEach
+      void createAf00213ToConvert() {
+        internalCertificate =
+            Af00213UtlatandeV1.builder()
+                .setGrundData(grundData)
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .setHarAktivitetsbegransning(true)
+                .build();
+      }
+
+      @Test
+      void shouldIncludeQuestionElement() {
+        final var expectedIndex = 4;
+
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        assertAll(
+            "Validating question HarAktivitetsbegränsning",
+            () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, question.getId()),
+            () -> assertEquals(expectedIndex, question.getIndex()),
+            () -> assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, question.getParent()),
+            () -> assertNotNull(question.getValue(), "Should include a value"),
+            () -> assertNotNull(question.getValidation(), "Should include validation"),
+            () -> assertNotNull(question.getConfig(), "Should include config"));
+      }
+
+      @Test
+      void shouldIncludeQuestionConfig() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
+
+        final var certificateDataConfigBoolean =
+            (CertificateDataConfigRadioBoolean) question.getConfig();
+        assertAll(
+            "Validating question configuration",
+            () ->
+                assertTrue(
+                    certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
+            () ->
+                assertTrue(
+                    certificateDataConfigBoolean.getDescription().trim().length() > 0,
+                    "Missing description"),
+            () ->
+                assertEquals(
+                    AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataConfigBoolean.getId()),
+            () ->
+                assertTrue(
+                    certificateDataConfigBoolean.getSelectedText().trim().length() > 0,
+                    "Missing selected text"),
+            () ->
+                assertTrue(
+                    certificateDataConfigBoolean.getUnselectedText().trim().length() > 0,
+                    "Missing unselected text"));
+      }
+
+      @Test
+      void shouldIncludeQuestionValueTrue() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+        assertAll(
+            "Validating question value",
+            () ->
+                assertEquals(
+                    AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
+            () ->
+                assertEquals(
+                    internalCertificate.getHarAktivitetsbegransning(),
+                    certificateDataValueBoolean.getSelected()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValueFalse() {
+        internalCertificate =
+            Af00213UtlatandeV1.builder()
+                .setGrundData(grundData)
+                .setId("id")
+                .setTextVersion("TextVersion")
+                .setHarAktivitetsbegransning(false)
+                .build();
+
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+        assertAll(
+            "Validating question value",
+            () ->
+                assertEquals(
+                    AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
+            () ->
+                assertEquals(
+                    internalCertificate.getHarAktivitetsbegransning(),
+                    certificateDataValueBoolean.getSelected()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValueEmpty() {
+        internalCertificate =
+            Af00213UtlatandeV1.builder()
+                .setGrundData(grundData)
                 .setId("id")
                 .setTextVersion("TextVersion")
                 .build();
-        }
 
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, false, null);
-        }
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeHarAktivitetsbegransningValue(Boolean expectedValue) {
-            final var index = 1;
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
 
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionHarAktivitetsbegransning.toCertificate(expectedValue, index, texts))
-                .build();
+        final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+        assertAll(
+            "Validating question value",
+            () ->
+                assertEquals(
+                    AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
+            () -> assertNull(certificateDataValueBoolean.getSelected()));
+      }
 
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate);
+      @Test
+      void shouldIncludeQuestionValidationMandatory() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-            assertEquals(expectedValue, updatedCertificate.getHarAktivitetsbegransning());
-        }
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        final var certificateDataValidationMandatory =
+            (CertificateDataValidationMandatory) question.getValidation()[0];
+        assertAll(
+            "Validation question validation",
+            () ->
+                assertEquals(
+                    AKTIVITETSBEGRANSNING_DELSVAR_ID_21,
+                    certificateDataValidationMandatory.getQuestionId()),
+            () ->
+                assertEquals(
+                    "exists(" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 + ")",
+                    certificateDataValidationMandatory.getExpression()));
+      }
+
+      @Test
+      void shouldIncludeQuestionValidationShow() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
+
+        final var certificateDataValidationShow =
+            (CertificateDataValidationShow) question.getValidation()[1];
+        assertAll(
+            "Validation question validation",
+            () ->
+                assertEquals(
+                    FUNKTIONSNEDSATTNING_DELSVAR_ID_11,
+                    certificateDataValidationShow.getQuestionId()),
+            () ->
+                assertEquals(
+                    "$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11,
+                    certificateDataValidationShow.getExpression()));
+      }
     }
-
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        private GrundData grundData;
-
-        @BeforeEach
-        void setup() {
-            final var unit = new Vardenhet();
-
-            final var skapadAv = new HoSPersonal();
-            skapadAv.setVardenhet(unit);
-
-            grundData = new GrundData();
-            grundData.setSkapadAv(skapadAv);
-
-            final var patient = new Patient();
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-            grundData.setPatient(patient);
-        }
-
-        @Nested
-        class QuestionHarAktivitetsbegransning {
-
-            private Af00213UtlatandeV1 internalCertificate;
-
-            @BeforeEach
-            void createAf00213ToConvert() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setHarAktivitetsbegransning(true)
-                    .build();
-            }
-
-            @Test
-            void shouldIncludeQuestionElement() {
-                final var expectedIndex = 4;
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                assertAll("Validating question HarAktivitetsbegränsning",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, question.getId()),
-                    () -> assertEquals(expectedIndex, question.getIndex()),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, question.getParent()),
-                    () -> assertNotNull(question.getValue(), "Should include a value"),
-                    () -> assertNotNull(question.getValidation(), "Should include validation"),
-                    () -> assertNotNull(question.getConfig(), "Should include config")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionConfig() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
-
-                final var certificateDataConfigBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
-                assertAll("Validating question configuration",
-                    () -> assertTrue(certificateDataConfigBoolean.getText().trim().length() > 0, "Missing text"),
-                    () -> assertTrue(certificateDataConfigBoolean.getDescription().trim().length() > 0, "Missing description"),
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataConfigBoolean.getId()),
-                    () -> assertTrue(certificateDataConfigBoolean.getSelectedText().trim().length() > 0, "Missing selected text"),
-                    () -> assertTrue(certificateDataConfigBoolean.getUnselectedText().trim().length() > 0, "Missing unselected text")
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueTrue() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getHarAktivitetsbegransning(), certificateDataValueBoolean.getSelected())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueFalse() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .setHarAktivitetsbegransning(false)
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
-                    () -> assertEquals(internalCertificate.getHarAktivitetsbegransning(), certificateDataValueBoolean.getSelected())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValueEmpty() {
-                internalCertificate = Af00213UtlatandeV1.builder()
-                    .setGrundData(grundData)
-                    .setId("id")
-                    .setTextVersion("TextVersion")
-                    .build();
-
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-                assertAll("Validating question value",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21, certificateDataValueBoolean.getId()),
-                    () -> assertNull(certificateDataValueBoolean.getSelected())
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationMandatory() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-                assertAll("Validation question validation",
-                    () -> assertEquals(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, certificateDataValidationMandatory.getQuestionId()),
-                    () -> assertEquals(
-                        "exists(" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 + ")", certificateDataValidationMandatory.getExpression()
-                    )
-                );
-            }
-
-            @Test
-            void shouldIncludeQuestionValidationShow() {
-                final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-                final var question = certificate.getData().get(AKTIVITETSBEGRANSNING_DELSVAR_ID_21);
-
-                final var certificateDataValidationShow = (CertificateDataValidationShow) question.getValidation()[1];
-                assertAll("Validation question validation",
-                    () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShow.getQuestionId()),
-                    () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationShow.getExpression())
-                );
-            }
-        }
-    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -47,141 +46,140 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionNuvarandeArbeteTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return NUVARANDE_ARBETE_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return CATEGORY_SYSSELSATTNING_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return NUVARANDE_ARBETE_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return NUVARANDE_ARBETE_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return NUVARANDE_ARBETE_SVAR_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return CATEGORY_SYSSELSATTNING_ID;
     }
 
-    @Nested
-    class IncludeValueTextTests extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionNuvarandeArbete.toCertificate("nuvarandeArbete", 0, texts);
-        }
+  @Nested
+  class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return NUVARANDE_ARBETE_SVAR_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "nuvarandeArbete";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return NUVARANDE_ARBETE_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + NUVARANDE_ARBETE_SVAR_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeValidationTextTests extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 3500;
-        }
+    @Override
+    protected String getTextId() {
+      return NUVARANDE_ARBETE_SVAR_TEXT_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTests extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionNuvarandeArbete.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionNuvarandeArbete.toInternal(certificate);
-        }
+    @Override
+    protected String getDescriptionId() {
+      return NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID;
     }
+
+    @Override
+    protected String getJsonId() {
+      return NUVARANDE_ARBETE_SVAR_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTests extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionNuvarandeArbete.toCertificate("nuvarandeArbete", 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return NUVARANDE_ARBETE_SVAR_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "nuvarandeArbete";
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return NUVARANDE_ARBETE_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + NUVARANDE_ARBETE_SVAR_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTests extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionNuvarandeArbete.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 3500;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTests extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionNuvarandeArbete.toCertificate(expectedValue, 0, texts);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionNuvarandeArbete.toInternal(certificate);
+    }
+  }
 }

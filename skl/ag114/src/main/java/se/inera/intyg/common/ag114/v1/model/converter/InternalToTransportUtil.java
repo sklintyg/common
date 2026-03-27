@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,36 +35,42 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class InternalToTransportUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InternalToTransportUtil.class);
+  private static final Logger LOG = LoggerFactory.getLogger(InternalToTransportUtil.class);
 
-    private InternalToTransportUtil() {
+  private InternalToTransportUtil() {}
+
+  private static boolean isDiagnoseCodeValid(
+      Diagnos diagnos, WebcertModuleService webcertModuleService) {
+    if (webcertModuleService == null) {
+      LOG.debug(
+          "No WebcertModuleService available for validation (happens when outside of Webcert context, e.g. Intygstjanst)");
+      return true;
     }
+    return webcertModuleService.validateDiagnosisCode(
+        diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem());
+  }
 
-    private static boolean isDiagnoseCodeValid(Diagnos diagnos, WebcertModuleService webcertModuleService) {
-        if (webcertModuleService == null) {
-            LOG.debug("No WebcertModuleService available for validation (happens when outside of Webcert context, e.g. Intygstjanst)");
-            return true;
+  public static void handleDiagnosSvar(
+      List<Svar> svars, List<Diagnos> diagnoser, WebcertModuleService webcertModuleService) {
+    // Could be 0 - 3 diagnoses, uses "instans" to represent multiple values
+    for (int i = 0; i < diagnoser.size(); i++) {
+      SvarBuilder diagnosSvar = aSvar(TYP_AV_DIAGNOS_SVAR_ID_4, (i + 1));
+      Diagnos diagnos = diagnoser.get(i);
+
+      if (isDiagnoseCodeValid(diagnos, webcertModuleService)) {
+        Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
+        diagnosSvar
+            .withDelsvar(
+                TYP_AV_DIAGNOS_DELSVAR_ID_4,
+                aCV(
+                    diagnoskodverk.getCodeSystem(),
+                    diagnos.getDiagnosKod(),
+                    diagnos.getDiagnosDisplayName()))
+            .withDelsvar(TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
+        if (!diagnosSvar.delSvars.isEmpty()) {
+          svars.add(diagnosSvar.build());
         }
-        return webcertModuleService.validateDiagnosisCode(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem());
+      }
     }
-
-    public static void handleDiagnosSvar(List<Svar> svars, List<Diagnos> diagnoser, WebcertModuleService webcertModuleService) {
-        // Could be 0 - 3 diagnoses, uses "instans" to represent multiple values
-        for (int i = 0; i < diagnoser.size(); i++) {
-            SvarBuilder diagnosSvar = aSvar(TYP_AV_DIAGNOS_SVAR_ID_4, (i + 1));
-            Diagnos diagnos = diagnoser.get(i);
-
-            if (isDiagnoseCodeValid(diagnos, webcertModuleService)) {
-                Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
-                diagnosSvar.withDelsvar(TYP_AV_DIAGNOS_DELSVAR_ID_4,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                    .withDelsvar(TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
-                if (!diagnosSvar.delSvars.isEmpty()) {
-                    svars.add(diagnosSvar.build());
-                }
-            }
-
-        }
-
-    }
+  }
 }

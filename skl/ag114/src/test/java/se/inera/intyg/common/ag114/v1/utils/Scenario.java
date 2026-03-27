@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,37 +22,39 @@ import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
- * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:
+ * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a
+ * scenario:
+ *
  * <ul>
- * <li>Transport model
- * <li>Export model (with and without a CertificateContentHolder)
- * <li>Internal model
+ *   <li>Transport model
+ *   <li>Export model (with and without a CertificateContentHolder)
+ *   <li>Internal model
  * </ul>
  *
  * @see ScenarioFinder
  */
 public interface Scenario {
 
-    /**
-     * Returns the name of the scenario. Useful for assertion messages.
-     *
-     * @return The scenario name.
-     */
-    String getName();
+  /**
+   * Returns the name of the scenario. Useful for assertion messages.
+   *
+   * @return The scenario name.
+   */
+  String getName();
 
-    /**
-     * Returns the scenario as a transport model.
-     *
-     * @return The scenario as a transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
+  /**
+   * Returns the scenario as a transport model.
+   *
+   * @return The scenario as a transport model.
+   * @throws ScenarioNotFoundException if the scenario wasn't found.
+   */
+  RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
 
-    /**
-     * Returns the scenario as a internal Mina Intyg model.
-     *
-     * @return The scenario as a internal Mina Intyg model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    Ag114UtlatandeV1 asInternalModel() throws ScenarioNotFoundException;
+  /**
+   * Returns the scenario as a internal Mina Intyg model.
+   *
+   * @return The scenario as a internal Mina Intyg model.
+   * @throws ScenarioNotFoundException if the scenario wasn't found.
+   */
+  Ag114UtlatandeV1 asInternalModel() throws ScenarioNotFoundException;
 }

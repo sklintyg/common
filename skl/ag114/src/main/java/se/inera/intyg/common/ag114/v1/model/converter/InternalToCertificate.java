@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.springframework.stereotype.Component;
@@ -52,83 +51,69 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component(value = "internalToCertificateAg1-14")
 public class InternalToCertificate {
 
-    public Certificate convert(Ag114UtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
-        int index = 0;
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
-            .addElement(
-                CategoryGrundForMedicinsktUnderlag.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionIntygetBaseratPa.toCertificate(
-                    internalCertificate.getUndersokningAvPatienten(), internalCertificate.getTelefonkontaktMedPatienten(),
-                    internalCertificate.getJournaluppgifter(), internalCertificate.getAnnatGrundForMU(), index++, textProvider
-                )
-            )
-            .addElement(
-                QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
-            )
-            .addElement(
-                CategorySysselsattning.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionSysselsattningTyp.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionNuvarandeArbete.toCertificate(internalCertificate.getNuvarandeArbete(), index++, textProvider)
-            )
-            .addElement(
-                CategoryDiagnos.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionOnskaFormedlaDiagnos.toCertificate(internalCertificate.getOnskarFormedlaDiagnos(), index++, textProvider)
-            )
-            .addElement(
-                QuestionDiagnos.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
-            )
-            .addElement(
-                CategoryArbetsformaga.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionNedsattArbetsformaga.toCertificate(internalCertificate.getNedsattArbetsformaga(), index++, textProvider)
-            )
-            .addElement(
-                QuestionArbetsformagaTrotsSjukdom.toCertificate(internalCertificate.getArbetsformagaTrotsSjukdom(), index++, textProvider)
-            )
-            .addElement(
-                QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(internalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
-                    index++, textProvider)
-            )
-            .addElement(
-                CategoryBedomning.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukskrivningsgradHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukskrivningsgrad.toCertificate(internalCertificate.getSjukskrivningsgrad(), index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukskrivningsperiod.toCertificate(internalCertificate.getSjukskrivningsperiod(), index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukskrivningsperiodMessage.toCertificate(internalCertificate.getSjukskrivningsperiod(), index++, textProvider)
-            )
-            .addElement(
-                CategoryOvrigt.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionOvrigaUpplysningar.toCertificate(internalCertificate.getOvrigaUpplysningar(), index++, textProvider)
-            )
-            .addElement(
-                CategoryKontakt.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionKontaktMedArbetsgivaren.toCertificate(internalCertificate.getKontaktMedArbetsgivaren(), index++, textProvider)
-            )
-            .addElement(
-                QuestionAnledningTillKontakt.toCertificate(internalCertificate.getAnledningTillKontakt(), index++, textProvider)
-            )
-            .build();
-    }
+  public Certificate convert(
+      Ag114UtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+    int index = 0;
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+        .addElement(CategoryGrundForMedicinsktUnderlag.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionIntygetBaseratPa.toCertificate(
+                internalCertificate.getUndersokningAvPatienten(),
+                internalCertificate.getTelefonkontaktMedPatienten(),
+                internalCertificate.getJournaluppgifter(),
+                internalCertificate.getAnnatGrundForMU(),
+                index++,
+                textProvider))
+        .addElement(
+            QuestionAnnatBeskrivning.toCertificate(
+                internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider))
+        .addElement(CategorySysselsattning.toCertificate(index++, textProvider))
+        .addElement(QuestionSysselsattningTyp.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionNuvarandeArbete.toCertificate(
+                internalCertificate.getNuvarandeArbete(), index++, textProvider))
+        .addElement(CategoryDiagnos.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionOnskaFormedlaDiagnos.toCertificate(
+                internalCertificate.getOnskarFormedlaDiagnos(), index++, textProvider))
+        .addElement(
+            QuestionDiagnos.toCertificate(
+                internalCertificate.getDiagnoser(), index++, textProvider))
+        .addElement(CategoryArbetsformaga.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionNedsattArbetsformaga.toCertificate(
+                internalCertificate.getNedsattArbetsformaga(), index++, textProvider))
+        .addElement(
+            QuestionArbetsformagaTrotsSjukdom.toCertificate(
+                internalCertificate.getArbetsformagaTrotsSjukdom(), index++, textProvider))
+        .addElement(
+            QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(
+                internalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
+                index++,
+                textProvider))
+        .addElement(CategoryBedomning.toCertificate(index++, textProvider))
+        .addElement(QuestionSjukskrivningsgradHeader.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionSjukskrivningsgrad.toCertificate(
+                internalCertificate.getSjukskrivningsgrad(), index++, textProvider))
+        .addElement(
+            QuestionSjukskrivningsperiod.toCertificate(
+                internalCertificate.getSjukskrivningsperiod(), index++, textProvider))
+        .addElement(
+            QuestionSjukskrivningsperiodMessage.toCertificate(
+                internalCertificate.getSjukskrivningsperiod(), index++, textProvider))
+        .addElement(CategoryOvrigt.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionOvrigaUpplysningar.toCertificate(
+                internalCertificate.getOvrigaUpplysningar(), index++, textProvider))
+        .addElement(CategoryKontakt.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionKontaktMedArbetsgivaren.toCertificate(
+                internalCertificate.getKontaktMedArbetsgivaren(), index++, textProvider))
+        .addElement(
+            QuestionAnledningTillKontakt.toCertificate(
+                internalCertificate.getAnledningTillKontakt(), index++, textProvider))
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,165 +47,164 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionAnnatBeskrivningTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueTextTests extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate("annatBeskrivning", 0, texts);
-        }
+  @Nested
+  class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "annatBeskrivning";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected String getTextId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_TEXT_ID;
     }
 
-    @Nested
-    class IncludeValidationTextTests extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 3500;
-        }
+    @Override
+    protected String getDescriptionId() {
+      return null;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalValueTests extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionAnnatBeskrivning.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionAnnatBeskrivning.toInternal(certificate);
-        }
+    @Override
+    protected String getJsonId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
     }
+  }
+
+  @Nested
+  class IncludeValueTextTests extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate("annatBeskrivning", 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "annatBeskrivning";
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + GRUNDFORMEDICINSKTUNDERLAG_ANNATBESKRIVNING_DELSVAR_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTests extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnnatBeskrivning.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 3500;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalValueTests extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionAnnatBeskrivning.toCertificate(expectedValue, 0, texts);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionAnnatBeskrivning.toInternal(certificate);
+    }
+  }
 }

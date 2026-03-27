@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
@@ -39,51 +38,42 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionSysselsattningTyp {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(TYP_AV_SYSSELSATTNING_SVAR_ID)
-            .index(index)
-            .parent(CATEGORY_SYSSELSATTNING_ID)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID))
-                    .list(
-                        List.of(
-                            CheckboxMultipleCode.builder()
-                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                                .label(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID))
-                                .build()
-                        )
-                    )
-                    .build()
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(TYP_AV_SYSSELSATTNING_SVAR_ID)
+        .index(index)
+        .parent(CATEGORY_SYSSELSATTNING_ID)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID))
+                .list(
+                    List.of(
+                        CheckboxMultipleCode.builder()
+                            .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .label(textProvider.get(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(
+                    List.of(
+                        CertificateDataValueCode.builder()
+                            .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .build()))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationDisable.builder()
+                  .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID)
+                  .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
+                  .build()
+            })
+        .build();
+  }
 
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        List.of(
-                            CertificateDataValueCode.builder()
-                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                                .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationDisable.builder()
-                        .questionId(TYP_AV_SYSSELSATTNING_SVAR_ID)
-                        .expression(exists(SysselsattningsTyp.NUVARANDE_ARBETE.getId()))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    public static List<Sysselsattning> toInternal() {
-        return List.of(
-            Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)
-        );
-    }
+  public static List<Sysselsattning> toInternal() {
+    return List.of(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE));
+  }
 }

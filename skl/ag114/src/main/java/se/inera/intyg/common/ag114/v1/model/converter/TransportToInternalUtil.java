@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,37 +31,35 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-/**
- * Util for AG1-14 diagnoser.
- */
+/** Util for AG1-14 diagnoser. */
 public final class TransportToInternalUtil {
 
-    private TransportToInternalUtil() {
+  private TransportToInternalUtil() {}
+
+  public static void handleDiagnos(List<Diagnos> diagnoser, Svar svar) throws ConverterException {
+    String diagnosKod = null;
+    String diagnosKodSystem = null;
+    String diagnosDisplayName = null;
+    String diagnosBeskrivning = null;
+
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case TYP_AV_DIAGNOS_DELSVAR_ID_4:
+          CVType diagnos = getCVSvarContent(delsvar);
+          diagnosKod = diagnos.getCode();
+          diagnosDisplayName = diagnos.getDisplayName();
+          diagnosKodSystem = diagnos.getCodeSystem();
+          break;
+        case TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4:
+          diagnosBeskrivning = getStringContent(delsvar);
+          break;
+        default:
+          throw new IllegalArgumentException("Unknown diagnos delsvar id: " + delsvar.getId());
+      }
     }
-
-    public static void handleDiagnos(List<Diagnos> diagnoser, Svar svar) throws ConverterException {
-        String diagnosKod = null;
-        String diagnosKodSystem = null;
-        String diagnosDisplayName = null;
-        String diagnosBeskrivning = null;
-
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case TYP_AV_DIAGNOS_DELSVAR_ID_4:
-                    CVType diagnos = getCVSvarContent(delsvar);
-                    diagnosKod = diagnos.getCode();
-                    diagnosDisplayName = diagnos.getDisplayName();
-                    diagnosKodSystem = diagnos.getCodeSystem();
-                    break;
-                case TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4:
-                    diagnosBeskrivning = getStringContent(delsvar);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown diagnos delsvar id: " + delsvar.getId());
-            }
-        }
-        Diagnoskodverk diagnoskodverk = Diagnoskodverk.getEnumByCodeSystem(diagnosKodSystem);
-        diagnoser.add(Diagnos.create(diagnosKod, diagnoskodverk.toString(), diagnosBeskrivning, diagnosDisplayName));
-
-    }
+    Diagnoskodverk diagnoskodverk = Diagnoskodverk.getEnumByCodeSystem(diagnosKodSystem);
+    diagnoser.add(
+        Diagnos.create(
+            diagnosKod, diagnoskodverk.toString(), diagnosBeskrivning, diagnosDisplayName));
+  }
 }

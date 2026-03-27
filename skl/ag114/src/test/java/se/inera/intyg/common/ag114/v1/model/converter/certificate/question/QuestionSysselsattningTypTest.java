@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,136 +50,138 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueCodeListT
 
 class QuestionSysselsattningTypTest {
 
-    private CertificateTextProvider texts;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(any(String.class))).thenReturn(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID);
+  @BeforeEach
+  void setup() {
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(any(String.class))).thenReturn(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID);
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSysselsattningTyp.toCertificate(0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return CATEGORY_SYSSELSATTNING_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return TYP_AV_SYSSELSATTNING_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxMultipleCodeTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
-            return List.of(
-                CheckboxMultipleCode.builder()
-                    .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                    .label(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID)
-                    .build()
-            );
-        }
-
-        @Override
-        protected Layout getLayout() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return CATEGORY_SYSSELSATTNING_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueBooleanTests extends ValueCodeListTest<Null> {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement(Null expectedValue) {
-            return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
+  @Nested
+  class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxMultipleCodeTest {
 
-        @Override
-        protected List<InputExpectedValuePair<Null, CertificateDataValueCodeList>> inputExpectedValuePairList() {
-            return List.of(new InputExpectedValuePair<>(null, CertificateDataValueCodeList.builder()
-                .list(
-                    List.of(
-                        CertificateDataValueCode.builder()
-                            .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                            .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                            .build()
-                    )
-                ).build()));
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
 
-    @Nested
-    class IncludeValidationDisableTests extends ValidationDisableTest {
-
-        @Override
-        protected String getQuestionId() {
-            return TYP_AV_SYSSELSATTNING_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + SysselsattningsTyp.NUVARANDE_ARBETE.getId() + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSysselsattningTyp.toCertificate(0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSysselsattningTyp.toCertificate(0, texts);
     }
 
-    @Nested
-    class IncludeInternalSysselsattningValueTests {
-
-        @Test
-        void shallReturnSysselsattningNuvarandeArbete() {
-            final var result = QuestionSysselsattningTyp.toInternal();
-            assertEquals(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE), result.get(0));
-        }
+    @Override
+    protected String getTextId() {
+      return TYP_AV_SYSSELSATTNING_SVAR_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
+      return List.of(
+          CheckboxMultipleCode.builder()
+              .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+              .label(TYP_AV_SYSSELSATTNING_SVAR_LABEL_ID)
+              .build());
+    }
+
+    @Override
+    protected Layout getLayout() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueBooleanTests extends ValueCodeListTest<Null> {
+
+    @Override
+    protected CertificateDataElement getElement(Null expectedValue) {
+      return QuestionSysselsattningTyp.toCertificate(0, texts);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Null, CertificateDataValueCodeList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null,
+              CertificateDataValueCodeList.builder()
+                  .list(
+                      List.of(
+                          CertificateDataValueCode.builder()
+                              .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                              .code(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                              .build()))
+                  .build()));
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSysselsattningTyp.toCertificate(0, texts);
+    }
+  }
+
+  @Nested
+  class IncludeValidationDisableTests extends ValidationDisableTest {
+
+    @Override
+    protected String getQuestionId() {
+      return TYP_AV_SYSSELSATTNING_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + SysselsattningsTyp.NUVARANDE_ARBETE.getId() + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSysselsattningTyp.toCertificate(0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeInternalSysselsattningValueTests {
+
+    @Test
+    void shallReturnSysselsattningNuvarandeArbete() {
+      final var result = QuestionSysselsattningTyp.toInternal();
+      assertEquals(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE), result.get(0));
+    }
+  }
 }

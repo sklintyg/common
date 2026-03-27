@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,41 +28,35 @@ import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
-/**
- *
- */
+/** */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Sjukfranvaro.Builder.class)
 public abstract class Sjukfranvaro {
 
-    @Nullable
-    public abstract Boolean getChecked();
+  @Nullable public abstract Boolean getChecked();
 
-    @Nullable
-    public abstract Integer getNiva();
+  @Nullable public abstract Integer getNiva();
 
-    @Nullable
-    public abstract InternalLocalDateInterval getPeriod();
+  @Nullable public abstract InternalLocalDateInterval getPeriod();
 
-    public static Sjukfranvaro.Builder builder() {
-        return new AutoValue_Sjukfranvaro.Builder();
-    }
+  public static Sjukfranvaro.Builder builder() {
+    return new AutoValue_Sjukfranvaro.Builder();
+  }
 
-    public abstract Sjukfranvaro.Builder toBuilder();
+  public abstract Sjukfranvaro.Builder toBuilder();
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Sjukfranvaro build();
+    public abstract Sjukfranvaro build();
 
-        @JsonProperty(SJUKFRANVARO_SVAR_JSON_CHECKED)
-        public abstract Sjukfranvaro.Builder setChecked(Boolean checked);
+    @JsonProperty(SJUKFRANVARO_SVAR_JSON_CHECKED)
+    public abstract Sjukfranvaro.Builder setChecked(Boolean checked);
 
-        @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_61)
-        public abstract Sjukfranvaro.Builder setNiva(Integer niva);
+    @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_61)
+    public abstract Sjukfranvaro.Builder setNiva(Integer niva);
 
-        @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_62)
-        public abstract Sjukfranvaro.Builder setPeriod(InternalLocalDateInterval period);
-
-    }
+    @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_62)
+    public abstract Sjukfranvaro.Builder setPeriod(InternalLocalDateInterval period);
+  }
 }

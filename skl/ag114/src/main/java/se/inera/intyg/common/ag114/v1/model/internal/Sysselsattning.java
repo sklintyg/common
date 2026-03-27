@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,44 +27,42 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Sysselsattning {
 
-    @JsonCreator
-    public static Sysselsattning create(@JsonProperty("typ") SysselsattningsTyp typ) {
-        return new AutoValue_Sysselsattning(typ);
+  @JsonCreator
+  public static Sysselsattning create(@JsonProperty("typ") SysselsattningsTyp typ) {
+    return new AutoValue_Sysselsattning(typ);
+  }
+
+  @Nullable public abstract SysselsattningsTyp getTyp();
+
+  public enum SysselsattningsTyp {
+    NUVARANDE_ARBETE("NUVARANDE_ARBETE", "Nuvarande arbete");
+
+    private final String id;
+    private final String label;
+
+    SysselsattningsTyp(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    @Nullable
-    public abstract SysselsattningsTyp getTyp();
-
-    public enum SysselsattningsTyp {
-        NUVARANDE_ARBETE("NUVARANDE_ARBETE", "Nuvarande arbete");
-
-        private final String id;
-        private final String label;
-
-        SysselsattningsTyp(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static SysselsattningsTyp fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (SysselsattningsTyp typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-
+    @JsonValue
+    public String getId() {
+      return id;
     }
+
+    public String getLabel() {
+      return label;
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static SysselsattningsTyp fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (SysselsattningsTyp typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

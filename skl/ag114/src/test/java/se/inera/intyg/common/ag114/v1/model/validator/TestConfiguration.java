@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,13 +27,13 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 @Configuration
 public class TestConfiguration {
 
-    @Bean
-    public ValidatorUtilSKL validatorUtilSKL() {
-        return new ValidatorUtilSKL();
-    }
+  @Bean
+  public ValidatorUtilSKL validatorUtilSKL() {
+    return new ValidatorUtilSKL();
+  }
 
-    @Bean
-    public InternalDraftValidator internalDraftValidator() {
-        return new InternalDraftValidatorImpl();
-    }
+  @Bean
+  public InternalDraftValidator internalDraftValidator() {
+    return new InternalDraftValidatorImpl();
+  }
 }

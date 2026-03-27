@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,40 +34,46 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 class CategoryAktivitetsbegransningTest {
 
-    private CertificateTextProvider texts;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
-        assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
+    assertEquals(AKTIVITETSBEGRANSNING_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryAktivitetsbegransning.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategoryAktivitetsbegransning.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryConfig() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-    }
+  @Test
+  void shouldIncludeCategoryConfig() {
+    final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+  }
 
-    @Test
-    void shouldIncludeCategoryValidationShow() {
-        final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
-        final var certificateDataValidationShow = (CertificateDataValidationShow) category.getValidation()[0];
-        assertAll("Validation question validation",
-            () -> assertEquals(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShow.getQuestionId()),
-            () -> assertEquals("$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11, certificateDataValidationShow.getExpression())
-        );
-    }
+  @Test
+  void shouldIncludeCategoryValidationShow() {
+    final var category = CategoryAktivitetsbegransning.toCertificate(0, texts);
+    final var certificateDataValidationShow =
+        (CertificateDataValidationShow) category.getValidation()[0];
+    assertAll(
+        "Validation question validation",
+        () ->
+            assertEquals(
+                FUNKTIONSNEDSATTNING_DELSVAR_ID_11, certificateDataValidationShow.getQuestionId()),
+        () ->
+            assertEquals(
+                "$" + FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11,
+                certificateDataValidationShow.getExpression()));
+  }
 }

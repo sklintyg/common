@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,23 +32,21 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public class CategoryAktivitetsbegransning {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(texts.get(AKTIVITETSBEGRANSNING_CATEGORY_TEXT))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
+                  .build()
+            })
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -72,147 +72,211 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
-    private UtlatandeToIntyg() {
+  private UtlatandeToIntyg() {}
+
+  public static Intyg convert(Ag114UtlatandeV1 utlatande, WebcertModuleService webcertModuleService)
+      throws ConverterException {
+    if (utlatande == null) {
+      throw new ConverterException("Source utlatande was null, cannot convert");
+    }
+    Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
+    intyg.setTyp(getTypAvIntyg(KvIntygstyp.AG1_14));
+    intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
+    intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
+    return intyg;
+  }
+
+  private static List<Svar> getSvar(
+      Ag114UtlatandeV1 source, WebcertModuleService webcertModuleService) {
+    List<Svar> svars = new ArrayList<>();
+
+    // Kategori 7
+    getGrundForMUSvar(source, svars);
+
+    // Kategori 1
+    int sysselsattningInstans = 1;
+    if (source.getSysselsattning() != null) {
+      for (Sysselsattning sysselsattning : source.getSysselsattning()) {
+        if (sysselsattning.getTyp() != null) {
+          svars.add(
+              aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
+                  .withDelsvar(
+                      TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
+                      aCV(
+                          TYP_AV_SYSSELSATTNING_CODE_SYSTEM,
+                          sysselsattning.getTyp().getId(),
+                          sysselsattning.getTyp().getLabel()))
+                  .build());
+        }
+      }
+    }
+    addIfNotBlank(
+        svars,
+        NUVARANDE_ARBETE_SVAR_ID_2,
+        NUVARANDE_ARBETE_DELSVAR_ID_2,
+        source.getNuvarandeArbete());
+
+    // Kategori 2 Diagnos
+    addIfNotNull(
+        svars,
+        ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3,
+        ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3,
+        source.getOnskarFormedlaDiagnos());
+
+    // Lägg endast till diagnos om önskar förmedla är true.
+    if (source.getOnskarFormedlaDiagnos() != null && source.getOnskarFormedlaDiagnos()) {
+      handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
     }
 
-    public static Intyg convert(Ag114UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) throws ConverterException {
-        if (utlatande == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, PatientInfo.BASIC);
-        intyg.setTyp(getTypAvIntyg(KvIntygstyp.AG1_14));
-        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
-        intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
-        return intyg;
-    }
+    // Kategori 5 Arbetsformaga
+    addIfNotBlank(
+        svars,
+        NEDSATT_ARBETSFORMAGA_SVAR_ID_5,
+        NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5,
+        source.getNedsattArbetsformaga());
 
-    private static List<Svar> getSvar(Ag114UtlatandeV1 source, WebcertModuleService webcertModuleService) {
-        List<Svar> svars = new ArrayList<>();
-
-        // Kategori 7
-        getGrundForMUSvar(source, svars);
-
-        // Kategori 1
-        int sysselsattningInstans = 1;
-        if (source.getSysselsattning() != null) {
-            for (Sysselsattning sysselsattning : source.getSysselsattning()) {
-                if (sysselsattning.getTyp() != null) {
-                    svars.add(aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
-                        .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
-                            aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
-                                sysselsattning.getTyp().getLabel()))
-                        .build());
-                }
-            }
-        }
-        addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_2, NUVARANDE_ARBETE_DELSVAR_ID_2, source.getNuvarandeArbete());
-
-        // Kategori 2 Diagnos
-        addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3, source.getOnskarFormedlaDiagnos());
-
-        // Lägg endast till diagnos om önskar förmedla är true.
-        if (source.getOnskarFormedlaDiagnos() != null && source.getOnskarFormedlaDiagnos()) {
-            handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
-        }
-
-        // Kategori 5 Arbetsformaga
-        addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
-
-        // Kategori 6 Arbetsformaga trots sjukdom
-        if (source.getArbetsformagaTrotsSjukdom() != null) {
-            if (!source.getArbetsformagaTrotsSjukdom()) {
-                svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                    source.getArbetsformagaTrotsSjukdom().toString()).build());
-            } else if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
-                svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                        source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
-                        source.getArbetsformagaTrotsSjukdomBeskrivning())
-                    .build());
-            }
-        }
-
-        // Kategori Behov av sjukskrivning
-        InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
-        if (sjukskrivningsperiod != null && sjukskrivningsperiod.isValid()) {
-            svars.add(aSvar(BEDOMNING_SVAR_ID_7)
-                .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
-                .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
-                    aDatePeriod(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()))
+    // Kategori 6 Arbetsformaga trots sjukdom
+    if (source.getArbetsformagaTrotsSjukdom() != null) {
+      if (!source.getArbetsformagaTrotsSjukdom()) {
+        svars.add(
+            aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6)
+                .withDelsvar(
+                    ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
+                    source.getArbetsformagaTrotsSjukdom().toString())
                 .build());
-        }
-
-        // Kategori 8 övrigt
-        addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
-
-        // Kategori 9 Kontakt
-        if (source.getKontaktMedArbetsgivaren() != null) {
-            if (source.getKontaktMedArbetsgivaren() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
-                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                        source.getKontaktMedArbetsgivaren().toString())
-                    .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt()).build());
-            } else {
-                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                        source.getKontaktMedArbetsgivaren().toString())
-                    .build());
-            }
-        }
-
-        return svars;
-    }
-
-
-    private static void getGrundForMUSvar(Ag114UtlatandeV1 source, List<Svar> svars) {
-        int grundForMUInstans = 1;
-        if (source.getUndersokningAvPatienten() != null && source.getUndersokningAvPatienten().isValidDate()) {
-            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
-                        RespConstants.ReferensTyp.UNDERSOKNING.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
-                    InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
+      } else if (source.getArbetsformagaTrotsSjukdom()
+          && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
+        svars.add(
+            aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6)
+                .withDelsvar(
+                    ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
+                    source.getArbetsformagaTrotsSjukdom().toString())
+                .withDelsvar(
+                    ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
+                    source.getArbetsformagaTrotsSjukdomBeskrivning())
                 .build());
-        }
+      }
+    }
 
-        if (source.getTelefonkontaktMedPatienten() != null && source.getTelefonkontaktMedPatienten().isValidDate()) {
-            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.TELEFONKONTAKT.transportId,
-                        RespConstants.ReferensTyp.TELEFONKONTAKT.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
-                    InternalConverterUtil.getInternalDateContent(source.getTelefonkontaktMedPatienten()))
+    // Kategori Behov av sjukskrivning
+    InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
+    if (sjukskrivningsperiod != null && sjukskrivningsperiod.isValid()) {
+      svars.add(
+          aSvar(BEDOMNING_SVAR_ID_7)
+              .withDelsvar(
+                  SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1,
+                  addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
+              .withDelsvar(
+                  SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
+                  aDatePeriod(
+                      sjukskrivningsperiod.fromAsLocalDate(),
+                      sjukskrivningsperiod.tomAsLocalDate()))
+              .build());
+    }
+
+    // Kategori 8 övrigt
+    addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
+
+    // Kategori 9 Kontakt
+    if (source.getKontaktMedArbetsgivaren() != null) {
+      if (source.getKontaktMedArbetsgivaren()
+          && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
+        svars.add(
+            aSvar(KONTAKT_ONSKAS_SVAR_ID_9)
+                .withDelsvar(
+                    KONTAKT_ONSKAS_DELSVAR_ID_9, source.getKontaktMedArbetsgivaren().toString())
+                .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt())
                 .build());
-        }
-
-        if (source.getJournaluppgifter() != null && source.getJournaluppgifter().isValidDate()) {
-            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
-                        RespConstants.ReferensTyp.JOURNAL.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
-                    InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
+      } else {
+        svars.add(
+            aSvar(KONTAKT_ONSKAS_SVAR_ID_9)
+                .withDelsvar(
+                    KONTAKT_ONSKAS_DELSVAR_ID_9, source.getKontaktMedArbetsgivaren().toString())
                 .build());
-        }
-
-        if (source.getAnnatGrundForMU() != null && source.getAnnatGrundForMU().isValidDate()) {
-            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
-                        RespConstants.ReferensTyp.ANNAT.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
-                    InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3, source.getAnnatGrundForMUBeskrivning()).build());
-        }
+      }
     }
 
-    private static JAXBElement<PQType> addSjukskrivningsGradIfNotEmpty(String sjukskrivningsgrad) {
-        if (sjukskrivningsgrad != null && !sjukskrivningsgrad.trim().isEmpty()) {
-            return getSjukskrivningsGradAsPQ(sjukskrivningsgrad);
-        }
-        return null;
+    return svars;
+  }
+
+  private static void getGrundForMUSvar(Ag114UtlatandeV1 source, List<Svar> svars) {
+    int grundForMUInstans = 1;
+    if (source.getUndersokningAvPatienten() != null
+        && source.getUndersokningAvPatienten().isValidDate()) {
+      svars.add(
+          aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                  aCV(
+                      GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM,
+                      RespConstants.ReferensTyp.UNDERSOKNING.transportId,
+                      RespConstants.ReferensTyp.UNDERSOKNING.label))
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                  InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
+              .build());
     }
 
-    private static JAXBElement<PQType> getSjukskrivningsGradAsPQ(String sjukskrivningsGradAsString) {
-        final double sjukskrivningsGradAsDouble = Double.parseDouble(sjukskrivningsGradAsString);
-        return aPQ(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE, sjukskrivningsGradAsDouble);
+    if (source.getTelefonkontaktMedPatienten() != null
+        && source.getTelefonkontaktMedPatienten().isValidDate()) {
+      svars.add(
+          aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                  aCV(
+                      GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM,
+                      RespConstants.ReferensTyp.TELEFONKONTAKT.transportId,
+                      RespConstants.ReferensTyp.TELEFONKONTAKT.label))
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                  InternalConverterUtil.getInternalDateContent(
+                      source.getTelefonkontaktMedPatienten()))
+              .build());
     }
+
+    if (source.getJournaluppgifter() != null && source.getJournaluppgifter().isValidDate()) {
+      svars.add(
+          aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                  aCV(
+                      GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM,
+                      RespConstants.ReferensTyp.JOURNAL.transportId,
+                      RespConstants.ReferensTyp.JOURNAL.label))
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                  InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
+              .build());
+    }
+
+    if (source.getAnnatGrundForMU() != null && source.getAnnatGrundForMU().isValidDate()) {
+      svars.add(
+          aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                  aCV(
+                      GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM,
+                      RespConstants.ReferensTyp.ANNAT.transportId,
+                      RespConstants.ReferensTyp.ANNAT.label))
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                  InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
+              .withDelsvar(
+                  GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3,
+                  source.getAnnatGrundForMUBeskrivning())
+              .build());
+    }
+  }
+
+  private static JAXBElement<PQType> addSjukskrivningsGradIfNotEmpty(String sjukskrivningsgrad) {
+    if (sjukskrivningsgrad != null && !sjukskrivningsgrad.trim().isEmpty()) {
+      return getSjukskrivningsGradAsPQ(sjukskrivningsgrad);
+    }
+    return null;
+  }
+
+  private static JAXBElement<PQType> getSjukskrivningsGradAsPQ(String sjukskrivningsGradAsString) {
+    final double sjukskrivningsGradAsDouble = Double.parseDouble(sjukskrivningsGradAsString);
+    return aPQ(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE, sjukskrivningsGradAsDouble);
+  }
 }
