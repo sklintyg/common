@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,75 +28,66 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- *
- */
+/** */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_PrognosAtergang.Builder.class)
 public abstract class PrognosAtergang {
 
-    // Delfråga 8.1
-    @Nullable
-    public abstract Prognos getPrognos();
+  // Delfråga 8.1
+  @Nullable public abstract Prognos getPrognos();
 
-    // Delfråga 8.2
-    @Nullable
-    public abstract String getAnpassningar();
+  // Delfråga 8.2
+  @Nullable public abstract String getAnpassningar();
 
+  public static PrognosAtergang.Builder builder() {
+    return new AutoValue_PrognosAtergang.Builder();
+  }
 
-    public static PrognosAtergang.Builder builder() {
-        return new AutoValue_PrognosAtergang.Builder();
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract PrognosAtergang build();
+
+    @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_81)
+    public abstract PrognosAtergang.Builder setPrognos(Prognos prognos);
+
+    @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_82)
+    public abstract PrognosAtergang.Builder setAnpassningar(String anpassningar);
+  }
+
+  public enum Prognos {
+    UTAN_ANPASSNING("ATERGA_UTAN_ANPASSNING", "Patienten kan återgå utan anpassning"),
+    MED_ANPASSNING("ATERGA_MED_ANPASSNING", "Patienten kan återgå med anpassning"),
+    KAN_EJ_ATERGA("KAN_EJ_ATERGA", "Patienten inte kan återgå"),
+    EJ_MOJLIGT_AVGORA(
+        "EJ_MOJLIGT_AVGORA", "Det inte är möjligt att avgöra om patienten kan återgå");
+
+    private final String id;
+    private final String label;
+
+    Prognos(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract PrognosAtergang build();
-
-        @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_81)
-        public abstract PrognosAtergang.Builder setPrognos(Prognos prognos);
-
-        @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_82)
-        public abstract PrognosAtergang.Builder setAnpassningar(String anpassningar);
-
+    @JsonValue
+    public String getId() {
+      return id;
     }
 
-
-    public enum Prognos {
-
-        UTAN_ANPASSNING("ATERGA_UTAN_ANPASSNING", "Patienten kan återgå utan anpassning"),
-        MED_ANPASSNING("ATERGA_MED_ANPASSNING", "Patienten kan återgå med anpassning"),
-        KAN_EJ_ATERGA("KAN_EJ_ATERGA", "Patienten inte kan återgå"),
-        EJ_MOJLIGT_AVGORA("EJ_MOJLIGT_AVGORA", "Det inte är möjligt att avgöra om patienten kan återgå");
-
-
-        private final String id;
-        private final String label;
-
-        Prognos(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static Prognos fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (Prognos typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
+    public String getLabel() {
+      return label;
     }
 
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static Prognos fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (Prognos typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

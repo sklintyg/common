@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,40 +38,41 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Psykiskt;
 
 public class QuestionPsykiskSjukdomStorning {
 
-    public static CertificateDataElement toCertificate(Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
 
-        final var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
+    final var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
-            .parent(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
-                    .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
-                    .selected(psykiskSjukdom)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
-                        .expression(exists(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
+        .parent(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
+                .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID)
+                .selected(psykiskSjukdom)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
+                  .expression(exists(PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PSYKISK_SJUKDOM_STORNING_DELSVAR_ID, PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        PSYKISK_SJUKDOM_STORNING_DELSVAR_ID,
+        PSYKISK_SJUKDOM_STORNING_DELSVAR_JSON_ID);
+  }
 }

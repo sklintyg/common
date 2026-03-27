@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,16 +27,15 @@ import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 @Component("ts-bas.v7.TsBasValidator")
 public class TsBasValidator implements InternalDraftValidator<TsBasUtlatandeV7> {
 
-    /**
-     * Validates an internal Utlatande.
-     *
-     * @param utlatande TsBasUtlatandeV7
-     * @return List of validation errors, or an empty string if validated correctly.
-     */
-    @Override
-    public ValidateDraftResponse validateDraft(TsBasUtlatandeV7 utlatande) {
-        InternalValidatorInstance instance = new InternalValidatorInstance();
-        return instance.validate(utlatande);
-    }
-
+  /**
+   * Validates an internal Utlatande.
+   *
+   * @param utlatande TsBasUtlatandeV7
+   * @return List of validation errors, or an empty string if validated correctly.
+   */
+  @Override
+  public ValidateDraftResponse validateDraft(TsBasUtlatandeV7 utlatande) {
+    InternalValidatorInstance instance = new InternalValidatorInstance();
+    return instance.validate(utlatande);
+  }
 }

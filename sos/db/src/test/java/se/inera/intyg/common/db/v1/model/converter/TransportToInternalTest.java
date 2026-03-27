@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,52 +45,54 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class TransportToInternalTest {
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void testConvert() throws Exception {
-        String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
-        Intyg intyg = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
-        DbUtlatandeV1 res = TransportToInternal.convert(intyg);
+  @Test
+  public void testConvert() throws Exception {
+    String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+    Intyg intyg =
+        JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
+    DbUtlatandeV1 res = TransportToInternal.convert(intyg);
 
-        assertEquals("1234567", res.getId());
-        assertEquals("Olivia", res.getGrundData().getPatient().getFornamn());
-        assertEquals("Olsson", res.getGrundData().getPatient().getEfternamn());
-        assertEquals("Testgatan 1", res.getGrundData().getPatient().getPostadress());
-        assertEquals("111 11", res.getGrundData().getPatient().getPostnummer());
-        assertEquals("Teststaden", res.getGrundData().getPatient().getPostort());
-        assertEquals("19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
-        assertEquals(LocalDateTime.of(2015, 12, 7, 15, 48, 5), res.getGrundData().getSigneringsdatum());
-        assertEquals("Karl Karlsson", res.getGrundData().getSkapadAv().getFullstandigtNamn());
-        assertEquals("SE2321000016-6G5R", res.getGrundData().getSkapadAv().getPersonId());
-        assertNull(res.getGrundData().getRelation());
+    assertEquals("1234567", res.getId());
+    assertEquals("Olivia", res.getGrundData().getPatient().getFornamn());
+    assertEquals("Olsson", res.getGrundData().getPatient().getEfternamn());
+    assertEquals("Testgatan 1", res.getGrundData().getPatient().getPostadress());
+    assertEquals("111 11", res.getGrundData().getPatient().getPostnummer());
+    assertEquals("Teststaden", res.getGrundData().getPatient().getPostort());
+    assertEquals(
+        "19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+    assertEquals(LocalDateTime.of(2015, 12, 7, 15, 48, 5), res.getGrundData().getSigneringsdatum());
+    assertEquals("Karl Karlsson", res.getGrundData().getSkapadAv().getFullstandigtNamn());
+    assertEquals("SE2321000016-6G5R", res.getGrundData().getSkapadAv().getPersonId());
+    assertNull(res.getGrundData().getRelation());
 
-        assertEquals("körkort", res.getIdentitetStyrkt());
-        assertEquals(false, res.getDodsdatumSakert());
-        assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getDodsdatum());
-        assertEquals(new InternalDate(LocalDate.of(2017, 1, 2)), res.getAntraffatDodDatum());
-        assertEquals("kommun", res.getDodsplatsKommun());
-        assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
-        assertEquals(true, res.getBarn());
-        assertEquals(true, res.getExplosivImplantat());
-        assertEquals(true, res.getExplosivAvlagsnat());
-        assertEquals(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN, res.getUndersokningYttre());
-        assertEquals(new InternalDate(LocalDate.of(2016, 12, 31)), res.getUndersokningDatum());
-        assertEquals(true, res.getPolisanmalan());
-    }
-
+    assertEquals("körkort", res.getIdentitetStyrkt());
+    assertEquals(false, res.getDodsdatumSakert());
+    assertEquals(new InternalDate(LocalDate.of(2017, 1, 1)), res.getDodsdatum());
+    assertEquals(new InternalDate(LocalDate.of(2017, 1, 2)), res.getAntraffatDodDatum());
+    assertEquals("kommun", res.getDodsplatsKommun());
+    assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
+    assertEquals(true, res.getBarn());
+    assertEquals(true, res.getExplosivImplantat());
+    assertEquals(true, res.getExplosivAvlagsnat());
+    assertEquals(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN, res.getUndersokningYttre());
+    assertEquals(new InternalDate(LocalDate.of(2016, 12, 31)), res.getUndersokningDatum());
+    assertEquals(true, res.getPolisanmalan());
+  }
 }

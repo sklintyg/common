@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,44 +21,45 @@ package se.inera.intyg.common.ts_parent.codes;
 import java.util.stream.Stream;
 
 public enum KorkortsbehorighetKod {
+  C1("VAR1", "C1"),
+  C1E("VAR2", "C1E"),
+  C("VAR3", "C"),
+  CE("VAR4", "CE"),
+  D1("VAR5", "D1"),
+  D1E("VAR6", "D1E"),
+  D("VAR7", "D"),
+  DE("VAR8", "DE"),
+  TAXI("VAR9", "Taxi"),
+  ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)"),
+  KANINTETASTALLNING("VAR11", "Kan inte ta ställning"),
+  AM("VAR12", "AM"),
+  A1("VAR13", "A1"),
+  A2("VAR14", "A2"),
+  A("VAR15", "A"),
+  B("VAR16", "B"),
+  BE("VAR17", "BE"),
+  TRAKTOR("VAR18", "Traktor");
 
-    C1("VAR1", "C1"),
-    C1E("VAR2", "C1E"),
-    C("VAR3", "C"),
-    CE("VAR4", "CE"),
-    D1("VAR5", "D1"),
-    D1E("VAR6", "D1E"),
-    D("VAR7", "D"),
-    DE("VAR8", "DE"),
-    TAXI("VAR9", "Taxi"),
-    ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)"),
-    KANINTETASTALLNING("VAR11", "Kan inte ta ställning"),
-    AM("VAR12", "AM"),
-    A1("VAR13", "A1"),
-    A2("VAR14", "A2"),
-    A("VAR15", "A"),
-    B("VAR16", "B"),
-    BE("VAR17", "BE"),
-    TRAKTOR("VAR18", "Traktor");
+  final String code;
+  final String description;
 
-    final String code;
-    final String description;
+  KorkortsbehorighetKod(String code, String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    KorkortsbehorighetKod(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public static KorkortsbehorighetKod fromCode(String code) {
-        return Stream.of(KorkortsbehorighetKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  public static KorkortsbehorighetKod fromCode(String code) {
+    return Stream.of(KorkortsbehorighetKod.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 }

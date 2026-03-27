@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,61 +33,63 @@ import se.inera.intyg.common.support.facade.model.config.CheckboxMultipleDate;
 
 public abstract class ConfigCheckboxMultipleDateTest extends ConfigTest {
 
-    protected abstract List<CheckboxMultipleDate> getCheckboxMultipleDates();
+  protected abstract List<CheckboxMultipleDate> getCheckboxMultipleDates();
 
-    protected abstract List<LocalDate> getMaxDates();
+  protected abstract List<LocalDate> getMaxDates();
 
-    protected abstract List<LocalDate> getMinDates();
+  protected abstract List<LocalDate> getMinDates();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE;
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_DATE;
+  }
+
+  @Test
+  void shouldIncludeCorrectIds() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+    final var expectedIds =
+        getCheckboxMultipleDates().stream()
+            .map(CheckboxMultipleDate::getId)
+            .collect(Collectors.toList());
+    final var actualIds =
+        config.getList().stream().map(CheckboxMultipleDate::getId).collect(Collectors.toList());
+
+    assertEquals(expectedIds, actualIds);
+  }
+
+  @Test
+  void shouldIncludeCorrectLabels() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+    final var expectedLabelIds = getCheckboxMultipleDates();
+    final var actualLabels = config.getList();
+
+    for (int i = 0; i < expectedLabelIds.size(); i++) {
+      assertTrue(actualLabels.get(i).getLabel().trim().length() > 0, "Missing label at index " + i);
+      verify(getTextProviderMock(), atLeastOnce()).get(expectedLabelIds.get(i).getLabel());
     }
+  }
 
-    @Test
-    void shouldIncludeCorrectIds() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
-        final var expectedIds = getCheckboxMultipleDates().stream()
-            .map(CheckboxMultipleDate::getId).collect(Collectors.toList());
-        final var actualIds = config.getList().stream()
-            .map(CheckboxMultipleDate::getId).collect(Collectors.toList());
+  @Test
+  void shouldIncludeMaxDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+    final var expectedMaxDates = getMaxDates();
 
-        assertEquals(expectedIds, actualIds);
+    for (int i = 0; i < expectedMaxDates.size(); i++) {
+      assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
     }
+  }
 
-    @Test
-    void shouldIncludeCorrectLabels() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
-        final var expectedLabelIds = getCheckboxMultipleDates();
-        final var actualLabels = config.getList();
+  @Test
+  void shouldIncludeMinDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
+    final var expectedMinDates = getMinDates();
 
-        for (int i = 0; i < expectedLabelIds.size(); i++) {
-            assertTrue(actualLabels.get(i).getLabel().trim().length() > 0, "Missing label at index " + i);
-            verify(getTextProviderMock(), atLeastOnce()).get(expectedLabelIds.get(i).getLabel());
-        }
+    for (int i = 0; i < expectedMinDates.size(); i++) {
+      assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
     }
-
-    @Test
-    void shouldIncludeMaxDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
-        final var expectedMaxDates = getMaxDates();
-
-        for (int i = 0; i < expectedMaxDates.size(); i++) {
-            assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
-        }
-    }
-
-    @Test
-    void shouldIncludeMinDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleDate) question.getConfig();
-        final var expectedMinDates = getMinDates();
-
-        for (int i = 0; i < expectedMinDates.size(); i++) {
-            assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
-        }
-    }
+  }
 }

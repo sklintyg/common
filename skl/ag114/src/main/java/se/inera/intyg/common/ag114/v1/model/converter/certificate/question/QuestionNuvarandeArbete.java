@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_SYSSELSATTNING_ID;
@@ -38,42 +37,41 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionNuvarandeArbete {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String nuvarandeArbete, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(NUVARANDE_ARBETE_SVAR_ID)
-            .index(index)
-            .parent(CATEGORY_SYSSELSATTNING_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
-                    .text(textProvider.get(NUVARANDE_ARBETE_SVAR_TEXT_ID))
-                    .description(textProvider.get(NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
-                    .text(nuvarandeArbete)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(NUVARANDE_ARBETE_SVAR_ID)
-                        .expression(singleExpression(NUVARANDE_ARBETE_SVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String nuvarandeArbete, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(NUVARANDE_ARBETE_SVAR_ID)
+        .index(index)
+        .parent(CATEGORY_SYSSELSATTNING_ID)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
+                .text(textProvider.get(NUVARANDE_ARBETE_SVAR_TEXT_ID))
+                .description(textProvider.get(NUVARANDE_ARBETE_SVAR_DESCRIPTION_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
+                .text(nuvarandeArbete)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(NUVARANDE_ARBETE_SVAR_ID)
+                  .expression(singleExpression(NUVARANDE_ARBETE_SVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(NUVARANDE_ARBETE_SVAR_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), NUVARANDE_ARBETE_SVAR_ID, NUVARANDE_ARBETE_SVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(), NUVARANDE_ARBETE_SVAR_ID, NUVARANDE_ARBETE_SVAR_JSON_ID);
+  }
 }

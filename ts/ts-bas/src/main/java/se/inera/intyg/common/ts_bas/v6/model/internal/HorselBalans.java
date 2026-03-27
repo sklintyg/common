@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,27 +27,25 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_HorselBalans.Builder.class)
 public abstract class HorselBalans {
 
-    public abstract Builder toBuilder();
+  public abstract Builder toBuilder();
 
-    public static Builder builder() {
-        return new AutoValue_HorselBalans.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_HorselBalans.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract HorselBalans build();
+    public abstract HorselBalans build();
 
-        @JsonProperty("balansrubbningar")
-        public abstract Builder setBalansrubbningar(Boolean balansrubbningar);
+    @JsonProperty("balansrubbningar")
+    public abstract Builder setBalansrubbningar(Boolean balansrubbningar);
 
-        @JsonProperty("svartUppfattaSamtal4Meter")
-        public abstract Builder setSvartUppfattaSamtal4Meter(Boolean svartUppfattaSamtal4Meter);
-    }
+    @JsonProperty("svartUppfattaSamtal4Meter")
+    public abstract Builder setSvartUppfattaSamtal4Meter(Boolean svartUppfattaSamtal4Meter);
+  }
 
-    @Nullable
-    public abstract Boolean getBalansrubbningar();
+  @Nullable public abstract Boolean getBalansrubbningar();
 
-    @Nullable
-    public abstract Boolean getSvartUppfattaSamtal4Meter();
+  @Nullable public abstract Boolean getSvartUppfattaSamtal4Meter();
 }

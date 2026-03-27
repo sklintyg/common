@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -99,348 +99,399 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 @ContextConfiguration(classes = {BefattningService.class})
 public class TsTrk1062ModuleApiV1Test {
 
-    @Mock
-    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+  @Mock private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
-    @Mock
-    private WebcertModuleService moduleService;
+  @Mock private WebcertModuleService moduleService;
 
-    @Mock
-    private WebcertModelFactoryImpl webcertModelFactory;
+  @Mock private WebcertModelFactoryImpl webcertModelFactory;
 
-    @Mock
-    private InternalValidatorInstanceImpl validator;
+  @Mock private InternalValidatorInstanceImpl validator;
 
-    @Mock
-    private IntygTextsService intygTextsService;
+  @Mock private IntygTextsService intygTextsService;
 
-    @Mock
-    private PdfGenerator pdfGenerator;
+  @Mock private PdfGenerator pdfGenerator;
 
-    @Spy
-    private CustomObjectMapper objectMapper;
+  @Spy private CustomObjectMapper objectMapper;
 
-    @Mock
-    private GetCertificateResponderInterface getCertificateResponder;
+  @Mock private GetCertificateResponderInterface getCertificateResponder;
 
-    @Mock
-    private RevokeCertificateResponderInterface revokeClient;
+  @Mock private RevokeCertificateResponderInterface revokeClient;
 
-    @InjectMocks
-    private TsTrk1062ModuleApiV1 moduleApi;
+  @InjectMocks private TsTrk1062ModuleApiV1 moduleApi;
 
-    private static final String TEXT_VERSION = "v1";
-    private static final String INTERNAL_MODEL = "INTERNAL_MODEL";
-    private static final String INTYGS_ID = "IntygsId";
-    private static final String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
-    private static final String RECIPIENT_ID = "RECIPIENT_ID";
+  private static final String TEXT_VERSION = "v1";
+  private static final String INTERNAL_MODEL = "INTERNAL_MODEL";
+  private static final String INTYGS_ID = "IntygsId";
+  private static final String LOGICAL_ADDRESS = "LOGICAL_ADDRESS";
+  private static final String RECIPIENT_ID = "RECIPIENT_ID";
 
-    public TsTrk1062ModuleApiV1Test() {
-        MockitoAnnotations.openMocks(this);
-    }
+  public TsTrk1062ModuleApiV1Test() {
+    MockitoAnnotations.openMocks(this);
+  }
 
-    @BeforeClass
-    public static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new TransportConverterUtil(mapper).initialize();
-        new InternalConverterUtil(mapper).initialize();
-    }
+    new TransportConverterUtil(mapper).initialize();
+    new InternalConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void testPDF() throws Exception {
-        final GrundData grundData = buildGrundData(LocalDateTime.now());
+  @Test
+  public void testPDF() throws Exception {
+    final GrundData grundData = buildGrundData(LocalDateTime.now());
 
-        final TsTrk1062UtlatandeV1 mockUtlatande = mock(TsTrk1062UtlatandeV1.class);
-        final IntygTexts mockIntygTexts = new IntygTexts("1.0", "", null, null, null, null, null);
-        final ApplicationOrigin mockApplicationOrigin = ApplicationOrigin.WEBCERT;
-        final UtkastStatus mockUtkastStatus = UtkastStatus.SIGNED;
-        final PdfResponse expectedPdfResponse = mock(PdfResponse.class);
-        final List<Status> statuses = new ArrayList<>();
-        ReflectionTestUtils.setField(moduleApi, "pdfFooterAppName", "footerAppName");
+    final TsTrk1062UtlatandeV1 mockUtlatande = mock(TsTrk1062UtlatandeV1.class);
+    final IntygTexts mockIntygTexts = new IntygTexts("1.0", "", null, null, null, null, null);
+    final ApplicationOrigin mockApplicationOrigin = ApplicationOrigin.WEBCERT;
+    final UtkastStatus mockUtkastStatus = UtkastStatus.SIGNED;
+    final PdfResponse expectedPdfResponse = mock(PdfResponse.class);
+    final List<Status> statuses = new ArrayList<>();
+    ReflectionTestUtils.setField(moduleApi, "pdfFooterAppName", "footerAppName");
 
-        doReturn(mockUtlatande).when(objectMapper).readValue(INTERNAL_MODEL, TsTrk1062UtlatandeV1.class);
-        doReturn(TEXT_VERSION).when(mockUtlatande).getTextVersion();
-        doReturn(grundData).when(mockUtlatande).getGrundData();
-        doReturn(INTYGS_ID).when(mockUtlatande).getId();
+    doReturn(mockUtlatande)
+        .when(objectMapper)
+        .readValue(INTERNAL_MODEL, TsTrk1062UtlatandeV1.class);
+    doReturn(TEXT_VERSION).when(mockUtlatande).getTextVersion();
+    doReturn(grundData).when(mockUtlatande).getGrundData();
+    doReturn(INTYGS_ID).when(mockUtlatande).getId();
 
-        doReturn(mockIntygTexts).when(intygTextsService).getIntygTextsPojo(TsTrk1062EntryPoint.MODULE_ID, TEXT_VERSION);
-        doReturn(expectedPdfResponse).when(pdfGenerator).generatePdf(INTYGS_ID, INTERNAL_MODEL, grundData.getPatient().getPersonId(),
+    doReturn(mockIntygTexts)
+        .when(intygTextsService)
+        .getIntygTextsPojo(TsTrk1062EntryPoint.MODULE_ID, TEXT_VERSION);
+    doReturn(expectedPdfResponse)
+        .when(pdfGenerator)
+        .generatePdf(
+            INTYGS_ID,
+            INTERNAL_MODEL,
+            grundData.getPatient().getPersonId(),
             mockIntygTexts,
-            statuses, mockApplicationOrigin, mockUtkastStatus, "footerAppName");
+            statuses,
+            mockApplicationOrigin,
+            mockUtkastStatus,
+            "footerAppName");
 
-        final PdfResponse actualPdfResponse = moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
+    final PdfResponse actualPdfResponse =
+        moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
 
-        assertNotNull("PdfResponse is null", actualPdfResponse);
-        assertEquals("PdfResponse is not equal", expectedPdfResponse, actualPdfResponse);
+    assertNotNull("PdfResponse is null", actualPdfResponse);
+    assertEquals("PdfResponse is not equal", expectedPdfResponse, actualPdfResponse);
+  }
+
+  @Test
+  public void testSendCertificateToRecipient() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+
+    final RegisterCertificateResponseType mockResponse =
+        mock(RegisterCertificateResponseType.class);
+    final ResultType mockResult = mock(ResultType.class);
+
+    doReturn(mockResponse)
+        .when(registerCertificateResponderInterface)
+        .registerCertificate(eq(LOGICAL_ADDRESS), any());
+
+    doReturn(mockResult).when(mockResponse).getResult();
+    doReturn(ResultCodeType.OK).when(mockResult).getResultCode();
+
+    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+
+    ArgumentCaptor<RegisterCertificateType> captor =
+        ArgumentCaptor.forClass(RegisterCertificateType.class);
+    verify(registerCertificateResponderInterface, times(1))
+        .registerCertificate(eq(LOGICAL_ADDRESS), captor.capture());
+    Assert.assertNotNull(captor.getValue().getIntyg());
+  }
+
+  @Test(expected = ModuleException.class)
+  public void testSendCertificateToRecipientXmlNull() throws Exception {
+    final String xml = null;
+    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+  }
+
+  @Test(expected = ModuleException.class)
+  public void testSendCertificateToRecipientXmlEmpty() throws Exception {
+    final String xml = "";
+    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+  }
+
+  @Test(expected = ModuleException.class)
+  public void testSendCertificateToRecipientLogicalAdressNull() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+    moduleApi.sendCertificateToRecipient(xml, null, RECIPIENT_ID);
+  }
+
+  @Test(expected = ModuleException.class)
+  public void testSendCertificateToRecipientLogicalAdressEmpty() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+    moduleApi.sendCertificateToRecipient(xml, "", RECIPIENT_ID);
+  }
+
+  @Test(expected = ExternalServiceCallException.class)
+  public void testSendCertificateToRecipientWithErrorResult() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+
+    final RegisterCertificateResponseType mockResponse =
+        mock(RegisterCertificateResponseType.class);
+    final ResultType mockResult = mock(ResultType.class);
+
+    doReturn(mockResponse)
+        .when(registerCertificateResponderInterface)
+        .registerCertificate(eq(LOGICAL_ADDRESS), any());
+
+    doReturn(mockResult).when(mockResponse).getResult();
+    doReturn(ResultCodeType.ERROR).when(mockResult).getResultCode();
+
+    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+  }
+
+  @Test(expected = ExternalServiceCallException.class)
+  public void testSendCertificateToRecipientWithSOAPError() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+
+    final RegisterCertificateResponseType mockResponse =
+        mock(RegisterCertificateResponseType.class);
+    final SOAPFault mockFault = mock(SOAPFault.class);
+
+    doThrow(new SOAPFaultException(mockFault))
+        .when(registerCertificateResponderInterface)
+        .registerCertificate(eq(LOGICAL_ADDRESS), any());
+
+    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+  }
+
+  @Test
+  public void testUtlatandeFromXml() throws Exception {
+    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+
+    final TsTrk1062UtlatandeV1 utlatande = moduleApi.getUtlatandeFromXml(xml);
+
+    assertNotNull("Utlatande is null", utlatande);
+  }
+
+  @Test(expected = ModuleException.class)
+  public void testUtlatandeFromXmlIncorrectXml() throws Exception {
+    final String xml = "INCORRECT XML";
+
+    moduleApi.getUtlatandeFromXml(xml);
+  }
+
+  @Test
+  public void testConvertUtlatandeToIntyg() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
+
+    final Intyg intyg = moduleApi.utlatandeToIntyg(utlatande);
+
+    assertNotNull("Intyg is null", intyg);
+  }
+
+  @Test
+  public void testGetRegisterCertificateValidator() {
+    final RegisterCertificateValidator actualRegisterCertificateValidator =
+        moduleApi.getRegisterCertificateValidator();
+
+    assertNotNull("RegisterCertificateValidator is null", actualRegisterCertificateValidator);
+  }
+
+  @Test
+  public void testInternalToTransport() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande =
+        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
+
+    final RegisterCertificateType actualRegisterCertificateType =
+        moduleApi.internalToTransport(utlatande);
+
+    assertNotNull("RegisterCertificateType", actualRegisterCertificateType);
+  }
+
+  @Test
+  public void testGetPatientDetailResolveOrderAddress() {
+    final List<PatientDetailResolveOrder.ResolveOrder> expectedAddressOrder =
+        Arrays.asList(PARAMS, PU);
+
+    final PatientDetailResolveOrder actualPatientDetailResolveOrder =
+        moduleApi.getPatientDetailResolveOrder();
+
+    assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
+    final List<PatientDetailResolveOrder.ResolveOrder> actualAdressOrder =
+        actualPatientDetailResolveOrder.getAdressStrategy();
+    assertNotNull("AddressResolveOrder should not be null", actualAdressOrder);
+    assertEquals(
+        "AddressResolveOrder not equal length ",
+        expectedAddressOrder.size(),
+        actualAdressOrder.size());
+    for (int i = 0; i < expectedAddressOrder.size(); i++) {
+      assertEquals(
+          "AddressOrder element: " + i + " not equal",
+          expectedAddressOrder.get(i),
+          actualAdressOrder.get(i));
     }
+  }
 
-    @Test
-    public void testSendCertificateToRecipient() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+  @Test
+  public void testGetPatientDetailResolveOrderOther() {
+    final List<PatientDetailResolveOrder.ResolveOrder> expectedOtherOrder =
+        Arrays.asList(PU, PARAMS);
 
-        final RegisterCertificateResponseType mockResponse = mock(RegisterCertificateResponseType.class);
-        final ResultType mockResult = mock(ResultType.class);
+    final PatientDetailResolveOrder actualPatientDetailResolveOrder =
+        moduleApi.getPatientDetailResolveOrder();
 
-        doReturn(mockResponse).when(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS), any());
-
-        doReturn(mockResult).when(mockResponse).getResult();
-        doReturn(ResultCodeType.OK).when(mockResult).getResultCode();
-
-        moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-
-        ArgumentCaptor<RegisterCertificateType> captor = ArgumentCaptor.forClass(RegisterCertificateType.class);
-        verify(registerCertificateResponderInterface, times(1)).registerCertificate(eq(LOGICAL_ADDRESS), captor.capture());
-        Assert.assertNotNull(captor.getValue().getIntyg());
+    assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
+    final List<PatientDetailResolveOrder.ResolveOrder> actualOtherOrder =
+        actualPatientDetailResolveOrder.getOtherStrategy();
+    assertNotNull("OtherResolveOrder should not be null", actualOtherOrder);
+    assertEquals(
+        "OtherResolveOrder not equal length ", expectedOtherOrder.size(), actualOtherOrder.size());
+    for (int i = 0; i < expectedOtherOrder.size(); i++) {
+      assertEquals(
+          "OtherOrder element: " + i + " not equal",
+          expectedOtherOrder.get(i),
+          actualOtherOrder.get(i));
     }
+  }
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientXmlNull() throws Exception {
-        final String xml = null;
-        moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-    }
+  @Test
+  public void testTransportToInternal() throws Exception {
+    final String href = "v1/transport/scenarios/convert/intygAvser.xml";
+    final Intyg intyg = getIntyg(href);
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientXmlEmpty() throws Exception {
-        final String xml = "";
-        moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-    }
+    final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.transportToInternal(intyg);
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientLogicalAdressNull() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-        moduleApi.sendCertificateToRecipient(xml, null, RECIPIENT_ID);
-    }
+    assertNotNull("Utlatande should not be null", actualUtlatande);
+  }
 
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientLogicalAdressEmpty() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-        moduleApi.sendCertificateToRecipient(xml, "", RECIPIENT_ID);
-    }
+  @Test
+  public void testdecorateDiagnoserWithDescriptions() {
+    final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
+    final DiagnosKodad expectedDiagnosKodad =
+        DiagnosKodad.create("A01", "ICD10", "Diagnosbeskrivning", null, "Årtal");
 
-    @Test(expected = ExternalServiceCallException.class)
-    public void testSendCertificateToRecipientWithErrorResult() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+    final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<>(1);
+    expectedDiagnosKodadList.add(expectedDiagnosKodad);
 
-        final RegisterCertificateResponseType mockResponse = mock(RegisterCertificateResponseType.class);
-        final ResultType mockResult = mock(ResultType.class);
-
-        doReturn(mockResponse).when(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS), any());
-
-        doReturn(mockResult).when(mockResponse).getResult();
-        doReturn(ResultCodeType.ERROR).when(mockResult).getResultCode();
-
-        moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-    }
-
-    @Test(expected = ExternalServiceCallException.class)
-    public void testSendCertificateToRecipientWithSOAPError() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-
-        final RegisterCertificateResponseType mockResponse = mock(RegisterCertificateResponseType.class);
-        final SOAPFault mockFault = mock(SOAPFault.class);
-
-        doThrow(new SOAPFaultException(mockFault)).when(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS),
-            any());
-
-        moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-    }
-
-    @Test
-    public void testUtlatandeFromXml() throws Exception {
-        final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-
-        final TsTrk1062UtlatandeV1 utlatande = moduleApi.getUtlatandeFromXml(xml);
-
-        assertNotNull("Utlatande is null", utlatande);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testUtlatandeFromXmlIncorrectXml() throws Exception {
-        final String xml = "INCORRECT XML";
-
-        moduleApi.getUtlatandeFromXml(xml);
-    }
-
-    @Test
-    public void testConvertUtlatandeToIntyg() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
+    final TsTrk1062UtlatandeV1 utlatande =
+        TsTrk1062UtlatandeV1.builder()
             .setGrundData(buildGrundData(LocalDateTime.now()))
-            .build();
-
-        final Intyg intyg = moduleApi.utlatandeToIntyg(utlatande);
-
-        assertNotNull("Intyg is null", intyg);
-    }
-
-    @Test
-    public void testGetRegisterCertificateValidator() {
-        final RegisterCertificateValidator actualRegisterCertificateValidator = moduleApi.getRegisterCertificateValidator();
-
-        assertNotNull("RegisterCertificateValidator is null", actualRegisterCertificateValidator);
-    }
-
-    @Test
-    public void testInternalToTransport() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .build();
-
-        final RegisterCertificateType actualRegisterCertificateType = moduleApi.internalToTransport(utlatande);
-
-        assertNotNull("RegisterCertificateType", actualRegisterCertificateType);
-    }
-
-    @Test
-    public void testGetPatientDetailResolveOrderAddress() {
-        final List<PatientDetailResolveOrder.ResolveOrder> expectedAddressOrder = Arrays.asList(PARAMS, PU);
-
-        final PatientDetailResolveOrder actualPatientDetailResolveOrder = moduleApi.getPatientDetailResolveOrder();
-
-        assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
-        final List<PatientDetailResolveOrder.ResolveOrder> actualAdressOrder = actualPatientDetailResolveOrder.getAdressStrategy();
-        assertNotNull("AddressResolveOrder should not be null", actualAdressOrder);
-        assertEquals("AddressResolveOrder not equal length ", expectedAddressOrder.size(), actualAdressOrder.size());
-        for (int i = 0; i < expectedAddressOrder.size(); i++) {
-            assertEquals("AddressOrder element: " + i + " not equal", expectedAddressOrder.get(i), actualAdressOrder.get(i));
-        }
-    }
-
-    @Test
-    public void testGetPatientDetailResolveOrderOther() {
-        final List<PatientDetailResolveOrder.ResolveOrder> expectedOtherOrder = Arrays.asList(PU, PARAMS);
-
-        final PatientDetailResolveOrder actualPatientDetailResolveOrder = moduleApi.getPatientDetailResolveOrder();
-
-        assertNotNull("PatientDetailResolveOrder", actualPatientDetailResolveOrder);
-        final List<PatientDetailResolveOrder.ResolveOrder> actualOtherOrder = actualPatientDetailResolveOrder.getOtherStrategy();
-        assertNotNull("OtherResolveOrder should not be null", actualOtherOrder);
-        assertEquals("OtherResolveOrder not equal length ", expectedOtherOrder.size(), actualOtherOrder.size());
-        for (int i = 0; i < expectedOtherOrder.size(); i++) {
-            assertEquals("OtherOrder element: " + i + " not equal", expectedOtherOrder.get(i), actualOtherOrder.get(i));
-        }
-    }
-
-    @Test
-    public void testTransportToInternal() throws Exception {
-        final String href = "v1/transport/scenarios/convert/intygAvser.xml";
-        final Intyg intyg = getIntyg(href);
-
-        final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.transportToInternal(intyg);
-
-        assertNotNull("Utlatande should not be null", actualUtlatande);
-    }
-
-    @Test
-    public void testdecorateDiagnoserWithDescriptions() {
-        final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
-        final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
-            "Diagnosbeskrivning", null, "Årtal");
-
-        final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<>(1);
-        expectedDiagnosKodadList.add(expectedDiagnosKodad);
-
-        final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosRegistrering(
+                DiagnosRegistrering.create(
+                    DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
             .setDiagnosKodad(expectedDiagnosKodadList)
             .build();
 
-        doReturn(expectedDiagnosDisplayName).when(moduleService).getDescriptionFromDiagnosKod(expectedDiagnosKodad.getDiagnosKod(),
-            expectedDiagnosKodad.getDiagnosKodSystem());
+    doReturn(expectedDiagnosDisplayName)
+        .when(moduleService)
+        .getDescriptionFromDiagnosKod(
+            expectedDiagnosKodad.getDiagnosKod(), expectedDiagnosKodad.getDiagnosKodSystem());
 
-        final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.decorateDiagnoserWithDescriptions(utlatande);
+    final TsTrk1062UtlatandeV1 actualUtlatande =
+        moduleApi.decorateDiagnoserWithDescriptions(utlatande);
 
-        assertNotNull("Utlatande should not be null", actualUtlatande);
-        final List<DiagnosKodad> actualDiagnosKodadList = actualUtlatande.getDiagnosKodad();
-        assertNotNull("DiagnosKodadList should not be null", actualDiagnosKodadList);
-        assertEquals("DiagnosKodadList should be length one", expectedDiagnosKodadList.size(), actualDiagnosKodadList.size());
-        final DiagnosKodad actualDiagnosKodad = actualDiagnosKodadList.get(0);
-        assertEquals("DiagnosKodad kod should be same", expectedDiagnosKodad.getDiagnosKod(), actualDiagnosKodad.getDiagnosKod());
-        assertEquals("DiagnosKodad beskrivning should be same", expectedDiagnosKodad.getDiagnosBeskrivning(),
-            actualDiagnosKodad.getDiagnosBeskrivning());
-        assertEquals("DiagnosKodad kodsystem should be same", expectedDiagnosKodad.getDiagnosKodSystem(),
-            actualDiagnosKodad.getDiagnosKodSystem());
-        assertEquals("DiagnosKodad artal should be same", expectedDiagnosKodad.getDiagnosArtal(), actualDiagnosKodad.getDiagnosArtal());
-        assertEquals("DiagnosKodad displayname should be same", expectedDiagnosDisplayName, actualDiagnosKodad.getDiagnosDisplayName());
+    assertNotNull("Utlatande should not be null", actualUtlatande);
+    final List<DiagnosKodad> actualDiagnosKodadList = actualUtlatande.getDiagnosKodad();
+    assertNotNull("DiagnosKodadList should not be null", actualDiagnosKodadList);
+    assertEquals(
+        "DiagnosKodadList should be length one",
+        expectedDiagnosKodadList.size(),
+        actualDiagnosKodadList.size());
+    final DiagnosKodad actualDiagnosKodad = actualDiagnosKodadList.get(0);
+    assertEquals(
+        "DiagnosKodad kod should be same",
+        expectedDiagnosKodad.getDiagnosKod(),
+        actualDiagnosKodad.getDiagnosKod());
+    assertEquals(
+        "DiagnosKodad beskrivning should be same",
+        expectedDiagnosKodad.getDiagnosBeskrivning(),
+        actualDiagnosKodad.getDiagnosBeskrivning());
+    assertEquals(
+        "DiagnosKodad kodsystem should be same",
+        expectedDiagnosKodad.getDiagnosKodSystem(),
+        actualDiagnosKodad.getDiagnosKodSystem());
+    assertEquals(
+        "DiagnosKodad artal should be same",
+        expectedDiagnosKodad.getDiagnosArtal(),
+        actualDiagnosKodad.getDiagnosArtal());
+    assertEquals(
+        "DiagnosKodad displayname should be same",
+        expectedDiagnosDisplayName,
+        actualDiagnosKodad.getDiagnosDisplayName());
+  }
+
+  @Test
+  public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+      throws ModuleException {
+    final var utlatande =
+        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
+    final var expectedJsonString = toJsonString(utlatande);
+    final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+
+    Assert.assertEquals(expectedJsonString, actualJsonString);
+  }
+
+  @Test
+  public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
+  }
+
+  private String toJsonString(TsTrk1062UtlatandeV1 utlatande) throws ModuleException {
+    try {
+      return objectMapper.writeValueAsString(utlatande);
+    } catch (IOException e) {
+      throw new ModuleException("Failed to serialize internal model", e);
     }
+  }
 
-    @Test
-    public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
-        throws ModuleException {
-        final var utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .build();
-        final var expectedJsonString = toJsonString(utlatande);
-        final var actualJsonString = moduleApi.getJsonFromUtlatande(utlatande);
+  private Intyg getIntyg(String href) throws Exception {
+    final String xml = getXml(href);
+    return JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg();
+  }
 
-        Assert.assertEquals(expectedJsonString, actualJsonString);
-    }
+  private String getXml(String href) throws Exception {
+    return Resources.toString(getResource(href), Charsets.UTF_8);
+  }
 
-    @Test
-    public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
-        assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
-    }
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 
-    private String toJsonString(TsTrk1062UtlatandeV1 utlatande) throws ModuleException {
-        try {
-            return objectMapper.writeValueAsString(utlatande);
-        } catch (IOException e) {
-            throw new ModuleException("Failed to serialize internal model", e);
-        }
-    }
+  private GrundData buildGrundData(LocalDateTime timeStamp) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("vardgivareId");
+    vardgivare.setVardgivarnamn("vardgivareNamn");
 
-    private Intyg getIntyg(String href) throws Exception {
-        final String xml = getXml(href);
-        return JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg();
-    }
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("enhetId");
+    vardenhet.setEnhetsnamn("enhetNamn");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setPostadress("postadress");
+    vardenhet.setPostnummer("11111");
+    vardenhet.setPostort("postort");
+    vardenhet.setTelefonnummer("0112312313");
 
-    private String getXml(String href) throws Exception {
-        return Resources.toString(getResource(href), Charsets.UTF_8);
-    }
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setPersonId("HSAID_123");
+    skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+    Patient patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+    patient.setPostadress("postadress");
+    patient.setPostnummer("11111");
+    patient.setPostort("postort");
 
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
+    GrundData grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(timeStamp);
 
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
-
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
-
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
-
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
-
-        return grundData;
-    }
+    return grundData;
+  }
 }

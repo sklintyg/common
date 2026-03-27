@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,104 +44,88 @@ import se.inera.intyg.common.support.model.InternalDate;
 @JsonDeserialize(builder = AutoValue_Hypoglykemi.Builder.class)
 public abstract class Hypoglykemi {
 
-    @Nullable
-    public abstract Boolean getKontrollSjukdomstillstand();
+  @Nullable public abstract Boolean getKontrollSjukdomstillstand();
 
-    @Nullable
-    public abstract String getKontrollSjukdomstillstandVarfor();
+  @Nullable public abstract String getKontrollSjukdomstillstandVarfor();
 
-    @Nullable
-    public abstract Boolean getForstarRiskerMedHypoglykemi();
+  @Nullable public abstract Boolean getForstarRiskerMedHypoglykemi();
 
-    @Nullable
-    public abstract Boolean getFormagaKannaVarningstecken();
+  @Nullable public abstract Boolean getFormagaKannaVarningstecken();
 
-    @Nullable
-    public abstract Boolean getVidtaAdekvataAtgarder();
+  @Nullable public abstract Boolean getVidtaAdekvataAtgarder();
 
-    @Nullable
-    public abstract Boolean getAterkommandeSenasteAret();
+  @Nullable public abstract Boolean getAterkommandeSenasteAret();
 
-    @Nullable
-    public abstract InternalDate getAterkommandeSenasteAretTidpunkt();
+  @Nullable public abstract InternalDate getAterkommandeSenasteAretTidpunkt();
 
-    @Nullable
-    public abstract Boolean getAterkommandeSenasteAretKontrolleras();
+  @Nullable public abstract Boolean getAterkommandeSenasteAretKontrolleras();
 
-    @Nullable
-    public abstract Boolean getAterkommandeSenasteAretTrafik();
+  @Nullable public abstract Boolean getAterkommandeSenasteAretTrafik();
 
-    @Nullable
-    public abstract Boolean getAterkommandeVaketSenasteTolv();
+  @Nullable public abstract Boolean getAterkommandeVaketSenasteTolv();
 
-    @Nullable
-    public abstract Boolean getAterkommandeVaketSenasteTre();
+  @Nullable public abstract Boolean getAterkommandeVaketSenasteTre();
 
-    @Nullable
-    public abstract InternalDate getAterkommandeVaketSenasteTreTidpunkt();
+  @Nullable public abstract InternalDate getAterkommandeVaketSenasteTreTidpunkt();
 
-    @Nullable
-    public abstract Boolean getAllvarligSenasteTolvManaderna();
+  @Nullable public abstract Boolean getAllvarligSenasteTolvManaderna();
 
-    @Nullable
-    public abstract InternalDate getAllvarligSenasteTolvManadernaTidpunkt();
+  @Nullable public abstract InternalDate getAllvarligSenasteTolvManadernaTidpunkt();
 
-    @Nullable
-    public abstract Boolean getRegelbundnaBlodsockerkontroller();
+  @Nullable public abstract Boolean getRegelbundnaBlodsockerkontroller();
 
+  public static Builder builder() {
+    return new AutoValue_Hypoglykemi.Builder();
+  }
 
-    public static Builder builder() {
-        return new AutoValue_Hypoglykemi.Builder();
-    }
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+    public abstract Hypoglykemi build();
 
-        public abstract Hypoglykemi build();
+    @JsonProperty(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID)
+    public abstract Builder setKontrollSjukdomstillstand(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_JSON_ID)
-        public abstract Builder setKontrollSjukdomstillstand(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
+    public abstract Builder setKontrollSjukdomstillstandVarfor(String value);
 
-        @JsonProperty(HYPOGLYKEMI_KONTROLL_SJUKDOMSTILLSTAND_VARFOR_JSON_ID)
-        public abstract Builder setKontrollSjukdomstillstandVarfor(String value);
+    @JsonProperty(HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID)
+    public abstract Builder setForstarRiskerMedHypoglykemi(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_FORSTAR_RISKER_MED_HYPOGLYKEMI_JSON_ID)
-        public abstract Builder setForstarRiskerMedHypoglykemi(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID)
+    public abstract Builder setFormagaKannaVarningstecken(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_FORMAGA_KANNA_VARNINGSTECKEN_JSON_ID)
-        public abstract Builder setFormagaKannaVarningstecken(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID)
+    public abstract Builder setVidtaAdekvataAtgarder(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_VIDTA_ADEKVATA_ATGARDER_JSON_ID)
-        public abstract Builder setVidtaAdekvataAtgarder(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
+    public abstract Builder setAterkommandeSenasteAret(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
-        public abstract Builder setAterkommandeSenasteAret(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+    public abstract Builder setAterkommandeSenasteAretTidpunkt(InternalDate value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
-        public abstract Builder setAterkommandeSenasteAretTidpunkt(InternalDate value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID)
+    public abstract Builder setAterkommandeSenasteAretKontrolleras(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_KONTROLLERAS_JSON_ID)
-        public abstract Builder setAterkommandeSenasteAretKontrolleras(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID)
+    public abstract Builder setAterkommandeSenasteAretTrafik(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_JSON_ID)
-        public abstract Builder setAterkommandeSenasteAretTrafik(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID)
+    public abstract Builder setAterkommandeVaketSenasteTolv(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID)
-        public abstract Builder setAterkommandeVaketSenasteTolv(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
+    public abstract Builder setAterkommandeVaketSenasteTre(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
-        public abstract Builder setAterkommandeVaketSenasteTre(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID)
+    public abstract Builder setAterkommandeVaketSenasteTreTidpunkt(InternalDate value);
 
-        @JsonProperty(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID)
-        public abstract Builder setAterkommandeVaketSenasteTreTidpunkt(InternalDate value);
+    @JsonProperty(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
+    public abstract Builder setAllvarligSenasteTolvManaderna(Boolean value);
 
-        @JsonProperty(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_JSON_ID)
-        public abstract Builder setAllvarligSenasteTolvManaderna(Boolean value);
+    @JsonProperty(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID)
+    public abstract Builder setAllvarligSenasteTolvManadernaTidpunkt(InternalDate value);
 
-        @JsonProperty(HYPOGLYKEMI_ALLVARLIG_SENASTE_TOLV_MANADERNA_TIDPUNKT_JSON_ID)
-        public abstract Builder setAllvarligSenasteTolvManadernaTidpunkt(InternalDate value);
-
-        @JsonProperty(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID)
-        public abstract Builder setRegelbundnaBlodsockerkontroller(Boolean value);
-    }
+    @JsonProperty(HYPOGLYKEMI_REGELBUNDNA_BLODSOCKERKONTROLLER_JSON_ID)
+    public abstract Builder setRegelbundnaBlodsockerkontroller(Boolean value);
+  }
 }

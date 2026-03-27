@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,11 +26,10 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Njurar {
 
-    @JsonCreator
-    public static Njurar create(@JsonProperty("nedsattNjurfunktion") Boolean nedsattNjurfunktion) {
-        return new AutoValue_Njurar(nedsattNjurfunktion);
-    }
+  @JsonCreator
+  public static Njurar create(@JsonProperty("nedsattNjurfunktion") Boolean nedsattNjurfunktion) {
+    return new AutoValue_Njurar(nedsattNjurfunktion);
+  }
 
-    @Nullable
-    public abstract Boolean getNedsattNjurfunktion();
+  @Nullable public abstract Boolean getNedsattNjurfunktion();
 }

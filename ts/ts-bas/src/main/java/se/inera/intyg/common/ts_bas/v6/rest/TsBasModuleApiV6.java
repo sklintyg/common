@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -92,277 +92,318 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
- * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
+ * The contract between the certificate module and the generic components (Intygstjänsten,
+ * Mina-Intyg & Webcert).
  */
 @Component("moduleapi.ts-bas.v6")
 public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApiV6.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApiV6.class);
 
-    @Autowired(required = false)
-    @Qualifier("sendTSClientFactory")
-    private SendTSClientFactory sendTSClientFactory;
+  @Autowired(required = false)
+  @Qualifier("sendTSClientFactory") private SendTSClientFactory sendTSClientFactory;
 
-    @Autowired(required = false)
-    @Qualifier("tsBasRegisterCertificateVersion")
-    private String registerCertificateVersion;
-    @Autowired
-    private InternalToCertificate internalToCertificate;
+  @Autowired(required = false)
+  @Qualifier("tsBasRegisterCertificateVersion") private String registerCertificateVersion;
 
-    @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
-    private SendTSClient sendTsBasClient;
-    private Map<String, String> validationMessages;
+  @Autowired private InternalToCertificate internalToCertificate;
 
-    @Value("${pdf.footer.app.name.text:1177 intyg}")
-    private String pdfFooterAppName;
+  @Autowired(required = false)
+  private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    public TsBasModuleApiV6() {
-        super(TsBasUtlatandeV6.class);
-        initMessages();
+  private SendTSClient sendTsBasClient;
+  private Map<String, String> validationMessages;
+
+  @Value("${pdf.footer.app.name.text:1177 intyg}")
+  private String pdfFooterAppName;
+
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
+
+  public TsBasModuleApiV6() {
+    super(TsBasUtlatandeV6.class);
+    initMessages();
+  }
+
+  private void initMessages() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("ts-bas-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
+    }
+  }
+
+  @PostConstruct
+  public void init() {
+    if (registerCertificateVersion == null) {
+      registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
     }
 
-    private void initMessages() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("ts-bas-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
+    if (sendTSClientFactory != null) {
+      sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
+    } else {
+      LOG.debug(
+          "SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
+    }
+  }
+
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    TsBasUtlatandeV6 utlatande = getInternal(internalModel);
+    IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
+
+    Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+    return new PdfGenerator()
+        .generatePdf(
+            utlatande.getId(),
+            internalModel,
+            personId,
+            texts,
+            statuses,
+            applicationOrigin,
+            utkastStatus,
+            pdfFooterAppName);
+  }
+
+  @Override
+  public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
+      throws ModuleException {
+    try {
+      String transformedPayload = transformPayload(xmlBody);
+      SOAPMessage response =
+          sendTsBasClient.registerCertificate(transformedPayload, logicalAddress);
+      SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
+      if (contents.getBody().hasFault()) {
+        throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
+      }
+    } catch (Exception e) {
+      LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
+      throw new ModuleException("Error in sendCertificateToRecipient.", e);
+    }
+  }
+
+  @Override
+  public TsBasUtlatandeV6 getUtlatandeFromXml(String xmlBody) throws ModuleException {
+    try {
+      String xml = xmlBody;
+      if (isRegisterTsBas(xml)) {
+        xml = TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xml);
+      }
+
+      JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
+      return transportToInternal(el.getValue().getIntyg());
+    } catch (ConverterException | MarshallingFailureException e) {
+      LOG.error("Could not get utlatande from xml: {}", e.getMessage());
+      throw new ModuleException("Could not get utlatande from xml", e);
+    }
+  }
+
+  @Override
+  public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    try {
+      Utlatande utlatande = this.getInternal(internalModel, created);
+
+      String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
+      String firstName = utlatande.getGrundData().getPatient().getFornamn();
+      String middleName = utlatande.getGrundData().getPatient().getMellannamn();
+      String lastName = utlatande.getGrundData().getPatient().getEfternamn();
+      String address = utlatande.getGrundData().getPatient().getPostadress();
+      String county = utlatande.getGrundData().getPatient().getPostort();
+      String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
+
+      WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+
+      utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
+      utlatande.getGrundData().getPatient().setFornamn(firstName);
+      utlatande.getGrundData().getPatient().setMellannamn(middleName);
+      utlatande.getGrundData().getPatient().setEfternamn(lastName);
+      utlatande.getGrundData().getPatient().setPostadress(address);
+      utlatande.getGrundData().getPatient().setPostort(county);
+      utlatande.getGrundData().getPatient().setPostnummer(zipCode);
+
+      return this.toInternalModelResponse(utlatande);
+    } catch (ConverterException | ModuleException var4) {
+      throw new ModuleException("Error while updating internal model", var4);
+    }
+  }
+
+  @Override
+  protected Intyg utlatandeToIntyg(TsBasUtlatandeV6 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
+
+  @Override
+  protected RegisterCertificateValidator getRegisterCertificateValidator() {
+    return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V6);
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(TsBasUtlatandeV6 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
+
+  @Override
+  protected TsBasUtlatandeV6 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
+
+  @Override
+  protected TsBasUtlatandeV6 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6);
+      return tsBasUtlatandeV6;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
+
+  @Override
+  protected TsBasUtlatandeV6 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6, created);
+      return tsBasUtlatandeV6;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
+
+  String transformPayload(String xmlBody) throws ModuleException {
+    // Ta reda på om innehållet är på formatet
+    // 'RegisterTsBas' eller 'RegisterCertificate V3'
+    if (isRegisterTsBas(xmlBody)) {
+      if (shouldTransformToV1()) {
+        return TsBasTransformerType.TRANSPORT_TO_V1.getTransformer().transform(xmlBody);
+      } else if (shouldTransformToV3()) {
+        return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
+      } else {
+        String msg =
+            String.format(
+                "Error in sendCertificateToRecipient. Cannot decide type of transformer."
+                    + "Property registercertificate.version = '%s'",
+                registerCertificateVersion);
+        throw new ModuleException(msg);
+      }
+    } else if (isRegisterCertificateV3(xmlBody)) {
+      if (shouldTransformToV1()) {
+        // Here we need to transform from V3 to V1
+        return TsBasTransformerType.V3_TO_V1.getTransformer().transform(xmlBody);
+      }
     }
 
-    @PostConstruct
-    public void init() {
-        if (registerCertificateVersion == null) {
-            registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
-        }
+    // Input is already at V3 format and doesn't, we don't need to transform
+    return xmlBody;
+  }
 
-        if (sendTSClientFactory != null) {
-            sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
-        } else {
-            LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
-        }
+  private boolean shouldTransformToV1() {
+    return registerCertificateVersion != null
+        && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION1);
+  }
+
+  private boolean shouldTransformToV3() {
+    return registerCertificateVersion != null
+        && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION3);
+  }
+
+  @Override
+  public PatientDetailResolveOrder getPatientDetailResolveOrder() {
+    List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
+    List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
+
+    return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
+  }
+
+  @Override
+  public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    AttributedURIType uri = new AttributedURIType();
+    uri.setValue(logicalAddress);
+
+    RevokeMedicalCertificateRequestType request =
+        JAXB.unmarshal(
+            new StreamSource(new StringReader(xmlBody)), RevokeMedicalCertificateRequestType.class);
+    RevokeMedicalCertificateResponseType response =
+        revokeCertificateClient.revokeMedicalCertificate(uri, request);
+    if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
+      String message =
+          "Revoke sent to "
+              + logicalAddress
+              + " failed with error: "
+              + response.getResult().getErrorText();
+      LOG.error(message);
+      throw new ExternalServiceCallException(message);
     }
+  }
 
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        TsBasUtlatandeV6 utlatande = getInternal(internalModel);
-        IntygTexts texts = getTexts(TsBasEntryPoint.MODULE_ID, utlatande.getTextVersion());
+  @Override
+  public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande)
+      throws ModuleException {
+    RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
+    request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus, pdfFooterAppName);
+    JAXBElement<RevokeMedicalCertificateRequestType> el =
+        new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+    return XmlMarshallerHelper.marshal(el);
+  }
+
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof TsBasUtlatandeV6) {
+      return toInternalModelResponse(utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class TsBasUtlatandeV6, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        try {
-            String transformedPayload = transformPayload(xmlBody);
-            SOAPMessage response = sendTsBasClient.registerCertificate(transformedPayload, logicalAddress);
-            SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
-            if (contents.getBody().hasFault()) {
-                throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
-            }
-        } catch (Exception e) {
-            LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
-            throw new ModuleException("Error in sendCertificateToRecipient.", e);
-        }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    try {
+      final var utlatande = (TsBasUtlatandeV6) getUtlatandeFromJson(model);
+      final var updatedUtlatande =
+          TestabilityToolkit.getUtlatandeWithTestData(
+              utlatande, fillType, new TsBasV6TestabilityUtlatandeTestDataProvider());
+      return getJsonFromUtlatande(updatedUtlatande);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-
-    @Override
-    public TsBasUtlatandeV6 getUtlatandeFromXml(String xmlBody) throws ModuleException {
-        try {
-            String xml = xmlBody;
-            if (isRegisterTsBas(xml)) {
-                xml = TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xml);
-            }
-
-            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
-            return transportToInternal(el.getValue().getIntyg());
-        } catch (ConverterException | MarshallingFailureException e) {
-            LOG.error("Could not get utlatande from xml: {}", e.getMessage());
-            throw new ModuleException("Could not get utlatande from xml", e);
-        }
-    }
-
-    @Override
-    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        try {
-            Utlatande utlatande = this.getInternal(internalModel, created);
-
-            String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
-            String firstName = utlatande.getGrundData().getPatient().getFornamn();
-            String middleName = utlatande.getGrundData().getPatient().getMellannamn();
-            String lastName = utlatande.getGrundData().getPatient().getEfternamn();
-            String address = utlatande.getGrundData().getPatient().getPostadress();
-            String county = utlatande.getGrundData().getPatient().getPostort();
-            String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
-
-            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
-
-            utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
-            utlatande.getGrundData().getPatient().setFornamn(firstName);
-            utlatande.getGrundData().getPatient().setMellannamn(middleName);
-            utlatande.getGrundData().getPatient().setEfternamn(lastName);
-            utlatande.getGrundData().getPatient().setPostadress(address);
-            utlatande.getGrundData().getPatient().setPostort(county);
-            utlatande.getGrundData().getPatient().setPostnummer(zipCode);
-
-            return this.toInternalModelResponse(utlatande);
-        } catch (ConverterException | ModuleException var4) {
-            throw new ModuleException("Error while updating internal model", var4);
-        }
-    }
-
-    @Override
-    protected Intyg utlatandeToIntyg(TsBasUtlatandeV6 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
-
-    @Override
-    protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE_V6);
-    }
-
-    @Override
-    protected RegisterCertificateType internalToTransport(TsBasUtlatandeV6 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
-    }
-
-    @Override
-    protected TsBasUtlatandeV6 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
-
-    @Override
-    protected TsBasUtlatandeV6 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6);
-            return tsBasUtlatandeV6;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
-
-    @Override
-    protected TsBasUtlatandeV6 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6, created);
-            return tsBasUtlatandeV6;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
-
-    String transformPayload(String xmlBody) throws ModuleException {
-        // Ta reda på om innehållet är på formatet
-        // 'RegisterTsBas' eller 'RegisterCertificate V3'
-        if (isRegisterTsBas(xmlBody)) {
-            if (shouldTransformToV1()) {
-                return TsBasTransformerType.TRANSPORT_TO_V1.getTransformer().transform(xmlBody);
-            } else if (shouldTransformToV3()) {
-                return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
-            } else {
-                String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
-                    + "Property registercertificate.version = '%s'", registerCertificateVersion);
-                throw new ModuleException(msg);
-            }
-        } else if (isRegisterCertificateV3(xmlBody)) {
-            if (shouldTransformToV1()) {
-                // Here we need to transform from V3 to V1
-                return TsBasTransformerType.V3_TO_V1.getTransformer().transform(xmlBody);
-            }
-        }
-
-        // Input is already at V3 format and doesn't, we don't need to transform
-        return xmlBody;
-    }
-
-    private boolean shouldTransformToV1() {
-        return registerCertificateVersion != null && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION1);
-    }
-
-    private boolean shouldTransformToV3() {
-        return registerCertificateVersion != null && registerCertificateVersion.equals(REGISTER_CERTIFICATE_VERSION3);
-    }
-
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
-
-        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
-    }
-
-    @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        AttributedURIType uri = new AttributedURIType();
-        uri.setValue(logicalAddress);
-
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-            RevokeMedicalCertificateRequestType.class);
-        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
-        if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
-            String message = "Revoke sent to " + logicalAddress + " failed with error: " + response.getResult().getErrorText();
-            LOG.error(message);
-            throw new ExternalServiceCallException(message);
-        }
-    }
-
-    @Override
-    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
-        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
-
-        JAXBElement<RevokeMedicalCertificateRequestType> el = new ObjectFactory().createRevokeMedicalCertificateRequest(request);
-        return XmlMarshallerHelper.marshal(el);
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof TsBasUtlatandeV6) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class TsBasUtlatandeV6, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        try {
-            final var utlatande = (TsBasUtlatandeV6) getUtlatandeFromJson(model);
-            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
-                new TsBasV6TestabilityUtlatandeTestDataProvider());
-            return getJsonFromUtlatande(updatedUtlatande);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 }

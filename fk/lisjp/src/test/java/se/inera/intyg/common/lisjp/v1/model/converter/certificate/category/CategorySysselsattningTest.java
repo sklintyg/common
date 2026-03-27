@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.category;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -50,79 +49,85 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class CategorySysselsattningTest {
 
-    @Nested
-    class ToCertificate {
+  @Nested
+  class ToCertificate {
 
-        private LisjpUtlatandeV1 internalCertificate;
-        @Mock
-        CertificateTextProvider texts;
-        private GrundData grundData;
+    private LisjpUtlatandeV1 internalCertificate;
+    @Mock CertificateTextProvider texts;
+    private GrundData grundData;
 
-        @BeforeEach
-        void createInternalCertificateToConvert() {
+    @BeforeEach
+    void createInternalCertificateToConvert() {
 
-            final var patient = new Patient();
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-            final var unit = new Vardenhet();
+      final var patient = new Patient();
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+      final var unit = new Vardenhet();
 
-            final var skapadAv = new HoSPersonal();
-            skapadAv.setVardenhet(unit);
+      final var skapadAv = new HoSPersonal();
+      skapadAv.setVardenhet(unit);
 
-            grundData = new GrundData();
-            grundData.setSkapadAv(skapadAv);
-            grundData.setPatient(patient);
+      grundData = new GrundData();
+      grundData.setSkapadAv(skapadAv);
+      grundData.setPatient(patient);
 
-            texts = Mockito.mock(CertificateTextProvider.class);
-            when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeCategoryElement() {
-            final var expectedIndex = 6;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
-
-            assertAll("Validating category",
-                () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, category.getId()),
-                () -> assertEquals(expectedIndex, category.getIndex()),
-                () -> assertNull(category.getParent(), "Should not contain a parent"),
-                () -> assertNull(category.getValue(), "Should not contain a value"),
-                () -> assertNotNull(category.getValidation(), "Should include validation"),
-                () -> assertNotNull(category.getConfig(), "Should include config")
-            );
-        }
-
-        @Test
-        void shouldIncludeCategoryConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
-
-            assertEquals(CertificateDataConfigType.CATEGORY, category.getConfig().getType());
-
-            assertAll("Validating category configuration",
-                () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text")
-            );
-        }
-
-        @Test
-        void shouldIncludeCategoryValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
+      texts = Mockito.mock(CertificateTextProvider.class);
+      when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
     }
+
+    @Test
+    void shouldIncludeCategoryElement() {
+      final var expectedIndex = 6;
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+
+      assertAll(
+          "Validating category",
+          () -> assertEquals(SYSSELSATTNING_CATEGORY_ID, category.getId()),
+          () -> assertEquals(expectedIndex, category.getIndex()),
+          () -> assertNull(category.getParent(), "Should not contain a parent"),
+          () -> assertNull(category.getValue(), "Should not contain a value"),
+          () -> assertNotNull(category.getValidation(), "Should include validation"),
+          () -> assertNotNull(category.getConfig(), "Should include config"));
+    }
+
+    @Test
+    void shouldIncludeCategoryConfig() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var category = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+
+      assertEquals(CertificateDataConfigType.CATEGORY, category.getConfig().getType());
+
+      assertAll(
+          "Validating category configuration",
+          () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text"));
+    }
+
+    @Test
+    void shouldIncludeCategoryValidationHide() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(SYSSELSATTNING_CATEGORY_ID);
+
+      final var certificateDataValidationHide =
+          (CertificateDataValidationHide) question.getValidation()[0];
+      assertAll(
+          "Validation question validation",
+          () ->
+              assertEquals(
+                  AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+          () ->
+              assertEquals(
+                  "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                  certificateDataValidationHide.getExpression()));
+    }
+  }
 }

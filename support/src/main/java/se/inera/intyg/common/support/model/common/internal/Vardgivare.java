@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,51 +23,49 @@ import java.util.Objects;
 
 public class Vardgivare {
 
-    private String vardgivarid;
+  private String vardgivarid;
 
-    private String vardgivarnamn;
+  private String vardgivarnamn;
 
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Vardgivare)) {
-            return false;
-        }
-        final Vardgivare that = (Vardgivare) object;
-        return Objects.equals(this.vardgivarid, that.vardgivarid)
-            && Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.vardgivarid, this.vardgivarnamn);
+    if (!(object instanceof Vardgivare)) {
+      return false;
     }
+    final Vardgivare that = (Vardgivare) object;
+    return Objects.equals(this.vardgivarid, that.vardgivarid)
+        && Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
+  }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-            .add("vardgivarid", vardgivarid)
-            .add("vardgivarnamn", vardgivarnamn)
-            .toString();
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(this.vardgivarid, this.vardgivarnamn);
+  }
 
-    public String getVardgivarid() {
-        return vardgivarid;
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("vardgivarid", vardgivarid)
+        .add("vardgivarnamn", vardgivarnamn)
+        .toString();
+  }
 
-    public void setVardgivarid(String vardgivarid) {
-        this.vardgivarid = vardgivarid;
-    }
+  public String getVardgivarid() {
+    return vardgivarid;
+  }
 
-    public String getVardgivarnamn() {
-        return vardgivarnamn;
-    }
+  public void setVardgivarid(String vardgivarid) {
+    this.vardgivarid = vardgivarid;
+  }
 
-    public void setVardgivarnamn(String vardgivarnamn) {
-        this.vardgivarnamn = vardgivarnamn;
-    }
+  public String getVardgivarnamn() {
+    return vardgivarnamn;
+  }
 
-
+  public void setVardgivarnamn(String vardgivarnamn) {
+    this.vardgivarnamn = vardgivarnamn;
+  }
 }

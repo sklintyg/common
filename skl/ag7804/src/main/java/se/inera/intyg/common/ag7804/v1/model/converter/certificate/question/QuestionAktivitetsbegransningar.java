@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING;
@@ -29,15 +28,24 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
-public class QuestionAktivitetsbegransningar extends AbstractQuestionAktivitetsbegransningarFunktionsnedsattningar {
+public class QuestionAktivitetsbegransningar
+    extends AbstractQuestionAktivitetsbegransningarFunktionsnedsattningar {
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_TEXT, AKTIVITETSBEGRANSNING_DELSVAR_TEXT,
-            AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        AKTIVITETSBEGRANSNING_SVAR_ID_17,
+        AKTIVITETSBEGRANSNING_SVAR_TEXT,
+        AKTIVITETSBEGRANSNING_DELSVAR_TEXT,
+        AKTIVITETSBEGRANSNING_DELSVAR_BESKRIVNING,
+        AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
+        index,
+        texts);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return toInternal(certificate, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
-    }
+  public static String toInternal(Certificate certificate) {
+    return toInternal(
+        certificate, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17);
+  }
 }

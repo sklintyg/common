@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,37 +34,38 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMedicinskBehandlingAvslutadBehandling {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AVSLUTADBEHANDLING_DELSVAR_ID_18)
-            .parent(AVSLUTADBEHANDLING_SVAR_ID_18)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
-                    .text(texts.get(AVSLUTADBEHANDLING_DELSVAR_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String textValue, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(AVSLUTADBEHANDLING_DELSVAR_ID_18)
+        .parent(AVSLUTADBEHANDLING_SVAR_ID_18)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
+                .text(texts.get(AVSLUTADBEHANDLING_DELSVAR_TEXT))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
+                .text(textValue)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(AVSLUTADBEHANDLING_SVAR_JSON_ID_18)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), AVSLUTADBEHANDLING_DELSVAR_ID_18, AVSLUTADBEHANDLING_SVAR_JSON_ID_18);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        AVSLUTADBEHANDLING_DELSVAR_ID_18,
+        AVSLUTADBEHANDLING_SVAR_JSON_ID_18);
+  }
 }

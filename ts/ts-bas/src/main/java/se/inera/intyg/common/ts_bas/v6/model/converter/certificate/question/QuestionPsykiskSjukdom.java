@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,24 +31,20 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Psykiskt;
 
 public class QuestionPsykiskSjukdom {
 
-    public static CertificateDataElement toCertificate(Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Psykiskt psykiskt, int index, CertificateTextProvider textProvider) {
 
-        final var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
+    final var psykiskSjukdom = psykiskt != null ? psykiskt.getPsykiskSjukdom() : null;
 
-        return CertificateDataElement.builder()
-            .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
-            .parent(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(psykiskSjukdom))
-                    .build()
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(PSYKISK_SJUKDOM_STORNING_DELSVAR_ID)
+        .parent(PSYKISK_SJUKDOM_STORNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(PSYKISK_SJUKDOM_STORNING_DELSVAR_TEXT_ID))
+                .build())
+        .value(CertificateDataValueViewText.builder().text(booleanValue(psykiskSjukdom)).build())
+        .build();
+  }
 }

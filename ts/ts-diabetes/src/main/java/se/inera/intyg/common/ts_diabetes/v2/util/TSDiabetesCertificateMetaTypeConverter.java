@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,66 +35,73 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public final class TSDiabetesCertificateMetaTypeConverter {
 
-    private TSDiabetesCertificateMetaTypeConverter() {
-    }
+  private TSDiabetesCertificateMetaTypeConverter() {}
 
-    public static CertificateMetaData toCertificateMetaData(IntygMeta intygMeta, TSDiabetesIntyg tsDiabetesIntyg) {
-        CertificateMetaData metaData = new CertificateMetaData();
-        metaData.setCertificateId(tsDiabetesIntyg.getIntygsId());
-        metaData.setCertificateType(tsDiabetesIntyg.getIntygsTyp());
-        metaData.setIssuerName(tsDiabetesIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
-        metaData.setFacilityName(tsDiabetesIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        metaData.setSignDate(
-            LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        metaData.setAdditionalInfo(convertFromKodverkValues(intygMeta.getAdditionalInfo()));
-        metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
-        List<Status> statuses = toStatusList(intygMeta.getStatus());
-        metaData.setStatus(statuses);
-        return metaData;
-    }
+  public static CertificateMetaData toCertificateMetaData(
+      IntygMeta intygMeta, TSDiabetesIntyg tsDiabetesIntyg) {
+    CertificateMetaData metaData = new CertificateMetaData();
+    metaData.setCertificateId(tsDiabetesIntyg.getIntygsId());
+    metaData.setCertificateType(tsDiabetesIntyg.getIntygsTyp());
+    metaData.setIssuerName(tsDiabetesIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
+    metaData.setFacilityName(
+        tsDiabetesIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    metaData.setSignDate(
+        LocalDateTime.parse(
+            tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(),
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    metaData.setAdditionalInfo(convertFromKodverkValues(intygMeta.getAdditionalInfo()));
+    metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
+    List<Status> statuses = toStatusList(intygMeta.getStatus());
+    metaData.setStatus(statuses);
+    return metaData;
+  }
 
-    /**
-     * TsDiabetes 2.x IntygMeta.additionalInfo is stored when registered in Intygstjansten by
-     * se.inera.intyg.common.ts_diabetes.v2.util.ConverterUtil#toCertificateHolder as a list of raw KV values
-     * (se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori), and not their displaynames.
-     * To be backwards compatible with existing data, we keep that behaviour and transform the values here when fetching
-     * data.
-     *
-     * @return Commaseparated string of intygAvser descriptions
-     */
-    private static String convertFromKodverkValues(String additionalInfo) {
-        if (additionalInfo != null) {
-            List<String> codes = Splitter.on(',').trimResults().splitToList(additionalInfo);
-            return codes.stream().map(c -> getIntygAvserDescription(c)).collect(Collectors.joining(", "));
-        }
-        return "";
+  /**
+   * TsDiabetes 2.x IntygMeta.additionalInfo is stored when registered in Intygstjansten by
+   * se.inera.intyg.common.ts_diabetes.v2.util.ConverterUtil#toCertificateHolder as a list of raw KV
+   * values (se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori), and not their
+   * displaynames. To be backwards compatible with existing data, we keep that behaviour and
+   * transform the values here when fetching data.
+   *
+   * @return Commaseparated string of intygAvser descriptions
+   */
+  private static String convertFromKodverkValues(String additionalInfo) {
+    if (additionalInfo != null) {
+      List<String> codes = Splitter.on(',').trimResults().splitToList(additionalInfo);
+      return codes.stream().map(c -> getIntygAvserDescription(c)).collect(Collectors.joining(", "));
     }
+    return "";
+  }
 
-    private static String getIntygAvserDescription(String intygAvserCode) {
-        try {
-            return IntygAvserKod.valueOf(intygAvserCode).getDescription();
-        } catch (IllegalArgumentException iie) {
-            // Fall back: return code as-is.
-            return intygAvserCode;
-        }
+  private static String getIntygAvserDescription(String intygAvserCode) {
+    try {
+      return IntygAvserKod.valueOf(intygAvserCode).getDescription();
+    } catch (IllegalArgumentException iie) {
+      // Fall back: return code as-is.
+      return intygAvserCode;
     }
+  }
 
-    public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
-        List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size())
+  public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
+    List<Status> statuses =
+        certificateStatuses != null
+            ? new ArrayList<>(certificateStatuses.size())
             : Collections.<Status>emptyList();
-        if (certificateStatuses != null) {
-            for (IntygStatus certificateStatus : certificateStatuses) {
-                if (certificateStatus != null) {
-                    statuses.add(toStatus(certificateStatus));
-                }
-            }
+    if (certificateStatuses != null) {
+      for (IntygStatus certificateStatus : certificateStatuses) {
+        if (certificateStatus != null) {
+          statuses.add(toStatus(certificateStatus));
         }
-        return statuses;
+      }
     }
+    return statuses;
+  }
 
-    public static Status toStatus(IntygStatus certificateStatus) {
-        return new Status(CertificateState.valueOf(certificateStatus.getType().value()),
-            certificateStatus.getTarget(),
-            LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-    }
+  public static Status toStatus(IntygStatus certificateStatus) {
+    return new Status(
+        CertificateState.valueOf(certificateStatus.getType().value()),
+        certificateStatus.getTarget(),
+        LocalDateTime.parse(
+            certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+  }
 }

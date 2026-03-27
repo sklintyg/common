@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,131 +46,138 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 @ExtendWith(MockitoExtension.class)
 class QuestionTablettEllerInsulinMessageTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementsTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementsTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return INSULIN_ELLER_TABLETT_MESSAGE_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return HAR_DIABETES_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return INSULIN_ELLER_TABLETT_MESSAGE_ID;
     }
 
-    @Nested
-    class IncludeConfigMessageTests extends ConfigMessageTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
+    @Override
+    protected String getParent() {
+      return HAR_DIABETES_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected String getQuestionId() {
-            return BEHANDLING_DIABETES_SVAR_ID;
-        }
+  @Nested
+  class IncludeConfigMessageTests extends ConfigMessageTest {
 
-        @Override
-        protected String getExpression() {
-            return "exists(" + TABLETTBEHANDLING_DELSVAR_JSON_ID + ") || exists(" + INSULINBEHANDLING_DELSVAR_JSON_ID + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeVisibilityTests {
-
-        @Test
-        void shouldBeVisibleIfTabletterIsTrue() {
-            final var diabetes = Diabetes.builder().setTabletter(true).build();
-            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldBeVisibleIfInsulinIsTrue() {
-            final var diabetes = Diabetes.builder().setInsulin(true).build();
-            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfTabletterIsFalse() {
-            final var diabetes = Diabetes.builder().setTabletter(false).build();
-            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfInsulinIsFalse() {
-            final var diabetes = Diabetes.builder().setInsulin(false).build();
-            final var element = QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfDiabetesIsNull() {
-            final var element = QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID;
+    }
+
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return BEHANDLING_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + TABLETTBEHANDLING_DELSVAR_JSON_ID
+          + ") || exists("
+          + INSULINBEHANDLING_DELSVAR_JSON_ID
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeVisibilityTests {
+
+    @Test
+    void shouldBeVisibleIfTabletterIsTrue() {
+      final var diabetes = Diabetes.builder().setTabletter(true).build();
+      final var element =
+          QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldBeVisibleIfInsulinIsTrue() {
+      final var diabetes = Diabetes.builder().setInsulin(true).build();
+      final var element =
+          QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfTabletterIsFalse() {
+      final var diabetes = Diabetes.builder().setTabletter(false).build();
+      final var element =
+          QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfInsulinIsFalse() {
+      final var diabetes = Diabetes.builder().setInsulin(false).build();
+      final var element =
+          QuestionTablettEllerInsulinMessage.toCertificate(diabetes, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfDiabetesIsNull() {
+      final var element = QuestionTablettEllerInsulinMessage.toCertificate(null, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+  }
 }

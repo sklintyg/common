@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,38 +25,36 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.IOException;
 
-/**
- * A component that adds an image at the specified position.
- */
+/** A component that adds an image at the specified position. */
 // CHECKSTYLE:OFF MagicNumber
 public class FkImage extends PdfComponent<FkImage> {
 
-    private static final float FULL_WIDTH = 100f;
-    private byte[] imageData;
+  private static final float FULL_WIDTH = 100f;
+  private byte[] imageData;
 
-    private float linearScale = 1.0f;
+  private float linearScale = 1.0f;
 
-    public FkImage(byte[] imageData) {
-        this.imageData = imageData;
+  public FkImage(byte[] imageData) {
+    this.imageData = imageData;
+  }
+
+  public FkImage withLinearScale(float linearScale) {
+    this.linearScale = linearScale;
+    return this;
+  }
+
+  @Override
+  public void render(Document document, PdfWriter writer, float x, float y)
+      throws DocumentException {
+    Image fkLogo = null;
+    try {
+      fkLogo = Image.getInstance(imageData);
+      fkLogo.setAbsolutePosition(
+          Utilities.millimetersToPoints(x), Utilities.millimetersToPoints(y));
+      fkLogo.scalePercent(linearScale * FULL_WIDTH);
+      writer.getDirectContent().addImage(fkLogo);
+    } catch (IOException e) {
+      throw new DocumentException("Unable to render Image: " + e.getMessage());
     }
-
-    public FkImage withLinearScale(float linearScale) {
-        this.linearScale = linearScale;
-        return this;
-    }
-
-    @Override
-    public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
-        Image fkLogo = null;
-        try {
-            fkLogo = Image.getInstance(imageData);
-            fkLogo.setAbsolutePosition(Utilities.millimetersToPoints(x), Utilities.millimetersToPoints(y));
-            fkLogo.scalePercent(linearScale * FULL_WIDTH);
-            writer.getDirectContent().addImage(fkLogo);
-        } catch (IOException e) {
-            throw new DocumentException("Unable to render Image: " + e.getMessage());
-        }
-
-    }
-
+  }
 }

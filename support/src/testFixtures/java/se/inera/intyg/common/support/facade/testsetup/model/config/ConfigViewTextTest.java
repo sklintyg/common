@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.testsetup.model.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,34 +29,34 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigViewTextTest extends ConfigTest {
 
-    protected abstract CertificateMessagesProvider getMessageProviderMock();
+  protected abstract CertificateMessagesProvider getMessageProviderMock();
 
-    protected abstract String getMessageId();
+  protected abstract String getMessageId();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_VIEW_TEXT;
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_VIEW_TEXT;
+  }
+
+  @Test
+  void shallIncludeMessageId() {
+    final var question = getElement();
+    if (getMessageId() != null && getMessageProviderMock() != null) {
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
+    } else if (getMessageId() != null) {
+      assertEquals(question.getConfig().getText(), getMessageId());
     }
+  }
 
-    @Test
-    void shallIncludeMessageId() {
-        final var question = getElement();
-        if (getMessageId() != null && getMessageProviderMock() != null) {
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(getMessageProviderMock(), atLeastOnce()).get(getMessageId());
-        } else if (getMessageId() != null) {
-            assertEquals(question.getConfig().getText(), getMessageId());
-        }
+  @Test
+  void shallIncludeTextId() {
+    final var question = getElement();
+    if (getTextId() != null && getTextProviderMock() != null) {
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
+    } else if (getTextId() != null) {
+      assertEquals(question.getConfig().getText(), getTextId());
     }
-
-    @Test
-    void shallIncludeTextId() {
-        final var question = getElement();
-        if (getTextId() != null && getTextProviderMock() != null) {
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getTextId());
-        } else if (getTextId() != null) {
-            assertEquals(question.getConfig().getText(), getTextId());
-        }
-    }
+  }
 }

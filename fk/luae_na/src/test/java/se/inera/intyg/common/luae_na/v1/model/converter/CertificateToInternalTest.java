@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -81,385 +81,478 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
-    private CertificateTextProvider texts;
-    private LuaenaUtlatandeV1 expectedInternalCertificate;
-    private Certificate certificate;
-    private static String annanBeskrivning = "annanBeskrivning";
-    private static String motivering = "motivering";
-    private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
-    private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
+  private CertificateTextProvider texts;
+  private LuaenaUtlatandeV1 expectedInternalCertificate;
+  private Certificate certificate;
+  private static String annanBeskrivning = "annanBeskrivning";
+  private static String motivering = "motivering";
+  private static final String DIAGNOSIS_DESCRIPTION = "Beskrivning med egen text";
+  private static final String DIAGNOSIS_DISPLAYNAME = "Namn att visa upp";
 
-    @Mock
-    private WebcertModuleService moduleService;
+  @Mock private WebcertModuleService moduleService;
 
-    @Nested
-    class HappyScenario {
+  @Nested
+  class HappyScenario {
 
-        @BeforeEach
-        private void setup() {
-            final var grundData = new GrundData();
-            final var hosPersonal = new HoSPersonal();
-            final var vardenhet = new Vardenhet();
-            final var patient = new Patient();
-            hosPersonal.setVardenhet(vardenhet);
-            grundData.setSkapadAv(hosPersonal);
-            grundData.setPatient(patient);
-            patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    @BeforeEach
+    private void setup() {
+      final var grundData = new GrundData();
+      final var hosPersonal = new HoSPersonal();
+      final var vardenhet = new Vardenhet();
+      final var patient = new Patient();
+      hosPersonal.setVardenhet(vardenhet);
+      grundData.setSkapadAv(hosPersonal);
+      grundData.setPatient(patient);
+      patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
 
-            expectedInternalCertificate = LuaenaUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
-                .setJournaluppgifter(new InternalDate(LocalDate.now()))
-                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
-                .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
-                .setMotiveringTillInteBaseratPaUndersokning(motivering)
-                .setAnnatGrundForMUBeskrivning(annanBeskrivning)
-                .setKannedomOmPatient(new InternalDate(LocalDate.now()))
-                .setUnderlagFinns(true)
-                .setUnderlag(List.of(
-                    Underlag.create(
-                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    ),
-                    Underlag.create(
-                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    ),
-                    Underlag.create(
-                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    )
-                ))
-                .setSjukdomsforlopp("sjukdomsforlopp")
-                .setDiagnoser(
-                    Arrays.asList(
-                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME))
-                )
-                .setDiagnosgrund("Diagnosbakgrund test")
-                .setNyBedomningDiagnosgrund(true)
-                .setDiagnosForNyBedomning("Diagnos för ny bedömning")
-                .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
-                .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
-                .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
-                .setFunktionsnedsattningPsykisk("funktionsnedsattningPsykisk")
-                .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
-                .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
-                .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
-                .setAktivitetsbegransning("aktivitetsbegransningar")
-                .setAvslutadBehandling("avslutadBehandling")
-                .setPagaendeBehandling("pagaendeBehandling")
-                .setPlaneradBehandling("planeradBehandling")
-                .setSubstansintag("substansintag")
-                .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
-                .setFormagaTrotsBegransning("formagaTrotsBegransning")
-                .setForslagTillAtgard("forslagTillAtgard")
-                .setOvrigt("ovrigt")
-                .setKontaktMedFk(true)
-                .setAnledningTillKontakt("anledningTillKontakt")
-                .build();
+      expectedInternalCertificate =
+          LuaenaUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
+              .setJournaluppgifter(new InternalDate(LocalDate.now()))
+              .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+              .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
+              .setMotiveringTillInteBaseratPaUndersokning(motivering)
+              .setAnnatGrundForMUBeskrivning(annanBeskrivning)
+              .setKannedomOmPatient(new InternalDate(LocalDate.now()))
+              .setUnderlagFinns(true)
+              .setUnderlag(
+                  List.of(
+                      Underlag.create(
+                          UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                          new InternalDate(LocalDate.now()),
+                          "hamtasFran"),
+                      Underlag.create(
+                          UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                          new InternalDate(LocalDate.now()),
+                          "hamtasFran"),
+                      Underlag.create(
+                          UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                          new InternalDate(LocalDate.now()),
+                          "hamtasFran")))
+              .setSjukdomsforlopp("sjukdomsforlopp")
+              .setDiagnoser(
+                  Arrays.asList(
+                      Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                      Diagnos.create(
+                          "F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                      Diagnos.create(
+                          "F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)))
+              .setDiagnosgrund("Diagnosbakgrund test")
+              .setNyBedomningDiagnosgrund(true)
+              .setDiagnosForNyBedomning("Diagnos för ny bedömning")
+              .setFunktionsnedsattningIntellektuell("funktionsnedsattningIntellektuell")
+              .setFunktionsnedsattningKommunikation("funktionsnedsattningKommunikation")
+              .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
+              .setFunktionsnedsattningPsykisk("funktionsnedsattningPsykisk")
+              .setFunktionsnedsattningSynHorselTal("funktionsnedsattningSynHorselTal")
+              .setFunktionsnedsattningBalansKoordination("funktionsnedsattningKoordination")
+              .setFunktionsnedsattningAnnan("funktionsnedsattningAnnan")
+              .setAktivitetsbegransning("aktivitetsbegransningar")
+              .setAvslutadBehandling("avslutadBehandling")
+              .setPagaendeBehandling("pagaendeBehandling")
+              .setPlaneradBehandling("planeradBehandling")
+              .setSubstansintag("substansintag")
+              .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
+              .setFormagaTrotsBegransning("formagaTrotsBegransning")
+              .setForslagTillAtgard("forslagTillAtgard")
+              .setOvrigt("ovrigt")
+              .setKontaktMedFk(true)
+              .setAnledningTillKontakt("anledningTillKontakt")
+              .build();
 
-            texts = Mockito.mock(CertificateTextProvider.class);
-            when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      texts = Mockito.mock(CertificateTextProvider.class);
+      when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
 
-            certificate = CertificateBuilder.create()
-                .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
-                .addElement(QuestionUnderlagBaseratPa.toCertificate(new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()),
-                    new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()), 0, texts
-                ))
-                .addElement(QuestionAnnatBeskrivning.toCertificate(annanBeskrivning, 0, texts))
-                .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(motivering, 0, texts))
-                .addElement(QuestionKannedomOmPatient.toCertificate(new InternalDate(LocalDate.now()), 0, texts))
-                .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
-                .addElement(QuestionUnderlag.toCertificate(List.of(
-                    Underlag.create(
-                        UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    ),
-                    Underlag.create(
-                        UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    ),
-                    Underlag.create(
-                        UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
-                        new InternalDate(LocalDate.now()),
-                        "hamtasFran"
-                    )), 0, texts))
-                .addElement(QuestionSjukdomsforlopp.toCertificate(expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
-                .addElement(QuestionDiagnoser.toCertificate(
-                    Arrays.asList(
-                        Diagnos.create("", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
-                        Diagnos.create("F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
-                    0, texts
-                ))
-                .addElement(QuestionDiagnosgrund.toCertificate("Diagnosbakgrund test", 0, texts))
-                .addElement(QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, texts))
-                .addElement(QuestionDiagnosForNyBedomning.toCertificate("Diagnos för ny bedömning", 0, texts))
-                .addElement(QuestionFunktionsnedsattningIntellektuell.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningKommunikation.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningKommunikation(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningKoncentration.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningKoncentration(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningPsykisk.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningPsykisk(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningSynHorselTal.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningSynHorselTal(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningBalansKoordination.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(), 0, texts))
-                .addElement(QuestionFunktionsnedsattningAnnan.toCertificate(
-                    expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, texts))
-                .addElement(QuestionAktivitetsbegransningar.toCertificate(
-                    expectedInternalCertificate.getAktivitetsbegransning(), 0, texts)
-                )
-                .addElement(QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(
-                    expectedInternalCertificate.getAvslutadBehandling(), 0, texts
-                ))
-                .addElement(QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(
-                    expectedInternalCertificate.getPagaendeBehandling(), 0, texts
-                ))
-                .addElement(QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(
-                    expectedInternalCertificate.getPlaneradBehandling(), 0, texts
-                ))
-                .addElement(QuestionMedicinskBehandlingSubstansintag.toCertificate(
-                    expectedInternalCertificate.getSubstansintag(), 0, texts
-                ))
-                .addElement(QuestionMedicinskaForutsattningarForArbete.toCertificate(
-                    expectedInternalCertificate.getMedicinskaForutsattningarForArbete(), 0, texts)
-                )
-                .addElement(
-                    QuestionFormagaTrotsBegransning.toCertificate(expectedInternalCertificate.getFormagaTrotsBegransning(), 0, texts)
-                )
-                .addElement(
-                    QuestionForslagTillAtgard.toCertificate(expectedInternalCertificate.getForslagTillAtgard(), 0, texts)
-                )
-                .addElement(
-                    QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, texts)
-                )
-                .addElement(
-                    QuestionKontaktOnskas.toCertificate(expectedInternalCertificate.getKontaktMedFk(), 0, texts)
-                )
-                .addElement(
-                    QuestionKontaktAnledning.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, texts)
-                )
-                .build();
-        }
-
-        @Test
-        void shallIncludeId() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
-        }
-
-        @Test
-        void shallIncludeTextVersion() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
-        }
-
-        @Test
-        void shallIncludeGrundData() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
-        }
-
-        @Test
-        void shallIncludeUndersokningAvPatienten() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getUndersokningAvPatienten(), expectedInternalCertificate.getUndersokningAvPatienten());
-        }
-
-        @Test
-        void shallIncludeJournaluppgifter() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getJournaluppgifter());
-        }
-
-        @Test
-        void shallIncludeAnhorigBeskrivningAvPatient() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten());
-        }
-
-        @Test
-        void shallIncludeAnnatGrundForMU() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getAnnatGrundForMU(), expectedInternalCertificate.getAnnatGrundForMU());
-        }
-
-        @Test
-        void shallIncludeAnnatGrundForMUBeskrivning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getAnnatGrundForMUBeskrivning(),
-                expectedInternalCertificate.getAnnatGrundForMUBeskrivning());
-        }
-
-        @Test
-        void shallIncludeAnnatGrundForMUMotivering() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
-                expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
-        }
-
-        @Test
-        void shallIncludeKannedomOmPatient() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getKannedomOmPatient(),
-                expectedInternalCertificate.getKannedomOmPatient());
-        }
-
-        @Test
-        void shallIncludeUnderlagFinns() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getUnderlagFinns(),
-                expectedInternalCertificate.getUnderlagFinns());
-        }
-
-        @Test
-        void shallIncludeUnderlag() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getUnderlag(),
-                expectedInternalCertificate.getUnderlag());
-        }
-
-        @Test
-        void shallIncludeSjukdomsforlopp() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getSjukdomsforlopp(),
-                expectedInternalCertificate.getSjukdomsforlopp());
-        }
-
-        @Test
-        void shallIncludeDiagnoser() {
-            when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString())).thenReturn(DIAGNOSIS_DISPLAYNAME);
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
-                assertEquals(actualInternalCertificate.getDiagnoser().get(i), expectedInternalCertificate.getDiagnoser().get(i));
-            }
-        }
-
-        @Test
-        void shallIncludeDiagnosgrund() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getDiagnosgrund(),
-                expectedInternalCertificate.getDiagnosgrund());
-        }
-
-        @Test
-        void shallIncludeNyBedomningDiagnosgrund() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getNyBedomningDiagnosgrund(),
-                expectedInternalCertificate.getNyBedomningDiagnosgrund());
-        }
-
-        @Test
-        void shallIncludeDiagnosForNyBedomning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getDiagnosForNyBedomning(),
-                expectedInternalCertificate.getDiagnosForNyBedomning());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningIntellektuell() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
-                expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningKommunikation() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningKommunikation(),
-                expectedInternalCertificate.getFunktionsnedsattningKommunikation());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningKoncentration() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningKoncentration(),
-                expectedInternalCertificate.getFunktionsnedsattningKoncentration());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningPsykisk() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningPsykisk(),
-                expectedInternalCertificate.getFunktionsnedsattningPsykisk());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningSynHorselTal() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningSynHorselTal(),
-                expectedInternalCertificate.getFunktionsnedsattningSynHorselTal());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningBalansKoordination() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningBalansKoordination(),
-                expectedInternalCertificate.getFunktionsnedsattningBalansKoordination());
-        }
-
-        @Test
-        void shallIncludeFunktionsnedsattningAnnan() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFunktionsnedsattningAnnan(),
-                expectedInternalCertificate.getFunktionsnedsattningAnnan());
-        }
-
-        @Test
-        void shallIncludeAktivitetsbegransningar() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getAktivitetsbegransning(),
-                expectedInternalCertificate.getAktivitetsbegransning());
-        }
-
-        @Test
-        void shallIncludeMedicinskaForutsattningarForArbete() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getMedicinskaForutsattningarForArbete(),
-                expectedInternalCertificate.getMedicinskaForutsattningarForArbete());
-        }
-
-        @Test
-        void shallIncludeFormagaTrotsBegransning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getFormagaTrotsBegransning(), expectedInternalCertificate.getFormagaTrotsBegransning());
-        }
-
-        @Test
-        void shallIncludeForslagTillAtgard() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getForslagTillAtgard(), expectedInternalCertificate.getForslagTillAtgard());
-        }
-
-        @Test
-        void shallIncludeOvrigt() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getOvrigt(), expectedInternalCertificate.getOvrigt());
-        }
-
-        @Test
-        void shallIncludeKontaktOnskas() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getKontaktMedFk(), expectedInternalCertificate.getKontaktMedFk());
-        }
-
-        @Test
-        void shallIncludeKontaktAnledning() {
-            final var actualInternalCertificate = CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
-            assertEquals(actualInternalCertificate.getAnledningTillKontakt(), expectedInternalCertificate.getAnledningTillKontakt());
-        }
+      certificate =
+          CertificateBuilder.create()
+              .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, texts))
+              .addElement(
+                  QuestionUnderlagBaseratPa.toCertificate(
+                      new InternalDate(LocalDate.now()),
+                      new InternalDate(LocalDate.now()),
+                      new InternalDate(LocalDate.now()),
+                      new InternalDate(LocalDate.now()),
+                      0,
+                      texts))
+              .addElement(QuestionAnnatBeskrivning.toCertificate(annanBeskrivning, 0, texts))
+              .addElement(
+                  QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                      motivering, 0, texts))
+              .addElement(
+                  QuestionKannedomOmPatient.toCertificate(
+                      new InternalDate(LocalDate.now()), 0, texts))
+              .addElement(QuestionUnderlagFinns.toCertificate(true, 0, texts))
+              .addElement(
+                  QuestionUnderlag.toCertificate(
+                      List.of(
+                          Underlag.create(
+                              UnderlagsTyp.UTREDNING_AV_ANNAN_SPECIALISTKLINIK,
+                              new InternalDate(LocalDate.now()),
+                              "hamtasFran"),
+                          Underlag.create(
+                              UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
+                              new InternalDate(LocalDate.now()),
+                              "hamtasFran"),
+                          Underlag.create(
+                              UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                              new InternalDate(LocalDate.now()),
+                              "hamtasFran")),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionSjukdomsforlopp.toCertificate(
+                      expectedInternalCertificate.getSjukdomsforlopp(), 0, texts))
+              .addElement(
+                  QuestionDiagnoser.toCertificate(
+                      Arrays.asList(
+                          Diagnos.create(
+                              "", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                          Diagnos.create(
+                              "F501", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME),
+                          Diagnos.create(
+                              "F502", "ICD-10", DIAGNOSIS_DESCRIPTION, DIAGNOSIS_DISPLAYNAME)),
+                      0,
+                      texts))
+              .addElement(QuestionDiagnosgrund.toCertificate("Diagnosbakgrund test", 0, texts))
+              .addElement(QuestionNyBedomningDiagnosgrund.toCertificate(true, 0, texts))
+              .addElement(
+                  QuestionDiagnosForNyBedomning.toCertificate("Diagnos för ny bedömning", 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningIntellektuell.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningIntellektuell(), 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningKommunikation.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningKommunikation(), 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningKoncentration.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningKoncentration(), 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningPsykisk.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningPsykisk(), 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningSynHorselTal.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningSynHorselTal(), 0, texts))
+              .addElement(
+                  QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningBalansKoordination(),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionFunktionsnedsattningAnnan.toCertificate(
+                      expectedInternalCertificate.getFunktionsnedsattningAnnan(), 0, texts))
+              .addElement(
+                  QuestionAktivitetsbegransningar.toCertificate(
+                      expectedInternalCertificate.getAktivitetsbegransning(), 0, texts))
+              .addElement(
+                  QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(
+                      expectedInternalCertificate.getAvslutadBehandling(), 0, texts))
+              .addElement(
+                  QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(
+                      expectedInternalCertificate.getPagaendeBehandling(), 0, texts))
+              .addElement(
+                  QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(
+                      expectedInternalCertificate.getPlaneradBehandling(), 0, texts))
+              .addElement(
+                  QuestionMedicinskBehandlingSubstansintag.toCertificate(
+                      expectedInternalCertificate.getSubstansintag(), 0, texts))
+              .addElement(
+                  QuestionMedicinskaForutsattningarForArbete.toCertificate(
+                      expectedInternalCertificate.getMedicinskaForutsattningarForArbete(),
+                      0,
+                      texts))
+              .addElement(
+                  QuestionFormagaTrotsBegransning.toCertificate(
+                      expectedInternalCertificate.getFormagaTrotsBegransning(), 0, texts))
+              .addElement(
+                  QuestionForslagTillAtgard.toCertificate(
+                      expectedInternalCertificate.getForslagTillAtgard(), 0, texts))
+              .addElement(
+                  QuestionOvrigt.toCertificate(expectedInternalCertificate.getOvrigt(), 0, texts))
+              .addElement(
+                  QuestionKontaktOnskas.toCertificate(
+                      expectedInternalCertificate.getKontaktMedFk(), 0, texts))
+              .addElement(
+                  QuestionKontaktAnledning.toCertificate(
+                      expectedInternalCertificate.getAnledningTillKontakt(), 0, texts))
+              .build();
     }
+
+    @Test
+    void shallIncludeId() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
+    }
+
+    @Test
+    void shallIncludeTextVersion() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
+    }
+
+    @Test
+    void shallIncludeGrundData() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+    }
+
+    @Test
+    void shallIncludeUndersokningAvPatienten() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getUndersokningAvPatienten(),
+          expectedInternalCertificate.getUndersokningAvPatienten());
+    }
+
+    @Test
+    void shallIncludeJournaluppgifter() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getJournaluppgifter(),
+          expectedInternalCertificate.getJournaluppgifter());
+    }
+
+    @Test
+    void shallIncludeAnhorigBeskrivningAvPatient() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getAnhorigsBeskrivningAvPatienten(),
+          expectedInternalCertificate.getAnhorigsBeskrivningAvPatienten());
+    }
+
+    @Test
+    void shallIncludeAnnatGrundForMU() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getAnnatGrundForMU(),
+          expectedInternalCertificate.getAnnatGrundForMU());
+    }
+
+    @Test
+    void shallIncludeAnnatGrundForMUBeskrivning() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getAnnatGrundForMUBeskrivning(),
+          expectedInternalCertificate.getAnnatGrundForMUBeskrivning());
+    }
+
+    @Test
+    void shallIncludeAnnatGrundForMUMotivering() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
+          expectedInternalCertificate.getMotiveringTillInteBaseratPaUndersokning());
+    }
+
+    @Test
+    void shallIncludeKannedomOmPatient() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getKannedomOmPatient(),
+          expectedInternalCertificate.getKannedomOmPatient());
+    }
+
+    @Test
+    void shallIncludeUnderlagFinns() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getUnderlagFinns(),
+          expectedInternalCertificate.getUnderlagFinns());
+    }
+
+    @Test
+    void shallIncludeUnderlag() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getUnderlag(), expectedInternalCertificate.getUnderlag());
+    }
+
+    @Test
+    void shallIncludeSjukdomsforlopp() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getSjukdomsforlopp(),
+          expectedInternalCertificate.getSjukdomsforlopp());
+    }
+
+    @Test
+    void shallIncludeDiagnoser() {
+      when(moduleService.getDescriptionFromDiagnosKod(anyString(), anyString()))
+          .thenReturn(DIAGNOSIS_DISPLAYNAME);
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      for (int i = 0; i < actualInternalCertificate.getDiagnoser().size(); i++) {
+        assertEquals(
+            actualInternalCertificate.getDiagnoser().get(i),
+            expectedInternalCertificate.getDiagnoser().get(i));
+      }
+    }
+
+    @Test
+    void shallIncludeDiagnosgrund() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getDiagnosgrund(),
+          expectedInternalCertificate.getDiagnosgrund());
+    }
+
+    @Test
+    void shallIncludeNyBedomningDiagnosgrund() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getNyBedomningDiagnosgrund(),
+          expectedInternalCertificate.getNyBedomningDiagnosgrund());
+    }
+
+    @Test
+    void shallIncludeDiagnosForNyBedomning() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getDiagnosForNyBedomning(),
+          expectedInternalCertificate.getDiagnosForNyBedomning());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningIntellektuell() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningIntellektuell(),
+          expectedInternalCertificate.getFunktionsnedsattningIntellektuell());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningKommunikation() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningKommunikation(),
+          expectedInternalCertificate.getFunktionsnedsattningKommunikation());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningKoncentration() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningKoncentration(),
+          expectedInternalCertificate.getFunktionsnedsattningKoncentration());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningPsykisk() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningPsykisk(),
+          expectedInternalCertificate.getFunktionsnedsattningPsykisk());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningSynHorselTal() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningSynHorselTal(),
+          expectedInternalCertificate.getFunktionsnedsattningSynHorselTal());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningBalansKoordination() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningBalansKoordination(),
+          expectedInternalCertificate.getFunktionsnedsattningBalansKoordination());
+    }
+
+    @Test
+    void shallIncludeFunktionsnedsattningAnnan() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFunktionsnedsattningAnnan(),
+          expectedInternalCertificate.getFunktionsnedsattningAnnan());
+    }
+
+    @Test
+    void shallIncludeAktivitetsbegransningar() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getAktivitetsbegransning(),
+          expectedInternalCertificate.getAktivitetsbegransning());
+    }
+
+    @Test
+    void shallIncludeMedicinskaForutsattningarForArbete() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getMedicinskaForutsattningarForArbete(),
+          expectedInternalCertificate.getMedicinskaForutsattningarForArbete());
+    }
+
+    @Test
+    void shallIncludeFormagaTrotsBegransning() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getFormagaTrotsBegransning(),
+          expectedInternalCertificate.getFormagaTrotsBegransning());
+    }
+
+    @Test
+    void shallIncludeForslagTillAtgard() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getForslagTillAtgard(),
+          expectedInternalCertificate.getForslagTillAtgard());
+    }
+
+    @Test
+    void shallIncludeOvrigt() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(actualInternalCertificate.getOvrigt(), expectedInternalCertificate.getOvrigt());
+    }
+
+    @Test
+    void shallIncludeKontaktOnskas() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getKontaktMedFk(),
+          expectedInternalCertificate.getKontaktMedFk());
+    }
+
+    @Test
+    void shallIncludeKontaktAnledning() {
+      final var actualInternalCertificate =
+          CertificateToInternal.convert(certificate, expectedInternalCertificate, moduleService);
+      assertEquals(
+          actualInternalCertificate.getAnledningTillKontakt(),
+          expectedInternalCertificate.getAnledningTillKontakt());
+    }
+  }
 }

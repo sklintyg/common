@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,48 +21,47 @@ package se.inera.intyg.common.support.common.enumerations;
 import java.util.stream.Stream;
 
 public enum EventCode {
+  SKAPAT("SKAPAT", "Skapat"),
+  RADERAT("RADERAT", "Raderat"),
+  LAST("LAST", "Låst"),
+  KFSIGN("KFSIGN", "Klart för signering"),
+  SIGNAT("SIGNAT", "Signerat"),
+  SKICKAT("SKICKAT", "Skickat"),
+  NYFRFM("NYFRFM", "Ny fråga från mottagare"),
+  HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
+  NYFRFV("NYFRFV", "Ny fråga från vården"),
+  NYSVFM("NYSVFM", "Nytt svar från mottagare"),
+  HANFRFV("HANFRFV", "Hanterad fråga från vården"),
+  PAMINNELSE("PAMINNELSE", "Påminnelse"),
+  KOMPLBEGARAN("KOMPLBEGARAN", "Kompletteringsbegäran"),
+  MAKULERAT("MAKULERAT", "Makulerat"),
+  ERSATTER("ERSATTER", "Ersätter"),
+  KOMPLETTERAR("KOMPLETTERAR", "Kompletterar"),
+  FORLANGER("FORLANGER", "Förlänger"),
+  SKAPATFRAN("SKAPATFRAN", "Skapat från"),
+  KOPIERATFRAN("KOPIERATFRAN", "Kopierat från"),
+  RELINTYGMAKULE("RELINTYGMAKULE", "Relaterat intyg makulerat");
 
-    SKAPAT("SKAPAT", "Skapat"),
-    RADERAT("RADERAT", "Raderat"),
-    LAST("LAST", "Låst"),
-    KFSIGN("KFSIGN", "Klart för signering"),
-    SIGNAT("SIGNAT", "Signerat"),
-    SKICKAT("SKICKAT", "Skickat"),
-    NYFRFM("NYFRFM", "Ny fråga från mottagare"),
-    HANFRFM("HANFRFM", "Hanterad fråga från mottagare"),
-    NYFRFV("NYFRFV", "Ny fråga från vården"),
-    NYSVFM("NYSVFM", "Nytt svar från mottagare"),
-    HANFRFV("HANFRFV", "Hanterad fråga från vården"),
-    PAMINNELSE("PAMINNELSE", "Påminnelse"),
-    KOMPLBEGARAN("KOMPLBEGARAN", "Kompletteringsbegäran"),
-    MAKULERAT("MAKULERAT", "Makulerat"),
-    ERSATTER("ERSATTER", "Ersätter"),
-    KOMPLETTERAR("KOMPLETTERAR", "Kompletterar"),
-    FORLANGER("FORLANGER", "Förlänger"),
-    SKAPATFRAN("SKAPATFRAN", "Skapat från"),
-    KOPIERATFRAN("KOPIERATFRAN", "Kopierat från"),
-    RELINTYGMAKULE("RELINTYGMAKULE", "Relaterat intyg makulerat");
+  private final String value;
+  private final String description;
 
+  EventCode(String value, String description) {
+    this.value = value;
+    this.description = description;
+  }
 
-    private final String value;
-    private final String description;
+  public String value() {
+    return value;
+  }
 
-    EventCode(String value, String description) {
-        this.value = value;
-        this.description = description;
-    }
+  public String getDescription() {
+    return this.description;
+  }
 
-    public String value() {
-        return value;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public static EventCode fromValue(String value) {
-        return Stream.of(EventCode.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
-    }
-
+  public static EventCode fromValue(String value) {
+    return Stream.of(EventCode.values())
+        .filter(s -> value.equals(s.value()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(value));
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,39 +22,25 @@ package se.inera.intyg.common.support.model;
  * @author andreaskaltenbach
  */
 public enum CertificateState {
-    /**
-     * This code is unused.
-     */
-    UNHANDLED,
+  /** This code is unused. */
+  UNHANDLED,
 
-    /**
-     * The intyg is archived in Mina Intyg ('arkiverad').
-     */
-    DELETED,
+  /** The intyg is archived in Mina Intyg ('arkiverad'). */
+  DELETED,
 
-    /**
-     * The intyg is no longer archived in Mina Intyg.
-     */
-    RESTORED,
+  /** The intyg is no longer archived in Mina Intyg. */
+  RESTORED,
 
-    /**
-     * The intyg is 'makulerat'.
-     */
-    CANCELLED,
+  /** The intyg is 'makulerat'. */
+  CANCELLED,
 
-    /**
-     * The intyg is sent to a recipient.
-     */
-    SENT,
+  /** The intyg is sent to a recipient. */
+  SENT,
 
-    /**
-     * The intyg was stored in Intygstjänsten.
-     */
-    RECEIVED,
+  /** The intyg was stored in Intygstjänsten. */
+  RECEIVED,
 
-    /**
-     * Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}.
-     */
-    IN_PROGRESS,
-    PROCESSED
+  /** Valid statuses in {@link se.inera.ifv.insuranceprocess.certificate.v1.StatusType}. */
+  IN_PROGRESS,
+  PROCESSED
 }

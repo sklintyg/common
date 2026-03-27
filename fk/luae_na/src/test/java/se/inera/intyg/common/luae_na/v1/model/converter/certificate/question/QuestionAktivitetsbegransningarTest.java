@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,149 +44,148 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionAktivitetsbegransningarTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeTestCommon extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAktivitetsbegransningar.toCertificate(null, getIndex(), texts);
+      }
+
+      @Override
+      protected String getId() {
+        return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+      }
+
+      @Override
+      protected String getParent() {
+        return AKTIVITETSBEGRANSNING_SVAR_ID_17;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 5;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Nested
-        class IncludeTestCommon extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return texts;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAktivitetsbegransningar.toCertificate(null, getIndex(), texts);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAktivitetsbegransningar.toCertificate(null, 0, getTextProviderMock());
+      }
 
-            @Override
-            protected String getId() {
-                return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
-            }
+      @Override
+      protected String getTextId() {
+        return AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return AKTIVITETSBEGRANSNING_SVAR_ID_17;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 5;
-            }
-        }
-
-        @Nested
-        class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return texts;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAktivitetsbegransningar.toCertificate(null, 0, getTextProviderMock());
-            }
-
-            @Override
-            protected String getTextId() {
-                return AKTIVITETSBEGRANSNING_DELSVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-            }
-        }
-
-        @Nested
-        class IncludeValueTextTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAktivitetsbegransningar.toCertificate(getText(), 0, texts);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-            }
-
-            @Override
-            protected String getText() {
-                return "Här är en text";
-            }
-        }
-
-        @Nested
-        class IncludeValidationTextTest extends ValidationTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-
-            @Override
-            protected short getLimit() {
-                return 3500;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-
-            @Override
-            protected String getQuestionId() {
-                return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueTextTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalTextValue extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAktivitetsbegransningar.toCertificate(getText(), 0, texts);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionAktivitetsbegransningar.toCertificate(expectedValue, 0, texts);
-            }
+      @Override
+      protected String getJsonId() {
+        return AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionAktivitetsbegransningar.toInternal(certificate);
-            }
-        }
+      @Override
+      protected String getText() {
+        return "Här är en text";
+      }
     }
+
+    @Nested
+    class IncludeValidationTextTest extends ValidationTextTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+
+      @Override
+      protected short getLimit() {
+        return 3500;
+      }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAktivitetsbegransningar.toCertificate(null, 0, texts);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+
+      @Override
+      protected String getQuestionId() {
+        return AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalTextValue extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        return QuestionAktivitetsbegransningar.toCertificate(expectedValue, 0, texts);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionAktivitetsbegransningar.toInternal(certificate);
+      }
+    }
+  }
 }

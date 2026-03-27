@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,68 +41,75 @@ import se.inera.intyg.schemas.contract.Personnummer;
 /**
  * @author andreaskaltenbach
  */
-public class GetCertificateResponderImpl implements
-    GetCertificateResponderInterface {
+public class GetCertificateResponderImpl implements GetCertificateResponderInterface {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
-    private final ModuleContainerApi moduleContainer;
+  private final ModuleContainerApi moduleContainer;
 
-    public GetCertificateResponderImpl(ModuleContainerApi moduleContainer) {
-        this.moduleContainer = moduleContainer;
+  public GetCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+    this.moduleContainer = moduleContainer;
+  }
+
+  @Override
+  public GetCertificateResponseType getCertificate(
+      AttributedURIType logicalAddress, GetCertificateRequestType request) {
+    GetCertificateResponseType response = new GetCertificateResponseType();
+
+    String certificateId = request.getCertificateId();
+
+    if (certificateId == null || certificateId.length() == 0) {
+      LOGGER.info(
+          LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
+      response.setResult(ResultOfCallUtil.failResult("Validation error: missing certificateId"));
+      return response;
     }
 
-    @Override
-    public GetCertificateResponseType getCertificate(AttributedURIType logicalAddress, GetCertificateRequestType request) {
-        GetCertificateResponseType response = new GetCertificateResponseType();
+    final String nationalIdentityNumber = request.getNationalIdentityNumber();
+    if (nationalIdentityNumber == null || nationalIdentityNumber.length() == 0) {
+      LOGGER.info(
+          LogMarkers.VALIDATION,
+          "Tried to get certificate with non-existing nationalIdentityNumber '.");
+      response.setResult(
+          ResultOfCallUtil.failResult("Validation error: missing nationalIdentityNumber"));
+      return response;
+    }
+    Personnummer personnummer = Personnummer.createPersonnummer(nationalIdentityNumber).get();
 
-        String certificateId = request.getCertificateId();
+    CertificateHolder certificate = null;
 
-        if (certificateId == null || certificateId.length() == 0) {
-            LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
-            response.setResult(ResultOfCallUtil.failResult("Validation error: missing certificateId"));
-            return response;
-        }
-
-        final String nationalIdentityNumber = request.getNationalIdentityNumber();
-        if (nationalIdentityNumber == null || nationalIdentityNumber.length() == 0) {
-            LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing nationalIdentityNumber '.");
-            response.setResult(ResultOfCallUtil.failResult("Validation error: missing nationalIdentityNumber"));
-            return response;
-        }
-        Personnummer personnummer = Personnummer.createPersonnummer(nationalIdentityNumber).get();
-
-        CertificateHolder certificate = null;
-
-        try {
-            certificate = moduleContainer.getCertificate(certificateId, personnummer, true);
-            if (certificate.isRevoked()) {
-                response.setResult(ResultOfCallUtil.infoResult(String.format("Certificate '%s' has been revoked", certificateId)));
-            } else {
-                response.setMeta(ModelConverter.toCertificateMetaType(certificate));
-                attachCertificateDocument(certificate, response);
-                moduleContainer.logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
-                response.setResult(ResultOfCallUtil.okResult());
-            }
-        } catch (InvalidCertificateException e) {
-            response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
-        }
-
-        return response;
+    try {
+      certificate = moduleContainer.getCertificate(certificateId, personnummer, true);
+      if (certificate.isRevoked()) {
+        response.setResult(
+            ResultOfCallUtil.infoResult(
+                String.format("Certificate '%s' has been revoked", certificateId)));
+      } else {
+        response.setMeta(ModelConverter.toCertificateMetaType(certificate));
+        attachCertificateDocument(certificate, response);
+        moduleContainer.logCertificateRetrieved(
+            certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
+        response.setResult(ResultOfCallUtil.okResult());
+      }
+    } catch (InvalidCertificateException e) {
+      response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
     }
 
-    protected void attachCertificateDocument(CertificateHolder certificate, GetCertificateResponseType response) {
-        try {
-            JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(
-                certificate.getOriginalCertificate());
-            DOMResult domResult = new DOMResult();
-            XmlMarshallerHelper.marshaller().marshal(el, domResult);
-            CertificateType certificateType = new CertificateType();
-            certificateType.getAny().add(((Document) domResult.getNode()).getDocumentElement());
-            response.setCertificate(certificateType);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    return response;
+  }
 
+  protected void attachCertificateDocument(
+      CertificateHolder certificate, GetCertificateResponseType response) {
+    try {
+      JAXBElement<RegisterMedicalCertificateType> el =
+          XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
+      DOMResult domResult = new DOMResult();
+      XmlMarshallerHelper.marshaller().marshal(el, domResult);
+      CertificateType certificateType = new CertificateType();
+      certificateType.getAny().add(((Document) domResult.getNode()).getDocumentElement());
+      response.setCertificate(certificateType);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

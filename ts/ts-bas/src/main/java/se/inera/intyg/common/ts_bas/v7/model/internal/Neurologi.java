@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,12 +26,10 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Neurologi {
 
-    @JsonCreator
-    public static Neurologi create(@JsonProperty("neurologiskSjukdom") Boolean neurologiskSjukdom) {
-        return new AutoValue_Neurologi(neurologiskSjukdom);
-    }
+  @JsonCreator
+  public static Neurologi create(@JsonProperty("neurologiskSjukdom") Boolean neurologiskSjukdom) {
+    return new AutoValue_Neurologi(neurologiskSjukdom);
+  }
 
-    @Nullable
-    public abstract Boolean getNeurologiskSjukdom();
-
+  @Nullable public abstract Boolean getNeurologiskSjukdom();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,63 +28,60 @@ import se.inera.intyg.common.support.model.InternalDate;
 @AutoValue
 public abstract class Underlag {
 
-    @JsonCreator
-    public static Underlag create(@JsonProperty("typ") UnderlagsTyp typ,
-        @JsonProperty("datum") InternalDate datum,
-        @JsonProperty("hamtasFran") String hamtasFran) {
-        return new AutoValue_Underlag(typ, datum, hamtasFran);
+  @JsonCreator
+  public static Underlag create(
+      @JsonProperty("typ") UnderlagsTyp typ,
+      @JsonProperty("datum") InternalDate datum,
+      @JsonProperty("hamtasFran") String hamtasFran) {
+    return new AutoValue_Underlag(typ, datum, hamtasFran);
+  }
+
+  @Nullable public abstract UnderlagsTyp getTyp();
+
+  @Nullable public abstract InternalDate getDatum();
+
+  @Nullable public abstract String getHamtasFran();
+
+  public enum UnderlagsTyp {
+    NEUROPSYKIATRISKT_UTLATANDE("NEUROPSYKIATRISKT", "Neuropsykiatriskt utlåtande"),
+    UNDERLAG_FRAN_HABILITERINGEN("HABILITERING", "Underlag från habiliteringen"),
+    UNDERLAG_FRAN_ARBETSTERAPEUT("ARBETSTERAPEUT", "Underlag från arbetsterapeut"),
+    UNDERLAG_FRAN_FYSIOTERAPEUT("FYSIOTERAPEUT", "Underlag från fysioterapeut"),
+    UNDERLAG_FRAN_LOGOPED("LOGOPED", "Underlag från logoped"),
+    UNDERLAG_FRANPSYKOLOG("PSYKOLOG", "Underlag från psykolog"),
+    UNDERLAG_FRANFORETAGSHALSOVARD("FORETAGSHALSOVARD", "Underlag från företagshälsovård"),
+    UNDERLAG_FRANSKOLHALSOVARD("SKOLHALSOVARD", "Underlag från skolhälsovård"),
+    UTREDNING_AV_ANNAN_SPECIALISTKLINIK("SPECIALISTKLINIK", "Utredning av annan specialistklinik"),
+    UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS(
+        "VARD_UTOMLANDS", "Utredning från vårdinrättning utomlands"),
+    OVRIGT("OVRIGT_UTLATANDE", "Övrigt");
+
+    private final String id;
+    private final String label;
+
+    UnderlagsTyp(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    @Nullable
-    public abstract UnderlagsTyp getTyp();
-
-    @Nullable
-    public abstract InternalDate getDatum();
-
-    @Nullable
-    public abstract String getHamtasFran();
-
-    public enum UnderlagsTyp {
-        NEUROPSYKIATRISKT_UTLATANDE("NEUROPSYKIATRISKT", "Neuropsykiatriskt utlåtande"),
-        UNDERLAG_FRAN_HABILITERINGEN("HABILITERING", "Underlag från habiliteringen"),
-        UNDERLAG_FRAN_ARBETSTERAPEUT("ARBETSTERAPEUT", "Underlag från arbetsterapeut"),
-        UNDERLAG_FRAN_FYSIOTERAPEUT("FYSIOTERAPEUT", "Underlag från fysioterapeut"),
-        UNDERLAG_FRAN_LOGOPED("LOGOPED", "Underlag från logoped"),
-        UNDERLAG_FRANPSYKOLOG("PSYKOLOG", "Underlag från psykolog"),
-        UNDERLAG_FRANFORETAGSHALSOVARD("FORETAGSHALSOVARD", "Underlag från företagshälsovård"),
-        UNDERLAG_FRANSKOLHALSOVARD("SKOLHALSOVARD", "Underlag från skolhälsovård"),
-        UTREDNING_AV_ANNAN_SPECIALISTKLINIK("SPECIALISTKLINIK", "Utredning av annan specialistklinik"),
-        UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS("VARD_UTOMLANDS", "Utredning från vårdinrättning utomlands"),
-        OVRIGT("OVRIGT_UTLATANDE", "Övrigt");
-
-        private final String id;
-        private final String label;
-
-        UnderlagsTyp(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static UnderlagsTyp fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (UnderlagsTyp typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-
+    @JsonValue
+    public String getId() {
+      return id;
     }
 
+    public String getLabel() {
+      return label;
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static UnderlagsTyp fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (UnderlagsTyp typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

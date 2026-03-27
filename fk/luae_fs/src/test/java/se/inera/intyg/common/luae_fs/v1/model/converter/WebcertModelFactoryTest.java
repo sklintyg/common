@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,105 +50,105 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-/**
- * Created by eriklupander on 2016-04-20.
- */
+/** Created by eriklupander on 2016-04-20. */
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
 
-    private static final String INTYG_ID = "intyg-123";
-    @Mock
-    private IntygTextsService intygTextsService;
+  private static final String INTYG_ID = "intyg-123";
+  @Mock private IntygTextsService intygTextsService;
 
-    @Mock
-    private WebcertModuleService webcertModuleService;
+  @Mock private WebcertModuleService webcertModuleService;
 
-    @InjectMocks
-    WebcertModelFactoryImpl testee;
+  @InjectMocks WebcertModelFactoryImpl testee;
 
+  @Before
+  public void setupMocks() {
+    when(intygTextsService.getLatestVersionForSameMajorVersion(LuaefsEntryPoint.MODULE_ID, "1.0"))
+        .thenReturn("1.0");
+  }
 
-    @Before
-    public void setupMocks() {
-        when(intygTextsService.getLatestVersionForSameMajorVersion(LuaefsEntryPoint.MODULE_ID, "1.0")).thenReturn("1.0");
-    }
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+  @Test
+  public void testHappyPath() throws ConverterException {
+    LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
+    assertNotNull(draft);
+    assertEquals(
+        "VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+    assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+    assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
+    assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+  }
 
-    @Test
-    public void testHappyPath() throws ConverterException {
-        LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertNotNull(draft);
-        assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-        assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-        assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
-        assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
-    }
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    testee.createNewWebcertDraft(buildNewDraftData(null));
+  }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        testee.createNewWebcertDraft(buildNewDraftData(null));
-    }
+  @Test(expected = ConverterException.class)
+  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    testee.createNewWebcertDraft(buildNewDraftData(" "));
+  }
 
-    @Test(expected = ConverterException.class)
-    public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        testee.createNewWebcertDraft(buildNewDraftData(" "));
-    }
+  @Test
+  public void testUpdateSkapadAv() throws ConverterException {
+    LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
+    WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
+  }
 
-    @Test
-    public void testUpdateSkapadAv() throws ConverterException {
-        LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
-    }
+  @Test
+  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+      throws ConverterException {
+    // this to follow schema during CertificateStatusUpdateForCareV2
+    LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
+    assertTrue(
+        InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().isEmpty());
+  }
 
-    @Test
-    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV2
-        LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertTrue(InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().isEmpty());
-    }
+  private CreateNewDraftHolder buildNewDraftData(String intygId) {
+    CreateNewDraftHolder draftHolder =
+        new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
+    return draftHolder;
+  }
 
-    private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
-        return draftHolder;
-    }
+  private Patient buildPatient() {
+    Patient patient = new Patient();
+    patient.setFornamn("fornamn");
+    patient.setEfternamn("efternamn");
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    return patient;
+  }
 
-    private Patient buildPatient() {
-        Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        return patient;
-    }
+  private HoSPersonal buildHosPersonal() {
+    HoSPersonal hosPerson = new HoSPersonal();
+    hosPerson.setPersonId("TST12345678");
+    hosPerson.setFullstandigtNamn("Doktor A");
+    hosPerson.setVardenhet(createVardenhet());
+    return hosPerson;
+  }
 
-    private HoSPersonal buildHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
-        hosPerson.setPersonId("TST12345678");
-        hosPerson.setFullstandigtNamn("Doktor A");
-        hosPerson.setVardenhet(createVardenhet());
-        return hosPerson;
-    }
-
-    private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("VE1");
-        vardenhet.setEnhetsnamn("ve1");
-        vardenhet.setVardgivare(new Vardgivare());
-        vardenhet.getVardgivare().setVardgivarid("VG1");
-        vardenhet.getVardgivare().setVardgivarnamn("vg1");
-        return vardenhet;
-    }
+  private Vardenhet createVardenhet() {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("VE1");
+    vardenhet.setEnhetsnamn("ve1");
+    vardenhet.setVardgivare(new Vardgivare());
+    vardenhet.getVardgivare().setVardgivarid("VG1");
+    vardenhet.getVardgivare().setVardgivarnamn("vg1");
+    return vardenhet;
+  }
 }

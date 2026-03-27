@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,22 +21,20 @@ package se.inera.intyg.common.sos_parent.model.internal;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
-/**
- * Shared fields between Dödsbevis and Dödsorsaksintyg.
- */
+/** Shared fields between Dödsbevis and Dödsorsaksintyg. */
 public interface SosUtlatande extends Utlatande {
 
-    String getIdentitetStyrkt();
+  String getIdentitetStyrkt();
 
-    Boolean getDodsdatumSakert();
+  Boolean getDodsdatumSakert();
 
-    InternalDate getDodsdatum();
+  InternalDate getDodsdatum();
 
-    InternalDate getAntraffatDodDatum();
+  InternalDate getAntraffatDodDatum();
 
-    String getDodsplatsKommun();
+  String getDodsplatsKommun();
 
-    DodsplatsBoende getDodsplatsBoende();
+  DodsplatsBoende getDodsplatsBoende();
 
-    Boolean getBarn();
+  Boolean getBarn();
 }

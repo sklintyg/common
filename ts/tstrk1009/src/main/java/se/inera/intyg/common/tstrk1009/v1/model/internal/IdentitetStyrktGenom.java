@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,11 +26,10 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class IdentitetStyrktGenom {
 
-    @JsonCreator
-    public static IdentitetStyrktGenom create(@JsonProperty("typ") IdKontroll typ) {
-        return new AutoValue_IdentitetStyrktGenom(typ);
-    }
+  @JsonCreator
+  public static IdentitetStyrktGenom create(@JsonProperty("typ") IdKontroll typ) {
+    return new AutoValue_IdentitetStyrktGenom(typ);
+  }
 
-    @Nullable
-    public abstract IdKontroll getTyp();
+  @Nullable public abstract IdKontroll getTyp();
 }

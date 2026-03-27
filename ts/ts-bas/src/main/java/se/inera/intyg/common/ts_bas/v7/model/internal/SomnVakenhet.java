@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,14 +28,13 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class SomnVakenhet {
 
-    @JsonCreator
-    public static SomnVakenhet create(@JsonProperty("teckenSomnstorningar") Boolean teckenSomnstorningar) {
-        return new AutoValue_SomnVakenhet(teckenSomnstorningar);
-    }
+  @JsonCreator
+  public static SomnVakenhet create(
+      @JsonProperty("teckenSomnstorningar") Boolean teckenSomnstorningar) {
+    return new AutoValue_SomnVakenhet(teckenSomnstorningar);
+  }
 
-    @AutoValue.CopyAnnotations
-    @JsonInclude(Include.NON_EMPTY)
-    @Nullable
-    public abstract Boolean getTeckenSomnstorningar();
-
+  @AutoValue.CopyAnnotations
+  @JsonInclude(Include.NON_EMPTY)
+  @Nullable public abstract Boolean getTeckenSomnstorningar();
 }

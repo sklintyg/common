@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,41 +26,41 @@ import org.junit.Test;
 
 public class StringValidatorTest {
 
-    @Test
-    public void testValidateStringIsYear() {
-        final String nineteenEleven = "1911";
-        final String twentyEleven = "2011";
-        final String thirtyEleven = "3011";
+  @Test
+  public void testValidateStringIsYear() {
+    final String nineteenEleven = "1911";
+    final String twentyEleven = "2011";
+    final String thirtyEleven = "3011";
 
-        Calendar now = Calendar.getInstance();
-        int thisYear = now.get(Calendar.YEAR);
-        final String validThisYear = Integer.toString(thisYear);
-        final String validButFuture = Integer.toString(thisYear + 1);
+    Calendar now = Calendar.getInstance();
+    int thisYear = now.get(Calendar.YEAR);
+    final String validThisYear = Integer.toString(thisYear);
+    final String validButFuture = Integer.toString(thisYear + 1);
 
-        final String eighteenHundred = "1800";
-        final String nineHundred = "0900";
-        final String other = "2011-12-12";
-        final String inTheFuture = "5666";
+    final String eighteenHundred = "1800";
+    final String nineHundred = "0900";
+    final String other = "2011-12-12";
+    final String inTheFuture = "5666";
 
-        StringValidator validator = new StringValidator();
-        assertTrue(validator.validateStringIsYear(twentyEleven));
-        assertTrue(validator.validateStringIsYear(nineteenEleven));
-        assertFalse(validator.validateStringIsYear(thirtyEleven));
-        assertFalse(validator.validateStringIsYear(nineHundred));
-        assertFalse(validator.validateStringIsYear(eighteenHundred));
+    StringValidator validator = new StringValidator();
+    assertTrue(validator.validateStringIsYear(twentyEleven));
+    assertTrue(validator.validateStringIsYear(nineteenEleven));
+    assertFalse(validator.validateStringIsYear(thirtyEleven));
+    assertFalse(validator.validateStringIsYear(nineHundred));
+    assertFalse(validator.validateStringIsYear(eighteenHundred));
 
-        //Check that current year is valid, but next year is not
-        assertTrue(validator.validateStringIsYear(validThisYear));
-        assertFalse(validator.validateStringIsYear(validButFuture));
+    // Check that current year is valid, but next year is not
+    assertTrue(validator.validateStringIsYear(validThisYear));
+    assertFalse(validator.validateStringIsYear(validButFuture));
 
-        assertFalse(validator.validateStringIsYear(inTheFuture));
+    assertFalse(validator.validateStringIsYear(inTheFuture));
 
-        assertFalse(validator.validateStringIsYear(other));
-    }
+    assertFalse(validator.validateStringIsYear(other));
+  }
 
-    @Test
-    public void testValidateNullStringGenerates() {
-        StringValidator validator = new StringValidator();
-        assertFalse(validator.validateStringIsYear(null));
-    }
+  @Test
+  public void testValidateNullStringGenerates() {
+    StringValidator validator = new StringValidator();
+    assertFalse(validator.validateStringIsYear(null));
+  }
 }

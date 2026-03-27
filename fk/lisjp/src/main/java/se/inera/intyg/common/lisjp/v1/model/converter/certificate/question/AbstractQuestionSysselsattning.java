@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
@@ -51,112 +50,108 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public abstract class AbstractQuestionSysselsattning {
 
-    public static CertificateDataElement toCertificate(QuestionSyssesattningConfigProvider value, String questionId, String parent,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(SYSSELSATTNING_SVAR_TEXT))
-                    .description(texts.get(SYSSELSATTNING_SVAR_BESKRIVNING))
-                    .list(
-                        Arrays.asList(
-                            CheckboxMultipleCode.builder()
-                                .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
-                                .label(texts.get(SYSSELSATTNING_ARBETE))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(SysselsattningsTyp.ARBETSSOKANDE.getId())
-                                .label(texts.get(SYSSELSATTNING_ARBETSSOKANDE))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId())
-                                .label(texts.get(SYSSELSATTNING_FORALDRALEDIG))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(SysselsattningsTyp.STUDIER.getId())
-                                .label(texts.get(SYSSELSATTNING_STUDIER))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(createSysselsattningCodeList(value.getValue()))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(questionId)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                SysselsattningsTyp.NUVARANDE_ARBETE.getId(),
-                                SysselsattningsTyp.ARBETSSOKANDE.getId(),
-                                SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId(),
-                                SysselsattningsTyp.STUDIER.getId()
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationHide.builder()
-                        .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
-                        .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
-                        .build()
-                }
-            )
-            .build();
-    }
-
-    private static List<CertificateDataValueCode> createSysselsattningCodeList(List<QuestionSysselsattningValue> value) {
-        if (value == null) {
-            return Collections.emptyList();
-        }
-
-        return value.stream()
-            .map(sysselsattning -> CertificateDataValueCode.builder()
-                .id(Objects.requireNonNull(sysselsattning.getId()))
-                .code(sysselsattning.getId())
+  public static CertificateDataElement toCertificate(
+      QuestionSyssesattningConfigProvider value,
+      String questionId,
+      String parent,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(SYSSELSATTNING_SVAR_TEXT))
+                .description(texts.get(SYSSELSATTNING_SVAR_BESKRIVNING))
+                .list(
+                    Arrays.asList(
+                        CheckboxMultipleCode.builder()
+                            .id(SysselsattningsTyp.NUVARANDE_ARBETE.getId())
+                            .label(texts.get(SYSSELSATTNING_ARBETE))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(SysselsattningsTyp.ARBETSSOKANDE.getId())
+                            .label(texts.get(SYSSELSATTNING_ARBETSSOKANDE))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId())
+                            .label(texts.get(SYSSELSATTNING_FORALDRALEDIG))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(SysselsattningsTyp.STUDIER.getId())
+                            .label(texts.get(SYSSELSATTNING_STUDIER))
+                            .build()))
                 .build())
-            .collect(Collectors.toList());
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(createSysselsattningCodeList(value.getValue()))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(questionId)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          SysselsattningsTyp.NUVARANDE_ARBETE.getId(),
+                          SysselsattningsTyp.ARBETSSOKANDE.getId(),
+                          SysselsattningsTyp.FORADLRARLEDIGHET_VARD_AV_BARN.getId(),
+                          SysselsattningsTyp.STUDIER.getId()))
+                  .build(),
+              CertificateDataValidationHide.builder()
+                  .questionId(AVSTANGNING_SMITTSKYDD_SVAR_ID_27)
+                  .expression(singleExpression(AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<CertificateDataValueCode> createSysselsattningCodeList(
+      List<QuestionSysselsattningValue> value) {
+    if (value == null) {
+      return Collections.emptyList();
     }
 
-    public static List<Sysselsattning> toInternal(Certificate certificate, String questionId) {
-        var codeList = codeListValue(certificate.getData(), questionId);
-        return codeList
-            .stream()
-            .map(
-                code -> Sysselsattning.create(SysselsattningsTyp.fromId(code.getId()))
-            )
-            .collect(Collectors.toList());
+    return value.stream()
+        .map(
+            sysselsattning ->
+                CertificateDataValueCode.builder()
+                    .id(Objects.requireNonNull(sysselsattning.getId()))
+                    .code(sysselsattning.getId())
+                    .build())
+        .collect(Collectors.toList());
+  }
+
+  public static List<Sysselsattning> toInternal(Certificate certificate, String questionId) {
+    var codeList = codeListValue(certificate.getData(), questionId);
+    return codeList.stream()
+        .map(code -> Sysselsattning.create(SysselsattningsTyp.fromId(code.getId())))
+        .collect(Collectors.toList());
+  }
+
+  public static class QuestionSyssesattningConfigProvider {
+
+    private final List<QuestionSysselsattningValue> value;
+
+    public QuestionSyssesattningConfigProvider(List<QuestionSysselsattningValue> value) {
+      this.value = value;
     }
 
-    public static class QuestionSyssesattningConfigProvider {
+    public List<QuestionSysselsattningValue> getValue() {
+      return value;
+    }
+  }
 
-        private final List<QuestionSysselsattningValue> value;
+  public static class QuestionSysselsattningValue {
 
-        public QuestionSyssesattningConfigProvider(List<QuestionSysselsattningValue> value) {
-            this.value = value;
-        }
+    private final String id;
 
-        public List<QuestionSysselsattningValue> getValue() {
-            return value;
-        }
+    public QuestionSysselsattningValue(String id) {
+      this.id = id;
     }
 
-    public static class QuestionSysselsattningValue {
-
-        private final String id;
-
-        public QuestionSysselsattningValue(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
+    public String getId() {
+      return id;
     }
+  }
 }

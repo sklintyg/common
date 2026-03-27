@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,29 +33,23 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionOvrigt {
 
-    public static CertificateDataElement toCerticate(String ovrigt, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OVRIGT_DELSVAR_ID_5)
-            .index(index)
-            .parent(OVRIGT_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_5)
-                    .text(texts.get(OVRIGT_QUESTION_TEXT))
-                    .description(texts.get(OVRIGT_QUESTION_DESCRIPTION))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OVRIGT_SVAR_JSON_ID_5)
-                    .text(ovrigt)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCerticate(
+      String ovrigt, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(OVRIGT_DELSVAR_ID_5)
+        .index(index)
+        .parent(OVRIGT_CATEGORY_ID)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(OVRIGT_SVAR_JSON_ID_5)
+                .text(texts.get(OVRIGT_QUESTION_TEXT))
+                .description(texts.get(OVRIGT_QUESTION_DESCRIPTION))
+                .build())
+        .value(CertificateDataValueText.builder().id(OVRIGT_SVAR_JSON_ID_5).text(ovrigt).build())
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OVRIGT_DELSVAR_ID_5, OVRIGT_SVAR_JSON_ID_5);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), OVRIGT_DELSVAR_ID_5, OVRIGT_SVAR_JSON_ID_5);
+  }
 }

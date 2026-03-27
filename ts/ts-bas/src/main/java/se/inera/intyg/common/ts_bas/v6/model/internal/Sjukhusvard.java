@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,39 +26,35 @@ import jakarta.annotation.Nullable;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Sjukhusvard.Builder.class)
 public abstract class Sjukhusvard {
-    //har patienten vårdats på sjukhus eller haft kontakt med läkare med anledning av punkterna 1-13
+  // har patienten vårdats på sjukhus eller haft kontakt med läkare med anledning av punkterna 1-13
 
-    public static Builder builder() {
-        return new AutoValue_Sjukhusvard.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Sjukhusvard.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Sjukhusvard build();
+    public abstract Sjukhusvard build();
 
-        @JsonProperty("tidpunkt")
-        public abstract Builder setTidpunkt(String tidpunkt);
+    @JsonProperty("tidpunkt")
+    public abstract Builder setTidpunkt(String tidpunkt);
 
-        @JsonProperty("vardinrattning")
-        public abstract Builder setVardinrattning(String vardinrattning);
+    @JsonProperty("vardinrattning")
+    public abstract Builder setVardinrattning(String vardinrattning);
 
-        @JsonProperty("anledning")
-        public abstract Builder setAnledning(String anledning);
+    @JsonProperty("anledning")
+    public abstract Builder setAnledning(String anledning);
 
-        @JsonProperty("sjukhusEllerLakarkontakt")
-        public abstract Builder setSjukhusEllerLakarkontakt(Boolean sjukhusEllerLakarkontakt);
-    }
+    @JsonProperty("sjukhusEllerLakarkontakt")
+    public abstract Builder setSjukhusEllerLakarkontakt(Boolean sjukhusEllerLakarkontakt);
+  }
 
-    @Nullable
-    public abstract String getTidpunkt();
+  @Nullable public abstract String getTidpunkt();
 
-    @Nullable
-    public abstract String getVardinrattning();
+  @Nullable public abstract String getVardinrattning();
 
-    @Nullable
-    public abstract String getAnledning();
+  @Nullable public abstract String getAnledning();
 
-    @Nullable
-    public abstract Boolean getSjukhusEllerLakarkontakt();
+  @Nullable public abstract Boolean getSjukhusEllerLakarkontakt();
 }

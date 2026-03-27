@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,89 +45,89 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesBeskrivningAnnanTypTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeTestCommon extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, textProvider);
     }
 
-
-    @Nested
-    class IncludeTestCommon extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ALLMANT_TYP_AV_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTest extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, getTextProviderMock());
-        }
-
-        @Override
-        protected String getTextId() {
-            return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return ALLMANT_TYP_AV_DIABETES_SVAR_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTest extends ValueViewTextTest<Allmant> {
-
-        @Override
-        protected CertificateDataElement getElement(Allmant expectedValue) {
-            return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Allmant, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(Allmant.builder().setBeskrivningAnnanTypAvDiabetes("annan").build(),
-                    CertificateDataValueViewText.builder().text("annan").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTest extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(null, 0, getTextProviderMock());
+    }
+
+    @Override
+    protected String getTextId() {
+      return ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTest extends ValueViewTextTest<Allmant> {
+
+    @Override
+    protected CertificateDataElement getElement(Allmant expectedValue) {
+      return QuestionDiabetesBeskrivningAnnanTyp.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Allmant, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              Allmant.builder().setBeskrivningAnnanTypAvDiabetes("annan").build(),
+              CertificateDataValueViewText.builder().text("annan").build()));
+    }
+  }
 }

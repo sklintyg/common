@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,134 +23,142 @@ import java.util.Objects;
 
 public class Vardenhet {
 
-    private String enhetsid;
+  private String enhetsid;
 
-    private String enhetsnamn;
+  private String enhetsnamn;
 
-    private String postadress;
+  private String postadress;
 
-    private String postnummer;
+  private String postnummer;
 
-    private String postort;
+  private String postort;
 
-    private String telefonnummer;
+  private String telefonnummer;
 
-    private String epost;
+  private String epost;
 
-    private Vardgivare vardgivare;
+  private Vardgivare vardgivare;
 
-    private String arbetsplatsKod;
+  private String arbetsplatsKod;
 
-    public String getEnhetsid() {
-        return enhetsid;
+  public String getEnhetsid() {
+    return enhetsid;
+  }
+
+  public void setEnhetsid(String enhetsid) {
+    this.enhetsid = enhetsid;
+  }
+
+  public String getEnhetsnamn() {
+    return enhetsnamn;
+  }
+
+  public void setEnhetsnamn(String enhetsnamn) {
+    this.enhetsnamn = enhetsnamn;
+  }
+
+  public String getPostadress() {
+    return postadress;
+  }
+
+  public void setPostadress(String postadress) {
+    this.postadress = postadress;
+  }
+
+  public String getPostnummer() {
+    return postnummer;
+  }
+
+  public void setPostnummer(String postnummer) {
+    this.postnummer = postnummer;
+  }
+
+  public String getPostort() {
+    return postort;
+  }
+
+  public void setPostort(String postort) {
+    this.postort = postort;
+  }
+
+  public String getTelefonnummer() {
+    return telefonnummer;
+  }
+
+  public void setTelefonnummer(String telefonnummer) {
+    this.telefonnummer = telefonnummer;
+  }
+
+  public String getEpost() {
+    return epost;
+  }
+
+  public void setEpost(String epost) {
+    this.epost = epost;
+  }
+
+  public Vardgivare getVardgivare() {
+    return vardgivare;
+  }
+
+  public void setVardgivare(Vardgivare vardgivare) {
+    this.vardgivare = vardgivare;
+  }
+
+  public String getArbetsplatsKod() {
+    return arbetsplatsKod;
+  }
+
+  public void setArbetsplatsKod(String arbetsplatsKod) {
+    this.arbetsplatsKod = arbetsplatsKod;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
     }
-
-    public void setEnhetsid(String enhetsid) {
-        this.enhetsid = enhetsid;
+    if (!(object instanceof Vardenhet)) {
+      return false;
     }
+    final Vardenhet that = (Vardenhet) object;
+    return Objects.equals(this.enhetsid, that.enhetsid)
+        && Objects.equals(this.enhetsnamn, that.enhetsnamn)
+        && Objects.equals(this.postadress, that.postadress)
+        && Objects.equals(this.postnummer, that.postnummer)
+        && Objects.equals(this.postort, that.postort)
+        && Objects.equals(this.telefonnummer, that.telefonnummer)
+        && Objects.equals(this.epost, that.epost)
+        && Objects.equals(this.vardgivare, that.vardgivare)
+        && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
+  }
 
-    public String getEnhetsnamn() {
-        return enhetsnamn;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        this.enhetsid,
+        this.enhetsnamn,
+        this.postadress,
+        this.postnummer,
+        this.postort,
+        this.telefonnummer,
+        this.epost,
+        this.vardgivare,
+        this.arbetsplatsKod);
+  }
 
-    public void setEnhetsnamn(String enhetsnamn) {
-        this.enhetsnamn = enhetsnamn;
-    }
-
-    public String getPostadress() {
-        return postadress;
-    }
-
-    public void setPostadress(String postadress) {
-        this.postadress = postadress;
-    }
-
-    public String getPostnummer() {
-        return postnummer;
-    }
-
-    public void setPostnummer(String postnummer) {
-        this.postnummer = postnummer;
-    }
-
-    public String getPostort() {
-        return postort;
-    }
-
-    public void setPostort(String postort) {
-        this.postort = postort;
-    }
-
-    public String getTelefonnummer() {
-        return telefonnummer;
-    }
-
-    public void setTelefonnummer(String telefonnummer) {
-        this.telefonnummer = telefonnummer;
-    }
-
-    public String getEpost() {
-        return epost;
-    }
-
-    public void setEpost(String epost) {
-        this.epost = epost;
-    }
-
-    public Vardgivare getVardgivare() {
-        return vardgivare;
-    }
-
-    public void setVardgivare(Vardgivare vardgivare) {
-        this.vardgivare = vardgivare;
-    }
-
-    public String getArbetsplatsKod() {
-        return arbetsplatsKod;
-    }
-
-    public void setArbetsplatsKod(String arbetsplatsKod) {
-        this.arbetsplatsKod = arbetsplatsKod;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Vardenhet)) {
-            return false;
-        }
-        final Vardenhet that = (Vardenhet) object;
-        return Objects.equals(this.enhetsid, that.enhetsid)
-            && Objects.equals(this.enhetsnamn, that.enhetsnamn)
-            && Objects.equals(this.postadress, that.postadress)
-            && Objects.equals(this.postnummer, that.postnummer)
-            && Objects.equals(this.postort, that.postort)
-            && Objects.equals(this.telefonnummer, that.telefonnummer)
-            && Objects.equals(this.epost, that.epost)
-            && Objects.equals(this.vardgivare, that.vardgivare)
-            && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.enhetsid, this.enhetsnamn, this.postadress, this.postnummer, this.postort,
-            this.telefonnummer, this.epost, this.vardgivare, this.arbetsplatsKod);
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-            .add("enhetsid", enhetsid)
-            .add("enhetsnamn", enhetsnamn)
-            .add("postadress", postadress)
-            .add("postnummer", postnummer)
-            .add("postort", postort)
-            .add("telefonnummer", telefonnummer)
-            .add("epost", epost)
-            .add("vardgivare", vardgivare)
-            .add("arbetsplatsKod", arbetsplatsKod)
-            .toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("enhetsid", enhetsid)
+        .add("enhetsnamn", enhetsnamn)
+        .add("postadress", postadress)
+        .add("postnummer", postnummer)
+        .add("postort", postort)
+        .add("telefonnummer", telefonnummer)
+        .add("epost", epost)
+        .add("vardgivare", vardgivare)
+        .add("arbetsplatsKod", arbetsplatsKod)
+        .toString();
+  }
 }

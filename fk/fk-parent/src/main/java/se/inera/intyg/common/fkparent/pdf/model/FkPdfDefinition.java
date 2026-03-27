@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,49 +25,51 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Defines the root element of a PdfComponent object tree hierarchy.
- * Besides being a root element, it also holds the specified pageEvents that should be used when rendering itself.
+ * Defines the root element of a PdfComponent object tree hierarchy. Besides being a root element,
+ * it also holds the specified pageEvents that should be used when rendering itself.
  *
- * Created by marced on 30/09/16.
+ * <p>Created by marced on 30/09/16.
  */
 public class FkPdfDefinition extends PdfComponent<FkPdfDefinition> {
 
-    // Default page margins (left,right,top,bottom)
-    private static final float[] DEFAULT_PAGE_MARGINS = new float[]{
+  // Default page margins (left,right,top,bottom)
+  private static final float[] DEFAULT_PAGE_MARGINS =
+      new float[] {
         Utilities.millimetersToPoints(15f),
         Utilities.millimetersToPoints(15f),
         Utilities.millimetersToPoints(40f),
         Utilities.millimetersToPoints(10f)
-    };
+      };
 
-    private List<PdfPageEventHelper> pageEvents = new ArrayList<>();
+  private List<PdfPageEventHelper> pageEvents = new ArrayList<>();
 
-    public List<PdfPageEventHelper> getPageEvents() {
-        return pageEvents;
-    }
+  public List<PdfPageEventHelper> getPageEvents() {
+    return pageEvents;
+  }
 
-    public void addPageEvent(PdfPageEventHelper pageEvent) {
-        this.pageEvents.add(pageEvent);
-    }
+  public void addPageEvent(PdfPageEventHelper pageEvent) {
+    this.pageEvents.add(pageEvent);
+  }
 
-    public float[] getPageMargins() {
-        return DEFAULT_PAGE_MARGINS;
-    }
+  public float[] getPageMargins() {
+    return DEFAULT_PAGE_MARGINS;
+  }
 
-    /**
-     * Inspects itself for all overflowing text components.
-     *
-     * @return List of all FkOverflowableValueFields that reported having overflowing text
-     */
-    public List<FkOverflowableValueField> collectOverflowingComponents() {
+  /**
+   * Inspects itself for all overflowing text components.
+   *
+   * @return List of all FkOverflowableValueFields that reported having overflowing text
+   */
+  public List<FkOverflowableValueField> collectOverflowingComponents() {
 
-        // Flatten structure and filter for relevant PdfComponents
-        final List<FkOverflowableValueField> overflowingList = this.flattened()
+    // Flatten structure and filter for relevant PdfComponents
+    final List<FkOverflowableValueField> overflowingList =
+        this.flattened()
             .filter(FkOverflowableValueField.class::isInstance)
             .map(pdfComponent -> (FkOverflowableValueField) pdfComponent)
             .filter(candidate -> candidate.getOverFlowingText() != null)
             .collect(Collectors.toList());
 
-        return overflowingList;
-    }
+    return overflowingList;
+  }
 }

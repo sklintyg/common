@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter.certificate.category;
 
-
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID;
 import static se.inera.intyg.common.luae_fs.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
 
@@ -28,13 +27,14 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryGrundForMU {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(GRUNDFORMU_CATEGORY_ID)
-            .index(index)
-            .config(CertificateDataConfigCategory.builder()
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(GRUNDFORMU_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
                 .text(texts.get(GRUNDFORMEDICINSKTUNDERLAG_CATEGORY_TEXT_ID))
                 .build())
-            .build();
-    }
+        .build();
+  }
 }

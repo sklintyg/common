@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,43 +37,41 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 
 public class QuestionTablettEllerInsulinMessage {
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(INSULIN_ELLER_TABLETT_MESSAGE_ID)
-            .index(index)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .visible(getVisibility(diabetes))
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
-                            .level(MessageLevel.INFO)
-                            .build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(BEHANDLING_DIABETES_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID)
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(INSULIN_ELLER_TABLETT_MESSAGE_ID)
+        .index(index)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .visible(getVisibility(diabetes))
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
+                        .level(MessageLevel.INFO)
+                        .build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(BEHANDLING_DIABETES_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          TABLETTBEHANDLING_DELSVAR_JSON_ID, INSULINBEHANDLING_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    private static Boolean getVisibility(Diabetes diabetes) {
-        if (diabetes == null) {
-            return false;
-        }
-        return isTrue(diabetes.getInsulin()) || isTrue(diabetes.getTabletter());
+  private static Boolean getVisibility(Diabetes diabetes) {
+    if (diabetes == null) {
+      return false;
     }
+    return isTrue(diabetes.getInsulin()) || isTrue(diabetes.getTabletter());
+  }
 
-    private static Boolean isTrue(Boolean value) {
-        return value != null ? value : false;
-    }
+  private static Boolean isTrue(Boolean value) {
+    return value != null ? value : false;
+  }
 }

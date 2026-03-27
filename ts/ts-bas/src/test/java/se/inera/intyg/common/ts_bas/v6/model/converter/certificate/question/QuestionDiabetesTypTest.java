@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -47,88 +46,90 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesTypTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return TYP_AV_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return HAR_DIABETES_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return TYP_AV_DIABETES_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewText extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return TYP_AV_DIABETES_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return HAR_DIABETES_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(PER_CLASS)
-    class IncludeValueViewText extends ValueViewTextTest<Diabetes> {
-
-        @Override
-        protected CertificateDataElement getElement(Diabetes expectedValue) {
-            return QuestionDiabetesTyp.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Diabetes, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(Diabetes.builder().build(), CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
-                    CertificateDataValueViewText.builder().text("Typ 2").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewText extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesTyp.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return TYP_AV_DIABETES_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class IncludeValueViewText extends ValueViewTextTest<Diabetes> {
+
+    @Override
+    protected CertificateDataElement getElement(Diabetes expectedValue) {
+      return QuestionDiabetesTyp.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Diabetes, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Diabetes.builder().build(),
+              CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              Diabetes.builder().setDiabetesTyp(DiabetesKod.DIABETES_TYP_2.name()).build(),
+              CertificateDataValueViewText.builder().text("Typ 2").build()));
+    }
+  }
 }

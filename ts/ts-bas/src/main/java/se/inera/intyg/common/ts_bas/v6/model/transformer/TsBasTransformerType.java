@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,42 +29,42 @@ import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
  */
 @SuppressWarnings("ImmutableEnumChecker")
 public enum TsBasTransformerType implements XslTransformerType {
-    TRANSPORT_TO_V1("transport-to-v1", "xsl/transportToV1.xsl"),
-    TRANSPORT_TO_V3("transport-to-v3", "xsl/transportToV3.xsl"),
-    V3_TO_V1("v3-to-v1", "xsl/V3ToV1.xsl");
+  TRANSPORT_TO_V1("transport-to-v1", "xsl/transportToV1.xsl"),
+  TRANSPORT_TO_V3("transport-to-v3", "xsl/transportToV3.xsl"),
+  V3_TO_V1("v3-to-v1", "xsl/V3ToV1.xsl");
 
-    private final String name;
-    private final String location;
-    private final ThreadLocal<XslTransformer> holder;
+  private final String name;
+  private final String location;
+  private final ThreadLocal<XslTransformer> holder;
 
-    static Logger log = LoggerFactory.getLogger(TsBasTransformerType.class);
+  static Logger log = LoggerFactory.getLogger(TsBasTransformerType.class);
 
-    TsBasTransformerType(String name, String location) {
-        this.name = name;
-        this.location = location;
-        this.holder = new ThreadLocal<>();
+  TsBasTransformerType(String name, String location) {
+    this.name = name;
+    this.location = location;
+    this.holder = new ThreadLocal<>();
+  }
+
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Returns transformer. Expensive operation so try to cache and reuse.
+   *
+   * @return the transformer (newly created or existing for the executing thread).
+   */
+  @Override
+  public XslTransformer getTransformer() {
+    XslTransformer t = holder.get();
+    if (Objects.isNull(t)) {
+      log.debug("create new {}", this.location);
+      t = new XslTransformer(this.location);
+      holder.set(t);
+    } else {
+      log.debug("reuse existing {}", this.location);
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Returns transformer. Expensive operation so try to cache and reuse.
-     *
-     * @return the transformer (newly created or existing for the executing thread).
-     */
-    @Override
-    public XslTransformer getTransformer() {
-        XslTransformer t = holder.get();
-        if (Objects.isNull(t)) {
-            log.debug("create new {}", this.location);
-            t = new XslTransformer(this.location);
-            holder.set(t);
-        } else {
-            log.debug("reuse existing {}", this.location);
-        }
-        return t;
-    }
+    return t;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,145 +41,151 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionTerminalDodsorsakFoljdAv {
 
-    public static final short LIMIT = (short) 80;
+  public static final short LIMIT = (short) 80;
 
-    public static CertificateDataElement toCertificate(
-        Dodsorsak terminalDodsorsak,
-        int index,
-        CertificateTextProvider texts,
-        String questionId,
-        String label
-    ) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
-            .config(CertificateDataConfigCauseOfDeath.builder()
+  public static CertificateDataElement toCertificate(
+      Dodsorsak terminalDodsorsak,
+      int index,
+      CertificateTextProvider texts,
+      String questionId,
+      String label) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
+        .config(
+            CertificateDataConfigCauseOfDeath.builder()
                 .text(texts.get(FOLJD_AV_QUESTION_TEXT_ID))
                 .label(label)
                 .causeOfDeath(
                     CauseOfDeath.builder()
                         .id(FOLJD_JSON_ID)
                         .maxDate(LocalDate.now())
-                        .descriptionId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
+                        .descriptionId(
+                            FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
                         .debutId(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
-                        .specifications(List.of(
-                            CodeItem.builder()
-                                .id(Specifikation.PLOTSLIG.name())
-                                .label(FOLJD_OM_DELSVAR_PLOTSLIG)
-                                .code(Specifikation.PLOTSLIG.name())
-                                .build(),
-                            CodeItem.builder()
-                                .id(Specifikation.KRONISK.name())
-                                .label(FOLJD_OM_DELSVAR_KRONISK)
-                                .code(Specifikation.KRONISK.name())
-                                .build(),
-                            CodeItem.builder()
-                                .id(Specifikation.UPPGIFT_SAKNAS.name())
-                                .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
-                                .code(Specifikation.UPPGIFT_SAKNAS.name())
-                                .build()
-                        ))
+                        .specifications(
+                            List.of(
+                                CodeItem.builder()
+                                    .id(Specifikation.PLOTSLIG.name())
+                                    .label(FOLJD_OM_DELSVAR_PLOTSLIG)
+                                    .code(Specifikation.PLOTSLIG.name())
+                                    .build(),
+                                CodeItem.builder()
+                                    .id(Specifikation.KRONISK.name())
+                                    .label(FOLJD_OM_DELSVAR_KRONISK)
+                                    .code(Specifikation.KRONISK.name())
+                                    .build(),
+                                CodeItem.builder()
+                                    .id(Specifikation.UPPGIFT_SAKNAS.name())
+                                    .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
+                                    .code(Specifikation.UPPGIFT_SAKNAS.name())
+                                    .build()))
                         .build())
                 .build())
-            .value(
-                CertificateDataValueCauseOfDeath.builder()
-                    .id(FOLJD_JSON_ID)
-                    .description(
-                        CertificateDataValueText.builder()
-                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
-                            .text(terminalDodsorsak.getBeskrivning())
-                            .build()
-                    )
-                    .debut(
-                        CertificateDataValueDate.builder()
-                            .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
-                            .date(toLocalDate(terminalDodsorsak.getDatum()))
-                            .build()
-                    )
-                    .specification(
-                        terminalDodsorsak.getSpecifikation() != null
-                            ? CertificateDataValueCode.builder()
+        .value(
+            CertificateDataValueCauseOfDeath.builder()
+                .id(FOLJD_JSON_ID)
+                .description(
+                    CertificateDataValueText.builder()
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
+                        .text(terminalDodsorsak.getBeskrivning())
+                        .build())
+                .debut(
+                    CertificateDataValueDate.builder()
+                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].datum")
+                        .date(toLocalDate(terminalDodsorsak.getDatum()))
+                        .build())
+                .specification(
+                    terminalDodsorsak.getSpecifikation() != null
+                        ? CertificateDataValueCode.builder()
                             .id(terminalDodsorsak.getSpecifikation().name())
                             .code(terminalDodsorsak.getSpecifikation().name())
                             .build()
-                            : CertificateDataValueCode.builder().build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+                        : CertificateDataValueCode.builder().build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(FOLJD_JSON_ID + "[" + getElementId(questionId) + "].beskrivning")
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    private static LocalDate toLocalDate(InternalDate internalDate) {
-        return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
-    }
+  private static LocalDate toLocalDate(InternalDate internalDate) {
+    return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
+  }
 
-    private static int getElementId(String questionId) {
-        switch (questionId) {
-            case FOLJD_OM_DELSVAR_B_ID:
-                return 0;
-            case FOLJD_OM_DELSVAR_C_ID:
-                return 1;
-            case FOLJD_OM_DELSVAR_D_ID:
-                return 2;
-            default:
-                throw new RuntimeException("No questionId match the given id: " + questionId);
-        }
+  private static int getElementId(String questionId) {
+    switch (questionId) {
+      case FOLJD_OM_DELSVAR_B_ID:
+        return 0;
+      case FOLJD_OM_DELSVAR_C_ID:
+        return 1;
+      case FOLJD_OM_DELSVAR_D_ID:
+        return 2;
+      default:
+        throw new RuntimeException("No questionId match the given id: " + questionId);
     }
+  }
 
-    public static List<Dodsorsak> toInternal(Certificate certificate, List<String> questionIds) {
-        final List<Dodsorsak> dodsorsakList = questionIds.stream()
+  public static List<Dodsorsak> toInternal(Certificate certificate, List<String> questionIds) {
+    final List<Dodsorsak> dodsorsakList =
+        questionIds.stream()
             .filter(questionId -> certificate.getData().containsKey(questionId))
-            .map(questionId -> (CertificateDataValueCauseOfDeath) certificate.getData().get(questionId).getValue())
-            .map(causeOfDeath -> Dodsorsak.create(
-                causeOfDeath.getDescription().getText(),
-                getDebut(causeOfDeath),
-                getSpecification(causeOfDeath)
-            ))
+            .map(
+                questionId ->
+                    (CertificateDataValueCauseOfDeath)
+                        certificate.getData().get(questionId).getValue())
+            .map(
+                causeOfDeath ->
+                    Dodsorsak.create(
+                        causeOfDeath.getDescription().getText(),
+                        getDebut(causeOfDeath),
+                        getSpecification(causeOfDeath)))
             .collect(Collectors.toList());
 
-        removeEmptyValuesIfAtEndOfList(dodsorsakList);
+    removeEmptyValuesIfAtEndOfList(dodsorsakList);
 
-        return dodsorsakList;
-    }
+    return dodsorsakList;
+  }
 
-    private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
-        return causeOfDeath.getSpecification().getCode() != null && !causeOfDeath.getSpecification().getCode().isEmpty()
-            ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode()) : null;
-    }
+  private static Specifikation getSpecification(CertificateDataValueCauseOfDeath causeOfDeath) {
+    return causeOfDeath.getSpecification().getCode() != null
+            && !causeOfDeath.getSpecification().getCode().isEmpty()
+        ? Specifikation.fromValue(causeOfDeath.getSpecification().getCode())
+        : null;
+  }
 
-    private static InternalDate getDebut(CertificateDataValueCauseOfDeath causeOfDeath) {
-        return causeOfDeath.getDebut().getDate() != null ? new InternalDate(causeOfDeath.getDebut().getDate()) : null;
-    }
+  private static InternalDate getDebut(CertificateDataValueCauseOfDeath causeOfDeath) {
+    return causeOfDeath.getDebut().getDate() != null
+        ? new InternalDate(causeOfDeath.getDebut().getDate())
+        : null;
+  }
 
-    private static void removeEmptyValuesIfAtEndOfList(List<Dodsorsak> dodsorsakList) {
-        for (int i = dodsorsakList.size() - 1; i >= 0; i--) {
-            if (hasValue(dodsorsakList.get(i))) {
-                break;
-            } else {
-                dodsorsakList.remove(i);
-            }
-        }
+  private static void removeEmptyValuesIfAtEndOfList(List<Dodsorsak> dodsorsakList) {
+    for (int i = dodsorsakList.size() - 1; i >= 0; i--) {
+      if (hasValue(dodsorsakList.get(i))) {
+        break;
+      } else {
+        dodsorsakList.remove(i);
+      }
     }
+  }
 
-    private static boolean hasValue(Dodsorsak dodsorsak) {
-        return (dodsorsak.getBeskrivning() != null && !dodsorsak.getBeskrivning().isEmpty())
-            || dodsorsak.getDatum() != null || dodsorsak.getSpecifikation() != null;
-    }
+  private static boolean hasValue(Dodsorsak dodsorsak) {
+    return (dodsorsak.getBeskrivning() != null && !dodsorsak.getBeskrivning().isEmpty())
+        || dodsorsak.getDatum() != null
+        || dodsorsak.getSpecifikation() != null;
+  }
 }

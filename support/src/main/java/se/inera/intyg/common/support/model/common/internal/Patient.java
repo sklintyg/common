@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,168 +27,177 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class Patient {
 
-    private Personnummer personId;
+  private Personnummer personId;
 
-    private String fullstandigtNamn;
+  private String fullstandigtNamn;
 
-    private String fornamn;
+  private String fornamn;
 
-    private String mellannamn;
+  private String mellannamn;
 
-    private String efternamn;
+  private String efternamn;
 
-    private String postadress;
+  private String postadress;
 
-    private String postnummer;
+  private String postnummer;
 
-    private String postort;
+  private String postort;
 
-    private boolean addressDetailsSourcePU;
+  private boolean addressDetailsSourcePU;
 
-    private boolean sekretessmarkering;
+  private boolean sekretessmarkering;
 
-    private boolean avliden;
+  private boolean avliden;
 
-    private boolean testIndicator;
+  private boolean testIndicator;
 
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Patient)) {
-            return false;
-        }
-        final Patient that = (Patient) object;
-        return Objects.equals(this.personId, that.personId)
-            && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
-            && Objects.equals(this.fornamn, that.fornamn)
-            && Objects.equals(this.mellannamn, that.mellannamn)
-            && Objects.equals(this.efternamn, that.efternamn)
-            && Objects.equals(this.postadress, that.postadress)
-            && Objects.equals(this.postnummer, that.postnummer)
-            && Objects.equals(this.postort, that.postort)
-            && Objects.equals(this.addressDetailsSourcePU, that.addressDetailsSourcePU)
-            && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
-            && Objects.equals(this.avliden, that.avliden)
-            && Objects.equals(this.testIndicator, that.testIndicator);
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.personId, this.fullstandigtNamn, this.fornamn, this.mellannamn, this.efternamn,
-            this.postadress, this.postnummer, this.postort, this.addressDetailsSourcePU, this.sekretessmarkering,
-            this.avliden, this.testIndicator);
+    if (!(object instanceof Patient)) {
+      return false;
     }
+    final Patient that = (Patient) object;
+    return Objects.equals(this.personId, that.personId)
+        && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+        && Objects.equals(this.fornamn, that.fornamn)
+        && Objects.equals(this.mellannamn, that.mellannamn)
+        && Objects.equals(this.efternamn, that.efternamn)
+        && Objects.equals(this.postadress, that.postadress)
+        && Objects.equals(this.postnummer, that.postnummer)
+        && Objects.equals(this.postort, that.postort)
+        && Objects.equals(this.addressDetailsSourcePU, that.addressDetailsSourcePU)
+        && Objects.equals(this.sekretessmarkering, that.sekretessmarkering)
+        && Objects.equals(this.avliden, that.avliden)
+        && Objects.equals(this.testIndicator, that.testIndicator);
+  }
 
-    public boolean isSamordningsNummer() {
-        if (personId == null) {
-            throw new IllegalStateException("No person id has been set");
-        }
-        return SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId));
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        this.personId,
+        this.fullstandigtNamn,
+        this.fornamn,
+        this.mellannamn,
+        this.efternamn,
+        this.postadress,
+        this.postnummer,
+        this.postort,
+        this.addressDetailsSourcePU,
+        this.sekretessmarkering,
+        this.avliden,
+        this.testIndicator);
+  }
+
+  public boolean isSamordningsNummer() {
+    if (personId == null) {
+      throw new IllegalStateException("No person id has been set");
     }
+    return SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId));
+  }
 
-    @JsonIgnore
-    public boolean isCompleteAddressProvided() {
-        return !Strings.isNullOrEmpty(this.postadress)
-            && !Strings.isNullOrEmpty(this.postort)
-            && !Strings.isNullOrEmpty(this.postnummer);
-    }
+  @JsonIgnore
+  public boolean isCompleteAddressProvided() {
+    return !Strings.isNullOrEmpty(this.postadress)
+        && !Strings.isNullOrEmpty(this.postort)
+        && !Strings.isNullOrEmpty(this.postnummer);
+  }
 
-    public Personnummer getPersonId() {
-        return personId;
-    }
+  public Personnummer getPersonId() {
+    return personId;
+  }
 
-    public void setPersonId(Personnummer personId) {
-        this.personId = personId;
-    }
+  public void setPersonId(Personnummer personId) {
+    this.personId = personId;
+  }
 
-    public String getFullstandigtNamn() {
-        return fullstandigtNamn;
-    }
+  public String getFullstandigtNamn() {
+    return fullstandigtNamn;
+  }
 
-    public void setFullstandigtNamn(String fullstandigtNamn) {
-        this.fullstandigtNamn = fullstandigtNamn;
-    }
+  public void setFullstandigtNamn(String fullstandigtNamn) {
+    this.fullstandigtNamn = fullstandigtNamn;
+  }
 
-    public String getFornamn() {
-        return fornamn;
-    }
+  public String getFornamn() {
+    return fornamn;
+  }
 
-    public void setFornamn(String fornamn) {
-        this.fornamn = fornamn;
-    }
+  public void setFornamn(String fornamn) {
+    this.fornamn = fornamn;
+  }
 
-    public String getMellannamn() {
-        return mellannamn;
-    }
+  public String getMellannamn() {
+    return mellannamn;
+  }
 
-    public void setMellannamn(String mellannamn) {
-        this.mellannamn = mellannamn;
-    }
+  public void setMellannamn(String mellannamn) {
+    this.mellannamn = mellannamn;
+  }
 
-    public String getEfternamn() {
-        return efternamn;
-    }
+  public String getEfternamn() {
+    return efternamn;
+  }
 
-    public void setEfternamn(String efternamn) {
-        this.efternamn = efternamn;
-    }
+  public void setEfternamn(String efternamn) {
+    this.efternamn = efternamn;
+  }
 
-    public String getPostadress() {
-        return postadress;
-    }
+  public String getPostadress() {
+    return postadress;
+  }
 
-    public void setPostadress(String postadress) {
-        this.postadress = postadress;
-    }
+  public void setPostadress(String postadress) {
+    this.postadress = postadress;
+  }
 
-    public String getPostnummer() {
-        return postnummer;
-    }
+  public String getPostnummer() {
+    return postnummer;
+  }
 
-    public void setPostnummer(String postnummer) {
-        this.postnummer = postnummer;
-    }
+  public void setPostnummer(String postnummer) {
+    this.postnummer = postnummer;
+  }
 
-    public String getPostort() {
-        return postort;
-    }
+  public String getPostort() {
+    return postort;
+  }
 
-    public void setPostort(String postort) {
-        this.postort = postort;
-    }
+  public void setPostort(String postort) {
+    this.postort = postort;
+  }
 
-    public boolean isAddressDetailsSourcePU() {
-        return addressDetailsSourcePU;
-    }
+  public boolean isAddressDetailsSourcePU() {
+    return addressDetailsSourcePU;
+  }
 
-    public void setAddressDetailsSourcePU(boolean addressDetailsSourcePU) {
-        this.addressDetailsSourcePU = addressDetailsSourcePU;
-    }
+  public void setAddressDetailsSourcePU(boolean addressDetailsSourcePU) {
+    this.addressDetailsSourcePU = addressDetailsSourcePU;
+  }
 
-    public boolean isSekretessmarkering() {
-        return sekretessmarkering;
-    }
+  public boolean isSekretessmarkering() {
+    return sekretessmarkering;
+  }
 
-    public void setSekretessmarkering(boolean sekretessmarkering) {
-        this.sekretessmarkering = sekretessmarkering;
-    }
+  public void setSekretessmarkering(boolean sekretessmarkering) {
+    this.sekretessmarkering = sekretessmarkering;
+  }
 
-    public boolean isAvliden() {
-        return avliden;
-    }
+  public boolean isAvliden() {
+    return avliden;
+  }
 
-    public void setAvliden(boolean avliden) {
-        this.avliden = avliden;
-    }
+  public void setAvliden(boolean avliden) {
+    this.avliden = avliden;
+  }
 
-    public boolean isTestIndicator() {
-        return this.testIndicator;
-    }
+  public boolean isTestIndicator() {
+    return this.testIndicator;
+  }
 
-    public void setTestIndicator(boolean testIndicator) {
-        this.testIndicator = testIndicator;
-    }
-
+  public void setTestIndicator(boolean testIndicator) {
+    this.testIndicator = testIndicator;
+  }
 }

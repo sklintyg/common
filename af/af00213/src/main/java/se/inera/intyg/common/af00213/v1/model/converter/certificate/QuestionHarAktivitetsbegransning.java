@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,43 +42,43 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionHarAktivitetsbegransning {
 
-    public static CertificateDataElement toCertificate(Boolean harAktivitetsbegransning, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
-            .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .text(texts.get(AKTIVITETSBEGRANSNING_QUESTION_TEXT))
-                    .description(texts.get(AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION))
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NO))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
-                    .selected(harAktivitetsbegransning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
-                        .expression(exists(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean harAktivitetsbegransning, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
+        .parent(AKTIVITETSBEGRANSNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .text(texts.get(AKTIVITETSBEGRANSNING_QUESTION_TEXT))
+                .description(texts.get(AKTIVITETSBEGRANSNING_QUESTION_DESCRIPTION))
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
+                .selectedText(texts.get(ANSWER_YES))
+                .unselectedText(texts.get(ANSWER_NO))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
+                .selected(harAktivitetsbegransning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
+                  .expression(exists(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_DELSVAR_ID_11)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_21, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        AKTIVITETSBEGRANSNING_DELSVAR_ID_21,
+        AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,11 +57,11 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigation;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueMedicalInvestigationList;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.testsetup.model.CommonElementTest;
 import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigMedicalInvestigationTest;
 import se.inera.intyg.common.support.facade.testsetup.model.validation.ValidationMandatoryTest;
@@ -74,375 +74,396 @@ import se.inera.intyg.common.support.model.InternalDate;
 @ExtendWith(MockitoExtension.class)
 class QuestionUnderlagTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlag.toCertificate(Collections.emptyList(), getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return UNDERLAG_SVAR_ID_4;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return UNDERLAG_SVAR_ID_4;
     }
 
-    @Nested
-    class IncludeConfigMedicalInvestigationTest extends ConfigMedicalInvestigationTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return UNDERLAG_TYPE_TEXT_ID;
-        }
-
-        @Override
-        protected String getTypeText() {
-            return UNDERLAG_TYPE_TEXT_ID;
-        }
-
-        @Override
-        protected String getDateText() {
-            return UNDERLAG_DATUM_TEXT;
-        }
-
-        @Override
-        protected String getInformationSourceText() {
-            return UNDERLAG_INFORMATION_SOURCE_TEXT;
-        }
-
-        @Override
-        protected String getInformationSourceDescription() {
-            return UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
-        }
-
-        @Override
-        protected List<MedicalInvestigation> getMedicalInvestigations() {
-            return List.of(
-                MedicalInvestigation.builder()
-                    .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
-                    .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
-                    .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
-                    .typeOptions(getTypeOptions())
-                    .build(),
-                MedicalInvestigation.builder()
-                    .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
-                    .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
-                    .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran")
-                    .typeOptions(getTypeOptions())
-                    .build(),
-                MedicalInvestigation.builder()
-                    .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
-                    .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
-                    .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran")
-                    .typeOptions(getTypeOptions())
-                    .build()
-            );
-        }
-
-        @Override
-        protected List<LocalDate> getMaxDates() {
-            return Collections.nCopies(3, LocalDate.now());
-        }
-
-        @Override
-        protected List<LocalDate> getMinDates() {
-            return Collections.nCopies(3, null);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        private List<CodeItem> getTypeOptions() {
-            return List.of(
-                getCodeItem(NEUROPSYKIATRISKT_UTLATANDE),
-                getCodeItem(UNDERLAG_FRAN_HABILITERINGEN),
-                getCodeItem(UNDERLAG_FRAN_ARBETSTERAPEUT),
-                getCodeItem(UNDERLAG_FRAN_FYSIOTERAPEUT),
-                getCodeItem(UNDERLAG_FRAN_LOGOPED),
-                getCodeItem(UNDERLAG_FRANPSYKOLOG),
-                getCodeItem(UNDERLAG_FRANSKOLHALSOVARD),
-                getCodeItem(UTREDNING_AV_ANNAN_SPECIALISTKLINIK),
-                getCodeItem(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS),
-                getCodeItem(OVRIGT));
-        }
-
-        private CodeItem getCodeItem(UnderlagsTyp underlagsTyp) {
-            return CodeItem.builder()
-                .id(underlagsTyp.getId())
-                .code(underlagsTyp.getId())
-                .label(underlagsTyp.getLabel())
-                .build();
-        }
+    @Override
+    protected String getParent() {
+      return GRUNDFORMU_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueMedicalInvestigationTest extends ValueMedicalInvestigationTest<List<Underlag>> {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement(List<Underlag> input) {
-            return QuestionUnderlag.toCertificate(input, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigMedicalInvestigationTest extends ConfigMedicalInvestigationTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return getElement(Collections.emptyList());
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<List<Underlag>, CertificateDataValueMedicalInvestigationList>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(
-                    List.of(),
-                    CertificateDataValueMedicalInvestigationList.builder()
-                        .list(List.of(
-                                getDefaultInvestigation(0),
-                                getDefaultInvestigation(1),
-                                getDefaultInvestigation(2)
-                            )
-                        ).build()
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-16"), "fran psykolog")
-                    ),
-                    CertificateDataValueMedicalInvestigationList.builder()
-                        .list(List.of(
-                                getMedicalInvestigation(0, "2022-12-16", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
-                                getDefaultInvestigation(1),
-                                getDefaultInvestigation(2)
-                            )
-                        ).build()
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate("2022-11-14"), "fran arbetsterapeut"),
-                        getUnderlag(UNDERLAG_FRANSKOLHALSOVARD, new InternalDate("2022-11-15"), "fran skolhalsovard")
-                    ),
-                    CertificateDataValueMedicalInvestigationList.builder()
-                        .list(List.of(
-                                getMedicalInvestigation(0, "2022-11-14", "fran arbetsterapeut", UNDERLAG_FRAN_ARBETSTERAPEUT),
-                                getMedicalInvestigation(1, "2022-11-15", "fran skolhalsovard", UNDERLAG_FRANSKOLHALSOVARD),
-                                getDefaultInvestigation(2)
-                            )
-                        ).build()
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
-                        getUnderlag(UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped")
-                    ),
-                    CertificateDataValueMedicalInvestigationList.builder()
-                        .list(List.of(
-                                getMedicalInvestigation(0, "2022-12-14", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
-                                getMedicalInvestigation(1, "2022-12-15", "fran neuro", NEUROPSYKIATRISKT_UTLATANDE),
-                                getMedicalInvestigation(2, "2022-12-16", "fran logoped", UNDERLAG_FRAN_LOGOPED)
-                            )
-                        ).build()
-                )
-            );
-        }
-
-        private Underlag getUnderlag(UnderlagsTyp type, InternalDate date, String hamtasFran) {
-            return Underlag.create(type, date, hamtasFran);
-        }
-
-        private CertificateDataValueMedicalInvestigation getMedicalInvestigation(int id, String date, String text, UnderlagsTyp code) {
-            return CertificateDataValueMedicalInvestigation.builder()
-                .date(CertificateDataValueDate.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
-                    .date(LocalDate.parse(date)).build())
-                .informationSource(CertificateDataValueText.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
-                    .text(text).build())
-                .investigationType(CertificateDataValueCode.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
-                    .code(code.getId()).build())
-                .build();
-        }
-
-        private CertificateDataValueMedicalInvestigation getDefaultInvestigation(int id) {
-            return CertificateDataValueMedicalInvestigation.builder()
-                .date(CertificateDataValueDate.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum").build())
-                .informationSource(CertificateDataValueText.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran").build())
-                .investigationType(CertificateDataValueCode.builder()
-                    .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ").build())
-                .build();
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return UNDERLAG_SVAR_ID_4;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].typ')" + " && " + "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].datum')"
-                + " && " + "!empty('" + UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran')";
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return UNDERLAGFINNS_SVAR_ID_3;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
-        }
+    @Override
+    protected String getTextId() {
+      return UNDERLAG_TYPE_TEXT_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalMedicalInvestigationTest extends InternalValueTest<List<Underlag>, List<Underlag>> {
-
-        @Override
-        protected CertificateDataElement getElement(List<Underlag> input) {
-            return QuestionUnderlag.toCertificate(input, 0, textProvider);
-        }
-
-        @Override
-        protected List<Underlag> toInternalValue(Certificate certificate) {
-            return QuestionUnderlag.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<List<Underlag>, List<Underlag>>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
-                        getUnderlag(UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped")
-                    ),
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
-                        getUnderlag(UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped")
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog")
-                    ),
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog")
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(),
-                    List.of()
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
-                        getUnderlag(null, null, null)
-                    ),
-                    List.of(
-                        getUnderlag(UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro")
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null),
-                        getUnderlag(null, null, null),
-                        getUnderlag(null, null, null)
-                    ),
-                    List.of(
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(null, null, null),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null),
-                        getUnderlag(null, null, null)
-                    ),
-                    List.of(
-                        getUnderlag(null, null, null),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)
-                    )
-                ),
-                new InputExpectedValuePair<>(
-                    List.of(
-                        getUnderlag(null, null, null),
-                        getUnderlag(null, null, null),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)
-                    ),
-                    List.of(
-                        getUnderlag(null, null, null),
-                        getUnderlag(null, null, null),
-                        getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)
-                    )
-                )
-            );
-        }
-
-        private Underlag getUnderlag(UnderlagsTyp type, InternalDate date, String hamtasFran) {
-            return Underlag.create(type, date, hamtasFran);
-        }
+    @Override
+    protected String getTypeText() {
+      return UNDERLAG_TYPE_TEXT_ID;
     }
+
+    @Override
+    protected String getDateText() {
+      return UNDERLAG_DATUM_TEXT;
+    }
+
+    @Override
+    protected String getInformationSourceText() {
+      return UNDERLAG_INFORMATION_SOURCE_TEXT;
+    }
+
+    @Override
+    protected String getInformationSourceDescription() {
+      return UNDERLAG_INFORMATION_SOURCE_DESCRIPTION;
+    }
+
+    @Override
+    protected List<MedicalInvestigation> getMedicalInvestigations() {
+      return List.of(
+          MedicalInvestigation.builder()
+              .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[0].typ")
+              .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[0].datum")
+              .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[0].hamtasFran")
+              .typeOptions(getTypeOptions())
+              .build(),
+          MedicalInvestigation.builder()
+              .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[1].typ")
+              .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[1].datum")
+              .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[1].hamtasFran")
+              .typeOptions(getTypeOptions())
+              .build(),
+          MedicalInvestigation.builder()
+              .investigationTypeId(UNDERLAG_SVAR_JSON_ID_4 + "[2].typ")
+              .dateId(UNDERLAG_SVAR_JSON_ID_4 + "[2].datum")
+              .informationSourceId(UNDERLAG_SVAR_JSON_ID_4 + "[2].hamtasFran")
+              .typeOptions(getTypeOptions())
+              .build());
+    }
+
+    @Override
+    protected List<LocalDate> getMaxDates() {
+      return Collections.nCopies(3, LocalDate.now());
+    }
+
+    @Override
+    protected List<LocalDate> getMinDates() {
+      return Collections.nCopies(3, null);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    private List<CodeItem> getTypeOptions() {
+      return List.of(
+          getCodeItem(NEUROPSYKIATRISKT_UTLATANDE),
+          getCodeItem(UNDERLAG_FRAN_HABILITERINGEN),
+          getCodeItem(UNDERLAG_FRAN_ARBETSTERAPEUT),
+          getCodeItem(UNDERLAG_FRAN_FYSIOTERAPEUT),
+          getCodeItem(UNDERLAG_FRAN_LOGOPED),
+          getCodeItem(UNDERLAG_FRANPSYKOLOG),
+          getCodeItem(UNDERLAG_FRANSKOLHALSOVARD),
+          getCodeItem(UTREDNING_AV_ANNAN_SPECIALISTKLINIK),
+          getCodeItem(UTREDNING_FRAN_VARDINRATTNING_UTOMLANDS),
+          getCodeItem(OVRIGT));
+    }
+
+    private CodeItem getCodeItem(UnderlagsTyp underlagsTyp) {
+      return CodeItem.builder()
+          .id(underlagsTyp.getId())
+          .code(underlagsTyp.getId())
+          .label(underlagsTyp.getLabel())
+          .build();
+    }
+  }
+
+  @Nested
+  class IncludeValueMedicalInvestigationTest extends ValueMedicalInvestigationTest<List<Underlag>> {
+
+    @Override
+    protected CertificateDataElement getElement(List<Underlag> input) {
+      return QuestionUnderlag.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return getElement(Collections.emptyList());
+    }
+
+    @Override
+    protected List<
+            InputExpectedValuePair<List<Underlag>, CertificateDataValueMedicalInvestigationList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              List.of(),
+              CertificateDataValueMedicalInvestigationList.builder()
+                  .list(
+                      List.of(
+                          getDefaultInvestigation(0),
+                          getDefaultInvestigation(1),
+                          getDefaultInvestigation(2)))
+                  .build()),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-16"), "fran psykolog")),
+              CertificateDataValueMedicalInvestigationList.builder()
+                  .list(
+                      List.of(
+                          getMedicalInvestigation(
+                              0, "2022-12-16", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
+                          getDefaultInvestigation(1),
+                          getDefaultInvestigation(2)))
+                  .build()),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRAN_ARBETSTERAPEUT,
+                      new InternalDate("2022-11-14"),
+                      "fran arbetsterapeut"),
+                  getUnderlag(
+                      UNDERLAG_FRANSKOLHALSOVARD,
+                      new InternalDate("2022-11-15"),
+                      "fran skolhalsovard")),
+              CertificateDataValueMedicalInvestigationList.builder()
+                  .list(
+                      List.of(
+                          getMedicalInvestigation(
+                              0, "2022-11-14", "fran arbetsterapeut", UNDERLAG_FRAN_ARBETSTERAPEUT),
+                          getMedicalInvestigation(
+                              1, "2022-11-15", "fran skolhalsovard", UNDERLAG_FRANSKOLHALSOVARD),
+                          getDefaultInvestigation(2)))
+                  .build()),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
+                  getUnderlag(
+                      NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
+                  getUnderlag(
+                      UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped")),
+              CertificateDataValueMedicalInvestigationList.builder()
+                  .list(
+                      List.of(
+                          getMedicalInvestigation(
+                              0, "2022-12-14", "fran psykolog", UNDERLAG_FRANPSYKOLOG),
+                          getMedicalInvestigation(
+                              1, "2022-12-15", "fran neuro", NEUROPSYKIATRISKT_UTLATANDE),
+                          getMedicalInvestigation(
+                              2, "2022-12-16", "fran logoped", UNDERLAG_FRAN_LOGOPED)))
+                  .build()));
+    }
+
+    private Underlag getUnderlag(UnderlagsTyp type, InternalDate date, String hamtasFran) {
+      return Underlag.create(type, date, hamtasFran);
+    }
+
+    private CertificateDataValueMedicalInvestigation getMedicalInvestigation(
+        int id, String date, String text, UnderlagsTyp code) {
+      return CertificateDataValueMedicalInvestigation.builder()
+          .date(
+              CertificateDataValueDate.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
+                  .date(LocalDate.parse(date))
+                  .build())
+          .informationSource(
+              CertificateDataValueText.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
+                  .text(text)
+                  .build())
+          .investigationType(
+              CertificateDataValueCode.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
+                  .code(code.getId())
+                  .build())
+          .build();
+    }
+
+    private CertificateDataValueMedicalInvestigation getDefaultInvestigation(int id) {
+      return CertificateDataValueMedicalInvestigation.builder()
+          .date(
+              CertificateDataValueDate.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].datum")
+                  .build())
+          .informationSource(
+              CertificateDataValueText.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].hamtasFran")
+                  .build())
+          .investigationType(
+              CertificateDataValueCode.builder()
+                  .id(UNDERLAG_SVAR_JSON_ID_4 + "[" + id + "].typ")
+                  .build())
+          .build();
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return UNDERLAG_SVAR_ID_4;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "!empty('"
+          + UNDERLAG_SVAR_JSON_ID_4
+          + "[0].typ')"
+          + " && "
+          + "!empty('"
+          + UNDERLAG_SVAR_JSON_ID_4
+          + "[0].datum')"
+          + " && "
+          + "!empty('"
+          + UNDERLAG_SVAR_JSON_ID_4
+          + "[0].hamtasFran')";
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlag.toCertificate(Collections.emptyList(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return UNDERLAGFINNS_SVAR_ID_3;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + UNDERLAGFINNS_SVAR_JSON_ID_3;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalMedicalInvestigationTest
+      extends InternalValueTest<List<Underlag>, List<Underlag>> {
+
+    @Override
+    protected CertificateDataElement getElement(List<Underlag> input) {
+      return QuestionUnderlag.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected List<Underlag> toInternalValue(Certificate certificate) {
+      return QuestionUnderlag.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<List<Underlag>, List<Underlag>>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
+                  getUnderlag(
+                      NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
+                  getUnderlag(
+                      UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped")),
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
+                  getUnderlag(
+                      NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
+                  getUnderlag(
+                      UNDERLAG_FRAN_LOGOPED, new InternalDate("2022-12-16"), "fran logoped"))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog")),
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"))),
+          new InputExpectedValuePair<>(List.of(), List.of()),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
+                  getUnderlag(
+                      NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"),
+                  getUnderlag(null, null, null)),
+              List.of(
+                  getUnderlag(
+                      UNDERLAG_FRANPSYKOLOG, new InternalDate("2022-12-14"), "fran psykolog"),
+                  getUnderlag(
+                      NEUROPSYKIATRISKT_UTLATANDE, new InternalDate("2022-12-15"), "fran neuro"))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null),
+                  getUnderlag(null, null, null),
+                  getUnderlag(null, null, null)),
+              List.of(getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(null, null, null),
+                  getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null),
+                  getUnderlag(null, null, null)),
+              List.of(
+                  getUnderlag(null, null, null),
+                  getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null))),
+          new InputExpectedValuePair<>(
+              List.of(
+                  getUnderlag(null, null, null),
+                  getUnderlag(null, null, null),
+                  getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null)),
+              List.of(
+                  getUnderlag(null, null, null),
+                  getUnderlag(null, null, null),
+                  getUnderlag(NEUROPSYKIATRISKT_UTLATANDE, null, null))));
+    }
+
+    private Underlag getUnderlag(UnderlagsTyp type, InternalDate date, String hamtasFran) {
+      return Underlag.create(type, date, hamtasFran);
+    }
+  }
 }

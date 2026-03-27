@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.multipleStringValuesWithComma;
@@ -34,31 +33,30 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
 
 public class QuestionIntygetAvser {
 
-    public static CertificateDataElement toCertificate(IntygAvser intygAvser, int index,
-        CertificateTextProvider texts) {
-        final var korkort = intygAvser != null && intygAvser.getKorkortstyp() != null ? intygAvser.getKorkortstyp() : null;
-        final var korkortsTyper = getKorkortstypName(korkort);
+  public static CertificateDataElement toCertificate(
+      IntygAvser intygAvser, int index, CertificateTextProvider texts) {
+    final var korkort =
+        intygAvser != null && intygAvser.getKorkortstyp() != null
+            ? intygAvser.getKorkortstyp()
+            : null;
+    final var korkortsTyper = getKorkortstypName(korkort);
 
-        return CertificateDataElement.builder()
-            .id(INTYG_AVSER_SVAR_ID_1)
-            .parent(INTYG_AVSER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(multipleStringValuesWithComma(korkortsTyper))
-                    .build()
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(INTYG_AVSER_SVAR_ID_1)
+        .parent(INTYG_AVSER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(texts.get(INTYG_AVSER_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(multipleStringValuesWithComma(korkortsTyper))
+                .build())
+        .build();
+  }
 
-    private static String[] getKorkortstypName(Set<IntygAvserKategori> korkort) {
-        return korkort != null ? korkort.stream()
-            .map(Enum::name)
-            .toArray(String[]::new) : null;
-    }
+  private static String[] getKorkortstypName(Set<IntygAvserKategori> korkort) {
+    return korkort != null ? korkort.stream().map(Enum::name).toArray(String[]::new) : null;
+  }
 }

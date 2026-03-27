@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,15 +29,13 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateConfirmati
 @Builder
 public class CertificateConfirmationModal {
 
-    String title;
-    String text;
-    Alert alert;
-    String checkboxText;
-    CertificateModalActionType primaryAction;
-    CertificateModalActionType secondaryAction;
+  String title;
+  String text;
+  Alert alert;
+  String checkboxText;
+  CertificateModalActionType primaryAction;
+  CertificateModalActionType secondaryAction;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateConfirmationModalBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateConfirmationModalBuilder {}
 }

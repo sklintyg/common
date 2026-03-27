@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,40 +30,33 @@ import se.inera.intyg.common.support.facade.model.Patient.PatientBuilder;
 @Builder
 public class Patient {
 
-    @With
-    PersonId personId;
-    @With
-    PersonId previousPersonId;
-    String firstName;
-    String lastName;
-    String middleName;
-    String fullName;
-    String street;
-    String city;
-    String zipCode;
-    boolean coordinationNumber;
-    boolean testIndicated;
-    boolean protectedPerson;
-    boolean deceased;
-    @With
-    boolean differentNameFromEHR;
-    @With
-    boolean personIdChanged;
-    @With
-    boolean reserveId;
-    boolean addressFromPU;
+  @With PersonId personId;
+  @With PersonId previousPersonId;
+  String firstName;
+  String lastName;
+  String middleName;
+  String fullName;
+  String street;
+  String city;
+  String zipCode;
+  boolean coordinationNumber;
+  boolean testIndicated;
+  boolean protectedPerson;
+  boolean deceased;
+  @With boolean differentNameFromEHR;
+  @With boolean personIdChanged;
+  @With boolean reserveId;
+  boolean addressFromPU;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class PatientBuilder {
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class PatientBuilder {}
 
-    }
-
-    /**
-     * Handles logic for deep integration when alternateSSN is set to a reserve id.
-     *
-     * @return PersonId of type 'PERSON_NUMMER'
-     */
-    public PersonId getActualPersonId() {
-        return reserveId ? previousPersonId : personId;
-    }
+  /**
+   * Handles logic for deep integration when alternateSSN is set to a reserve id.
+   *
+   * @return PersonId of type 'PERSON_NUMMER'
+   */
+  public PersonId getActualPersonId() {
+    return reserveId ? previousPersonId : personId;
+  }
 }

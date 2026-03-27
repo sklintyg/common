@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,33 +43,35 @@ import se.inera.intyg.common.support.facade.model.config.CodeItem;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationMandatory;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationText;
-import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCauseOfDeath;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText;
 import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionTerminalDodsorsak {
 
-    public static final short LIMIT = (short) 120;
+  public static final short LIMIT = (short) 120;
 
-    public static CertificateDataElement toCertificate(Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
+  public static CertificateDataElement toCertificate(
+      Dodsorsak dodsorsak, int index, CertificateTextProvider texts) {
 
-        return CertificateDataElement.builder()
-            .id(DODSORSAK_DELSVAR_ID)
-            .index(index)
-            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
-            .config(
-                CertificateDataConfigCauseOfDeath.builder()
-                    .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
-                    .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
-                    .label(FOLJD_OM_DELSVAR_A_LABEL)
-                    .causeOfDeath(
-                        CauseOfDeath.builder()
-                            .descriptionId(TERMINAL_DODSORSAK_JSON_ID)
-                            .debutId(DODSORSAK_DATUM_DELSVAR_ID)
-                            .maxDate(LocalDate.now())
-                            .specifications(List.of(
+    return CertificateDataElement.builder()
+        .id(DODSORSAK_DELSVAR_ID)
+        .index(index)
+        .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
+        .config(
+            CertificateDataConfigCauseOfDeath.builder()
+                .text(texts.get(TERMINAL_DODSORSAK_QUESTION_TEXT_ID))
+                .description(texts.get(TERMINAL_DODSORSAK_DESCRIPTION_TEXT_ID))
+                .label(FOLJD_OM_DELSVAR_A_LABEL)
+                .causeOfDeath(
+                    CauseOfDeath.builder()
+                        .descriptionId(TERMINAL_DODSORSAK_JSON_ID)
+                        .debutId(DODSORSAK_DATUM_DELSVAR_ID)
+                        .maxDate(LocalDate.now())
+                        .specifications(
+                            List.of(
                                 CodeItem.builder()
                                     .id(Specifikation.PLOTSLIG.name())
                                     .label(FOLJD_OM_DELSVAR_PLOTSLIG)
@@ -84,69 +86,66 @@ public class QuestionTerminalDodsorsak {
                                     .id(Specifikation.UPPGIFT_SAKNAS.name())
                                     .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                                     .code(Specifikation.UPPGIFT_SAKNAS.name())
-                                    .build()
-                            ))
-                            .build()
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCauseOfDeath.builder()
-                    .description(
-                        CertificateDataValueText.builder()
-                            .id(TERMINAL_DODSORSAK_JSON_ID)
-                            .text(dodsorsak.getBeskrivning())
-                            .build()
-                    )
-                    .debut(
-                        CertificateDataValueDate.builder()
-                            .id(DODSORSAK_DATUM_DELSVAR_ID)
-                            .date(toLocalDate(dodsorsak.getDatum()))
-                            .build()
-                    )
-                    .specification(
-                        dodsorsak.getSpecifikation() != null
-                            ? CertificateDataValueCode.builder()
+                                    .build()))
+                        .build())
+                .build())
+        .value(
+            CertificateDataValueCauseOfDeath.builder()
+                .description(
+                    CertificateDataValueText.builder()
+                        .id(TERMINAL_DODSORSAK_JSON_ID)
+                        .text(dodsorsak.getBeskrivning())
+                        .build())
+                .debut(
+                    CertificateDataValueDate.builder()
+                        .id(DODSORSAK_DATUM_DELSVAR_ID)
+                        .date(toLocalDate(dodsorsak.getDatum()))
+                        .build())
+                .specification(
+                    dodsorsak.getSpecifikation() != null
+                        ? CertificateDataValueCode.builder()
                             .id(dodsorsak.getSpecifikation().name())
                             .code(dodsorsak.getSpecifikation().name())
                             .build()
-                            : CertificateDataValueCode.builder().build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSORSAK_DELSVAR_ID)
-                        .expression(singleExpression(TERMINAL_DODSORSAK_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(TERMINAL_DODSORSAK_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
+                        : CertificateDataValueCode.builder().build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSORSAK_DELSVAR_ID)
+                  .expression(singleExpression(TERMINAL_DODSORSAK_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(TERMINAL_DODSORSAK_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
+
+  public static Dodsorsak toInternal(Certificate certificate) {
+    if (certificate.getData().get(DODSORSAK_DELSVAR_ID) == null) {
+      return null;
     }
 
-    public static Dodsorsak toInternal(Certificate certificate) {
-        if (certificate.getData().get(DODSORSAK_DELSVAR_ID) == null) {
-            return null;
-        }
+    final var terminalCauseOfDeath =
+        (CertificateDataValueCauseOfDeath)
+            certificate.getData().get(DODSORSAK_DELSVAR_ID).getValue();
+    final var description = terminalCauseOfDeath.getDescription().getText();
+    final var debut =
+        terminalCauseOfDeath.getDebut().getDate() != null
+            ? new InternalDate(terminalCauseOfDeath.getDebut().getDate())
+            : null;
+    final var specifikation =
+        terminalCauseOfDeath.getSpecification().getCode() != null
+                && !terminalCauseOfDeath.getSpecification().getCode().isEmpty()
+            ? Specifikation.fromValue(terminalCauseOfDeath.getSpecification().getCode())
+            : null;
 
-        final var terminalCauseOfDeath = (CertificateDataValueCauseOfDeath) certificate.getData().get(DODSORSAK_DELSVAR_ID)
-            .getValue();
-        final var description = terminalCauseOfDeath.getDescription().getText();
-        final var debut = terminalCauseOfDeath.getDebut().getDate() != null
-            ? new InternalDate(terminalCauseOfDeath.getDebut().getDate()) : null;
-        final var specifikation = terminalCauseOfDeath.getSpecification().getCode() != null
-            && !terminalCauseOfDeath.getSpecification().getCode().isEmpty()
-            ? Specifikation.fromValue(terminalCauseOfDeath.getSpecification().getCode()) : null;
+    return Dodsorsak.create(description, debut, specifikation);
+  }
 
-        return Dodsorsak.create(description, debut, specifikation);
-    }
-
-    private static LocalDate toLocalDate(InternalDate internalDate) {
-        return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
-    }
+  private static LocalDate toLocalDate(InternalDate internalDate) {
+    return (internalDate != null && internalDate.isValidDate()) ? internalDate.asLocalDate() : null;
+  }
 }

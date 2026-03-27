@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,65 +24,67 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class SvarsWrapper {
 
-    private List<Svar> svarsList;
+  private List<Svar> svarsList;
 
-    public SvarsWrapper(List<Svar> svarsList) {
-        initiate(svarsList);
+  public SvarsWrapper(List<Svar> svarsList) {
+    initiate(svarsList);
+  }
+
+  private void initiate(List<Svar> svarsList) {
+    this.svarsList = svarsList;
+  }
+
+  public List<Svar> getSvarList(String svarsId) {
+    List<Svar> svarToReturn = new ArrayList<Svar>();
+    for (Svar svar : this.svarsList) {
+      if (svar.getId().equalsIgnoreCase(svarsId)) {
+        svarToReturn.add(svar);
+      }
     }
+    return svarToReturn;
+  }
 
-    private void initiate(List<Svar> svarsList) {
-        this.svarsList = svarsList;
-    }
-
-    public List<Svar> getSvarList(String svarsId) {
-        List<Svar> svarToReturn = new ArrayList<Svar>();
-        for (Svar svar : this.svarsList) {
-            if (svar.getId().equalsIgnoreCase(svarsId)) {
-                svarToReturn.add(svar);
-            }
+  public Svar.Delsvar getDelsvar(String svarsId, String delsvarId) {
+    List<Svar> svarToReturn = new ArrayList<Svar>();
+    for (Svar svar : this.svarsList) {
+      if (svar.getId().equalsIgnoreCase(svarsId)) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+          if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+            return delsvar;
+          }
         }
-        return svarToReturn;
+      }
     }
+    return null;
+  }
 
-    public Svar.Delsvar getDelsvar(String svarsId, String delsvarId) {
-        List<Svar> svarToReturn = new ArrayList<Svar>();
-        for (Svar svar : this.svarsList) {
-            if (svar.getId().equalsIgnoreCase(svarsId)) {
-                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                    if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
-                        return delsvar;
-                    }
-                }
-            }
+  public List<Svar.Delsvar> getAllDelsvar(String svarsId, String delsvarId) {
+    List<Svar.Delsvar> delSvarToReturn = new ArrayList<Svar.Delsvar>();
+    for (Svar svar : this.svarsList) {
+      if (svar.getId().equalsIgnoreCase(svarsId)) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+          if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+            delSvarToReturn.add(delsvar);
+          }
         }
-        return null;
+      }
     }
+    return delSvarToReturn;
+  }
 
-    public List<Svar.Delsvar> getAllDelsvar(String svarsId, String delsvarId) {
-        List<Svar.Delsvar> delSvarToReturn = new ArrayList<Svar.Delsvar>();
-        for (Svar svar : this.svarsList) {
-            if (svar.getId().equalsIgnoreCase(svarsId)) {
-                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                    if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
-                        delSvarToReturn.add(delsvar);
-                    }
-                }
-            }
+  public Svar.Delsvar getDelsvar(String svarsId, int sequence, String delsvarId) {
+    List<Svar> svarToReturn = new ArrayList<Svar>();
+    for (Svar svar : this.svarsList) {
+      if (svar.getId().equalsIgnoreCase(svarsId)
+          && svar.getInstans() != null
+          && svar.getInstans().intValue() == sequence) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+          if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+            return delsvar;
+          }
         }
-        return delSvarToReturn;
+      }
     }
-
-    public Svar.Delsvar getDelsvar(String svarsId, int sequence, String delsvarId) {
-        List<Svar> svarToReturn = new ArrayList<Svar>();
-        for (Svar svar : this.svarsList) {
-            if (svar.getId().equalsIgnoreCase(svarsId) && svar.getInstans() != null && svar.getInstans().intValue() == sequence) {
-                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                    if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
-                        return delsvar;
-                    }
-                }
-            }
-        }
-        return null;
-    }
+    return null;
+  }
 }

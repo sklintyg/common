@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,42 +37,40 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionKannedomOmPatient {
 
+  public static CertificateDataElement toCertificate(
+      InternalDate kannedomOmPatient, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(KANNEDOM_SVAR_ID_2)
+        .parent(GRUNDFORMU_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .id(KANNEDOM_SVAR_JSON_ID_2)
+                .maxDate(LocalDate.now())
+                .text(texts.get(KANNEDOM_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(KANNEDOM_SVAR_JSON_ID_2)
+                .date(validDate(kannedomOmPatient) ? kannedomOmPatient.asLocalDate() : null)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(KANNEDOM_SVAR_ID_2)
+                  .expression(singleExpression(KANNEDOM_SVAR_JSON_ID_2))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(InternalDate kannedomOmPatient, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(KANNEDOM_SVAR_ID_2)
-            .parent(GRUNDFORMU_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .id(KANNEDOM_SVAR_JSON_ID_2)
-                    .maxDate(LocalDate.now())
-                    .text(texts.get(KANNEDOM_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(KANNEDOM_SVAR_JSON_ID_2)
-                    .date(validDate(kannedomOmPatient) ? kannedomOmPatient.asLocalDate() : null)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(KANNEDOM_SVAR_ID_2)
-                        .expression(singleExpression(KANNEDOM_SVAR_JSON_ID_2))
-                        .build()
-                }
-            )
-            .build();
-    }
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
-    }
-
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), KANNEDOM_SVAR_ID_2, KANNEDOM_SVAR_JSON_ID_2);
-        return localDate != null ? new InternalDate(localDate) : null;
-    }
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(certificate.getData(), KANNEDOM_SVAR_ID_2, KANNEDOM_SVAR_JSON_ID_2);
+    return localDate != null ? new InternalDate(localDate) : null;
+  }
 }

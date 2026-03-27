@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,17 +20,15 @@ package se.inera.intyg.common.ts_parent.transformation.test;
 
 import javax.xml.xpath.XPathConstants;
 
-/**
- * An xPath expression that is evaluated as an boolean result.
- */
+/** An xPath expression that is evaluated as an boolean result. */
 public class BooleanXPathExpression extends AbstractXPathExpression<Boolean> {
 
-    /**
-     * Creates a boolean xPath expression from an xPath string.
-     *
-     * @param xPathString The xPath string resulting in a boolean result.
-     */
-    public BooleanXPathExpression(String xPathString) {
-        super(xPathString, XPathConstants.BOOLEAN);
-    }
+  /**
+   * Creates a boolean xPath expression from an xPath string.
+   *
+   * @param xPathString The xPath string resulting in a boolean result.
+   */
+  public BooleanXPathExpression(String xPathString) {
+    super(xPathString, XPathConstants.BOOLEAN);
+  }
 }

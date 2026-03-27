@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,169 +59,192 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionMotiveringTillInteBaseratPaUndersokningTest {
 
-    @Mock
-    CertificateTextProvider texts;
+  @Mock CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, expectedIndex, texts);
+
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigCertificateDataConfigTextArea() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigId() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigTextArea) question.getConfig();
+
+      assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, config.getId());
+    }
+
+    @Test
+    void shouldIncludeConfigText() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT, question.getConfig().getText());
+    }
+
+    @Test
+    void shouldIncludeConfigDescription() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(
+          MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}", "Test string"),
+          question.getConfig().getDescription());
+      verify(texts, atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
+    }
+
+    @Test
+    void shouldIncludeValueTypeText() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValueId() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+
+      assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, value.getId());
+    }
+
+    @Test
+    void shouldIncludeValueText() {
+      final var expectedText = "Annan text";
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedText, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+
+      assertEquals(expectedText, value.getText());
+    }
+
+    @Test
+    void shouldIncludeLightbulbIcon() {
+      final var certificateDataElement =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      final var config = certificateDataElement.getConfig();
+      assertEquals("lightbulb_outline", config.getIcon());
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      @Override
+      protected String getQuestionId() {
+        return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+      }
 
-            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DELSVAR_ID_1, question.getId());
-        }
+      @Override
+      protected String getExpression() {
+        return "!$"
+            + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
+            + " && ($"
+            + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
+            + " || $"
+            + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
+            + " || $"
+            + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1
+            + ")";
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      }
 
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, expectedIndex, texts);
-
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-
-            assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeConfigCertificateDataConfigTextArea() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigId() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigTextArea) question.getConfig();
-
-            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, config.getId());
-        }
-
-        @Test
-        void shouldIncludeConfigText() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-
-            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_TEXT, question.getConfig().getText());
-        }
-
-        @Test
-        void shouldIncludeConfigDescription() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-
-            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION.replace("{0}", "Test string"),
-                question.getConfig().getDescription());
-            verify(texts, atLeastOnce()).get(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_DESCRIPTION_ID);
-        }
-
-        @Test
-        void shouldIncludeValueTypeText() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-
-            assertEquals(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1, value.getId());
-        }
-
-        @Test
-        void shouldIncludeValueText() {
-            final var expectedText = "Annan text";
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-
-            assertEquals(expectedText, value.getText());
-        }
-
-        @Test
-        void shouldIncludeLightbulbIcon() {
-            final var certificateDataElement = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var config = certificateDataElement.getConfig();
-            assertEquals("lightbulb_outline", config.getIcon());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "!$" + GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1 + " && ($"
-                    + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1 + " || $"
-                    + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1 + " || $"
-                    + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationLimit() {
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var textValidation = (CertificateDataValidationText) question.getValidation()[0];
-
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, textValidation.getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 150;
-            final var question = QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
-
-            assertEquals(expectedLimit, certificateDataValidationText.getLimit());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    @Test
+    void shouldIncludeValidationLimit() {
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      final var textValidation = (CertificateDataValidationText) question.getValidation()[0];
 
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(actualValue);
-            } else {
-                assertEquals(expectedValue, actualValue);
-            }
-        }
+      assertEquals(CertificateDataValidationType.TEXT_VALIDATION, textValidation.getType());
     }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var expectedLimit = 150;
+      final var question =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(null, 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[0];
+
+      assertEquals(expectedLimit, certificateDataValidationText.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeTextValue(String expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                      expectedValue, 0, texts))
+              .build();
+
+      final var actualValue =
+          QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(actualValue);
+      } else {
+        assertEquals(expectedValue, actualValue);
+      }
+    }
+  }
 }

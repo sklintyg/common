@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,50 +32,55 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public class ScenarioTest {
 
-    private List<Scenario> internalScenarios;
-    private List<Scenario> transportScenarios;
+  private List<Scenario> internalScenarios;
+  private List<Scenario> transportScenarios;
 
-    @Before
-    public void setUp() throws Exception {
-        internalScenarios = ScenarioFinder.getInternalScenarios("diabetes-*");
-        transportScenarios = ScenarioFinder.getTransportScenarios("diabetes-*");
+  @Before
+  public void setUp() throws Exception {
+    internalScenarios = ScenarioFinder.getInternalScenarios("diabetes-*");
+    transportScenarios = ScenarioFinder.getTransportScenarios("diabetes-*");
+  }
+
+  @Test
+  public void testInternalToTransport() throws ScenarioNotFoundException {
+    for (Scenario internalScenario : internalScenarios) {
+      Scenario transportScenario =
+          getScenarioByName(internalScenario.getName(), transportScenarios);
+
+      TSDiabetesIntyg expected = transportScenario.asTransportModel().getIntyg();
+      TSDiabetesIntyg actual =
+          InternalToTransportConverter.convert(internalScenario.asInternalModel()).getIntyg();
+
+      assertThat(actual)
+          .usingRecursiveComparison()
+          .ignoringCollectionOrder()
+          .withStrictTypeChecking()
+          .isEqualTo(expected);
     }
+  }
 
-    @Test
-    public void testInternalToTransport() throws ScenarioNotFoundException {
-        for (Scenario internalScenario : internalScenarios) {
-            Scenario transportScenario = getScenarioByName(internalScenario.getName(), transportScenarios);
+  @Test
+  public void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
+    for (Scenario scenario : transportScenarios) {
+      Scenario internalScenario = getScenarioByName(scenario.getName(), internalScenarios);
 
-            TSDiabetesIntyg expected = transportScenario.asTransportModel().getIntyg();
-            TSDiabetesIntyg actual = InternalToTransportConverter.convert(internalScenario.asInternalModel()).getIntyg();
+      TsDiabetesUtlatandeV2 expected = internalScenario.asInternalModel();
+      TsDiabetesUtlatandeV2 actual =
+          TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
 
-            assertThat(actual)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .withStrictTypeChecking()
-                .isEqualTo(expected);
-        }
+      assertThat(actual)
+          .usingRecursiveComparison()
+          .ignoringCollectionOrder()
+          .ignoringExpectedNullFields()
+          .withStrictTypeChecking()
+          .isEqualTo(expected);
     }
+  }
 
-    @Test
-    public void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
-        for (Scenario scenario : transportScenarios) {
-            Scenario internalScenario = getScenarioByName(scenario.getName(), internalScenarios);
-
-            TsDiabetesUtlatandeV2 expected = internalScenario.asInternalModel();
-            TsDiabetesUtlatandeV2 actual = TransportToInternalConverter.convert(scenario.asTransportModel().getIntyg());
-
-            assertThat(actual)
-                .usingRecursiveComparison()
-                .ignoringCollectionOrder()
-                .ignoringExpectedNullFields()
-                .withStrictTypeChecking()
-                .isEqualTo(expected);
-        }
-    }
-
-    private Scenario getScenarioByName(String name, List<Scenario> scenarios) {
-        return scenarios.stream().filter(s -> name.equalsIgnoreCase(s.getName())).findAny()
-            .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
-    }
+  private Scenario getScenarioByName(String name, List<Scenario> scenarios) {
+    return scenarios.stream()
+        .filter(s -> name.equalsIgnoreCase(s.getName()))
+        .findAny()
+        .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
+  }
 }

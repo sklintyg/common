@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,45 +27,38 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_NarkotikaLakemedel.Builder.class)
 public abstract class NarkotikaLakemedel {
 
-    public static Builder builder() {
-        return new AutoValue_NarkotikaLakemedel.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_NarkotikaLakemedel.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract NarkotikaLakemedel build();
+    public abstract NarkotikaLakemedel build();
 
-        @JsonProperty("teckenMissbruk")
-        public abstract Builder setTeckenMissbruk(Boolean teckenMissbruk);
+    @JsonProperty("teckenMissbruk")
+    public abstract Builder setTeckenMissbruk(Boolean teckenMissbruk);
 
-        @JsonProperty("foremalForVardinsats")
-        public abstract Builder setForemalForVardinsats(Boolean foremalForVardinsats);
+    @JsonProperty("foremalForVardinsats")
+    public abstract Builder setForemalForVardinsats(Boolean foremalForVardinsats);
 
-        @JsonProperty("provtagningBehovs")
-        public abstract Builder setProvtagningBehovs(Boolean provtagningBehovs);
+    @JsonProperty("provtagningBehovs")
+    public abstract Builder setProvtagningBehovs(Boolean provtagningBehovs);
 
-        @JsonProperty("lakarordineratLakemedelsbruk")
-        public abstract Builder setLakarordineratLakemedelsbruk(Boolean lakarordineratLakemedelsbruk);
+    @JsonProperty("lakarordineratLakemedelsbruk")
+    public abstract Builder setLakarordineratLakemedelsbruk(Boolean lakarordineratLakemedelsbruk);
 
-        @JsonProperty("lakemedelOchDos")
-        public abstract Builder setLakemedelOchDos(String lakemedelOchDos);
+    @JsonProperty("lakemedelOchDos")
+    public abstract Builder setLakemedelOchDos(String lakemedelOchDos);
+  }
 
-    }
+  @Nullable public abstract Boolean getTeckenMissbruk();
 
-    @Nullable
-    public abstract Boolean getTeckenMissbruk();
+  @Nullable public abstract Boolean getForemalForVardinsats();
 
-    @Nullable
-    public abstract Boolean getForemalForVardinsats();
+  @Nullable public abstract Boolean getProvtagningBehovs();
 
-    @Nullable
-    public abstract Boolean getProvtagningBehovs();
+  @Nullable public abstract Boolean getLakarordineratLakemedelsbruk();
 
-    @Nullable
-    public abstract Boolean getLakarordineratLakemedelsbruk();
-
-    @Nullable
-    public abstract String getLakemedelOchDos();
-
+  @Nullable public abstract String getLakemedelOchDos();
 }

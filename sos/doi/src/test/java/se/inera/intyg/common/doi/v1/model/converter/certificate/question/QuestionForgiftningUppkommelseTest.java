@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,179 +59,191 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionForgiftningUppkommelseTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      assertEquals(FORGIFTNING_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeDescription() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeTextConfigType() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeTextConfigValueId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      final var certificateDataConfigTextField =
+          (CertificateDataConfigTextArea) question.getConfig();
+      assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataConfigTextField.getId());
+    }
+
+    @Test
+    void shouldIncludeTextValueType() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeTextValueId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("Text value", 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataTextValue.getId());
+    }
+
+    @Test
+    void shouldIncludeTextValue() {
+      final var expectedTextValue = "Text value";
+      final var question =
+          QuestionForgiftningUppkommelse.toCertificate(expectedTextValue, 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertEquals(expectedTextValue, certificateDataTextValue.getText());
+    }
+
+    @Test
+    void shouldIncludeTextValueEmpty() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
+      assertNull(certificateDataTextValue.getText());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          "$" + FORGIFTNING_UPPKOMMELSE_JSON_ID,
+          certificateDataValidationMandatory.getExpression());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return FORGIFTNING_OM_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        return "$" + FORGIFTNING_OM_JSON_ID;
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(FORGIFTNING_CATEGORY_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
+      }
 
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeDescription() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeTextConfigType() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeTextConfigValueId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            final var certificateDataConfigTextField = (CertificateDataConfigTextArea) question.getConfig();
-            assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataConfigTextField.getId());
-        }
-
-        @Test
-        void shouldIncludeTextValueType() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeTextValueId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("Text value", 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataTextValue.getId());
-        }
-
-        @Test
-        void shouldIncludeTextValue() {
-            final var expectedTextValue = "Text value";
-            final var question = QuestionForgiftningUppkommelse.toCertificate(expectedTextValue, 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertEquals(expectedTextValue, certificateDataTextValue.getText());
-        }
-
-        @Test
-        void shouldIncludeTextValueEmpty() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataTextValue = (CertificateDataValueText) question.getValue();
-            assertNull(certificateDataTextValue.getText());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("$" + FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataValidationMandatory.getExpression());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return FORGIFTNING_OM_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + FORGIFTNING_OM_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionForgiftningUppkommelse.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
-
-        @Test
-        void shouldIncludeValidationMaxCharacterType() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[2].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextId() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[2];
-            assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataValidationText.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[2];
-            assertEquals(150, certificateDataValidationText.getLimit());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionForgiftningUppkommelse.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionForgiftningUppkommelse.toInternal(certificate);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(actualValue);
-            } else {
-                assertEquals(expectedValue, actualValue);
-            }
-        }
+    @Test
+    void shouldIncludeValidationMaxCharacterType() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      assertEquals(
+          CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[2].getType());
     }
+
+    @Test
+    void shouldIncludeValidationTextId() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[2];
+      assertEquals(FORGIFTNING_UPPKOMMELSE_JSON_ID, certificateDataValidationText.getId());
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var question = QuestionForgiftningUppkommelse.toCertificate("", 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[2];
+      assertEquals(150, certificateDataValidationText.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeTextValue(String expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionForgiftningUppkommelse.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionForgiftningUppkommelse.toInternal(certificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(actualValue);
+      } else {
+        assertEquals(expectedValue, actualValue);
+      }
+    }
+  }
 }

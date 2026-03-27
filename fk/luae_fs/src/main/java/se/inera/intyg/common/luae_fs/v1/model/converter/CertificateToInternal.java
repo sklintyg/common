@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,36 +45,45 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 @Component(value = "certificateToInternalFK7802")
 public class CertificateToInternal {
 
-    private final WebcertModuleService webcertModuleService;
+  private final WebcertModuleService webcertModuleService;
 
-    public CertificateToInternal(@Autowired(required = false) WebcertModuleService webcertModuleService) {
-        this.webcertModuleService = webcertModuleService;
-    }
+  public CertificateToInternal(
+      @Autowired(required = false) WebcertModuleService webcertModuleService) {
+    this.webcertModuleService = webcertModuleService;
+  }
 
-    public LuaefsUtlatandeV1 convert(Certificate certificate, LuaefsUtlatandeV1 internalCertificate) {
-        return LuaefsUtlatandeV1.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setUndersokningAvPatienten(QuestionUtlatandeBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-            .setJournaluppgifter(QuestionUtlatandeBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
-            .setAnhorigsBeskrivningAvPatienten(QuestionUtlatandeBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
-            .setAnnatGrundForMU(
-                QuestionUtlatandeBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
-            .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
-            .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
-            .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
-            .setUnderlag(QuestionUnderlag.toInternal(certificate))
-            .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
-            .setFunktionsnedsattningDebut(QuestionFunktionsnedsattningDebut.toInternal(certificate))
-            .setFunktionsnedsattningPaverkan(QuestionFunktionsnedsattningPaverkan.toInternal(certificate))
-            .setOvrigt(QuestionOvrigt.toInternal(certificate))
-            .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
-            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
-            .build();
-    }
+  public LuaefsUtlatandeV1 convert(Certificate certificate, LuaefsUtlatandeV1 internalCertificate) {
+    return LuaefsUtlatandeV1.builder()
+        .setId(internalCertificate.getId())
+        .setTextVersion(internalCertificate.getTextVersion())
+        .setGrundData(
+            MetaDataGrundData.toInternal(
+                certificate.getMetadata(), internalCertificate.getGrundData()))
+        .setUndersokningAvPatienten(
+            QuestionUtlatandeBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
+        .setJournaluppgifter(
+            QuestionUtlatandeBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
+        .setAnhorigsBeskrivningAvPatienten(
+            QuestionUtlatandeBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
+        .setAnnatGrundForMU(
+            QuestionUtlatandeBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+        .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
+        .setMotiveringTillInteBaseratPaUndersokning(
+            QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
+        .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
+        .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
+        .setUnderlag(QuestionUnderlag.toInternal(certificate))
+        .setDiagnoser(QuestionDiagnoser.toInternal(certificate, webcertModuleService))
+        .setFunktionsnedsattningDebut(QuestionFunktionsnedsattningDebut.toInternal(certificate))
+        .setFunktionsnedsattningPaverkan(
+            QuestionFunktionsnedsattningPaverkan.toInternal(certificate))
+        .setOvrigt(QuestionOvrigt.toInternal(certificate))
+        .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
+        .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
+        .build();
+  }
 }

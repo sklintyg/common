@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,62 +31,62 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 @Component
 public class IntygTextsServiceImpl implements IntygTextsService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IntygTextsServiceImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(IntygTextsServiceImpl.class);
 
-    @Autowired
-    private IntygTextsRepository repo;
+  @Autowired private IntygTextsRepository repo;
 
-    @Autowired
-    private ObjectMapper mapper;
+  @Autowired private ObjectMapper mapper;
 
-    @Override
-    public boolean isVersionSupported(final String intygsTyp, final String stringVersion) {
-        final Integer integerVersion = Ints.tryParse(stringVersion);
+  @Override
+  public boolean isVersionSupported(final String intygsTyp, final String stringVersion) {
+    final Integer integerVersion = Ints.tryParse(stringVersion);
 
-        final String version = integerVersion != null
-            ? integerVersion.toString() + ".0"
-            : stringVersion;
+    final String version =
+        integerVersion != null ? integerVersion.toString() + ".0" : stringVersion;
 
-        return repo.isVersionSupported(intygsTyp, version);
+    return repo.isVersionSupported(intygsTyp, version);
+  }
+
+  @Override
+  public String getIntygTexts(String intygsTyp, String version) {
+    try {
+      return mapper.writeValueAsString(repo.getTexts(intygsTyp, version));
+    } catch (JsonProcessingException e) {
+      LOG.error(
+          "Could not write texts as JSON for certificate of type {} with version {}",
+          intygsTyp,
+          version);
     }
+    return "";
+  }
 
-    @Override
-    public String getIntygTexts(String intygsTyp, String version) {
-        try {
-            return mapper.writeValueAsString(repo.getTexts(intygsTyp, version));
-        } catch (JsonProcessingException e) {
-            LOG.error("Could not write texts as JSON for certificate of type {} with version {}", intygsTyp, version);
-        }
-        return "";
-    }
+  @Override
+  public String getLatestVersion(String intygsTyp) {
+    return repo.getLatestVersion(intygsTyp);
+  }
 
-    @Override
-    public String getLatestVersion(String intygsTyp) {
-        return repo.getLatestVersion(intygsTyp);
-    }
+  @Override
+  public String getLatestVersionForSameMajorVersion(String intygsTyp, String version) {
+    return repo.getLatestVersionForSameMajorVersion(intygsTyp, version);
+  }
 
-    @Override
-    public String getLatestVersionForSameMajorVersion(String intygsTyp, String version) {
-        return repo.getLatestVersionForSameMajorVersion(intygsTyp, version);
-    }
+  @Override
+  public boolean isLatestMajorVersion(String certificateType, String versionToCompare) {
+    final var latestVersion = getLatestVersion(certificateType);
+    return sameMajorVersion(versionToCompare, latestVersion);
+  }
 
-    @Override
-    public boolean isLatestMajorVersion(String certificateType, String versionToCompare) {
-        final var latestVersion = getLatestVersion(certificateType);
-        return sameMajorVersion(versionToCompare, latestVersion);
-    }
+  @Override
+  public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
+    return repo.getTexts(intygsTyp, version);
+  }
 
-    @Override
-    public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
-        return repo.getTexts(intygsTyp, version);
-    }
+  private String majorVersion(String version) {
+    return version.split("\\.")[0];
+  }
 
-    private String majorVersion(String version) {
-        return version.split("\\.")[0];
-    }
-
-    private boolean sameMajorVersion(String versionToCompare, String latestVersion) {
-        return latestVersion == null || majorVersion(latestVersion).equals(majorVersion(versionToCompare));
-    }
-
+  private boolean sameMajorVersion(String versionToCompare, String latestVersion) {
+    return latestVersion == null
+        || majorVersion(latestVersion).equals(majorVersion(versionToCompare));
+  }
 }

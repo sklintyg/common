@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,51 +30,55 @@ import com.itextpdf.text.pdf.PdfWriter;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
- * Generic personnumber page event handler, allowing concrete subclasses to specify where and on which pages to output
- * personnummer.
+ * Generic personnumber page event handler, allowing concrete subclasses to specify where and on
+ * which pages to output personnummer.
  */
 public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHelper {
 
-    // Table with (in mm)
-    private static final float TABLE_WIDTH = 30f;
-    private String personnummer;
-    private Font font = PdfConstants.FONT_STAMPER_LABEL;
+  // Table with (in mm)
+  private static final float TABLE_WIDTH = 30f;
+  private String personnummer;
+  private Font font = PdfConstants.FONT_STAMPER_LABEL;
 
-    public FkAbstractPersonnummerEventHandler(String personnummer) {
-        this.personnummer = personnummer;
+  public FkAbstractPersonnummerEventHandler(String personnummer) {
+    this.personnummer = personnummer;
+  }
+
+  protected abstract int getActiveFromPage();
+
+  protected abstract int getActiveToPage();
+
+  protected abstract float getXOffset();
+
+  protected abstract float getYOffset();
+
+  /**
+   * Adds the personnummer to every page in from-tom interval.
+   *
+   * @see com.itextpdf.text.pdf.PdfPageEventHelper#onEndPage(com.itextpdf.text.pdf.PdfWriter,
+   *     com.itextpdf.text.Document)
+   */
+  @Override
+  public void onEndPage(PdfWriter writer, Document document) {
+
+    PdfPTable table = new PdfPTable(1);
+    table.setTotalWidth(Utilities.millimetersToPoints(TABLE_WIDTH));
+    table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_TOP);
+    table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
+    if (writer.getPageNumber() >= getActiveFromPage()
+        && writer.getPageNumber() <= getActiveToPage()) {
+
+      // Page 2+
+      table.addCell(new Phrase("Personnummer", font));
+      table.completeRow();
+      table.addCell(new Phrase(String.valueOf(personnummer), PdfConstants.FONT_VALUE_TEXT));
+
+      table.writeSelectedRows(
+          0,
+          -1,
+          Utilities.millimetersToPoints(getXOffset()),
+          document.getPageSize().getTop() - Utilities.millimetersToPoints(getYOffset()),
+          writer.getDirectContent());
     }
-
-    protected abstract int getActiveFromPage();
-
-    protected abstract int getActiveToPage();
-
-    protected abstract float getXOffset();
-
-    protected abstract float getYOffset();
-
-    /**
-     * Adds the personnummer to every page in from-tom interval.
-     *
-     * @see com.itextpdf.text.pdf.PdfPageEventHelper#onEndPage(com.itextpdf.text.pdf.PdfWriter,
-     * com.itextpdf.text.Document)
-     */
-    @Override
-    public void onEndPage(PdfWriter writer, Document document) {
-
-        PdfPTable table = new PdfPTable(1);
-        table.setTotalWidth(Utilities.millimetersToPoints(TABLE_WIDTH));
-        table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_TOP);
-        table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
-        if (writer.getPageNumber() >= getActiveFromPage() && writer.getPageNumber() <= getActiveToPage()) {
-
-            // Page 2+
-            table.addCell(new Phrase("Personnummer", font));
-            table.completeRow();
-            table.addCell(new Phrase(String.valueOf(personnummer), PdfConstants.FONT_VALUE_TEXT));
-
-            table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(getXOffset()),
-                document.getPageSize().getTop() - Utilities.millimetersToPoints(getYOffset()),
-                writer.getDirectContent());
-        }
-    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,26 +19,25 @@
 package se.inera.intyg.common.support.modules.support.api;
 
 /**
- * Defines a source intyg type for which another intygtype can
- * extract information from.
+ * Defines a source intyg type for which another intygtype can extract information from.
  *
- * Created by marced on 2018-12-13.
+ * <p>Created by marced on 2018-12-13.
  */
 public class GetCopyFromCriteria {
 
-    private final String intygType;
-    private final String intygTypeMajorVersion;
+  private final String intygType;
+  private final String intygTypeMajorVersion;
 
-    public GetCopyFromCriteria(String intygType, String intygTypeMajorVersion) {
-        this.intygType = intygType;
-        this.intygTypeMajorVersion = intygTypeMajorVersion;
-    }
+  public GetCopyFromCriteria(String intygType, String intygTypeMajorVersion) {
+    this.intygType = intygType;
+    this.intygTypeMajorVersion = intygTypeMajorVersion;
+  }
 
-    public String getIntygType() {
-        return intygType;
-    }
+  public String getIntygType() {
+    return intygType;
+  }
 
-    public String getIntygTypeMajorVersion() {
-        return intygTypeMajorVersion;
-    }
+  public String getIntygTypeMajorVersion() {
+    return intygTypeMajorVersion;
+  }
 }

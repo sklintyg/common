@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,100 +49,101 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 
 public class QuestionDiabetesBehandling {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider texts) {
-        final var behandling = allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;
-        final var insulin = behandling != null && behandling.getInsulin() != null ? behandling.getInsulin() : null;
-        final var tabletter = behandling != null && behandling.getTabletter() != null ? behandling.getTabletter() : null;
-        final var annan = behandling != null && behandling.getAnnan() != null ? behandling.getAnnan() : null;
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider texts) {
+    final var behandling =
+        allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;
+    final var insulin =
+        behandling != null && behandling.getInsulin() != null ? behandling.getInsulin() : null;
+    final var tabletter =
+        behandling != null && behandling.getTabletter() != null ? behandling.getTabletter() : null;
+    final var annan =
+        behandling != null && behandling.getAnnan() != null ? behandling.getAnnan() : null;
 
-        return CertificateDataElement.builder()
-            .id(ALLMANT_BEHANDLING_SVAR_ID)
-            .parent(ALLMANT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(texts.get(ALLMANT_BEHANDLING_TEXT_ID))
-                    .list(
-                        List.of(
-                            CheckboxMultipleCode.builder()
-                                .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                                .label(texts.get(ALLMANT_BEHANDLING_INSULIN_TEXT_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                                .label(texts.get(ALLMANT_BEHANDLING_TABLETTER_TEXT_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                                .label(texts.get(ALLMANT_BEHANDLING_ANNAN_TEXT_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        getValues(insulin, tabletter, annan)
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_BEHANDLING_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                ALLMANT_BEHANDLING_INSULIN_JSON_ID,
-                                ALLMANT_BEHANDLING_TABLETTER_JSON_ID,
-                                ALLMANT_BEHANDLING_ANNAN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
+    return CertificateDataElement.builder()
+        .id(ALLMANT_BEHANDLING_SVAR_ID)
+        .parent(ALLMANT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(texts.get(ALLMANT_BEHANDLING_TEXT_ID))
+                .list(
+                    List.of(
+                        CheckboxMultipleCode.builder()
+                            .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+                            .label(texts.get(ALLMANT_BEHANDLING_INSULIN_TEXT_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+                            .label(texts.get(ALLMANT_BEHANDLING_TABLETTER_TEXT_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+                            .label(texts.get(ALLMANT_BEHANDLING_ANNAN_TEXT_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(getValues(insulin, tabletter, annan))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_BEHANDLING_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          ALLMANT_BEHANDLING_INSULIN_JSON_ID,
+                          ALLMANT_BEHANDLING_TABLETTER_JSON_ID,
+                          ALLMANT_BEHANDLING_ANNAN_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
+                  .expression(
+                      singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<CertificateDataValueCode> getValues(
+      Boolean insulin, Boolean tabletter, Boolean annan) {
+    List<CertificateDataValueCode> certificateDataValueCodes = new ArrayList<>();
+    if (insulin != null && insulin) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+              .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+              .build());
+    }
+    if (tabletter != null && tabletter) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+              .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+              .build());
+    }
+    if (annan != null && annan) {
+      certificateDataValueCodes.add(
+          CertificateDataValueCode.builder()
+              .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+              .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
+              .build());
+    }
+    return certificateDataValueCodes;
+  }
+
+  public static Boolean toInternal(Certificate certificate, String id) {
+    final var value = codeListValue(certificate.getData(), ALLMANT_BEHANDLING_SVAR_ID);
+    if (value == null || value.isEmpty()) {
+      return false;
     }
 
-    private static List<CertificateDataValueCode> getValues(Boolean insulin, Boolean tabletter, Boolean annan) {
-        List<CertificateDataValueCode> certificateDataValueCodes = new ArrayList<>();
-        if (insulin != null && insulin) {
-            certificateDataValueCodes.add(
-                CertificateDataValueCode.builder()
-                    .id(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                    .code(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
-                    .build());
-        }
-        if (tabletter != null && tabletter) {
-            certificateDataValueCodes.add(CertificateDataValueCode.builder()
-                .id(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                .code(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
-                .build());
-        }
-        if (annan != null && annan) {
-            certificateDataValueCodes.add(
-                CertificateDataValueCode.builder()
-                    .id(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                    .code(ALLMANT_BEHANDLING_ANNAN_JSON_ID)
-                    .build());
-        }
-        return certificateDataValueCodes;
+    for (CertificateDataValueCode code : value) {
+      if (code.getId() != null && code.getId().equals(id)) {
+        return true;
+      }
     }
 
-    public static Boolean toInternal(Certificate certificate, String id) {
-        final var value = codeListValue(certificate.getData(), ALLMANT_BEHANDLING_SVAR_ID);
-        if (value == null || value.isEmpty()) {
-            return false;
-        }
-
-        for (CertificateDataValueCode code : value) {
-            if (code.getId() != null && code.getId().equals(id)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

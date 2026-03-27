@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,54 +22,51 @@ import java.util.Objects;
 
 public class Tillaggsfraga {
 
-    private String id;
-    private String svar;
+  private String id;
+  private String svar;
 
-    public static Tillaggsfraga create(String id, String svar) {
-        final var tillaggsfraga = new Tillaggsfraga();
-        tillaggsfraga.id = id;
-        tillaggsfraga.svar = svar;
-        return tillaggsfraga;
-    }
+  public static Tillaggsfraga create(String id, String svar) {
+    final var tillaggsfraga = new Tillaggsfraga();
+    tillaggsfraga.id = id;
+    tillaggsfraga.svar = svar;
+    return tillaggsfraga;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getSvar() {
-        return svar;
-    }
+  public String getSvar() {
+    return svar;
+  }
 
-    public void setSvar(String svar) {
-        this.svar = svar;
-    }
+  public void setSvar(String svar) {
+    this.svar = svar;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Tillaggsfraga that = (Tillaggsfraga) o;
-        return Objects.equals(id, that.id) && Objects.equals(svar, that.svar);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Tillaggsfraga that = (Tillaggsfraga) o;
+    return Objects.equals(id, that.id) && Objects.equals(svar, that.svar);
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, svar);
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, svar);
+  }
 
-    @Override
-    public String toString() {
-        return "Tillaggsfraga{"
-            + "id='" + id + '\''
-            + ", svar='" + svar + '\''
-            + '}';
-    }
+  @Override
+  public String toString() {
+    return "Tillaggsfraga{" + "id='" + id + '\'' + ", svar='" + svar + '\'' + '}';
+  }
 }

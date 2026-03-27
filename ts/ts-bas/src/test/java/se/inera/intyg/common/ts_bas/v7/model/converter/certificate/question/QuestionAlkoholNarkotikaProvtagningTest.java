@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,190 +50,191 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaProvtagningTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getId() {
+        return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getSelectedText() {
+        return "Ja";
+      }
 
-            @Override
-            protected String getId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
-            }
+      @Override
+      protected String getUnselectedText() {
+        return "Nej";
+      }
 
-            @Override
-            protected String getParent() {
-                return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
+      @Override
+      protected String getTextId() {
+        return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
+      }
 
-            @Override
-            protected String getId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return "Ja";
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return "Nej";
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected String getJsonId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return true;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(
-                    NarkotikaLakemedel.builder().setProvtagningBehovs(true).build(), 0, textProvider);
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(missbrukberoendeprovtagning)";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Override
-        protected String getQuestionId() {
-            return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
-        }
+      @Override
+      protected String getJsonId() {
+        return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID;
+      }
 
-        @Override
-        protected String getExpression() {
-            return "$" + VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return true;
+      }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaProvtagning.toCertificate(
+            NarkotikaLakemedel.builder().setProvtagningBehovs(true).build(), 0, textProvider);
+      }
     }
 
     @Nested
-    class IncludeSecondValidationShowTests extends ValidationShowTest {
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
 
-        @Override
-        protected String getQuestionId() {
-            return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
-        }
+      @Override
+      protected String getQuestionId() {
+        return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID;
+      }
 
-        @Override
-        protected String getExpression() {
-            return "$" + TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
-        }
+      @Override
+      protected String getExpression() {
+        return "exists(missbrukberoendeprovtagning)";
+      }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+      }
 
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
     }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeSecondValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAlkoholNarkotikaProvtagning.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+  }
+
+  @Nested
+  class ToInternal {
 
     @Nested
-    class ToInternal {
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionAlkoholNarkotikaProvtagning.toCertificate(
+            NarkotikaLakemedel.builder().setProvtagningBehovs(expectedValue).build(),
+            0,
+            textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionAlkoholNarkotikaProvtagning.toCertificate(
-                    NarkotikaLakemedel.builder().setProvtagningBehovs(expectedValue).build(), 0, textProvider);
-            }
-
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionAlkoholNarkotikaProvtagning.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionAlkoholNarkotikaProvtagning.toInternal(certificate);
+      }
     }
+  }
 }

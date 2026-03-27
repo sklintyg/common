@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,28 +31,32 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public class TransportValidatorTest {
 
-    private TransportValidatorInstance validator = new TransportValidatorInstance();
+  private TransportValidatorInstance validator = new TransportValidatorInstance();
 
-    @Test
-    public void testValidate() throws ScenarioNotFoundException {
-        for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
-            TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
-            List<String> validationResponse = validator.validate(utlatande);
+  @Test
+  public void testValidate() throws ScenarioNotFoundException {
+    for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
+      TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
+      List<String> validationResponse = validator.validate(utlatande);
 
-            assertTrue(
-                "Error in scenario " + scenario.getName() + "\n"
-                    + Joiner.on(", ").join(validationResponse), validationResponse.isEmpty());
-        }
+      assertTrue(
+          "Error in scenario "
+              + scenario.getName()
+              + "\n"
+              + Joiner.on(", ").join(validationResponse),
+          validationResponse.isEmpty());
     }
+  }
 
-    @Test
-    public void testValidateWithErrors() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getTransportScenarios("programmatic-invalid-*")) {
+  @Test
+  public void testValidateWithErrors() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getTransportScenarios("programmatic-invalid-*")) {
 
-            TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
-            List<String> validationResponse = validator.validate(utlatande);
+      TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
+      List<String> validationResponse = validator.validate(utlatande);
 
-            assertTrue("Expected validation error in test " + scenario.getName(), !validationResponse.isEmpty());
-        }
+      assertTrue(
+          "Expected validation error in test " + scenario.getName(), !validationResponse.isEmpty());
     }
+  }
 }

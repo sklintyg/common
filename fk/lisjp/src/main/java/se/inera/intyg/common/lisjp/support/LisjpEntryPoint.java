@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,74 +26,74 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 @Component("LisjpEntryPoint")
 public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
 
-    public static final String ISSUER_TYPE_ID = "FK 7804";
-    public static final String MODULE_ID = "lisjp";
-    public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
-    public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
+  public static final String ISSUER_TYPE_ID = "FK 7804";
+  public static final String MODULE_ID = "lisjp";
+  public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
+  public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
 
-    @Override
-    public String certificateServiceTypeId() {
-        return "fk7804";
-    }
+  @Override
+  public String certificateServiceTypeId() {
+    return "fk7804";
+  }
 
-    @Override
-    public String getModuleId() {
-        return MODULE_ID;
-    }
+  @Override
+  public String getModuleId() {
+    return MODULE_ID;
+  }
 
-    @Override
-    public String getModuleName() {
-        return MODULE_NAME;
-    }
+  @Override
+  public String getModuleName() {
+    return MODULE_NAME;
+  }
 
-    @Override
-    public String getModuleDescription() {
-        return MODULE_DESCRIPTION;
-    }
+  @Override
+  public String getModuleDescription() {
+    return MODULE_DESCRIPTION;
+  }
 
-    @Override
-    public String getExternalId() {
-        return KvIntygstyp.LISJP.getCodeValue();
-    }
+  @Override
+  public String getExternalId() {
+    return KvIntygstyp.LISJP.getCodeValue();
+  }
 
-    @Override
-    public String getIssuerTypeId() {
-        return ISSUER_TYPE_ID;
-    }
+  @Override
+  public String getIssuerTypeId() {
+    return ISSUER_TYPE_ID;
+  }
 
-    @Override
-    public String getModuleCssPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/css/lisjp.css";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleCssPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "";
+      case WEBCERT:
+        return "/web/webjars/lisjp/webcert/css/lisjp.css";
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleScriptPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/js/module";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/module";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleScriptPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "/web/webjars/lisjp/minaintyg/js/module";
+      case WEBCERT:
+        return "/web/webjars/lisjp/webcert/module";
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/js/module-deps.json";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/module-deps.json";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "/web/webjars/lisjp/minaintyg/js/module-deps.json";
+      case WEBCERT:
+        return "/web/webjars/lisjp/webcert/module-deps.json";
+      default:
+        return null;
     }
+  }
 }

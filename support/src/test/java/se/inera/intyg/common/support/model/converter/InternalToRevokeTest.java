@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,26 +36,32 @@ import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 public class InternalToRevokeTest {
 
-    @Test
-    public void convertRevokeCertificateRequest() throws Exception {
-        String meddelande = "meddelande";
-        Utlatande utlatande = IntygTestDataBuilder.getUtlatande();
-        HoSPersonal skapatAv = utlatande.getGrundData().getSkapadAv();
-        RevokeCertificateType res = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
+  @Test
+  public void convertRevokeCertificateRequest() throws Exception {
+    String meddelande = "meddelande";
+    Utlatande utlatande = IntygTestDataBuilder.getUtlatande();
+    HoSPersonal skapatAv = utlatande.getGrundData().getSkapadAv();
+    RevokeCertificateType res = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
 
-        assertNotNull(res.getIntygsId().getRoot());
-        assertEquals(utlatande.getId(), res.getIntygsId().getExtension());
-        assertEquals(meddelande, res.getMeddelande());
-        assertEquals("1.2.752.129.2.1.3.1", res.getPatientPersonId().getRoot());
-        assertEquals(utlatande.getGrundData().getPatient().getPersonId().getPersonnummer(),
-            res.getPatientPersonId().getExtension());
-        assertEquals(skapatAv.getPersonId(), res.getSkickatAv().getPersonalId().getExtension());
-        assertEquals(skapatAv.getFullstandigtNamn(), res.getSkickatAv().getFullstandigtNamn());
-        assertNotNull(res.getSkickatAv().getEnhet());
-        assertNotNull(res.getSkickatTidpunkt());
-    }
+    assertNotNull(res.getIntygsId().getRoot());
+    assertEquals(utlatande.getId(), res.getIntygsId().getExtension());
+    assertEquals(meddelande, res.getMeddelande());
+    assertEquals("1.2.752.129.2.1.3.1", res.getPatientPersonId().getRoot());
+    assertEquals(
+        utlatande.getGrundData().getPatient().getPersonId().getPersonnummer(),
+        res.getPatientPersonId().getExtension());
+    assertEquals(skapatAv.getPersonId(), res.getSkickatAv().getPersonalId().getExtension());
+    assertEquals(skapatAv.getFullstandigtNamn(), res.getSkickatAv().getFullstandigtNamn());
+    assertNotNull(res.getSkickatAv().getEnhet());
+    assertNotNull(res.getSkickatTidpunkt());
+  }
 }

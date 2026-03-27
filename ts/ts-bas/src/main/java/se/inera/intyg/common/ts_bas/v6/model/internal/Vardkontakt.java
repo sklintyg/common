@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,15 +26,13 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Vardkontakt {
 
-    @JsonCreator
-    public static Vardkontakt create(@JsonProperty("typ") String typ,
-        @JsonProperty("idkontroll") String idkontroll) {
-        return new AutoValue_Vardkontakt(typ, idkontroll);
-    }
+  @JsonCreator
+  public static Vardkontakt create(
+      @JsonProperty("typ") String typ, @JsonProperty("idkontroll") String idkontroll) {
+    return new AutoValue_Vardkontakt(typ, idkontroll);
+  }
 
-    @Nullable
-    public abstract String getTyp();
+  @Nullable public abstract String getTyp();
 
-    @Nullable
-    public abstract String getIdkontroll();
+  @Nullable public abstract String getIdkontroll();
 }

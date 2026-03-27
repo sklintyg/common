@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,63 +28,57 @@ import java.util.function.Predicate;
 
 public class PatientDetailResolveOrder {
 
-    private String predecessorType;
-    private List<ResolveOrder> adressStrategy;
-    private List<ResolveOrder> other;
+  private String predecessorType;
+  private List<ResolveOrder> adressStrategy;
+  private List<ResolveOrder> other;
 
-    /**
-     * Create a default PatientDetailResolveOrder, <br/>
-     * with:<br/>
-     * no adress-strategy,<br/>
-     * other ie name and sekretess-strategy (PU, PARAMS).
-     */
-    public static PatientDetailResolveOrder defaultOrder() {
-        return new PatientDetailResolveOrder(null, ImmutableList.of(),
-            ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
-    }
+  /**
+   * Create a default PatientDetailResolveOrder, <br>
+   * with:<br>
+   * no adress-strategy,<br>
+   * other ie name and sekretess-strategy (PU, PARAMS).
+   */
+  public static PatientDetailResolveOrder defaultOrder() {
+    return new PatientDetailResolveOrder(
+        null, ImmutableList.of(), ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
+  }
 
-    public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy,
-        List<ResolveOrder> other) {
-        checkNotNull(adressStrategy);
-        checkNotNull(other);
+  public PatientDetailResolveOrder(
+      String predecessorType, List<ResolveOrder> adressStrategy, List<ResolveOrder> other) {
+    checkNotNull(adressStrategy);
+    checkNotNull(other);
 
-        // No predecessor --> can't use predecessor strategy.
-        Preconditions.checkArgument((!Strings.isNullOrEmpty(predecessorType)
-                || ImmutableList.of(adressStrategy, other).stream()
+    // No predecessor --> can't use predecessor strategy.
+    Preconditions.checkArgument(
+        (!Strings.isNullOrEmpty(predecessorType)
+            || ImmutableList.of(adressStrategy, other).stream()
                 .flatMap(List::stream)
                 .noneMatch(Predicate.isEqual(ResolveOrder.PREDECESSOR))),
-            "Can't use predecessor strategy without predecessor.");
+        "Can't use predecessor strategy without predecessor.");
 
-        this.predecessorType = predecessorType;
-        this.adressStrategy = ImmutableList.copyOf(adressStrategy);
-        this.other = ImmutableList.copyOf(other);
-    }
+    this.predecessorType = predecessorType;
+    this.adressStrategy = ImmutableList.copyOf(adressStrategy);
+    this.other = ImmutableList.copyOf(other);
+  }
 
-    public String getPredecessorType() {
-        return predecessorType;
-    }
+  public String getPredecessorType() {
+    return predecessorType;
+  }
 
-    public List<ResolveOrder> getAdressStrategy() {
-        return adressStrategy;
-    }
+  public List<ResolveOrder> getAdressStrategy() {
+    return adressStrategy;
+  }
 
-    public List<ResolveOrder> getOtherStrategy() {
-        return other;
-    }
+  public List<ResolveOrder> getOtherStrategy() {
+    return other;
+  }
 
-    public enum ResolveOrder {
-        /**
-         * From integrations parameters.
-         */
-        PARAMS,
-        /**
-         * From PU.
-         */
-        PU,
-        /**
-         * From existing intyg, type specified by predecessorType.
-         */
-        PREDECESSOR
-    }
-
+  public enum ResolveOrder {
+    /** From integrations parameters. */
+    PARAMS,
+    /** From PU. */
+    PU,
+    /** From existing intyg, type specified by predecessorType. */
+    PREDECESSOR
+  }
 }

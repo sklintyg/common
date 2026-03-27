@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,38 +21,40 @@ package se.inera.intyg.common.support.common.enumerations;
 import java.util.stream.Stream;
 
 public enum Diagnoskodverk {
+  SNOMED_CT("1.2.752.116.2.1.1.1", "SNOMED-CT", null),
 
-    SNOMED_CT("1.2.752.116.2.1.1.1", "SNOMED-CT", null),
+  ICD_10_SE("1.2.752.116.1.1.1.1.3", "ICD-10", null),
 
-    ICD_10_SE("1.2.752.116.1.1.1.1.3", "ICD-10", null),
+  KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97-P", null);
 
-    KSH_97_P("1.2.752.116.1.3.1.4.1", "KSH97-P", null);
+  private final String codeSystem;
 
-    private final String codeSystem;
+  private final String codeSystemName;
 
-    private final String codeSystemName;
+  private final String codeSystemVersion;
 
-    private final String codeSystemVersion;
+  Diagnoskodverk(String codeSystemV1, String codeSystemName, String codeSystemVersion) {
+    this.codeSystem = codeSystemV1;
+    this.codeSystemName = codeSystemName;
+    this.codeSystemVersion = codeSystemVersion;
+  }
 
-    Diagnoskodverk(String codeSystemV1, String codeSystemName, String codeSystemVersion) {
-        this.codeSystem = codeSystemV1;
-        this.codeSystemName = codeSystemName;
-        this.codeSystemVersion = codeSystemVersion;
-    }
+  public String getCodeSystem() {
+    return codeSystem;
+  }
 
-    public String getCodeSystem() {
-        return codeSystem;
-    }
+  public String getCodeSystemName() {
+    return codeSystemName;
+  }
 
-    public String getCodeSystemName() {
-        return codeSystemName;
-    }
+  public String getCodeSystemVersion() {
+    return codeSystemVersion;
+  }
 
-    public String getCodeSystemVersion() {
-        return codeSystemVersion;
-    }
-
-    public static Diagnoskodverk getEnumByCodeSystem(String oid) {
-        return Stream.of(Diagnoskodverk.values()).filter(kod -> kod.getCodeSystem().equals(oid)).findAny().orElse(null);
-    }
+  public static Diagnoskodverk getEnumByCodeSystem(String oid) {
+    return Stream.of(Diagnoskodverk.values())
+        .filter(kod -> kod.getCodeSystem().equals(oid))
+        .findAny()
+        .orElse(null);
+  }
 }

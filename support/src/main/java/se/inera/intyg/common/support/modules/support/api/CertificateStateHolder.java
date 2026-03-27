@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,55 +23,60 @@ import se.inera.intyg.common.support.model.CertificateState;
 
 public class CertificateStateHolder {
 
-    private String target;
+  private String target;
 
-    private CertificateState state;
+  private CertificateState state;
 
-    private LocalDateTime timestamp;
+  private LocalDateTime timestamp;
 
-    public CertificateStateHolder() {
-        // Needed for deserialization
+  public CertificateStateHolder() {
+    // Needed for deserialization
+  }
+
+  public CertificateStateHolder(String target, CertificateState state, LocalDateTime timestamp) {
+    this.target = target;
+    this.state = state;
+    if (timestamp != null) {
+      this.timestamp = timestamp;
+    } else {
+      this.timestamp = LocalDateTime.now();
     }
+  }
 
-    public CertificateStateHolder(String target, CertificateState state, LocalDateTime timestamp) {
-        this.target = target;
-        this.state = state;
-        if (timestamp != null) {
-            this.timestamp = timestamp;
-        } else {
-            this.timestamp = LocalDateTime.now();
-        }
-    }
+  public String getTarget() {
+    return target;
+  }
 
-    public String getTarget() {
-        return target;
-    }
+  public void setTarget(String target) {
+    this.target = target;
+  }
 
-    public void setTarget(String target) {
-        this.target = target;
-    }
+  public CertificateState getState() {
+    return state;
+  }
 
-    public CertificateState getState() {
-        return state;
-    }
+  public void setState(CertificateState state) {
+    this.state = state;
+  }
 
-    public void setState(CertificateState state) {
-        this.state = state;
-    }
+  public LocalDateTime getTimestamp() {
+    return timestamp;
+  }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+  public void setTimestamp(LocalDateTime timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    @Override
-    public String toString() {
-        return "CertificateStateHolder{"
-            + "target='" + target + '\''
-            + ", state=" + state + ", timestamp="
-            + timestamp + '}';
-    }
+  @Override
+  public String toString() {
+    return "CertificateStateHolder{"
+        + "target='"
+        + target
+        + '\''
+        + ", state="
+        + state
+        + ", timestamp="
+        + timestamp
+        + '}';
+  }
 }

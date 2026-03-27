@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,56 +42,48 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataUncertainDateValue;
 import se.inera.intyg.common.support.model.InternalDate;
 
-
 public class QuestionOsakertDodsdatum {
 
-    public static CertificateDataElement toCertificate(String value, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DODSDATUM_OSAKERT_DELSVAR_ID)
-            .parent(DODSDATUM_SAKERT_DELSVAR_ID)
-            .index(index)
-            .visible(value != null)
-            .config(
-                CertificateDataConfigUncertainDate.builder()
-                    .id(DODSDATUM_JSON_ID)
-                    .allowedYears(List.of(
-                        String.valueOf(Year.now()),
-                        String.valueOf(Year.now().minusYears(1))))
-                    .unknownYear(true)
-                    .unknownMonth(true)
-                    .build()
-            )
-            .value(
-                CertificateDataUncertainDateValue.builder()
-                    .id(DODSDATUM_JSON_ID)
-                    .value(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSDATUM_OSAKERT_DELSVAR_ID)
-                        .expression(wrapWithAttribute(DODSDATUM_JSON_ID, UNCERTAIN_DATE))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(
-                            multipleAndExpression(
-                                exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
-                                not(withCitation(DODSDATUM_SAKERT_JSON_ID))
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DODSDATUM_OSAKERT_DELSVAR_ID)
+        .parent(DODSDATUM_SAKERT_DELSVAR_ID)
+        .index(index)
+        .visible(value != null)
+        .config(
+            CertificateDataConfigUncertainDate.builder()
+                .id(DODSDATUM_JSON_ID)
+                .allowedYears(
+                    List.of(String.valueOf(Year.now()), String.valueOf(Year.now().minusYears(1))))
+                .unknownYear(true)
+                .unknownMonth(true)
+                .build())
+        .value(
+            CertificateDataUncertainDateValue.builder().id(DODSDATUM_JSON_ID).value(value).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSDATUM_OSAKERT_DELSVAR_ID)
+                  .expression(wrapWithAttribute(DODSDATUM_JSON_ID, UNCERTAIN_DATE))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
+                  .expression(
+                      multipleAndExpression(
+                          exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
+                          not(withCitation(DODSDATUM_SAKERT_JSON_ID))))
+                  .build()
+            })
+        .build();
+  }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        final var textValue = uncertainDateValue(certificate.getData(), DODSDATUM_OSAKERT_DELSVAR_ID, DODSDATUM_JSON_ID);
-        if (textValue == null || textValue.isEmpty()) {
-            return null;
-        }
-        return new InternalDate(textValue);
+  public static InternalDate toInternal(Certificate certificate) {
+    final var textValue =
+        uncertainDateValue(certificate.getData(), DODSDATUM_OSAKERT_DELSVAR_ID, DODSDATUM_JSON_ID);
+    if (textValue == null || textValue.isEmpty()) {
+      return null;
     }
+    return new InternalDate(textValue);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -46,113 +45,112 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTe
 @ExtendWith(MockitoExtension.class)
 class QuestionAvstangningSmittskyddTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAvstangningSmittskydd.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAvstangningSmittskydd.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
-        }
-
-        @Override
-        protected String getParent() {
-            return AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return AVSTANGNING_SMITTSKYDD_SVAR_ID_27;
     }
 
-    @Nested
-    class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxBooleanTest {
-
-        @Override
-        protected String getJsonId() {
-            return AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAvstangningSmittskydd.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getLabelId() {
-            return AVSTANGNING_SMITTSKYDD_QUESTION_LABEL;
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getSelectedTextId() {
-            return ANSWER_YES;
-        }
-
-        @Override
-        protected String getUnselectedTextId() {
-            return ANSWER_NOT_SELECTED;
-        }
+    @Override
+    protected String getParent() {
+      return AVSTANGNING_SMITTSKYDD_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueBooelanTests extends ValueBooleanTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected String getJsonId() {
-            return AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
-        }
+  @Nested
+  class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxBooleanTest {
 
-        @Override
-        protected Boolean getBoolean() {
-            return true;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAvstangningSmittskydd.toCertificate(true, 0, texts);
-        }
+    @Override
+    protected String getJsonId() {
+      return AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanTests extends InternalBooleanValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionAvstangningSmittskydd.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionAvstangningSmittskydd.toInternal(certificate);
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAvstangningSmittskydd.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getLabelId() {
+      return AVSTANGNING_SMITTSKYDD_QUESTION_LABEL;
+    }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getSelectedTextId() {
+      return ANSWER_YES;
+    }
+
+    @Override
+    protected String getUnselectedTextId() {
+      return ANSWER_NOT_SELECTED;
+    }
+  }
+
+  @Nested
+  class IncludeValueBooelanTests extends ValueBooleanTest {
+
+    @Override
+    protected String getJsonId() {
+      return AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27;
+    }
+
+    @Override
+    protected Boolean getBoolean() {
+      return true;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAvstangningSmittskydd.toCertificate(true, 0, texts);
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalBooleanTests extends InternalBooleanValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      return QuestionAvstangningSmittskydd.toCertificate(expectedValue, 0, texts);
+    }
+
+    @Override
+    protected Boolean toInternalBooleanValue(Certificate certificate) {
+      return QuestionAvstangningSmittskydd.toInternal(certificate);
+    }
+  }
 }

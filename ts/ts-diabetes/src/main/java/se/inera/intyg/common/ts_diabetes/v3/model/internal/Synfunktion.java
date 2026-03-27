@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,50 +29,43 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- * Created by marced on 2018-09-03.
- */
+/** Created by marced on 2018-09-03. */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Synfunktion.Builder.class)
 public abstract class Synfunktion {
 
-    @Nullable
-    public abstract Boolean getMisstankeOgonsjukdom();
+  @Nullable public abstract Boolean getMisstankeOgonsjukdom();
 
-    @Nullable
-    public abstract Boolean getSkickasSeparat();
+  @Nullable public abstract Boolean getSkickasSeparat();
 
-    @Nullable
-    public abstract Synskarpevarden getVanster();
+  @Nullable public abstract Synskarpevarden getVanster();
 
-    @Nullable
-    public abstract Synskarpevarden getHoger();
+  @Nullable public abstract Synskarpevarden getHoger();
 
-    @Nullable
-    public abstract Synskarpevarden getBinokulart();
+  @Nullable public abstract Synskarpevarden getBinokulart();
 
-    public static Builder builder() {
-        return new AutoValue_Synfunktion.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Synfunktion.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Synfunktion build();
+    public abstract Synfunktion build();
 
-        @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID)
-        public abstract Builder setMisstankeOgonsjukdom(Boolean value);
+    @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID)
+    public abstract Builder setMisstankeOgonsjukdom(Boolean value);
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID)
-        public abstract Builder setSkickasSeparat(Boolean value);
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID)
+    public abstract Builder setSkickasSeparat(Boolean value);
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID)
-        public abstract Builder setVanster(Synskarpevarden value);
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID)
+    public abstract Builder setVanster(Synskarpevarden value);
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID)
-        public abstract Builder setHoger(Synskarpevarden value);
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID)
+    public abstract Builder setHoger(Synskarpevarden value);
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID)
-        public abstract Builder setBinokulart(Synskarpevarden value);
-    }
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID)
+    public abstract Builder setBinokulart(Synskarpevarden value);
+  }
 }

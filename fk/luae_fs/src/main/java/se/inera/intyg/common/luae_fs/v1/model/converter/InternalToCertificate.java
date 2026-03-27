@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,31 +45,52 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component(value = "internalToCertificateFK7802")
 public class InternalToCertificate {
 
-    public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
-        int index = 0;
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
-            .addElement(CategoryGrundForMU.toCertificate(index++, texts))
-            .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
-                internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                internalCertificate.getAnnatGrundForMU(), index++, texts))
-            .addElement(QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
-            .addElement(QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
-                internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, texts))
-            .addElement(QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, texts))
-            .addElement(QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, texts))
-            .addElement(QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, texts))
-            .addElement(CategoryDiagnos.toCertificate(index++, texts))
-            .addElement(QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
-            .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
-            .addElement(QuestionFunktionsnedsattningDebut.toCertificate(internalCertificate.getFunktionsnedsattningDebut(), index++, texts))
-            .addElement(QuestionFunktionsnedsattningPaverkan.toCertificate(internalCertificate.getFunktionsnedsattningPaverkan(), index++,
+  public Certificate convert(LuaefsUtlatandeV1 internalCertificate, CertificateTextProvider texts) {
+    int index = 0;
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+        .addElement(CategoryGrundForMU.toCertificate(index++, texts))
+        .addElement(
+            QuestionUtlatandeBaseratPa.toCertificate(
+                internalCertificate.getUndersokningAvPatienten(),
+                internalCertificate.getJournaluppgifter(),
+                internalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                internalCertificate.getAnnatGrundForMU(),
+                index++,
                 texts))
-            .addElement(CategoryOvrigt.toCertificate(index++, texts))
-            .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
-            .addElement(CategoryKontakt.toCertificate(index++, texts))
-            .addElement(QuestionKontaktOnskas.toCertificate(internalCertificate.getKontaktMedFk(), index++, texts))
-            .addElement(QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, texts))
-            .build();
-    }
+        .addElement(
+            QuestionAnnatBeskrivning.toCertificate(
+                internalCertificate.getAnnatGrundForMUBeskrivning(), index++, texts))
+        .addElement(
+            QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, texts))
+        .addElement(
+            QuestionKannedomOmPatient.toCertificate(
+                internalCertificate.getKannedomOmPatient(), index++, texts))
+        .addElement(
+            QuestionUnderlagFinns.toCertificate(
+                internalCertificate.getUnderlagFinns(), index++, texts))
+        .addElement(
+            QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, texts))
+        .addElement(CategoryDiagnos.toCertificate(index++, texts))
+        .addElement(
+            QuestionDiagnoser.toCertificate(internalCertificate.getDiagnoser(), index++, texts))
+        .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
+        .addElement(
+            QuestionFunktionsnedsattningDebut.toCertificate(
+                internalCertificate.getFunktionsnedsattningDebut(), index++, texts))
+        .addElement(
+            QuestionFunktionsnedsattningPaverkan.toCertificate(
+                internalCertificate.getFunktionsnedsattningPaverkan(), index++, texts))
+        .addElement(CategoryOvrigt.toCertificate(index++, texts))
+        .addElement(QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, texts))
+        .addElement(CategoryKontakt.toCertificate(index++, texts))
+        .addElement(
+            QuestionKontaktOnskas.toCertificate(
+                internalCertificate.getKontaktMedFk(), index++, texts))
+        .addElement(
+            QuestionKontaktAnledning.toCertificate(
+                internalCertificate.getAnledningTillKontakt(), index, texts))
+        .build();
+  }
 }

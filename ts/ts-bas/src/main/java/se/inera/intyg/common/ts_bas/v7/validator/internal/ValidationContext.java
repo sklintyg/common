@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,19 +24,19 @@ import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 
 public class ValidationContext {
 
-    private final TsBasUtlatandeV7 utlatande;
+  private final TsBasUtlatandeV7 utlatande;
 
-    public ValidationContext(TsBasUtlatandeV7 utlatande) {
-        this.utlatande = utlatande;
-    }
+  public ValidationContext(TsBasUtlatandeV7 utlatande) {
+    this.utlatande = utlatande;
+  }
 
-    public boolean isPersontransportContext() {
-        for (IntygAvserKategori intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
-            IntygAvserKod intygAvserEnum = IntygAvserKod.fromCode(intygAvser.name());
-            if (intygAvserEnum != null && IntygAvserKod.isPersontransport(intygAvserEnum)) {
-                return true;
-            }
-        }
-        return false;
+  public boolean isPersontransportContext() {
+    for (IntygAvserKategori intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
+      IntygAvserKod intygAvserEnum = IntygAvserKod.fromCode(intygAvser.name());
+      if (intygAvserEnum != null && IntygAvserKod.isPersontransport(intygAvserEnum)) {
+        return true;
+      }
     }
+    return false;
+  }
 }

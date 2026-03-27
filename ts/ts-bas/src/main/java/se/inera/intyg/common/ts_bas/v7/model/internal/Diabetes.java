@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,43 +27,38 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Diabetes.Builder.class)
 public abstract class Diabetes {
 
-    public static Builder builder() {
-        return new AutoValue_Diabetes.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Diabetes.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Diabetes build();
+    public abstract Diabetes build();
 
-        @JsonProperty("harDiabetes")
-        public abstract Builder setHarDiabetes(Boolean harDiabetes);
+    @JsonProperty("harDiabetes")
+    public abstract Builder setHarDiabetes(Boolean harDiabetes);
 
-        @JsonProperty("diabetesTyp")
-        public abstract Builder setDiabetesTyp(String diabetesTyp);
+    @JsonProperty("diabetesTyp")
+    public abstract Builder setDiabetesTyp(String diabetesTyp);
 
-        @JsonProperty("kost")
-        public abstract Builder setKost(Boolean kost);
+    @JsonProperty("kost")
+    public abstract Builder setKost(Boolean kost);
 
-        @JsonProperty("insulin")
-        public abstract Builder setInsulin(Boolean insulin);
+    @JsonProperty("insulin")
+    public abstract Builder setInsulin(Boolean insulin);
 
-        @JsonProperty("tabletter")
-        public abstract Builder setTabletter(Boolean tabletter);
-    }
+    @JsonProperty("tabletter")
+    public abstract Builder setTabletter(Boolean tabletter);
+  }
 
-    @Nullable
-    public abstract Boolean getHarDiabetes();
+  @Nullable public abstract Boolean getHarDiabetes();
 
-    @Nullable
-    public abstract String getDiabetesTyp();
+  @Nullable public abstract String getDiabetesTyp();
 
-    @Nullable
-    public abstract Boolean getKost();
+  @Nullable public abstract Boolean getKost();
 
-    @Nullable
-    public abstract Boolean getInsulin();
+  @Nullable public abstract Boolean getInsulin();
 
-    @Nullable
-    public abstract Boolean getTabletter();
+  @Nullable public abstract Boolean getTabletter();
 }

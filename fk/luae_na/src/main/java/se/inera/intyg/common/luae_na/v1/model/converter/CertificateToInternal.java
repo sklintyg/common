@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,51 +57,68 @@ import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-
 public class CertificateToInternal {
 
-    public static LuaenaUtlatandeV1 convert(Certificate certificate, LuaenaUtlatandeV1 internalCertificate,
-        WebcertModuleService moduleService) {
-        return LuaenaUtlatandeV1.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setUndersokningAvPatienten(QuestionUnderlagBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
-            .setJournaluppgifter(QuestionUnderlagBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
-            .setAnhorigsBeskrivningAvPatienten(QuestionUnderlagBaseratPa.toInternal(certificate,
-                GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
-            .setAnnatGrundForMU(
-                QuestionUnderlagBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-            .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
-            .setMotiveringTillInteBaseratPaUndersokning(QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
-            .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
-            .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
-            .setUnderlag(QuestionUnderlag.toInternal(certificate))
-            .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
-            .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
-            .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
-            .setNyBedomningDiagnosgrund(QuestionNyBedomningDiagnosgrund.toInternal(certificate))
-            .setDiagnosForNyBedomning(QuestionDiagnosForNyBedomning.toInternal(certificate))
-            .setFunktionsnedsattningIntellektuell(QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
-            .setFunktionsnedsattningKommunikation(QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
-            .setFunktionsnedsattningKoncentration(QuestionFunktionsnedsattningKoncentration.toInternal(certificate))
-            .setFunktionsnedsattningPsykisk(QuestionFunktionsnedsattningPsykisk.toInternal(certificate))
-            .setFunktionsnedsattningSynHorselTal(QuestionFunktionsnedsattningSynHorselTal.toInternal(certificate))
-            .setFunktionsnedsattningBalansKoordination(QuestionFunktionsnedsattningBalansKoordination.toInternal(certificate))
-            .setFunktionsnedsattningAnnan(QuestionFunktionsnedsattningAnnan.toInternal(certificate))
-            .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
-            .setAvslutadBehandling(QuestionMedicinskBehandlingAvslutadBehandling.toInternal(certificate))
-            .setPagaendeBehandling(QuestionMedicinskBehandlingPagaendeBehandling.toInternal(certificate))
-            .setPlaneradBehandling(QuestionMedicinskBehandlingPlaneradBehandling.toInternal(certificate))
-            .setSubstansintag(QuestionMedicinskBehandlingSubstansintag.toInternal(certificate))
-            .setMedicinskaForutsattningarForArbete(QuestionMedicinskaForutsattningarForArbete.toInternal(certificate))
-            .setFormagaTrotsBegransning(QuestionFormagaTrotsBegransning.toInternal(certificate))
-            .setForslagTillAtgard(QuestionForslagTillAtgard.toInternal(certificate))
-            .setOvrigt(QuestionOvrigt.toInternal(certificate))
-            .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
-            .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
-            .build();
-    }
+  public static LuaenaUtlatandeV1 convert(
+      Certificate certificate,
+      LuaenaUtlatandeV1 internalCertificate,
+      WebcertModuleService moduleService) {
+    return LuaenaUtlatandeV1.builder()
+        .setId(internalCertificate.getId())
+        .setTextVersion(internalCertificate.getTextVersion())
+        .setGrundData(
+            MetaDataGrundData.toInternal(
+                certificate.getMetadata(), internalCertificate.getGrundData()))
+        .setUndersokningAvPatienten(
+            QuestionUnderlagBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1))
+        .setJournaluppgifter(
+            QuestionUnderlagBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1))
+        .setAnhorigsBeskrivningAvPatienten(
+            QuestionUnderlagBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1))
+        .setAnnatGrundForMU(
+            QuestionUnderlagBaseratPa.toInternal(
+                certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+        .setAnnatGrundForMUBeskrivning(QuestionAnnatBeskrivning.toInternal(certificate))
+        .setMotiveringTillInteBaseratPaUndersokning(
+            QuestionMotiveringTillInteBaseratPaUndersokning.toInternal(certificate))
+        .setKannedomOmPatient(QuestionKannedomOmPatient.toInternal(certificate))
+        .setUnderlagFinns(QuestionUnderlagFinns.toInternal(certificate))
+        .setUnderlag(QuestionUnderlag.toInternal(certificate))
+        .setSjukdomsforlopp(QuestionSjukdomsforlopp.toInternal(certificate))
+        .setDiagnoser(QuestionDiagnoser.toInternal(certificate, moduleService))
+        .setDiagnosgrund(QuestionDiagnosgrund.toInternal(certificate))
+        .setNyBedomningDiagnosgrund(QuestionNyBedomningDiagnosgrund.toInternal(certificate))
+        .setDiagnosForNyBedomning(QuestionDiagnosForNyBedomning.toInternal(certificate))
+        .setFunktionsnedsattningIntellektuell(
+            QuestionFunktionsnedsattningIntellektuell.toInternal(certificate))
+        .setFunktionsnedsattningKommunikation(
+            QuestionFunktionsnedsattningKommunikation.toInternal(certificate))
+        .setFunktionsnedsattningKoncentration(
+            QuestionFunktionsnedsattningKoncentration.toInternal(certificate))
+        .setFunktionsnedsattningPsykisk(QuestionFunktionsnedsattningPsykisk.toInternal(certificate))
+        .setFunktionsnedsattningSynHorselTal(
+            QuestionFunktionsnedsattningSynHorselTal.toInternal(certificate))
+        .setFunktionsnedsattningBalansKoordination(
+            QuestionFunktionsnedsattningBalansKoordination.toInternal(certificate))
+        .setFunktionsnedsattningAnnan(QuestionFunktionsnedsattningAnnan.toInternal(certificate))
+        .setAktivitetsbegransning(QuestionAktivitetsbegransningar.toInternal(certificate))
+        .setAvslutadBehandling(
+            QuestionMedicinskBehandlingAvslutadBehandling.toInternal(certificate))
+        .setPagaendeBehandling(
+            QuestionMedicinskBehandlingPagaendeBehandling.toInternal(certificate))
+        .setPlaneradBehandling(
+            QuestionMedicinskBehandlingPlaneradBehandling.toInternal(certificate))
+        .setSubstansintag(QuestionMedicinskBehandlingSubstansintag.toInternal(certificate))
+        .setMedicinskaForutsattningarForArbete(
+            QuestionMedicinskaForutsattningarForArbete.toInternal(certificate))
+        .setFormagaTrotsBegransning(QuestionFormagaTrotsBegransning.toInternal(certificate))
+        .setForslagTillAtgard(QuestionForslagTillAtgard.toInternal(certificate))
+        .setOvrigt(QuestionOvrigt.toInternal(certificate))
+        .setKontaktMedFk(QuestionKontaktOnskas.toInternal(certificate))
+        .setAnledningTillKontakt(QuestionKontaktAnledning.toInternal(certificate))
+        .build();
+  }
 }

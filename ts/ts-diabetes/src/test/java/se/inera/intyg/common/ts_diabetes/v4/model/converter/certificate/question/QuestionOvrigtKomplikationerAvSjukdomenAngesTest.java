@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -50,167 +49,167 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 @ExtendWith(MockitoExtension.class)
 class QuestionOvrigtKomplikationerAvSjukdomenAngesTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(
+          null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomenAnges(getText()).build();
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
-        }
+    @Override
+    protected String getTextId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_TEXT_ID;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 189;
-        }
+    @Override
+    protected String getDescriptionId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DESCRIPTION_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomenAnges(expectedValue).build();
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionOvrigtKomplikationerAvSjukdomenAnges.toInternal(certificate);
-        }
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
     }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomenAnges(getText()).build();
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 189;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomenAnges(expectedValue).build();
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionOvrigtKomplikationerAvSjukdomenAnges.toInternal(certificate);
+    }
+  }
 }

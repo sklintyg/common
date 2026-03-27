@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,113 +47,112 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTe
 @ExtendWith(MockitoExtension.class)
 class QuestionKontaktOnskasTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKontaktOnskas.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return KONTAKT_ONSKAS_SVAR_ID_26;
-        }
-
-        @Override
-        protected String getParent() {
-            return KONTAKT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return KONTAKT_ONSKAS_SVAR_ID_26;
     }
 
-    @Nested
-    class IncludeConfigCheckboxBooleanTest extends ConfigCheckboxBooleanTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return KONTAKT_ONSKAS_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-        }
-
-        @Override
-        protected String getLabelId() {
-            return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getSelectedTextId() {
-            return ANSWER_YES;
-        }
-
-        @Override
-        protected String getUnselectedTextId() {
-            return ANSWER_NOT_SELECTED;
-        }
+    @Override
+    protected String getParent() {
+      return KONTAKT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueBooleanTest extends ValueBooleanTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKontaktOnskas.toCertificate(true, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigCheckboxBooleanTest extends ConfigCheckboxBooleanTest {
 
-        @Override
-        protected String getJsonId() {
-            return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-        }
-
-        @Override
-        protected Boolean getBoolean() {
-            return true;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionKontaktOnskas.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionKontaktOnskas.toInternal(certificate);
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKontaktOnskas.toCertificate(null, 0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return KONTAKT_ONSKAS_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return KONTAKT_ONSKAS_SVAR_DESCRIPTION_ID;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+    }
+
+    @Override
+    protected String getLabelId() {
+      return KONTAKT_ONSKAS_DELSVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getSelectedTextId() {
+      return ANSWER_YES;
+    }
+
+    @Override
+    protected String getUnselectedTextId() {
+      return ANSWER_NOT_SELECTED;
+    }
+  }
+
+  @Nested
+  class IncludeValueBooleanTest extends ValueBooleanTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKontaktOnskas.toCertificate(true, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+    }
+
+    @Override
+    protected Boolean getBoolean() {
+      return true;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      return QuestionKontaktOnskas.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected Boolean toInternalBooleanValue(Certificate certificate) {
+      return QuestionKontaktOnskas.toInternal(certificate);
+    }
+  }
 }

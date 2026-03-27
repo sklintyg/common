@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,44 +39,46 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medvetandestorning;
 
 public class QuestionMedvetandestorningBeskrivning {
 
-    private static final short TEXT_LIMIT = 180;
+  private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(Medvetandestorning medvetandestorning, int index,
-        CertificateTextProvider textProvider) {
-        final var medvetandestorningBeskrivning =
-            medvetandestorning != null && medvetandestorning.getBeskrivning() != null ? medvetandestorning.getBeskrivning() : null;
-        return CertificateDataElement.builder()
-            .id(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID)
-            .index(index)
-            .parent(MEDVETANDESTORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
-                    .text(textProvider.get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
-                    .text(medvetandestorningBeskrivning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(MEDVETANDESTORNING_SVAR_ID)
-                        .expression(singleExpression(MEDVETANDESTORNING_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Medvetandestorning medvetandestorning, int index, CertificateTextProvider textProvider) {
+    final var medvetandestorningBeskrivning =
+        medvetandestorning != null && medvetandestorning.getBeskrivning() != null
+            ? medvetandestorning.getBeskrivning()
+            : null;
+    return CertificateDataElement.builder()
+        .id(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID)
+        .index(index)
+        .parent(MEDVETANDESTORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
+                .text(textProvider.get(FOREKOMST_MEDVETANDESTORNING_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
+                .text(medvetandestorningBeskrivning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(MEDVETANDESTORNING_SVAR_ID)
+                  .expression(singleExpression(MEDVETANDESTORNING_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(FOREKOMST_MEDVETANDESTORNING_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID, FOREKOMST_MEDVETANDESTORNING_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID,
+        FOREKOMST_MEDVETANDESTORNING_JSON_ID);
+  }
 }

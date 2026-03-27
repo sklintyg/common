@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,20 +22,19 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
 public class ValidateDraftCreationResponse {
 
-    private final String message;
-    private final ResultCodeType resultCode;
+  private final String message;
+  private final ResultCodeType resultCode;
 
-    public ValidateDraftCreationResponse(String message, ResultCodeType resultCode) {
-        this.message = message;
-        this.resultCode = resultCode;
-    }
+  public ValidateDraftCreationResponse(String message, ResultCodeType resultCode) {
+    this.message = message;
+    this.resultCode = resultCode;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public ResultCodeType getResultCode() {
-        return resultCode;
-    }
-
+  public ResultCodeType getResultCode() {
+    return resultCode;
+  }
 }

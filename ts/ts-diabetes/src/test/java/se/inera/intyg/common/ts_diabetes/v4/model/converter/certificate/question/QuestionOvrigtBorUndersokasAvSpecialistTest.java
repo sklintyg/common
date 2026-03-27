@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -46,119 +45,118 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 @ExtendWith(MockitoExtension.class)
 class QuestionOvrigtBorUndersokasAvSpecialistTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return OVRIGT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return OVRIGT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueTextTest extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var ovrigt = Ovrigt.builder().setBorUndersokasAvSpecialist(getText()).build();
-            return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "Detta är ett text värde!";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationTextTest extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 71;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalTextValueTest extends InternalTextValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            final var ovrigt = Ovrigt.builder().setBorUndersokasAvSpecialist(expectedValue).build();
-            return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider);
-        }
-
-        @Override
-        protected String toInternalTextValue(Certificate certificate) {
-            return QuestionOvrigtBorUndersokasAvSpecialist.toInternal(certificate);
-        }
+    @Override
+    protected String getTextId() {
+      return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTest extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var ovrigt = Ovrigt.builder().setBorUndersokasAvSpecialist(getText()).build();
+      return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "Detta är ett text värde!";
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTest extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 71;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalTextValueTest extends InternalTextValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      final var ovrigt = Ovrigt.builder().setBorUndersokasAvSpecialist(expectedValue).build();
+      return QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected String toInternalTextValue(Certificate certificate) {
+      return QuestionOvrigtBorUndersokasAvSpecialist.toInternal(certificate);
+    }
+  }
 }

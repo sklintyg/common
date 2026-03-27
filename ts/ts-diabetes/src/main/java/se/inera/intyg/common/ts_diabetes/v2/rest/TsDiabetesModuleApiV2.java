@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -104,322 +104,360 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
- * The contract between the certificate module and the generic components (Intygstjänsten and Mina-Intyg).
+ * The contract between the certificate module and the generic components (Intygstjänsten and
+ * Mina-Intyg).
  *
  * @author Gustav Norbäcker, R2M
  */
 @Component(value = "moduleapi.ts-diabetes.v2")
 public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatandeV2> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV2.class);
+  private Map<String, String> validationMessages;
+  @Autowired private InternalToCertificate internalToCertificate;
 
-    private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV2.class);
-    private Map<String, String> validationMessages;
-    @Autowired
-    private InternalToCertificate internalToCertificate;
-    @Autowired(required = false)
-    @Qualifier("sendTsDiabetesClient")
-    private SendTSClient sendTsDiabetesClient;
+  @Autowired(required = false)
+  @Qualifier("sendTsDiabetesClient") private SendTSClient sendTsDiabetesClient;
 
-    @Autowired(required = false)
-    @Qualifier("diabetesGetClient")
-    private GetTSDiabetesResponderInterface diabetesGetClient;
+  @Autowired(required = false)
+  @Qualifier("diabetesGetClient") private GetTSDiabetesResponderInterface diabetesGetClient;
 
-    @Autowired(required = false)
-    @Qualifier("diabetesRegisterClient")
-    private RegisterTSDiabetesResponderInterface diabetesRegisterClient;
+  @Autowired(required = false)
+  @Qualifier("diabetesRegisterClient") private RegisterTSDiabetesResponderInterface diabetesRegisterClient;
 
-    @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+  @Autowired(required = false)
+  private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
-    @Autowired(required = false)
-    @Qualifier("tsDiabetesXslTransformer")
-    private XslTransformer xslTransformer;
+  @Autowired(required = false)
+  @Qualifier("tsDiabetesXslTransformer") private XslTransformer xslTransformer;
 
-    private JAXBContext jaxbContext;
+  private JAXBContext jaxbContext;
 
-    @Autowired
-    private PdfGenerator<TsDiabetesUtlatandeV2> pdfGenerator;
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private PdfGenerator<TsDiabetesUtlatandeV2> pdfGenerator;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
-    private String pdfMinaIntygMarginText;
+  @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+  private String pdfMinaIntygMarginText;
 
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
 
-    public TsDiabetesModuleApiV2() {
-        super(TsDiabetesUtlatandeV2.class);
-        initMessages();
+  public TsDiabetesModuleApiV2() {
+    super(TsDiabetesUtlatandeV2.class);
+    initMessages();
+  }
+
+  private void initMessages() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("ts-diabetes-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    private void initMessages() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("ts-diabetes-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
+  @PostConstruct
+  void init() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(RegisterTSDiabetesType.class);
+  }
+
+  @Override
+  public void registerCertificate(String internalModel, String logicalAddress)
+      throws ModuleException {
+    RegisterTSDiabetesType request =
+        InternalToTransportConverter.convert(getInternal(internalModel));
+
+    RegisterTSDiabetesResponseType response =
+        diabetesRegisterClient.registerTSDiabetes(logicalAddress, request);
+
+    // check whether call was successful or not
+    if (response.getResultat().getResultCode() == ResultCodeType.INFO) {
+      throw new ExternalServiceCallException(
+          response.getResultat().getResultText(),
+          RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(
+                  response.getResultat().getResultText())
+              ? ErrorIdEnum.VALIDATION_ERROR
+              : ErrorIdEnum.APPLICATION_ERROR);
+    } else if (response.getResultat().getResultCode() == ResultCodeType.ERROR) {
+      throw new ExternalServiceCallException(
+          response.getResultat().getErrorId() + " : " + response.getResultat().getResultText());
+    }
+  }
+
+  @Override
+  public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
+      throws ModuleException {
+    String transformedPayload = xslTransformer.transform(xmlBody);
+
+    try {
+      SOAPMessage response =
+          sendTsDiabetesClient.registerCertificate(transformedPayload, logicalAddress);
+      SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
+      if (contents.getBody().hasFault()) {
+        throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
+      }
+    } catch (Exception e) {
+      LOG.error("Error in sendCertificateToRecipient with msg: " + e.getMessage(), e);
+      throw new ModuleException("Error in sendCertificateToRecipient.", e);
+    }
+  }
+
+  @Override
+  public CertificateResponse getCertificate(
+      String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    GetTSDiabetesType type = new GetTSDiabetesType();
+    type.setIntygsId(certificateId);
+
+    GetTSDiabetesResponseType diabetesResponseType =
+        diabetesGetClient.getTSDiabetes(logicalAddress, type);
+
+    switch (diabetesResponseType.getResultat().getResultCode()) {
+      case INFO:
+      case OK:
+        return convert(diabetesResponseType, false);
+      case ERROR:
+        switch (diabetesResponseType.getResultat().getErrorId()) {
+          case REVOKED:
+            return convert(diabetesResponseType, true);
+          case VALIDATION_ERROR:
+            throw new ModuleException(
+                "GetTSDiabetes WS call: VALIDATION_ERROR :"
+                    + diabetesResponseType.getResultat().getResultText());
+          default:
+            throw new ModuleException(
+                "GetTSDiabetes WS call: ERROR :"
+                    + diabetesResponseType.getResultat().getResultText());
         }
     }
+    throw new ModuleException(
+        "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+  }
 
-    @PostConstruct
-    void init() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterTSDiabetesType.class);
+  @Override
+  public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    AttributedURIType uri = new AttributedURIType();
+    uri.setValue(logicalAddress);
+
+    RevokeMedicalCertificateRequestType request =
+        JAXB.unmarshal(
+            new StreamSource(new StringReader(xmlBody)), RevokeMedicalCertificateRequestType.class);
+    RevokeMedicalCertificateResponseType response =
+        revokeCertificateClient.revokeMedicalCertificate(uri, request);
+    if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
+      String message = "Could not send revoke to " + logicalAddress;
+      LOG.error(message);
+      throw new ExternalServiceCallException(message);
     }
+  }
 
-    @Override
-    public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
-        RegisterTSDiabetesType request = InternalToTransportConverter.convert(getInternal(internalModel));
+  @Override
+  public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande)
+      throws ModuleException {
+    RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
+    request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        RegisterTSDiabetesResponseType response = diabetesRegisterClient.registerTSDiabetes(logicalAddress, request);
+    JAXBElement<RevokeMedicalCertificateRequestType> el =
+        new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+    return XmlMarshallerHelper.marshal(el);
+  }
 
-        // check whether call was successful or not
-        if (response.getResultat().getResultCode() == ResultCodeType.INFO) {
-            throw new ExternalServiceCallException(response.getResultat().getResultText(),
-                RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
-                    ? ErrorIdEnum.VALIDATION_ERROR
-                    : ErrorIdEnum.APPLICATION_ERROR);
-        } else if (response.getResultat().getResultCode() == ResultCodeType.ERROR) {
-            throw new ExternalServiceCallException(response.getResultat().getErrorId() + " : " + response.getResultat().getResultText());
-        }
+  // FIXME: There exists invalid RegisterTSDiabetes XML files in the database (invalid root element
+  // name and namespace).
+  // use old fashion marshalling to handle those until the database has been corrected.
+  @Override
+  public TsDiabetesUtlatandeV2 getUtlatandeFromXml(String xml) throws ModuleException {
+    try {
+      RegisterTSDiabetesType jaxbObject =
+          JAXB.unmarshal(new StringReader(xml), RegisterTSDiabetesType.class);
+      return TransportToInternalConverter.convert(jaxbObject.getIntyg());
+    } catch (ConverterException e) {
+      LOG.error("Could not get utlatande from xml: {}", e.getMessage());
+      throw new ModuleException("Could not get utlatande from xml", e);
     }
+  }
 
-    @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        String transformedPayload = xslTransformer.transform(xmlBody);
-
-        try {
-            SOAPMessage response = sendTsDiabetesClient.registerCertificate(transformedPayload, logicalAddress);
-            SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
-            if (contents.getBody().hasFault()) {
-                throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
-            }
-        } catch (Exception e) {
-            LOG.error("Error in sendCertificateToRecipient with msg: " + e.getMessage(), e);
-            throw new ModuleException("Error in sendCertificateToRecipient.", e);
-        }
+  private CertificateResponse convert(
+      GetTSDiabetesResponseType diabetesResponseType, boolean revoked) throws ModuleException {
+    try {
+      TsDiabetesUtlatandeV2 utlatande =
+          TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
+      String internalModel = toInternalModelResponse(utlatande);
+      CertificateMetaData metaData =
+          TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(
+              diabetesResponseType.getMeta(), diabetesResponseType.getIntyg());
+      return new CertificateResponse(internalModel, utlatande, metaData, revoked);
+    } catch (Exception e) {
+      throw new ModuleException(e);
     }
+  }
 
-    @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
-        GetTSDiabetesType type = new GetTSDiabetesType();
-        type.setIntygsId(certificateId);
+  @Override
+  public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    try {
+      Utlatande utlatande = this.getInternal(internalModel, created);
 
-        GetTSDiabetesResponseType diabetesResponseType = diabetesGetClient.getTSDiabetes(logicalAddress, type);
+      String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
+      String firstName = utlatande.getGrundData().getPatient().getFornamn();
+      String middleName = utlatande.getGrundData().getPatient().getMellannamn();
+      String lastName = utlatande.getGrundData().getPatient().getEfternamn();
+      String address = utlatande.getGrundData().getPatient().getPostadress();
+      String county = utlatande.getGrundData().getPatient().getPostort();
+      String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
 
-        switch (diabetesResponseType.getResultat().getResultCode()) {
-            case INFO:
-            case OK:
-                return convert(diabetesResponseType, false);
-            case ERROR:
-                switch (diabetesResponseType.getResultat().getErrorId()) {
-                    case REVOKED:
-                        return convert(diabetesResponseType, true);
-                    case VALIDATION_ERROR:
-                        throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
-                            + diabetesResponseType.getResultat().getResultText());
-                    default:
-                        throw new ModuleException(
-                            "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
-                }
-        }
-        throw new ModuleException("GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+      WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
+
+      utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
+      utlatande.getGrundData().getPatient().setFornamn(firstName);
+      utlatande.getGrundData().getPatient().setMellannamn(middleName);
+      utlatande.getGrundData().getPatient().setEfternamn(lastName);
+      utlatande.getGrundData().getPatient().setPostadress(address);
+      utlatande.getGrundData().getPatient().setPostort(county);
+      utlatande.getGrundData().getPatient().setPostnummer(zipCode);
+
+      return this.toInternalModelResponse(utlatande);
+    } catch (ConverterException | ModuleException var4) {
+      throw new ModuleException("Error while updating internal model", var4);
     }
+  }
 
-    @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        AttributedURIType uri = new AttributedURIType();
-        uri.setValue(logicalAddress);
+  @Override
+  protected Intyg utlatandeToIntyg(TsDiabetesUtlatandeV2 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
 
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-            RevokeMedicalCertificateRequestType.class);
-        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
-        if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
-            String message = "Could not send revoke to " + logicalAddress;
-            LOG.error(message);
-            throw new ExternalServiceCallException(message);
-        }
+  @Override
+  protected RegisterCertificateValidator getRegisterCertificateValidator() {
+    return null;
+  }
+
+  @Override
+  public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    return ValidateXmlResponse.createValidResponse();
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(TsDiabetesUtlatandeV2 utlatande)
+      throws ConverterException {
+    throw new NotSupportedException();
+  }
+
+  @Override
+  protected TsDiabetesUtlatandeV2 transportToInternal(Intyg intyg) throws ConverterException {
+    throw new NotSupportedException();
+  }
+
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    try {
+      return new PdfResponse(
+          pdfGenerator.generatePDF(
+              getInternal(internalModel),
+              statuses,
+              applicationOrigin,
+              utkastStatus,
+              pdfMinaIntygMarginText),
+          pdfGenerator.generatePdfFilename(getInternal(internalModel)));
+    } catch (PdfGeneratorException e) {
+      LOG.error("Failed to generate PDF for certificate!", e);
+      throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
     }
+  }
 
-    @Override
-    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
-        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
+  @Override
+  public PatientDetailResolveOrder getPatientDetailResolveOrder() {
+    List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
+    List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
-        JAXBElement<RevokeMedicalCertificateRequestType> el =
-            new ObjectFactory().createRevokeMedicalCertificateRequest(request);
-        return XmlMarshallerHelper.marshal(el);
+    return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
+  }
+
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException, IOException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        internalToCertificate.convert(internalCertificate, certificateTextProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException, IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof TsDiabetesUtlatandeV2) {
+      return toInternalModelResponse(utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class TsDiabetesUtlatandeV2, utlatande was instance of class: "
+            + message);
+  }
 
-    // FIXME: There exists invalid RegisterTSDiabetes XML files in the database (invalid root element name and namespace).
-    // use old fashion marshalling to handle those until the database has been corrected.
-    @Override
-    public TsDiabetesUtlatandeV2 getUtlatandeFromXml(String xml) throws ModuleException {
-        try {
-            RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                RegisterTSDiabetesType.class);
-            return TransportToInternalConverter.convert(jaxbObject.getIntyg());
-        } catch (ConverterException e) {
-            LOG.error("Could not get utlatande from xml: {}", e.getMessage());
-            throw new ModuleException("Could not get utlatande from xml", e);
-        }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    try {
+      final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
+      final var updatedUtlatande =
+          TestabilityToolkit.getUtlatandeWithTestData(
+              utlatande, fillType, new TsDiabetesV2TestabilityTestDataProvider());
+      return getJsonFromUtlatande(updatedUtlatande);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    private CertificateResponse convert(GetTSDiabetesResponseType diabetesResponseType, boolean revoked) throws ModuleException {
-        try {
-            TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
-            String internalModel = toInternalModelResponse(utlatande);
-            CertificateMetaData metaData = TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(diabetesResponseType.getMeta(),
-                diabetesResponseType.getIntyg());
-            return new CertificateResponse(internalModel, utlatande, metaData, revoked);
-        } catch (Exception e) {
-            throw new ModuleException(e);
-        }
+  @Override
+  protected TsDiabetesUtlatandeV2 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var tsDiabetesUtlatandeV2 =
+          objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
+      return tsDiabetesUtlatandeV2;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
+  }
 
-    @Override
-    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        try {
-            Utlatande utlatande = this.getInternal(internalModel, created);
-
-            String fullName = utlatande.getGrundData().getPatient().getFullstandigtNamn();
-            String firstName = utlatande.getGrundData().getPatient().getFornamn();
-            String middleName = utlatande.getGrundData().getPatient().getMellannamn();
-            String lastName = utlatande.getGrundData().getPatient().getEfternamn();
-            String address = utlatande.getGrundData().getPatient().getPostadress();
-            String county = utlatande.getGrundData().getPatient().getPostort();
-            String zipCode = utlatande.getGrundData().getPatient().getPostnummer();
-
-            WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
-
-            utlatande.getGrundData().getPatient().setFullstandigtNamn(fullName);
-            utlatande.getGrundData().getPatient().setFornamn(firstName);
-            utlatande.getGrundData().getPatient().setMellannamn(middleName);
-            utlatande.getGrundData().getPatient().setEfternamn(lastName);
-            utlatande.getGrundData().getPatient().setPostadress(address);
-            utlatande.getGrundData().getPatient().setPostort(county);
-            utlatande.getGrundData().getPatient().setPostnummer(zipCode);
-
-            return this.toInternalModelResponse(utlatande);
-        } catch (ConverterException | ModuleException var4) {
-            throw new ModuleException("Error while updating internal model", var4);
-        }
+  @Override
+  protected TsDiabetesUtlatandeV2 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var tsDiabetesUtlatandeV2 =
+          objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
+      unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2, created);
+      return tsDiabetesUtlatandeV2;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
     }
-
-    @Override
-    protected Intyg utlatandeToIntyg(TsDiabetesUtlatandeV2 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
-
-    @Override
-    protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return null;
-    }
-
-    @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        return ValidateXmlResponse.createValidResponse();
-    }
-
-    @Override
-    protected RegisterCertificateType internalToTransport(TsDiabetesUtlatandeV2 utlatande) throws ConverterException {
-        throw new NotSupportedException();
-    }
-
-    @Override
-    protected TsDiabetesUtlatandeV2 transportToInternal(Intyg intyg) throws ConverterException {
-        throw new NotSupportedException();
-    }
-
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        try {
-            return new PdfResponse(
-                pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus, pdfMinaIntygMarginText),
-                pdfGenerator.generatePdfFilename(getInternal(internalModel)));
-        } catch (PdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
-        }
-    }
-
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
-
-        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson,
-        TypeAheadProvider typeAheadProvider, LocalDateTime created) throws ModuleException, IOException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = internalToCertificate.convert(internalCertificate, certificateTextProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
-        throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof TsDiabetesUtlatandeV2) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class TsDiabetesUtlatandeV2, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        try {
-            final var utlatande = (TsDiabetesUtlatandeV2) getUtlatandeFromJson(model);
-            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
-                new TsDiabetesV2TestabilityTestDataProvider());
-            return getJsonFromUtlatande(updatedUtlatande);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    protected TsDiabetesUtlatandeV2 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
-            return tsDiabetesUtlatandeV2;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
-
-    @Override
-    protected TsDiabetesUtlatandeV2 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var tsDiabetesUtlatandeV2 = objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
-            unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2, created);
-            return tsDiabetesUtlatandeV2;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
+  }
 }

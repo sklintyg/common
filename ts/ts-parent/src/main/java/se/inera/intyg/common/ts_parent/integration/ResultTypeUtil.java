@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,27 +24,26 @@ import se.inera.intygstjanster.ts.services.v1.ResultatTyp;
 
 public final class ResultTypeUtil {
 
-    private ResultTypeUtil() {
-    }
+  private ResultTypeUtil() {}
 
-    public static ResultatTyp okResult() {
-        ResultatTyp result = new ResultatTyp();
-        result.setResultCode(ResultCodeType.OK);
-        return result;
-    }
+  public static ResultatTyp okResult() {
+    ResultatTyp result = new ResultatTyp();
+    result.setResultCode(ResultCodeType.OK);
+    return result;
+  }
 
-    public static ResultatTyp infoResult(String resultText) {
-        ResultatTyp result = new ResultatTyp();
-        result.setResultCode(ResultCodeType.INFO);
-        result.setResultText(resultText);
-        return result;
-    }
+  public static ResultatTyp infoResult(String resultText) {
+    ResultatTyp result = new ResultatTyp();
+    result.setResultCode(ResultCodeType.INFO);
+    result.setResultText(resultText);
+    return result;
+  }
 
-    public static ResultatTyp errorResult(ErrorIdType errorId, String resultText) {
-        ResultatTyp result = new ResultatTyp();
-        result.setResultCode(ResultCodeType.ERROR);
-        result.setErrorId(errorId);
-        result.setResultText(resultText);
-        return result;
-    }
+  public static ResultatTyp errorResult(ErrorIdType errorId, String resultText) {
+    ResultatTyp result = new ResultatTyp();
+    result.setResultCode(ResultCodeType.ERROR);
+    result.setErrorId(errorId);
+    result.setResultText(resultText);
+    return result;
+  }
 }

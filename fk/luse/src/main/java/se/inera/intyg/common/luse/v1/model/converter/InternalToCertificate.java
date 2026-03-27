@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.luse.v1.model.converter;
 
 import org.springframework.stereotype.Component;
@@ -71,148 +70,124 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component(value = "internalToCertificateFk7800")
 public class InternalToCertificate {
 
-    public Certificate convert(LuseUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
-        int index = 0;
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
-            .addElement(
-                CategoryGrundForMU.toCertificate(index++, textProvider)
-            )
-            .addElement(QuestionUtlatandeBaseratPa.toCertificate(internalCertificate.getUndersokningAvPatienten(),
-                internalCertificate.getJournaluppgifter(), internalCertificate.getAnhorigsBeskrivningAvPatienten(),
-                internalCertificate.getAnnatGrundForMU(), index++, textProvider)
-            )
-            .addElement(
-                QuestionAnnatBeskrivning.toCertificate(internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider)
-            )
-            .addElement(
-                QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
-                    internalCertificate.getMotiveringTillInteBaseratPaUndersokning(), index++, textProvider)
-            )
-            .addElement(
-                QuestionKannedomOmPatient.toCertificate(internalCertificate.getKannedomOmPatient(), index++, textProvider)
-            )
-            .addElement(
-                QuestionUnderlagFinns.toCertificate(internalCertificate.getUnderlagFinns(), index++, textProvider)
-            )
-            .addElement(
-                QuestionUnderlag.toCertificate(internalCertificate.getUnderlag(), index++, textProvider)
-            )
-            .addElement(
-                CategoryDiagnos.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionDiagnos.toCertificate(internalCertificate.getDiagnoser(), index++, textProvider)
-            )
-            .addElement(
-                QuestionDiagnosgrund.toCertificate(internalCertificate.getDiagnosgrund(), index++, textProvider)
-            )
-            .addElement(
-                QuestionDiagnosgrundNyBedomning.toCertificate(internalCertificate.getNyBedomningDiagnosgrund(), index++, textProvider)
-            )
-            .addElement(
-                QuestionDiagnosgrundForNyBedomning.toCertificate(internalCertificate.getDiagnosForNyBedomning(), index++, textProvider)
-            )
-            .addElement(
-                CategoryBakgrund.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionSjukdomsforlopp.toCertificate(internalCertificate.getSjukdomsforlopp(), index++, textProvider)
-            )
-            .addElement(
-                CategoryFunktionsnedsattning.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningIntellektuell.toCertificate(internalCertificate.getFunktionsnedsattningIntellektuell(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningKommunikation.toCertificate(internalCertificate.getFunktionsnedsattningKommunikation(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningKoncentration.toCertificate(internalCertificate.getFunktionsnedsattningKoncentration(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningPsykisk.toCertificate(internalCertificate.getFunktionsnedsattningPsykisk(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningSynHorselTal.toCertificate(internalCertificate.getFunktionsnedsattningSynHorselTal(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningBalansKoordination.toCertificate(
-                    internalCertificate.getFunktionsnedsattningBalansKoordination(), index++, textProvider)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningAnnan.toCertificate(internalCertificate.getFunktionsnedsattningAnnan(), index++, textProvider)
-            )
-            .addElement(
-                CategoryAktivitetsbegransningar.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionAktivitetsbegransningarHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionAktivitetsbegransningar.toCertificate(internalCertificate.getAktivitetsbegransning(), index++, textProvider)
-            )
-            .addElement(
-                CategoryMedicinskBehandling.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingAvslutadBehandlingHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(internalCertificate.getAvslutadBehandling(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingPagaendeBehandlingHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(internalCertificate.getPagaendeBehandling(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(internalCertificate.getPlaneradBehandling(), index++,
-                    textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskBehandlingSubstansintag.toCertificate(internalCertificate.getSubstansintag(), index++, textProvider)
-            )
-            .addElement(
-                CategoryMedicinskaForutsattningarForArbete.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionMedicinskaForutsattningarForArbete.toCertificate(internalCertificate.getMedicinskaForutsattningarForArbete(),
-                    index++, textProvider)
-            )
-            .addElement(
-                QuestionFormagaTrotsBegransning.toCertificate(internalCertificate.getFormagaTrotsBegransning(), index++, textProvider)
-            )
-            .addElement(
-                CategoryOvrigt.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, textProvider)
-            )
-            .addElement(
-                CategoryKontakt.toCertificate(index++, textProvider)
-            )
-            .addElement(
-                QuestionKontaktMedFk.toCertificate(internalCertificate.getKontaktMedFk(), index++, textProvider)
-            )
-            .addElement(
-                QuestionKontaktAnledning.toCertificate(internalCertificate.getAnledningTillKontakt(), index, textProvider)
-            )
-            .build();
-    }
+  public Certificate convert(
+      LuseUtlatandeV1 internalCertificate, CertificateTextProvider textProvider) {
+    int index = 0;
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+        .addElement(CategoryGrundForMU.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionUtlatandeBaseratPa.toCertificate(
+                internalCertificate.getUndersokningAvPatienten(),
+                internalCertificate.getJournaluppgifter(),
+                internalCertificate.getAnhorigsBeskrivningAvPatienten(),
+                internalCertificate.getAnnatGrundForMU(),
+                index++,
+                textProvider))
+        .addElement(
+            QuestionAnnatBeskrivning.toCertificate(
+                internalCertificate.getAnnatGrundForMUBeskrivning(), index++, textProvider))
+        .addElement(
+            QuestionMotiveringTillInteBaseratPaUndersokning.toCertificate(
+                internalCertificate.getMotiveringTillInteBaseratPaUndersokning(),
+                index++,
+                textProvider))
+        .addElement(
+            QuestionKannedomOmPatient.toCertificate(
+                internalCertificate.getKannedomOmPatient(), index++, textProvider))
+        .addElement(
+            QuestionUnderlagFinns.toCertificate(
+                internalCertificate.getUnderlagFinns(), index++, textProvider))
+        .addElement(
+            QuestionUnderlag.toCertificate(
+                internalCertificate.getUnderlag(), index++, textProvider))
+        .addElement(CategoryDiagnos.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionDiagnos.toCertificate(
+                internalCertificate.getDiagnoser(), index++, textProvider))
+        .addElement(
+            QuestionDiagnosgrund.toCertificate(
+                internalCertificate.getDiagnosgrund(), index++, textProvider))
+        .addElement(
+            QuestionDiagnosgrundNyBedomning.toCertificate(
+                internalCertificate.getNyBedomningDiagnosgrund(), index++, textProvider))
+        .addElement(
+            QuestionDiagnosgrundForNyBedomning.toCertificate(
+                internalCertificate.getDiagnosForNyBedomning(), index++, textProvider))
+        .addElement(CategoryBakgrund.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionSjukdomsforlopp.toCertificate(
+                internalCertificate.getSjukdomsforlopp(), index++, textProvider))
+        .addElement(CategoryFunktionsnedsattning.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningIntellektuell.toCertificate(
+                internalCertificate.getFunktionsnedsattningIntellektuell(), index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningKommunikation.toCertificate(
+                internalCertificate.getFunktionsnedsattningKommunikation(), index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningKoncentration.toCertificate(
+                internalCertificate.getFunktionsnedsattningKoncentration(), index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningPsykisk.toCertificate(
+                internalCertificate.getFunktionsnedsattningPsykisk(), index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningSynHorselTal.toCertificate(
+                internalCertificate.getFunktionsnedsattningSynHorselTal(), index++, textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningBalansKoordination.toCertificate(
+                internalCertificate.getFunktionsnedsattningBalansKoordination(),
+                index++,
+                textProvider))
+        .addElement(
+            QuestionFunktionsnedsattningAnnan.toCertificate(
+                internalCertificate.getFunktionsnedsattningAnnan(), index++, textProvider))
+        .addElement(CategoryAktivitetsbegransningar.toCertificate(index++, textProvider))
+        .addElement(QuestionAktivitetsbegransningarHeader.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionAktivitetsbegransningar.toCertificate(
+                internalCertificate.getAktivitetsbegransning(), index++, textProvider))
+        .addElement(CategoryMedicinskBehandling.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingAvslutadBehandlingHeader.toCertificate(
+                index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingAvslutadBehandling.toCertificate(
+                internalCertificate.getAvslutadBehandling(), index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingPagaendeBehandlingHeader.toCertificate(
+                index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingPagaendeBehandling.toCertificate(
+                internalCertificate.getPagaendeBehandling(), index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingPlaneradBehandlingHeader.toCertificate(
+                index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingPlaneradBehandling.toCertificate(
+                internalCertificate.getPlaneradBehandling(), index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingSubstansintagHeader.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionMedicinskBehandlingSubstansintag.toCertificate(
+                internalCertificate.getSubstansintag(), index++, textProvider))
+        .addElement(CategoryMedicinskaForutsattningarForArbete.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionMedicinskaForutsattningarForArbete.toCertificate(
+                internalCertificate.getMedicinskaForutsattningarForArbete(), index++, textProvider))
+        .addElement(
+            QuestionFormagaTrotsBegransning.toCertificate(
+                internalCertificate.getFormagaTrotsBegransning(), index++, textProvider))
+        .addElement(CategoryOvrigt.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionOvrigt.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
+        .addElement(CategoryKontakt.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionKontaktMedFk.toCertificate(
+                internalCertificate.getKontaktMedFk(), index++, textProvider))
+        .addElement(
+            QuestionKontaktAnledning.toCertificate(
+                internalCertificate.getAnledningTillKontakt(), index, textProvider))
+        .build();
+  }
 }

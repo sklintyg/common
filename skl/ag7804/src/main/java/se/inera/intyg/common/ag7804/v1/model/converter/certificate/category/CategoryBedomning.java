@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEDOMNING_CATEGORY_TEXT;
@@ -28,16 +27,14 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCa
 
 public class CategoryBedomning {
 
-    public static CertificateDataElement toCertificate(int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(CATEGORY_BEDOMNING)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(BEDOMNING_CATEGORY_TEXT))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(CATEGORY_BEDOMNING)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(texts.get(BEDOMNING_CATEGORY_TEXT))
+                .build())
+        .build();
+  }
 }

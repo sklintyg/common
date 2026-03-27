@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,136 +47,135 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 @ExtendWith(MockitoExtension.class)
 class QuestionOvrigtKomplikationerAvSjukdomenTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return OVRIGT_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
-            doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
-            return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
-        }
-
-        @Override
-        protected String getTextId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getSelectedText() {
-            return "Ja";
-        }
-
-        @Override
-        protected String getUnselectedText() {
-            return "Nej";
-        }
+    @Override
+    protected String getParent() {
+      return OVRIGT_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueBooleanTest extends ValueBooleanTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomen(true).build();
-            return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
 
-        @Override
-        protected String getJsonId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
-        }
-
-        @Override
-        protected Boolean getBoolean() {
-            return true;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID + ")";
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      doReturn("Ja").when(textProvider).get(SVAR_JA_TEXT_ID);
+      doReturn("Nej").when(textProvider).get(SVAR_NEJ_TEXT_ID);
+      return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomen(expectedValue).build();
-            return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider);
-        }
-
-        @Override
-        protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionOvrigtKomplikationerAvSjukdomen.toInternal(certificate);
-        }
+    @Override
+    protected String getId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
     }
+
+    @Override
+    protected String getTextId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getSelectedText() {
+      return "Ja";
+    }
+
+    @Override
+    protected String getUnselectedText() {
+      return "Nej";
+    }
+  }
+
+  @Nested
+  class IncludeValueBooleanTest extends ValueBooleanTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomen(true).build();
+      return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID;
+    }
+
+    @Override
+    protected Boolean getBoolean() {
+      return true;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID + ")";
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      final var ovrigt = Ovrigt.builder().setKomplikationerAvSjukdomen(expectedValue).build();
+      return QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider);
+    }
+
+    @Override
+    protected Boolean toInternalBooleanValue(Certificate certificate) {
+      return QuestionOvrigtKomplikationerAvSjukdomen.toInternal(certificate);
+    }
+  }
 }

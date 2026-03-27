@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,26 +35,23 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
 public abstract class Synskarpevarden {
 
-    @Nullable
-    public abstract Double getUtanKorrektion();
+  @Nullable public abstract Double getUtanKorrektion();
 
-    @Nullable
-    public abstract Double getMedKorrektion();
+  @Nullable public abstract Double getMedKorrektion();
 
-    public static Builder builder() {
-        return new AutoValue_Synskarpevarden.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Synskarpevarden.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Synskarpevarden build();
+    public abstract Synskarpevarden build();
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID)
-        public abstract Builder setUtanKorrektion(Double utanKorrektion);
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID)
+    public abstract Builder setUtanKorrektion(Double utanKorrektion);
 
-        @JsonProperty(SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID)
-        public abstract Builder setMedKorrektion(Double medKorrektion);
-    }
-
+    @JsonProperty(SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID)
+    public abstract Builder setMedKorrektion(Double medKorrektion);
+  }
 }

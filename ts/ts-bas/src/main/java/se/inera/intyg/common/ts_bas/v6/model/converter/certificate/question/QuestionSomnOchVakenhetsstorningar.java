@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,24 +31,22 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.SomnVakenhet;
 
 public class QuestionSomnOchVakenhetsstorningar {
 
-    public static CertificateDataElement toCertificate(SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
 
-        final var teckenSomnstorningar = somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
+    final var teckenSomnstorningar =
+        somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
-            .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(teckenSomnstorningar))
-                    .build()
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
+        .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder().text(booleanValue(teckenSomnstorningar)).build())
+        .build();
+  }
 }

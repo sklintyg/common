@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,25 +20,23 @@ package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a fraga element.
- */
+/** Renders a fraga element. */
 public class UVFraga extends UVComponent {
 
-    public UVFraga(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVFraga(UVRenderer renderer) {
+    super(renderer);
+  }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        String labelKey = (String) currentUvNode.get(LABEL_KEY);
-        String fraga = labelKey != null ? renderer.getText(labelKey) : "";
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    String labelKey = (String) currentUvNode.get(LABEL_KEY);
+    String fraga = labelKey != null ? renderer.getText(labelKey) : "";
 
-        parent.add(new Paragraph(fraga)
+    parent.add(
+        new Paragraph(fraga)
             .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
             .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
             .setMarginBottom(0f)
@@ -46,7 +44,7 @@ public class UVFraga extends UVComponent {
             .setFontColor(WC_COLOR_07)
             .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
             .setKeepTogether(true));
-        parent.setKeepTogether(false);
-        return true;
-    }
+    parent.setKeepTogether(false);
+    return true;
+  }
 }

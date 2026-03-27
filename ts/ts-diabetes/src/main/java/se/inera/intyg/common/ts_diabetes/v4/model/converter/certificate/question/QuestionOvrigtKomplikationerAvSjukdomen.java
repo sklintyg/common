@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,40 +38,42 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 
 public class QuestionOvrigtKomplikationerAvSjukdomen {
 
-    public static CertificateDataElement toCertificate(Ovrigt ovrigt, int index, CertificateTextProvider textProvider) {
-        final var komplikationerAvSjukdomen =
-            ovrigt != null && ovrigt.getKomplikationerAvSjukdomen() != null ? ovrigt.getKomplikationerAvSjukdomen() : null;
-        return CertificateDataElement.builder()
-            .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
-            .parent(OVRIGT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
-                    .text(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID))
-                    .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
-                    .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
-                    .selected(komplikationerAvSjukdomen)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
-                        .expression(exists(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Ovrigt ovrigt, int index, CertificateTextProvider textProvider) {
+    final var komplikationerAvSjukdomen =
+        ovrigt != null && ovrigt.getKomplikationerAvSjukdomen() != null
+            ? ovrigt.getKomplikationerAvSjukdomen()
+            : null;
+    return CertificateDataElement.builder()
+        .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
+        .parent(OVRIGT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
+                .text(textProvider.get(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_TEXT_ID))
+                .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
+                .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
+                .selected(komplikationerAvSjukdomen)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID)
+                  .expression(exists(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID,
-            OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_SVAR_ID,
+        OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID);
+  }
 }

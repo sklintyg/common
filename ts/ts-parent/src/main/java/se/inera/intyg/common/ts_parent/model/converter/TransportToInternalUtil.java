@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,81 +35,90 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 
 public final class TransportToInternalUtil {
 
-    private static final String DELIMITER = ".";
-    private static final DateTimeFormatter SIGNERINGS_TIDSTAMPEL_FORMAT = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+  private static final String DELIMITER = ".";
+  private static final DateTimeFormatter SIGNERINGS_TIDSTAMPEL_FORMAT =
+      DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
-    private TransportToInternalUtil() {
+  private TransportToInternalUtil() {}
+
+  public static GrundData buildGrundData(se.inera.intygstjanster.ts.services.v1.GrundData source) {
+    GrundData grundData = new GrundData();
+    grundData.setPatient(convertPatient(source.getPatient()));
+    grundData.setSigneringsdatum(
+        LocalDateTime.parse(source.getSigneringsTidstampel(), SIGNERINGS_TIDSTAMPEL_FORMAT));
+    grundData.setSkapadAv(convertHoSPersonal(source.getSkapadAv()));
+    return grundData;
+  }
+
+  public static DiabetesKod convertDiabetesTyp(DiabetesTypVarden kod) {
+    switch (kod) {
+      case TYP_1:
+        return DiabetesKod.DIABETES_TYP_1;
+      case TYP_2:
+        return DiabetesKod.DIABETES_TYP_2;
     }
+    throw new IllegalArgumentException(kod.name());
+  }
 
-    public static GrundData buildGrundData(se.inera.intygstjanster.ts.services.v1.GrundData source) {
-        GrundData grundData = new GrundData();
-        grundData.setPatient(convertPatient(source.getPatient()));
-        grundData
-            .setSigneringsdatum(LocalDateTime.parse(source.getSigneringsTidstampel(), SIGNERINGS_TIDSTAMPEL_FORMAT));
-        grundData.setSkapadAv(convertHoSPersonal(source.getSkapadAv()));
-        return grundData;
+  public static String getTextVersion(String version, String utgava) {
+    return String.valueOf(Integer.parseInt(version))
+        + DELIMITER
+        + String.valueOf(Integer.parseInt(utgava));
+  }
+
+  private static HoSPersonal convertHoSPersonal(SkapadAv source) {
+    HoSPersonal hosPersonal = new HoSPersonal();
+    hosPersonal.setFullstandigtNamn(source.getFullstandigtNamn());
+    hosPersonal.setPersonId(source.getPersonId().getExtension());
+    hosPersonal.setVardenhet(convertVardenhet(source.getVardenhet()));
+
+    // try to convert befattning from description, otherwise use it as a code
+    if (!CollectionUtils.isEmpty(source.getBefattningar())) {
+      hosPersonal
+          .getBefattningar()
+          .addAll(
+              source.getBefattningar().stream()
+                  .map(
+                      description ->
+                          BefattningService.getCodeFromDescription(description).orElse(description))
+                  .collect(Collectors.toList()));
     }
-
-    public static DiabetesKod convertDiabetesTyp(DiabetesTypVarden kod) {
-        switch (kod) {
-            case TYP_1:
-                return DiabetesKod.DIABETES_TYP_1;
-            case TYP_2:
-                return DiabetesKod.DIABETES_TYP_2;
-        }
-        throw new IllegalArgumentException(kod.name());
+    if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
+      hosPersonal.getSpecialiteter().addAll(source.getSpecialiteter());
     }
+    return hosPersonal;
+  }
 
-    public static String getTextVersion(String version, String utgava) {
-        return String.valueOf(Integer.parseInt(version)) + DELIMITER + String.valueOf(Integer.parseInt(utgava));
-    }
+  private static Vardenhet convertVardenhet(
+      se.inera.intygstjanster.ts.services.v1.Vardenhet source) {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid(source.getEnhetsId().getExtension());
+    vardenhet.setEnhetsnamn(source.getEnhetsnamn());
+    vardenhet.setPostadress(source.getPostadress());
+    vardenhet.setPostnummer(source.getPostnummer());
+    vardenhet.setPostort(source.getPostort());
+    vardenhet.setTelefonnummer(source.getTelefonnummer());
+    vardenhet.setVardgivare(convertVardgivare(source.getVardgivare()));
+    return vardenhet;
+  }
 
-    private static HoSPersonal convertHoSPersonal(SkapadAv source) {
-        HoSPersonal hosPersonal = new HoSPersonal();
-        hosPersonal.setFullstandigtNamn(source.getFullstandigtNamn());
-        hosPersonal.setPersonId(source.getPersonId().getExtension());
-        hosPersonal.setVardenhet(convertVardenhet(source.getVardenhet()));
+  private static Vardgivare convertVardgivare(
+      se.inera.intygstjanster.ts.services.v1.Vardgivare source) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(source.getVardgivarid().getExtension());
+    vardgivare.setVardgivarnamn(source.getVardgivarnamn());
+    return vardgivare;
+  }
 
-        // try to convert befattning from description, otherwise use it as a code
-        if (!CollectionUtils.isEmpty(source.getBefattningar())) {
-            hosPersonal.getBefattningar().addAll(source.getBefattningar().stream()
-                .map(description -> BefattningService.getCodeFromDescription(description).orElse(description))
-                .collect(Collectors.toList()));
-        }
-        if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
-            hosPersonal.getSpecialiteter().addAll(source.getSpecialiteter());
-        }
-        return hosPersonal;
-    }
-
-    private static Vardenhet convertVardenhet(se.inera.intygstjanster.ts.services.v1.Vardenhet source) {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid(source.getEnhetsId().getExtension());
-        vardenhet.setEnhetsnamn(source.getEnhetsnamn());
-        vardenhet.setPostadress(source.getPostadress());
-        vardenhet.setPostnummer(source.getPostnummer());
-        vardenhet.setPostort(source.getPostort());
-        vardenhet.setTelefonnummer(source.getTelefonnummer());
-        vardenhet.setVardgivare(convertVardgivare(source.getVardgivare()));
-        return vardenhet;
-    }
-
-    private static Vardgivare convertVardgivare(se.inera.intygstjanster.ts.services.v1.Vardgivare source) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(source.getVardgivarid().getExtension());
-        vardgivare.setVardgivarnamn(source.getVardgivarnamn());
-        return vardgivare;
-    }
-
-    private static Patient convertPatient(se.inera.intygstjanster.ts.services.v1.Patient source) {
-        Patient patient = new Patient();
-        patient.setEfternamn(source.getEfternamn());
-        patient.setFornamn(source.getFornamn());
-        patient.setFullstandigtNamn(source.getFullstandigtNamn());
-        patient.setPersonId(Personnummer.createPersonnummer(source.getPersonId().getExtension()).get());
-        patient.setPostadress(source.getPostadress());
-        patient.setPostnummer(source.getPostnummer());
-        patient.setPostort(source.getPostort());
-        return patient;
-    }
+  private static Patient convertPatient(se.inera.intygstjanster.ts.services.v1.Patient source) {
+    Patient patient = new Patient();
+    patient.setEfternamn(source.getEfternamn());
+    patient.setFornamn(source.getFornamn());
+    patient.setFullstandigtNamn(source.getFullstandigtNamn());
+    patient.setPersonId(Personnummer.createPersonnummer(source.getPersonId().getExtension()).get());
+    patient.setPostadress(source.getPostadress());
+    patient.setPostnummer(source.getPostnummer());
+    patient.setPostort(source.getPostort());
+    return patient;
+  }
 }

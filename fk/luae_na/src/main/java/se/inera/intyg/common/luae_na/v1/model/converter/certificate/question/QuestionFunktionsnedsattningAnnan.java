@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,21 +32,23 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionFunktionsnedsattningAnnan extends AbstractQuestionFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(String funktionsnedsattningAnnan, int index, CertificateTextProvider textProvider) {
-        return toCertificate(
-            funktionsnedsattningAnnan,
-            FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
-            FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID,
-            FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID,
-            FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID,
-            FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14,
-            index,
-            textProvider
-        );
-    }
+  public static CertificateDataElement toCertificate(
+      String funktionsnedsattningAnnan, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        funktionsnedsattningAnnan,
+        FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
+        FUNKTIONSNEDSATTNING_ANNAN_TEXT_ID,
+        FUNKTIONSNEDSATTNING_ANNAN_DESCRIPTION_ID,
+        FUNKTIONSNEDSATTNING_ANNAN_DELSVAR_TEXT_ID,
+        FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14,
+        index,
+        textProvider);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
-            FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14);
-    }
+  public static String toInternal(Certificate certificate) {
+    return ValueToolkit.textValue(
+        certificate.getData(),
+        FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14,
+        FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14);
+  }
 }

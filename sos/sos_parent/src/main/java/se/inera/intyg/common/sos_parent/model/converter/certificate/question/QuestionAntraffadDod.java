@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,52 +41,49 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDate;
 import se.inera.intyg.common.support.model.InternalDate;
 
-
 public class QuestionAntraffadDod {
 
-    public static CertificateDataElement toCertificate(LocalDate antraffadDodDate, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(ANTRAFFAT_DOD_DATUM_DELSVAR_ID)
-            .parent(DODSDATUM_SAKERT_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .text(texts.get(ANTRAFFAD_DOD_QUESTION_TEXT_ID))
-                    .maxDate(LocalDate.now())
-                    .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
-                    .date(antraffadDodDate)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ANTRAFFAT_DOD_DATUM_DELSVAR_ID)
-                        .expression(singleExpression(ANTRAFFAT_DOD_DATUM_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
-                        .expression(
-                            multipleAndExpression(
-                                exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
-                                not(withCitation(DODSDATUM_SAKERT_JSON_ID))
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      LocalDate antraffadDodDate, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(ANTRAFFAT_DOD_DATUM_DELSVAR_ID)
+        .parent(DODSDATUM_SAKERT_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .text(texts.get(ANTRAFFAD_DOD_QUESTION_TEXT_ID))
+                .maxDate(LocalDate.now())
+                .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(ANTRAFFAT_DOD_DATUM_JSON_ID)
+                .date(antraffadDodDate)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ANTRAFFAT_DOD_DATUM_DELSVAR_ID)
+                  .expression(singleExpression(ANTRAFFAT_DOD_DATUM_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(DODSDATUM_SAKERT_DELSVAR_ID)
+                  .expression(
+                      multipleAndExpression(
+                          exists(withCitation(DODSDATUM_SAKERT_JSON_ID)),
+                          not(withCitation(DODSDATUM_SAKERT_JSON_ID))))
+                  .build()
+            })
+        .build();
+  }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), ANTRAFFAT_DOD_DATUM_DELSVAR_ID, ANTRAFFAT_DOD_DATUM_JSON_ID);
-        if (localDate == null) {
-            return null;
-        }
-        return new InternalDate(localDate);
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(
+            certificate.getData(), ANTRAFFAT_DOD_DATUM_DELSVAR_ID, ANTRAFFAT_DOD_DATUM_JSON_ID);
+    if (localDate == null) {
+      return null;
     }
+    return new InternalDate(localDate);
+  }
 }

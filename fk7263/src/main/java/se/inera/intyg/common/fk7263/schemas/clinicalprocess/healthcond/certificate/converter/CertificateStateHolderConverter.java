@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,26 +30,25 @@ import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
  */
 public final class CertificateStateHolderConverter {
 
-    private CertificateStateHolderConverter() {
+  private CertificateStateHolderConverter() {}
+
+  public static List<UtlatandeStatus> toCertificateStatusType(List<CertificateStateHolder> source) {
+    if (source == null || source.isEmpty()) {
+      return Collections.emptyList();
     }
 
-    public static List<UtlatandeStatus> toCertificateStatusType(List<CertificateStateHolder> source) {
-        if (source == null || source.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        List<UtlatandeStatus> states = new ArrayList<>();
-        for (CertificateStateHolder state : source) {
-            states.add(toCertificateStatusType(state));
-        }
-        return states;
+    List<UtlatandeStatus> states = new ArrayList<>();
+    for (CertificateStateHolder state : source) {
+      states.add(toCertificateStatusType(state));
     }
+    return states;
+  }
 
-    private static UtlatandeStatus toCertificateStatusType(CertificateStateHolder source) {
-        UtlatandeStatus status = new UtlatandeStatus();
-        status.setTarget(source.getTarget());
-        status.setTimestamp(source.getTimestamp());
-        status.setType(StatusType.valueOf(source.getState().name()));
-        return status;
-    }
+  private static UtlatandeStatus toCertificateStatusType(CertificateStateHolder source) {
+    UtlatandeStatus status = new UtlatandeStatus();
+    status.setTarget(source.getTarget());
+    status.setTimestamp(source.getTimestamp());
+    status.setType(StatusType.valueOf(source.getState().name()));
+    return status;
+  }
 }

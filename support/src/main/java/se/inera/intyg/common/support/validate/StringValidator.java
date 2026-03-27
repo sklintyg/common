@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,44 +22,44 @@ import com.google.common.base.Strings;
 import java.time.Year;
 
 /**
- * Validator intended for use in draft validation,
- * performs validation of strings against various conditions.
+ * Validator intended for use in draft validation, performs validation of strings against various
+ * conditions.
  */
 public class StringValidator {
 
-    static final String YEAR_FORMAT = "yyyy";
-    static final String CENTURY = "^(19|20)\\d{2}";
-    private static final String POSTALCODE_FORMAT = "\\d{3}\\s?\\d{2}";
+  static final String YEAR_FORMAT = "yyyy";
+  static final String CENTURY = "^(19|20)\\d{2}";
+  private static final String POSTALCODE_FORMAT = "\\d{3}\\s?\\d{2}";
 
-    /**
-     * Validate that a given String contains a year of the format yyyy,<br/>
-     * and that the year it contains is in the general vicinity of current date i.e 19xx-20xx,<br/>
-     * and that the year if otherwise valid is not set in the future.
-     *
-     * @param source the string, should not be null
-     * @return true if the string is a valid year, false otherwise
-     */
-    public boolean validateStringIsYear(String source) {
-        if (Strings.isNullOrEmpty(source)) {
-            return false;
-        }
-        if (!source.matches(CENTURY)) {
-            return false;
-        }
-        return !isYearInFuture(source);
+  /**
+   * Validate that a given String contains a year of the format yyyy,<br>
+   * and that the year it contains is in the general vicinity of current date i.e 19xx-20xx,<br>
+   * and that the year if otherwise valid is not set in the future.
+   *
+   * @param source the string, should not be null
+   * @return true if the string is a valid year, false otherwise
+   */
+  public boolean validateStringIsYear(String source) {
+    if (Strings.isNullOrEmpty(source)) {
+      return false;
     }
+    if (!source.matches(CENTURY)) {
+      return false;
+    }
+    return !isYearInFuture(source);
+  }
 
-    /**
-     * Validate if a given string matches the accepted format for postal codes.
-     *
-     * @param source the string
-     * @return true if it does, false otherwise
-     */
-    public boolean validateStringAsPostalCode(String source) {
-        return source.matches(POSTALCODE_FORMAT);
-    }
+  /**
+   * Validate if a given string matches the accepted format for postal codes.
+   *
+   * @param source the string
+   * @return true if it does, false otherwise
+   */
+  public boolean validateStringAsPostalCode(String source) {
+    return source.matches(POSTALCODE_FORMAT);
+  }
 
-    private boolean isYearInFuture(String source) {
-        return Year.parse(source).isAfter(Year.now());
-    }
+  private boolean isYearInFuture(String source) {
+    return Year.parse(source).isAfter(Year.now());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,75 +27,65 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Syn.Builder.class)
 public abstract class Syn {
 
-    @Nullable
-    public abstract Boolean getSynfaltsdefekter();
+  @Nullable public abstract Boolean getSynfaltsdefekter();
 
-    @Nullable
-    public abstract Boolean getNattblindhet();
+  @Nullable public abstract Boolean getNattblindhet();
 
-    @Nullable
-    public abstract Boolean getProgressivOgonsjukdom();
+  @Nullable public abstract Boolean getProgressivOgonsjukdom();
 
-    @Nullable
-    public abstract Boolean getDiplopi();
+  @Nullable public abstract Boolean getDiplopi();
 
-    @Nullable
-    public abstract Boolean getNystagmus();
+  @Nullable public abstract Boolean getNystagmus();
 
-    @Nullable
-    public abstract Boolean getKorrektionsglasensStyrka();
+  @Nullable public abstract Boolean getKorrektionsglasensStyrka();
 
-    @Nullable
-    public abstract Boolean getSynskarpaSkickasSeparat();
+  @Nullable public abstract Boolean getSynskarpaSkickasSeparat();
 
-    @Nullable
-    public abstract Synskarpevarden getHogerOga();
+  @Nullable public abstract Synskarpevarden getHogerOga();
 
-    @Nullable
-    public abstract Synskarpevarden getVansterOga();
+  @Nullable public abstract Synskarpevarden getVansterOga();
 
-    @Nullable
-    public abstract Synskarpevarden getBinokulart();
+  @Nullable public abstract Synskarpevarden getBinokulart();
 
-    public abstract Builder toBuilder();
+  public abstract Builder toBuilder();
 
-    public static Builder builder() {
-        return new AutoValue_Syn.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Syn.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Syn build();
+    public abstract Syn build();
 
-        @JsonProperty("synskarpaSkickasSeparat")
-        public abstract Builder setSynskarpaSkickasSeparat(Boolean synskarpaSkickasSeparat);
+    @JsonProperty("synskarpaSkickasSeparat")
+    public abstract Builder setSynskarpaSkickasSeparat(Boolean synskarpaSkickasSeparat);
 
-        @JsonProperty("hogerOga")
-        public abstract Builder setHogerOga(Synskarpevarden hogerOga);
+    @JsonProperty("hogerOga")
+    public abstract Builder setHogerOga(Synskarpevarden hogerOga);
 
-        @JsonProperty("vansterOga")
-        public abstract Builder setVansterOga(Synskarpevarden vansterOga);
+    @JsonProperty("vansterOga")
+    public abstract Builder setVansterOga(Synskarpevarden vansterOga);
 
-        @JsonProperty("binokulart")
-        public abstract Builder setBinokulart(Synskarpevarden binokulart);
+    @JsonProperty("binokulart")
+    public abstract Builder setBinokulart(Synskarpevarden binokulart);
 
-        @JsonProperty("synfaltsdefekter")
-        public abstract Builder setSynfaltsdefekter(Boolean synfaltsdefekter);
+    @JsonProperty("synfaltsdefekter")
+    public abstract Builder setSynfaltsdefekter(Boolean synfaltsdefekter);
 
-        @JsonProperty("nattblindhet")
-        public abstract Builder setNattblindhet(Boolean nattblindhet);
+    @JsonProperty("nattblindhet")
+    public abstract Builder setNattblindhet(Boolean nattblindhet);
 
-        @JsonProperty("progressivOgonsjukdom")
-        public abstract Builder setProgressivOgonsjukdom(Boolean progressivOgonsjukdom);
+    @JsonProperty("progressivOgonsjukdom")
+    public abstract Builder setProgressivOgonsjukdom(Boolean progressivOgonsjukdom);
 
-        @JsonProperty("diplopi")
-        public abstract Builder setDiplopi(Boolean diplopi);
+    @JsonProperty("diplopi")
+    public abstract Builder setDiplopi(Boolean diplopi);
 
-        @JsonProperty("nystagmus")
-        public abstract Builder setNystagmus(Boolean nystagmus);
+    @JsonProperty("nystagmus")
+    public abstract Builder setNystagmus(Boolean nystagmus);
 
-        @JsonProperty("korrektionsglasensStyrka")
-        public abstract Builder setKorrektionsglasensStyrka(Boolean korrektionsglasensStyrka);
-    }
+    @JsonProperty("korrektionsglasensStyrka")
+    public abstract Builder setKorrektionsglasensStyrka(Boolean korrektionsglasensStyrka);
+  }
 }

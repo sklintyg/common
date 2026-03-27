@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,54 +38,59 @@ import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSB
 
 public class DomainTransportModelValidatorTest {
 
-    private static final String COMMON_UTLATANDE_SCHEMA = "/core_components/se_intygstjanster_services_1.0.xsd";
+  private static final String COMMON_UTLATANDE_SCHEMA =
+      "/core_components/se_intygstjanster_services_1.0.xsd";
 
-    private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "/core_components/se_intygstjanster_services_types_1.0.xsd";
+  private static final String COMMON_UTLATANDE_TYPES_SCHEMA =
+      "/core_components/se_intygstjanster_services_types_1.0.xsd";
 
-    private static final String COMMON_REGISTER_SCHEMA = "/interactions/RegisterTSBasInteraction/RegisterTSBasResponder_1.0.xsd";
+  private static final String COMMON_REGISTER_SCHEMA =
+      "/interactions/RegisterTSBasInteraction/RegisterTSBasResponder_1.0.xsd";
 
-    private static Schema commonSchema;
+  private static Schema commonSchema;
 
-    @BeforeClass
-    public static void initCommonSchema() throws Exception {
-        SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
-        schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_SCHEMA);
+  @BeforeClass
+  public static void initCommonSchema() throws Exception {
+    SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
+    Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
+    schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
+    schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_SCHEMA);
 
-        commonSchema = schemaValidatorBuilder.build(rootSource);
+    commonSchema = schemaValidatorBuilder.build(rootSource);
+  }
+
+  @Test
+  public void testValidateTransportXmlAgainstDomainModel() throws Exception {
+    // Check that valid scenarios validates against the common domain model
+    for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
+      validateUtlatande(scenario);
     }
 
-    @Test
-    public void testValidateTransportXmlAgainstDomainModel() throws Exception {
-        // Check that valid scenarios validates against the common domain model
-        for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
-            validateUtlatande(scenario);
-        }
-
-        // Also check that invalid scenarios doesn't validate
-        for (Scenario scenario : ScenarioFinder.getTransportScenarios("invalid-*")) {
-            try {
-                validateUtlatande(scenario);
-                fail("Expected schema validation error in " + scenario.getName());
-            } catch (Exception ignore) {
-            }
-        }
+    // Also check that invalid scenarios doesn't validate
+    for (Scenario scenario : ScenarioFinder.getTransportScenarios("invalid-*")) {
+      try {
+        validateUtlatande(scenario);
+        fail("Expected schema validation error in " + scenario.getName());
+      } catch (Exception ignore) {
+      }
     }
+  }
 
-    private void validateUtlatande(Scenario scenario) {
-        try {
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"),
-                RegisterTSBasType.class, scenario.asTransportModel());
-            JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
-            context.createMarshaller().marshal(jaxbElement, output);
+  private void validateUtlatande(Scenario scenario) {
+    try {
+      ByteArrayOutputStream output = new ByteArrayOutputStream();
+      JAXBElement<RegisterTSBasType> jaxbElement =
+          new JAXBElement<RegisterTSBasType>(
+              new QName("ns3:RegisterTSBas"), RegisterTSBasType.class, scenario.asTransportModel());
+      JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
+      context.createMarshaller().marshal(jaxbElement, output);
 
-            Validator validator = commonSchema.newValidator();
-            validator.validate(new StreamSource(new ByteArrayInputStream(output.toByteArray())));
+      Validator validator = commonSchema.newValidator();
+      validator.validate(new StreamSource(new ByteArrayInputStream(output.toByteArray())));
 
-        } catch (Exception e) {
-            throw new RuntimeException(String.format("Error in scenario %s: %s", scenario.getName(), e.getMessage()));
-        }
+    } catch (Exception e) {
+      throw new RuntimeException(
+          String.format("Error in scenario %s: %s", scenario.getName(), e.getMessage()));
     }
+  }
 }

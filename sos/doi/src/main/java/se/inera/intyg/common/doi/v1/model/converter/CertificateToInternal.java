@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,11 +51,14 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 @Component
 public class CertificateToInternal {
 
-    public DoiUtlatandeV1 convert(Certificate certificate, DoiUtlatandeV1 internalCertificate) {
-        final var builder = DoiUtlatandeV1.builder()
+  public DoiUtlatandeV1 convert(Certificate certificate, DoiUtlatandeV1 internalCertificate) {
+    final var builder =
+        DoiUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
+            .setGrundData(
+                MetaDataGrundData.toInternal(
+                    certificate.getMetadata(), internalCertificate.getGrundData()))
             .setIdentitetStyrkt(QuestionIdentitetenStyrkt.toInternal(certificate))
             .setLand(QuestionLand.toInternal(certificate))
             .setAntraffatDodDatum(QuestionAntraffadDod.toInternal(certificate))
@@ -63,8 +66,10 @@ public class CertificateToInternal {
             .setDodsplatsBoende(QuestionDodsplatsBoende.toInternal(certificate))
             .setBarn(QuestionBarn.toInternal(certificate))
             .setTerminalDodsorsak(QuestionTerminalDodsorsak.toInternal(certificate))
-            .setFoljd(QuestionTerminalDodsorsakFoljdAv.toInternal(
-                certificate, List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID)))
+            .setFoljd(
+                QuestionTerminalDodsorsakFoljdAv.toInternal(
+                    certificate,
+                    List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID)))
             .setBidragandeSjukdomar(QuestionBidragandeSjukdomar.toInternal(certificate))
             .setOperation(QuestionOperation.toInternal(certificate))
             .setOperationDatum(QuestionOperationDatum.toInternal(certificate))
@@ -75,17 +80,17 @@ public class CertificateToInternal {
             .setForgiftningUppkommelse(QuestionForgiftningUppkommelse.toInternal(certificate))
             .setGrunder(QuestionGrunderDodsorsaksuppgifter.toInternal(certificate));
 
-        final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
-        if (dodsdatumSakert == null) {
-            return builder.build();
-        }
-
-        builder.setDodsdatumSakert(dodsdatumSakert);
-        if (dodsdatumSakert) {
-            builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));
-        } else {
-            builder.setDodsdatum(QuestionOsakertDodsdatum.toInternal(certificate));
-        }
-        return builder.build();
+    final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
+    if (dodsdatumSakert == null) {
+      return builder.build();
     }
+
+    builder.setDodsdatumSakert(dodsdatumSakert);
+    if (dodsdatumSakert) {
+      builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));
+    } else {
+      builder.setDodsdatum(QuestionOsakertDodsdatum.toInternal(certificate));
+    }
+    return builder.build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -54,171 +54,189 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @ExtendWith(MockitoExtension.class)
 class QuestionDodsplatsBoendeTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertEquals(DODSPLATS_BOENDE_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(DODSPLATS_BOENDE_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionDodsplatsBoende.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(DODSPLATS_SVAR_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSPLATS_BOENDE_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigType() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueSjukhus() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(DodsplatsBoende.SJUKHUS.name())
-                .label(DodsplatsBoende.SJUKHUS.getBeskrivning())
-                .build();
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueOrdinartBoende() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(DodsplatsBoende.ORDINART_BOENDE.name())
-                .label(DodsplatsBoende.ORDINART_BOENDE.getBeskrivning())
-                .build();
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueSarskiltBoende() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(DodsplatsBoende.SARSKILT_BOENDE.name())
-                .label(DodsplatsBoende.SARSKILT_BOENDE.getBeskrivning())
-                .build();
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueAnnanOkand() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(DodsplatsBoende.ANNAN.name())
-                .label(DodsplatsBoende.ANNAN.getBeskrivning())
-                .build();
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(3));
-        }
-
-        @Test
-        void shouldIncludeCodeValueType() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeCodeValueId() {
-            final var question = QuestionDodsplatsBoende.toCertificate(DodsplatsBoende.SJUKHUS, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(DodsplatsBoende.SJUKHUS.name(), certificateDataValueCode.getId());
-        }
-
-        @Test
-        void shouldIncludeCodeValue() {
-            final var question = QuestionDodsplatsBoende.toCertificate(DodsplatsBoende.SJUKHUS, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(DodsplatsBoende.SJUKHUS.name(), certificateDataValueCode.getCode());
-        }
-
-        @Test
-        void shouldIncludeCodeValueEmpty() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertNull(certificateDataValueCode.getCode());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(DODSPLATS_BOENDE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "exists(" + DodsplatsBoende.SJUKHUS.name()
-                + ") || exists(" + DodsplatsBoende.ORDINART_BOENDE.name()
-                + ") || exists(" + DodsplatsBoende.SARSKILT_BOENDE.name()
-                + ") || exists(" + DodsplatsBoende.ANNAN.name() + ")";
-
-            final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionDodsplatsBoende.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<DodsplatsBoende> dodsplatsBoendeValues() {
-            return Stream.of(
-                DodsplatsBoende.SJUKHUS,
-                DodsplatsBoende.ORDINART_BOENDE,
-                DodsplatsBoende.SARSKILT_BOENDE,
-                DodsplatsBoende.ANNAN,
-                null
-            );
-        }
-
-        @ParameterizedTest
-        @MethodSource("dodsplatsBoendeValues")
-        void shouldIncludeTextValue(DodsplatsBoende expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionDodsplatsBoende.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionDodsplatsBoende.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
-        }
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertEquals(DODSPLATS_SVAR_ID, question.getParent());
     }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSPLATS_BOENDE_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigType() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueSjukhus() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(DodsplatsBoende.SJUKHUS.name())
+              .label(DodsplatsBoende.SJUKHUS.getBeskrivning())
+              .build();
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueOrdinartBoende() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(DodsplatsBoende.ORDINART_BOENDE.name())
+              .label(DodsplatsBoende.ORDINART_BOENDE.getBeskrivning())
+              .build();
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueSarskiltBoende() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(DodsplatsBoende.SARSKILT_BOENDE.name())
+              .label(DodsplatsBoende.SARSKILT_BOENDE.getBeskrivning())
+              .build();
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueAnnanOkand() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(DodsplatsBoende.ANNAN.name())
+              .label(DodsplatsBoende.ANNAN.getBeskrivning())
+              .build();
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(3));
+    }
+
+    @Test
+    void shouldIncludeCodeValueType() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeCodeValueId() {
+      final var question = QuestionDodsplatsBoende.toCertificate(DodsplatsBoende.SJUKHUS, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(DodsplatsBoende.SJUKHUS.name(), certificateDataValueCode.getId());
+    }
+
+    @Test
+    void shouldIncludeCodeValue() {
+      final var question = QuestionDodsplatsBoende.toCertificate(DodsplatsBoende.SJUKHUS, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(DodsplatsBoende.SJUKHUS.name(), certificateDataValueCode.getCode());
+    }
+
+    @Test
+    void shouldIncludeCodeValueEmpty() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertNull(certificateDataValueCode.getCode());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(DODSPLATS_BOENDE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var expectedExpression =
+          "exists("
+              + DodsplatsBoende.SJUKHUS.name()
+              + ") || exists("
+              + DodsplatsBoende.ORDINART_BOENDE.name()
+              + ") || exists("
+              + DodsplatsBoende.SARSKILT_BOENDE.name()
+              + ") || exists("
+              + DodsplatsBoende.ANNAN.name()
+              + ")";
+
+      final var question = QuestionDodsplatsBoende.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<DodsplatsBoende> dodsplatsBoendeValues() {
+      return Stream.of(
+          DodsplatsBoende.SJUKHUS,
+          DodsplatsBoende.ORDINART_BOENDE,
+          DodsplatsBoende.SARSKILT_BOENDE,
+          DodsplatsBoende.ANNAN,
+          null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("dodsplatsBoendeValues")
+    void shouldIncludeTextValue(DodsplatsBoende expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionDodsplatsBoende.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionDodsplatsBoende.toInternal(certificate);
+
+      assertEquals(expectedValue, actualValue);
+    }
+  }
 }

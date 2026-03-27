@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -44,150 +43,149 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionAnledningTillKontaktTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return KONTAKT_ONSKAS_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getJsonId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
-        }
+    @Override
+    protected String getParent() {
+      return KONTAKT_ONSKAS_SVAR_ID;
     }
 
-    @Nested
-    class IncludeValueTextTests extends ValueTextTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate("anledningTillKontakt", 0, texts);
-        }
+  @Nested
+  class IncludeConfigTextAreaTests extends ConfigTextAreaTest {
 
-        @Override
-        protected String getJsonId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
-        }
-
-        @Override
-        protected String getText() {
-            return "anledningTillKontakt";
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return KONTAKT_ONSKAS_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + KONTAKT_ONSKAS_SVAR_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected String getTextId() {
+      return ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID;
     }
 
-    @Nested
-    class IncludeValidationTextTests extends ValidationTextTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
-
-        @Override
-        protected short getLimit() {
-            return 3500;
-        }
+    @Override
+    protected String getDescriptionId() {
+      return null;
     }
+
+    @Override
+    protected String getJsonId() {
+      return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueTextTests extends ValueTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate("anledningTillKontakt", 0, texts);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
+    }
+
+    @Override
+    protected String getText() {
+      return "anledningTillKontakt";
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return KONTAKT_ONSKAS_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + KONTAKT_ONSKAS_SVAR_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeValidationTextTests extends ValidationTextTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAnledningTillKontakt.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+
+    @Override
+    protected short getLimit() {
+      return 3500;
+    }
+  }
 }

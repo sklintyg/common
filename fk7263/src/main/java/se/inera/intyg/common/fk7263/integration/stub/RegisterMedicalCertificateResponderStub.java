@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,45 +43,52 @@ import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
  */
 // CHECKSTYLE:OFF LineLength
 @Transactional
-@WebServiceProvider(targetNamespace = "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificate:3:rivtabp20",
+@WebServiceProvider(
+    targetNamespace =
+        "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificate:3:rivtabp20",
     serviceName = "RegisterMedicalCertificateResponderService",
-    wsdlLocation = "classpath:interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateInteraction_3.1_rivtabp20.wsdl")
-public class RegisterMedicalCertificateResponderStub implements RegisterMedicalCertificateResponderInterface {
-// CHECKSTYLE:OFF LineLength
+    wsdlLocation =
+        "classpath:interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateInteraction_3.1_rivtabp20.wsdl")
+public class RegisterMedicalCertificateResponderStub
+    implements RegisterMedicalCertificateResponderInterface {
+  // CHECKSTYLE:OFF LineLength
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterMedicalCertificateResponderStub.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(RegisterMedicalCertificateResponderStub.class);
 
-    private final MedicalCertificatesStore medicalCertificatesStore;
+  private final MedicalCertificatesStore medicalCertificatesStore;
 
-    public RegisterMedicalCertificateResponderStub(MedicalCertificatesStore medicalCertificatesStore) {
-        this.medicalCertificatesStore = medicalCertificatesStore;
+  public RegisterMedicalCertificateResponderStub(
+      MedicalCertificatesStore medicalCertificatesStore) {
+    this.medicalCertificatesStore = medicalCertificatesStore;
+  }
+
+  @Override
+  public RegisterMedicalCertificateResponseType registerMedicalCertificate(
+      AttributedURIType logicalAddress, RegisterMedicalCertificateType request) {
+
+    RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+
+    try {
+      Fk7263Utlatande utlatande = TransportToInternal.convert(request.getLakarutlatande());
+      String id = utlatande.getId();
+
+      if ("error".equals(id)) {
+        throw new RuntimeException("A runtime exception");
+      }
+      Map<String, String> props = new HashMap<>();
+      props.put(
+          PERSONNUMMER, utlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
+      props.put(MAKULERAD, MAKULERAD_NEJ);
+
+      LOGGER.info("STUB Received request");
+      medicalCertificatesStore.addCertificate(id, props);
+    } catch (ConverterException e) {
+      response.setResult(
+          ResultOfCallUtil.failResult("Unable to convert certificate to internal format"));
+      return response;
     }
-
-    @Override
-    public RegisterMedicalCertificateResponseType registerMedicalCertificate(AttributedURIType logicalAddress,
-        RegisterMedicalCertificateType request) {
-
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
-
-        try {
-            Fk7263Utlatande utlatande = TransportToInternal.convert(request.getLakarutlatande());
-            String id = utlatande.getId();
-
-            if ("error".equals(id)) {
-                throw new RuntimeException("A runtime exception");
-            }
-            Map<String, String> props = new HashMap<>();
-            props.put(PERSONNUMMER, utlatande.getGrundData().getPatient().getPersonId().getPersonnummer());
-            props.put(MAKULERAD, MAKULERAD_NEJ);
-
-            LOGGER.info("STUB Received request");
-            medicalCertificatesStore.addCertificate(id, props);
-        } catch (ConverterException e) {
-            response.setResult(ResultOfCallUtil.failResult("Unable to convert certificate to internal format"));
-            return response;
-        }
-        response.setResult(ResultOfCallUtil.okResult());
-        return response;
-    }
-
+    response.setResult(ResultOfCallUtil.okResult());
+    return response;
+  }
 }

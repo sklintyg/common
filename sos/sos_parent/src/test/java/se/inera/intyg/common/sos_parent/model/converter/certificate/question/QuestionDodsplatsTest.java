@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,48 +42,47 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 @ExtendWith(MockitoExtension.class)
 class QuestionDodsplatsTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionDodsplats.toCertificate(0, texts);
+      assertEquals(DODSPLATS_SVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionDodsplats.toCertificate(0, texts);
-            assertEquals(DODSPLATS_SVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionDodsplats.toCertificate(expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionDodsplats.toCertificate(0, texts);
-            assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionDodsplats.toCertificate(0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(DODSPLATS_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeHeaderConfigType() {
-            final var question = QuestionDodsplats.toCertificate(0, texts);
-            assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionDodsplats.toCertificate(expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionDodsplats.toCertificate(0, texts);
+      assertEquals(DODSDATUM_DODSPLATS_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionDodsplats.toCertificate(0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(DODSPLATS_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeHeaderConfigType() {
+      final var question = QuestionDodsplats.toCertificate(0, texts);
+      assertEquals(CertificateDataConfigType.UE_HEADER, question.getConfig().getType());
+    }
+  }
 }

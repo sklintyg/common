@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,39 +45,63 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
-    private PdfGenerator testee = new PdfGenerator();
+  private PdfGenerator testee = new PdfGenerator();
 
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
+  private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
-    @Test
-    public void testGeneratePdf() throws IOException, ModuleException {
-        IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsTsBasRepositoryTestHelper();
-        intygsTextRepositoryHelper.update();
-        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
+  @Test
+  public void testGeneratePdf() throws IOException, ModuleException {
+    IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper =
+        new IntygTextsTsBasRepositoryTestHelper();
+    intygsTextRepositoryHelper.update();
+    IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utlatande.json").getInputStream(),
+    String jsonModel =
+        IOUtils.toString(
+            new ClassPathResource("v6/PdfGenerator/utlatande.json").getInputStream(),
             Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, "footerAppName");
-        assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
-        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
-    }
+    PdfResponse pdfResponse =
+        testee.generatePdf(
+            UUID.randomUUID().toString(),
+            jsonModel,
+            Personnummer.createPersonnummer("19121212-1212").get(),
+            intygTexts,
+            new ArrayList<>(),
+            ApplicationOrigin.WEBCERT,
+            UtkastStatus.SIGNED,
+            "footerAppName");
+    assertNotNull(pdfResponse);
+    Pattern p =
+        Pattern.compile(
+            "^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
+    assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
+  }
 
-    @Test
-    public void testGeneratePdfUtkast() throws IOException, ModuleException {
-        IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsTsBasRepositoryTestHelper();
-        intygsTextRepositoryHelper.update();
-        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
+  @Test
+  public void testGeneratePdfUtkast() throws IOException, ModuleException {
+    IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper =
+        new IntygTextsTsBasRepositoryTestHelper();
+    intygsTextRepositoryHelper.update();
+    IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utkast_utlatande.json").getInputStream(),
+    String jsonModel =
+        IOUtils.toString(
+            new ClassPathResource("v6/PdfGenerator/utkast_utlatande.json").getInputStream(),
             Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel,
-            Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-            new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, "footerAppName");
-        assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
-        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
-    }
+    PdfResponse pdfResponse =
+        testee.generatePdf(
+            UUID.randomUUID().toString(),
+            jsonModel,
+            Personnummer.createPersonnummer("19121212-1212").get(),
+            intygTexts,
+            new ArrayList<>(),
+            ApplicationOrigin.WEBCERT,
+            UtkastStatus.SIGNED,
+            "footerAppName");
+    assertNotNull(pdfResponse);
+    Pattern p =
+        Pattern.compile(
+            "^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
+    assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
+  }
 }

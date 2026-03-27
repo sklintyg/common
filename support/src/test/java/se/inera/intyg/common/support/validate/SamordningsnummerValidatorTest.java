@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,33 +33,29 @@ import org.junit.Test;
  */
 public class SamordningsnummerValidatorTest {
 
-    /**
-     * The validator to test.
-     */
-    private SamordningsnummerValidator validator;
+  /** The validator to test. */
+  private SamordningsnummerValidator validator;
 
-    @Before
-    public void setup() {
-        validator = new SamordningsnummerValidator();
-        // Set a fixed date for the validator so test don't break in the future.
-        validator.setReferenceDate(LocalDate.parse("2013-08-22"));
-    }
+  @Before
+  public void setup() {
+    validator = new SamordningsnummerValidator();
+    // Set a fixed date for the validator so test don't break in the future.
+    validator.setReferenceDate(LocalDate.parse("2013-08-22"));
+  }
 
-    /**
-     * Test that only dates in the samordningsnummer series are supported.
-     */
-    @Test
-    public void testPersonnummerDate() throws Exception {
-        assertListSize(0, validator.validateExtension("19800191-0002"));
-        assertListSize(0, validator.validateExtension("19800289-0005"));
+  /** Test that only dates in the samordningsnummer series are supported. */
+  @Test
+  public void testPersonnummerDate() throws Exception {
+    assertListSize(0, validator.validateExtension("19800191-0002"));
+    assertListSize(0, validator.validateExtension("19800289-0005"));
 
-        assertListSize(1, validator.validateExtension("19810289-0004"));
-        assertListSize(1, validator.validateExtension("19800131-0005"));
-        assertListSize(1, validator.validateExtension("19800229-0008"));
-    }
+    assertListSize(1, validator.validateExtension("19810289-0004"));
+    assertListSize(1, validator.validateExtension("19800131-0005"));
+    assertListSize(1, validator.validateExtension("19800229-0008"));
+  }
 
-    private void assertListSize(int size, List<String> collection) {
-        String validationMessage = Joiner.on(',').join(collection);
-        assertEquals(validationMessage, size, collection.size());
-    }
+  private void assertListSize(int size, List<String> collection) {
+    String validationMessage = Joiner.on(',').join(collection);
+    assertEquals(validationMessage, size, collection.size());
+  }
 }

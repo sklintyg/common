@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,87 +24,91 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 
 public class Relation {
 
-    private RelationKod relationKod;
+  private RelationKod relationKod;
 
-    private String relationIntygsId;
+  private String relationIntygsId;
 
-    private String meddelandeId;
+  private String meddelandeId;
 
-    private LocalDate sistaGiltighetsDatum;
+  private LocalDate sistaGiltighetsDatum;
 
-    private String sistaSjukskrivningsgrad;
+  private String sistaSjukskrivningsgrad;
 
-    private String referensId;
+  private String referensId;
 
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Relation)) {
-            return false;
-        }
-        final Relation that = (Relation) object;
-        return Objects.equals(this.relationKod, that.relationKod)
-            && Objects.equals(this.relationIntygsId, that.relationIntygsId)
-            && Objects.equals(this.meddelandeId, that.meddelandeId)
-            && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
-            && Objects.equals(this.sistaSjukskrivningsgrad, that.sistaSjukskrivningsgrad)
-            && Objects.equals(this.referensId, that.referensId);
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.relationKod, this.relationIntygsId,
-            this.meddelandeId, this.sistaGiltighetsDatum, this.sistaSjukskrivningsgrad, this.referensId);
+    if (!(object instanceof Relation)) {
+      return false;
     }
+    final Relation that = (Relation) object;
+    return Objects.equals(this.relationKod, that.relationKod)
+        && Objects.equals(this.relationIntygsId, that.relationIntygsId)
+        && Objects.equals(this.meddelandeId, that.meddelandeId)
+        && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
+        && Objects.equals(this.sistaSjukskrivningsgrad, that.sistaSjukskrivningsgrad)
+        && Objects.equals(this.referensId, that.referensId);
+  }
 
-    public RelationKod getRelationKod() {
-        return relationKod;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        this.relationKod,
+        this.relationIntygsId,
+        this.meddelandeId,
+        this.sistaGiltighetsDatum,
+        this.sistaSjukskrivningsgrad,
+        this.referensId);
+  }
 
-    public void setRelationKod(RelationKod relationKod) {
-        this.relationKod = relationKod;
-    }
+  public RelationKod getRelationKod() {
+    return relationKod;
+  }
 
-    public String getRelationIntygsId() {
-        return relationIntygsId;
-    }
+  public void setRelationKod(RelationKod relationKod) {
+    this.relationKod = relationKod;
+  }
 
-    public void setRelationIntygsId(String relationIntygsId) {
-        this.relationIntygsId = relationIntygsId;
-    }
+  public String getRelationIntygsId() {
+    return relationIntygsId;
+  }
 
-    public String getMeddelandeId() {
-        return meddelandeId;
-    }
+  public void setRelationIntygsId(String relationIntygsId) {
+    this.relationIntygsId = relationIntygsId;
+  }
 
-    public void setMeddelandeId(String meddelandeId) {
-        this.meddelandeId = meddelandeId;
-    }
+  public String getMeddelandeId() {
+    return meddelandeId;
+  }
 
-    public LocalDate getSistaGiltighetsDatum() {
-        return sistaGiltighetsDatum;
-    }
+  public void setMeddelandeId(String meddelandeId) {
+    this.meddelandeId = meddelandeId;
+  }
 
-    public void setSistaGiltighetsDatum(LocalDate sistaGiltighetsDatum) {
-        this.sistaGiltighetsDatum = sistaGiltighetsDatum;
-    }
+  public LocalDate getSistaGiltighetsDatum() {
+    return sistaGiltighetsDatum;
+  }
 
-    public String getSistaSjukskrivningsgrad() {
-        return sistaSjukskrivningsgrad;
-    }
+  public void setSistaGiltighetsDatum(LocalDate sistaGiltighetsDatum) {
+    this.sistaGiltighetsDatum = sistaGiltighetsDatum;
+  }
 
-    public void setSistaSjukskrivningsgrad(String sistaSjukskrivningsgrad) {
-        this.sistaSjukskrivningsgrad = sistaSjukskrivningsgrad;
-    }
+  public String getSistaSjukskrivningsgrad() {
+    return sistaSjukskrivningsgrad;
+  }
 
-    public String getReferensId() {
-        return referensId;
-    }
+  public void setSistaSjukskrivningsgrad(String sistaSjukskrivningsgrad) {
+    this.sistaSjukskrivningsgrad = sistaSjukskrivningsgrad;
+  }
 
-    public void setReferensId(String referensId) {
-        this.referensId = referensId;
-    }
+  public String getReferensId() {
+    return referensId;
+  }
 
+  public void setReferensId(String referensId) {
+    this.referensId = referensId;
+  }
 }

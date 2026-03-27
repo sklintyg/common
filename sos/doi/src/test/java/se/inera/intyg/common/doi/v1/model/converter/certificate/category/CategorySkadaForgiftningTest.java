@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,34 +32,33 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
-
 class CategorySkadaForgiftningTest {
 
-    private CertificateTextProvider texts;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        texts = mock(CertificateTextProvider.class);
-        when(texts.get(any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    texts = mock(CertificateTextProvider.class);
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategorySkadaForgiftning.toCertificate(0, texts);
-        assertEquals(FORGIFTNING_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategorySkadaForgiftning.toCertificate(0, texts);
+    assertEquals(FORGIFTNING_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategorySkadaForgiftning.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategorySkadaForgiftning.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryText() {
-        final var category = CategorySkadaForgiftning.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(FORGIFTNING_CATEGORY_TEXT_ID);
-    }
+  @Test
+  void shouldIncludeCategoryText() {
+    final var category = CategorySkadaForgiftning.toCertificate(0, texts);
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(FORGIFTNING_CATEGORY_TEXT_ID);
+  }
 }

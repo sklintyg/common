@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,11 +37,14 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 
 public class CertificateToInternal {
 
-    public static DbUtlatandeV1 convert(Certificate certificate, DbUtlatandeV1 internalCertificate) {
-        final var builder = DbUtlatandeV1.builder()
+  public static DbUtlatandeV1 convert(Certificate certificate, DbUtlatandeV1 internalCertificate) {
+    final var builder =
+        DbUtlatandeV1.builder()
             .setId(internalCertificate.getId())
             .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
+            .setGrundData(
+                MetaDataGrundData.toInternal(
+                    certificate.getMetadata(), internalCertificate.getGrundData()))
             .setIdentitetStyrkt(QuestionIdentitetenStyrkt.toInternal(certificate))
             .setAntraffatDodDatum(QuestionAntraffadDod.toInternal(certificate))
             .setDodsplatsKommun(QuestionDodsplatsKommun.toInternal(certificate))
@@ -53,17 +56,17 @@ public class CertificateToInternal {
             .setUndersokningDatum(QuestionUndersokningsdatum.toInternal(certificate))
             .setPolisanmalan(QuestionPolisanmalan.toInternal(certificate));
 
-        final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
-        if (dodsdatumSakert == null) {
-            return builder.build();
-        }
-
-        builder.setDodsdatumSakert(dodsdatumSakert);
-        if (dodsdatumSakert) {
-            builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));
-        } else {
-            builder.setDodsdatum(QuestionOsakertDodsdatum.toInternal(certificate));
-        }
-        return builder.build();
+    final var dodsdatumSakert = QuestionDodsdatumSakert.toInternal(certificate);
+    if (dodsdatumSakert == null) {
+      return builder.build();
     }
+
+    builder.setDodsdatumSakert(dodsdatumSakert);
+    if (dodsdatumSakert) {
+      builder.setDodsdatum(QuestionDodsdatum.toInternal(certificate));
+    } else {
+      builder.setDodsdatum(QuestionOsakertDodsdatum.toInternal(certificate));
+    }
+    return builder.build();
+  }
 }

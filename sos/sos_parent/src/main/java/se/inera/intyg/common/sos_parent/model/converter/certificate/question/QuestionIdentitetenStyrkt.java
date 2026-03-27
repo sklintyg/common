@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,41 +36,39 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionIdentitetenStyrkt {
 
-    public static final short TEXT_LIMIT = 27;
+  public static final short TEXT_LIMIT = 27;
 
-    public static CertificateDataElement toCertificate(String identitetStyrkt, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(IDENTITET_STYRKT_DELSVAR_ID)
-            .parent(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .id(IDENTITET_STYRKT_JSON_ID)
-                    .text(texts.get(IDENTITET_STYRKT_QUESTION_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(IDENTITET_STYRKT_JSON_ID)
-                    .text(identitetStyrkt)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(IDENTITET_STYRKT_DELSVAR_ID)
-                        .expression(singleExpression(IDENTITET_STYRKT_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(IDENTITET_STYRKT_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String identitetStyrkt, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(IDENTITET_STYRKT_DELSVAR_ID)
+        .parent(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .id(IDENTITET_STYRKT_JSON_ID)
+                .text(texts.get(IDENTITET_STYRKT_QUESTION_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(IDENTITET_STYRKT_JSON_ID)
+                .text(identitetStyrkt)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(IDENTITET_STYRKT_DELSVAR_ID)
+                  .expression(singleExpression(IDENTITET_STYRKT_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(IDENTITET_STYRKT_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), IDENTITET_STYRKT_DELSVAR_ID, IDENTITET_STYRKT_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), IDENTITET_STYRKT_DELSVAR_ID, IDENTITET_STYRKT_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,32 +31,28 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Ovrigt.Builder.class)
 public abstract class Ovrigt {
 
-    @Nullable
-    public abstract Boolean getKomplikationerAvSjukdomen();
+  @Nullable public abstract Boolean getKomplikationerAvSjukdomen();
 
-    @Nullable
-    public abstract String getKomplikationerAvSjukdomenAnges();
+  @Nullable public abstract String getKomplikationerAvSjukdomenAnges();
 
-    @Nullable
-    public abstract String getBorUndersokasAvSpecialist();
+  @Nullable public abstract String getBorUndersokasAvSpecialist();
 
-    public static Builder builder() {
-        return new AutoValue_Ovrigt.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Ovrigt.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Ovrigt build();
+    public abstract Ovrigt build();
 
-        @JsonProperty(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
-        public abstract Builder setKomplikationerAvSjukdomen(Boolean value);
+    @JsonProperty(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_JSON_ID)
+    public abstract Builder setKomplikationerAvSjukdomen(Boolean value);
 
-        @JsonProperty(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
-        public abstract Builder setKomplikationerAvSjukdomenAnges(String value);
+    @JsonProperty(OVRIGT_KOMPLIKATIONER_AV_SJUKDOMEN_ANGES_JSON_ID)
+    public abstract Builder setKomplikationerAvSjukdomenAnges(String value);
 
-        @JsonProperty(OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID)
-        public abstract Builder setBorUndersokasAvSpecialist(String value);
-    }
-
+    @JsonProperty(OVRIGT_BOR_UNDERSOKAS_AV_SPECIALIST_JSON_ID)
+    public abstract Builder setBorUndersokasAvSpecialist(String value);
+  }
 }

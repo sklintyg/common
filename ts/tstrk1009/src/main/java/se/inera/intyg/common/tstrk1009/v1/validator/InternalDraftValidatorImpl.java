@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,97 +46,134 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 @Component("tstrk1009.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1009UtlatandeV1> {
 
-    protected static final String VALIDATION_COMMON_EXCEEDS_MAXDATE = "common.validation.date.today.or.earlier";
-    public static final int FOUR = 4;
+  protected static final String VALIDATION_COMMON_EXCEEDS_MAXDATE =
+      "common.validation.date.today.or.earlier";
+  public static final int FOUR = 4;
 
-    @Override
-    public ValidateDraftResponse validateDraft(Tstrk1009UtlatandeV1 utlatande) {
-        List<ValidationMessage> validationMessages = new ArrayList<>();
+  @Override
+  public ValidateDraftResponse validateDraft(Tstrk1009UtlatandeV1 utlatande) {
+    List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        validateIdentitet(utlatande, validationMessages);
-        validateOlamplighet(utlatande, validationMessages);
-        validateGrundForOlamplighet(utlatande, validationMessages);
-        validateBehorighet(utlatande, validationMessages);
-        validateOmExtraInfoOnskas(utlatande, validationMessages);
+    validateIdentitet(utlatande, validationMessages);
+    validateOlamplighet(utlatande, validationMessages);
+    validateGrundForOlamplighet(utlatande, validationMessages);
+    validateBehorighet(utlatande, validationMessages);
+    validateOmExtraInfoOnskas(utlatande, validationMessages);
 
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+    ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
-        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+    return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+  }
+
+  private static void validateIdentitet(
+      Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Identitet styrkt genom
+    if (utlatande.getIdentitetStyrktGenom() == null) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_IDENTITET,
+          IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
+          ValidationMessageType.EMPTY);
+    }
+  }
+
+  private static void validateOlamplighet(
+      Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Anmälan avser olämplighet eller sannolik olämplighet
+    if (utlatande.getAnmalanAvser() == null) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_ANMALAN,
+          ANMALAN_AVSER_JSON_ID + ".typ",
+          ValidationMessageType.EMPTY);
+    }
+  }
+
+  private static void validateGrundForOlamplighet(
+      Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Medicinska förhållanden som utgör grund för olämplighet
+    if (Strings.isNullOrEmpty(utlatande.getMedicinskaForhallanden())) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_MEDICINSKAFORHALLANDEN,
+          MEDICINSKA_FORHALLANDEN_JSON_ID,
+          ValidationMessageType.EMPTY);
     }
 
-    private static void validateIdentitet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Identitet styrkt genom
-        if (utlatande.getIdentitetStyrktGenom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
-                ValidationMessageType.EMPTY);
-        }
+    if (ValidatorUtil.validateDate(
+        utlatande.getSenasteUndersokningsdatum(),
+        validationMessages,
+        CATEGORY_MEDICINSKAFORHALLANDEN,
+        SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
+        null)) {
+
+      if (eligibleForRule1(utlatande)) {
+        ValidatorUtil.addValidationError(
+            validationMessages,
+            CATEGORY_MEDICINSKAFORHALLANDEN,
+            SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
+            ValidationMessageType.OTHER,
+            VALIDATION_COMMON_EXCEEDS_MAXDATE);
+      }
+    }
+  }
+
+  private static void validateBehorighet(
+      Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Intyget avser behörighet
+    if (utlatande.getIntygetAvserBehorigheter() == null
+        || isEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
+          ValidationMessageType.EMPTY);
+    } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > FOUR) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
+          ValidationMessageType.OTHER);
+    } else if (eligibleForRule2To10(utlatande)) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
+          ValidationMessageType.OTHER);
+    }
+  }
+
+  private static void validateOmExtraInfoOnskas(
+      Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Ej obligatorisk fraga -> ingen validering.
+  }
+
+  private static boolean eligibleForRule1(Tstrk1009UtlatandeV1 utlatande) {
+    return utlatande.getSenasteUndersokningsdatum() != null
+        && utlatande.getSenasteUndersokningsdatum().isValidDate()
+        && utlatande.getSenasteUndersokningsdatum().asLocalDate().isAfter(LocalDate.now());
+  }
+
+  private static boolean eligibleForRule2To10(Tstrk1009UtlatandeV1 utlatande) {
+    if (utlatande.getIntygetAvserBehorigheter() == null
+        || utlatande.getIntygetAvserBehorigheter().getTyper() == null) {
+      return false;
+    }
+    Set<KorkortBehorighetGrupp> behorighetsGrupper =
+        utlatande.getIntygetAvserBehorigheter().getTyper();
+
+    // R2
+    if (behorighetsGrupper.contains(KorkortBehorighetGrupp.ALLA)
+        && behorighetsGrupper.size() != 1) {
+      return true;
     }
 
-    private static void validateOlamplighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Anmälan avser olämplighet eller sannolik olämplighet
-        if (utlatande.getAnmalanAvser() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ANMALAN, ANMALAN_AVSER_JSON_ID + ".typ",
-                ValidationMessageType.EMPTY);
-        }
+    // R8
+    if (behorighetsGrupper.contains(KorkortBehorighetGrupp.KANINTETASTALLNING)
+        && behorighetsGrupper.size() != 1) {
+      return true;
     }
 
-    private static void validateGrundForOlamplighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Medicinska förhållanden som utgör grund för olämplighet
-        if (Strings.isNullOrEmpty(utlatande.getMedicinskaForhallanden())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, MEDICINSKA_FORHALLANDEN_JSON_ID,
-                ValidationMessageType.EMPTY);
-        }
-
-        if (ValidatorUtil.validateDate(utlatande.getSenasteUndersokningsdatum(), validationMessages,
-            CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID, null)) {
-
-            if (eligibleForRule1(utlatande)) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                    ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
-            }
-        }
-    }
-
-    private static void validateBehorighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Intyget avser behörighet
-        if (utlatande.getIntygetAvserBehorigheter() == null || isEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                ValidationMessageType.EMPTY);
-        } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > FOUR) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                ValidationMessageType.OTHER);
-        } else if (eligibleForRule2To10(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
-                ValidationMessageType.OTHER);
-        }
-    }
-
-    private static void validateOmExtraInfoOnskas(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Ej obligatorisk fraga -> ingen validering.
-    }
-
-    private static boolean eligibleForRule1(Tstrk1009UtlatandeV1 utlatande) {
-        return utlatande.getSenasteUndersokningsdatum() != null
-            && utlatande.getSenasteUndersokningsdatum().isValidDate()
-            && utlatande.getSenasteUndersokningsdatum().asLocalDate().isAfter(LocalDate.now());
-    }
-
-    private static boolean eligibleForRule2To10(Tstrk1009UtlatandeV1 utlatande) {
-        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getTyper() == null) {
-            return false;
-        }
-        Set<KorkortBehorighetGrupp> behorighetsGrupper = utlatande.getIntygetAvserBehorigheter().getTyper();
-
-        // R2
-        if (behorighetsGrupper.contains(KorkortBehorighetGrupp.ALLA) && behorighetsGrupper.size() != 1) {
-            return true;
-        }
-
-        // R8
-        if (behorighetsGrupper.contains(KorkortBehorighetGrupp.KANINTETASTALLNING) && behorighetsGrupper.size() != 1) {
-            return true;
-        }
-
-        return false;
-    }
+    return false;
+  }
 }

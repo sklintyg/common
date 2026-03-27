@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,25 +31,21 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaProvtagning {
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
-        CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
 
-        final var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
+    final var behovsProvtagning =
+        narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
-            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(behovsProvtagning))
-                    .build()
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
+        .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID))
+                .build())
+        .value(CertificateDataValueViewText.builder().text(booleanValue(behovsProvtagning)).build())
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,22 +22,24 @@ import java.util.Optional;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
- * Exception thrown whenever a certificate with unknown certificate ID is tried to access, or the civic registration
- * number doesn't match the one in the certificate.
+ * Exception thrown whenever a certificate with unknown certificate ID is tried to access, or the
+ * civic registration number doesn't match the one in the certificate.
  *
  * @author andreaskaltenbach
  */
 public class InvalidCertificateException extends Exception {
 
-    private static final long serialVersionUID = 9207157337550587128L;
+  private static final long serialVersionUID = 9207157337550587128L;
 
-    public InvalidCertificateException(String certificateId, String personnummerHash) {
-        super(personnummerHash == null
+  public InvalidCertificateException(String certificateId, String personnummerHash) {
+    super(
+        personnummerHash == null
             ? "Unknown certificate ID: %s".formatted(certificateId)
-            : "Certificate '%s' does not exist for user '%s'".formatted(certificateId, personnummerHash));
-    }
+            : "Certificate '%s' does not exist for user '%s'"
+                .formatted(certificateId, personnummerHash));
+  }
 
-    private static boolean isValidPersonnummer(Personnummer personnummer) {
-        return Optional.ofNullable(personnummer).isPresent();
-    }
+  private static boolean isValidPersonnummer(Personnummer personnummer) {
+    return Optional.ofNullable(personnummer).isPresent();
+  }
 }

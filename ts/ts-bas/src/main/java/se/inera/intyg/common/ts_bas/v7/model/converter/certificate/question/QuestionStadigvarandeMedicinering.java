@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,42 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Medicinering;
 
 public class QuestionStadigvarandeMedicinering {
 
-    public static CertificateDataElement toCertificate(Medicinering medicinering, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Medicinering medicinering, int index, CertificateTextProvider textProvider) {
 
-        final var stadigvarandeMedicinering = medicinering != null ? medicinering.getStadigvarandeMedicinering() : null;
+    final var stadigvarandeMedicinering =
+        medicinering != null ? medicinering.getStadigvarandeMedicinering() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-            .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
-                    .text(textProvider.get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
-                    .selected(stadigvarandeMedicinering)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
-                        .expression(exists(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+        .parent(STADIGVARANDE_MEDICINERING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                .text(textProvider.get(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID)
+                .selected(stadigvarandeMedicinering)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID)
+                  .expression(exists(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
-            FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID,
+        FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_JSON_ID);
+  }
 }

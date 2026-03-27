@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -48,118 +47,124 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 @ExtendWith(MockitoExtension.class)
 class QuestionSjukskrivningsperiodMessageTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return CATEGORY_BEDOMNING_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_ID;
     }
 
-    @Nested
-    class IncludeConfigMessageTests extends ConfigMessageTest {
-
-        @Override
-        protected String getMessageId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return CATEGORY_BEDOMNING_ID;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        private static final long DATE_RANGE_LIMIT = 14;
+  @Nested
+  class IncludeConfigMessageTests extends ConfigMessageTest {
 
-        @Override
-        protected String getQuestionId() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".to" + " - " + SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID + ".from" + " >= "
-                + DATE_RANGE_LIMIT;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected String getMessageId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID;
     }
 
-    @Nested
-    class IncludeVisibleTests {
-
-        @Test
-        void shouldBeVisible() {
-            final var internalLocalDateInterval = new InternalLocalDateInterval();
-            internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(14)));
-            final var certificateDataElement = QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
-            assertTrue(certificateDataElement.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisible() {
-            final var internalLocalDateInterval = new InternalLocalDateInterval();
-            internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-            internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(13)));
-            final var certificateDataElement = QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
-            assertFalse(certificateDataElement.getVisible());
-        }
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
     }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    private static final long DATE_RANGE_LIMIT = 14;
+
+    @Override
+    protected String getQuestionId() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID
+          + ".to"
+          + " - "
+          + SJUKSKRIVNINGSGRAD_PERIOD_JSON_ID
+          + ".from"
+          + " >= "
+          + DATE_RANGE_LIMIT;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionSjukskrivningsperiodMessage.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeVisibleTests {
+
+    @Test
+    void shouldBeVisible() {
+      final var internalLocalDateInterval = new InternalLocalDateInterval();
+      internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(14)));
+      final var certificateDataElement =
+          QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
+      assertTrue(certificateDataElement.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisible() {
+      final var internalLocalDateInterval = new InternalLocalDateInterval();
+      internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+      internalLocalDateInterval.setTom(new InternalDate(LocalDate.now().plusDays(13)));
+      final var certificateDataElement =
+          QuestionSjukskrivningsperiodMessage.toCertificate(internalLocalDateInterval, 0, texts);
+      assertFalse(certificateDataElement.getVisible());
+    }
+  }
 }

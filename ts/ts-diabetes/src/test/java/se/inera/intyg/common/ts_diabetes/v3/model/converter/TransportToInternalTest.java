@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,43 +45,44 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    public static TsDiabetesUtlatandeV3 getUtlatande() {
-        TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
+  public static TsDiabetesUtlatandeV3 getUtlatande() {
+    TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
 
-        utlatande.setAllmant(Allmant.builder().build());
-        utlatande.setBedomning(Bedomning.builder().build());
-        utlatande.setHypoglykemier(Hypoglykemier.builder().build());
-        utlatande.setSynfunktion(Synfunktion.builder().build());
+    utlatande.setAllmant(Allmant.builder().build());
+    utlatande.setBedomning(Bedomning.builder().build());
+    utlatande.setHypoglykemier(Hypoglykemier.builder().build());
+    utlatande.setSynfunktion(Synfunktion.builder().build());
 
-        utlatande.setOvrigt("Trevlig kille");
-        return utlatande.build();
-    }
+    utlatande.setOvrigt("Trevlig kille");
+    return utlatande.build();
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        TsDiabetesUtlatandeV3 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-        TsDiabetesUtlatandeV3 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        Assert.assertEquals(originalUtlatande, convertedIntyg);
-    }
-
+  @Test
+  public void endToEnd() throws Exception {
+    TsDiabetesUtlatandeV3 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+    TsDiabetesUtlatandeV3 convertedIntyg =
+        TransportToInternal.convert(transportCertificate.getIntyg());
+    Assert.assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

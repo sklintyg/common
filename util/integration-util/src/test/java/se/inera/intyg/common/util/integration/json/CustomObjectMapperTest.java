@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,53 +35,52 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class CustomObjectMapperTest {
 
-    @Test
-    public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
-        throws JsonProcessingException {
+  @Test
+  public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
+      throws JsonProcessingException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        TestDto dtoObject = new TestDto();
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    TestDto dtoObject = new TestDto();
 
-        String dtoAsString = mapper.writeValueAsString(dtoObject);
+    String dtoAsString = mapper.writeValueAsString(dtoObject);
 
-        assertThat(dtoAsString, containsString("intValue"));
-        assertThat(dtoAsString, containsString("booleanValue"));
-        assertThat(dtoAsString, not(containsString("stringValue")));
+    assertThat(dtoAsString, containsString("intValue"));
+    assertThat(dtoAsString, containsString("booleanValue"));
+    assertThat(dtoAsString, not(containsString("stringValue")));
+  }
+
+  class TestDto {
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String stringValue;
+
+    private boolean booleanValue;
+
+    private int intValue;
+
+    public String getStringValue() {
+      return stringValue;
     }
 
-    class TestDto {
-
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        private String stringValue;
-
-        private boolean booleanValue;
-
-        private int intValue;
-
-        public String getStringValue() {
-            return stringValue;
-        }
-
-        public void setStringValue(String stringValue) {
-            this.stringValue = stringValue;
-        }
-
-        public boolean isBooleanValue() {
-            return booleanValue;
-        }
-
-        public void setBooleanValue(boolean booleanValue) {
-            this.booleanValue = booleanValue;
-        }
-
-        public int getIntValue() {
-            return intValue;
-        }
-
-        public void setIntValue(int intValue) {
-            this.intValue = intValue;
-        }
+    public void setStringValue(String stringValue) {
+      this.stringValue = stringValue;
     }
 
+    public boolean isBooleanValue() {
+      return booleanValue;
+    }
+
+    public void setBooleanValue(boolean booleanValue) {
+      this.booleanValue = booleanValue;
+    }
+
+    public int getIntValue() {
+      return intValue;
+    }
+
+    public void setIntValue(int intValue) {
+      this.intValue = intValue;
+    }
+  }
 }

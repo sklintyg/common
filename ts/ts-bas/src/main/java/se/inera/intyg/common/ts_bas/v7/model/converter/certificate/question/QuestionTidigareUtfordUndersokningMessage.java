@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,22 +30,20 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public class QuestionTidigareUtfordUndersokningMessage {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
 
-        return CertificateDataElement.builder()
-            .id(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
-                            .level(MessageLevel.OBSERVE)
-                            .build()
-                    )
-                    .build()
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
+                        .level(MessageLevel.OBSERVE)
+                        .build())
+                .build())
+        .build();
+  }
 }

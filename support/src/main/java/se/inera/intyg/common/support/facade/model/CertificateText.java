@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,12 +30,10 @@ import se.inera.intyg.common.support.facade.model.CertificateText.CertificateTex
 @Builder
 public class CertificateText {
 
-    String text;
-    CertificateTextType type;
-    List<CertificateLink> links;
+  String text;
+  CertificateTextType type;
+  List<CertificateLink> links;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateTextBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateTextBuilder {}
 }

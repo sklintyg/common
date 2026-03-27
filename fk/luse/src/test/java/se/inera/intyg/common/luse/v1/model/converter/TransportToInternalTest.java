@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -63,96 +63,110 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    private ObjectFactory objectFactory;
-    private JAXBContext jaxbContext;
-    private RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
+  private ObjectFactory objectFactory;
+  private JAXBContext jaxbContext;
+  private RegisterCertificateValidator validator =
+      new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @Before
-    public void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+  @Before
+  public void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    private static LuseUtlatandeV1 getUtlatande() {
-        LuseUtlatandeV1.Builder utlatande = LuseUtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
-        utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
-        utlatande.setKannedomOmPatient(new InternalDate(LocalDate.now()));
-        utlatande.setUnderlagFinns(true);
-        utlatande.setUnderlag(asList(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate(LocalDate.now()), "plats 1"),
-            Underlag.create(Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT, new InternalDate(LocalDate.now().plusWeeks(2)),
+  private static LuseUtlatandeV1 getUtlatande() {
+    LuseUtlatandeV1.Builder utlatande = LuseUtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
+    utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+    utlatande.setKannedomOmPatient(new InternalDate(LocalDate.now()));
+    utlatande.setUnderlagFinns(true);
+    utlatande.setUnderlag(
+        asList(
+            Underlag.create(
+                Underlag.UnderlagsTyp.OVRIGT, new InternalDate(LocalDate.now()), "plats 1"),
+            Underlag.create(
+                Underlag.UnderlagsTyp.UNDERLAG_FRAN_ARBETSTERAPEUT,
+                new InternalDate(LocalDate.now().plusWeeks(2)),
                 "plats 2")));
-        utlatande.setSjukdomsforlopp("Snabbt");
-        utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
+    utlatande.setSjukdomsforlopp("Snabbt");
+    utlatande.setDiagnoser(
+        asList(
+            (Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
             Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
-        utlatande.setDiagnosgrund("Ingen som vet");
-        utlatande.setNyBedomningDiagnosgrund(true);
-        utlatande.setDiagnosForNyBedomning("Diagnos för ny bedömning");
-        utlatande.setFunktionsnedsattningIntellektuell("Bra");
-        utlatande.setFunktionsnedsattningKommunikation("Tyst");
-        utlatande.setFunktionsnedsattningKoncentration("Noll");
-        utlatande.setFunktionsnedsattningPsykisk("Lite ledsen");
-        utlatande.setFunktionsnedsattningSynHorselTal("Vitt");
-        utlatande.setFunktionsnedsattningBalansKoordination("Tyst");
-        utlatande.setFunktionsnedsattningAnnan("Kan inte smida");
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setPagaendeBehandling("Medicin");
-        utlatande.setAvslutadBehandling("Gammal medicin");
-        utlatande.setPlaneradBehandling("Mer medicin");
-        utlatande.setMedicinskaForutsattningarForArbete("Svårt");
-        utlatande.setFormagaTrotsBegransning("Dansa");
-        utlatande.setOvrigt("Trevlig kille");
-        utlatande.setKontaktMedFk(true);
-        utlatande.setAnledningTillKontakt("Känner mig ensam");
-        utlatande.setTillaggsfragor(asList(Tillaggsfraga.create("9001", "Svar text 1"), Tillaggsfraga.create("9002", "Svar text 2")));
-        return utlatande.build();
-    }
+    utlatande.setDiagnosgrund("Ingen som vet");
+    utlatande.setNyBedomningDiagnosgrund(true);
+    utlatande.setDiagnosForNyBedomning("Diagnos för ny bedömning");
+    utlatande.setFunktionsnedsattningIntellektuell("Bra");
+    utlatande.setFunktionsnedsattningKommunikation("Tyst");
+    utlatande.setFunktionsnedsattningKoncentration("Noll");
+    utlatande.setFunktionsnedsattningPsykisk("Lite ledsen");
+    utlatande.setFunktionsnedsattningSynHorselTal("Vitt");
+    utlatande.setFunktionsnedsattningBalansKoordination("Tyst");
+    utlatande.setFunktionsnedsattningAnnan("Kan inte smida");
+    utlatande.setAktivitetsbegransning("Väldigt sjuk");
+    utlatande.setPagaendeBehandling("Medicin");
+    utlatande.setAvslutadBehandling("Gammal medicin");
+    utlatande.setPlaneradBehandling("Mer medicin");
+    utlatande.setMedicinskaForutsattningarForArbete("Svårt");
+    utlatande.setFormagaTrotsBegransning("Dansa");
+    utlatande.setOvrigt("Trevlig kille");
+    utlatande.setKontaktMedFk(true);
+    utlatande.setAnledningTillKontakt("Känner mig ensam");
+    utlatande.setTillaggsfragor(
+        asList(
+            Tillaggsfraga.create("9001", "Svar text 1"),
+            Tillaggsfraga.create("9002", "Svar text 2")));
+    return utlatande.build();
+  }
 
-    @Before
-    public void suitSetup() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class);
-        objectFactory = new ObjectFactory();
-    }
+  @Before
+  public void suitSetup() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class);
+    objectFactory = new ObjectFactory();
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        LuseUtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
-        LuseUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+  @Test
+  public void endToEnd() throws Exception {
+    LuseUtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate =
+        InternalToTransport.convert(originalUtlatande, webcertModuleService);
+    LuseUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
 
-        String xml = xmlToString(transportCertificate);
-        SchematronOutputType valResult = validator.validateSchematron(new StreamSource(new StringReader(xml)));
+    String xml = xmlToString(transportCertificate);
+    SchematronOutputType valResult =
+        validator.validateSchematron(new StreamSource(new StringReader(xml)));
 
-        assertTrue(SVRLHelper.getAllFailedAssertions(valResult).size() == 0);
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
+    assertTrue(SVRLHelper.getAllFailedAssertions(valResult).size() == 0);
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 
-    private String xmlToString(RegisterCertificateType registerCertificate) throws JAXBException {
-        StringWriter stringWriter = new StringWriter();
-        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(registerCertificate);
-        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
-        return stringWriter.toString();
-    }
-
+  private String xmlToString(RegisterCertificateType registerCertificate) throws JAXBException {
+    StringWriter stringWriter = new StringWriter();
+    JAXBElement<RegisterCertificateType> requestElement =
+        objectFactory.createRegisterCertificate(registerCertificate);
+    jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
+    return stringWriter.toString();
+  }
 }

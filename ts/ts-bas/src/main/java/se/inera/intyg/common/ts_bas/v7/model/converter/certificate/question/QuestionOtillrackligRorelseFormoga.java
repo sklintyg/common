@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,45 +42,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 
 public class QuestionOtillrackligRorelseFormoga {
 
-    public static CertificateDataElement toCertificate(Funktionsnedsattning roresleFormoga, int index,
-        CertificateTextProvider textProvider) {
-        final var otillrackligRorelseformoga = roresleFormoga != null ? roresleFormoga.getOtillrackligRorelseformaga() : null;
-        return CertificateDataElement.builder()
-            .id(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID)
-            .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID)
-                    .text(textProvider.get(OTILLRACKLIG_RORELSEFORMAGA_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID)
-                    .selected(otillrackligRorelseformoga)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID)
-                        .expression(exists(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID_1)
-                        .expression(multipleOrExpressionWithExists(
-                            IntygAvserKategori.IAV5.name(), IntygAvserKategori.IAV6.name(), IntygAvserKategori.IAV7.name(),
-                            IntygAvserKategori.IAV8.name(), IntygAvserKategori.IAV9.name()))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Funktionsnedsattning roresleFormoga, int index, CertificateTextProvider textProvider) {
+    final var otillrackligRorelseformoga =
+        roresleFormoga != null ? roresleFormoga.getOtillrackligRorelseformaga() : null;
+    return CertificateDataElement.builder()
+        .id(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID)
+        .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID)
+                .text(textProvider.get(OTILLRACKLIG_RORELSEFORMAGA_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID)
+                .selected(otillrackligRorelseformoga)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID)
+                  .expression(exists(OTILLRACKLIG_RORELSEFORMAGA_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(INTYG_AVSER_SVAR_ID_1)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          IntygAvserKategori.IAV5.name(),
+                          IntygAvserKategori.IAV6.name(),
+                          IntygAvserKategori.IAV7.name(),
+                          IntygAvserKategori.IAV8.name(),
+                          IntygAvserKategori.IAV9.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID, OTILLRACKLIG_RORELSEFORMAGA_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID,
+        OTILLRACKLIG_RORELSEFORMAGA_JSON_ID);
+  }
 }

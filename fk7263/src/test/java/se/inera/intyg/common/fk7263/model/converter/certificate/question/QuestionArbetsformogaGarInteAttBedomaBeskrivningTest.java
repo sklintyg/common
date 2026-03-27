@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -45,87 +44,89 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 @ExtendWith(MockitoExtension.class)
 class QuestionArbetsformogaGarInteAttBedomaBeskrivningTest {
 
-    @Mock
-    private CertificateMessagesProvider texts;
+  @Mock private CertificateMessagesProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getId() {
-            return ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ARBETSFORMAGA_PROGNOS_SVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return ARBETSFORMAGA_GAR_INTE_BEDOMA_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return "Test string";
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return texts;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID;
-        }
+    @Override
+    protected String getParent() {
+      return ARBETSFORMAGA_PROGNOS_SVAR_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<String> {
-
-        @Override
-        protected CertificateDataElement getElement(String expectedValue) {
-            return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(expectedValue, 0, texts);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<String, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>("test", CertificateDataValueViewText.builder().text("test").build()),
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return "Test string";
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return ARBETSFORMAGA_GAR_INTE_BEDOMA_TEXT_ID;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<String> {
+
+    @Override
+    protected CertificateDataElement getElement(String expectedValue) {
+      return QuestionArbetsformogaGarInteAttBedomaBeskrivning.toCertificate(
+          expectedValue, 0, texts);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<String, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              "test", CertificateDataValueViewText.builder().text("test").build()),
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()));
+    }
+  }
 }

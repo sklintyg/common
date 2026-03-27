@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,21 +20,21 @@ package se.inera.intyg.common.support.modules.support.api.exception;
 
 public class ModuleConverterException extends ModuleException {
 
-    private static final long serialVersionUID = 4055150962655732547L;
+  private static final long serialVersionUID = 4055150962655732547L;
 
-    public ModuleConverterException() {
-        super();
-    }
+  public ModuleConverterException() {
+    super();
+  }
 
-    public ModuleConverterException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public ModuleConverterException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ModuleConverterException(String message) {
-        super(message);
-    }
+  public ModuleConverterException(String message) {
+    super(message);
+  }
 
-    public ModuleConverterException(Throwable cause) {
-        super(cause);
-    }
+  public ModuleConverterException(Throwable cause) {
+    super(cause);
+  }
 }

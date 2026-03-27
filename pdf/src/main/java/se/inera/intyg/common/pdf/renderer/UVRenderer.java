@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -78,314 +78,323 @@ import se.inera.intyg.common.pdf.model.UVTable;
 import se.inera.intyg.common.pdf.model.UVTemplateString;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
-/**
- * Renders PDFs using iText7 based on the uv view configs.
- */
+/** Renders PDFs using iText7 based on the uv view configs. */
 // CHECKSTYLE:OFF MagicNumber
 public class UVRenderer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UVRenderer.class);
-    public static final float TOP_MARGIN_SUMMARY_PAGE = millimetersToPoints(42f);
+  private static final Logger LOG = LoggerFactory.getLogger(UVRenderer.class);
+  public static final float TOP_MARGIN_SUMMARY_PAGE = millimetersToPoints(42f);
 
-    public static final Color WC_COLOR_11 = new DeviceRgb(0xDA, 0x44, 0x53);
+  public static final Color WC_COLOR_11 = new DeviceRgb(0xDA, 0x44, 0x53);
 
-    // In millimeters
-    public static final float PAGE_MARGIN_LEFT = 20f;
-    public static final float PAGE_MARGIN_BOTTOM_WITH_SIGNBOX = 40f;
-    public static final float PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX = 15f;
-    public static final float PAGE_MARGIN_TOP = 58f;
-    private static final float MARGIN_BETWEEN_KATEGORIER = 5f;
+  // In millimeters
+  public static final float PAGE_MARGIN_LEFT = 20f;
+  public static final float PAGE_MARGIN_BOTTOM_WITH_SIGNBOX = 40f;
+  public static final float PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX = 15f;
+  public static final float PAGE_MARGIN_TOP = 58f;
+  private static final float MARGIN_BETWEEN_KATEGORIER = 5f;
 
-    public PdfFont kategoriFont;
-    public PdfFont fragaDelFragaFont;
-    public PdfFont svarFont;
-    private PdfFont watermarkFont;
-    private PdfFont signBoxFont;
+  public PdfFont kategoriFont;
+  public PdfFont fragaDelFragaFont;
+  public PdfFont svarFont;
+  private PdfFont watermarkFont;
+  private PdfFont signBoxFont;
 
-    private ScriptObjectMirror jsIntygModel;
-    private IntygTexts intygTexts;
-    private PrintConfig printConfig;
+  private ScriptObjectMirror jsIntygModel;
+  private IntygTexts intygTexts;
+  private PrintConfig printConfig;
 
-    private ScriptEngine engine;
+  private ScriptEngine engine;
 
-    private PdfImageXObject observandumIcon;
-    private PdfImageXObject observandumInfoIcon;
+  private PdfImageXObject observandumIcon;
+  private PdfImageXObject observandumInfoIcon;
 
-    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts, String documentTitle) {
-        this.intygTexts = intygTexts;
-        this.printConfig = printConfig;
+  public byte[] startRendering(
+      PrintConfig printConfig, IntygTexts intygTexts, String documentTitle) {
+    this.intygTexts = intygTexts;
+    this.printConfig = printConfig;
 
-        this.kategoriFont = loadFont("Roboto-Medium.woff2");
-        this.fragaDelFragaFont = loadFont("Roboto-Medium.woff2");
-        this.svarFont = loadFont("Roboto-Regular.woff2");
-        this.watermarkFont = loadFont("Roboto-Medium.woff2");
-        this.signBoxFont = loadFont("Roboto-Regular.woff2");
+    this.kategoriFont = loadFont("Roboto-Medium.woff2");
+    this.fragaDelFragaFont = loadFont("Roboto-Medium.woff2");
+    this.svarFont = loadFont("Roboto-Regular.woff2");
+    this.watermarkFont = loadFont("Roboto-Medium.woff2");
+    this.signBoxFont = loadFont("Roboto-Regular.woff2");
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            // Initialize PDF writer
-            PdfWriter writer = new PdfWriter(bos);
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    try {
+      // Initialize PDF writer
+      PdfWriter writer = new PdfWriter(bos);
 
-            // Initialize PDF document
-            PdfDocument pdf = new PdfDocument(writer);
-            pdf.getDocumentInfo().setTitle(documentTitle);
+      // Initialize PDF document
+      PdfDocument pdf = new PdfDocument(writer);
+      pdf.getDocumentInfo().setTitle(documentTitle);
 
-            // Load icons for observandum
-            this.observandumIcon = new PdfImageXObject(
-                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
-            this.observandumInfoIcon = new PdfImageXObject(
-                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
+      // Load icons for observandum
+      this.observandumIcon =
+          new PdfImageXObject(
+              ImageDataFactory.create(
+                  IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
+      this.observandumInfoIcon =
+          new PdfImageXObject(
+              ImageDataFactory.create(
+                  IOUtils.toByteArray(
+                      new ClassPathResource("obs-info-icon.png").getInputStream())));
 
-            // Initialize event handlers for header, footer etc.
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new IntygFooter(svarFont, printConfig.getApplicationOrigin(), printConfig.getFooterAppName()));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new MarginTexts(printConfig, svarFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new WaterMarkerer(printConfig, watermarkFont));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                new SignBox(printConfig, signBoxFont));
+      // Initialize event handlers for header, footer etc.
+      pdf.addEventHandler(
+          PdfDocumentEvent.END_PAGE,
+          new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
+      pdf.addEventHandler(
+          PdfDocumentEvent.END_PAGE,
+          new IntygFooter(
+              svarFont, printConfig.getApplicationOrigin(), printConfig.getFooterAppName()));
+      pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new MarginTexts(printConfig, svarFont));
+      pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new WaterMarkerer(printConfig, watermarkFont));
+      pdf.addEventHandler(PdfDocumentEvent.END_PAGE, new SignBox(printConfig, signBoxFont));
 
-            PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                pageNumberEvent);
+      PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
+      pdf.addEventHandler(PdfDocumentEvent.END_PAGE, pageNumberEvent);
 
-            // Initialize document
-            Document document = new Document(pdf, PageSize.A4);
-            document.setMargins(
-                millimetersToPoints(PAGE_MARGIN_TOP),
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
-                millimetersToPoints(PAGE_MARGIN_LEFT));
+      // Initialize document
+      Document document = new Document(pdf, PageSize.A4);
+      document.setMargins(
+          millimetersToPoints(PAGE_MARGIN_TOP),
+          millimetersToPoints(PAGE_MARGIN_LEFT),
+          millimetersToPoints(
+              printConfig.showSignBox()
+                  ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX
+                  : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
+          millimetersToPoints(PAGE_MARGIN_LEFT));
 
-            // Initialize script engine
-            engine = new ScriptEngineManager().getEngineByName("nashorn");
+      // Initialize script engine
+      engine = new ScriptEngineManager().getEngineByName("nashorn");
 
-            // Bind the $filter function and other custom functions declared in uvViewConfig.
-            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), StandardCharsets.UTF_8));
+      // Bind the $filter function and other custom functions declared in uvViewConfig.
+      engine.eval(
+          new InputStreamReader(
+              new ClassPathResource("customfilter.js").getInputStream(), StandardCharsets.UTF_8));
 
-            // Parse JSON intyg into JS object
-            String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
-            jsIntygModel = (ScriptObjectMirror) engine.eval(script);
-            engine.put("jsIntygModel", jsIntygModel);
+      // Parse JSON intyg into JS object
+      String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
+      jsIntygModel = (ScriptObjectMirror) engine.eval(script);
+      engine.put("jsIntygModel", jsIntygModel);
 
-            // Load unified print JS model
-            InputStreamReader inputStreamReader = new InputStreamReader(
-                IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
-            engine.eval(inputStreamReader);
-            ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
-            engine.put("viewConfig", viewConfig);
+      // Load unified print JS model
+      InputStreamReader inputStreamReader =
+          new InputStreamReader(
+              IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
+      engine.eval(inputStreamReader);
+      ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
+      engine.put("viewConfig", viewConfig);
 
-            Div rootDiv = new Div();
-            for (Object o : viewConfig.values()) {
-                render(rootDiv, (ScriptObjectMirror) o);
-            }
+      Div rootDiv = new Div();
+      for (Object o : viewConfig.values()) {
+        render(rootDiv, (ScriptObjectMirror) o);
+      }
 
-            document.add(rootDiv);
+      document.add(rootDiv);
 
-            // Final page.
-            if (printConfig.hasSummaryPage()) {
-                renderSummaryPage(printConfig, document);
-            }
+      // Final page.
+      if (printConfig.hasSummaryPage()) {
+        renderSummaryPage(printConfig, document);
+      }
 
-            pageNumberEvent.writeTotal(pdf);
+      pageNumberEvent.writeTotal(pdf);
 
-            document.close();
-            return bos.toByteArray();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+      document.close();
+      return bos.toByteArray();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public ScriptObjectMirror getIntygModel() {
+    return jsIntygModel;
+  }
+
+  /** Resolves a text from the intygTexts. */
+  public String getText(String labelKey) {
+    // return an empty string if there's no labelKey.
+    if (Strings.isNullOrEmpty(labelKey)) {
+      return "";
+    }
+    try {
+      return intygTexts.getTexter().get(labelKey);
+    } catch (Exception e) {
+      LOG.debug("Missing text for labelKey {}", labelKey);
+      return null; // "missing key: " + labelKey;
+    }
+  }
+
+  /** Resolves a value from the jsIntygModel already bound to the Nashorn engine. */
+  public Object evalValueFromModel(String modelProp) {
+    try {
+      return engine.eval("jsIntygModel." + modelProp);
+    } catch (ScriptException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Uses nashorn eval(..) to resolve the value of a model property in the given ScriptObjectMirror
+   * model.
+   *
+   * <p>Works by binding the supplied model to the engine context, executing the engine.eval on it
+   * and then removing the model again.
+   */
+  public Object findInModel(ScriptObjectMirror model, String modelProp) {
+    engine.put("model", model);
+    try {
+      Object result = engine.eval("model." + modelProp);
+      engine.put("model", null);
+      return result;
+    } catch (ScriptException e) {
+      return "Ej angivet";
+    }
+  }
+
+  public PrintConfig getPrintConfig() {
+    return printConfig;
+  }
+
+  public PdfImageXObject getObservandumIcon() {
+    return this.observandumIcon;
+  }
+
+  public PdfImageXObject getObservandumInfoIcon() {
+    return this.observandumInfoIcon;
+  }
+
+  private String escape(String input) {
+    return StringEscapeUtils.escapeEcmaScript(input);
+  }
+
+  private void renderSummaryPage(PrintConfig printConfig, Document document) {
+
+    if (printConfig.getSummary() == null || printConfig.getSummary().isEmpty()) {
+      return;
     }
 
-    public ScriptObjectMirror getIntygModel() {
-        return jsIntygModel;
-    }
+    document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
+    document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+    Div summaryDiv = new Div();
 
-    /**
-     * Resolves a text from the intygTexts.
-     */
-    public String getText(String labelKey) {
-        // return an empty string if there's no labelKey.
-        if (Strings.isNullOrEmpty(labelKey)) {
-            return "";
-        }
-        try {
-            return intygTexts.getTexter().get(labelKey);
-        } catch (Exception e) {
-            LOG.debug("Missing text for labelKey {}", labelKey);
-            return null; // "missing key: " + labelKey;
-        }
-    }
+    printConfig
+        .getSummary()
+        .getSummaryPartList()
+        .forEach(
+            summaryPart -> {
+              if (summaryPart.getHeading() != null) {
+                summaryDiv.add(
+                    new Paragraph(summaryPart.getHeading())
+                        .setMarginBottom(0f)
+                        .setFont(fragaDelFragaFont)
+                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+              }
 
-    /**
-     * Resolves a value from the jsIntygModel already bound to the Nashorn engine.
-     */
-    public Object evalValueFromModel(String modelProp) {
-        try {
-            return engine.eval("jsIntygModel." + modelProp);
-        } catch (ScriptException e) {
-            return null;
-        }
-    }
+              String text =
+                  "<div style=\"white-space: pre-line;\">" + summaryPart.getBodyText() + "</div>";
 
-    /**
-     * Uses nashorn eval(..) to resolve the value of a model property in the given ScriptObjectMirror model.
-     *
-     * Works by binding the supplied model to the engine context, executing the engine.eval on it and then removing
-     * the model again.
-     */
-    public Object findInModel(ScriptObjectMirror model, String modelProp) {
-        engine.put("model", model);
-        try {
-            Object result = engine.eval("model." + modelProp);
-            engine.put("model", null);
-            return result;
-        } catch (ScriptException e) {
-            return "Ej angivet";
-        }
-    }
+              List<IElement> elements = HtmlConverter.convertToElements(text);
 
-    public PrintConfig getPrintConfig() {
-        return printConfig;
-    }
-
-    public PdfImageXObject getObservandumIcon() {
-        return this.observandumIcon;
-    }
-
-    public PdfImageXObject getObservandumInfoIcon() {
-        return this.observandumInfoIcon;
-    }
-
-    private String escape(String input) {
-        return StringEscapeUtils.escapeEcmaScript(input);
-    }
-
-    private void renderSummaryPage(PrintConfig printConfig, Document document) {
-
-        if (printConfig.getSummary() == null || printConfig.getSummary().isEmpty()) {
-            return;
-        }
-
-        document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
-        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-        Div summaryDiv = new Div();
-
-        printConfig.getSummary().getSummaryPartList().forEach(summaryPart -> {
-
-            if (summaryPart.getHeading() != null) {
-                summaryDiv.add(new Paragraph(summaryPart.getHeading())
-                    .setMarginBottom(0f)
-                    .setFont(fragaDelFragaFont)
-                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-            }
-
-            String text = "<div style=\"white-space: pre-line;\">" + summaryPart.getBodyText() + "</div>";
-
-            List<IElement> elements = HtmlConverter.convertToElements(text);
-
-            elements.forEach(e -> summaryDiv.add(styleElement(((IBlockElement) e))));
-        });
-
-        document.add(summaryDiv);
-    }
-
-    private IBlockElement styleElement(IBlockElement element) {
-
-        if (element instanceof Div) {
-            Div div = (Div) element;
-            div.getChildren().forEach(ie -> {
-                if (ie instanceof IBlockElement) {
-                    styleElement((IBlockElement) ie);
-                }
+              elements.forEach(e -> summaryDiv.add(styleElement(((IBlockElement) e))));
             });
-            return div.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        } else if (element instanceof Paragraph) {
-            return ((Paragraph) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE).setMarginTop(0f);
-        } else if (element instanceof com.itextpdf.layout.element.List) {
-            return ((com.itextpdf.layout.element.List) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        }
 
-        return element;
+    document.add(summaryDiv);
+  }
+
+  private IBlockElement styleElement(IBlockElement element) {
+
+    if (element instanceof Div) {
+      Div div = (Div) element;
+      div.getChildren()
+          .forEach(
+              ie -> {
+                if (ie instanceof IBlockElement) {
+                  styleElement((IBlockElement) ie);
+                }
+              });
+      return div.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+    } else if (element instanceof Paragraph) {
+      return ((Paragraph) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE).setMarginTop(0f);
+    } else if (element instanceof com.itextpdf.layout.element.List) {
+      return ((com.itextpdf.layout.element.List) element)
+          .setFont(svarFont)
+          .setFontSize(SVAR_FONT_SIZE);
     }
 
-    private void render(Div parentDiv, ScriptObjectMirror currentUvNode) {
+    return element;
+  }
 
-        boolean renderChildren = false;
+  private void render(Div parentDiv, ScriptObjectMirror currentUvNode) {
 
-        Div currentDiv = new Div();
-        String type = (String) currentUvNode.get("type");
-        switch (type) {
-            case "uv-kategori":
-                renderChildren = new UVKategori(this)
-                    .render(currentDiv, currentUvNode);
-                break;
-            case "uv-fraga":
-                renderChildren = new UVFraga(this)
-                    .render(currentDiv, currentUvNode);
-                break;
-            case "uv-del-fraga":
-                renderChildren = new UVDelfraga(this)
-                    .render(currentDiv, currentUvNode);
-                break;
-            case "uv-simple-value":
-                renderChildren = new UVSimpleValue(this)
-                    .render(currentDiv, currentUvNode);
-                break;
-            case "uv-template-string":
-                renderChildren = new UVTemplateString(this)
-                    .render(currentDiv, currentUvNode);
-                break;
-            case "uv-kodverk-value":
-                renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-boolean-statement":
-                renderChildren = new UVBooleanStatement(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-boolean-value":
-                renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-list":
-                renderChildren = new UVList(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-table":
-                renderChildren = new UVTable(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-alert-value":
-                renderChildren = new UVAlertValue(this).render(currentDiv, currentUvNode);
-                break;
-            case "uv-skapad-av":
-                renderChildren = new UVSkapadAv(this).render(currentDiv, currentUvNode);
-                break;
-        }
+    boolean renderChildren = false;
 
-        // Recurse into sub-components
-        if (renderChildren && currentUvNode.containsKey("components")) {
-            Object components = currentUvNode.get("components");
-            ScriptObjectMirror array = (ScriptObjectMirror) components;
-            for (Map.Entry<String, Object> entry : array.entrySet()) {
-                render(currentDiv, (ScriptObjectMirror) entry.getValue());
-            }
-        }
-        parentDiv.add(currentDiv);
-
-        // Add a spacer to the parent div _after_ kategori and its subcomponents.
-        if ("uv-kategori".equalsIgnoreCase(type)) {
-            parentDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
-        }
+    Div currentDiv = new Div();
+    String type = (String) currentUvNode.get("type");
+    switch (type) {
+      case "uv-kategori":
+        renderChildren = new UVKategori(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-fraga":
+        renderChildren = new UVFraga(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-del-fraga":
+        renderChildren = new UVDelfraga(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-simple-value":
+        renderChildren = new UVSimpleValue(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-template-string":
+        renderChildren = new UVTemplateString(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-kodverk-value":
+        renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-boolean-statement":
+        renderChildren = new UVBooleanStatement(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-boolean-value":
+        renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-list":
+        renderChildren = new UVList(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-table":
+        renderChildren = new UVTable(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-alert-value":
+        renderChildren = new UVAlertValue(this).render(currentDiv, currentUvNode);
+        break;
+      case "uv-skapad-av":
+        renderChildren = new UVSkapadAv(this).render(currentDiv, currentUvNode);
+        break;
     }
 
-
-    private PdfFont loadFont(String name) {
-        try {
-            byte[] fontData = IOUtils.toByteArray(new ClassPathResource(name).getInputStream());
-            return PdfFontFactory.createFont(fontData, "Winansi", EmbeddingStrategy.PREFER_EMBEDDED, true); // Cp1250
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not load font: " + e.getMessage());
-        }
+    // Recurse into sub-components
+    if (renderChildren && currentUvNode.containsKey("components")) {
+      Object components = currentUvNode.get("components");
+      ScriptObjectMirror array = (ScriptObjectMirror) components;
+      for (Map.Entry<String, Object> entry : array.entrySet()) {
+        render(currentDiv, (ScriptObjectMirror) entry.getValue());
+      }
     }
+    parentDiv.add(currentDiv);
 
+    // Add a spacer to the parent div _after_ kategori and its subcomponents.
+    if ("uv-kategori".equalsIgnoreCase(type)) {
+      parentDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
+    }
+  }
+
+  private PdfFont loadFont(String name) {
+    try {
+      byte[] fontData = IOUtils.toByteArray(new ClassPathResource(name).getInputStream());
+      return PdfFontFactory.createFont(
+          fontData, "Winansi", EmbeddingStrategy.PREFER_EMBEDDED, true); // Cp1250
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Could not load font: " + e.getMessage());
+    }
+  }
 }
 // CHECKSTYLE:ON MagicNumber

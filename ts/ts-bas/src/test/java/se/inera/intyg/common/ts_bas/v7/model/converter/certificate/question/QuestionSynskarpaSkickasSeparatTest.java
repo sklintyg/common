@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,177 +56,182 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 @ExtendWith(MockitoExtension.class)
 class QuestionSynskarpaSkickasSeparatTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return SYNKARPA_SKICKAS_SEPARAT_HEADER_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxBooleanTest {
 
+      @Override
+      protected String getJsonId() {
+        return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected String getId() {
-                return SYNKARPA_SKICKAS_SEPARAT_DELSVAR_ID;
-            }
+      @Override
+      protected String getLabelId() {
+        return SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return SYNKARPA_SKICKAS_SEPARAT_HEADER_ID;
-            }
+      @Override
+      protected String getTextId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-        @Nested
-        class IncludeConfigCheckboxBooleanTests extends ConfigCheckboxBooleanTest {
+      @Override
+      protected String getSelectedTextId() {
+        return SVAR_JA_TEXT;
+      }
 
-            @Override
-            protected String getJsonId() {
-                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getLabelId() {
-                return SYNKARPA_SKICKAS_SEPARAT_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getTextId() {
-                return null;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getSelectedTextId() {
-                return SVAR_JA_TEXT;
-            }
-
-            @Override
-            protected String getUnselectedTextId() {
-                return SVAR_NEJ_TEXT;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                final var syn = Syn.builder().setSynskarpaSkickasSeparat(true).build();
-                return QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return true;
-            }
-        }
-
-        @Nested
-        class IncludeValidationDisableTests extends ValidationDisableTest {
-
-            @Override
-            protected String getQuestionId() {
-                return VARDEN_FOR_SYNSKARPA_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
-                    + ") || exists(" + VANSTER_OGA_MED_KORREKTION_JSON_ID
-                    + ") || exists(" + HOGER_OGA_UTAN_KORREKTION_JSON_ID
-                    + ") || exists(" + HOGER_OGA_MED_KORREKTION_JSON_ID
-                    + ") || exists(" + BINOKULART_UTAN_KORREKTION_JSON_ID
-                    + ") || exists(" + BINOKULART_MED_KORREKTION_JSON_ID + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeValidationDisableTestsForKontaktlinser extends ValidationDisableTest {
-
-            @Override
-            protected String getQuestionId() {
-                return VARDEN_FOR_SYNSKARPA_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return KONTAKTLINSER_VANSTER_OGA_JSON_ID + " || " + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
+      @Override
+      protected String getUnselectedTextId() {
+        return SVAR_NEJ_TEXT;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        final var syn = Syn.builder().setSynskarpaSkickasSeparat(true).build();
+        return QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                final var syn = Syn.builder().setSynskarpaSkickasSeparat(expectedValue).build();
-                return QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return SYNKARPA_SKICKAS_SEPARAT_JSON_ID;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionSynskarpaSkickasSeparat.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return true;
+      }
     }
+
+    @Nested
+    class IncludeValidationDisableTests extends ValidationDisableTest {
+
+      @Override
+      protected String getQuestionId() {
+        return VARDEN_FOR_SYNSKARPA_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists("
+            + VANSTER_OGA_UTAN_KORREKTION_JSON_ID
+            + ") || exists("
+            + VANSTER_OGA_MED_KORREKTION_JSON_ID
+            + ") || exists("
+            + HOGER_OGA_UTAN_KORREKTION_JSON_ID
+            + ") || exists("
+            + HOGER_OGA_MED_KORREKTION_JSON_ID
+            + ") || exists("
+            + BINOKULART_UTAN_KORREKTION_JSON_ID
+            + ") || exists("
+            + BINOKULART_MED_KORREKTION_JSON_ID
+            + ")";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+
+    @Nested
+    class IncludeValidationDisableTestsForKontaktlinser extends ValidationDisableTest {
+
+      @Override
+      protected String getQuestionId() {
+        return VARDEN_FOR_SYNSKARPA_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return KONTAKTLINSER_VANSTER_OGA_JSON_ID + " || " + KONTAKTLINSER_HOGER_OGA_DELSVAR_JSON_ID;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionSynskarpaSkickasSeparat.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        final var syn = Syn.builder().setSynskarpaSkickasSeparat(expectedValue).build();
+        return QuestionSynskarpaSkickasSeparat.toCertificate(syn, 0, textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionSynskarpaSkickasSeparat.toInternal(certificate);
+      }
+    }
+  }
 }

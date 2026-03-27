@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,95 +53,132 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
-    private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
-    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
-    private static final String MARGIN_TEXT = "marginText";
-    @InjectMocks
-    private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl();
+  private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
+  private static final String HSVARD_RECIPIENT_ID = "HSVARD";
+  private static final String MARGIN_TEXT = "marginText";
+  @InjectMocks private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl();
 
-    @Mock
-    private IntygTextsService intygTexts;
+  @Mock private IntygTextsService intygTexts;
 
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    private List<Status> defaultStatuses;
+  private List<Status> defaultStatuses;
 
-    @Before
-    public void setup() {
-        ReflectionTestUtils.setField(pdfGen, "formFlattening", true);
+  @Before
+  public void setup() {
+    ReflectionTestUtils.setField(pdfGen, "formFlattening", true);
+  }
+
+  public PdfGeneratorTest() {
+    MockitoAnnotations.initMocks(this);
+  }
+
+  @Test
+  public void testGeneratePdf() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
+      byte[] pdf =
+          pdfGen.generatePDF(
+              scenario.asInternalModel(),
+              defaultStatuses,
+              ApplicationOrigin.MINA_INTYG,
+              UtkastStatus.SIGNED,
+              MARGIN_TEXT);
+      assertNotNull("Error in scenario " + scenario.getName(), pdf);
+      writePdfToFile(pdf, scenario);
     }
+  }
 
-    public PdfGeneratorTest() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void testGeneratePdf() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED,
-                MARGIN_TEXT);
-            assertNotNull("Error in scenario " + scenario.getName(), pdf);
-            writePdfToFile(pdf, scenario);
-        }
-    }
-
-    @Test
-    public void testGenerateDraftPdf() throws Exception {
-        final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE,
+  @Test
+  public void testGenerateDraftPdf() throws Exception {
+    final TsDiabetesUtlatandeV2 tsBasUtlatande =
+        objectMapper.readValue(
+            new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(),
+            TsDiabetesUtlatandeV2.class);
+    byte[] pdf =
+        pdfGen.generatePDF(
+            tsBasUtlatande,
+            defaultStatuses,
+            ApplicationOrigin.WEBCERT,
+            UtkastStatus.DRAFT_COMPLETE,
             MARGIN_TEXT);
-        writePdfToFile(pdf, "webcert-utkast");
-    }
+    writePdfToFile(pdf, "webcert-utkast");
+  }
 
-    @Test
-    public void testGenerateLockedDraftPdf() throws Exception {
-        final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED,
+  @Test
+  public void testGenerateLockedDraftPdf() throws Exception {
+    final TsDiabetesUtlatandeV2 tsBasUtlatande =
+        objectMapper.readValue(
+            new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(),
+            TsDiabetesUtlatandeV2.class);
+    byte[] pdf =
+        pdfGen.generatePDF(
+            tsBasUtlatande,
+            defaultStatuses,
+            ApplicationOrigin.WEBCERT,
+            UtkastStatus.DRAFT_LOCKED,
             MARGIN_TEXT);
-        writePdfToFile(pdf, "webcert-locked");
-    }
+    writePdfToFile(pdf, "webcert-locked");
+  }
 
-    @Test
-    public void testGenerateMakuleratPdf() throws Exception {
-        final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper.readValue(
+  @Test
+  public void testGenerateMakuleratPdf() throws Exception {
+    final TsDiabetesUtlatandeV2 tsBasUtlatande =
+        objectMapper.readValue(
             new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),
             TsDiabetesUtlatandeV2.class);
-        List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
-        // generate makulerat version
-        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, MARGIN_TEXT);
-        writePdfToFile(pdf, "webcert-makulerat");
+    List<Status> statuses = new ArrayList<>();
+    statuses.add(
+        new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
+    // generate makulerat version
+    statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
+    byte[] pdf =
+        pdfGen.generatePDF(
+            tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, MARGIN_TEXT);
+    writePdfToFile(pdf, "webcert-makulerat");
 
-        pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, MARGIN_TEXT);
-        writePdfToFile(pdf, "minaintyg-makulerat");
-    }
+    pdf =
+        pdfGen.generatePDF(
+            tsBasUtlatande,
+            statuses,
+            ApplicationOrigin.MINA_INTYG,
+            UtkastStatus.SIGNED,
+            MARGIN_TEXT);
+    writePdfToFile(pdf, "minaintyg-makulerat");
+  }
 
-    private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
-        String dir = "build/tmp";
-        File file = new File(
-            String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
-        FileOutputStream fop = new FileOutputStream(file);
+  private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
+    String dir = "build/tmp";
+    File file =
+        new File(
+            String.format(
+                "%s/%s_%s.pdf",
+                dir,
+                prefix,
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+    FileOutputStream fop = new FileOutputStream(file);
 
-        file.createNewFile();
+    file.createNewFile();
 
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
-    }
+    fop.write(pdf);
+    fop.flush();
+    fop.close();
+  }
 
-    private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
-        String dir = "build/tmp";
-        File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
-        FileOutputStream fop = new FileOutputStream(file);
+  private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
+    String dir = "build/tmp";
+    File file =
+        new File(
+            String.format(
+                "%s/%s_%s.pdf",
+                dir,
+                scenario.getName(),
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+    FileOutputStream fop = new FileOutputStream(file);
 
-        file.createNewFile();
+    file.createNewFile();
 
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
-    }
+    fop.write(pdf);
+    fop.flush();
+    fop.close();
+  }
 }

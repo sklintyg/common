@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
@@ -28,16 +27,24 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.Certificate;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
-public class QuestionForsakringsmedicinsktBeslutsstod extends AbstractQuestionForsakringsmedicinsktBeslutsstod {
+public class QuestionForsakringsmedicinsktBeslutsstod
+    extends AbstractQuestionForsakringsmedicinsktBeslutsstod {
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, BEDOMNING_CATEGORY_ID,
-            FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
+        BEDOMNING_CATEGORY_ID,
+        FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37,
+        index,
+        texts);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return toInternal(certificate, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
-            FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
-    }
+  public static String toInternal(Certificate certificate) {
+    return toInternal(
+        certificate,
+        FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37,
+        FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37);
+  }
 }

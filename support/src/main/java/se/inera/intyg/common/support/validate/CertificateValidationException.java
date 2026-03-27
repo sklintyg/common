@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,15 +23,15 @@ import java.util.List;
 
 public class CertificateValidationException extends Exception {
 
-    private static final long serialVersionUID = -5449346862818721648L;
+  private static final long serialVersionUID = -5449346862818721648L;
 
-    private static final String VALIDATION_ERROR_PREFIX = "Validation Error(s) found: ";
+  private static final String VALIDATION_ERROR_PREFIX = "Validation Error(s) found: ";
 
-    public CertificateValidationException(String message) {
-        super(VALIDATION_ERROR_PREFIX + message);
-    }
+  public CertificateValidationException(String message) {
+    super(VALIDATION_ERROR_PREFIX + message);
+  }
 
-    public CertificateValidationException(List<String> messages) {
-        super(VALIDATION_ERROR_PREFIX + Joiner.on("\n").join(messages));
-    }
+  public CertificateValidationException(List<String> messages) {
+    super(VALIDATION_ERROR_PREFIX + Joiner.on("\n").join(messages));
+  }
 }

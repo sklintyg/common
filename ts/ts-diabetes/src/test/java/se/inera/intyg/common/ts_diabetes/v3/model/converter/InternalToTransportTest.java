@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,106 +53,113 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 class InternalToTransportTest {
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  static TsDiabetesUtlatandeV3 getUtlatande() {
+    return getUtlatande(null, null, null);
+  }
+
+  static TsDiabetesUtlatandeV3 getUtlatande(
+      RelationKod relationKod, String relationMeddelandeId, String referensId) {
+    TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
+    utlatande.setId("1234567");
+    utlatande.setTextVersion("1.0");
+    GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+    grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationKod(relationKod);
+      relation.setMeddelandeId(relationMeddelandeId);
+      relation.setReferensId(referensId);
+      grundData.setRelation(relation);
     }
+    utlatande.setGrundData(grundData);
 
-    static TsDiabetesUtlatandeV3 getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
+    utlatande.setAllmant(Allmant.builder().build());
+    utlatande.setBedomning(Bedomning.builder().build());
+    utlatande.setHypoglykemier(Hypoglykemier.builder().build());
+    utlatande.setSynfunktion(Synfunktion.builder().build());
 
-    static TsDiabetesUtlatandeV3 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        TsDiabetesUtlatandeV3.Builder utlatande = TsDiabetesUtlatandeV3.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
+    utlatande.setOvrigt("övrigt");
 
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+    return utlatande.build();
+  }
 
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        utlatande.setAllmant(Allmant.builder().build());
-        utlatande.setBedomning(Bedomning.builder().build());
-        utlatande.setHypoglykemier(Hypoglykemier.builder().build());
-        utlatande.setSynfunktion(Synfunktion.builder().build());
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        utlatande.setOvrigt("övrigt");
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-        return utlatande.build();
-    }
+  @Test
+  void testInternalToTransportConversion() throws Exception {
+    TsDiabetesUtlatandeV3 expected = getUtlatande();
+    RegisterCertificateType transport = InternalToTransport.convert(expected);
+    TsDiabetesUtlatandeV3 actual = TransportToInternal.convert(transport.getIntyg());
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+    Assert.assertEquals(expected, actual);
+  }
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+  @Test
+  void testInternalToTransportSourceNull() throws Exception {
+    assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
+  }
 
-        new TransportConverterUtil(mapper).initialize();
-    }
+  @Test
+  void convertDecorateSvarPaTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    final String referensId = "referensId";
+    TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertEquals(referensId, transport.getSvarPa().getReferensId());
+  }
 
-    @Test
-    void testInternalToTransportConversion() throws Exception {
-        TsDiabetesUtlatandeV3 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
-        TsDiabetesUtlatandeV3 actual = TransportToInternal.convert(transport.getIntyg());
+  @Test
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+    final String meddelandeId = "meddelandeId";
+    TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNotNull(transport.getSvarPa());
+    assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+    assertNull(transport.getSvarPa().getReferensId());
+  }
 
-        Assert.assertEquals(expected, actual);
-    }
+  @Test
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
+    TsDiabetesUtlatandeV3 utlatande = getUtlatande();
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 
-    @Test
-    void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
-    }
-
-    @Test
-    void convertDecorateSvarPaTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        final String referensId = "referensId";
-        TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertEquals(referensId, transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    void convertDecorateSvarPaReferensIdNullTest() throws Exception {
-        final String meddelandeId = "meddelandeId";
-        TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNotNull(transport.getSvarPa());
-        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
-        assertNull(transport.getSvarPa().getReferensId());
-    }
-
-    @Test
-    void convertDecorateSvarPaNoRelationTest() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
-
-    @Test
-    void convertDecorateSvarPaNotKompltTest() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
-        assertNull(transport.getSvarPa());
-    }
+  @Test
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
+    TsDiabetesUtlatandeV3 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
+    RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+    assertNull(transport.getSvarPa());
+  }
 }

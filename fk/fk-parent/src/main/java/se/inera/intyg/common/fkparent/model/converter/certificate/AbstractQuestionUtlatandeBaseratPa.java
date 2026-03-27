@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,14 +46,22 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public abstract class AbstractQuestionUtlatandeBaseratPa {
 
-    protected static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
-        InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider, String questionId,
-        String parentId, String textId) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .parent(parentId)
-            .index(index)
-            .config(CertificateDataConfigCheckboxMultipleDate.builder()
+  protected static CertificateDataElement toCertificate(
+      InternalDate undersokningPatient,
+      InternalDate journaluppgifter,
+      InternalDate beskrivningPatient,
+      InternalDate annat,
+      int index,
+      CertificateTextProvider textProvider,
+      String questionId,
+      String parentId,
+      String textId) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .parent(parentId)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleDate.builder()
                 .text(textProvider.get(textId))
                 .list(
                     List.of(
@@ -76,82 +84,77 @@ public abstract class AbstractQuestionUtlatandeBaseratPa {
                             .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
                             .maxDate(LocalDate.now())
                             .label(textProvider.get(GRUNDFORMU_ANNAT_LABEL_ID))
-                            .build()
-                    )
-                )
-                .build()
-            )
-            .value(
-                CertificateDataValueDateList.builder()
-                    .list(getValues(undersokningPatient, journaluppgifter, beskrivningPatient, annat))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(multipleOrExpression(
-                            GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                            GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
-                            GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1,
-                            GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
-                        .build()
-                }
-            )
-            .build();
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueDateList.builder()
+                .list(getValues(undersokningPatient, journaluppgifter, beskrivningPatient, annat))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+                  .expression(
+                      multipleOrExpression(
+                          GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1,
+                          GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1))
+                  .build()
+            })
+        .build();
+  }
+
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
+
+  private static List<CertificateDataValueDate> getValues(
+      InternalDate undersokningPatient,
+      InternalDate journaluppgifter,
+      InternalDate beskrivningPatient,
+      InternalDate annat) {
+    final List<CertificateDataValueDate> values = new ArrayList<>();
+
+    if (validDate(undersokningPatient)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
+              .date(undersokningPatient.asLocalDate())
+              .build());
     }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
+    if (validDate(journaluppgifter)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+              .date(journaluppgifter.asLocalDate())
+              .build());
     }
 
-    private static List<CertificateDataValueDate> getValues(InternalDate undersokningPatient, InternalDate journaluppgifter,
-        InternalDate beskrivningPatient, InternalDate annat) {
-        final List<CertificateDataValueDate> values = new ArrayList<>();
-
-        if (validDate(undersokningPatient)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                    .date(undersokningPatient.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(journaluppgifter)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                    .date(journaluppgifter.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(beskrivningPatient)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
-                    .date(beskrivningPatient.asLocalDate())
-                    .build()
-            );
-        }
-
-        if (validDate(annat)) {
-            values.add(
-                CertificateDataValueDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                    .date(annat.asLocalDate())
-                    .build()
-            );
-        }
-        return values;
+    if (validDate(beskrivningPatient)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
+              .date(beskrivningPatient.asLocalDate())
+              .build());
     }
 
-    public static InternalDate toInternal(Certificate certificate, String questionId, String itemId) {
-        final var localDate = dateListValue(certificate.getData(), questionId, itemId);
-        if (localDate == null) {
-            return null;
-        }
-        return new InternalDate(localDate);
+    if (validDate(annat)) {
+      values.add(
+          CertificateDataValueDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+              .date(annat.asLocalDate())
+              .build());
     }
+    return values;
+  }
+
+  public static InternalDate toInternal(Certificate certificate, String questionId, String itemId) {
+    final var localDate = dateListValue(certificate.getData(), questionId, itemId);
+    if (localDate == null) {
+      return null;
+    }
+    return new InternalDate(localDate);
+  }
 }

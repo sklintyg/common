@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,11 @@ import se.inera.intyg.common.support.facade.model.question.Reminder.ReminderBuil
 @Builder
 public class Reminder {
 
-    private String id;
-    private String message;
-    private String author;
-    private LocalDateTime sent;
+  private String id;
+  private String message;
+  private String author;
+  private LocalDateTime sent;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class ReminderBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class ReminderBuilder {}
 }

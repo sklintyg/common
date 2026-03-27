@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,24 +33,25 @@ import se.inera.intyg.common.support.facade.model.Certificate;
 
 public final class CertificateToInternal {
 
-    private CertificateToInternal() {
+  private CertificateToInternal() {}
 
-    }
-
-    public static Af00213UtlatandeV1 convert(Certificate certificate, Af00213UtlatandeV1 internalCertificate) {
-        return Af00213UtlatandeV1.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setHarFunktionsnedsattning(QuestionHarFunktionsnedsattning.toInternal(certificate))
-            .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
-            .setHarAktivitetsbegransning(QuestionHarAktivitetsbegransning.toInternal(certificate))
-            .setAktivitetsbegransning(QuestionAktivitetsbegransning.toInternal(certificate))
-            .setHarUtredningBehandling(QuestionHarUtredningBehandling.toInternal(certificate))
-            .setUtredningBehandling(QuestionUtredningBehandling.toInternal(certificate))
-            .setHarArbetetsPaverkan(QuestionHarArbetspaverkan.toInternal(certificate))
-            .setArbetetsPaverkan(QuestionArbetspaverkan.toInternal(certificate))
-            .setOvrigt(QuestionOvrigt.toInternal(certificate))
-            .build();
-    }
+  public static Af00213UtlatandeV1 convert(
+      Certificate certificate, Af00213UtlatandeV1 internalCertificate) {
+    return Af00213UtlatandeV1.builder()
+        .setId(internalCertificate.getId())
+        .setTextVersion(internalCertificate.getTextVersion())
+        .setGrundData(
+            MetaDataGrundData.toInternal(
+                certificate.getMetadata(), internalCertificate.getGrundData()))
+        .setHarFunktionsnedsattning(QuestionHarFunktionsnedsattning.toInternal(certificate))
+        .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+        .setHarAktivitetsbegransning(QuestionHarAktivitetsbegransning.toInternal(certificate))
+        .setAktivitetsbegransning(QuestionAktivitetsbegransning.toInternal(certificate))
+        .setHarUtredningBehandling(QuestionHarUtredningBehandling.toInternal(certificate))
+        .setUtredningBehandling(QuestionUtredningBehandling.toInternal(certificate))
+        .setHarArbetetsPaverkan(QuestionHarArbetspaverkan.toInternal(certificate))
+        .setArbetetsPaverkan(QuestionArbetspaverkan.toInternal(certificate))
+        .setOvrigt(QuestionOvrigt.toInternal(certificate))
+        .build();
+  }
 }

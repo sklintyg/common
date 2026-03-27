@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,12 +29,10 @@ import se.inera.intyg.common.support.facade.model.config.RadioMultipleCodeOption
 @Builder
 public class RadioMultipleCodeOptionalDropdown {
 
-    String id;
-    String label;
-    String dropdownQuestionId;
+  String id;
+  String label;
+  String dropdownQuestionId;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class RadioMultipleCodeOptionalDropdownBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class RadioMultipleCodeOptionalDropdownBuilder {}
 }

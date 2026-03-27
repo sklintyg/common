@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,46 +33,48 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @AutoValue
 public abstract class IntygAvser {
 
-    @JsonCreator
-    public static IntygAvser create(@JsonProperty(INTYG_AVSER_DELSVAR_JSON_ID) Set<BehorighetsTyp> behorigheter) {
-        return new AutoValue_IntygAvser(behorigheter);
+  @JsonCreator
+  public static IntygAvser create(
+      @JsonProperty(INTYG_AVSER_DELSVAR_JSON_ID) Set<BehorighetsTyp> behorigheter) {
+    return new AutoValue_IntygAvser(behorigheter);
+  }
+
+  @Nullable @JsonSerialize(using = IntygAvser.BehorighetsTypSetEnumSetSerializer.class)
+  @JsonDeserialize(using = IntygAvser.BehorighetsTypSetDeserializer.class)
+  public abstract Set<IntygAvser.BehorighetsTyp> getBehorigheter();
+
+  public static class BehorighetsTypSetEnumSetSerializer
+      extends AbstractEnumSetSerializer<BehorighetsTyp> {
+
+    protected BehorighetsTypSetEnumSetSerializer() {
+      super(BehorighetsTyp.class);
     }
+  }
 
-    @Nullable
-    @JsonSerialize(using = IntygAvser.BehorighetsTypSetEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvser.BehorighetsTypSetDeserializer.class)
-    public abstract Set<IntygAvser.BehorighetsTyp> getBehorigheter();
+  public static class BehorighetsTypSetDeserializer
+      extends AbstractEnumSetDeserializer<BehorighetsTyp> {
 
-    public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
-
-        protected BehorighetsTypSetEnumSetSerializer() {
-            super(BehorighetsTyp.class);
-        }
+    protected BehorighetsTypSetDeserializer() {
+      super(BehorighetsTyp.class);
     }
+  }
 
-    public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
-
-        protected BehorighetsTypSetDeserializer() {
-            super(BehorighetsTyp.class);
-        }
-    }
-
-    public enum BehorighetsTyp {
-        IAV11,
-        IAV12,
-        IAV13,
-        IAV14,
-        IAV15,
-        IAV16,
-        IAV17,
-        IAV1,
-        IAV2,
-        IAV3,
-        IAV4,
-        IAV5,
-        IAV6,
-        IAV7,
-        IAV8,
-        IAV9
-    }
+  public enum BehorighetsTyp {
+    IAV11,
+    IAV12,
+    IAV13,
+    IAV14,
+    IAV15,
+    IAV16,
+    IAV17,
+    IAV1,
+    IAV2,
+    IAV3,
+    IAV4,
+    IAV5,
+    IAV6,
+    IAV7,
+    IAV8,
+    IAV9
+  }
 }

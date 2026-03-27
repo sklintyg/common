@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,70 +43,66 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Specifically tests the renewal of LISJP where certain fields are nulled out.
- */
+/** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
 public class Af00213ModuleApiV1RenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "v1/Af00213ModelCompareUtil/utlatande.json";
+  public static final String TESTFILE_UTLATANDE = "v1/Af00213ModelCompareUtil/utlatande.json";
 
-    @Spy
-    private WebcertModelFactoryImpl webcertModelFactory;
+  @Spy private WebcertModelFactoryImpl webcertModelFactory;
 
-    @Spy
-    private ObjectMapper objectMapper;
+  @Spy private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private Af00213ModuleApiV1 moduleApi;
+  @InjectMocks private Af00213ModuleApiV1 moduleApi;
 
-    @BeforeEach
-    void init() {
-        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
-    }
+  @BeforeEach
+  void init() {
+    ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+  }
 
-    @Test
-    public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
-        final var original = getUtlatandeFromFile();
-        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
-        assertNotNull(renewalFromTemplate);
+  @Test
+  public void testRenewalTransfersAppropriateFieldsToNewDraft()
+      throws ModuleException, IOException {
+    IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
+    final var original = getUtlatandeFromFile();
+    final var renewalFromTemplate =
+        moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+    assertNotNull(renewalFromTemplate);
 
-        // Create two instances to compare field by field.
-        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Af00213UtlatandeV1.class);
+    // Create two instances to compare field by field.
+    final var renewCopy =
+        new CustomObjectMapper().readValue(renewalFromTemplate, Af00213UtlatandeV1.class);
 
-        // Blanked out values:
-        assertNull(renewCopy.getSignature());
+    // Blanked out values:
+    assertNull(renewCopy.getSignature());
 
-        // Retained values
-        assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
-        assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
-        assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        assertEquals(original.getUtredningBehandling(), renewCopy.getUtredningBehandling());
-        assertEquals(original.getArbetetsPaverkan(), renewCopy.getArbetetsPaverkan());
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    // Retained values
+    assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
+    assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
+    assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
+    assertEquals(original.getUtredningBehandling(), renewCopy.getUtredningBehandling());
+    assertEquals(original.getArbetetsPaverkan(), renewCopy.getArbetetsPaverkan());
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+  }
 
-    }
+  private CreateDraftCopyHolder createCopyHolder() {
+    final var draftCopyHolder = new CreateDraftCopyHolder("certificateId", createHosPersonal());
+    draftCopyHolder.setIntygTypeVersion("1");
+    draftCopyHolder.setRelation(new Relation());
+    return draftCopyHolder;
+  }
 
-    private CreateDraftCopyHolder createCopyHolder() {
-        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
-        draftCopyHolder.setIntygTypeVersion("1");
-        draftCopyHolder.setRelation(new Relation());
-        return draftCopyHolder;
-    }
+  private HoSPersonal createHosPersonal() {
+    final var hosPersonal = new HoSPersonal();
+    hosPersonal.setPersonId("hsaId");
+    hosPersonal.setFullstandigtNamn("namn");
+    hosPersonal.setVardenhet(new Vardenhet());
+    hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
+    return hosPersonal;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        final var hosPersonal = new HoSPersonal();
-        hosPersonal.setPersonId("hsaId");
-        hosPersonal.setFullstandigtNamn("namn");
-        hosPersonal.setVardenhet(new Vardenhet());
-        hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
-        return hosPersonal;
-    }
-
-    private Af00213UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
-    }
+  private Af00213UtlatandeV1 getUtlatandeFromFile() throws IOException {
+    return new CustomObjectMapper()
+        .readValue(new ClassPathResource(TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
+  }
 }

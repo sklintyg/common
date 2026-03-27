@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,15 +26,15 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract CertificateDataValidationType getType();
+  protected abstract CertificateDataValidationType getType();
 
-    protected abstract int getValidationIndex();
+  protected abstract int getValidationIndex();
 
-    @Test
-    void shouldIncludeValidationType() {
-        final var question = getElement();
-        assertEquals(getType(), question.getValidation()[getValidationIndex()].getType());
-    }
+  @Test
+  void shouldIncludeValidationType() {
+    final var question = getElement();
+    assertEquals(getType(), question.getValidation()[getValidationIndex()].getType());
+  }
 }

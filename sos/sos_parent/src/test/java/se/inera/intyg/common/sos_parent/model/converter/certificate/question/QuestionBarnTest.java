@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,257 +59,289 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionBarnTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    private Personnummer personId = Personnummer.createPersonnummer("19121212-1212").get();
+  private Personnummer personId = Personnummer.createPersonnummer("19121212-1212").get();
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(BARN_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(BARN_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionBarn.toCertificate(personId, true, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(BARN_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(BARN_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeSelectedText() {
-            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(BARN_QUESTION_SELECTED_QUESTION);
-        }
-
-        @Test
-        void shouldIncludeUnselectedText() {
-            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(BARN_QUESTION_UNSELECTED_QUESTION);
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigValueId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataConfigRadioBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
-            assertEquals(BARN_JSON_ID, certificateDataConfigRadioBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueId() {
-            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(BARN_JSON_ID, certificateDataValueBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueTrue() {
-            final var expectedBooleanValue = Boolean.TRUE;
-            final var question = QuestionBarn.toCertificate(personId, expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueFalse() {
-            final var expectedBooleanValue = Boolean.FALSE;
-            final var question = QuestionBarn.toCertificate(personId, expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueEmpty() {
-            final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertNull(certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(BARN_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("exists(" + BARN_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataValidationType.AUTO_FILL_VALIDATION, question.getValidation()[1].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillQuestionId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationAutoFill.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillExpressionWithin28DaysOfBirth() {
-            final var withinTwentyEightDaysAfter19121212 = -20811;
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            assertEquals("epochDay('" + DODSDATUM_JSON_ID + "') <= " + withinTwentyEightDaysAfter19121212,
-                certificateDataValidationAutoFill.getExpression());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            assertEquals(CertificateDataValueType.BOOLEAN, certificateDataValidationAutoFill.getFillValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
-            assertEquals(BARN_JSON_ID, fillValue.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanTrue() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[1];
-            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
-            assertEquals(true, fillValue.getSelected());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillTypeAfter28DaysOfBirth() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataValidationType.AUTO_FILL_VALIDATION, question.getValidation()[2].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillQuestionIdAfter28DaysOfBirth() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationAutoFill.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillExpressionAfter28DaysOfBirth() {
-            final var withinTwentyEightDaysAfter19121212 = -20811;
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            assertEquals("epochDay('" + DODSDATUM_JSON_ID + "') > " + withinTwentyEightDaysAfter19121212,
-                certificateDataValidationAutoFill.getExpression());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanTypeAfter28DaysOfBirth() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            assertEquals(CertificateDataValueType.BOOLEAN, certificateDataValidationAutoFill.getFillValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanIdAfter28DaysOfBirth() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
-            assertEquals(BARN_JSON_ID, fillValue.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationAutoFillValueBooleanFalseAfter28DaysOfBirth() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationAutoFill = (CertificateDataValidationAutoFill) question.getValidation()[2];
-            final var fillValue = (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
-            assertEquals(false, fillValue.getSelected());
-        }
-
-        @Test
-        void shouldIncludeValidationDisableType() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            assertEquals(CertificateDataValidationType.DISABLE_VALIDATION, question.getValidation()[3].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationDisableQuestionId() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[3];
-            assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationDisable.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationDisableExpression() {
-            final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
-            final var certificateDataValidationDisable = (CertificateDataValidationDisable) question.getValidation()[3];
-            assertEquals("$" + DODSDATUM_JSON_ID, certificateDataValidationDisable.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionBarn.toCertificate(personId, true, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(BARN_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(BARN_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeSelectedText() {
+      final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(BARN_QUESTION_SELECTED_QUESTION);
+    }
+
+    @Test
+    void shouldIncludeUnselectedText() {
+      final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(BARN_QUESTION_UNSELECTED_QUESTION);
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigValueId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataConfigRadioBoolean =
+          (CertificateDataConfigRadioBoolean) question.getConfig();
+      assertEquals(BARN_JSON_ID, certificateDataConfigRadioBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueId() {
+      final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(BARN_JSON_ID, certificateDataValueBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueTrue() {
+      final var expectedBooleanValue = Boolean.TRUE;
+      final var question = QuestionBarn.toCertificate(personId, expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueFalse() {
+      final var expectedBooleanValue = Boolean.FALSE;
+      final var question = QuestionBarn.toCertificate(personId, expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueEmpty() {
+      final var question = QuestionBarn.toCertificate(personId, null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertNull(certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(BARN_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          "exists(" + BARN_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.AUTO_FILL_VALIDATION,
+          question.getValidation()[1].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillQuestionId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[1];
+      assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationAutoFill.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillExpressionWithin28DaysOfBirth() {
+      final var withinTwentyEightDaysAfter19121212 = -20811;
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[1];
+      assertEquals(
+          "epochDay('" + DODSDATUM_JSON_ID + "') <= " + withinTwentyEightDaysAfter19121212,
+          certificateDataValidationAutoFill.getExpression());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[1];
+      assertEquals(
+          CertificateDataValueType.BOOLEAN,
+          certificateDataValidationAutoFill.getFillValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[1];
+      final var fillValue =
+          (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+      assertEquals(BARN_JSON_ID, fillValue.getId());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanTrue() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[1];
+      final var fillValue =
+          (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+      assertEquals(true, fillValue.getSelected());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillTypeAfter28DaysOfBirth() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.AUTO_FILL_VALIDATION,
+          question.getValidation()[2].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillQuestionIdAfter28DaysOfBirth() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[2];
+      assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationAutoFill.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillExpressionAfter28DaysOfBirth() {
+      final var withinTwentyEightDaysAfter19121212 = -20811;
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[2];
+      assertEquals(
+          "epochDay('" + DODSDATUM_JSON_ID + "') > " + withinTwentyEightDaysAfter19121212,
+          certificateDataValidationAutoFill.getExpression());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanTypeAfter28DaysOfBirth() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[2];
+      assertEquals(
+          CertificateDataValueType.BOOLEAN,
+          certificateDataValidationAutoFill.getFillValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanIdAfter28DaysOfBirth() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[2];
+      final var fillValue =
+          (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+      assertEquals(BARN_JSON_ID, fillValue.getId());
+    }
+
+    @Test
+    void shouldIncludeValidationAutoFillValueBooleanFalseAfter28DaysOfBirth() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationAutoFill =
+          (CertificateDataValidationAutoFill) question.getValidation()[2];
+      final var fillValue =
+          (CertificateDataValueBoolean) certificateDataValidationAutoFill.getFillValue();
+      assertEquals(false, fillValue.getSelected());
+    }
+
+    @Test
+    void shouldIncludeValidationDisableType() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.DISABLE_VALIDATION, question.getValidation()[3].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationDisableQuestionId() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationDisable =
+          (CertificateDataValidationDisable) question.getValidation()[3];
+      assertEquals(DODSDATUM_DELSVAR_ID, certificateDataValidationDisable.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationDisableExpression() {
+      final var question = QuestionBarn.toCertificate(personId, true, 0, texts);
+      final var certificateDataValidationDisable =
+          (CertificateDataValidationDisable) question.getValidation()[3];
+      assertEquals("$" + DODSDATUM_JSON_ID, certificateDataValidationDisable.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionBarn.toCertificate(personId, expectedValue, 0, texts);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionBarn.toCertificate(personId, expectedValue, 0, texts);
-            }
-
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionBarn.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionBarn.toInternal(certificate);
+      }
     }
+  }
 }

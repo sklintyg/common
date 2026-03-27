@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,294 +66,312 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.BedomningKorkortstyp;
 @ExtendWith(MockitoExtension.class)
 class QuestionBedomningKorkortsTypTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortsTyp.toCertificate(
+          Bedomning.builder().build(), 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortsTyp.toCertificate(Bedomning.builder().build(), 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return BEDOMNING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigCheckboxMultipleCodeTests extends ConfigCheckboxMultipleCodeTest {
-
-        @Override
-        protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
-            return List.of(
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR1.name())
-                    .label(textProvider.get(KORKORT_C1_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR2.name())
-                    .label(textProvider.get(KORKORT_C1E_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR3.name())
-                    .label(textProvider.get(KORKORT_C_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR4.name())
-                    .label(textProvider.get(KORKORT_CE_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR5.name())
-                    .label(textProvider.get(KORKORT_D1_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR6.name())
-                    .label(textProvider.get(KORKORT_D1E_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR7.name())
-                    .label(textProvider.get(KORKORT_D_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR8.name())
-                    .label(textProvider.get(KORKORT_DE_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR9.name())
-                    .label(textProvider.get(KORKORT_TAXI_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR10.name())
-                    .label(textProvider.get(KORKORT_ANNAT_LABEL_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(BedomningKorkortstyp.VAR11.name())
-                    .label(textProvider.get(KORKORT_INTE_TA_STALLNING_LABEL_ID))
-                    .build()
-            );
-        }
-
-        @Override
-        protected Layout getLayout() {
-            return Layout.INLINE;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var bedomning = Bedomning.builder().build();
-            return QuestionBedomningKorkortsTyp.toCertificate(bedomning, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return BEDOMNING_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueCodeListTests extends ValueCodeListTest<Bedomning> {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement(Bedomning expectedValue) {
-            return QuestionBedomningKorkortsTyp.toCertificate(expectedValue, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigCheckboxMultipleCodeTests extends ConfigCheckboxMultipleCodeTest {
 
-        @Override
-        protected List<InputExpectedValuePair<Bedomning, CertificateDataValueCodeList>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(
-                    Bedomning.builder()
-                        .setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
-                        .build(),
-                    CertificateDataValueCodeList.builder().list(
-                            List.of(
-                                CertificateDataValueCode.builder()
-                                    .id(BedomningKorkortstyp.VAR1.name())
-                                    .code(BedomningKorkortstyp.VAR1.name())
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(BedomningKorkortstyp.VAR2.name())
-                                    .code(BedomningKorkortstyp.VAR2.name())
-                                    .build()
-                            ))
-                        .build()
-                ));
-        }
+    @Override
+    protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
+      return List.of(
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR1.name())
+              .label(textProvider.get(KORKORT_C1_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR2.name())
+              .label(textProvider.get(KORKORT_C1E_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR3.name())
+              .label(textProvider.get(KORKORT_C_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR4.name())
+              .label(textProvider.get(KORKORT_CE_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR5.name())
+              .label(textProvider.get(KORKORT_D1_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR6.name())
+              .label(textProvider.get(KORKORT_D1E_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR7.name())
+              .label(textProvider.get(KORKORT_D_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR8.name())
+              .label(textProvider.get(KORKORT_DE_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR9.name())
+              .label(textProvider.get(KORKORT_TAXI_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR10.name())
+              .label(textProvider.get(KORKORT_ANNAT_LABEL_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(BedomningKorkortstyp.VAR11.name())
+              .label(textProvider.get(KORKORT_INTE_TA_STALLNING_LABEL_ID))
+              .build());
     }
 
-    @Nested
-    class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return
-                "exists(" + BedomningKorkortstyp.VAR1.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR2.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR3.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR4.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR5.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR6.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR7.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR8.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR9.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR10.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR11.name() + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortsTyp.toCertificate(Bedomning.builder().build(), 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected Layout getLayout() {
+      return Layout.INLINE;
     }
 
-    @Nested
-    class IncludeValidationDisableSubElementTests extends ValidationDisableSubElementTest {
-
-        @Override
-        protected String getQuestionId() {
-            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + BedomningKorkortstyp.VAR11.name() + ")";
-        }
-
-        @Override
-        protected List<String> getListOfIds() {
-            return List.of(
-                BedomningKorkortstyp.VAR1.name(),
-                BedomningKorkortstyp.VAR2.name(),
-                BedomningKorkortstyp.VAR3.name(),
-                BedomningKorkortstyp.VAR4.name(),
-                BedomningKorkortstyp.VAR5.name(),
-                BedomningKorkortstyp.VAR6.name(),
-                BedomningKorkortstyp.VAR7.name(),
-                BedomningKorkortstyp.VAR8.name(),
-                BedomningKorkortstyp.VAR9.name(),
-                BedomningKorkortstyp.VAR10.name()
-            );
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeSecondValidationDisableSubElementTests extends ValidationDisableSubElementTest {
-
-        @Override
-        protected String getQuestionId() {
-            return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return
-                "exists(" + BedomningKorkortstyp.VAR1.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR2.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR3.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR4.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR5.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR6.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR7.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR8.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR9.name()
-                    + ") || exists(" + BedomningKorkortstyp.VAR10.name() + ")";
-        }
-
-        @Override
-        protected List<String> getListOfIds() {
-            return List.of(BedomningKorkortstyp.VAR11.name());
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      final var bedomning = Bedomning.builder().build();
+      return QuestionBedomningKorkortsTyp.toCertificate(bedomning, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalValueTests extends InternalValueTest<Bedomning, Set<BedomningKorkortstyp>> {
-
-        @Override
-        protected CertificateDataElement getElement(Bedomning input) {
-            return QuestionBedomningKorkortsTyp.toCertificate(input, 0, textProvider);
-        }
-
-        @Override
-        protected Set<BedomningKorkortstyp> toInternalValue(Certificate certificate) {
-            return QuestionBedomningKorkortsTyp.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Bedomning, Set<BedomningKorkortstyp>>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(
-                    null, Collections.emptySet()
-                ),
-                new InputExpectedValuePair<>(
-                    Bedomning.builder().build(), Collections.emptySet()
-                ),
-                new InputExpectedValuePair<>(
-                    Bedomning.builder().setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1)).build(), EnumSet.of(BedomningKorkortstyp.VAR1)
-                ),
-                new InputExpectedValuePair<>(
-                    Bedomning.builder().setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)).build(),
-                    EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
-            );
-        }
+    @Override
+    protected String getTextId() {
+      return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueCodeListTests extends ValueCodeListTest<Bedomning> {
+
+    @Override
+    protected CertificateDataElement getElement(Bedomning expectedValue) {
+      return QuestionBedomningKorkortsTyp.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Bedomning, CertificateDataValueCodeList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Bedomning.builder()
+                  .setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
+                  .build(),
+              CertificateDataValueCodeList.builder()
+                  .list(
+                      List.of(
+                          CertificateDataValueCode.builder()
+                              .id(BedomningKorkortstyp.VAR1.name())
+                              .code(BedomningKorkortstyp.VAR1.name())
+                              .build(),
+                          CertificateDataValueCode.builder()
+                              .id(BedomningKorkortstyp.VAR2.name())
+                              .code(BedomningKorkortstyp.VAR2.name())
+                              .build()))
+                  .build()));
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTests extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + BedomningKorkortstyp.VAR1.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR2.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR3.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR4.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR5.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR6.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR7.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR8.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR9.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR10.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR11.name()
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortsTyp.toCertificate(
+          Bedomning.builder().build(), 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationDisableSubElementTests extends ValidationDisableSubElementTest {
+
+    @Override
+    protected String getQuestionId() {
+      return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + BedomningKorkortstyp.VAR11.name() + ")";
+    }
+
+    @Override
+    protected List<String> getListOfIds() {
+      return List.of(
+          BedomningKorkortstyp.VAR1.name(),
+          BedomningKorkortstyp.VAR2.name(),
+          BedomningKorkortstyp.VAR3.name(),
+          BedomningKorkortstyp.VAR4.name(),
+          BedomningKorkortstyp.VAR5.name(),
+          BedomningKorkortstyp.VAR6.name(),
+          BedomningKorkortstyp.VAR7.name(),
+          BedomningKorkortstyp.VAR8.name(),
+          BedomningKorkortstyp.VAR9.name(),
+          BedomningKorkortstyp.VAR10.name());
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeSecondValidationDisableSubElementTests extends ValidationDisableSubElementTest {
+
+    @Override
+    protected String getQuestionId() {
+      return LAMPLIGHET_INNEHA_BEHORIGHET_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + BedomningKorkortstyp.VAR1.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR2.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR3.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR4.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR5.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR6.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR7.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR8.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR9.name()
+          + ") || exists("
+          + BedomningKorkortstyp.VAR10.name()
+          + ")";
+    }
+
+    @Override
+    protected List<String> getListOfIds() {
+      return List.of(BedomningKorkortstyp.VAR11.name());
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionBedomningKorkortsTyp.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalValueTests extends InternalValueTest<Bedomning, Set<BedomningKorkortstyp>> {
+
+    @Override
+    protected CertificateDataElement getElement(Bedomning input) {
+      return QuestionBedomningKorkortsTyp.toCertificate(input, 0, textProvider);
+    }
+
+    @Override
+    protected Set<BedomningKorkortstyp> toInternalValue(Certificate certificate) {
+      return QuestionBedomningKorkortsTyp.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Bedomning, Set<BedomningKorkortstyp>>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(null, Collections.emptySet()),
+          new InputExpectedValuePair<>(Bedomning.builder().build(), Collections.emptySet()),
+          new InputExpectedValuePair<>(
+              Bedomning.builder().setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1)).build(),
+              EnumSet.of(BedomningKorkortstyp.VAR1)),
+          new InputExpectedValuePair<>(
+              Bedomning.builder()
+                  .setKorkortstyp(EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2))
+                  .build(),
+              EnumSet.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR2)));
+    }
+  }
 }

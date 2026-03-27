@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,133 +29,144 @@ import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
 
-/**
- * Data container for the texts used in certificates.
- */
+/** Data container for the texts used in certificates. */
 public final class IntygTexts {
 
-    private static final String DELIMITER = "\\.";
-    private final String version;
-    private final String intygsTyp;
-    private final Properties properties;
-    private final LocalDate validFrom;
-    private final LocalDate validTo;
-    private final SortedMap<String, String> texter;
-    private final List<Tillaggsfraga> tillaggsfragor;
+  private static final String DELIMITER = "\\.";
+  private final String version;
+  private final String intygsTyp;
+  private final Properties properties;
+  private final LocalDate validFrom;
+  private final LocalDate validTo;
+  private final SortedMap<String, String> texter;
+  private final List<Tillaggsfraga> tillaggsfragor;
 
-    public IntygTexts(String version, String intygsTyp, LocalDate validFrom, LocalDate validTo, SortedMap<String, String> texts,
-        List<Tillaggsfraga> tillaggsfragor, Properties properties) {
+  public IntygTexts(
+      String version,
+      String intygsTyp,
+      LocalDate validFrom,
+      LocalDate validTo,
+      SortedMap<String, String> texts,
+      List<Tillaggsfraga> tillaggsfragor,
+      Properties properties) {
 
-        // Validate input
-        validateVersion(version);
+    // Validate input
+    validateVersion(version);
 
-        this.version = version;
-        this.intygsTyp = intygsTyp;
-        this.validFrom = validFrom;
-        this.validTo = validTo;
-        this.texter = texts;
-        this.tillaggsfragor = tillaggsfragor;
-        if (this.tillaggsfragor != null) {
-            Collections.sort(this.tillaggsfragor);
-        }
-        this.properties = properties;
+    this.version = version;
+    this.intygsTyp = intygsTyp;
+    this.validFrom = validFrom;
+    this.validTo = validTo;
+    this.texter = texts;
+    this.tillaggsfragor = tillaggsfragor;
+    if (this.tillaggsfragor != null) {
+      Collections.sort(this.tillaggsfragor);
+    }
+    this.properties = properties;
+  }
+
+  public IntygTexts deepCopy() {
+    SortedMap<String, String> textsDeepCopy = Maps.newTreeMap();
+    for (final var key : this.texter.keySet()) {
+      textsDeepCopy.put(key, this.texter.get(key));
     }
 
-    public IntygTexts deepCopy() {
-        SortedMap<String, String> textsDeepCopy = Maps.newTreeMap();
-        for (final var key : this.texter.keySet()) {
-            textsDeepCopy.put(key, this.texter.get(key));
-        }
+    List<Tillaggsfraga> additionalQuestionsDeepCopy = new ArrayList<>(this.tillaggsfragor);
 
-        List<Tillaggsfraga> additionalQuestionsDeepCopy = new ArrayList<>(this.tillaggsfragor);
+    final var propertiesDeepCopy = (Properties) this.properties.clone();
 
-        final var propertiesDeepCopy = (Properties) this.properties.clone();
+    return new IntygTexts(
+        this.version,
+        this.intygsTyp,
+        this.validFrom,
+        this.validTo,
+        textsDeepCopy,
+        additionalQuestionsDeepCopy,
+        propertiesDeepCopy);
+  }
 
-        return new IntygTexts(this.version, this.intygsTyp, this.validFrom, this.validTo, textsDeepCopy, additionalQuestionsDeepCopy,
-            propertiesDeepCopy);
+  public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
+    List<String> tokens1 = Splitter.onPattern(DELIMITER).splitToList(candidate1.getVersion());
+    List<String> tokens2 = Splitter.onPattern(DELIMITER).splitToList(candidate2.getVersion());
+    int length = Math.max(tokens1.size(), tokens2.size());
+    for (int i = 0; i < length; i++) {
+      int part1 = i < tokens1.size() ? Integer.parseInt(tokens1.get(i)) : 0;
+      int part2 = i < tokens2.size() ? Integer.parseInt(tokens2.get(i)) : 0;
+      if (part1 < part2) {
+        return -1;
+      }
+      if (part1 > part2) {
+        return 1;
+      }
     }
+    return 0;
+  }
 
-    public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
-        List<String> tokens1 = Splitter.onPattern(DELIMITER).splitToList(candidate1.getVersion());
-        List<String> tokens2 = Splitter.onPattern(DELIMITER).splitToList(candidate2.getVersion());
-        int length = Math.max(tokens1.size(), tokens2.size());
-        for (int i = 0; i < length; i++) {
-            int part1 = i < tokens1.size() ? Integer.parseInt(tokens1.get(i)) : 0;
-            int part2 = i < tokens2.size() ? Integer.parseInt(tokens2.get(i)) : 0;
-            if (part1 < part2) {
-                return -1;
-            }
-            if (part1 > part2) {
-                return 1;
-            }
-        }
-        return 0;
+  private void validateVersion(String version) {
+    if (version == null
+        || !Arrays.stream(version.split(DELIMITER)).allMatch(s -> Ints.tryParse(s) != null)) {
+      throw new IllegalArgumentException("Version " + version + " is not in format 'x.x.x.x'");
     }
+  }
 
-    private void validateVersion(String version) {
-        if (version == null || !Arrays.stream(version.split(DELIMITER)).allMatch(s -> Ints.tryParse(s) != null)) {
-            throw new IllegalArgumentException("Version " + version + " is not in format 'x.x.x.x'");
-        }
-    }
+  public String getVersion() {
+    return version;
+  }
 
-    public String getVersion() {
-        return version;
-    }
+  public String getIntygsTyp() {
+    return intygsTyp;
+  }
 
-    public String getIntygsTyp() {
-        return intygsTyp;
-    }
+  public LocalDate getValidFrom() {
+    return validFrom;
+  }
 
-    public LocalDate getValidFrom() {
-        return validFrom;
-    }
+  public LocalDate getValidTo() {
+    return validTo;
+  }
 
-    public LocalDate getValidTo() {
-        return validTo;
-    }
+  public SortedMap<String, String> getTexter() {
+    return texter;
+  }
 
-    public SortedMap<String, String> getTexter() {
-        return texter;
-    }
+  public List<Tillaggsfraga> getTillaggsfragor() {
+    return tillaggsfragor;
+  }
 
-    public List<Tillaggsfraga> getTillaggsfragor() {
-        return tillaggsfragor;
-    }
+  @Override
+  public int hashCode() {
+    // Autogenerated
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((intygsTyp == null) ? 0 : intygsTyp.hashCode());
+    result = prime * result + ((version == null) ? 0 : version.hashCode());
+    return result;
+  }
 
-    @Override
-    public int hashCode() {
-        // Autogenerated
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((intygsTyp == null) ? 0 : intygsTyp.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
-        return result;
+  @Override
+  public boolean equals(Object obj) {
+    // Autogenerated - we are only using version and type
+    if (this == obj) {
+      return true;
     }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    IntygTexts other = (IntygTexts) obj;
+    if (intygsTyp == null) {
+      if (other.intygsTyp != null) {
+        return false;
+      }
+    } else if (!intygsTyp.equals(other.intygsTyp)) {
+      return false;
+    }
+    return compareVersions(this, other) == 0;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        // Autogenerated - we are only using version and type
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        IntygTexts other = (IntygTexts) obj;
-        if (intygsTyp == null) {
-            if (other.intygsTyp != null) {
-                return false;
-            }
-        } else if (!intygsTyp.equals(other.intygsTyp)) {
-            return false;
-        }
-        return compareVersions(this, other) == 0;
-    }
-
-    public Properties getProperties() {
-        return properties;
-    }
+  public Properties getProperties() {
+    return properties;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,6 +18,4 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.internal;
 
-public class TsTrk1062UtlatandeV1Test {
-
-}
+public class TsTrk1062UtlatandeV1Test {}

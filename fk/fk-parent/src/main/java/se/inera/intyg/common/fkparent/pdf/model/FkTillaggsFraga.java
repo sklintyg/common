@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,43 +27,43 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfWriter;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
-/**
- * Representation of a tillaggsfraga (just a question label and an text answer).
- */
+/** Representation of a tillaggsfraga (just a question label and an text answer). */
 public class FkTillaggsFraga extends PdfComponent<FkTillaggsFraga> {
 
-    private String label;
-    private String value;
-    private float indentationLeft = 2f;
-    private float indentationRight = 2f;
+  private String label;
+  private String value;
+  private float indentationLeft = 2f;
+  private float indentationRight = 2f;
 
-    public FkTillaggsFraga(String label, String value) {
-        this.label = label;
-        this.value = value;
-    }
+  public FkTillaggsFraga(String label, String value) {
+    this.label = label;
+    this.value = value;
+  }
 
-    public FkTillaggsFraga(String label, String value, float indentationLeft, float indentationRight) {
-        this.label = label;
-        this.value = value;
-        this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
-        this.indentationRight = Utilities.millimetersToPoints(indentationRight);
-    }
+  public FkTillaggsFraga(
+      String label, String value, float indentationLeft, float indentationRight) {
+    this.label = label;
+    this.value = value;
+    this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
+    this.indentationRight = Utilities.millimetersToPoints(indentationRight);
+  }
 
-    @Override
-    public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
-        Paragraph p = new Paragraph();
-        p.setIndentationLeft(indentationLeft);
-        p.setIndentationRight(indentationRight);
-        p.setKeepTogether(true);
+  @Override
+  public void render(Document document, PdfWriter writer, float x, float y)
+      throws DocumentException {
+    Paragraph p = new Paragraph();
+    p.setIndentationLeft(indentationLeft);
+    p.setIndentationRight(indentationRight);
+    p.setKeepTogether(true);
 
-        p.add(Chunk.NEWLINE);
-        p.add(new Phrase(label, PdfConstants.FONT_FRAGERUBRIK));
-        p.add(Chunk.NEWLINE);
+    p.add(Chunk.NEWLINE);
+    p.add(new Phrase(label, PdfConstants.FONT_FRAGERUBRIK));
+    p.add(Chunk.NEWLINE);
 
-        p.add(new Phrase(value, PdfConstants.FONT_VALUE_TEXT_ARIAL_COMPATIBLE));
+    p.add(new Phrase(value, PdfConstants.FONT_VALUE_TEXT_ARIAL_COMPATIBLE));
 
-        document.add(p);
+    document.add(p);
 
-        super.render(document, writer, x, y);
-    }
+    super.render(document, writer, x, y);
+  }
 }

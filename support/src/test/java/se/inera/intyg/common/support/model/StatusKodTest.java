@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,12 +24,12 @@ import org.junit.Test;
 
 public class StatusKodTest {
 
-    @Test
-    public void testToCertificateState() {
-        assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState());
-        assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState());
-        assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState());
-        assertEquals(CertificateState.RESTORED, StatusKod.RESTOR.toCertificateState());
-        assertEquals(CertificateState.SENT, StatusKod.SENTTO.toCertificateState());
-    }
+  @Test
+  public void testToCertificateState() {
+    assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState());
+    assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState());
+    assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState());
+    assertEquals(CertificateState.RESTORED, StatusKod.RESTOR.toCertificateState());
+    assertEquals(CertificateState.SENT, StatusKod.SENTTO.toCertificateState());
+  }
 }

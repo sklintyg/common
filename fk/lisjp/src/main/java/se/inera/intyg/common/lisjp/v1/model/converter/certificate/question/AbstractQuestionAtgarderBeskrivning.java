@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT;
@@ -33,54 +32,49 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public abstract class AbstractQuestionAtgarderBeskrivning {
 
-    public static CertificateDataElement toCertificate(String value, QuestionAtgarderBeskrivningValidationProvider validationProvider,
-        String questionId, String parent, String jsonId, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))
-                    .id(jsonId)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(jsonId)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(parent)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                validationProvider.getShowValidation()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
+  public static CertificateDataElement toCertificate(
+      String value,
+      QuestionAtgarderBeskrivningValidationProvider validationProvider,
+      String questionId,
+      String parent,
+      String jsonId,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(texts.get(ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_TEXT))
+                .id(jsonId)
+                .build())
+        .value(CertificateDataValueText.builder().id(jsonId).text(value).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(parent)
+                  .expression(
+                      multipleOrExpressionWithExists(validationProvider.getShowValidation()))
+                  .build()
+            })
+        .build();
+  }
+
+  public static String toInternal(Certificate certificate, String questionId, String jsonId) {
+    return textValue(certificate.getData(), questionId, jsonId);
+  }
+
+  public static class QuestionAtgarderBeskrivningValidationProvider {
+
+    private final String[] showValidation;
+
+    public String[] getShowValidation() {
+      return showValidation;
     }
 
-    public static String toInternal(Certificate certificate, String questionId, String jsonId) {
-        return textValue(certificate.getData(), questionId, jsonId);
+    public QuestionAtgarderBeskrivningValidationProvider(String[] showValidation) {
+      this.showValidation = showValidation;
     }
-
-    public static class QuestionAtgarderBeskrivningValidationProvider {
-
-        private final String[] showValidation;
-
-        public String[] getShowValidation() {
-            return showValidation;
-        }
-
-        public QuestionAtgarderBeskrivningValidationProvider(String[] showValidation) {
-            this.showValidation = showValidation;
-        }
-    }
+  }
 }

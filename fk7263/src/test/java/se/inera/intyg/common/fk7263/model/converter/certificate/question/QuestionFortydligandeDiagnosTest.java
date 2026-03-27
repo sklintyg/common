@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -44,99 +43,96 @@ import se.inera.intyg.common.support.facade.testsetup.model.config.ConfigViewTex
 @ExtendWith(MockitoExtension.class)
 class QuestionFortydligandeDiagnosTest {
 
-    @Mock
-    CertificateMessagesProvider messagesProvider;
+  @Mock CertificateMessagesProvider messagesProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn(DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID);
+  @BeforeEach
+  void setUp() {
+    when(messagesProvider.get(any(String.class))).thenReturn(DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID);
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return DIAGNOS_FORTYDLIGANDE_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return DIAGNOS_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return DIAGNOS_FORTYDLIGANDE_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
-
-        @Override
-        protected String getTextId() {
-            return DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID;
-        }
+    @Override
+    protected String getParent() {
+      return DIAGNOS_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueViewText {
-
-        @Test
-        void shouldIncludeValueType() {
-            final var element = QuestionFortydligandeDiagnos.toCertificate(null,
-                0, messagesProvider);
-            final var type = element.getValue().getType();
-            assertEquals(CertificateDataValueType.VIEW_TEXT, type);
-        }
-
-        @Test
-        void shouldIncludeTextValue() {
-            final var expectedResult = "test";
-
-            assertAll(
-                () -> assertEquals(
-                    CertificateDataValueViewText.builder().text(expectedResult).build(),
-                    QuestionFortydligandeDiagnos.toCertificate(expectedResult,
-                        0, messagesProvider).getValue()
-                ),
-                () -> assertEquals(
-                    CertificateDataValueViewText.builder().text("Ej angivet").build(),
-                    QuestionFortydligandeDiagnos.toCertificate(null,
-                        0, messagesProvider).getValue()
-                )
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return messagesProvider;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+
+    @Override
+    protected String getTextId() {
+      return DIAGNOS_FORTYDLIGANDE_SVAR_TEXT_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValueViewText {
+
+    @Test
+    void shouldIncludeValueType() {
+      final var element = QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider);
+      final var type = element.getValue().getType();
+      assertEquals(CertificateDataValueType.VIEW_TEXT, type);
+    }
+
+    @Test
+    void shouldIncludeTextValue() {
+      final var expectedResult = "test";
+
+      assertAll(
+          () ->
+              assertEquals(
+                  CertificateDataValueViewText.builder().text(expectedResult).build(),
+                  QuestionFortydligandeDiagnos.toCertificate(expectedResult, 0, messagesProvider)
+                      .getValue()),
+          () ->
+              assertEquals(
+                  CertificateDataValueViewText.builder().text("Ej angivet").build(),
+                  QuestionFortydligandeDiagnos.toCertificate(null, 0, messagesProvider)
+                      .getValue()));
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,33 +28,33 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigDateRangeTest extends ConfigTest {
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract String getFromLabel();
+  protected abstract String getFromLabel();
 
-    protected abstract String getToLabel();
+  protected abstract String getToLabel();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_DATE_RANGE;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_DATE_RANGE;
+  }
 
-    @Test
-    void shouldIncludeConfigId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigDateRange) question.getConfig();
-        assertEquals(getJsonId(), config.getId());
-    }
+  @Test
+  void shouldIncludeConfigId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigDateRange) question.getConfig();
+    assertEquals(getJsonId(), config.getId());
+  }
 
-    @Test
-    void shouldIncludeFromLabel() {
-        final var question = getElement();
-        verify(getTextProviderMock(), atLeastOnce()).get(getFromLabel());
-    }
+  @Test
+  void shouldIncludeFromLabel() {
+    final var question = getElement();
+    verify(getTextProviderMock(), atLeastOnce()).get(getFromLabel());
+  }
 
-    @Test
-    void shouldIncludeToLabel() {
-        final var question = getElement();
-        verify(getTextProviderMock(), atLeastOnce()).get(getToLabel());
-    }
+  @Test
+  void shouldIncludeToLabel() {
+    final var question = getElement();
+    verify(getTextProviderMock(), atLeastOnce()).get(getToLabel());
+  }
 }

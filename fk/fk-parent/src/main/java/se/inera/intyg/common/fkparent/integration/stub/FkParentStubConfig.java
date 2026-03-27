@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,28 +33,28 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @Profile({"dev", "it-fk-stub"})
 public class FkParentStubConfig {
 
-    @Autowired
-    private Bus bus;
+  @Autowired private Bus bus;
 
-    @Bean("register-fk-stub")
-    public RegisterCertificateResponderInterface registerFkStub() {
-        return new RegisterCertificateResponderStub();
-    }
+  @Bean("register-fk-stub")
+  public RegisterCertificateResponderInterface registerFkStub() {
+    return new RegisterCertificateResponderStub();
+  }
 
-    @Bean
-    public Endpoint registerFkStubEndpoint(
-        @Qualifier("register-fk-stub") RegisterCertificateResponderInterface implementor) {
-        final var endpoint = new EndpointImpl(bus, implementor);
-        endpoint.setSchemaLocations(List.of(
+  @Bean
+  public Endpoint registerFkStubEndpoint(
+      @Qualifier("register-fk-stub") RegisterCertificateResponderInterface implementor) {
+    final var endpoint = new EndpointImpl(bus, implementor);
+    endpoint.setSchemaLocations(
+        List.of(
             "classpath:/core_components/clinicalprocess_healthcond_certificate_3.3.xsd",
             "classpath:/core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd",
             "classpath:/core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd",
             "classpath:/core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd",
             "classpath:/core_components/xmldsig-core-schema_0.1.xsd",
             "classpath:/core_components/xmldsig-filter2.xsd",
-            "classpath:/interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd"
-        ));
-        endpoint.publish("/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21");
-        return endpoint;
-    }
+            "classpath:/interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd"));
+    endpoint.publish(
+        "/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21");
+    return endpoint;
+  }
 }

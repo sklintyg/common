@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,45 +38,44 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionOperationAnledning {
 
-    public static final short LIMIT = (short) 31;
+  public static final short LIMIT = (short) 31;
 
-    public static CertificateDataElement toCertificate(String anledningOperation, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OPERATION_ANLEDNING_DELSVAR_ID)
-            .parent(OPERATION_OM_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .text(texts.get(OPERATION_ANLEDNING_QUESTION_TEXT_ID))
-                    .id(OPERATION_ANLEDNING_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(OPERATION_ANLEDNING_JSON_ID)
-                    .text(anledningOperation)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OPERATION_ANLEDNING_DELSVAR_ID)
-                        .expression(singleExpression(OPERATION_ANLEDNING_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(OPERATION_OM_DELSVAR_ID)
-                        .expression(singleExpression(OmOperation.JA.name()))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(OPERATION_ANLEDNING_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String anledningOperation, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(OPERATION_ANLEDNING_DELSVAR_ID)
+        .parent(OPERATION_OM_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .text(texts.get(OPERATION_ANLEDNING_QUESTION_TEXT_ID))
+                .id(OPERATION_ANLEDNING_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(OPERATION_ANLEDNING_JSON_ID)
+                .text(anledningOperation)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OPERATION_ANLEDNING_DELSVAR_ID)
+                  .expression(singleExpression(OPERATION_ANLEDNING_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(OPERATION_OM_DELSVAR_ID)
+                  .expression(singleExpression(OmOperation.JA.name()))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(OPERATION_ANLEDNING_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), OPERATION_ANLEDNING_DELSVAR_ID, OPERATION_ANLEDNING_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(), OPERATION_ANLEDNING_DELSVAR_ID, OPERATION_ANLEDNING_JSON_ID);
+  }
 }

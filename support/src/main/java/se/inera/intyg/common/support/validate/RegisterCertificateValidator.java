@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,22 +26,22 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 
 public class RegisterCertificateValidator {
 
-    private SchematronResourceSCH schematronResource;
+  private SchematronResourceSCH schematronResource;
 
-    public RegisterCertificateValidator(@Nonnull final String location) {
-        //AbstractSchematronXSLTBasedResource
-        schematronResource = SchematronResourceSCH.fromClassPath(location);
-        if (!schematronResource.isValidSchematron()) {
-            throw new IllegalArgumentException("Invalid Schematron!");
-        }
+  public RegisterCertificateValidator(@Nonnull final String location) {
+    // AbstractSchematronXSLTBasedResource
+    schematronResource = SchematronResourceSCH.fromClassPath(location);
+    if (!schematronResource.isValidSchematron()) {
+      throw new IllegalArgumentException("Invalid Schematron!");
     }
+  }
 
-    public SchematronOutputType validateSchematron(@Nonnull final Source xmlContent) throws ModuleException {
-        try {
-            return schematronResource.applySchematronValidationToSVRL(xmlContent);
-        } catch (Exception e) {
-            throw new ModuleException(e);
-        }
+  public SchematronOutputType validateSchematron(@Nonnull final Source xmlContent)
+      throws ModuleException {
+    try {
+      return schematronResource.applySchematronValidationToSVRL(xmlContent);
+    } catch (Exception e) {
+      throw new ModuleException(e);
     }
-
+  }
 }

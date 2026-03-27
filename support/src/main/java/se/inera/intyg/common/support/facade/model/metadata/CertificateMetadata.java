@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,45 +35,43 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateMetadata.C
 @Builder
 public class CertificateMetadata {
 
-    private String id;
-    private String type;
-    private String typeVersion;
-    private String typeName;
-    private String name;
-    private String description;
-    private LocalDateTime created;
-    private CertificateStatus status;
-    private boolean testCertificate;
-    private boolean forwarded;
-    private boolean sent;
-    private boolean availableForCitizen;
-    private String sentTo;
-    private CertificateRelations relations;
-    private Unit unit;
-    private Unit careUnit;
-    private Unit careProvider;
-    private Patient patient;
-    private Staff issuedBy;
-    private long version;
-    private boolean latestMajorVersion;
-    private boolean inactiveCertificateType;
-    private LocalDateTime readyForSign;
-    private LocalDateTime signed;
-    private LocalDateTime modified;
-    private String responsibleHospName;
-    private CertificateRecipient recipient;
-    private CertificateSummary summary;
-    private CertificateConfirmationModal confirmationModal;
-    private CertificateConfirmationModal signConfirmationModal;
-    private boolean validForSign;
-    private String externalReference;
-    private List<CertificateMessageType> messageTypes;
-    private Staff createdBy;
-    private LocalDateTime revokedAt;
-    private Staff revokedBy;
+  private String id;
+  private String type;
+  private String typeVersion;
+  private String typeName;
+  private String name;
+  private String description;
+  private LocalDateTime created;
+  private CertificateStatus status;
+  private boolean testCertificate;
+  private boolean forwarded;
+  private boolean sent;
+  private boolean availableForCitizen;
+  private String sentTo;
+  private CertificateRelations relations;
+  private Unit unit;
+  private Unit careUnit;
+  private Unit careProvider;
+  private Patient patient;
+  private Staff issuedBy;
+  private long version;
+  private boolean latestMajorVersion;
+  private boolean inactiveCertificateType;
+  private LocalDateTime readyForSign;
+  private LocalDateTime signed;
+  private LocalDateTime modified;
+  private String responsibleHospName;
+  private CertificateRecipient recipient;
+  private CertificateSummary summary;
+  private CertificateConfirmationModal confirmationModal;
+  private CertificateConfirmationModal signConfirmationModal;
+  private boolean validForSign;
+  private String externalReference;
+  private List<CertificateMessageType> messageTypes;
+  private Staff createdBy;
+  private LocalDateTime revokedAt;
+  private Staff revokedBy;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateMetadataBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateMetadataBuilder {}
 }

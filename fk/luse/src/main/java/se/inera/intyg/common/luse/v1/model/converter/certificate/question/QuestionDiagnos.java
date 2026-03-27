@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.DIAGNOS_CATEGORY_ID;
@@ -33,11 +32,21 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public class QuestionDiagnos extends AbstractQuestionDiagnoser {
 
-    public static CertificateDataElement toCertificate(List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
-        return toCertificate(diagnoser, DIAGNOS_SVAR_ID, DIAGNOS_CATEGORY_ID, DIAGNOS_SVAR_TEXT_ID, null, null, index, textProvider);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Diagnos> diagnoser, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        diagnoser,
+        DIAGNOS_SVAR_ID,
+        DIAGNOS_CATEGORY_ID,
+        DIAGNOS_SVAR_TEXT_ID,
+        null,
+        null,
+        index,
+        textProvider);
+  }
 
-    public static List<Diagnos> toInternal(Certificate certificate, WebcertModuleService webcertModuleService) {
-        return toInternal(certificate, DIAGNOS_SVAR_ID, webcertModuleService);
-    }
+  public static List<Diagnos> toInternal(
+      Certificate certificate, WebcertModuleService webcertModuleService) {
+    return toInternal(certificate, DIAGNOS_SVAR_ID, webcertModuleService);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,53 +31,61 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public class InternalValidatorInstance {
 
-    private static final String CATEGORY_INTYG_AVSER = "intygAvser";
-    private static final String CATEGORY_IDENTITET = "identitet";
-    private List<ValidationMessage> validationMessages;
+  private static final String CATEGORY_INTYG_AVSER = "intygAvser";
+  private static final String CATEGORY_IDENTITET = "identitet";
+  private List<ValidationMessage> validationMessages;
 
-    private ValidationContext context;
+  private ValidationContext context;
 
-    public InternalValidatorInstance() {
-        validationMessages = new ArrayList<>();
+  public InternalValidatorInstance() {
+    validationMessages = new ArrayList<>();
+  }
+
+  /**
+   * Validates an internal draft of an {@link Tstrk1009UtlatandeV1} (this means the object being
+   * validated is not necessarily complete).
+   *
+   * @param utlatande an internal {@link Tstrk1009UtlatandeV1}
+   * @return a ValidateDraftResponseHolder with a status and a list of validationErrors
+   */
+  public ValidateDraftResponse validate(Tstrk1009UtlatandeV1 utlatande) {
+
+    if (utlatande == null) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          "utlatande",
+          "utlatande",
+          ValidationMessageType.EMPTY,
+          "tstrk1009.validation.utlatande.missing");
+
+    } else {
+
+      context = new ValidationContext(utlatande);
+
+      // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
+      PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+      validateIntygAvser(utlatande.getIntygetAvserBehorigheter().getTyper());
+      ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
     }
 
-    /**
-     * Validates an internal draft of an {@link Tstrk1009UtlatandeV1} (this means the object being validated is not
-     * necessarily
-     * complete).
-     *
-     * @param utlatande an internal {@link Tstrk1009UtlatandeV1}
-     * @return a ValidateDraftResponseHolder with a status and a list of validationErrors
-     */
-    public ValidateDraftResponse validate(Tstrk1009UtlatandeV1 utlatande) {
+    return new ValidateDraftResponse(
+        ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
+  }
 
-        if (utlatande == null) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatande", "utlatande", ValidationMessageType.EMPTY,
-                "tstrk1009.validation.utlatande.missing");
+  private void validateIntygAvser(final Set<KorkortBehorighetGrupp> intygetAvserBehorigheter) {
 
-        } else {
-
-            context = new ValidationContext(utlatande);
-
-            // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
-            PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-            validateIntygAvser(utlatande.getIntygetAvserBehorigheter().getTyper());
-            ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
-        }
-
-        return new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
+    if (intygetAvserBehorigheter == null) {
+      ValidatorUtil.addValidationError(
+          validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
+      return;
     }
 
-    private void validateIntygAvser(final Set<KorkortBehorighetGrupp> intygetAvserBehorigheter) {
-
-        if (intygetAvserBehorigheter == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
-            return;
-        }
-
-        if (intygetAvserBehorigheter.isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
-                ValidationMessageType.EMPTY);
-        }
+    if (intygetAvserBehorigheter.isEmpty()) {
+      ValidatorUtil.addValidationError(
+          validationMessages,
+          CATEGORY_INTYG_AVSER,
+          "intygAvser.korkortstyp",
+          ValidationMessageType.EMPTY);
     }
+  }
 }

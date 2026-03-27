@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,58 +29,59 @@ import se.inera.ifv.insuranceprocess.certificate.v1.StatusType;
  */
 public class CertificateMetaTypeBuilder {
 
-    private CertificateMetaType metaType;
+  private CertificateMetaType metaType;
 
-    public CertificateMetaTypeBuilder() {
-        metaType = new CertificateMetaType();
-    }
+  public CertificateMetaTypeBuilder() {
+    metaType = new CertificateMetaType();
+  }
 
-    public CertificateMetaType build() {
-        return metaType;
-    }
+  public CertificateMetaType build() {
+    return metaType;
+  }
 
-    public CertificateMetaTypeBuilder certificateId(String certificateId) {
-        metaType.setCertificateId(certificateId);
-        return this;
-    }
+  public CertificateMetaTypeBuilder certificateId(String certificateId) {
+    metaType.setCertificateId(certificateId);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder certificateType(String certificateType) {
-        metaType.setCertificateType(certificateType);
-        return this;
-    }
+  public CertificateMetaTypeBuilder certificateType(String certificateType) {
+    metaType.setCertificateType(certificateType);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder validity(LocalDate fromDate, LocalDate toDate) {
-        metaType.setValidFrom(fromDate);
-        metaType.setValidTo(toDate);
-        return this;
-    }
+  public CertificateMetaTypeBuilder validity(LocalDate fromDate, LocalDate toDate) {
+    metaType.setValidFrom(fromDate);
+    metaType.setValidTo(toDate);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder issuerName(String issuerName) {
-        metaType.setIssuerName(issuerName);
-        return this;
-    }
+  public CertificateMetaTypeBuilder issuerName(String issuerName) {
+    metaType.setIssuerName(issuerName);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder facilityName(String facilityName) {
-        metaType.setFacilityName(facilityName);
-        return this;
-    }
+  public CertificateMetaTypeBuilder facilityName(String facilityName) {
+    metaType.setFacilityName(facilityName);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder signDate(LocalDate signDate) {
-        metaType.setSignDate(signDate);
-        return this;
-    }
+  public CertificateMetaTypeBuilder signDate(LocalDate signDate) {
+    metaType.setSignDate(signDate);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder available(String available) {
-        metaType.setAvailable(available);
-        return this;
-    }
+  public CertificateMetaTypeBuilder available(String available) {
+    metaType.setAvailable(available);
+    return this;
+  }
 
-    public CertificateMetaTypeBuilder status(StatusType status, String target, LocalDateTime timestamp) {
-        CertificateStatusType certificateStatusType = new CertificateStatusType();
-        certificateStatusType.setTarget(target);
-        certificateStatusType.setTimestamp(timestamp);
-        certificateStatusType.setType(status);
-        metaType.getStatus().add(certificateStatusType);
-        return this;
-    }
+  public CertificateMetaTypeBuilder status(
+      StatusType status, String target, LocalDateTime timestamp) {
+    CertificateStatusType certificateStatusType = new CertificateStatusType();
+    certificateStatusType.setTarget(target);
+    certificateStatusType.setTimestamp(timestamp);
+    certificateStatusType.setType(status);
+    metaType.getStatus().add(certificateStatusType);
+    return this;
+  }
 }

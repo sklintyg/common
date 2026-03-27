@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,19 +27,19 @@ import java.util.List;
  */
 public interface RootValidator {
 
-    /**
-     * The root that this validator supports.
-     *
-     * @return The name of the {@link se.inera.intyg.common.support.model} <code>root</code>.
-     */
-    String getRoot();
+  /**
+   * The root that this validator supports.
+   *
+   * @return The name of the {@link se.inera.intyg.common.support.model} <code>root</code>.
+   */
+  String getRoot();
 
-    /**
-     * Performs validation of the {@link se.inera.intyg.common.support.model} <code>extension</code> of the <code>root</code>
-     * that this validator supports.
-     *
-     * @param extension The extension to validate.
-     * @return A list of validation messages. An empty string if validation was successful.
-     */
-    List<String> validateExtension(String extension);
+  /**
+   * Performs validation of the {@link se.inera.intyg.common.support.model} <code>extension</code>
+   * of the <code>root</code> that this validator supports.
+   *
+   * @param extension The extension to validate.
+   * @return A list of validation messages. An empty string if validation was successful.
+   */
+  List<String> validateExtension(String extension);
 }

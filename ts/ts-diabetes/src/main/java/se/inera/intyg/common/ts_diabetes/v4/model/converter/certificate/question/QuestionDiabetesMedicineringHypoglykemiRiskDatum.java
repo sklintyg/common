@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,51 +43,58 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionDiabetesMedicineringHypoglykemiRiskDatum {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, Personnummer personId, int index, CertificateTextProvider texts) {
-        final var medicineringMedforRiskForHypoglykemi =
-            allmant != null && allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt() != null
-                ? allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt()
-                : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
-            .parent(ALLMANT_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
-                    .text(texts.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID))
-                    .minDate(personId != null ? birthDate(personId) : null)
-                    .maxDate(LocalDate.now())
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
-                    .date(validDate(medicineringMedforRiskForHypoglykemi) ? medicineringMedforRiskForHypoglykemi.asLocalDate() : null)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, Personnummer personId, int index, CertificateTextProvider texts) {
+    final var medicineringMedforRiskForHypoglykemi =
+        allmant != null && allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt() != null
+            ? allmant.getMedicineringMedforRiskForHypoglykemiTidpunkt()
+            : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
+        .parent(ALLMANT_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
+                .text(texts.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_TEXT_ID))
+                .minDate(personId != null ? birthDate(personId) : null)
+                .maxDate(LocalDate.now())
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID)
+                .date(
+                    validDate(medicineringMedforRiskForHypoglykemi)
+                        ? medicineringMedforRiskForHypoglykemi.asLocalDate()
+                        : null)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID)
+                  .expression(
+                      singleExpression(
+                          ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
+                  .expression(
+                      singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
-    }
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID,
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(
+            certificate.getData(),
+            ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_SVAR_ID,
             ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TIDPUNKT_JSON_ID);
-        return localDate != null ? new InternalDate(localDate) : null;
-    }
+    return localDate != null ? new InternalDate(localDate) : null;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,30 +21,31 @@ package se.inera.intyg.common.support.common.enumerations;
 import java.util.stream.Stream;
 
 public enum RelationKod {
+  ERSATT("ERSATT", "Ersätter"),
+  KOMPLT("KOMPLT", "Kompletterar"),
+  FRLANG("FRLANG", "Förlänger"),
+  KOPIA("KOPIA", "Kopierat");
 
-    ERSATT("ERSATT", "Ersätter"),
-    KOMPLT("KOMPLT", "Kompletterar"),
-    FRLANG("FRLANG", "Förlänger"),
-    KOPIA("KOPIA", "Kopierat");
+  private final String value;
+  private final String klartext;
 
-    private final String value;
-    private final String klartext;
+  RelationKod(String value, String description) {
+    this.value = value;
+    this.klartext = description;
+  }
 
-    RelationKod(String value, String description) {
-        this.value = value;
-        this.klartext = description;
-    }
+  public String value() {
+    return value;
+  }
 
-    public String value() {
-        return value;
-    }
+  public String getKlartext() {
+    return this.klartext;
+  }
 
-    public String getKlartext() {
-        return this.klartext;
-    }
-
-    public static RelationKod fromValue(String value) {
-        return Stream.of(RelationKod.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
-    }
+  public static RelationKod fromValue(String value) {
+    return Stream.of(RelationKod.values())
+        .filter(s -> value.equals(s.value()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(value));
+  }
 }

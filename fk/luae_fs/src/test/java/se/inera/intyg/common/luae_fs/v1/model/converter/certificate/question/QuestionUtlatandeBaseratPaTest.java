@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,197 +57,214 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InternalValueT
 import se.inera.intyg.common.support.facade.testsetup.model.value.ValueDateListTest;
 import se.inera.intyg.common.support.model.InternalDate;
 
-
 @ExtendWith(MockitoExtension.class)
 class QuestionUtlatandeBaseratPaTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUtlatandeBaseratPa.toCertificate(
+          null, null, null, null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
     }
 
-    @Nested
-    class IncludeConfigCheckboxMultipleDateTest extends ConfigCheckboxMultipleDateTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected List<LocalDate> getMaxDates() {
-            return Collections.nCopies(4, LocalDate.now());
-        }
-
-        @Override
-        protected List<LocalDate> getMinDates() {
-            return Collections.nCopies(4, null);
-        }
-
-        @Override
-        protected List<CheckboxMultipleDate> getCheckboxMultipleDates() {
-            return List.of(
-                CheckboxMultipleDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                    .label(GRUNDFORMU_UNDERSOKNING_LABEL_ID)
-                    .build(),
-                CheckboxMultipleDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                    .label(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID)
-                    .build(),
-                CheckboxMultipleDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
-                    .label(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL_ID)
-                    .build(),
-                CheckboxMultipleDate.builder()
-                    .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                    .label(GRUNDFORMU_ANNAT_LABEL_ID)
-                    .build()
-            );
-        }
+    @Override
+    protected String getParent() {
+      return GRUNDFORMU_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueDateListTest extends ValueDateListTest<List<InternalDate>> {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return getElement(Arrays.asList(null, null, null, null));
-        }
+  @Nested
+  class IncludeConfigCheckboxMultipleDateTest extends ConfigCheckboxMultipleDateTest {
 
-        @Override
-        protected CertificateDataElement getElement(List<InternalDate> expectedValue) {
-            return QuestionUtlatandeBaseratPa.toCertificate(expectedValue.get(0), expectedValue.get(1), expectedValue.get(2),
-                expectedValue.get(3), 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<List<InternalDate>, CertificateDataValueDateList>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(List.of(new InternalDate("2022-11-13"), new InternalDate("2022-12-14"),
-                    new InternalDate("2022-12-15"), new InternalDate("2022-12-16")),
-                    CertificateDataValueDateList.builder()
-                        .list(List.of(
-                            CertificateDataValueDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                                .date(LocalDate.parse("2022-11-13"))
-                                .build(),
-                            CertificateDataValueDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
-                                .date(LocalDate.parse("2022-12-14"))
-                                .build(),
-                            CertificateDataValueDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
-                                .date(LocalDate.parse("2022-12-15"))
-                                .build(),
-                            CertificateDataValueDate.builder()
-                                .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                                .date(LocalDate.parse("2022-12-16"))
-                                .build()
-                        ))
-                        .build()
-                ),
-                new InputExpectedValuePair<>(Arrays.asList(null, new InternalDate(""), new InternalDate("2022-12-146"),
-                    new InternalDate("20223-12-14")), CertificateDataValueDateList.builder().list(Collections.emptyList()).build()),
-                new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), CertificateDataValueDateList.builder()
-                    .list(Collections.emptyList()).build())
-            );
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-        }
-
-        @Override
-        protected String getExpression() {
-            return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
-                + " || " + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
-                + " || " + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
-                + " || " + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalDateListValueTest extends InternalValueTest<List<InternalDate>, InternalDate> {
-
-        @Override
-        protected CertificateDataElement getElement(List<InternalDate> input) {
-            return QuestionUtlatandeBaseratPa.toCertificate(input.get(0), input.get(1), input.get(2), input.get(3), 0, textProvider);
-        }
-
-        @Override
-        protected InternalDate toInternalValue(Certificate certificate) {
-            return QuestionUtlatandeBaseratPa.toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<List<InternalDate>, InternalDate>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(Arrays.asList(null, null, null, new InternalDate("2022-12-13")),
-                    new InternalDate("2022-12-13")),
-                new InputExpectedValuePair<>(Arrays.asList(null, null, null, new InternalDate("")),
-                    null),
-                new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), null)
-            );
-        }
+    @Override
+    protected String getTextId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
     }
 
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected List<LocalDate> getMaxDates() {
+      return Collections.nCopies(4, LocalDate.now());
+    }
+
+    @Override
+    protected List<LocalDate> getMinDates() {
+      return Collections.nCopies(4, null);
+    }
+
+    @Override
+    protected List<CheckboxMultipleDate> getCheckboxMultipleDates() {
+      return List.of(
+          CheckboxMultipleDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
+              .label(GRUNDFORMU_UNDERSOKNING_LABEL_ID)
+              .build(),
+          CheckboxMultipleDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+              .label(GRUNDFORMU_JOURNALUPPGIFTER_LABEL_ID)
+              .build(),
+          CheckboxMultipleDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
+              .label(GRUNDFORMU_ANHORIG_BESKRIVNING_LABEL_ID)
+              .build(),
+          CheckboxMultipleDate.builder()
+              .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+              .label(GRUNDFORMU_ANNAT_LABEL_ID)
+              .build());
+    }
+  }
+
+  @Nested
+  class IncludeValueDateListTest extends ValueDateListTest<List<InternalDate>> {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return getElement(Arrays.asList(null, null, null, null));
+    }
+
+    @Override
+    protected CertificateDataElement getElement(List<InternalDate> expectedValue) {
+      return QuestionUtlatandeBaseratPa.toCertificate(
+          expectedValue.get(0),
+          expectedValue.get(1),
+          expectedValue.get(2),
+          expectedValue.get(3),
+          0,
+          textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<List<InternalDate>, CertificateDataValueDateList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              List.of(
+                  new InternalDate("2022-11-13"),
+                  new InternalDate("2022-12-14"),
+                  new InternalDate("2022-12-15"),
+                  new InternalDate("2022-12-16")),
+              CertificateDataValueDateList.builder()
+                  .list(
+                      List.of(
+                          CertificateDataValueDate.builder()
+                              .id(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
+                              .date(LocalDate.parse("2022-11-13"))
+                              .build(),
+                          CertificateDataValueDate.builder()
+                              .id(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1)
+                              .date(LocalDate.parse("2022-12-14"))
+                              .build(),
+                          CertificateDataValueDate.builder()
+                              .id(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1)
+                              .date(LocalDate.parse("2022-12-15"))
+                              .build(),
+                          CertificateDataValueDate.builder()
+                              .id(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
+                              .date(LocalDate.parse("2022-12-16"))
+                              .build()))
+                  .build()),
+          new InputExpectedValuePair<>(
+              Arrays.asList(
+                  null,
+                  new InternalDate(""),
+                  new InternalDate("2022-12-146"),
+                  new InternalDate("20223-12-14")),
+              CertificateDataValueDateList.builder().list(Collections.emptyList()).build()),
+          new InputExpectedValuePair<>(
+              Arrays.asList(null, null, null, null),
+              CertificateDataValueDateList.builder().list(Collections.emptyList()).build()));
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUtlatandeBaseratPa.toCertificate(null, null, null, null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+    }
+
+    @Override
+    protected String getExpression() {
+      return GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1
+          + " || "
+          + GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1
+          + " || "
+          + GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1
+          + " || "
+          + GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalDateListValueTest
+      extends InternalValueTest<List<InternalDate>, InternalDate> {
+
+    @Override
+    protected CertificateDataElement getElement(List<InternalDate> input) {
+      return QuestionUtlatandeBaseratPa.toCertificate(
+          input.get(0), input.get(1), input.get(2), input.get(3), 0, textProvider);
+    }
+
+    @Override
+    protected InternalDate toInternalValue(Certificate certificate) {
+      return QuestionUtlatandeBaseratPa.toInternal(
+          certificate, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<List<InternalDate>, InternalDate>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Arrays.asList(null, null, null, new InternalDate("2022-12-13")),
+              new InternalDate("2022-12-13")),
+          new InputExpectedValuePair<>(Arrays.asList(null, null, null, new InternalDate("")), null),
+          new InputExpectedValuePair<>(Arrays.asList(null, null, null, null), null));
+    }
+  }
 }

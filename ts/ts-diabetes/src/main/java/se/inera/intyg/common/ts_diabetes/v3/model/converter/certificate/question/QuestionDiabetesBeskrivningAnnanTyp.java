@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,22 +31,22 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 
 public class QuestionDiabetesBeskrivningAnnanTyp {
 
-
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var beskrivningAnnanTypAvDiabetes = allmant != null ? allmant.getBeskrivningAnnanTypAvDiabetes() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
-            .parent(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(stringValue(beskrivningAnnanTypAvDiabetes))
-                    .build()
-            ).build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider textProvider) {
+    final var beskrivningAnnanTypAvDiabetes =
+        allmant != null ? allmant.getBeskrivningAnnanTypAvDiabetes() : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID)
+        .parent(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(stringValue(beskrivningAnnanTypAvDiabetes))
+                .build())
+        .build();
+  }
 }

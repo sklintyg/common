@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,32 +33,32 @@ import se.inera.intyg.common.services.texts.CertificateTextProvider;
 
 class CategoryKompletterandePatientuppgifterTest {
 
-    private CertificateTextProvider texts;
+  private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
-        assertEquals(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
+    assertEquals(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryKompletterandePatientuppgifter.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategoryKompletterandePatientuppgifter.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryConfigText() {
-        final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
+  @Test
+  void shouldIncludeCategoryConfigText() {
+    final var category = CategoryKompletterandePatientuppgifter.toCertificate(0, texts);
 
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(KOMPLETTERANDE_PATIENTUPPGIFTER_TEXT_ID);
-    }
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(KOMPLETTERANDE_PATIENTUPPGIFTER_TEXT_ID);
+  }
 }

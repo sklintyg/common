@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,32 +30,34 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 // CHECKSTYLE:OFF MagicNumber
 
-/**
- * Outputs certificate id and source application text in the right margin, rotated 90 deg.
- */
+/** Outputs certificate id and source application text in the right margin, rotated 90 deg. */
 public class FkPrintedByEventHandler extends PdfPageEventHelper {
 
-    private static final float ROTATION = 90f;
+  private static final float ROTATION = 90f;
 
-    private float printedbyX = Utilities.millimetersToPoints(200f);
-    private float printedbyY = Utilities.millimetersToPoints(80f);
-    private String intygsId;
-    private String applicationOriginText;
+  private float printedbyX = Utilities.millimetersToPoints(200f);
+  private float printedbyY = Utilities.millimetersToPoints(80f);
+  private String intygsId;
+  private String applicationOriginText;
 
-    public FkPrintedByEventHandler(String intygsId, String applicationOriginText) {
-        this.intygsId = intygsId;
-        this.applicationOriginText = applicationOriginText;
-    }
+  public FkPrintedByEventHandler(String intygsId, String applicationOriginText) {
+    this.intygsId = intygsId;
+    this.applicationOriginText = applicationOriginText;
+  }
 
-    @Override
-    public void onEndPage(PdfWriter writer, Document document) {
-        PdfContentByte canvas = writer.getDirectContentUnder();
+  @Override
+  public void onEndPage(PdfWriter writer, Document document) {
+    PdfContentByte canvas = writer.getDirectContentUnder();
 
-        ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER,
-            new Phrase(String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText), PdfConstants.FONT_STAMPER_LABEL),
-            printedbyX, printedbyY,
-            ROTATION);
-
-    }
+    ColumnText.showTextAligned(
+        canvas,
+        Element.ALIGN_CENTER,
+        new Phrase(
+            String.format("Intygs-ID: %s. %s", intygsId, applicationOriginText),
+            PdfConstants.FONT_STAMPER_LABEL),
+        printedbyX,
+        printedbyY,
+        ROTATION);
+  }
 }
 // CHECKSTYLE:ON MagicNumber

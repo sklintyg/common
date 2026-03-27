@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID;
@@ -39,46 +38,47 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionAnledningTillKontakt {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String anledningKontakt, int index, CertificateTextProvider texts) {
+  public static CertificateDataElement toCertificate(
+      String anledningKontakt, int index, CertificateTextProvider texts) {
 
-        return CertificateDataElement.builder()
-            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID)
-            .parent(KONTAKT_ONSKAS_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
-                    .text(texts.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
-                    .text(anledningKontakt)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_SVAR_ID)
-                        .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ANLEDNING_TILL_KONTAKT_DELSVAR_ID)
-                        .expression(singleExpression(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID)
+        .parent(KONTAKT_ONSKAS_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
+                .text(texts.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
+                .text(anledningKontakt)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(KONTAKT_ONSKAS_SVAR_ID)
+                  .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ANLEDNING_TILL_KONTAKT_DELSVAR_ID)
+                  .expression(singleExpression(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        ANLEDNING_TILL_KONTAKT_DELSVAR_ID,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID);
+  }
 }

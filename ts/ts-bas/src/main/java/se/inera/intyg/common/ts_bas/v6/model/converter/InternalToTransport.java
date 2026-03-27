@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,24 +25,23 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
- * Convert from {@link TsBasUtlatande} to the external {@link TSBasIntyg}
- * model.
+ * Convert from {@link TsBasUtlatande} to the external {@link TSBasIntyg} model.
  *
  * @author erik
  */
 public final class InternalToTransport {
 
-    private InternalToTransport() {
+  private InternalToTransport() {}
+
+  public static RegisterCertificateType convert(TsBasUtlatandeV6 source) throws ConverterException {
+    if (source == null) {
+      throw new ConverterException("Source utlatande was null, cannot convert");
     }
 
-    public static RegisterCertificateType convert(TsBasUtlatandeV6 source) throws ConverterException {
-        if (source == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-
-        RegisterCertificateType tsbasType = new RegisterCertificateType();
-        tsbasType.setIntyg(UtlatandeToIntyg.convert(source));
-        tsbasType.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
-        return tsbasType;
-    }
+    RegisterCertificateType tsbasType = new RegisterCertificateType();
+    tsbasType.setIntyg(UtlatandeToIntyg.convert(source));
+    tsbasType.setSvarPa(
+        InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
+    return tsbasType;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,51 +35,62 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class ValueDateListTest<T> extends ValueTest {
 
-    protected abstract CertificateDataElement getElement(T expectedValue);
+  protected abstract CertificateDataElement getElement(T expectedValue);
 
-    protected abstract List<InputExpectedValuePair<T, CertificateDataValueDateList>> inputExpectedValuePairList();
+  protected abstract List<InputExpectedValuePair<T, CertificateDataValueDateList>>
+      inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T, CertificateDataValueDateList>> inputExpectedValuePairStream() {
-        return inputExpectedValuePairList().stream();
-    }
+  protected Stream<InputExpectedValuePair<T, CertificateDataValueDateList>>
+      inputExpectedValuePairStream() {
+    return inputExpectedValuePairList().stream();
+  }
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.DATE_LIST;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.DATE_LIST;
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeCorrectIds(InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
-        final var actualIds = getActualList(inputExpectedValuePair).stream()
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeCorrectIds(
+      InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
+    final var actualIds =
+        getActualList(inputExpectedValuePair).stream()
             .map(CertificateDataValueDate::getId)
             .collect(Collectors.toList());
-        final var expectedIds = getExpectedList(inputExpectedValuePair).stream()
+    final var expectedIds =
+        getExpectedList(inputExpectedValuePair).stream()
             .map(CertificateDataValueDate::getId)
             .collect(Collectors.toList());
 
-        assertEquals(expectedIds, actualIds);
-    }
+    assertEquals(expectedIds, actualIds);
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeCorrectDates(InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
-        final var actualDates = getActualList(inputExpectedValuePair).stream()
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeCorrectDates(
+      InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
+    final var actualDates =
+        getActualList(inputExpectedValuePair).stream()
             .map(CertificateDataValueDate::getDate)
             .collect(Collectors.toList());
-        final var expectedDates = getExpectedList(inputExpectedValuePair).stream()
+    final var expectedDates =
+        getExpectedList(inputExpectedValuePair).stream()
             .map(CertificateDataValueDate::getDate)
             .collect(Collectors.toList());
 
-        assertEquals(expectedDates, actualDates);
-    }
+    assertEquals(expectedDates, actualDates);
+  }
 
-    private List<CertificateDataValueDate> getActualList(InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
-        final var value = (CertificateDataValueDateList) getElement(inputExpectedValuePair.getInput()).getValue();
-        return value.getList();
-    }
+  private List<CertificateDataValueDate> getActualList(
+      InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
+    final var value =
+        (CertificateDataValueDateList) getElement(inputExpectedValuePair.getInput()).getValue();
+    return value.getList();
+  }
 
-    private List<CertificateDataValueDate> getExpectedList(InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
-        return inputExpectedValuePair.getExpectedValue().getList();
-    }
+  private List<CertificateDataValueDate> getExpectedList(
+      InputExpectedValuePair<T, CertificateDataValueDateList> inputExpectedValuePair) {
+    return inputExpectedValuePair.getExpectedValue().getList();
+  }
 }

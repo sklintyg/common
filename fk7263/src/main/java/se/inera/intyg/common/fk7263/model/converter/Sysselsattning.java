@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,49 +22,48 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum Sysselsattning {
-    NUVARANDE_ARBETE(1, "NUVARANDE_ARBETE", "Nuvarande arbete"),
-    ARBETSSOKANDE(2, "ARBETSSOKANDE", "Arbetssökande"),
-    FORADLRARLEDIGHET_VARD_AV_BARN(3, "FORALDRALEDIG", "Föräldraledighet för vård av barn");
+  NUVARANDE_ARBETE(1, "NUVARANDE_ARBETE", "Nuvarande arbete"),
+  ARBETSSOKANDE(2, "ARBETSSOKANDE", "Arbetssökande"),
+  FORADLRARLEDIGHET_VARD_AV_BARN(3, "FORALDRALEDIG", "Föräldraledighet för vård av barn");
 
-    private final int id;
-    private final String transportId;
-    private final String label;
+  private final int id;
+  private final String transportId;
+  private final String label;
 
-    Sysselsattning(int id, String transportId, String label) {
-        this.id = id;
-        this.transportId = transportId;
-        this.label = label;
+  Sysselsattning(int id, String transportId, String label) {
+    this.id = id;
+    this.transportId = transportId;
+    this.label = label;
+  }
+
+  public int getId() {
+    return id;
+  }
+
+  public String getTransportId() {
+    return transportId;
+  }
+
+  public String getLabel() {
+    return label;
+  }
+
+  @JsonCreator
+  public static Sysselsattning fromId(@JsonProperty("id") int id) {
+    for (Sysselsattning typ : values()) {
+      if (typ.id == id) {
+        return typ;
+      }
     }
+    throw new IllegalArgumentException();
+  }
 
-    public int getId() {
-        return id;
+  public static Sysselsattning fromTransportId(String transportId) {
+    for (Sysselsattning typ : values()) {
+      if (typ.transportId.equals(transportId)) {
+        return typ;
+      }
     }
-
-    public String getTransportId() {
-        return transportId;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    @JsonCreator
-    public static Sysselsattning fromId(@JsonProperty("id") int id) {
-        for (Sysselsattning typ : values()) {
-            if (typ.id == id) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
-    public static Sysselsattning fromTransportId(String transportId) {
-        for (Sysselsattning typ : values()) {
-            if (typ.transportId.equals(transportId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
+    throw new IllegalArgumentException();
+  }
 }

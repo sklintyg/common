@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,70 +29,86 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 
 public class PatientValidatorTest {
 
-    @Test
-    public void passPatientWithCorrectInfo() {
-        Patient patient = new Patient();
-        patient.setPostadress("Testadress");
-        patient.setPostort("Postort");
-        patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<>();
-        PatientValidator.validate(patient, validations);
-        assertEquals("Expected 0 validation errors", 0, validations.size());
-    }
+  @Test
+  public void passPatientWithCorrectInfo() {
+    Patient patient = new Patient();
+    patient.setPostadress("Testadress");
+    patient.setPostort("Postort");
+    patient.setPostnummer("12345");
+    List<ValidationMessage> validations = new ArrayList<>();
+    PatientValidator.validate(patient, validations);
+    assertEquals("Expected 0 validation errors", 0, validations.size());
+  }
 
-    @Test
-    public void failPatientMissingPostadress() {
-        Patient patient = new Patient();
-        patient.setPostort("Postort");
-        patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<>();
-        PatientValidator.validate(patient, validations);
-        assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals("Expected validation failure for postadress", "grunddata.patient.postadress", validations.get(0).getField());
-        assertEquals("patient", validations.get(0).getCategory());
-    }
+  @Test
+  public void failPatientMissingPostadress() {
+    Patient patient = new Patient();
+    patient.setPostort("Postort");
+    patient.setPostnummer("12345");
+    List<ValidationMessage> validations = new ArrayList<>();
+    PatientValidator.validate(patient, validations);
+    assertEquals("Expected 1 validation errors", 1, validations.size());
+    assertEquals(
+        "Expected validation failure for postadress",
+        "grunddata.patient.postadress",
+        validations.get(0).getField());
+    assertEquals("patient", validations.get(0).getCategory());
+  }
 
-    @Test
-    public void failPatientMissingPostort() {
-        Patient patient = new Patient();
-        patient.setPostadress("Testadress");
-        patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<>();
-        PatientValidator.validate(patient, validations);
-        assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals("Expected validation failure for postort", "grunddata.patient.postort", validations.get(0).getField());
-        assertEquals("patient", validations.get(0).getCategory());
-    }
+  @Test
+  public void failPatientMissingPostort() {
+    Patient patient = new Patient();
+    patient.setPostadress("Testadress");
+    patient.setPostnummer("12345");
+    List<ValidationMessage> validations = new ArrayList<>();
+    PatientValidator.validate(patient, validations);
+    assertEquals("Expected 1 validation errors", 1, validations.size());
+    assertEquals(
+        "Expected validation failure for postort",
+        "grunddata.patient.postort",
+        validations.get(0).getField());
+    assertEquals("patient", validations.get(0).getCategory());
+  }
 
-    @Test
-    public void failPatientMissingPostnummer() {
-        Patient patient = new Patient();
-        patient.setPostadress("Testadress");
-        patient.setPostort("Postort");
-        List<ValidationMessage> validations = new ArrayList<>();
-        PatientValidator.validate(patient, validations);
-        assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals("Expected validation failure for postnummer", "grunddata.patient.postnummer", validations.get(0).getField());
-        assertEquals("Expected EMPTY for postort", ValidationMessageType.EMPTY, validations.get(0).getType());
-        assertEquals("patient", validations.get(0).getCategory());
-    }
+  @Test
+  public void failPatientMissingPostnummer() {
+    Patient patient = new Patient();
+    patient.setPostadress("Testadress");
+    patient.setPostort("Postort");
+    List<ValidationMessage> validations = new ArrayList<>();
+    PatientValidator.validate(patient, validations);
+    assertEquals("Expected 1 validation errors", 1, validations.size());
+    assertEquals(
+        "Expected validation failure for postnummer",
+        "grunddata.patient.postnummer",
+        validations.get(0).getField());
+    assertEquals(
+        "Expected EMPTY for postort", ValidationMessageType.EMPTY, validations.get(0).getType());
+    assertEquals("patient", validations.get(0).getCategory());
+  }
 
-    @Test
-    public void failPatientInvalidPostnummer() {
-        Patient patient = new Patient();
-        patient.setPostadress("Testadress");
-        patient.setPostnummer("123456");
-        patient.setPostort("Postort");
-        List<ValidationMessage> validations = new ArrayList<>();
-        PatientValidator.validate(patient, validations);
-        assertEquals("Expected 1 validation errors", 1, validations.size());
-        assertEquals("Expected validation failure for postort", "grunddata.patient.postnummer", validations.get(0).getField());
-        assertEquals("Expected INVALID_FORMAT for postort", ValidationMessageType.INVALID_FORMAT, validations.get(0).getType());
-        assertEquals("patient", validations.get(0).getCategory());
-    }
+  @Test
+  public void failPatientInvalidPostnummer() {
+    Patient patient = new Patient();
+    patient.setPostadress("Testadress");
+    patient.setPostnummer("123456");
+    patient.setPostort("Postort");
+    List<ValidationMessage> validations = new ArrayList<>();
+    PatientValidator.validate(patient, validations);
+    assertEquals("Expected 1 validation errors", 1, validations.size());
+    assertEquals(
+        "Expected validation failure for postort",
+        "grunddata.patient.postnummer",
+        validations.get(0).getField());
+    assertEquals(
+        "Expected INVALID_FORMAT for postort",
+        ValidationMessageType.INVALID_FORMAT,
+        validations.get(0).getType());
+    assertEquals("patient", validations.get(0).getCategory());
+  }
 
-    @Test(expected = RuntimeException.class)
-    public void exceptionThrownWithNullPatient() {
-        PatientValidator.validate(null, new ArrayList<>());
-    }
+  @Test(expected = RuntimeException.class)
+  public void exceptionThrownWithNullPatient() {
+    PatientValidator.validate(null, new ArrayList<>());
+  }
 }

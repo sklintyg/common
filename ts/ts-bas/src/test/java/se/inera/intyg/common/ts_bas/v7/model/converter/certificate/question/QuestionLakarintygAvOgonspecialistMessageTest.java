@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,185 +49,189 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 @ExtendWith(MockitoExtension.class)
 class QuestionLakarintygAvOgonspecialistMessageTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-
-        }
-
-        @Override
-        protected String getId() {
-            return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SYNFUNKTIONER_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_SVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigMessageTest extends ConfigMessageTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SYNFUNKTIONER_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected String getQuestionId() {
-            return SYNFALTSDEFEKTER_SVAR_ID;
-        }
+  @Nested
+  class IncludeConfigMessageTest extends ConfigMessageTest {
 
-        @Override
-        protected String getExpression() {
-            return "$" + SYNFALTSDEFEKTER_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTests1 extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return SEENDE_NEDSATT_BELYSNING_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationShowTests2 extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 2;
-        }
+    @Override
+    protected String getTextId() {
+      return null;
     }
 
-    @Nested
-    class IncludeVisibilityTests {
-
-        @Test
-        void shouldBeVisibleIfNattblindhetIsTrue() {
-            final var syn = Syn.builder().setNattblindhet(true).build();
-            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldBeVisibleIfProgressivOgonsjukdomIsTrue() {
-            final var syn = Syn.builder().setProgressivOgonsjukdom(true).build();
-            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldBeVisibleIfSynfaltsdefekterIsTrue() {
-            final var syn = Syn.builder().setSynfaltsdefekter(true).build();
-            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibileIfValuesAreFalse() {
-            final var syn = Syn.builder()
-                .setNattblindhet(false)
-                .setProgressivOgonsjukdom(false)
-                .setSynfaltsdefekter(false)
-                .build();
-
-            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibileIfSynIsNull() {
-            final var element = QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
+    @Override
+    protected String getMessageId() {
+      return LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID;
     }
+
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return SYNFALTSDEFEKTER_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + SYNFALTSDEFEKTER_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests1 extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return SEENDE_NEDSATT_BELYSNING_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + SEENDE_NEDSATT_BELYSNING_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests2 extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return PROGRESSIV_OGONSJUKDOM_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + PROGRESSIV_OGONSJUKDOM_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 2;
+    }
+  }
+
+  @Nested
+  class IncludeVisibilityTests {
+
+    @Test
+    void shouldBeVisibleIfNattblindhetIsTrue() {
+      final var syn = Syn.builder().setNattblindhet(true).build();
+      final var element =
+          QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldBeVisibleIfProgressivOgonsjukdomIsTrue() {
+      final var syn = Syn.builder().setProgressivOgonsjukdom(true).build();
+      final var element =
+          QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldBeVisibleIfSynfaltsdefekterIsTrue() {
+      final var syn = Syn.builder().setSynfaltsdefekter(true).build();
+      final var element =
+          QuestionLakarintygAvOgonspecialistMessage.toCertificate(syn, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibileIfValuesAreFalse() {
+      final var syn =
+          Syn.builder()
+              .setNattblindhet(false)
+              .setProgressivOgonsjukdom(false)
+              .setSynfaltsdefekter(false)
+              .build();
+
+      final var element =
+          QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibileIfSynIsNull() {
+      final var element =
+          QuestionLakarintygAvOgonspecialistMessage.toCertificate(null, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+  }
 }

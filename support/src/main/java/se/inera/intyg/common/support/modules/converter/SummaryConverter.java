@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.modules.converter;
 
 import org.slf4j.Logger;
@@ -29,33 +28,30 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component
 public class SummaryConverter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SummaryConverter.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SummaryConverter.class);
 
-    public CertificateSummary convert(ModuleApi moduleApi, Intyg intyg) {
-        try {
-            final var summaryLabel = moduleApi.getAdditionalInfoLabel();
-            final var summaryValue = moduleApi.getAdditionalInfo(intyg);
+  public CertificateSummary convert(ModuleApi moduleApi, Intyg intyg) {
+    try {
+      final var summaryLabel = moduleApi.getAdditionalInfoLabel();
+      final var summaryValue = moduleApi.getAdditionalInfo(intyg);
 
-            if (summaryLabelIsNullOrEmpty(summaryLabel) || summaryValueIsNullOrEmpty(summaryValue)) {
-                return CertificateSummary.builder().build();
-            }
+      if (summaryLabelIsNullOrEmpty(summaryLabel) || summaryValueIsNullOrEmpty(summaryValue)) {
+        return CertificateSummary.builder().build();
+      }
 
-            return CertificateSummary.builder()
-                .value(summaryValue)
-                .label(summaryLabel)
-                .build();
+      return CertificateSummary.builder().value(summaryValue).label(summaryLabel).build();
 
-        } catch (Exception e) {
-            LOG.error("Could not convert to summary", e);
-            return CertificateSummary.builder().build();
-        }
+    } catch (Exception e) {
+      LOG.error("Could not convert to summary", e);
+      return CertificateSummary.builder().build();
     }
+  }
 
-    private static boolean summaryLabelIsNullOrEmpty(String summaryLabel) {
-        return summaryLabel == null || summaryLabel.isEmpty();
-    }
+  private static boolean summaryLabelIsNullOrEmpty(String summaryLabel) {
+    return summaryLabel == null || summaryLabel.isEmpty();
+  }
 
-    private static boolean summaryValueIsNullOrEmpty(String summaryValue) {
-        return summaryValue == null || summaryValue.isEmpty();
-    }
+  private static boolean summaryValueIsNullOrEmpty(String summaryValue) {
+    return summaryValue == null || summaryValue.isEmpty();
+  }
 }

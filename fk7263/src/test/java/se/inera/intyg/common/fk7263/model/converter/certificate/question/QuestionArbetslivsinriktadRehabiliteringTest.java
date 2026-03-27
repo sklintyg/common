@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
@@ -38,84 +37,88 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 
 class QuestionArbetslivsinriktadRehabiliteringTest {
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
-        }
-
-        @Override
-        protected String getId() {
-            return ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
+    @Override
+    protected String getId() {
+      return ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Rehabilitering> {
-
-        @Override
-        protected CertificateDataElement getElement(Rehabilitering expectedValue) {
-            return QuestionArbetslivsinriktadRehabilitering.toCertificate(expectedValue, 0);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Rehabilitering, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringEjAktuell,
-                    CertificateDataValueViewText.builder().text("Nej").build()),
-                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringAktuell,
-                    CertificateDataValueViewText.builder().text("Ja").build()),
-                new InputExpectedValuePair<>(Rehabilitering.rehabiliteringGarInteAttBedoma,
-                    CertificateDataValueViewText.builder().text("Går inte att bedöma").build())
-            );
-        }
+    @Override
+    protected String getParent() {
+      return ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
     }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionArbetslivsinriktadRehabilitering.toCertificate(null, 0);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<Rehabilitering> {
+
+    @Override
+    protected CertificateDataElement getElement(Rehabilitering expectedValue) {
+      return QuestionArbetslivsinriktadRehabilitering.toCertificate(expectedValue, 0);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Rehabilitering, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              Rehabilitering.rehabiliteringEjAktuell,
+              CertificateDataValueViewText.builder().text("Nej").build()),
+          new InputExpectedValuePair<>(
+              Rehabilitering.rehabiliteringAktuell,
+              CertificateDataValueViewText.builder().text("Ja").build()),
+          new InputExpectedValuePair<>(
+              Rehabilitering.rehabiliteringGarInteAttBedoma,
+              CertificateDataValueViewText.builder().text("Går inte att bedöma").build()));
+    }
+  }
 }

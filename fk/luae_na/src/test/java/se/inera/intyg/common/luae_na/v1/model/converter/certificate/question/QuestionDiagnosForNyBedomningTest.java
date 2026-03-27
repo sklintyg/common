@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,156 +45,154 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueTextTest;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiagnosForNyBedomningTest {
 
+  private static final String EXPECTED_TEXT = "Hej hej";
+  @Mock private CertificateTextProvider textProvider;
 
-    private static final String EXPECTED_TEXT = "Hej hej";
-    @Mock
-    private CertificateTextProvider textProvider;
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTest extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
+      }
+
+      @Override
+      protected String getParent() {
+        return NYDIAGNOS_SVAR_ID_45;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
 
-        @Nested
-        class IncludeCommonElementTest extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
+      }
 
-            @Override
-            protected String getId() {
-                return DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
-            }
+      @Override
+      protected String getTextId() {
+        return DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return NYDIAGNOS_SVAR_ID_45;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeConfigTextAreaTest extends ConfigTextAreaTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return DIAGNOSGRUND_NYUPPDATERING_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-
-            @Override
-            protected String getJsonId() {
-                return DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
-            }
-        }
-
-        @Nested
-        class IncludeValueTest extends ValueTextTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
-            }
-
-            @Override
-            protected String getText() {
-                return EXPECTED_TEXT;
-            }
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return NYDIAGNOS_SVAR_ID_45;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 1;
-            }
-        }
+      @Override
+      protected String getJsonId() {
+        return DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueTest extends ValueTextTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalTextValue extends InternalTextValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(String expectedValue) {
-                return QuestionDiagnosForNyBedomning.toCertificate(expectedValue, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+      }
 
-            @Override
-            protected String toInternalTextValue(Certificate certificate) {
-                return QuestionDiagnosForNyBedomning.toInternal(certificate);
-            }
-        }
+      @Override
+      protected String getText() {
+        return EXPECTED_TEXT;
+      }
     }
+
+    @Nested
+    class IncludeValidationShowTest extends ValidationShowTest {
+
+      @Override
+      protected String getQuestionId() {
+        return NYDIAGNOS_SVAR_ID_45;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + DIAGNOSGRUND_NY_BEDOMNING_SVAR_JSON_ID_45;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return DIAGNOS_FOR_NY_BEDOMNING_DELSVAR_ID_45;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "$" + DIAGNOS_FOR_NY_BEDOMNING_SVAR_JSON_ID_45;
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionDiagnosForNyBedomning.toCertificate(EXPECTED_TEXT, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 1;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeInternalTextValue extends InternalTextValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(String expectedValue) {
+        return QuestionDiagnosForNyBedomning.toCertificate(expectedValue, 0, textProvider);
+      }
+
+      @Override
+      protected String toInternalTextValue(Certificate certificate) {
+        return QuestionDiagnosForNyBedomning.toInternal(certificate);
+      }
+    }
+  }
 }

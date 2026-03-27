@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,42 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionKontaktAnledning {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String kontaktAnledning, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
-            .parent(KONTAKT_ONSKAS_SVAR_ID_26)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(textProvider.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
-                    .text(kontaktAnledning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
-                        .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String kontaktAnledning, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26)
+        .parent(KONTAKT_ONSKAS_SVAR_ID_26)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                .text(textProvider.get(ANLEDNING_TILL_KONTAKT_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+                .text(kontaktAnledning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(KONTAKT_ONSKAS_SVAR_ID_26)
+                  .expression(singleExpression(KONTAKT_ONSKAS_SVAR_JSON_ID_26))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_JSON_ID_16)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26,
+        ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,55 +45,50 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 public class QuestionDiabetesTyp {
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
-        final var diabetesTyp = diabetes != null && diabetes.getDiabetesTyp() != null ? diabetes.getDiabetesTyp() : null;
-        return CertificateDataElement.builder()
-            .id(TYP_AV_DIABETES_SVAR_ID)
-            .index(index)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(TYP_AV_DIABETES_SVAR_TEXT_ID))
-                    .layout(Layout.ROWS)
-                    .list(
-                        List.of(
-                            RadioMultipleCode.builder()
-                                .id(DiabetesKod.DIABETES_TYP_1.name())
-                                .label(texts.get(TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(DiabetesKod.DIABETES_TYP_2.name())
-                                .label(texts.get(TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                diabetesTyp != null
-                    ? CertificateDataValueCode.builder()
-                    .id(diabetesTyp)
-                    .code(diabetesTyp)
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(TYP_AV_DIABETES_SVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(DiabetesKod.DIABETES_TYP_1.name(), DiabetesKod.DIABETES_TYP_2.name())
-                        )
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(HAR_DIABETES_SVAR_ID)
-                        .expression(singleExpression(HAR_DIABETES_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider texts) {
+    final var diabetesTyp =
+        diabetes != null && diabetes.getDiabetesTyp() != null ? diabetes.getDiabetesTyp() : null;
+    return CertificateDataElement.builder()
+        .id(TYP_AV_DIABETES_SVAR_ID)
+        .index(index)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(TYP_AV_DIABETES_SVAR_TEXT_ID))
+                .layout(Layout.ROWS)
+                .list(
+                    List.of(
+                        RadioMultipleCode.builder()
+                            .id(DiabetesKod.DIABETES_TYP_1.name())
+                            .label(texts.get(TYP_AV_DIABETES_SVAR_TYP1_LABEL_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(DiabetesKod.DIABETES_TYP_2.name())
+                            .label(texts.get(TYP_AV_DIABETES_SVAR_TYP2_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            diabetesTyp != null
+                ? CertificateDataValueCode.builder().id(diabetesTyp).code(diabetesTyp).build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(TYP_AV_DIABETES_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          DiabetesKod.DIABETES_TYP_1.name(), DiabetesKod.DIABETES_TYP_2.name()))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(HAR_DIABETES_SVAR_ID)
+                  .expression(singleExpression(HAR_DIABETES_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return codeValue(certificate.getData(), TYP_AV_DIABETES_SVAR_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return codeValue(certificate.getData(), TYP_AV_DIABETES_SVAR_ID);
+  }
 }

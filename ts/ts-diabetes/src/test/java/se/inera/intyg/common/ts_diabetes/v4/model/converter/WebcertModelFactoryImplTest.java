@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,148 +51,162 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class WebcertModelFactoryImplTest {
 
-    private static final String CERTIFICATE_ID = "certificateId";
-    private static final String DRAFT_COPY_ID = "draftCopyId";
-    private static final String UNIT_HSA_ID = "testUnitHsaId";
-    private static final String CAREPROVIDER_HSA_ID = "testCareProviderHsaId";
-    private static final String HOSPERSONAL_HSA_ID = "testHoSPersonalHsaId";
-    private static final String PATIENT_PERSONAL_ID = "191212121212";
-    private static final String INTYG_TYPE_VERSION_4_0 = "4.0";
-    private static final String INTYG_TYPE_VERSION_4_1 = "4.1";
+  private static final String CERTIFICATE_ID = "certificateId";
+  private static final String DRAFT_COPY_ID = "draftCopyId";
+  private static final String UNIT_HSA_ID = "testUnitHsaId";
+  private static final String CAREPROVIDER_HSA_ID = "testCareProviderHsaId";
+  private static final String HOSPERSONAL_HSA_ID = "testHoSPersonalHsaId";
+  private static final String PATIENT_PERSONAL_ID = "191212121212";
+  private static final String INTYG_TYPE_VERSION_4_0 = "4.0";
+  private static final String INTYG_TYPE_VERSION_4_1 = "4.1";
 
-    @Mock
-    private IntygTextsService intygTexts;
+  @Mock private IntygTextsService intygTexts;
 
-    @InjectMocks
-    private WebcertModelFactoryImpl webcertModelFactoryImpl;
+  @InjectMocks private WebcertModelFactoryImpl webcertModelFactoryImpl;
 
-    @Test
-    public void shouldCreateTsDiabetesUtlatandeV4() throws Exception {
-        final var newDraftHolder = new CreateNewDraftHolder(CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
+  @Test
+  public void shouldCreateTsDiabetesUtlatandeV4() throws Exception {
+    final var newDraftHolder =
+        new CreateNewDraftHolder(
+            CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
 
-        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_4_0)))
-            .thenReturn(INTYG_TYPE_VERSION_4_0);
+    when(intygTexts.getLatestVersionForSameMajorVersion(
+            eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_4_0)))
+        .thenReturn(INTYG_TYPE_VERSION_4_0);
 
-        final var utlatande = webcertModelFactoryImpl.createNewWebcertDraft(newDraftHolder);
+    final var utlatande = webcertModelFactoryImpl.createNewWebcertDraft(newDraftHolder);
 
-        assertAll(
-            () -> assertNotNull(utlatande),
-            () -> assertEquals(CERTIFICATE_ID, utlatande.getId()),
-            () -> assertEquals(TsDiabetesEntryPoint.MODULE_ID, utlatande.getTyp()),
-            () -> assertEquals(INTYG_TYPE_VERSION_4_0, utlatande.getTextVersion()),
-            () -> assertEquals(PATIENT_PERSONAL_ID, utlatande.getGrundData().getPatient().getPersonId().getPersonnummer()),
-            () -> assertEquals(HOSPERSONAL_HSA_ID, utlatande.getGrundData().getSkapadAv().getPersonId()),
-            () -> assertEquals(UNIT_HSA_ID, utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid()),
-            () -> assertEquals(CAREPROVIDER_HSA_ID, utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid()),
-            () -> assertNotNull(utlatande.getAllmant()),
-            () -> assertNotNull(utlatande.getIntygAvser()),
-            () -> assertNotNull(utlatande.getOvrigt()),
-            () -> assertNotNull(utlatande.getBedomning())
-        );
-    }
+    assertAll(
+        () -> assertNotNull(utlatande),
+        () -> assertEquals(CERTIFICATE_ID, utlatande.getId()),
+        () -> assertEquals(TsDiabetesEntryPoint.MODULE_ID, utlatande.getTyp()),
+        () -> assertEquals(INTYG_TYPE_VERSION_4_0, utlatande.getTextVersion()),
+        () ->
+            assertEquals(
+                PATIENT_PERSONAL_ID,
+                utlatande.getGrundData().getPatient().getPersonId().getPersonnummer()),
+        () ->
+            assertEquals(HOSPERSONAL_HSA_ID, utlatande.getGrundData().getSkapadAv().getPersonId()),
+        () ->
+            assertEquals(
+                UNIT_HSA_ID, utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid()),
+        () ->
+            assertEquals(
+                CAREPROVIDER_HSA_ID,
+                utlatande
+                    .getGrundData()
+                    .getSkapadAv()
+                    .getVardenhet()
+                    .getVardgivare()
+                    .getVardgivarid()),
+        () -> assertNotNull(utlatande.getAllmant()),
+        () -> assertNotNull(utlatande.getIntygAvser()),
+        () -> assertNotNull(utlatande.getOvrigt()),
+        () -> assertNotNull(utlatande.getBedomning()));
+  }
 
-    @Test
-    public void shouldDefaultToLatestMinorVersion() throws Exception {
-        final var newDraftHolder = new CreateNewDraftHolder(CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
+  @Test
+  public void shouldDefaultToLatestMinorVersion() throws Exception {
+    final var newDraftHolder =
+        new CreateNewDraftHolder(
+            CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
 
-        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_4_0)))
-            .thenReturn(INTYG_TYPE_VERSION_4_1);
+    when(intygTexts.getLatestVersionForSameMajorVersion(
+            eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_4_0)))
+        .thenReturn(INTYG_TYPE_VERSION_4_1);
 
-        final var utlatande = webcertModelFactoryImpl.createNewWebcertDraft(newDraftHolder);
+    final var utlatande = webcertModelFactoryImpl.createNewWebcertDraft(newDraftHolder);
 
-        assertAll(
-            () -> assertNotNull(utlatande),
-            () -> assertEquals(INTYG_TYPE_VERSION_4_1, utlatande.getTextVersion())
-        );
-    }
+    assertAll(
+        () -> assertNotNull(utlatande),
+        () -> assertEquals(INTYG_TYPE_VERSION_4_1, utlatande.getTextVersion()));
+  }
 
+  @Test
+  public void shouldThrowConversionExceptionIfNotVersion4() throws Exception {
+    final var copyDraftHolder = new CreateDraftCopyHolder("", new HoSPersonal());
+    final var wrongVersionUtlatande = createWrongVersionUtlatande();
 
-    @Test
-    public void shouldThrowConversionExceptionIfNotVersion4() throws Exception {
-        final var copyDraftHolder = new CreateDraftCopyHolder("", new HoSPersonal());
-        final var wrongVersionUtlatande = createWrongVersionUtlatande();
-
-        final var exception = assertThrows(ConverterException.class,
+    final var exception =
+        assertThrows(
+            ConverterException.class,
             () -> webcertModelFactoryImpl.createCopy(copyDraftHolder, wrongVersionUtlatande));
 
-        assertSame(ConverterException.class, exception.getClass());
-    }
+    assertSame(ConverterException.class, exception.getClass());
+  }
 
-    @Test
-    public void shouldCreateDraftCopyWithAnswersFromCertificate() throws ConverterException {
-        final var utlatande = createTsDiabetesUtlatandeV4();
-        final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
+  @Test
+  public void shouldCreateDraftCopyWithAnswersFromCertificate() throws ConverterException {
+    final var utlatande = createTsDiabetesUtlatandeV4();
+    final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
 
-        final var draftCopy = webcertModelFactoryImpl.createCopy(createDraftCopyHolder, utlatande);
+    final var draftCopy = webcertModelFactoryImpl.createCopy(createDraftCopyHolder, utlatande);
 
-        assertAll(
-            () -> assertNotNull(draftCopy),
-            () -> assertEquals(DRAFT_COPY_ID, draftCopy.getId()),
-            () -> assertSame(utlatande.getAllmant(), draftCopy.getAllmant()),
-            () -> assertSame(utlatande.getIntygAvser(), draftCopy.getIntygAvser()),
-            () -> assertSame(utlatande.getBedomning(), draftCopy.getBedomning()),
-            () -> assertSame(utlatande.getOvrigt(), draftCopy.getOvrigt()),
-            () -> assertSame(utlatande.getIdentitetStyrktGenom(), draftCopy.getIdentitetStyrktGenom())
-        );
-    }
+    assertAll(
+        () -> assertNotNull(draftCopy),
+        () -> assertEquals(DRAFT_COPY_ID, draftCopy.getId()),
+        () -> assertSame(utlatande.getAllmant(), draftCopy.getAllmant()),
+        () -> assertSame(utlatande.getIntygAvser(), draftCopy.getIntygAvser()),
+        () -> assertSame(utlatande.getBedomning(), draftCopy.getBedomning()),
+        () -> assertSame(utlatande.getOvrigt(), draftCopy.getOvrigt()),
+        () -> assertSame(utlatande.getIdentitetStyrktGenom(), draftCopy.getIdentitetStyrktGenom()));
+  }
 
-    @Test
-    public void shouldRemoveSignatureDateFromCertificateInCopy() throws ConverterException {
-        final var utlatande = createTsDiabetesUtlatandeV4();
-        final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
+  @Test
+  public void shouldRemoveSignatureDateFromCertificateInCopy() throws ConverterException {
+    final var utlatande = createTsDiabetesUtlatandeV4();
+    final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
 
-        final var draftCopy = webcertModelFactoryImpl.createCopy(createDraftCopyHolder, utlatande);
+    final var draftCopy = webcertModelFactoryImpl.createCopy(createDraftCopyHolder, utlatande);
 
-        assertAll(
-            () -> assertNotNull(draftCopy),
-            () -> assertNull(draftCopy.getGrundData().getSigneringsdatum())
+    assertAll(
+        () -> assertNotNull(draftCopy),
+        () -> assertNull(draftCopy.getGrundData().getSigneringsdatum()));
+  }
 
-        );
-    }
+  private TsDiabetesUtlatandeV4 createTsDiabetesUtlatandeV4() {
+    final var grundData = new GrundData();
+    grundData.setSkapadAv(createHosPersonal());
+    grundData.setSigneringsdatum(LocalDateTime.now());
+    grundData.setPatient(createPatient());
 
-    private TsDiabetesUtlatandeV4 createTsDiabetesUtlatandeV4() {
-        final var grundData = new GrundData();
-        grundData.setSkapadAv(createHosPersonal());
-        grundData.setSigneringsdatum(LocalDateTime.now());
-        grundData.setPatient(createPatient());
+    return TsDiabetesUtlatandeV4.builder()
+        .setId(CERTIFICATE_ID)
+        .setGrundData(grundData)
+        .setTextVersion(INTYG_TYPE_VERSION_4_0)
+        .build();
+  }
 
-        return TsDiabetesUtlatandeV4.builder()
-            .setId(CERTIFICATE_ID)
-            .setGrundData(grundData)
-            .setTextVersion(INTYG_TYPE_VERSION_4_0)
-            .build();
-    }
+  private Patient createPatient() {
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer(PATIENT_PERSONAL_ID).orElse(null));
+    return patient;
+  }
 
-    private Patient createPatient() {
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer(PATIENT_PERSONAL_ID).orElse(null));
-        return patient;
-    }
+  private HoSPersonal createHosPersonal() {
+    final var hosPerson = new HoSPersonal();
+    hosPerson.setPersonId(HOSPERSONAL_HSA_ID);
+    hosPerson.setFullstandigtNamn("Doktor Testsson");
+    hosPerson.setVardenhet(createUnit());
+    return hosPerson;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        final var hosPerson = new HoSPersonal();
-        hosPerson.setPersonId(HOSPERSONAL_HSA_ID);
-        hosPerson.setFullstandigtNamn("Doktor Testsson");
-        hosPerson.setVardenhet(createUnit());
-        return hosPerson;
-    }
+  private Vardenhet createUnit() {
+    final var unit = new Vardenhet();
+    final var careProvider = new Vardgivare();
+    unit.setEnhetsid(UNIT_HSA_ID);
+    unit.setEnhetsnamn("testUnitName");
+    careProvider.setVardgivarid(CAREPROVIDER_HSA_ID);
+    careProvider.setVardgivarnamn("testCareProviderName");
+    unit.setVardgivare(careProvider);
+    return unit;
+  }
 
-    private Vardenhet createUnit() {
-        final var unit = new Vardenhet();
-        final var careProvider = new Vardgivare();
-        unit.setEnhetsid(UNIT_HSA_ID);
-        unit.setEnhetsnamn("testUnitName");
-        careProvider.setVardgivarid(CAREPROVIDER_HSA_ID);
-        careProvider.setVardgivarnamn("testCareProviderName");
-        unit.setVardgivare(careProvider);
-        return unit;
-    }
-
-    private Utlatande createWrongVersionUtlatande() {
-        return TsDiabetesUtlatandeV3.builder()
-            .setId(CERTIFICATE_ID)
-            .setGrundData(new GrundData())
-            .setTextVersion("3.0")
-            .build();
-    }
+  private Utlatande createWrongVersionUtlatande() {
+    return TsDiabetesUtlatandeV3.builder()
+        .setId(CERTIFICATE_ID)
+        .setGrundData(new GrundData())
+        .setTextVersion("3.0")
+        .build();
+  }
 }

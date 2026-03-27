@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,26 +30,26 @@ import se.inera.intyg.common.support.facade.model.config.RadioMultipleCode;
 
 public abstract class ConfigRadioMultipleCodeTest extends ConfigTest {
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE;
+  }
 
-    protected abstract List<RadioMultipleCode> getExpectedRadioMultipleCodes();
+  protected abstract List<RadioMultipleCode> getExpectedRadioMultipleCodes();
 
-    protected abstract Layout getExpectedLayout();
+  protected abstract Layout getExpectedLayout();
 
-    @Test
-    void shouldIncludeExpectedRadioMultipleCode() {
-        final var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
-        assertIterableEquals(getExpectedRadioMultipleCodes(), config.getList());
-    }
+  @Test
+  void shouldIncludeExpectedRadioMultipleCode() {
+    final var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
+    assertIterableEquals(getExpectedRadioMultipleCodes(), config.getList());
+  }
 
-    @Test
-    void shouldIncludeLayout() {
-        var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
-        var actualValue = config.getLayout();
+  @Test
+  void shouldIncludeLayout() {
+    var config = (CertificateDataConfigRadioMultipleCode) getElement().getConfig();
+    var actualValue = config.getLayout();
 
-        assertEquals(getExpectedLayout(), actualValue);
-    }
+    assertEquals(getExpectedLayout(), actualValue);
+  }
 }

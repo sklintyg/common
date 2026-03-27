@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,21 +20,21 @@ package se.inera.intyg.common.support.modules.support.api.exception;
 
 public class ModuleVersionUnsupportedException extends ModuleException {
 
-    private static final long serialVersionUID = -1877787826921083411L;
+  private static final long serialVersionUID = -1877787826921083411L;
 
-    public ModuleVersionUnsupportedException() {
-        super();
-    }
+  public ModuleVersionUnsupportedException() {
+    super();
+  }
 
-    public ModuleVersionUnsupportedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public ModuleVersionUnsupportedException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ModuleVersionUnsupportedException(String message) {
-        super(message);
-    }
+  public ModuleVersionUnsupportedException(String message) {
+    super(message);
+  }
 
-    public ModuleVersionUnsupportedException(Throwable cause) {
-        super(cause);
-    }
+  public ModuleVersionUnsupportedException(Throwable cause) {
+    super(cause);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -58,197 +57,227 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class QuestionArbetsresorTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    final var unit = new Vardenhet();
+
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
+
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    private LisjpUtlatandeV1 internalCertificate;
+
+    @BeforeEach
+    void createInternalCertificateToConvert() {
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
+    }
+
+    @Test
+    void shouldIncludeQuestionElement() {
+      final var expectedIndex = 21;
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      assertAll(
+          "Validating question",
+          () -> assertEquals(ARBETSRESOR_SVAR_ID_34, question.getId()),
+          () -> assertEquals(expectedIndex, question.getIndex()),
+          () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
+          () -> assertNotNull(question.getValue(), "Missing value"),
+          () -> assertNotNull(question.getValidation(), "Missing validation"),
+          () -> assertNotNull(question.getConfig(), "Missing config"));
+    }
+
+    @Test
+    void shouldIncludeQuestionConfig() {
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setArbetsresor(true)
+              .setTextVersion("TextVersion")
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      assertEquals(CertificateDataConfigType.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
+
+      final var certificateDataConfigCheckboxBoolean =
+          (CertificateDataConfigCheckboxBoolean) question.getConfig();
+      assertAll(
+          "Validating question configuration",
+          () ->
+              assertFalse(
+                  certificateDataConfigCheckboxBoolean.getLabel().trim().isEmpty(),
+                  "Missing label"),
+          () -> assertNull(certificateDataConfigCheckboxBoolean.getText(), "Shouldn't have text"),
+          () ->
+              assertNull(
+                  certificateDataConfigCheckboxBoolean.getDescription(),
+                  "Shouldn't have description"),
+          () ->
+              assertEquals(
+                  ARBETSRESOR_SVAR_JSON_ID_34, certificateDataConfigCheckboxBoolean.getId()),
+          () ->
+              assertFalse(
+                  certificateDataConfigCheckboxBoolean.getSelectedText().trim().isEmpty(),
+                  "Missing selected text"),
+          () ->
+              assertFalse(
+                  certificateDataConfigCheckboxBoolean.getUnselectedText().trim().isEmpty(),
+                  "Missing unselected text"));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueTrue() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
+          () ->
+              assertEquals(
+                  internalCertificate.getArbetsresor(), certificateDataValueBoolean.getSelected()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueFalseAsNull() {
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .setArbetsresor(false)
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
+          () -> assertNull(certificateDataValueBoolean.getSelected()));
+    }
+
+    @Test
+    void shouldIncludeQuestionValueEmpty() {
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
+
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertAll(
+          "Validating question value",
+          () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
+          () -> assertNull(certificateDataValueBoolean.getSelected()));
+    }
+
+    @Test
+    void shouldIncludeValidationHide() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
+
+      final var certificateDataValidationHide =
+          (CertificateDataValidationHide) question.getValidation()[0];
+      assertAll(
+          "Validation question validation",
+          () ->
+              assertEquals(
+                  AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
+          () ->
+              assertEquals(
+                  "$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27,
+                  certificateDataValidationHide.getExpression()));
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    @Mock WebcertModuleService moduleService;
+    private LisjpUtlatandeV1 internalCertificate;
 
     @BeforeEach
     void setup() {
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        final var unit = new Vardenhet();
-
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
-
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+      internalCertificate =
+          LisjpUtlatandeV1.builder()
+              .setGrundData(new GrundData())
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
     }
 
-    @Nested
-    class ToCertificate {
-
-        private LisjpUtlatandeV1 internalCertificate;
-
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
-
-        @Test
-        void shouldIncludeQuestionElement() {
-            final var expectedIndex = 21;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            assertAll("Validating question",
-                () -> assertEquals(ARBETSRESOR_SVAR_ID_34, question.getId()),
-                () -> assertEquals(expectedIndex, question.getIndex()),
-                () -> assertEquals(BEDOMNING_CATEGORY_ID, question.getParent()),
-                () -> assertNotNull(question.getValue(), "Missing value"),
-                () -> assertNotNull(question.getValidation(), "Missing validation"),
-                () -> assertNotNull(question.getConfig(), "Missing config")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionConfig() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setArbetsresor(true)
-                .setTextVersion("TextVersion")
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            assertEquals(CertificateDataConfigType.UE_CHECKBOX_BOOLEAN, question.getConfig().getType());
-
-            final var certificateDataConfigCheckboxBoolean = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-            assertAll("Validating question configuration",
-                () -> assertFalse(certificateDataConfigCheckboxBoolean.getLabel().trim().isEmpty(), "Missing label"),
-                () -> assertNull(certificateDataConfigCheckboxBoolean.getText(), "Shouldn't have text"),
-                () -> assertNull(certificateDataConfigCheckboxBoolean.getDescription(), "Shouldn't have description"),
-                () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataConfigCheckboxBoolean.getId()),
-                () -> assertFalse(certificateDataConfigCheckboxBoolean.getSelectedText().trim().isEmpty(), "Missing selected text"),
-                () -> assertFalse(certificateDataConfigCheckboxBoolean.getUnselectedText().trim().isEmpty(), "Missing unselected text")
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueTrue() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
-                () -> assertEquals(internalCertificate.getArbetsresor(), certificateDataValueBoolean.getSelected())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueFalseAsNull() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .setArbetsresor(false)
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
-                () -> assertNull(certificateDataValueBoolean.getSelected())
-            );
-        }
-
-        @Test
-        void shouldIncludeQuestionValueEmpty() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertAll("Validating question value",
-                () -> assertEquals(ARBETSRESOR_SVAR_JSON_ID_34, certificateDataValueBoolean.getId()),
-                () -> assertNull(certificateDataValueBoolean.getSelected())
-            );
-        }
-
-        @Test
-        void shouldIncludeValidationHide() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var question = certificate.getData().get(ARBETSRESOR_SVAR_ID_34);
-
-            final var certificateDataValidationHide = (CertificateDataValidationHide) question.getValidation()[0];
-            assertAll("Validation question validation",
-                () -> assertEquals(AVSTANGNING_SMITTSKYDD_SVAR_ID_27, certificateDataValidationHide.getQuestionId()),
-                () -> assertEquals("$" + AVSTANGNING_SMITTSKYDD_SVAR_JSON_ID_27, certificateDataValidationHide.getExpression())
-            );
-        }
+    Stream<Boolean> booleanValues() {
+      return Stream.of(true, null);
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    @ParameterizedTest
+    @MethodSource("booleanValues")
+    void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
+      final var index = 1;
 
-        @Mock
-        WebcertModuleService moduleService;
-        private LisjpUtlatandeV1 internalCertificate;
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionArbetsresor.toCertificate(expectedValue, index, texts))
+              .build();
 
-        @BeforeEach
-        void setup() {
-            internalCertificate = LisjpUtlatandeV1.builder()
-                .setGrundData(new GrundData())
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
-        }
+      final var updatedCertificate =
+          CertificateToInternal.convert(certificate, internalCertificate, moduleService);
 
-        Stream<Boolean> booleanValues() {
-            return Stream.of(true, null);
-        }
-
-        @ParameterizedTest
-        @MethodSource("booleanValues")
-        void shouldIncludeArbetstidsforlaggningValue(Boolean expectedValue) {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionArbetsresor.toCertificate(expectedValue, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertEquals(expectedValue, updatedCertificate.getArbetsresor());
-        }
-
-        @Test
-        void shouldIncludeKontaktValueFalseAsNull() {
-            final var index = 1;
-
-            final var certificate = CertificateBuilder.create()
-                .addElement(
-                    QuestionArbetsresor.toCertificate(false, index, texts))
-                .build();
-
-            final var updatedCertificate = CertificateToInternal.convert(certificate, internalCertificate, moduleService);
-
-            assertNull(updatedCertificate.getArbetsresor());
-        }
+      assertEquals(expectedValue, updatedCertificate.getArbetsresor());
     }
+
+    @Test
+    void shouldIncludeKontaktValueFalseAsNull() {
+      final var index = 1;
+
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionArbetsresor.toCertificate(false, index, texts))
+              .build();
+
+      final var updatedCertificate =
+          CertificateToInternal.convert(certificate, internalCertificate, moduleService);
+
+      assertNull(updatedCertificate.getArbetsresor());
+    }
+  }
 }

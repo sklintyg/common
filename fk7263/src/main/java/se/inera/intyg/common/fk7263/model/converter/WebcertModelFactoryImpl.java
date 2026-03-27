@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,73 +31,77 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 
-/**
- * Factory for creating an editable model.
- */
+/** Factory for creating an editable model. */
 @Component
 public class WebcertModelFactoryImpl implements WebcertModelFactory {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    /**
-     * Create a new FK7263 draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
-     */
-    @Override
-    public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+  /**
+   * Create a new FK7263 draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
+   */
+  @Override
+  public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
 
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Fk7263Utlatande template = new Fk7263Utlatande();
+    Fk7263Utlatande template = new Fk7263Utlatande();
 
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
-        resetDataInUtlatande(template);
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(
+        template.getGrundData(), newDraftData);
+    resetDataInUtlatande(template);
 
-        template.setNuvarandeArbete(true);
-        template.setArbetsloshet(false);
+    template.setNuvarandeArbete(true);
+    template.setArbetsloshet(false);
 
-        template.setAvstangningSmittskydd(false);
-        template.setForaldrarledighet(false);
-        template.setKontaktMedFk(false);
-        template.setRekommendationKontaktArbetsformedlingen(false);
-        template.setRekommendationKontaktForetagshalsovarden(false);
-        template.setRessattTillArbeteAktuellt(false);
-        template.setRessattTillArbeteEjAktuellt(false);
+    template.setAvstangningSmittskydd(false);
+    template.setForaldrarledighet(false);
+    template.setKontaktMedFk(false);
+    template.setRekommendationKontaktArbetsformedlingen(false);
+    template.setRekommendationKontaktForetagshalsovarden(false);
+    template.setRessattTillArbeteAktuellt(false);
+    template.setRessattTillArbeteEjAktuellt(false);
 
-        return template;
+    return template;
+  }
+
+  @Override
+  public Fk7263Utlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!Fk7263Utlatande.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type Fk7263Utlatande");
     }
 
-    @Override
-    public Fk7263Utlatande createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!Fk7263Utlatande.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type Fk7263Utlatande");
-        }
+    Fk7263Utlatande fk7263Utlatande = (Fk7263Utlatande) template;
 
-        Fk7263Utlatande fk7263Utlatande = (Fk7263Utlatande) template;
+    LOG.trace(
+        "Creating copy with id {} from {}", copyData.getCertificateId(), fk7263Utlatande.getId());
+    populateWithId(fk7263Utlatande, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(
+        fk7263Utlatande.getGrundData(), copyData);
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), fk7263Utlatande.getId());
-        populateWithId(fk7263Utlatande, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(fk7263Utlatande.getGrundData(), copyData);
+    resetDataInUtlatande(fk7263Utlatande);
+    return fk7263Utlatande;
+  }
 
-        resetDataInUtlatande(fk7263Utlatande);
-        return fk7263Utlatande;
+  private void populateWithId(Fk7263Utlatande utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.isNullOrEmpty(utlatandeId)) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(Fk7263Utlatande utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.isNullOrEmpty(utlatandeId)) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
+  private void resetDataInUtlatande(Fk7263Utlatande utlatande) {
+    Patient patient = new Patient();
+    patient.setPersonId(utlatande.getGrundData().getPatient().getPersonId());
+    utlatande.getGrundData().setPatient(patient);
 
-    private void resetDataInUtlatande(Fk7263Utlatande utlatande) {
-        Patient patient = new Patient();
-        patient.setPersonId(utlatande.getGrundData().getPatient().getPersonId());
-        utlatande.getGrundData().setPatient(patient);
-
-        utlatande.getGrundData().setSigneringsdatum(null);
-    }
+    utlatande.getGrundData().setSigneringsdatum(null);
+  }
 }

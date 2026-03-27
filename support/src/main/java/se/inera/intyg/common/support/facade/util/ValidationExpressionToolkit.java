@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,114 +22,120 @@ import java.util.Arrays;
 
 public final class ValidationExpressionToolkit {
 
-    private ValidationExpressionToolkit() {
+  private ValidationExpressionToolkit() {}
 
-    }
+  public static String singleExpression(String id) {
+    return "$" + id;
+  }
 
-    public static String singleExpression(String id) {
-        return "$" + id;
-    }
+  public static String wrapWithParenthesis(String expression) {
+    return "(" + expression + ")";
+  }
 
-    public static String wrapWithParenthesis(String expression) {
-        return "(" + expression + ")";
-    }
+  public static String not(String expression) {
+    return "!" + expression;
+  }
 
-    public static String not(String expression) {
-        return "!" + expression;
-    }
+  public static String exists(String expression) {
+    return String.format("exists(%s)", expression);
+  }
 
-    public static String exists(String expression) {
-        return String.format("exists(%s)", expression);
-    }
-
-    public static String multipleOrExpression(String... expression) {
-        return Arrays.stream(expression).reduce("", (s, s2) -> {
-            if (!s.isEmpty()) {
+  public static String multipleOrExpression(String... expression) {
+    return Arrays.stream(expression)
+        .reduce(
+            "",
+            (s, s2) -> {
+              if (!s.isEmpty()) {
                 s += " || ";
-            }
-            s += s2;
-            return s;
-        });
-    }
+              }
+              s += s2;
+              return s;
+            });
+  }
 
-    public static String multipleOrExpressionWithExists(String... expression) {
-        return Arrays.stream(expression).reduce("", (s, s2) -> {
-            if (!s.isEmpty()) {
+  public static String multipleOrExpressionWithExists(String... expression) {
+    return Arrays.stream(expression)
+        .reduce(
+            "",
+            (s, s2) -> {
+              if (!s.isEmpty()) {
                 s += " || ";
-            }
-            s += "exists(" + s2 + ")";
-            return s;
-        });
-    }
+              }
+              s += "exists(" + s2 + ")";
+              return s;
+            });
+  }
 
-    public static String multipleAndExpression(String... expression) {
-        return Arrays.stream(expression).reduce("", (s, s2) -> {
-            if (!s.isEmpty()) {
+  public static String multipleAndExpression(String... expression) {
+    return Arrays.stream(expression)
+        .reduce(
+            "",
+            (s, s2) -> {
+              if (!s.isEmpty()) {
                 s += " && ";
-            }
-            s += s2;
-            return s;
-        });
-    }
+              }
+              s += s2;
+              return s;
+            });
+  }
 
-    public static String withCitation(String expression) {
-        return "'" + expression + "'";
-    }
+  public static String withCitation(String expression) {
+    return "'" + expression + "'";
+  }
 
-    public static String wrapWithNotEmpty(String expression) {
-        return "!empty(" + expression + ")";
-    }
+  public static String wrapWithNotEmpty(String expression) {
+    return "!empty(" + expression + ")";
+  }
 
-    public static String lessThan(String s1, String s2) {
-        return s1 + " < " + s2;
-    }
+  public static String lessThan(String s1, String s2) {
+    return s1 + " < " + s2;
+  }
 
-    public static String lessThanOrEqual(String s1, String s2) {
-        return s1 + " <= " + s2;
-    }
+  public static String lessThanOrEqual(String s1, String s2) {
+    return s1 + " <= " + s2;
+  }
 
-    public static String moreThanOrEqual(String s1, String s2) {
-        return s1 + " >= " + s2;
-    }
+  public static String moreThanOrEqual(String s1, String s2) {
+    return s1 + " >= " + s2;
+  }
 
-    public static String moreThanOrEqual(String s1, Long l) {
-        return moreThanOrEqual(s1, l.toString());
-    }
+  public static String moreThanOrEqual(String s1, Long l) {
+    return moreThanOrEqual(s1, l.toString());
+  }
 
-    public static String lessThanOrEqual(String s1, Long l) {
-        return lessThanOrEqual(s1, l.toString());
-    }
+  public static String lessThanOrEqual(String s1, Long l) {
+    return lessThanOrEqual(s1, l.toString());
+  }
 
-    public static String moreThan(String s1, String s2) {
-        return s1 + " > " + s2;
-    }
+  public static String moreThan(String s1, String s2) {
+    return s1 + " > " + s2;
+  }
 
-    public static String moreThan(String s1, Long l) {
-        return moreThan(s1, l.toString());
-    }
+  public static String moreThan(String s1, Long l) {
+    return moreThan(s1, l.toString());
+  }
 
-    public static String appendAttribute(String s, String attribute) {
-        return s + '.' + attribute;
-    }
+  public static String appendAttribute(String s, String attribute) {
+    return s + '.' + attribute;
+  }
 
-    public static String wrapWithAttribute(String s, String attribute) {
-        return attribute + "(" + s + ")";
-    }
+  public static String wrapWithAttribute(String s, String attribute) {
+    return attribute + "(" + s + ")";
+  }
 
-    public static String equalsWith(String s, String value) {
-        return s + " == " + value;
-    }
+  public static String equalsWith(String s, String value) {
+    return s + " == " + value;
+  }
 
-    public static String subtract(String s, String value) {
-        return s + " - " + value;
-    }
+  public static String subtract(String s, String value) {
+    return s + " - " + value;
+  }
 
-    public static String to(String s) {
-        return s + ".to";
-    }
+  public static String to(String s) {
+    return s + ".to";
+  }
 
-    public static String from(String s) {
-        return s + ".from";
-    }
-
+  public static String from(String s) {
+    return s + ".from";
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,42 +38,42 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 
 public class QuestionPsykiskUtvecklingsstorning {
 
-    public static CertificateDataElement toCertificate(Utvecklingsstorning utvecklingsstorning, int index,
-        CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Utvecklingsstorning utvecklingsstorning, int index, CertificateTextProvider textProvider) {
 
-        final var psykiskUtvecklingsstorning = utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
+    final var psykiskUtvecklingsstorning =
+        utvecklingsstorning != null ? utvecklingsstorning.getPsykiskUtvecklingsstorning() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
-            .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
-                    .text(textProvider.get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
-                    .selected(psykiskUtvecklingsstorning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
-                        .expression(exists(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
+        .parent(PSYKISK_UTVECKLINGSSTORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
+                .text(textProvider.get(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID)
+                .selected(psykiskUtvecklingsstorning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID)
+                  .expression(exists(PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID,
-            PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID,
+        PSYKISK_UTVECKLINGSSTORNING_DELSVAR_JSON_ID);
+  }
 }

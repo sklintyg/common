@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,366 +66,460 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 @Component("af00251.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<AF00251UtlatandeV1> {
 
+  public static final String CATEGORY_MEDICINSKT_UNDERLAG = "medicinsktUnderlag";
+  public static final String CATEGORY_ARBETSMARKNADS_PROGRAM = "arbetsmarknadsPolitisktProgram";
+  public static final String CATEGORY_KONSEKVENSER = "konsekvenser";
+  public static final String CATEGORY_BEDOMNING = "bedomning";
+  private static final int OMFATTNING_DELTID_MIN_HOURS = 1;
+  private static final int OMFATTNING_DELTID_MAX_HOURS = 39;
+  private static final int MAX_ROWS = 4;
+  private static final int SJUKFRANVARONIVA_MIN = 1;
+  private static final int SJUKFRANVARONIVA_MAX = 100;
 
-    public static final String CATEGORY_MEDICINSKT_UNDERLAG = "medicinsktUnderlag";
-    public static final String CATEGORY_ARBETSMARKNADS_PROGRAM = "arbetsmarknadsPolitisktProgram";
-    public static final String CATEGORY_KONSEKVENSER = "konsekvenser";
-    public static final String CATEGORY_BEDOMNING = "bedomning";
-    private static final int OMFATTNING_DELTID_MIN_HOURS = 1;
-    private static final int OMFATTNING_DELTID_MAX_HOURS = 39;
-    private static final int MAX_ROWS = 4;
-    private static final int SJUKFRANVARONIVA_MIN = 1;
-    private static final int SJUKFRANVARONIVA_MAX = 100;
+  @Override
+  public ValidateDraftResponse validateDraft(AF00251UtlatandeV1 utlatande) {
 
-    @Override
-    public ValidateDraftResponse validateDraft(AF00251UtlatandeV1 utlatande) {
+    List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        List<ValidationMessage> validationMessages = new ArrayList<>();
+    // Kategori 1 - Grund för medicinskt underlag
+    validateMedicinsktUnderlag(utlatande, validationMessages);
 
-        // Kategori 1 - Grund för medicinskt underlag
-        validateMedicinsktUnderlag(utlatande, validationMessages);
+    // Kategori 2 - Arbetsmarknadspolitiskt program
+    validateArbetsmasknadsPolitisktProgram(utlatande, validationMessages);
 
-        // Kategori 2 - Arbetsmarknadspolitiskt program
-        validateArbetsmasknadsPolitisktProgram(utlatande, validationMessages);
+    // Kategori 3 - Funktionsnedsättning
+    validateFunktionsnedsattning(utlatande, validationMessages);
 
-        // Kategori 3 - Funktionsnedsättning
-        validateFunktionsnedsattning(utlatande, validationMessages);
+    // Kategori 4 - Aktivitetsbegränsning
+    validateAktivitetsbegransning(utlatande, validationMessages);
 
-        // Kategori 4 - Aktivitetsbegränsning
-        validateAktivitetsbegransning(utlatande, validationMessages);
+    // Kategori 5 - Förhinder
+    validateForhinder(utlatande, validationMessages);
 
-        // Kategori 5 - Förhinder
-        validateForhinder(utlatande, validationMessages);
+    // Kategori 6 - Sjukfrånvaro
+    validateSjukfranvaro(utlatande, validationMessages);
 
-        // Kategori 6 - Sjukfrånvaro
-        validateSjukfranvaro(utlatande, validationMessages);
+    // Kategori 7 - Begränsning sjukfrånvaro
+    validateBegransningSjukfranvaro(utlatande, validationMessages);
 
-        // Kategori 7 - Begränsning sjukfrånvaro
-        validateBegransningSjukfranvaro(utlatande, validationMessages);
+    // Kategori 8 - Prognos återgång
+    validatePrognosAtergang(utlatande, validationMessages);
 
-        // Kategori 8 - Prognos återgång
-        validatePrognosAtergang(utlatande, validationMessages);
+    // vårdenhet
+    ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
-        // vårdenhet
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+    return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+  }
 
-        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+  private void validateMedicinsktUnderlag(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (utlatande.getUndersokningsDatum() == null && utlatande.getAnnatDatum() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_MEDICINSKT_UNDERLAG,
+          MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING,
+          ValidationMessageType.EMPTY);
+      return;
     }
 
-    private void validateMedicinsktUnderlag(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getUndersokningsDatum() == null && utlatande.getAnnatDatum() == null) {
-            addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING,
-                ValidationMessageType.EMPTY);
-            return;
+    if (utlatande.getUndersokningsDatum() != null) {
+      final boolean isValid =
+          validateDate(
+              utlatande.getUndersokningsDatum(),
+              validationMessages,
+              CATEGORY_MEDICINSKT_UNDERLAG,
+              MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM,
+              null);
+      if (isValid) {
+        if (utlatande.getUndersokningsDatum().asLocalDate().isAfter(LocalDate.now())) {
+          addValidationError(
+              validationMessages,
+              CATEGORY_MEDICINSKT_UNDERLAG,
+              MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM,
+              ValidationMessageType.INVALID_FORMAT,
+              createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
         }
-
-        if (utlatande.getUndersokningsDatum() != null) {
-            final boolean isValid = validateDate(utlatande.getUndersokningsDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
-                MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
-            if (isValid) {
-                if (utlatande.getUndersokningsDatum()
-                    .asLocalDate()
-                    .isAfter(LocalDate.now())) {
-                    addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM,
-                        ValidationMessageType.INVALID_FORMAT, createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
-                }
-            }
-        }
-
-        if (utlatande.getAnnatDatum() != null) {
-            final boolean isValid = validateDate(utlatande.getAnnatDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
-                MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
-            if (isValid) {
-                if (utlatande.getAnnatDatum()
-                    .asLocalDate()
-                    .isAfter(LocalDate.now())) {
-                    addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM,
-                        ValidationMessageType.INVALID_FORMAT, createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
-                }
-            }
-
-            // Regel R1
-            if (utlatande.getAnnatBeskrivning() == null) {
-                addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING,
-                    ValidationMessageType.EMPTY);
-            }
-        }
+      }
     }
 
-    private void validateArbetsmasknadsPolitisktProgram(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        final ArbetsmarknadspolitisktProgram arbetsmarknadspolitisktProgram = utlatande.getArbetsmarknadspolitisktProgram();
-        if (arbetsmarknadspolitisktProgram == null) {
-            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM, ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                ValidationMessageType.EMPTY);
-            return;
+    if (utlatande.getAnnatDatum() != null) {
+      final boolean isValid =
+          validateDate(
+              utlatande.getAnnatDatum(),
+              validationMessages,
+              CATEGORY_MEDICINSKT_UNDERLAG,
+              MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM,
+              null);
+      if (isValid) {
+        if (utlatande.getAnnatDatum().asLocalDate().isAfter(LocalDate.now())) {
+          addValidationError(
+              validationMessages,
+              CATEGORY_MEDICINSKT_UNDERLAG,
+              MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM,
+              ValidationMessageType.INVALID_FORMAT,
+              createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
         }
+      }
 
-        if (Strings.nullToEmpty(arbetsmarknadspolitisktProgram.getMedicinskBedomning())
-            .trim()
-            .isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                    ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21), ValidationMessageType.EMPTY);
-        }
+      // Regel R1
+      if (utlatande.getAnnatBeskrivning() == null) {
+        addValidationError(
+            validationMessages,
+            CATEGORY_MEDICINSKT_UNDERLAG,
+            MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING,
+            ValidationMessageType.EMPTY);
+      }
+    }
+  }
 
-        if (arbetsmarknadspolitisktProgram.getOmfattning() == null) {
-            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                    ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22), ValidationMessageType.EMPTY);
-        }
-
-        if (arbetsmarknadspolitisktProgram.getOmfattning() == Omfattning.DELTID) {
-            if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
-                addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                    createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                        ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23), ValidationMessageType.EMPTY);
-            } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() < OMFATTNING_DELTID_MIN_HOURS
-                || arbetsmarknadspolitisktProgram.getOmfattningDeltid() > OMFATTNING_DELTID_MAX_HOURS) {
-                final String fieldKey = createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                    ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23);
-                addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                    fieldKey, ValidationMessageType.INVALID_FORMAT, createMessageKey(fieldKey, "invalid-range"));
-            }
-        }
+  private void validateArbetsmasknadsPolitisktProgram(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    final ArbetsmarknadspolitisktProgram arbetsmarknadspolitisktProgram =
+        utlatande.getArbetsmarknadspolitisktProgram();
+    if (arbetsmarknadspolitisktProgram == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_ARBETSMARKNADS_PROGRAM,
+          ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+          ValidationMessageType.EMPTY);
+      return;
     }
 
-
-    public static void validateFunktionsnedsattning(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Yes or no must be specified.
-        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning())
-            .trim()
-            .isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_KONSEKVENSER, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_31,
-                ValidationMessageType.EMPTY);
-        }
+    if (Strings.nullToEmpty(arbetsmarknadspolitisktProgram.getMedicinskBedomning())
+        .trim()
+        .isEmpty()) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_ARBETSMARKNADS_PROGRAM,
+          createCompositeFieldKey(
+              ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+              ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21),
+          ValidationMessageType.EMPTY);
     }
 
-    public static void validateAktivitetsbegransning(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning())
-            .trim()
-            .isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_KONSEKVENSER, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_41,
-                ValidationMessageType.EMPTY);
-        }
+    if (arbetsmarknadspolitisktProgram.getOmfattning() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_ARBETSMARKNADS_PROGRAM,
+          createCompositeFieldKey(
+              ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+              ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22),
+          ValidationMessageType.EMPTY);
     }
 
-    private void validateForhinder(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHarForhinder() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, FORHINDER_SVAR_JSON_ID_51,
-                ValidationMessageType.EMPTY);
-            return;
-        } else {
-            if (utlatande.getHarForhinder()) {
-                if (nullToEmpty(utlatande.getSjukfranvaro())
-                    .stream()
-                    .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
-                    .count() == 0) {
-                    addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKFRANVARO_SVAR_JSON_ID_6,
-                        ValidationMessageType.EMPTY, createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "missing"));
-                }
-            } else {
-                if (!nullToEmpty(utlatande.getSjukfranvaro()).isEmpty()) {
-                    addValidationError(validationMessages, CATEGORY_BEDOMNING, FORHINDER_SVAR_JSON_ID_51,
-                        ValidationMessageType.INCORRECT_COMBINATION,
-                        createMessageKey(FORHINDER_SVAR_JSON_ID_51, "forbidden-" + SJUKFRANVARO_SVAR_JSON_ID_6));
-                }
-            }
-        }
+    if (arbetsmarknadspolitisktProgram.getOmfattning() == Omfattning.DELTID) {
+      if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
+        addValidationError(
+            validationMessages,
+            CATEGORY_ARBETSMARKNADS_PROGRAM,
+            createCompositeFieldKey(
+                ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+                ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
+            ValidationMessageType.EMPTY);
+      } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() < OMFATTNING_DELTID_MIN_HOURS
+          || arbetsmarknadspolitisktProgram.getOmfattningDeltid() > OMFATTNING_DELTID_MAX_HOURS) {
+        final String fieldKey =
+            createCompositeFieldKey(
+                ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+                ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23);
+        addValidationError(
+            validationMessages,
+            CATEGORY_ARBETSMARKNADS_PROGRAM,
+            fieldKey,
+            ValidationMessageType.INVALID_FORMAT,
+            createMessageKey(fieldKey, "invalid-range"));
+      }
     }
+  }
 
-    private void validateSjukfranvaro(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        final List<Sjukfranvaro> sjukfranvaroList = nullToEmpty(utlatande.getSjukfranvaro());
-        if (sjukfranvaroList.stream()
+  public static void validateFunktionsnedsattning(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    // Yes or no must be specified.
+    if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_KONSEKVENSER,
+          FUNKTIONSNEDSATTNING_SVAR_JSON_ID_31,
+          ValidationMessageType.EMPTY);
+    }
+  }
+
+  public static void validateAktivitetsbegransning(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_KONSEKVENSER,
+          AKTIVITETSBEGRANSNING_SVAR_JSON_ID_41,
+          ValidationMessageType.EMPTY);
+    }
+  }
+
+  private void validateForhinder(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (utlatande.getHarForhinder() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          FORHINDER_SVAR_JSON_ID_51,
+          ValidationMessageType.EMPTY);
+      return;
+    } else {
+      if (utlatande.getHarForhinder()) {
+        if (nullToEmpty(utlatande.getSjukfranvaro()).stream()
+                .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
+                .count()
+            == 0) {
+          addValidationError(
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              SJUKFRANVARO_SVAR_JSON_ID_6,
+              ValidationMessageType.EMPTY,
+              createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "missing"));
+        }
+      } else {
+        if (!nullToEmpty(utlatande.getSjukfranvaro()).isEmpty()) {
+          addValidationError(
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              FORHINDER_SVAR_JSON_ID_51,
+              ValidationMessageType.INCORRECT_COMBINATION,
+              createMessageKey(
+                  FORHINDER_SVAR_JSON_ID_51, "forbidden-" + SJUKFRANVARO_SVAR_JSON_ID_6));
+        }
+      }
+    }
+  }
+
+  private void validateSjukfranvaro(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    final List<Sjukfranvaro> sjukfranvaroList = nullToEmpty(utlatande.getSjukfranvaro());
+    if (sjukfranvaroList.stream()
             .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
-            .count() > MAX_ROWS) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKFRANVARO_SVAR_JSON_ID_6,
-                ValidationMessageType.OTHER, createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "too-many"));
-        }
-
-        for (int index = 0; index < sjukfranvaroList.size(); index++) {
-            final Sjukfranvaro sjukfranvaro = sjukfranvaroList.get(index);
-            if (nullToFalse(sjukfranvaro.getChecked())) {
-                validateSjukfranvaro(sjukfranvaro, index, validationMessages);
-                checkSjukskrivningPeriodOverlapAgainstList(validationMessages, index, sjukfranvaro, utlatande.getSjukfranvaro());
-            }
-        }
+            .count()
+        > MAX_ROWS) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          SJUKFRANVARO_SVAR_JSON_ID_6,
+          ValidationMessageType.OTHER,
+          createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "too-many"));
     }
 
-    private boolean checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, int index,
-        Sjukfranvaro sjukfranvaro,
-        ImmutableList<Sjukfranvaro> sjukfranvaros) {
+    for (int index = 0; index < sjukfranvaroList.size(); index++) {
+      final Sjukfranvaro sjukfranvaro = sjukfranvaroList.get(index);
+      if (nullToFalse(sjukfranvaro.getChecked())) {
+        validateSjukfranvaro(sjukfranvaro, index, validationMessages);
+        checkSjukskrivningPeriodOverlapAgainstList(
+            validationMessages, index, sjukfranvaro, utlatande.getSjukfranvaro());
+      }
+    }
+  }
 
-        Optional<Sjukfranvaro> optionalSjukfranvaro = getPeriodIntervalsOverlapping(sjukfranvaro, sjukfranvaros);
-        if (optionalSjukfranvaro.isPresent()) {
-            final InternalLocalDateInterval overlappingPeriod = optionalSjukfranvaro.get()
-                .getPeriod();
+  private boolean checkSjukskrivningPeriodOverlapAgainstList(
+      List<ValidationMessage> validationMessages,
+      int index,
+      Sjukfranvaro sjukfranvaro,
+      ImmutableList<Sjukfranvaro> sjukfranvaros) {
 
-            final String keyWithIndex = String.format("%s[%d]", SJUKFRANVARO_SVAR_JSON_ID_6, index);
-            final InternalLocalDateInterval currentPeriod = sjukfranvaro.getPeriod();
-            if (currentPeriod.getFrom()
-                .equals(overlappingPeriod.getFrom())) {
-                addValidationError(validationMessages,
-                    CATEGORY_BEDOMNING,
-                    createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "from"),
-                    ValidationMessageType.PERIOD_OVERLAP);
-                addValidationError(validationMessages,
-                    CATEGORY_BEDOMNING,
-                    createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
-                    ValidationMessageType.PERIOD_OVERLAP);
-            } else if (currentPeriod.getFrom()
-                .asLocalDate()
-                .isBefore(overlappingPeriod
-                    .getFrom()
-                    .asLocalDate())) {
-                addValidationError(validationMessages,
-                    CATEGORY_BEDOMNING,
-                    createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
-                    ValidationMessageType.PERIOD_OVERLAP);
-            } else {
-                addValidationError(validationMessages,
-                    CATEGORY_BEDOMNING,
-                    createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "from"),
-                    ValidationMessageType.PERIOD_OVERLAP);
-            }
-            return true;
-        }
-        return false;
+    Optional<Sjukfranvaro> optionalSjukfranvaro =
+        getPeriodIntervalsOverlapping(sjukfranvaro, sjukfranvaros);
+    if (optionalSjukfranvaro.isPresent()) {
+      final InternalLocalDateInterval overlappingPeriod = optionalSjukfranvaro.get().getPeriod();
+
+      final String keyWithIndex = String.format("%s[%d]", SJUKFRANVARO_SVAR_JSON_ID_6, index);
+      final InternalLocalDateInterval currentPeriod = sjukfranvaro.getPeriod();
+      if (currentPeriod.getFrom().equals(overlappingPeriod.getFrom())) {
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "from"),
+            ValidationMessageType.PERIOD_OVERLAP);
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
+            ValidationMessageType.PERIOD_OVERLAP);
+      } else if (currentPeriod
+          .getFrom()
+          .asLocalDate()
+          .isBefore(overlappingPeriod.getFrom().asLocalDate())) {
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
+            ValidationMessageType.PERIOD_OVERLAP);
+      } else {
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "from"),
+            ValidationMessageType.PERIOD_OVERLAP);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  private Optional<Sjukfranvaro> getPeriodIntervalsOverlapping(
+      Sjukfranvaro sjukfranvaro, ImmutableList<Sjukfranvaro> sjukfranvaros) {
+    return sjukfranvaros.stream()
+        .filter(Objects::nonNull)
+        .filter(e -> e != sjukfranvaro)
+        .filter(e -> e.getChecked() != null && e.getChecked().booleanValue())
+        .filter(e -> e.getPeriod() != null && e.getPeriod().overlaps(sjukfranvaro.getPeriod()))
+        .findFirst();
+  }
+
+  private void validateSjukfranvaro(
+      Sjukfranvaro sjukfranvaro, int index, List<ValidationMessage> validationMessages) {
+
+    final String indexedKey = String.format("%s[%d]", SJUKFRANVARO_SVAR_JSON_ID_6, index);
+
+    if (sjukfranvaro.getPeriod() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62),
+          ValidationMessageType.EMPTY);
+    } else {
+      final boolean fromValid =
+          validateDate(
+              sjukfranvaro.getPeriod().getFrom(),
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              createCompositeFieldKey(
+                  indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_FROM),
+              null);
+      final boolean tomValid =
+          validateDate(
+              sjukfranvaro.getPeriod().getTom(),
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              createCompositeFieldKey(
+                  indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_TOM),
+              null);
+
+      if (fromValid && tomValid && !sjukfranvaro.getPeriod().isValid()) {
+        final String fieldKey = createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62);
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            fieldKey,
+            ValidationMessageType.INCORRECT_COMBINATION);
+      }
     }
 
-    private Optional<Sjukfranvaro> getPeriodIntervalsOverlapping(Sjukfranvaro sjukfranvaro,
-        ImmutableList<Sjukfranvaro> sjukfranvaros) {
-        return sjukfranvaros
-            .stream()
-            .filter(Objects::nonNull)
-            .filter(e -> e != sjukfranvaro)
-            .filter(e -> e.getChecked() != null && e.getChecked()
-                .booleanValue())
-            .filter(e -> e.getPeriod() != null && e.getPeriod()
-                .overlaps(sjukfranvaro.getPeriod()))
-            .findFirst();
+    if (sjukfranvaro.getNiva() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_61),
+          ValidationMessageType.EMPTY);
+    } else {
+      final int niva = sjukfranvaro.getNiva();
+      if (niva < SJUKFRANVARONIVA_MIN || niva > SJUKFRANVARONIVA_MAX) {
+        final String indexedFieldKey =
+            createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_61);
+        addValidationError(
+            validationMessages,
+            CATEGORY_BEDOMNING,
+            indexedFieldKey,
+            ValidationMessageType.INVALID_FORMAT);
+      }
+    }
+  }
+
+  private void validateBegransningSjukfranvaro(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (utlatande.getBegransningSjukfranvaro() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(
+              BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71),
+          ValidationMessageType.EMPTY);
+      return;
     }
 
-    private void validateSjukfranvaro(Sjukfranvaro sjukfranvaro, int index, List<ValidationMessage> validationMessages) {
+    if (utlatande.getBegransningSjukfranvaro().getKanBegransas() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(
+              BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71),
+          ValidationMessageType.EMPTY);
+    } else {
+      if (utlatande.getBegransningSjukfranvaro().getKanBegransas().booleanValue()) {
+        if (utlatande.getBegransningSjukfranvaro().getBeskrivning() == null
+            || utlatande.getBegransningSjukfranvaro().getBeskrivning().isEmpty()) {
 
-        final String indexedKey = String.format("%s[%d]", SJUKFRANVARO_SVAR_JSON_ID_6, index);
-
-        if (sjukfranvaro.getPeriod() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62),
-                ValidationMessageType.EMPTY);
-        } else {
-            final boolean fromValid = validateDate(sjukfranvaro.getPeriod()
-                    .getFrom(), validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_FROM), null);
-            final boolean tomValid = validateDate(sjukfranvaro.getPeriod()
-                    .getTom(), validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_TOM), null);
-
-            if (fromValid && tomValid && !sjukfranvaro.getPeriod()
-                .isValid()) {
-                final String fieldKey = createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62);
-                addValidationError(validationMessages, CATEGORY_BEDOMNING, fieldKey, ValidationMessageType.INCORRECT_COMBINATION);
-            }
+          addValidationError(
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              createCompositeFieldKey(
+                  BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7,
+                  BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72),
+              ValidationMessageType.EMPTY);
         }
+      }
+    }
+  }
 
-        if (sjukfranvaro.getNiva() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_61),
-                ValidationMessageType.EMPTY);
-        } else {
-            final int niva = sjukfranvaro.getNiva();
-            if (niva < SJUKFRANVARONIVA_MIN
-                || niva > SJUKFRANVARONIVA_MAX) {
-                final String indexedFieldKey = createCompositeFieldKey(indexedKey,
-                    SJUKFRANVARO_SVAR_JSON_ID_61);
-                addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                    indexedFieldKey, ValidationMessageType.INVALID_FORMAT);
-            }
-        }
-
+  private void validatePrognosAtergang(
+      AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    if (utlatande.getPrognosAtergang() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(
+              PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_81),
+          ValidationMessageType.EMPTY);
+      return;
     }
 
-    private void validateBegransningSjukfranvaro(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getBegransningSjukfranvaro() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71),
-                ValidationMessageType.EMPTY);
-            return;
+    if (utlatande.getPrognosAtergang().getPrognos() == null) {
+      addValidationError(
+          validationMessages,
+          CATEGORY_BEDOMNING,
+          createCompositeFieldKey(
+              PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_81),
+          ValidationMessageType.EMPTY);
+    } else {
+      if (utlatande.getPrognosAtergang().getPrognos() == PrognosAtergang.Prognos.MED_ANPASSNING) {
+        if (utlatande.getPrognosAtergang().getAnpassningar() == null
+            || utlatande.getPrognosAtergang().getAnpassningar().isEmpty()) {
+
+          addValidationError(
+              validationMessages,
+              CATEGORY_BEDOMNING,
+              createCompositeFieldKey(
+                  PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_82),
+              ValidationMessageType.EMPTY);
         }
-
-        if (utlatande.getBegransningSjukfranvaro()
-            .getKanBegransas() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71),
-                ValidationMessageType.EMPTY);
-        } else {
-            if (utlatande.getBegransningSjukfranvaro()
-                .getKanBegransas()
-                .booleanValue()) {
-                if (utlatande.getBegransningSjukfranvaro()
-                    .getBeskrivning() == null
-                    || utlatande.getBegransningSjukfranvaro()
-                    .getBeskrivning()
-                    .isEmpty()) {
-
-                    addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                        createCompositeFieldKey(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72),
-                        ValidationMessageType.EMPTY);
-                }
-            }
-        }
+      }
     }
+  }
 
-
-    private void validatePrognosAtergang(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getPrognosAtergang() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_81),
-                ValidationMessageType.EMPTY);
-            return;
-        }
-
-        if (utlatande.getPrognosAtergang()
-            .getPrognos() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                createCompositeFieldKey(PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_81),
-                ValidationMessageType.EMPTY);
-        } else {
-            if (utlatande.getPrognosAtergang()
-                .getPrognos() == PrognosAtergang.Prognos.MED_ANPASSNING) {
-                if (utlatande.getPrognosAtergang()
-                    .getAnpassningar() == null
-                    || utlatande.getPrognosAtergang()
-                    .getAnpassningar()
-                    .isEmpty()) {
-
-                    addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                        createCompositeFieldKey(PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_82),
-                        ValidationMessageType.EMPTY);
-                }
-            }
-        }
+  <T> List<T> nullToEmpty(List<T> collection) {
+    if (collection == null) {
+      return new ArrayList<>();
     }
+    return collection;
+  }
 
-    <T> List<T> nullToEmpty(List<T> collection) {
-        if (collection == null) {
-            return new ArrayList<>();
-        }
-        return collection;
+  boolean nullToFalse(Boolean value) {
+    if (value == null) {
+      return false;
     }
+    return value;
+  }
 
-    boolean nullToFalse(Boolean value) {
-        if (value == null) {
-            return false;
-        }
-        return value;
-    }
+  String createCompositeFieldKey(String... fields) {
+    return String.join(".", fields);
+  }
 
-    String createCompositeFieldKey(String... fields) {
-        return String.join(".", fields);
-    }
-
-    String createMessageKey(String fieldName, String messageKey) {
-        return String.format("af00251.validation.%s.%s", fieldName, messageKey);
-    }
+  String createMessageKey(String fieldName, String messageKey) {
+    return String.format("af00251.validation.%s.%s", fieldName, messageKey);
+  }
 }

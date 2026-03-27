@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,78 +31,77 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public abstract class CommonMetaDataTest {
 
-    protected abstract CertificateMetadata getMetaData();
+  protected abstract CertificateMetadata getMetaData();
 
-    protected abstract Utlatande getInternalCertificate();
+  protected abstract Utlatande getInternalCertificate();
 
-    protected abstract String getName();
+  protected abstract String getName();
 
-    protected abstract String getDescription();
+  protected abstract String getDescription();
 
-    protected abstract CertificateTextProvider getTextProvider();
+  protected abstract CertificateTextProvider getTextProvider();
 
-    protected abstract String getTypeName();
+  protected abstract String getTypeName();
 
-    @Test
-    void shouldIncludeId() {
-        final var metadata = getMetaData();
-        assertEquals(getInternalCertificate().getId(), metadata.getId());
+  @Test
+  void shouldIncludeId() {
+    final var metadata = getMetaData();
+    assertEquals(getInternalCertificate().getId(), metadata.getId());
+  }
+
+  @Test
+  void shouldIncludeType() {
+    final var metadata = getMetaData();
+    assertEquals(getInternalCertificate().getTyp(), metadata.getType());
+  }
+
+  @Test
+  void shouldIncludeTypeName() {
+    final var metadata = getMetaData();
+    assertTrue(metadata.getTypeName().length() > 0);
+  }
+
+  @Test
+  void shouldIncludeCorrectTypeName() {
+    final var metadata = getMetaData();
+    assertEquals(getTypeName(), metadata.getTypeName());
+  }
+
+  @Test
+  void shouldIncludeTypeVersion() {
+    final var metadata = getMetaData();
+    assertEquals(getInternalCertificate().getTextVersion(), metadata.getTypeVersion());
+  }
+
+  @Test
+  void shouldIncludeName() {
+    final var metadata = getMetaData();
+    assertEquals(getName(), metadata.getName());
+  }
+
+  @Test
+  void shouldIncludeDescription() {
+    final var metadata = getMetaData();
+    if (getTextProvider() != null) {
+      verify(getTextProvider(), atLeastOnce()).get(getDescription());
     }
+  }
 
-    @Test
-    void shouldIncludeType() {
-        final var metadata = getMetaData();
-        assertEquals(getInternalCertificate().getTyp(), metadata.getType());
-    }
+  @Test
+  void shouldIncludeUnit() {
+    final var metadata = getMetaData();
+    assertNotNull(metadata.getUnit(), "Missing unit!");
+  }
 
-    @Test
-    void shouldIncludeTypeName() {
-        final var metadata = getMetaData();
-        assertTrue(metadata.getTypeName().length() > 0);
-    }
+  @Test
+  void shouldIncludeIssuedBy() {
+    final var metadata = getMetaData();
+    assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
+  }
 
-    @Test
-    void shouldIncludeCorrectTypeName() {
-        final var metadata = getMetaData();
-        assertEquals(getTypeName(), metadata.getTypeName());
-    }
-
-    @Test
-    void shouldIncludeTypeVersion() {
-        final var metadata = getMetaData();
-        assertEquals(getInternalCertificate().getTextVersion(), metadata.getTypeVersion());
-    }
-
-    @Test
-    void shouldIncludeName() {
-        final var metadata = getMetaData();
-        assertEquals(getName(), metadata.getName());
-    }
-
-    @Test
-    void shouldIncludeDescription() {
-        final var metadata = getMetaData();
-        if (getTextProvider() != null) {
-            verify(getTextProvider(), atLeastOnce()).get(getDescription());
-        }
-    }
-
-    @Test
-    void shouldIncludeUnit() {
-        final var metadata = getMetaData();
-        assertNotNull(metadata.getUnit(), "Missing unit!");
-    }
-
-    @Test
-    void shouldIncludeIssuedBy() {
-        final var metadata = getMetaData();
-        assertNotNull(metadata.getIssuedBy(), "Missing issued by!");
-    }
-
-    @Test
-    void shouldIncludePatient() {
-        final var metadata = getMetaData();
-        assertNotNull(metadata.getPatient(), "Missing patient!");
-    }
+  @Test
+  void shouldIncludePatient() {
+    final var metadata = getMetaData();
+    assertNotNull(metadata.getPatient(), "Missing patient!");
+  }
 }
-

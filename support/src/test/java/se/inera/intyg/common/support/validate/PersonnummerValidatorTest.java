@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,84 +33,72 @@ import org.junit.Test;
  */
 public class PersonnummerValidatorTest {
 
-    /**
-     * The validator to test.
-     */
-    private PersonnummerValidator validator;
+  /** The validator to test. */
+  private PersonnummerValidator validator;
 
-    @Before
-    public void setup() {
-        validator = new PersonnummerValidator();
-        // Set a fixed date for the validator so test don't break in the future.
-        validator.setReferenceDate(LocalDate.parse("2013-08-22"));
-    }
+  @Before
+  public void setup() {
+    validator = new PersonnummerValidator();
+    // Set a fixed date for the validator so test don't break in the future.
+    validator.setReferenceDate(LocalDate.parse("2013-08-22"));
+  }
 
-    /**
-     * Test that only personnummer on the form <code>yyyyMMdd-nnnn</code> are accepted.
-     */
-    @Test
-    public void testPersonnummerParser() throws Exception {
-        assertListSize(0, validator.validateExtension("19800131-0005"));
+  /** Test that only personnummer on the form <code>yyyyMMdd-nnnn</code> are accepted. */
+  @Test
+  public void testPersonnummerParser() throws Exception {
+    assertListSize(0, validator.validateExtension("19800131-0005"));
 
-        assertListSize(1, validator.validateExtension("800131-0005"));
-        assertListSize(1, validator.validateExtension("198001310005"));
-        assertListSize(1, validator.validateExtension("19800131-000x"));
-    }
+    assertListSize(1, validator.validateExtension("800131-0005"));
+    assertListSize(1, validator.validateExtension("198001310005"));
+    assertListSize(1, validator.validateExtension("19800131-000x"));
+  }
 
-    /**
-     * Test that only valid dates are accepted by the validator.
-     */
-    @Test
-    public void testPersonnummerDate() throws Exception {
-        assertListSize(0, validator.validateExtension("19800131-0005"));
-        assertListSize(0, validator.validateExtension("19800229-0008"));
+  /** Test that only valid dates are accepted by the validator. */
+  @Test
+  public void testPersonnummerDate() throws Exception {
+    assertListSize(0, validator.validateExtension("19800131-0005"));
+    assertListSize(0, validator.validateExtension("19800229-0008"));
 
-        assertListSize(1, validator.validateExtension("19810229-0007"));
-    }
+    assertListSize(1, validator.validateExtension("19810229-0007"));
+  }
 
-    /**
-     * Test that only dates in the supported range are ok.
-     */
-    @Test
-    public void testPersonnummerDateRange() throws Exception {
-        assertListSize(0, validator.validateExtension("20130822-0001"));
-        assertListSize(0, validator.validateExtension("18400506+0001"));
+  /** Test that only dates in the supported range are ok. */
+  @Test
+  public void testPersonnummerDateRange() throws Exception {
+    assertListSize(0, validator.validateExtension("20130822-0001"));
+    assertListSize(0, validator.validateExtension("18400506+0001"));
 
-        assertListSize(1, validator.validateExtension("20130823-0000"));
-        assertListSize(1, validator.validateExtension("18400505+0002"));
-    }
+    assertListSize(1, validator.validateExtension("20130823-0000"));
+    assertListSize(1, validator.validateExtension("18400505+0002"));
+  }
 
-    /**
-     * Test that the separator is validated correctly.
-     */
-    @Test
-    public void testPersonnummerSeparator() throws Exception {
-        assertListSize(0, validator.validateExtension("19090228+9818"));
-        assertListSize(0, validator.validateExtension("19231213-9195"));
+  /** Test that the separator is validated correctly. */
+  @Test
+  public void testPersonnummerSeparator() throws Exception {
+    assertListSize(0, validator.validateExtension("19090228+9818"));
+    assertListSize(0, validator.validateExtension("19231213-9195"));
 
-        assertListSize(1, validator.validateExtension("19090228-9818"));
-        assertListSize(1, validator.validateExtension("19231213+9195"));
-    }
+    assertListSize(1, validator.validateExtension("19090228-9818"));
+    assertListSize(1, validator.validateExtension("19231213+9195"));
+  }
 
-    /**
-     * Test that the checksum is validated correctly.
-     */
-    @Test
-    public void testPersonnummerChecksum() throws Exception {
-        assertListSize(1, validator.validateExtension("19800131-0000"));
-        assertListSize(1, validator.validateExtension("19800131-0001"));
-        assertListSize(1, validator.validateExtension("19800131-0002"));
-        assertListSize(1, validator.validateExtension("19800131-0003"));
-        assertListSize(1, validator.validateExtension("19800131-0004"));
-        assertListSize(0, validator.validateExtension("19800131-0005")); // This is the valid one!
-        assertListSize(1, validator.validateExtension("19800131-0006"));
-        assertListSize(1, validator.validateExtension("19800131-0007"));
-        assertListSize(1, validator.validateExtension("19800131-0008"));
-        assertListSize(1, validator.validateExtension("19800131-0009"));
-    }
+  /** Test that the checksum is validated correctly. */
+  @Test
+  public void testPersonnummerChecksum() throws Exception {
+    assertListSize(1, validator.validateExtension("19800131-0000"));
+    assertListSize(1, validator.validateExtension("19800131-0001"));
+    assertListSize(1, validator.validateExtension("19800131-0002"));
+    assertListSize(1, validator.validateExtension("19800131-0003"));
+    assertListSize(1, validator.validateExtension("19800131-0004"));
+    assertListSize(0, validator.validateExtension("19800131-0005")); // This is the valid one!
+    assertListSize(1, validator.validateExtension("19800131-0006"));
+    assertListSize(1, validator.validateExtension("19800131-0007"));
+    assertListSize(1, validator.validateExtension("19800131-0008"));
+    assertListSize(1, validator.validateExtension("19800131-0009"));
+  }
 
-    private void assertListSize(int size, List<String> collection) {
-        String validationMessage = Joiner.on(',').join(collection);
-        assertEquals(validationMessage, size, collection.size());
-    }
+  private void assertListSize(int size, List<String> collection) {
+    String validationMessage = Joiner.on(',').join(collection);
+    assertEquals(validationMessage, size, collection.size());
+  }
 }

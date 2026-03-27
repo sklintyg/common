@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,20 +32,19 @@ import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
  */
 public class TemporalDeserializer extends StdDeserializer<Temporal> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public TemporalDeserializer() {
-        super(Temporal.class);
+  public TemporalDeserializer() {
+    super(Temporal.class);
+  }
+
+  @Override
+  public Temporal deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+
+    if (jp.getCurrentToken() != VALUE_STRING) {
+      throw ctxt.wrongTokenException(jp, Temporal.class, VALUE_STRING, "expected JSON String");
     }
 
-    @Override
-    public Temporal deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException {
-
-        if (jp.getCurrentToken() != VALUE_STRING) {
-            throw ctxt.wrongTokenException(jp, Temporal.class, VALUE_STRING, "expected JSON String");
-        }
-
-        return PartialDateAdapter.parsePartialDate(jp.getText().trim());
-    }
+    return PartialDateAdapter.parsePartialDate(jp.getText().trim());
+  }
 }

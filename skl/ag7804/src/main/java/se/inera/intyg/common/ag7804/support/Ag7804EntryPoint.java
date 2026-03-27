@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,69 +26,69 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 @Component("ag7804EntryPoint")
 public class Ag7804EntryPoint extends AgAbstractModuleEntryPoint {
 
-    public static final String ISSUER_TYPE_ID = "AG7804";
-    public static final String MODULE_ID = "ag7804";
-    public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – arbetsgivaren";
-    public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – arbetsgivaren";
+  public static final String ISSUER_TYPE_ID = "AG7804";
+  public static final String MODULE_ID = "ag7804";
+  public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – arbetsgivaren";
+  public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – arbetsgivaren";
 
-    @Override
-    public String getModuleId() {
-        return MODULE_ID;
-    }
+  @Override
+  public String getModuleId() {
+    return MODULE_ID;
+  }
 
-    @Override
-    public String getModuleName() {
-        return MODULE_NAME;
-    }
+  @Override
+  public String getModuleName() {
+    return MODULE_NAME;
+  }
 
-    @Override
-    public String getModuleDescription() {
-        return MODULE_DESCRIPTION;
-    }
+  @Override
+  public String getModuleDescription() {
+    return MODULE_DESCRIPTION;
+  }
 
-    @Override
-    public String getIssuerTypeId() {
-        return ISSUER_TYPE_ID;
-    }
+  @Override
+  public String getIssuerTypeId() {
+    return ISSUER_TYPE_ID;
+  }
 
-    @Override
-    public String getExternalId() {
-        return KvIntygstyp.AG7804.getCodeValue();
-    }
+  @Override
+  public String getExternalId() {
+    return KvIntygstyp.AG7804.getCodeValue();
+  }
 
-    @Override
-    public String getModuleCssPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/ag7804/minaintyg/css/ag7804.css";
-            case WEBCERT:
-                return "/web/webjars/ag7804/webcert/css/ag7804.css";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleCssPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "/web/webjars/ag7804/minaintyg/css/ag7804.css";
+      case WEBCERT:
+        return "/web/webjars/ag7804/webcert/css/ag7804.css";
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleScriptPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/ag7804/minaintyg/js/module";
-            case WEBCERT:
-                return "/web/webjars/ag7804/webcert/module";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleScriptPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "/web/webjars/ag7804/minaintyg/js/module";
+      case WEBCERT:
+        return "/web/webjars/ag7804/webcert/module";
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/ag7804/minaintyg/js/module-deps.json";
-            case WEBCERT:
-                return "/web/webjars/ag7804/webcert/module-deps.json";
-            default:
-                return null;
-        }
+  @Override
+  public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return "/web/webjars/ag7804/minaintyg/js/module-deps.json";
+      case WEBCERT:
+        return "/web/webjars/ag7804/webcert/module-deps.json";
+      default:
+        return null;
     }
+  }
 }

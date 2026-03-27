@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,98 +49,102 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionPrintMessagePolisanmalanTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      assertEquals(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionPrintMessagePolisanmalan.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      assertEquals(POLISANMALAN_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigType() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      assertEquals(UE_MESSAGE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigMessage() {
+      final var certificateDataElement =
+          QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      final var certificateDataElementConfig =
+          (CertificateDataConfigMessage) certificateDataElement.getConfig();
+      assertFalse(
+          certificateDataElementConfig.getMessage().getContent().trim().isEmpty(),
+          "Missing message");
+      verify(texts, atLeastOnce()).get(POLISANMALAN_PRINT_MESSAGE_ID);
+    }
+
+    @Test
+    void shouldIncludeConfigLevelInfo() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigMessage) question.getConfig();
+      assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            assertEquals(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return POLISANMALAN_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        return "$" + POLISANMALAN_JSON_ID;
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            assertEquals(POLISANMALAN_CATEGORY_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      }
 
-        @Test
-        void shouldIncludeConfigType() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            assertEquals(UE_MESSAGE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigMessage() {
-            final var certificateDataElement = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-            assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
-            verify(texts, atLeastOnce()).get(POLISANMALAN_PRINT_MESSAGE_ID);
-        }
-
-        @Test
-        void shouldIncludeConfigLevelInfo() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigMessage) question.getConfig();
-            assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return POLISANMALAN_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + POLISANMALAN_JSON_ID;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Test
-        void shouldIncludeVisibilityFalse() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(false, 0, texts);
-            assertEquals(false, question.getVisible());
-        }
-
-        @Test
-        void shouldIncludeVisibilityTrue() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(true, 0, texts);
-            assertEquals(true, question.getVisible());
-        }
-
-        @Test
-        void shouldIncludeVisibilitNull() {
-            final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
-            assertNull(question.getVisible());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
     }
+
+    @Test
+    void shouldIncludeVisibilityFalse() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(false, 0, texts);
+      assertEquals(false, question.getVisible());
+    }
+
+    @Test
+    void shouldIncludeVisibilityTrue() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(true, 0, texts);
+      assertEquals(true, question.getVisible());
+    }
+
+    @Test
+    void shouldIncludeVisibilitNull() {
+      final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
+      assertNull(question.getVisible());
+    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,22 +20,22 @@ package se.inera.intyg.common.support.facade.model;
 
 public class CertificateReceiver {
 
-    private String name;
-    private boolean approved;
+  private String name;
+  private boolean approved;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public boolean isApproved() {
-        return approved;
-    }
+  public boolean isApproved() {
+    return approved;
+  }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
+  public void setApproved(boolean approved) {
+    this.approved = approved;
+  }
 }

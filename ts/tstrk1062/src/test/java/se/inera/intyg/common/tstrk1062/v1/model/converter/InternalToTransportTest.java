@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -55,101 +55,113 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 class InternalToTransportTest {
 
-    @Mock
-    private WebcertModuleService webcertModuleService;
+  @Mock private WebcertModuleService webcertModuleService;
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    void testConvertSourceNull() {
-        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
-    }
+  @Test
+  void testConvertSourceNull() {
+    assertThrows(
+        ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
+  }
 
-    @Test
-    void testConvertSourceWithoutMessage() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
+  @Test
+  void testConvertSourceWithoutMessage() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
-        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
+    RegisterCertificateType tsTsrk1062 =
+        InternalToTransport.convert(utlatande, webcertModuleService);
 
-        assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
-        Assertions.assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
-        assertNull(tsTsrk1062.getSvarPa(), "SvarPa should be null");
-    }
+    assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
+    Assertions.assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
+    assertNull(tsTsrk1062.getSvarPa(), "SvarPa should be null");
+  }
 
-    @Test
-    void testConvertSourceWithMessage() throws Exception {
-        final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
+  @Test
+  void testConvertSourceWithMessage() throws Exception {
+    final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
-        final Relation relation = new Relation();
-        relation.setRelationKod(RelationKod.KOMPLT);
-        relation.setMeddelandeId("MeddelandeId");
-        relation.setRelationIntygsId("RelationsId");
-        relation.setReferensId("ReferensId");
+    final Relation relation = new Relation();
+    relation.setRelationKod(RelationKod.KOMPLT);
+    relation.setMeddelandeId("MeddelandeId");
+    relation.setRelationIntygsId("RelationsId");
+    relation.setReferensId("ReferensId");
 
-        utlatande.getGrundData().setRelation(relation);
+    utlatande.getGrundData().setRelation(relation);
 
-        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
+    RegisterCertificateType tsTsrk1062 =
+        InternalToTransport.convert(utlatande, webcertModuleService);
 
-        assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
-        assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
-        assertNotNull(tsTsrk1062.getSvarPa(), "SvarPa should not be null");
-        assertEquals(relation.getMeddelandeId(), tsTsrk1062.getSvarPa().getMeddelandeId(), "MeddelandeId not equal");
-        assertEquals(relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId(), "ReferensId not equal");
-    }
+    assertNotNull(tsTsrk1062, "RegisterCertificateType should not be null");
+    assertNotNull(tsTsrk1062.getIntyg(), "Intyg should not be null");
+    assertNotNull(tsTsrk1062.getSvarPa(), "SvarPa should not be null");
+    assertEquals(
+        relation.getMeddelandeId(),
+        tsTsrk1062.getSvarPa().getMeddelandeId(),
+        "MeddelandeId not equal");
+    assertEquals(
+        relation.getReferensId(), tsTsrk1062.getSvarPa().getReferensId(), "ReferensId not equal");
+  }
 
-    private TsTrk1062UtlatandeV1 getUtlatande() {
-        final TsTrk1062UtlatandeV1.Builder builderTemplate = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()));
-        return builderTemplate.build();
-    }
+  private TsTrk1062UtlatandeV1 getUtlatande() {
+    final TsTrk1062UtlatandeV1.Builder builderTemplate =
+        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now()));
+    return builderTemplate.build();
+  }
 
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
+  private GrundData buildGrundData(LocalDateTime timeStamp) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid("vardgivareId");
+    vardgivare.setVardgivarnamn("vardgivareNamn");
 
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("enhetId");
+    vardenhet.setEnhetsnamn("enhetNamn");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setPostadress("postadress");
+    vardenhet.setPostnummer("11111");
+    vardenhet.setPostort("postort");
+    vardenhet.setTelefonnummer("0112312313");
 
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
+    HoSPersonal skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setPersonId("HSAID_123");
+    skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
+    Patient patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPostadress("postadress");
+    patient.setPostnummer("11111");
+    patient.setPostort("postort");
 
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
+    GrundData grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(timeStamp);
 
-        return grundData;
-    }
+    return grundData;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,11 +25,11 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 public abstract class InternalMetaDataTest {
 
-    protected abstract GrundData getToInternal();
+  protected abstract GrundData getToInternal();
 
-    @Test
-    void shouldIncludeGrundData() {
-        final var actualGrundData = getToInternal();
-        assertNotNull(actualGrundData, "Missing grundData!");
-    }
+  @Test
+  void shouldIncludeGrundData() {
+    final var actualGrundData = getToInternal();
+    assertNotNull(actualGrundData, "Missing grundData!");
+  }
 }

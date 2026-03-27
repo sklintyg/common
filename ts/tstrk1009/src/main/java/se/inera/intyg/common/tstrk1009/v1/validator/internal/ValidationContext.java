@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,10 +22,9 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public class ValidationContext {
 
-    private final Tstrk1009UtlatandeV1 utlatande;
+  private final Tstrk1009UtlatandeV1 utlatande;
 
-    public ValidationContext(Tstrk1009UtlatandeV1 utlatande) {
-        this.utlatande = utlatande;
-    }
-
+  public ValidationContext(Tstrk1009UtlatandeV1 utlatande) {
+    this.utlatande = utlatande;
+  }
 }

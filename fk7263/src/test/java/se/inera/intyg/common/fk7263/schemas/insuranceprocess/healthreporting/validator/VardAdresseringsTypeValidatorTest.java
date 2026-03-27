@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,243 +33,255 @@ import se.inera.intyg.common.support.Constants;
 
 public class VardAdresseringsTypeValidatorTest {
 
-    @Test
-    public void testValidateAndCorrectOk() {
-        List<String> validationErrors = new ArrayList<>();
-        new VardAdresseringsTypeValidator(buildVardAdresseringsType(), validationErrors).validateAndCorrect();
+  @Test
+  public void testValidateAndCorrectOk() {
+    List<String> validationErrors = new ArrayList<>();
+    new VardAdresseringsTypeValidator(buildVardAdresseringsType(), validationErrors)
+        .validateAndCorrect();
 
-        assertTrue(validationErrors.isEmpty());
-    }
+    assertTrue(validationErrors.isEmpty());
+  }
 
-    @Test
-    public void testValidateAndCorrectNoVardAdress() {
-        List<String> validationErrors = new ArrayList<>();
-        new VardAdresseringsTypeValidator(null, validationErrors).validateAndCorrect();
+  @Test
+  public void testValidateAndCorrectNoVardAdress() {
+    List<String> validationErrors = new ArrayList<>();
+    new VardAdresseringsTypeValidator(null, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No vardAdress element found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No vardAdress element found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectNoHosPersonal() {
-        List<String> validationErrors = new ArrayList<>();
-        new VardAdresseringsTypeValidator(new VardAdresseringsType(), validationErrors).validateAndCorrect();
+  @Test
+  public void testValidateAndCorrectNoHosPersonal() {
+    List<String> validationErrors = new ArrayList<>();
+    new VardAdresseringsTypeValidator(new VardAdresseringsType(), validationErrors)
+        .validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No SkapadAvHosPersonal element found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No SkapadAvHosPersonal element found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectPersonalIdMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectPersonalIdMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getPersonalId().setExtension(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getPersonalId().setExtension(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No personal-id found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No personal-id found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectPersonalIdRootMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectPersonalIdRootMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getPersonalId().setRoot(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getPersonalId().setRoot(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for personalId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for personalId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectPersonalIdRootWrong() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectPersonalIdRootWrong() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getPersonalId().setRoot("wrong");
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getPersonalId().setRoot("wrong");
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for personalId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for personalId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectHosPersonalFullstandigtNamnMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectHosPersonalFullstandigtNamnMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().setFullstandigtNamn(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().setFullstandigtNamn(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No skapadAvHosPersonal fullstandigtNamn found.", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No skapadAvHosPersonal fullstandigtNamn found.", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().setEnhet(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().setEnhet(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No enhet element found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No enhet element found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetIIMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetIIMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().setEnhetsId(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().setEnhetsId(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(2, validationErrors.size());
-        assertEquals("No enhets-id found!", validationErrors.get(0));
-        assertTrue(validationErrors.get(1).startsWith("Wrong o.i.d. for enhetsId!"));
-    }
+    assertEquals(2, validationErrors.size());
+    assertEquals("No enhets-id found!", validationErrors.get(0));
+    assertTrue(validationErrors.get(1).startsWith("Wrong o.i.d. for enhetsId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetidMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetidMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getEnhetsId().setExtension(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getEnhetsId().setExtension(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No enhets-id found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No enhets-id found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetidRootMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetidRootMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for enhetsId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for enhetsId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetidRootWrong() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetidRootWrong() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot("wrong");
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot("wrong");
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for enhetsId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for enhetsId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectEnhetsnamnMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectEnhetsnamnMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().setEnhetsnamn(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().setEnhetsnamn(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No enhetsnamn found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No enhetsnamn found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivareMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivareMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().setVardgivare(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().setVardgivare(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No vardgivare element found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No vardgivare element found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivareIIMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivareIIMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivareId(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivareId(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(2, validationErrors.size());
-        assertEquals("No vardgivare-id found!", validationErrors.get(0));
-        assertTrue(validationErrors.get(1).startsWith("Wrong o.i.d. for vardgivareId!"));
-    }
+    assertEquals(2, validationErrors.size());
+    assertEquals("No vardgivare-id found!", validationErrors.get(0));
+    assertTrue(validationErrors.get(1).startsWith("Wrong o.i.d. for vardgivareId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivaridMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivaridMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setExtension(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setExtension(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No vardgivare-id found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No vardgivare-id found!", validationErrors.get(0));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivaridRootMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivaridRootMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for vardgivareId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for vardgivareId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivaridRootWrong() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivaridRootWrong() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot("wrong");
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot("wrong");
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for vardgivareId!"));
-    }
+    assertEquals(1, validationErrors.size());
+    assertTrue(validationErrors.get(0).startsWith("Wrong o.i.d. for vardgivareId!"));
+  }
 
-    @Test
-    public void testValidateAndCorrectVardgivarnamnMissing() {
-        VardAdresseringsType adressVard = buildVardAdresseringsType();
-        List<String> validationErrors = new ArrayList<>();
+  @Test
+  public void testValidateAndCorrectVardgivarnamnMissing() {
+    VardAdresseringsType adressVard = buildVardAdresseringsType();
+    List<String> validationErrors = new ArrayList<>();
 
-        adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivarnamn(null);
-        new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
+    adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivarnamn(null);
+    new VardAdresseringsTypeValidator(adressVard, validationErrors).validateAndCorrect();
 
-        assertEquals(1, validationErrors.size());
-        assertEquals("No vardgivarenamn found!", validationErrors.get(0));
-    }
+    assertEquals(1, validationErrors.size());
+    assertEquals("No vardgivarenamn found!", validationErrors.get(0));
+  }
 
-    private VardAdresseringsType buildVardAdresseringsType() {
-        VardAdresseringsType adressVard = new VardAdresseringsType();
-        adressVard.setHosPersonal(new HosPersonalType());
-        adressVard.getHosPersonal().setPersonalId(new II());
-        adressVard.getHosPersonal().getPersonalId().setRoot(Constants.HSA_ID_OID);
-        adressVard.getHosPersonal().getPersonalId().setExtension("personalId");
-        adressVard.getHosPersonal().setFullstandigtNamn("fullstandigt namn");
-        adressVard.getHosPersonal().setEnhet(new EnhetType());
-        adressVard.getHosPersonal().getEnhet().setEnhetsId(new II());
-        adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot(Constants.HSA_ID_OID);
-        adressVard.getHosPersonal().getEnhet().getEnhetsId().setExtension("enhetsid");
-        adressVard.getHosPersonal().getEnhet().setEnhetsnamn("enhetsnamn");
-        adressVard.getHosPersonal().getEnhet().setVardgivare(new VardgivareType());
-        adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivareId(new II());
-        adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setRoot(Constants.HSA_ID_OID);
-        adressVard.getHosPersonal().getEnhet().getVardgivare().getVardgivareId().setExtension("vardgivarid");
-        adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivarnamn("vardgivarnamn");
-        return adressVard;
-    }
+  private VardAdresseringsType buildVardAdresseringsType() {
+    VardAdresseringsType adressVard = new VardAdresseringsType();
+    adressVard.setHosPersonal(new HosPersonalType());
+    adressVard.getHosPersonal().setPersonalId(new II());
+    adressVard.getHosPersonal().getPersonalId().setRoot(Constants.HSA_ID_OID);
+    adressVard.getHosPersonal().getPersonalId().setExtension("personalId");
+    adressVard.getHosPersonal().setFullstandigtNamn("fullstandigt namn");
+    adressVard.getHosPersonal().setEnhet(new EnhetType());
+    adressVard.getHosPersonal().getEnhet().setEnhetsId(new II());
+    adressVard.getHosPersonal().getEnhet().getEnhetsId().setRoot(Constants.HSA_ID_OID);
+    adressVard.getHosPersonal().getEnhet().getEnhetsId().setExtension("enhetsid");
+    adressVard.getHosPersonal().getEnhet().setEnhetsnamn("enhetsnamn");
+    adressVard.getHosPersonal().getEnhet().setVardgivare(new VardgivareType());
+    adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivareId(new II());
+    adressVard
+        .getHosPersonal()
+        .getEnhet()
+        .getVardgivare()
+        .getVardgivareId()
+        .setRoot(Constants.HSA_ID_OID);
+    adressVard
+        .getHosPersonal()
+        .getEnhet()
+        .getVardgivare()
+        .getVardgivareId()
+        .setExtension("vardgivarid");
+    adressVard.getHosPersonal().getEnhet().getVardgivare().setVardgivarnamn("vardgivarnamn");
+    return adressVard;
+  }
 }

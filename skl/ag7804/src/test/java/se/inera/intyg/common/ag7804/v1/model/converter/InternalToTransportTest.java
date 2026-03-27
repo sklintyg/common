@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -61,92 +61,101 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 public class InternalToTransportTest {
 
-    private WebcertModuleService webcertModuleService;
+  private WebcertModuleService webcertModuleService;
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new TransportConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
+
+  @BeforeEach
+  public void setup() {
+    webcertModuleService = Mockito.mock(WebcertModuleService.class);
+    when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
+  }
+
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  public static Ag7804UtlatandeV1 getUtlatande() {
+    return getUtlatande(null, null, null);
+  }
+
+  public static Ag7804UtlatandeV1 getUtlatande(
+      RelationKod relationKod, String relationMeddelandeId, String referensId) {
+    Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setTextVersion("1.0");
+    GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+    grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationKod(relationKod);
+      relation.setMeddelandeId(relationMeddelandeId);
+      relation.setReferensId(referensId);
+      grundData.setRelation(relation);
     }
+    utlatande.setGrundData(grundData);
 
-    @BeforeEach
-    public void setup() {
-        webcertModuleService = Mockito.mock(WebcertModuleService.class);
-        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
-        when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
-    }
+    utlatande.setTelefonkontaktMedPatienten(new InternalDate("2015-12-08"));
+    utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
+    utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+    return utlatande.build();
+  }
 
-    public static Ag7804UtlatandeV1 getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
+  @Test
+  public void doSchematronValidationag7804() throws Exception {
+    String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
 
-    public static Ag7804UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
+    RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+    assertTrue(generalValidator.validateGeneral(xmlContents));
 
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
+    assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+  }
 
-        utlatande.setTelefonkontaktMedPatienten(new InternalDate("2015-12-08"));
-        utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
-        utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
+  @Test
+  public void testInternalToTransportConversion() throws Exception {
+    Ag7804UtlatandeV1 expected = getUtlatande();
+    RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
+    Ag7804UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
-        return utlatande.build();
-    }
+    assertEquals(expected, actual);
+  }
 
-    @Test
-    public void doSchematronValidationag7804() throws Exception {
-        String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
-
-        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-        assertTrue(generalValidator.validateGeneral(xmlContents));
-
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
-
-        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-    }
-
-    @Test
-    public void testInternalToTransportConversion() throws Exception {
-        Ag7804UtlatandeV1 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
-        Ag7804UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
-    }
-
+  @Test
+  public void testInternalToTransportSourceNull() throws Exception {
+    assertThrows(
+        ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
+  }
 }

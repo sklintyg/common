@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,11 @@ import se.inera.intyg.common.support.facade.model.CareProvider.CareProviderBuild
 @Builder
 public class CareProvider {
 
-    private String id;
-    private String name;
-    private List<CareUnit> careUnits;
-    private boolean missingSubscription;
+  private String id;
+  private String name;
+  private List<CareUnit> careUnits;
+  private boolean missingSubscription;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CareProviderBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CareProviderBuilder {}
 }

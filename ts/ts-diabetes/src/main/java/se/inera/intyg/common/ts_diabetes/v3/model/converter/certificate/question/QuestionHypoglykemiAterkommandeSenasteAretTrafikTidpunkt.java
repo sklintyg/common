@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,24 +31,25 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
 
 public class QuestionHypoglykemiAterkommandeSenasteAretTrafikTidpunkt {
 
-    public static CertificateDataElement toCertificate(Hypoglykemier hypoglykemi, int index, CertificateTextProvider textProvider) {
-        final var aterkommandeSenasteAretTrafik =
-            hypoglykemi != null && hypoglykemi.getForekomstTrafikTidpunkt() != null
-                ? hypoglykemi.getForekomstTrafikTidpunkt() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_DELSVAR_ID)
-            .parent(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(internalDateValue(aterkommandeSenasteAretTrafik))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemier hypoglykemi, int index, CertificateTextProvider textProvider) {
+    final var aterkommandeSenasteAretTrafik =
+        hypoglykemi != null && hypoglykemi.getForekomstTrafikTidpunkt() != null
+            ? hypoglykemi.getForekomstTrafikTidpunkt()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_DELSVAR_ID)
+        .parent(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(
+                    textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TRAFIK_TIDPUNKT_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(internalDateValue(aterkommandeSenasteAretTrafik))
+                .build())
+        .build();
+  }
 }

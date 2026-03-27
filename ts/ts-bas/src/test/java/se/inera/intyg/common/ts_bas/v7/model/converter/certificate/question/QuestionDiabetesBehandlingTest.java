@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -59,301 +59,266 @@ import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 @ExtendWith(MockitoExtension.class)
 class QuestionDiabetesBehandlingTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getId() {
+      return BEHANDLING_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getParent() {
+      return HAR_DIABETES_CATEGORY_ID;
+    }
+
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeConfigCheckboxMultipleCodeTest extends ConfigCheckboxMultipleCodeTest {
+
+    @Override
+    protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
+      return List.of(
+          CheckboxMultipleCode.builder()
+              .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+              .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+              .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
+              .build(),
+          CheckboxMultipleCode.builder()
+              .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+              .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
+              .build());
+    }
+
+    @Override
+    protected Layout getLayout() {
+      return null;
+    }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return texts;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected String getTextId() {
+      return BEHANDLING_DIABETES_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueCodeListTest extends ValueCodeListTest<Diabetes> {
+
+    @Override
+    protected CertificateDataElement getElement(Diabetes expectedValue) {
+      if (expectedValue != null) {
+        final var diabetes =
+            Diabetes.builder()
+                .setKost(expectedValue.getKost())
+                .setTabletter(expectedValue.getTabletter())
+                .setInsulin(expectedValue.getInsulin())
+                .build();
+
+        return QuestionDiabetesBehandling.toCertificate(diabetes, 0, texts);
+      } else {
+        return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+      }
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Diabetes, CertificateDataValueCodeList>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Diabetes.builder().setKost(true).setTabletter(true).setInsulin(true).build(),
+              CertificateDataValueCodeList.builder()
+                  .list(
+                      List.of(
+                          CertificateDataValueCode.builder()
+                              .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                              .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
+                              .build(),
+                          CertificateDataValueCode.builder()
+                              .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                              .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
+                              .build(),
+                          CertificateDataValueCode.builder()
+                              .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                              .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
+                              .build()))
+                  .build()));
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected String getQuestionId() {
+      return BEHANDLING_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + KOSTBEHANDLING_DELSVAR_JSON_ID
+          + ") || exists("
+          + TABLETTBEHANDLING_DELSVAR_JSON_ID
+          + ") || exists("
+          + INSULINBEHANDLING_DELSVAR_JSON_ID
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return TYP_AV_DIABETES_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + DiabetesKod.DIABETES_TYP_2.name() + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    class Kost {
+
+      @Nested
+      @TestInstance(Lifecycle.PER_CLASS)
+      class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
+
+        @Override
+        protected CertificateDataElement getElement(Diabetes input) {
+          return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
+        }
+
+        @Override
+        protected Boolean toInternalValue(Certificate certificate) {
+          return QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_JSON_ID);
+        }
+
+        @Override
+        protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
+          return List.of(
+              new InputExpectedValuePair<>(Diabetes.builder().build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setKost(false).build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setKost(true).build(), true));
+        }
+      }
     }
 
     @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
+    class Tabletter {
+
+      @Nested
+      @TestInstance(Lifecycle.PER_CLASS)
+      class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
 
         @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
+        protected CertificateDataElement getElement(Diabetes input) {
+          return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
         }
 
         @Override
-        protected String getId() {
-            return BEHANDLING_DIABETES_SVAR_ID;
+        protected Boolean toInternalValue(Certificate certificate) {
+          return QuestionDiabetesBehandling.toInternal(
+              certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID);
         }
 
         @Override
-        protected String getParent() {
-            return HAR_DIABETES_CATEGORY_ID;
+        protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
+          return List.of(
+              new InputExpectedValuePair<>(Diabetes.builder().build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setTabletter(false).build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setTabletter(true).build(), true));
         }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+      }
     }
 
     @Nested
-    class IncludeConfigCheckboxMultipleCodeTest extends ConfigCheckboxMultipleCodeTest {
+    class Insulin {
+
+      @Nested
+      @TestInstance(Lifecycle.PER_CLASS)
+      class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
 
         @Override
-        protected List<CheckboxMultipleCode> getExpectedListOfCodes() {
-            return List.of(
-                CheckboxMultipleCode.builder()
-                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                    .label(texts.get(KOSTBEHANDLING_DELSVAR_TEXT_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                    .label(texts.get(TABLETTBEHANDLING_DELSVAR_TEXT_ID))
-                    .build(),
-                CheckboxMultipleCode.builder()
-                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                    .label(texts.get(INSULINBEHANDLING_DELSVAR_TEXT_ID))
-                    .build()
-            );
+        protected CertificateDataElement getElement(Diabetes input) {
+          return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
         }
 
         @Override
-        protected Layout getLayout() {
-            return null;
+        protected Boolean toInternalValue(Certificate certificate) {
+          return QuestionDiabetesBehandling.toInternal(
+              certificate, INSULINBEHANDLING_DELSVAR_JSON_ID);
         }
 
         @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return texts;
+        protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
+          return List.of(
+              new InputExpectedValuePair<>(Diabetes.builder().build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setInsulin(false).build(), false),
+              new InputExpectedValuePair<>(Diabetes.builder().setInsulin(true).build(), true));
         }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected String getTextId() {
-            return BEHANDLING_DIABETES_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+      }
     }
-
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueCodeListTest extends ValueCodeListTest<Diabetes> {
-
-        @Override
-        protected CertificateDataElement getElement(Diabetes expectedValue) {
-            if (expectedValue != null) {
-                final var diabetes = Diabetes.builder()
-                    .setKost(expectedValue.getKost())
-                    .setTabletter(expectedValue.getTabletter())
-                    .setInsulin(expectedValue.getInsulin())
-                    .build();
-
-                return QuestionDiabetesBehandling.toCertificate(diabetes, 0, texts);
-            } else {
-                return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
-            }
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Diabetes, CertificateDataValueCodeList>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(
-                    Diabetes.builder()
-                        .setKost(true)
-                        .setTabletter(true)
-                        .setInsulin(true)
-                        .build(),
-                    CertificateDataValueCodeList.builder().list(
-                            List.of(
-                                CertificateDataValueCode.builder()
-                                    .id(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                                    .code(KOSTBEHANDLING_DELSVAR_JSON_ID)
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                                    .code(TABLETTBEHANDLING_DELSVAR_JSON_ID)
-                                    .build(),
-                                CertificateDataValueCode.builder()
-                                    .id(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                                    .code(INSULINBEHANDLING_DELSVAR_JSON_ID)
-                                    .build()
-                            ))
-                        .build()
-                ));
-        }
-    }
-
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected String getQuestionId() {
-            return BEHANDLING_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + KOSTBEHANDLING_DELSVAR_JSON_ID
-                + ") || exists(" + TABLETTBEHANDLING_DELSVAR_JSON_ID
-                + ") || exists(" + INSULINBEHANDLING_DELSVAR_JSON_ID + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-    }
-
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected String getQuestionId() {
-            return TYP_AV_DIABETES_SVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + DiabetesKod.DIABETES_TYP_2.name() + ")";
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionDiabetesBehandling.toCertificate(null, 0, texts);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-    }
-
-    @Nested
-    class ToInternal {
-
-        @Nested
-        class Kost {
-
-            @Nested
-            @TestInstance(Lifecycle.PER_CLASS)
-            class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
-
-                @Override
-                protected CertificateDataElement getElement(Diabetes input) {
-                    return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
-                }
-
-                @Override
-                protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_JSON_ID);
-                }
-
-                @Override
-                protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
-                    return
-                        List.of(
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder().build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setKost(false)
-                                    .build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setKost(true)
-                                    .build(),
-                                true)
-                        );
-                }
-            }
-        }
-
-        @Nested
-        class Tabletter {
-
-            @Nested
-            @TestInstance(Lifecycle.PER_CLASS)
-            class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
-
-                @Override
-                protected CertificateDataElement getElement(Diabetes input) {
-                    return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
-                }
-
-                @Override
-                protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID);
-                }
-
-                @Override
-                protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
-                    return
-                        List.of(
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder().build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setTabletter(false)
-                                    .build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setTabletter(true)
-                                    .build(),
-                                true)
-                        );
-                }
-            }
-        }
-
-        @Nested
-        class Insulin {
-
-            @Nested
-            @TestInstance(Lifecycle.PER_CLASS)
-            class IncludeInternalValuePairTest extends InternalValueTest<Diabetes, Boolean> {
-
-                @Override
-                protected CertificateDataElement getElement(Diabetes input) {
-                    return QuestionDiabetesBehandling.toCertificate(input, 0, texts);
-                }
-
-                @Override
-                protected Boolean toInternalValue(Certificate certificate) {
-                    return QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_JSON_ID);
-                }
-
-                @Override
-                protected List<InputExpectedValuePair<Diabetes, Boolean>> inputExpectedValuePairList() {
-                    return
-                        List.of(
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder().build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setInsulin(false)
-                                    .build(),
-                                false),
-                            new InputExpectedValuePair<>(
-                                Diabetes.builder()
-                                    .setInsulin(true)
-                                    .build(),
-                                true)
-                        );
-                }
-            }
-        }
-    }
+  }
 }

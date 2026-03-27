@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,50 +31,51 @@ import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
 
 /**
- * Creates a watermark text on each page depending on intyg state (draft/cancelled)
- * Created by marced on 2017-02-21.
+ * Creates a watermark text on each page depending on intyg state (draft/cancelled) Created by
+ * marced on 2017-02-21.
  */
 public class IntygStateWatermarker extends PdfPageEventHelper {
 
-    private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
-    private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
-    private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
-    private static final String LOCKED_DRAFT_WATERMARK_TEXT = "LÅST UTKAST";
-    private static final int ROTATION = 45;
-    private static final float FILL_OPACITY = 0.5f;
+  private static final Font FONT =
+      new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
+  private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
+  private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
+  private static final String LOCKED_DRAFT_WATERMARK_TEXT = "LÅST UTKAST";
+  private static final int ROTATION = 45;
+  private static final float FILL_OPACITY = 0.5f;
 
-    private Phrase watermark;
+  private Phrase watermark;
 
-    public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad, boolean isLocked) {
-        if (isLocked) {
-            watermark = new Phrase(LOCKED_DRAFT_WATERMARK_TEXT, FONT);
-        } else if (isUtkast) {
-            watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
-        } else if (isMakulerad) {
-            watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
-        }
+  public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad, boolean isLocked) {
+    if (isLocked) {
+      watermark = new Phrase(LOCKED_DRAFT_WATERMARK_TEXT, FONT);
+    } else if (isUtkast) {
+      watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
+    } else if (isMakulerad) {
+      watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
+    }
+  }
+
+  @Override
+  public void onEndPage(PdfWriter writer, Document document) {
+    if (watermark == null) {
+      // Nothing to do here
+      return;
     }
 
-    @Override
-    public void onEndPage(PdfWriter writer, Document document) {
-        if (watermark == null) {
-            // Nothing to do here
-            return;
-        }
+    PdfContentByte canvas = writer.getDirectContent();
+    // temporary set a new fillstate to allow transparancy output
+    canvas.saveState();
+    PdfGState gs1 = new PdfGState();
+    gs1.setFillOpacity(FILL_OPACITY);
+    canvas.setGState(gs1);
 
-        PdfContentByte canvas = writer.getDirectContent();
-        // temporary set a new fillstate to allow transparancy output
-        canvas.saveState();
-        PdfGState gs1 = new PdfGState();
-        gs1.setFillOpacity(FILL_OPACITY);
-        canvas.setGState(gs1);
+    // Center the watermark text
+    final Rectangle pageSize = writer.getPageSize();
+    final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
+    final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
 
-        // Center the watermark text
-        final Rectangle pageSize = writer.getPageSize();
-        final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
-        final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
-
-        ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, watermark, x, y, ROTATION);
-        canvas.restoreState();
-    }
+    ColumnText.showTextAligned(canvas, Element.ALIGN_CENTER, watermark, x, y, ROTATION);
+    canvas.restoreState();
+  }
 }

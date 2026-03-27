@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 
 public class QuestionHjartOchKarlsjukdom {
 
-    public static CertificateDataElement toCertificate(HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
-        final var hjartKarlsjukdom = hjartKarl != null && hjartKarl.getHjartKarlSjukdom() != null
-            ? hjartKarl.getHjartKarlSjukdom() : null;
-        return CertificateDataElement.builder()
-            .id(HJART_ELLER_KARLSJUKDOM_SVAR_ID)
-            .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(HJART_ELLER_KARLSJUKDOM_JSON_ID)
-                    .text(textProvider.get(HJART_ELLER_KARLSJUKDOM_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(HJART_ELLER_KARLSJUKDOM_JSON_ID)
-                    .selected(hjartKarlsjukdom)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HJART_ELLER_KARLSJUKDOM_SVAR_ID)
-                        .expression(exists(HJART_ELLER_KARLSJUKDOM_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
+    final var hjartKarlsjukdom =
+        hjartKarl != null && hjartKarl.getHjartKarlSjukdom() != null
+            ? hjartKarl.getHjartKarlSjukdom()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HJART_ELLER_KARLSJUKDOM_SVAR_ID)
+        .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(HJART_ELLER_KARLSJUKDOM_JSON_ID)
+                .text(textProvider.get(HJART_ELLER_KARLSJUKDOM_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(HJART_ELLER_KARLSJUKDOM_JSON_ID)
+                .selected(hjartKarlsjukdom)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HJART_ELLER_KARLSJUKDOM_SVAR_ID)
+                  .expression(exists(HJART_ELLER_KARLSJUKDOM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), HJART_ELLER_KARLSJUKDOM_SVAR_ID, HJART_ELLER_KARLSJUKDOM_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), HJART_ELLER_KARLSJUKDOM_SVAR_ID, HJART_ELLER_KARLSJUKDOM_JSON_ID);
+  }
 }

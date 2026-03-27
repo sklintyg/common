@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,7 +23,6 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
@@ -32,20 +31,21 @@ import se.inera.intyg.common.pdf.renderer.UVRenderer;
  */
 public class UVKategori extends UVComponent {
 
-    private static final float KATEGORI_PADDING_BOTTOM = millimetersToPoints(2f);
+  private static final float KATEGORI_PADDING_BOTTOM = millimetersToPoints(2f);
 
-    public UVKategori(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVKategori(UVRenderer renderer) {
+    super(renderer);
+  }
 
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    String labelKey = (String) currentUvNode.get(LABEL_KEY);
+    String kategori = renderer.getText(labelKey);
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        String labelKey = (String) currentUvNode.get(LABEL_KEY);
-        String kategori = renderer.getText(labelKey);
-
-        Div borderDiv = new Div();
-        borderDiv.add(new Paragraph(kategori.toUpperCase())
+    Div borderDiv = new Div();
+    borderDiv
+        .add(
+            new Paragraph(kategori.toUpperCase())
                 .setMarginTop(0f)
                 .setMarginBottom(0f)
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
@@ -55,15 +55,16 @@ public class UVKategori extends UVComponent {
                 .setFontColor(WC_COLOR_07)
                 .setPaddingTop(1f)
                 .setPaddingBottom(1f))
-            .setKeepTogether(true);
-        borderDiv.setBorderBottom(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH));
-        parent.add(borderDiv);
+        .setKeepTogether(true);
+    borderDiv.setBorderBottom(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH));
+    parent.add(borderDiv);
 
-        //Add border around entire category content (could span several pages)
-        parent.setBorder(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH))
-            .setPaddingBottom(KATEGORI_PADDING_BOTTOM)
-            .setKeepTogether(false);
+    // Add border around entire category content (could span several pages)
+    parent
+        .setBorder(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH))
+        .setPaddingBottom(KATEGORI_PADDING_BOTTOM)
+        .setKeepTogether(false);
 
-        return true;
-    }
+    return true;
+  }
 }

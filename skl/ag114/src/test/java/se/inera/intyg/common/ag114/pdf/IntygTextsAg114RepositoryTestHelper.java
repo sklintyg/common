@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,37 +31,44 @@ import org.w3c.dom.Element;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
-/**
- * Created by eriklupander on 2016-10-03.
- */
+/** Created by eriklupander on 2016-10-03. */
 public class IntygTextsAg114RepositoryTestHelper extends IntygTextsRepositoryImpl {
 
-    public IntygTextsAg114RepositoryTestHelper() {
-        super.intygTexts = new HashSet<>();
+  public IntygTextsAg114RepositoryTestHelper() {
+    super.intygTexts = new HashSet<>();
+  }
+
+  @Override
+  public void update() {
+
+    try {
+      Document e =
+          DocumentBuilderFactory.newInstance()
+              .newDocumentBuilder()
+              .parse(new ClassPathResource("v1/text/texterMU_AG114_v1.0.xml").getInputStream());
+      Element root = e.getDocumentElement();
+      String version = root.getAttribute("version");
+      String intygsTyp = root.getAttribute("typ").toLowerCase();
+      LocalDate giltigFrom = super.getDate(root, "giltigFrom");
+      LocalDate giltigTo = super.getDate(root, "giltigTom");
+      SortedMap texts = super.getTexter(root);
+      List tillaggsFragor = this.getTillaggsfragor(e);
+
+      Properties prop = new Properties();
+      prop.putAll(
+          ImmutableMap.of(
+              "formId",
+              "FK 7802 (001 F 001) Fastställd av SKL",
+              "blankettId",
+              "AG1-14",
+              "blankettVersion",
+              "01"));
+
+      super.intygTexts.add(
+          new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
+    } catch (Exception e1) {
+      e1.printStackTrace();
+      throw new RuntimeException(e1.getMessage());
     }
-
-    @Override
-    public void update() {
-
-        try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(new ClassPathResource("v1/text/texterMU_AG114_v1.0.xml").getInputStream());
-            Element root = e.getDocumentElement();
-            String version = root.getAttribute("version");
-            String intygsTyp = root.getAttribute("typ").toLowerCase();
-            LocalDate giltigFrom = super.getDate(root, "giltigFrom");
-            LocalDate giltigTo = super.getDate(root, "giltigTom");
-            SortedMap texts = super.getTexter(root);
-            List tillaggsFragor = this.getTillaggsfragor(e);
-
-            Properties prop = new Properties();
-            prop.putAll(
-                ImmutableMap.of("formId", "FK 7802 (001 F 001) Fastställd av SKL", "blankettId", "AG1-14", "blankettVersion", "01"));
-
-            super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            throw new RuntimeException(e1.getMessage());
-        }
-    }
+  }
 }

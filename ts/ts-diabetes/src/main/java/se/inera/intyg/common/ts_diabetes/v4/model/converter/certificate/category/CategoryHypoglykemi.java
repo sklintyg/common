@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,31 +35,36 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.IntygAvserKategori;
 
 public class CategoryHypoglykemi {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCategory.builder()
-                    .text(texts.get(HYPOGLYKEMI_CATEGORY_TEXT_ID))
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(INTYG_AVSER_SVAR_ID)
-                        .expression(multipleOrExpressionWithExists(IntygAvserKategori.VAR1.name(), IntygAvserKategori.VAR2.name(),
-                            IntygAvserKategori.VAR3.name(), IntygAvserKategori.VAR4.name(), IntygAvserKategori.VAR5.name(),
-                            IntygAvserKategori.VAR6.name(), IntygAvserKategori.VAR7.name(), IntygAvserKategori.VAR8.name(),
-                            IntygAvserKategori.VAR9.name())
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCategory.builder()
+                .text(texts.get(HYPOGLYKEMI_CATEGORY_TEXT_ID))
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
+                  .expression(
+                      singleExpression(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(INTYG_AVSER_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          IntygAvserKategori.VAR1.name(),
+                          IntygAvserKategori.VAR2.name(),
+                          IntygAvserKategori.VAR3.name(),
+                          IntygAvserKategori.VAR4.name(),
+                          IntygAvserKategori.VAR5.name(),
+                          IntygAvserKategori.VAR6.name(),
+                          IntygAvserKategori.VAR7.name(),
+                          IntygAvserKategori.VAR8.name(),
+                          IntygAvserKategori.VAR9.name()))
+                  .build()
+            })
+        .build();
+  }
 }

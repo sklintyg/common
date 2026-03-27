@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,41 +36,43 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionFunktionsnedsattningDebut {
 
-    private static final short LIMIT = 3500;
+  private static final short LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String debut, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      String debut, int index, CertificateTextProvider textProvider) {
 
-        return CertificateDataElement.builder()
-            .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
-            .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(CertificateDataConfigTextArea.builder()
+    return CertificateDataElement.builder()
+        .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
+        .parent(FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
                 .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
                 .text(textProvider.get(FUNKTIONSNEDSATTNING_DEBUT_TEXT_ID))
-                .build()
-            )
-            .value(CertificateDataValueText.builder()
+                .build())
+        .value(
+            CertificateDataValueText.builder()
                 .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
                 .text(debut)
-                .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
-                        .expression(singleExpression(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15)
+                  .expression(singleExpression(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    }
-
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15,
+        FUNKTIONSNEDSATTNING_DEBUT_SVAR_JSON_ID_15);
+  }
 }

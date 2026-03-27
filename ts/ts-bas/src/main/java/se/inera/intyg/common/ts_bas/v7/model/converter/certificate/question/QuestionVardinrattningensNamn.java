@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,49 +39,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Sjukhusvard;
 
 public class QuestionVardinrattningensNamn {
 
-    private static final short TEXT_LIMIT = 40;
+  private static final short TEXT_LIMIT = 40;
 
-    public static CertificateDataElement toCertificate(Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      Sjukhusvard sjukhusvard, int index, CertificateTextProvider textProvider) {
 
-        final var tidpunkt = sjukhusvard != null ? sjukhusvard.getVardinrattning() : null;
+    final var tidpunkt = sjukhusvard != null ? sjukhusvard.getVardinrattning() : null;
 
-        return CertificateDataElement.builder()
-            .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-            .parent(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .text(textProvider.get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID))
-                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
-                    .text(tidpunkt)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-                        .expression(singleExpression(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
-                        .expression(singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+        .parent(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .text(textProvider.get(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_TEXT_ID))
+                .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
+                .text(tidpunkt)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+                  .expression(singleExpression(PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID)
+                  .expression(
+                      singleExpression(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID,
-            PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID,
+        PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_JSON_ID);
+  }
 }

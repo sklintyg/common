@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,30 +35,28 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public class QuestionPrintMessagePolisanmalan {
 
-    public static CertificateDataElement toCertificate(Boolean polisanmalan, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID)
-            .parent(POLISANMALAN_CATEGORY_ID)
-            .index(index)
-            .visible(polisanmalan)
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))
-                            .level(MessageLevel.INFO)
-                            .build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(POLISANMALAN_DELSVAR_ID)
-                        .expression(singleExpression(POLISANMALAN_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean polisanmalan, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID)
+        .parent(POLISANMALAN_CATEGORY_ID)
+        .index(index)
+        .visible(polisanmalan)
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))
+                        .level(MessageLevel.INFO)
+                        .build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(POLISANMALAN_DELSVAR_ID)
+                  .expression(singleExpression(POLISANMALAN_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,44 +32,44 @@ import org.junit.Test;
 
 public class MedicalCertificatesStoreTest {
 
-    private MedicalCertificatesStore store = null;
+  private MedicalCertificatesStore store = null;
 
-    @Before
-    public void before() {
-        store = new MedicalCertificatesStore();
+  @Before
+  public void before() {
+    store = new MedicalCertificatesStore();
 
-        Map<String, String> properties = newHashMap();
-        properties.put(PERSONNUMMER, "19121212-1212");
-        properties.put(MAKULERAD, MAKULERAD_NEJ);
-        store.addCertificate("id-0001", newHashMap(properties));
+    Map<String, String> properties = newHashMap();
+    properties.put(PERSONNUMMER, "19121212-1212");
+    properties.put(MAKULERAD, MAKULERAD_NEJ);
+    store.addCertificate("id-0001", newHashMap(properties));
 
-        properties.clear();
-        properties.put(PERSONNUMMER, "19121212-2222");
-        properties.put(MAKULERAD, MAKULERAD_JA);
-        store.addCertificate("id-0002", newHashMap(properties));
-    }
+    properties.clear();
+    properties.put(PERSONNUMMER, "19121212-2222");
+    properties.put(MAKULERAD, MAKULERAD_JA);
+    store.addCertificate("id-0002", newHashMap(properties));
+  }
 
-    @Test
-    public void testGetCount() throws Exception {
-        assertEquals(2, store.getCount());
-    }
+  @Test
+  public void testGetCount() throws Exception {
+    assertEquals(2, store.getCount());
+  }
 
-    @Test
-    public void testGetAll() throws Exception {
-        Map<String, Map<String, String>> all = store.getAll();
-        assertEquals(2, all.size());
-    }
+  @Test
+  public void testGetAll() throws Exception {
+    Map<String, Map<String, String>> all = store.getAll();
+    assertEquals(2, all.size());
+  }
 
-    @Test
-    public void testMakulera() throws Exception {
-        store.makulera("id-0001", "meddelande");
-        assertEquals(MAKULERAD_JA, store.getAll().get("id-0001").get(MAKULERAD));
-        assertEquals("meddelande", store.getAll().get("id-0001").get(MEDDELANDE));
-    }
+  @Test
+  public void testMakulera() throws Exception {
+    store.makulera("id-0001", "meddelande");
+    assertEquals(MAKULERAD_JA, store.getAll().get("id-0001").get(MAKULERAD));
+    assertEquals("meddelande", store.getAll().get("id-0001").get(MEDDELANDE));
+  }
 
-    @Test
-    public void testClear() throws Exception {
-        store.clear();
-        assertEquals(0, store.getCount());
-    }
+  @Test
+  public void testClear() throws Exception {
+    store.clear();
+    assertEquals(0, store.getCount());
+  }
 }

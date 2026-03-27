@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,47 +40,48 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 
 public class QuestionFunktionsnedsattningBeskrivning {
 
-    private static final short TEXT_LIMIT = 180;
+  private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(Funktionsnedsattning funktionsnedsattning, int index,
-        CertificateTextProvider textProvider) {
-        final var funktionsnedsattningBeskrivning = funktionsnedsattning != null ? funktionsnedsattning.getBeskrivning() : null;
-        return CertificateDataElement.builder()
-            .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
-            .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                    .text(textProvider.get(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                    .text(funktionsnedsattningBeskrivning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
-                        .expression(singleExpression(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
-                        .expression(singleExpression(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Funktionsnedsattning funktionsnedsattning, int index, CertificateTextProvider textProvider) {
+    final var funktionsnedsattningBeskrivning =
+        funktionsnedsattning != null ? funktionsnedsattning.getBeskrivning() : null;
+    return CertificateDataElement.builder()
+        .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
+        .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                .text(textProvider.get(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                .text(funktionsnedsattningBeskrivning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID)
+                  .expression(singleExpression(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
+                  .expression(singleExpression(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID, TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID,
+        TYP_SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID);
+  }
 }

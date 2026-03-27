@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,95 +46,101 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-
-/**
- * Specifically tests the renewal of LISJP where certain fields are nulled out.
- */
+/** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
 public class LisjpModuleApiRenewalTest {
 
-    @Spy
-    private WebcertModelFactoryImpl webcertModelFactory;
+  @Spy private WebcertModelFactoryImpl webcertModelFactory;
 
-    @Spy
-    private ObjectMapper objectMapper;
+  @Spy private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private LisjpModuleApiV1 moduleApi;
+  @InjectMocks private LisjpModuleApiV1 moduleApi;
 
-    public static final String TESTFILE_UTLATANDE = "v1/LisjpModelCompareUtil/utlatande.json";
+  public static final String TESTFILE_UTLATANDE = "v1/LisjpModelCompareUtil/utlatande.json";
 
-    @BeforeEach
-    void init() {
-        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
-        objectMapper.registerModule(new JavaTimeModule());
-    }
+  @BeforeEach
+  void init() {
+    ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+    objectMapper.registerModule(new JavaTimeModule());
+  }
 
-    @Test
-    public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
-        LisjpUtlatandeV1 original = getUtlatandeFromFile();
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
-        assertNotNull(renewalFromTemplate);
+  @Test
+  public void testRenewalTransfersAppropriateFieldsToNewDraft()
+      throws ModuleException, IOException {
+    IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
+    LisjpUtlatandeV1 original = getUtlatandeFromFile();
+    String renewalFromTemplate =
+        moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+    assertNotNull(renewalFromTemplate);
 
-        // Create two instances to compare field by field.
-        LisjpUtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, LisjpUtlatandeV1.class);
+    // Create two instances to compare field by field.
+    LisjpUtlatandeV1 renewCopy =
+        new CustomObjectMapper().readValue(renewalFromTemplate, LisjpUtlatandeV1.class);
 
-        // Blanked out values:
-        assertNotEquals(Boolean.TRUE, renewCopy.getKontaktMedFk());
-        assertEquals(0, renewCopy.getSjukskrivningar().size());
-        assertNull(renewCopy.getAnledningTillKontakt());
-        assertNull(renewCopy.getUndersokningAvPatienten());
-        assertNull(renewCopy.getTelefonkontaktMedPatienten());
-        assertNull(renewCopy.getJournaluppgifter());
-        assertNull(renewCopy.getAnnatGrundForMU());
-        assertNull(renewCopy.getAnnatGrundForMUBeskrivning());
-        assertNull(renewCopy.getMotiveringTillInteBaseratPaUndersokning());
-        assertNull(renewCopy.getMotiveringTillTidigtStartdatumForSjukskrivning());
-        assertNull(renewCopy.getPrognos());
-        assertNull(renewCopy.getArbetstidsforlaggning());
-        assertNull(renewCopy.getArbetstidsforlaggningMotivering());
+    // Blanked out values:
+    assertNotEquals(Boolean.TRUE, renewCopy.getKontaktMedFk());
+    assertEquals(0, renewCopy.getSjukskrivningar().size());
+    assertNull(renewCopy.getAnledningTillKontakt());
+    assertNull(renewCopy.getUndersokningAvPatienten());
+    assertNull(renewCopy.getTelefonkontaktMedPatienten());
+    assertNull(renewCopy.getJournaluppgifter());
+    assertNull(renewCopy.getAnnatGrundForMU());
+    assertNull(renewCopy.getAnnatGrundForMUBeskrivning());
+    assertNull(renewCopy.getMotiveringTillInteBaseratPaUndersokning());
+    assertNull(renewCopy.getMotiveringTillTidigtStartdatumForSjukskrivning());
+    assertNull(renewCopy.getPrognos());
+    assertNull(renewCopy.getArbetstidsforlaggning());
+    assertNull(renewCopy.getArbetstidsforlaggningMotivering());
 
-        // Retained values
-        assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
-        assertEquals(original.getArbetslivsinriktadeAtgarder(), renewCopy.getArbetslivsinriktadeAtgarder());
-        assertEquals(original.getArbetslivsinriktadeAtgarderBeskrivning(), renewCopy.getArbetslivsinriktadeAtgarderBeskrivning());
-        assertEquals(original.getArbetsresor(), renewCopy.getArbetsresor());
-        assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
-        assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        assertEquals(original.getPagaendeBehandling(), renewCopy.getPagaendeBehandling());
-        assertEquals(original.getPlaneradBehandling(), renewCopy.getPlaneradBehandling());
-        assertEquals(original.getForsakringsmedicinsktBeslutsstod(), renewCopy.getForsakringsmedicinsktBeslutsstod());
-        assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    // Retained values
+    assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
+    assertEquals(
+        original.getArbetslivsinriktadeAtgarder(), renewCopy.getArbetslivsinriktadeAtgarder());
+    assertEquals(
+        original.getArbetslivsinriktadeAtgarderBeskrivning(),
+        renewCopy.getArbetslivsinriktadeAtgarderBeskrivning());
+    assertEquals(original.getArbetsresor(), renewCopy.getArbetsresor());
+    assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
+    assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
+    assertEquals(original.getPagaendeBehandling(), renewCopy.getPagaendeBehandling());
+    assertEquals(original.getPlaneradBehandling(), renewCopy.getPlaneradBehandling());
+    assertEquals(
+        original.getForsakringsmedicinsktBeslutsstod(),
+        renewCopy.getForsakringsmedicinsktBeslutsstod());
+    assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
-        // Relation
-        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getPeriod()).getTom().asLocalDate(),
-            renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(Objects.requireNonNull(original.getSjukskrivningar().get(0).getSjukskrivningsgrad()).getLabel(),
-            renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
-    }
+    // Relation
+    assertEquals(
+        Objects.requireNonNull(original.getSjukskrivningar().get(0).getPeriod())
+            .getTom()
+            .asLocalDate(),
+        renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+    assertEquals(
+        Objects.requireNonNull(original.getSjukskrivningar().get(0).getSjukskrivningsgrad())
+            .getLabel(),
+        renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
+  }
 
-    private CreateDraftCopyHolder createCopyHolder() {
-        CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
-        draftCopyHolder.setIntygTypeVersion("1");
-        draftCopyHolder.setRelation(new Relation());
-        return draftCopyHolder;
-    }
+  private CreateDraftCopyHolder createCopyHolder() {
+    CreateDraftCopyHolder draftCopyHolder =
+        new CreateDraftCopyHolder("certificateId", createHosPersonal());
+    draftCopyHolder.setIntygTypeVersion("1");
+    draftCopyHolder.setRelation(new Relation());
+    return draftCopyHolder;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPersonal = new HoSPersonal();
-        hosPersonal.setPersonId("hsaId");
-        hosPersonal.setFullstandigtNamn("namn");
-        hosPersonal.setVardenhet(new Vardenhet());
-        hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
-        return hosPersonal;
-    }
+  private HoSPersonal createHosPersonal() {
+    HoSPersonal hosPersonal = new HoSPersonal();
+    hosPersonal.setPersonId("hsaId");
+    hosPersonal.setFullstandigtNamn("namn");
+    hosPersonal.setVardenhet(new Vardenhet());
+    hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
+    return hosPersonal;
+  }
 
-    private LisjpUtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
-    }
-
+  private LisjpUtlatandeV1 getUtlatandeFromFile() throws IOException {
+    return new CustomObjectMapper()
+        .readValue(new ClassPathResource(TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
+  }
 }

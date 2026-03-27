@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,16 +27,18 @@ import java.time.format.DateTimeFormatter;
 
 public class CustomLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
-    public static final DateTimeFormatter CUSTOM_LOCALDATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  public static final DateTimeFormatter CUSTOM_LOCALDATETIME_FORMATTER =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public CustomLocalDateTimeSerializer() {
-        super(LocalDateTime.class);
-    }
+  public CustomLocalDateTimeSerializer() {
+    super(LocalDateTime.class);
+  }
 
-    @Override
-    public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(value.format(CUSTOM_LOCALDATETIME_FORMATTER));
-    }
+  @Override
+  public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException {
+    jgen.writeString(value.format(CUSTOM_LOCALDATETIME_FORMATTER));
+  }
 }

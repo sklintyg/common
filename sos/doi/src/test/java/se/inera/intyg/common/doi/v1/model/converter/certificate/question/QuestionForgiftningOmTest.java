@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -53,144 +53,150 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.InternalBoolea
 @ExtendWith(MockitoExtension.class)
 class QuestionForgiftningOmTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      assertEquals(FORGIFTNING_OM_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            assertEquals(FORGIFTNING_OM_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionForgiftningOm.toCertificate(true, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            assertEquals(FORGIFTNING_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeSelectedText() {
-            final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_SELECTED_TEXT);
-        }
-
-        @Test
-        void shouldIncludeUnselectedText() {
-            final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT);
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigType() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioBooleanConfigValueId() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            final var certificateDataConfigRadioBoolean = (CertificateDataConfigRadioBoolean) question.getConfig();
-            assertEquals(FORGIFTNING_OM_JSON_ID, certificateDataConfigRadioBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueType() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueId() {
-            final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(FORGIFTNING_OM_JSON_ID, certificateDataValueBoolean.getId());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueTrue() {
-            final var expectedBooleanValue = Boolean.TRUE;
-            final var question = QuestionForgiftningOm.toCertificate(expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueFalse() {
-            final var expectedBooleanValue = Boolean.FALSE;
-            final var question = QuestionForgiftningOm.toCertificate(expectedBooleanValue, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeBooleanValueEmpty() {
-            final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
-            final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
-            assertNull(certificateDataValueBoolean.getSelected());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(FORGIFTNING_OM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals("exists(" + FORGIFTNING_OM_JSON_ID + ")", certificateDataValidationMandatory.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionForgiftningOm.toCertificate(true, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      assertEquals(FORGIFTNING_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeSelectedText() {
+      final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_SELECTED_TEXT);
+    }
+
+    @Test
+    void shouldIncludeUnselectedText() {
+      final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FORGIFTNING_OM_QUESTION_UNSELECTED_TEXT);
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigType() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      assertEquals(CertificateDataConfigType.UE_RADIO_BOOLEAN, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioBooleanConfigValueId() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      final var certificateDataConfigRadioBoolean =
+          (CertificateDataConfigRadioBoolean) question.getConfig();
+      assertEquals(FORGIFTNING_OM_JSON_ID, certificateDataConfigRadioBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueType() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      assertEquals(CertificateDataValueType.BOOLEAN, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueId() {
+      final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(FORGIFTNING_OM_JSON_ID, certificateDataValueBoolean.getId());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueTrue() {
+      final var expectedBooleanValue = Boolean.TRUE;
+      final var question = QuestionForgiftningOm.toCertificate(expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueFalse() {
+      final var expectedBooleanValue = Boolean.FALSE;
+      final var question = QuestionForgiftningOm.toCertificate(expectedBooleanValue, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertEquals(expectedBooleanValue, certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeBooleanValueEmpty() {
+      final var question = QuestionForgiftningOm.toCertificate(null, 0, texts);
+      final var certificateDataValueBoolean = (CertificateDataValueBoolean) question.getValue();
+      assertNull(certificateDataValueBoolean.getSelected());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(FORGIFTNING_OM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var question = QuestionForgiftningOm.toCertificate(true, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          "exists(" + FORGIFTNING_OM_JSON_ID + ")",
+          certificateDataValidationMandatory.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        return QuestionForgiftningOm.toCertificate(expectedValue, 0, texts);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                return QuestionForgiftningOm.toCertificate(expectedValue, 0, texts);
-            }
-
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionForgiftningOm.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionForgiftningOm.toInternal(certificate);
+      }
     }
+  }
 }

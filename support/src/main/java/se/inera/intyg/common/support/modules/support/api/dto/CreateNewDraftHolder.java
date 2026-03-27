@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,60 +25,65 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
 
-
 public class CreateNewDraftHolder {
 
-    private final String certificateId;
+  private final String certificateId;
 
-    private final String intygTypeVersion;
+  private final String intygTypeVersion;
 
-    private final HoSPersonal skapadAv;
+  private final HoSPersonal skapadAv;
 
-    private final Patient patient;
+  private final Patient patient;
 
-    private final Optional<Forifyllnad> forifyllnad;
+  private final Optional<Forifyllnad> forifyllnad;
 
-    private final boolean isTestIntyg;
+  private final boolean isTestIntyg;
 
-    public CreateNewDraftHolder(String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient) {
-        this(certificateId, intygTypeVersion, skapadAv, patient, Optional.empty(), false);
-    }
+  public CreateNewDraftHolder(
+      String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient) {
+    this(certificateId, intygTypeVersion, skapadAv, patient, Optional.empty(), false);
+  }
 
-    public CreateNewDraftHolder(String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient,
-        Optional<Forifyllnad> forifyllnad, boolean isTestIntyg) {
-        notNull(certificateId, "'certificateId' must not be null");
-        notNull(intygTypeVersion, "'intygTypeVersion' must not be null");
-        notNull(skapadAv, "'skapadAv' must not be null");
-        notNull(patient, "'patient' must not be null");
-        this.certificateId = certificateId;
-        this.intygTypeVersion = intygTypeVersion;
-        this.skapadAv = skapadAv;
-        this.patient = patient;
-        this.forifyllnad = forifyllnad;
-        this.isTestIntyg = isTestIntyg;
-    }
+  public CreateNewDraftHolder(
+      String certificateId,
+      String intygTypeVersion,
+      HoSPersonal skapadAv,
+      Patient patient,
+      Optional<Forifyllnad> forifyllnad,
+      boolean isTestIntyg) {
+    notNull(certificateId, "'certificateId' must not be null");
+    notNull(intygTypeVersion, "'intygTypeVersion' must not be null");
+    notNull(skapadAv, "'skapadAv' must not be null");
+    notNull(patient, "'patient' must not be null");
+    this.certificateId = certificateId;
+    this.intygTypeVersion = intygTypeVersion;
+    this.skapadAv = skapadAv;
+    this.patient = patient;
+    this.forifyllnad = forifyllnad;
+    this.isTestIntyg = isTestIntyg;
+  }
 
-    public String getCertificateId() {
-        return certificateId;
-    }
+  public String getCertificateId() {
+    return certificateId;
+  }
 
-    public HoSPersonal getSkapadAv() {
-        return skapadAv;
-    }
+  public HoSPersonal getSkapadAv() {
+    return skapadAv;
+  }
 
-    public Patient getPatient() {
-        return patient;
-    }
+  public Patient getPatient() {
+    return patient;
+  }
 
-    public String getIntygTypeVersion() {
-        return intygTypeVersion;
-    }
+  public String getIntygTypeVersion() {
+    return intygTypeVersion;
+  }
 
-    public Optional<Forifyllnad> getForifyllnad() {
-        return forifyllnad;
-    }
+  public Optional<Forifyllnad> getForifyllnad() {
+    return forifyllnad;
+  }
 
-    public boolean isTestIntyg() {
-        return isTestIntyg;
-    }
+  public boolean isTestIntyg() {
+    return isTestIntyg;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,28 +27,28 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueTextTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract String getText();
+  protected abstract String getText();
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.TEXT;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.TEXT;
+  }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueText) question.getValue();
-        assertEquals(getJsonId(), value.getId());
-    }
+  @Test
+  void shouldIncludeValueId() {
+    final var question = getElement();
+    final var value = (CertificateDataValueText) question.getValue();
+    assertEquals(getJsonId(), value.getId());
+  }
 
-    @Test
-    void shouldIncludeValueText() {
-        final var question = getElement();
-        final var value = (CertificateDataValueText) question.getValue();
-        assertEquals(getText(), value.getText());
-    }
+  @Test
+  void shouldIncludeValueText() {
+    final var question = getElement();
+    final var value = (CertificateDataValueText) question.getValue();
+    assertEquals(getText(), value.getText());
+  }
 }

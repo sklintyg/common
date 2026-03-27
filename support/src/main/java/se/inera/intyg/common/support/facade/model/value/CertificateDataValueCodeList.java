@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,13 +31,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 @Builder
 public class CertificateDataValueCodeList implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.CODE_LIST;
-    List<CertificateDataValueCode> list;
-    String id;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.CODE_LIST;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueCodeListBuilder {
+  List<CertificateDataValueCode> list;
+  String id;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueCodeListBuilder {}
 }

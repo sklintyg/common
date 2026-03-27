@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -52,129 +52,117 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 @JsonDeserialize(builder = AutoValue_AF00251UtlatandeV1.Builder.class)
 public abstract class AF00251UtlatandeV1 implements AfUtlatande {
 
-    public static Builder builder() {
-        return new AutoValue_AF00251UtlatandeV1.Builder()
-            .setSjukfranvaro(ImmutableList.<Sjukfranvaro>of())
-            .setSignature(null);
+  public static Builder builder() {
+    return new AutoValue_AF00251UtlatandeV1.Builder()
+        .setSjukfranvaro(ImmutableList.<Sjukfranvaro>of())
+        .setSignature(null);
+  }
+
+  @Override
+  public String getTyp() {
+    return AF00251EntryPoint.MODULE_ID;
+  }
+
+  @Override
+  public abstract String getId();
+
+  @Override
+  public abstract GrundData getGrundData();
+
+  @Override
+  public abstract String getTextVersion();
+
+  @Override
+  @Nullable public abstract String getSignature();
+
+  // Fråga 1
+  // Kardinalitet 1-2
+  @Nullable public abstract InternalDate getUndersokningsDatum();
+
+  @Nullable public abstract InternalDate getAnnatDatum();
+
+  @Nullable public abstract String getAnnatBeskrivning();
+
+  // Fråga 2
+  @Nullable public abstract ArbetsmarknadspolitisktProgram getArbetsmarknadspolitisktProgram();
+
+  // Fråga 3.1 - Funktionsnedsättning
+  @Nullable public abstract String getFunktionsnedsattning();
+
+  // Fråga 4.1 - Aktivitetsbegränsning
+  @Nullable public abstract String getAktivitetsbegransning();
+
+  // Fråga 5.1 - Förhinder
+  @Nullable public abstract Boolean getHarForhinder();
+
+  // Fråga 6
+  // Kardinalitet 0-4
+  @Nullable public abstract ImmutableList<Sjukfranvaro> getSjukfranvaro();
+
+  // Fråga 7
+  @Nullable public abstract BegransningSjukfranvaro getBegransningSjukfranvaro();
+
+  // Fråga 8
+  @Nullable public abstract PrognosAtergang getPrognosAtergang();
+
+  /*
+   * Retrieve a builder from an existing Af00251UtlatandeV1 object. The builder can then be used
+   * to create a new copy with modified attributes.
+   */
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract AF00251UtlatandeV1 build();
+
+    @JsonProperty(ID_JSON_ID)
+    public abstract Builder setId(String id);
+
+    @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
+    public abstract Builder setGrundData(GrundData grundData);
+
+    @JsonProperty(TEXTVERSION_JSON_ID)
+    public abstract Builder setTextVersion(String textVersion);
+
+    @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM)
+    public abstract Builder setUndersokningsDatum(InternalDate undersokningsDatum);
+
+    @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM)
+    public abstract Builder setAnnatDatum(InternalDate undersokningsDatum);
+
+    @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING)
+    public abstract Builder setAnnatBeskrivning(String annatBeskrivning);
+
+    @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2)
+    public abstract Builder setArbetsmarknadspolitisktProgram(
+        ArbetsmarknadspolitisktProgram arbetsmarknadspolitisktProgram);
+
+    @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_3)
+    public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);
+
+    @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_4)
+    public abstract Builder setAktivitetsbegransning(String aktivitetsbegransning);
+
+    @JsonProperty(FORHINDER_SVAR_JSON_ID_5)
+    public abstract Builder setHarForhinder(Boolean harForhinder);
+
+    // Svar 1
+    @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_6)
+    public Builder setSjukfranvaro(List<Sjukfranvaro> sjukfranvaro) {
+      return setSjukfranvaro(ImmutableList.copyOf(sjukfranvaro));
     }
 
-    @Override
-    public String getTyp() {
-        return AF00251EntryPoint.MODULE_ID;
-    }
+    public abstract Builder setSjukfranvaro(ImmutableList<Sjukfranvaro> sjukfranvaro);
 
-    @Override
-    public abstract String getId();
+    @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7)
+    public abstract Builder setBegransningSjukfranvaro(
+        BegransningSjukfranvaro begransningSjukfranvaro);
 
-    @Override
-    public abstract GrundData getGrundData();
+    @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_8)
+    public abstract Builder setPrognosAtergang(PrognosAtergang prognosAtergang);
 
-    @Override
-    public abstract String getTextVersion();
-
-    @Override
-    @Nullable
-    public abstract String getSignature();
-
-    // Fråga 1
-    // Kardinalitet 1-2
-    @Nullable
-    public abstract InternalDate getUndersokningsDatum();
-
-    @Nullable
-    public abstract InternalDate getAnnatDatum();
-
-    @Nullable
-    public abstract String getAnnatBeskrivning();
-
-    // Fråga 2
-    @Nullable
-    public abstract ArbetsmarknadspolitisktProgram getArbetsmarknadspolitisktProgram();
-
-    // Fråga 3.1 - Funktionsnedsättning
-    @Nullable
-    public abstract String getFunktionsnedsattning();
-
-    // Fråga 4.1 - Aktivitetsbegränsning
-    @Nullable
-    public abstract String getAktivitetsbegransning();
-
-    // Fråga 5.1 - Förhinder
-    @Nullable
-    public abstract Boolean getHarForhinder();
-
-    // Fråga 6
-    // Kardinalitet 0-4
-    @Nullable
-    public abstract ImmutableList<Sjukfranvaro> getSjukfranvaro();
-
-    // Fråga 7
-    @Nullable
-    public abstract BegransningSjukfranvaro getBegransningSjukfranvaro();
-
-    // Fråga 8
-    @Nullable
-    public abstract PrognosAtergang getPrognosAtergang();
-
-
-    /*
-     * Retrieve a builder from an existing Af00251UtlatandeV1 object. The builder can then be used
-     * to create a new copy with modified attributes.
-     */
-    public abstract Builder toBuilder();
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract AF00251UtlatandeV1 build();
-
-        @JsonProperty(ID_JSON_ID)
-        public abstract Builder setId(String id);
-
-        @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
-        public abstract Builder setGrundData(GrundData grundData);
-
-        @JsonProperty(TEXTVERSION_JSON_ID)
-        public abstract Builder setTextVersion(String textVersion);
-
-        @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM)
-        public abstract Builder setUndersokningsDatum(InternalDate undersokningsDatum);
-
-        @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM)
-        public abstract Builder setAnnatDatum(InternalDate undersokningsDatum);
-
-        @JsonProperty(MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING)
-        public abstract Builder setAnnatBeskrivning(String annatBeskrivning);
-
-
-        @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2)
-        public abstract Builder setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram arbetsmarknadspolitisktProgram);
-
-        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_3)
-        public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);
-
-        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_4)
-        public abstract Builder setAktivitetsbegransning(String aktivitetsbegransning);
-
-        @JsonProperty(FORHINDER_SVAR_JSON_ID_5)
-        public abstract Builder setHarForhinder(Boolean harForhinder);
-
-        // Svar 1
-        @JsonProperty(SJUKFRANVARO_SVAR_JSON_ID_6)
-        public Builder setSjukfranvaro(List<Sjukfranvaro> sjukfranvaro) {
-            return setSjukfranvaro(ImmutableList.copyOf(sjukfranvaro));
-        }
-
-        public abstract Builder setSjukfranvaro(ImmutableList<Sjukfranvaro> sjukfranvaro);
-
-        @JsonProperty(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7)
-        public abstract Builder setBegransningSjukfranvaro(BegransningSjukfranvaro begransningSjukfranvaro);
-
-        @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_8)
-        public abstract Builder setPrognosAtergang(PrognosAtergang prognosAtergang);
-
-        @JsonProperty(SIGNATURE)
-        public abstract Builder setSignature(String signature);
-    }
-
+    @JsonProperty(SIGNATURE)
+    public abstract Builder setSignature(String signature);
+  }
 }

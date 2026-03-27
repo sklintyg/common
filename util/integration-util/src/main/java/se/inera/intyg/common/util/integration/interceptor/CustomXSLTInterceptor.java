@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,87 +42,84 @@ import org.apache.cxf.staxutils.StaxUtils;
 
 public abstract class CustomXSLTInterceptor extends AbstractPhaseInterceptor<Message> {
 
-    private static final TransformerFactory TRANSFORM_FACTORY = TransformerFactory.newInstance();
-    private final Templates xsltTemplate;
-    private String contextPropertyName;
+  private static final TransformerFactory TRANSFORM_FACTORY = TransformerFactory.newInstance();
+  private final Templates xsltTemplate;
+  private String contextPropertyName;
 
-    public CustomXSLTInterceptor(String xsltPath) {
-        super(Phase.PRE_STREAM);
-        addBefore(StaxOutInterceptor.class.getName());
-        TRANSFORM_FACTORY.setURIResolver(new ClasspathUriResolver());
+  public CustomXSLTInterceptor(String xsltPath) {
+    super(Phase.PRE_STREAM);
+    addBefore(StaxOutInterceptor.class.getName());
+    TRANSFORM_FACTORY.setURIResolver(new ClasspathUriResolver());
 
-        try {
-            final var xsltStream = ClassLoaderUtils.getResourceAsStream(xsltPath, this.getClass());
-            if (xsltStream == null) {
-                throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath);
-            }
-            final var doc = StaxUtils.read(xsltStream);
-            xsltTemplate = TRANSFORM_FACTORY.newTemplates(new DOMSource(doc));
+    try {
+      final var xsltStream = ClassLoaderUtils.getResourceAsStream(xsltPath, this.getClass());
+      if (xsltStream == null) {
+        throw new IllegalArgumentException("Cannot load XSLT from path: " + xsltPath);
+      }
+      final var doc = StaxUtils.read(xsltStream);
+      xsltTemplate = TRANSFORM_FACTORY.newTemplates(new DOMSource(doc));
 
-        } catch (TransformerConfigurationException | XMLStreamException e) {
-            throw new IllegalArgumentException(
-                String.format("Cannot create XSLT template from path: %s",
-                    xsltPath), e);
+    } catch (TransformerConfigurationException | XMLStreamException e) {
+      throw new IllegalArgumentException(
+          String.format("Cannot create XSLT template from path: %s", xsltPath), e);
+    }
+  }
+
+  protected Templates getXSLTTemplate() {
+    return xsltTemplate;
+  }
+
+  public void setContextPropertyName(String propertyName) {
+    contextPropertyName = propertyName;
+  }
+
+  protected boolean checkContextProperty(Message message) {
+    return contextPropertyName != null
+        && !MessageUtils.getContextualBoolean(message, contextPropertyName, false);
+  }
+
+  @Override
+  public void handleMessage(Message message) {
+    if (checkContextProperty(message)) {
+      return;
+    }
+
+    // 1. Try to get and transform XMLStreamWriter message content
+    final var xWriter = message.getContent(XMLStreamWriter.class);
+    if (xWriter != null) {
+      transformXWriter(message, xWriter);
+    } else {
+      // 2. Try to get and transform OutputStream message content
+      final var out = message.getContent(OutputStream.class);
+      if (out != null) {
+        transformOS(message, out);
+      } else {
+        // 3. Try to get and transform Writer message content (actually used for JMS TextMessage)
+        final var writer = message.getContent(Writer.class);
+        if (writer != null) {
+          transformWriter(message, writer);
         }
+      }
     }
+  }
 
-    protected Templates getXSLTTemplate() {
-        return xsltTemplate;
-    }
+  protected void transformXWriter(Message message, XMLStreamWriter xWriter) {
+    final var writer = new CachedWriter();
+    final var delegate = StaxUtils.createXMLStreamWriter(writer);
+    final var wrapper = new XSLTStreamWriter(getXSLTTemplate(), writer, delegate, xWriter);
+    message.setContent(XMLStreamWriter.class, wrapper);
+    message.put(AbstractOutDatabindingInterceptor.DISABLE_OUTPUTSTREAM_OPTIMIZATION, Boolean.TRUE);
+  }
 
-    public void setContextPropertyName(String propertyName) {
-        contextPropertyName = propertyName;
-    }
+  protected void transformOS(Message message, OutputStream out) {
+    final var wrapper = new CachedOutputStream();
+    final var callback = new XSLTCachedOutputStreamCallback(getXSLTTemplate(), out);
+    wrapper.registerCallback(callback);
+    message.setContent(OutputStream.class, wrapper);
+  }
 
-    protected boolean checkContextProperty(Message message) {
-        return contextPropertyName != null
-            && !MessageUtils.getContextualBoolean(message, contextPropertyName, false);
-    }
-
-    @Override
-    public void handleMessage(Message message) {
-        if (checkContextProperty(message)) {
-            return;
-        }
-
-        // 1. Try to get and transform XMLStreamWriter message content
-        final var xWriter = message.getContent(XMLStreamWriter.class);
-        if (xWriter != null) {
-            transformXWriter(message, xWriter);
-        } else {
-            // 2. Try to get and transform OutputStream message content
-            final var out = message.getContent(OutputStream.class);
-            if (out != null) {
-                transformOS(message, out);
-            } else {
-                // 3. Try to get and transform Writer message content (actually used for JMS TextMessage)
-                final var writer = message.getContent(Writer.class);
-                if (writer != null) {
-                    transformWriter(message, writer);
-                }
-            }
-        }
-    }
-
-    protected void transformXWriter(Message message, XMLStreamWriter xWriter) {
-        final var writer = new CachedWriter();
-        final var delegate = StaxUtils.createXMLStreamWriter(writer);
-        final var wrapper = new XSLTStreamWriter(getXSLTTemplate(), writer, delegate, xWriter);
-        message.setContent(XMLStreamWriter.class, wrapper);
-        message.put(AbstractOutDatabindingInterceptor.DISABLE_OUTPUTSTREAM_OPTIMIZATION,
-            Boolean.TRUE);
-    }
-
-    protected void transformOS(Message message, OutputStream out) {
-        final var wrapper = new CachedOutputStream();
-        final var callback = new XSLTCachedOutputStreamCallback(getXSLTTemplate(), out);
-        wrapper.registerCallback(callback);
-        message.setContent(OutputStream.class, wrapper);
-    }
-
-    protected void transformWriter(Message message, Writer writer) {
-        final var wrapper = new XSLTCachedWriter(getXSLTTemplate(), writer);
-        message.setContent(Writer.class, wrapper);
-    }
-
+  protected void transformWriter(Message message, Writer writer) {
+    final var wrapper = new XSLTCachedWriter(getXSLTTemplate(), writer);
+    message.setContent(Writer.class, wrapper);
+  }
 }

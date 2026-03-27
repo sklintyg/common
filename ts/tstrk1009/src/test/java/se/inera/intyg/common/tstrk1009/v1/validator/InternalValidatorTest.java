@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,90 +34,100 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
 
-    private InternalDraftValidatorImpl testee = new InternalDraftValidatorImpl();
+  private InternalDraftValidatorImpl testee = new InternalDraftValidatorImpl();
 
-    @Test
-    public void minimalValidTstrk1009ShouldPass() throws ScenarioNotFoundException {
-        // Given
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
+  @Test
+  public void minimalValidTstrk1009ShouldPass() throws ScenarioNotFoundException {
+    // Given
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
 
-        // When
-        ValidateDraftResponse vdr = testee.validateDraft(utlatande);
+    // When
+    ValidateDraftResponse vdr = testee.validateDraft(utlatande);
 
-        // Then
-        assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.VALID);
-        assertThat(vdr.getValidationErrors()).isEmpty();
-        assertThat(vdr.getValidationWarnings()).isEmpty();
-    }
+    // Then
+    assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.VALID);
+    assertThat(vdr.getValidationErrors()).isEmpty();
+    assertThat(vdr.getValidationWarnings()).isEmpty();
+  }
 
-    @Test
-    public void maximumValidTstrk1009ShouldPass() throws ScenarioNotFoundException {
-        // Given
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
+  @Test
+  public void maximumValidTstrk1009ShouldPass() throws ScenarioNotFoundException {
+    // Given
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
 
-        // When
-        ValidateDraftResponse vdr = testee.validateDraft(utlatande);
+    // When
+    ValidateDraftResponse vdr = testee.validateDraft(utlatande);
 
-        // Then
-        assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.VALID);
-        assertThat(vdr.getValidationErrors()).isEmpty();
-        assertThat(vdr.getValidationWarnings()).isEmpty();
-    }
+    // Then
+    assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.VALID);
+    assertThat(vdr.getValidationErrors()).isEmpty();
+    assertThat(vdr.getValidationWarnings()).isEmpty();
+  }
 
-    @Test
-    public void missingMandatoryAnswersShouldFail() throws ScenarioNotFoundException {
-        // Given
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("fail-mandatory-missing").asInternalModel();
+  @Test
+  public void missingMandatoryAnswersShouldFail() throws ScenarioNotFoundException {
+    // Given
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("fail-mandatory-missing").asInternalModel();
 
-        // When
-        ValidateDraftResponse vdr = testee.validateDraft(utlatande);
+    // When
+    ValidateDraftResponse vdr = testee.validateDraft(utlatande);
 
-        // Then
-        assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
-        assertThat(vdr.getValidationErrors())
-            .hasSize(5)
-            .extracting("category", "field", "type")
-            .contains(tuple("identitet", "identitetStyrktGenom.typ", ValidationMessageType.EMPTY),
-                tuple("anmalan", "anmalanAvser.typ", ValidationMessageType.EMPTY),
-                tuple("medicinskaforhallanden", "medicinskaForhallanden", ValidationMessageType.EMPTY),
-                tuple("medicinskaforhallanden", "senasteUndersokningsdatum", ValidationMessageType.EMPTY),
-                tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.EMPTY));
-        assertThat(vdr.getValidationWarnings()).isEmpty();
-    }
+    // Then
+    assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
+    assertThat(vdr.getValidationErrors())
+        .hasSize(5)
+        .extracting("category", "field", "type")
+        .contains(
+            tuple("identitet", "identitetStyrktGenom.typ", ValidationMessageType.EMPTY),
+            tuple("anmalan", "anmalanAvser.typ", ValidationMessageType.EMPTY),
+            tuple("medicinskaforhallanden", "medicinskaForhallanden", ValidationMessageType.EMPTY),
+            tuple(
+                "medicinskaforhallanden", "senasteUndersokningsdatum", ValidationMessageType.EMPTY),
+            tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.EMPTY));
+    assertThat(vdr.getValidationWarnings()).isEmpty();
+  }
 
-    // R2
-    @Test
-    public void choosingBehorighetAllaAndOthersShouldFail() throws ScenarioNotFoundException {
-        // Given
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("fail-alla-behorighet").asInternalModel();
+  // R2
+  @Test
+  public void choosingBehorighetAllaAndOthersShouldFail() throws ScenarioNotFoundException {
+    // Given
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("fail-alla-behorighet").asInternalModel();
 
-        // When
-        ValidateDraftResponse vdr = testee.validateDraft(utlatande);
+    // When
+    ValidateDraftResponse vdr = testee.validateDraft(utlatande);
 
-        // Then
-        assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
-        assertThat(vdr.getValidationErrors())
-            .hasSize(1)
-            .extracting("category", "field", "type")
-            .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
-        assertThat(vdr.getValidationWarnings()).isEmpty();
-    }
+    // Then
+    assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
+    assertThat(vdr.getValidationErrors())
+        .hasSize(1)
+        .extracting("category", "field", "type")
+        .contains(
+            tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
+    assertThat(vdr.getValidationWarnings()).isEmpty();
+  }
 
-    // R8
-    @Test
-    public void choosingBehorighetKanintetastallningAndOthersShouldFail() throws ScenarioNotFoundException {
-        // Given
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("fail-kanintetastallning-behorighet").asInternalModel();
+  // R8
+  @Test
+  public void choosingBehorighetKanintetastallningAndOthersShouldFail()
+      throws ScenarioNotFoundException {
+    // Given
+    Tstrk1009UtlatandeV1 utlatande =
+        ScenarioFinder.getInternalScenario("fail-kanintetastallning-behorighet").asInternalModel();
 
-        // When
-        ValidateDraftResponse vdr = testee.validateDraft(utlatande);
+    // When
+    ValidateDraftResponse vdr = testee.validateDraft(utlatande);
 
-        // Then
-        assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
-        assertThat(vdr.getValidationErrors())
-            .hasSize(1)
-            .extracting("category", "field", "type")
-            .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
-        assertThat(vdr.getValidationWarnings()).isEmpty();
-    }
+    // Then
+    assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
+    assertThat(vdr.getValidationErrors())
+        .hasSize(1)
+        .extracting("category", "field", "type")
+        .contains(
+            tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
+    assertThat(vdr.getValidationWarnings()).isEmpty();
+  }
 }

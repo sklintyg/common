@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_GRUNDFORMU_ID;
@@ -32,14 +31,27 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionIntygetBaseratPa extends AbstractQuestionIntygetBaseratPa {
 
-    public static CertificateDataElement toCertificate(InternalDate undersokningPatient, InternalDate journaluppgifter,
-        InternalDate beskrivningPatient, InternalDate annat, int index, CertificateTextProvider textProvider) {
-        return toCertificate(undersokningPatient, journaluppgifter, beskrivningPatient, annat,
-            GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, CATEGORY_GRUNDFORMU_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID,
-            GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID, textProvider);
-    }
+  public static CertificateDataElement toCertificate(
+      InternalDate undersokningPatient,
+      InternalDate journaluppgifter,
+      InternalDate beskrivningPatient,
+      InternalDate annat,
+      int index,
+      CertificateTextProvider textProvider) {
+    return toCertificate(
+        undersokningPatient,
+        journaluppgifter,
+        beskrivningPatient,
+        annat,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID,
+        CATEGORY_GRUNDFORMU_ID,
+        index,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_TEXT_ID,
+        textProvider);
+  }
 
-    public static InternalDate toInternal(Certificate certificate, String itemId) {
-        return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, itemId);
-    }
+  public static InternalDate toInternal(Certificate certificate, String itemId) {
+    return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID, itemId);
+  }
 }

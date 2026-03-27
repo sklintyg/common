@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -63,158 +63,194 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.db.v1")
 public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
 
-    public static final String SCHEMATRON_FILE = "db.v1.sch";
-    private static final Logger LOG = LoggerFactory.getLogger(DbModuleApiV1.class);
-    private static final String PDF_FILENAME_PREFIX = "dodsbevis";
+  public static final String SCHEMATRON_FILE = "db.v1.sch";
+  private static final Logger LOG = LoggerFactory.getLogger(DbModuleApiV1.class);
+  private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 
-    private Map<String, String> validationMessages;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  private Map<String, String> validationMessages;
 
-    public DbModuleApiV1() {
-        super(DbUtlatandeV1.class);
-        init();
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
+
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
+
+  public DbModuleApiV1() {
+    super(DbUtlatandeV1.class);
+    init();
+  }
+
+  private void init() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("db-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    private void init() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("db-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
-    }
+  @Override
+  protected DbUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
 
-    @Override
-    protected DbUtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
+  @Override
+  protected RegisterCertificateType internalToTransport(DbUtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
 
-    @Override
-    protected RegisterCertificateType internalToTransport(DbUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
-    }
+  @Override
+  protected Intyg utlatandeToIntyg(DbUtlatandeV1 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
 
-    @Override
-    protected Intyg utlatandeToIntyg(DbUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
+  @Override
+  protected String getSchematronFileName() {
+    return SCHEMATRON_FILE;
+  }
 
-    @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
-    }
+  @Override
+  protected DbUtlatandeV1 decorateWithSignature(
+      DbUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
 
-    @Override
-    protected DbUtlatandeV1 decorateWithSignature(DbUtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
-    }
-
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        try {
-            if (ApplicationOrigin.WEBCERT != applicationOrigin) {
-                throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
-            }
-            DbUtlatandeV1 intyg = getInternal(internalModel);
-            IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
-            DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, utkastStatus);
-            return new PdfResponse(pdfGenerator.getBytes(),
-                pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
-        } catch (SoSPdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
-        }
-    }
-
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
-        throw new RuntimeException("Not applicable for dodsbevis");
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        // This is used for Mina intyg and since that is unsupported for DOI we return empty string
-        return "";
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider,
-            typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof DbUtlatandeV1) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    try {
+      if (ApplicationOrigin.WEBCERT != applicationOrigin) {
         throw new IllegalArgumentException(
-            "Utlatande was not instance of class DbUtlatandeV1, utlatande was instance of class: " + message);
+            "Generating PDF not allowed for application origin " + applicationOrigin);
+      }
+      DbUtlatandeV1 intyg = getInternal(internalModel);
+      IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
+      DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, utkastStatus);
+      return new PdfResponse(
+          pdfGenerator.getBytes(),
+          pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
+    } catch (SoSPdfGeneratorException e) {
+      LOG.error("Failed to generate PDF for certificate!", e);
+      throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
     }
+  }
 
-    @Override
-    public String getAdditionalInfoLabel() {
-        return "";
-    }
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    throw new RuntimeException("Not applicable for dodsbevis");
+  }
 
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(model);
-        final var certificateTextProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = InternalToCertificate.convert(internalCertificate, certificateTextProvider,
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    // This is used for Mina intyg and since that is unsupported for DOI we return empty string
+    return "";
+  }
+
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        InternalToCertificate.convert(
+            internalCertificate,
+            certificateTextProvider,
             typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new DbTestabilityCertificateTestdataProvider());
-        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
 
-    @Override
-    protected DbUtlatandeV1 getInternal(String internalModel) throws ModuleException {
-        try {
-            final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1);
-            return dbUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
-    }
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var updateInternalCertificate =
+        CertificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
 
-    @Override
-    protected DbUtlatandeV1 getInternal(String internalModel, LocalDateTime created) throws ModuleException {
-        try {
-            final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
-            unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1, created);
-            return dbUtlatandeV1;
-        } catch (IOException e) {
-            throw new ModuleException("Could not read internal model", e);
-        }
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof DbUtlatandeV1) {
+      return toInternalModelResponse(utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class DbUtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
+
+  @Override
+  public String getAdditionalInfoLabel() {
+    return "";
+  }
+
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    final var internalCertificate = getInternal(model);
+    final var certificateTextProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate =
+        InternalToCertificate.convert(
+            internalCertificate,
+            certificateTextProvider,
+            typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES));
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    TestabilityToolkit.fillCertificateWithTestData(
+        certificate, fillType, new DbTestabilityCertificateTestdataProvider());
+    final var updateInternalCertificate =
+        CertificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  protected DbUtlatandeV1 getInternal(String internalModel) throws ModuleException {
+    try {
+      final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1);
+      return dbUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
+
+  @Override
+  protected DbUtlatandeV1 getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+    try {
+      final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
+      unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1, created);
+      return dbUtlatandeV1;
+    } catch (IOException e) {
+      throw new ModuleException("Could not read internal model", e);
+    }
+  }
 }

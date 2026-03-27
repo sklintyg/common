@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,46 +40,43 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionForgiftningDatum {
 
+  public static CertificateDataElement toCertificate(
+      LocalDate forgiftningDatum, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(FORGIFTNING_DATUM_DELSVAR_ID)
+        .parent(FORGIFTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .id(FORGIFTNING_DATUM_JSON_ID)
+                .text(texts.get(FORGIFTNING_DATUM_QUESTION_TEXT_ID))
+                .maxDate(LocalDate.now())
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(FORGIFTNING_DATUM_JSON_ID)
+                .date(forgiftningDatum)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FORGIFTNING_DATUM_DELSVAR_ID)
+                  .expression(singleExpression(FORGIFTNING_DATUM_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FORGIFTNING_OM_DELSVAR_ID)
+                  .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(LocalDate forgiftningDatum, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FORGIFTNING_DATUM_DELSVAR_ID)
-            .parent(FORGIFTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .id(FORGIFTNING_DATUM_JSON_ID)
-                    .text(texts.get(FORGIFTNING_DATUM_QUESTION_TEXT_ID))
-                    .maxDate(LocalDate.now())
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(FORGIFTNING_DATUM_JSON_ID)
-                    .date(forgiftningDatum)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FORGIFTNING_DATUM_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_DATUM_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FORGIFTNING_OM_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(certificate.getData(), FORGIFTNING_DATUM_DELSVAR_ID, FORGIFTNING_DATUM_JSON_ID);
+    if (localDate == null) {
+      return null;
     }
-
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), FORGIFTNING_DATUM_DELSVAR_ID, FORGIFTNING_DATUM_JSON_ID);
-        if (localDate == null) {
-            return null;
-        }
-        return new InternalDate(localDate);
-    }
-
+    return new InternalDate(localDate);
+  }
 }

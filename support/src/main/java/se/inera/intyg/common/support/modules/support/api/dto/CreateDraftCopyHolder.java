@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,86 +27,85 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class CreateDraftCopyHolder {
 
-    private final String certificateId;
+  private final String certificateId;
 
-    private final HoSPersonal skapadAv;
+  private final HoSPersonal skapadAv;
 
-    private Patient patient;
+  private Patient patient;
 
-    private Personnummer newPersonnummer;
+  private Personnummer newPersonnummer;
 
-    private Relation relation;
+  private Relation relation;
 
-    private String intygTypeVersion;
+  private String intygTypeVersion;
 
-    private boolean isTestIntyg;
+  private boolean isTestIntyg;
 
-    public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv, Relation relation) {
-        this(certificateId, skapadAv);
-        this.relation = relation;
-    }
+  public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv, Relation relation) {
+    this(certificateId, skapadAv);
+    this.relation = relation;
+  }
 
-    public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv) {
-        notNull(certificateId, "'certificateId' must not be null");
-        notNull(skapadAv, "'skapadAv' must not be null");
-        this.certificateId = certificateId;
-        this.skapadAv = skapadAv;
-    }
+  public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv) {
+    notNull(certificateId, "'certificateId' must not be null");
+    notNull(skapadAv, "'skapadAv' must not be null");
+    this.certificateId = certificateId;
+    this.skapadAv = skapadAv;
+  }
 
+  public String getCertificateId() {
+    return certificateId;
+  }
 
-    public String getCertificateId() {
-        return certificateId;
-    }
+  public HoSPersonal getSkapadAv() {
+    return skapadAv;
+  }
 
-    public HoSPersonal getSkapadAv() {
-        return skapadAv;
-    }
+  public Patient getPatient() {
+    return patient;
+  }
 
-    public Patient getPatient() {
-        return patient;
-    }
+  public void setPatient(Patient patient) {
+    this.patient = patient;
+  }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
+  public Personnummer getNewPersonnummer() {
+    return newPersonnummer;
+  }
 
-    public Personnummer getNewPersonnummer() {
-        return newPersonnummer;
-    }
+  public void setNewPersonnummer(Personnummer newPersonnummer) {
+    this.newPersonnummer = newPersonnummer;
+  }
 
-    public void setNewPersonnummer(Personnummer newPersonnummer) {
-        this.newPersonnummer = newPersonnummer;
-    }
+  public boolean hasPatient() {
+    return this.patient != null;
+  }
 
-    public boolean hasPatient() {
-        return this.patient != null;
-    }
+  public boolean hasNewPersonnummer() {
+    return this.newPersonnummer != null;
+  }
 
-    public boolean hasNewPersonnummer() {
-        return this.newPersonnummer != null;
-    }
+  public Relation getRelation() {
+    return relation;
+  }
 
-    public Relation getRelation() {
-        return relation;
-    }
+  public void setRelation(Relation relation) {
+    this.relation = relation;
+  }
 
-    public void setRelation(Relation relation) {
-        this.relation = relation;
-    }
+  public String getIntygTypeVersion() {
+    return intygTypeVersion;
+  }
 
-    public String getIntygTypeVersion() {
-        return intygTypeVersion;
-    }
+  public void setIntygTypeVersion(String intygTypeVersion) {
+    this.intygTypeVersion = intygTypeVersion;
+  }
 
-    public void setIntygTypeVersion(String intygTypeVersion) {
-        this.intygTypeVersion = intygTypeVersion;
-    }
+  public boolean isTestIntyg() {
+    return this.isTestIntyg;
+  }
 
-    public boolean isTestIntyg() {
-        return this.isTestIntyg;
-    }
-
-    public void setTestIntyg(boolean isTestIntyg) {
-        this.isTestIntyg = isTestIntyg;
-    }
+  public void setTestIntyg(boolean isTestIntyg) {
+    this.isTestIntyg = isTestIntyg;
+  }
 }

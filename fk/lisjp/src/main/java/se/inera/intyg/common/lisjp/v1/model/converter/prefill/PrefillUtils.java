@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,131 +46,148 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 final class PrefillUtils {
 
-    private static final String DATE_YYYY_MM_DD = "yyyy-MM-dd";
-    private static final Pattern VALID_DATE_PATTERN = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+  private static final String DATE_YYYY_MM_DD = "yyyy-MM-dd";
+  private static final Pattern VALID_DATE_PATTERN = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
 
-    private PrefillUtils() {
+  private PrefillUtils() {}
+
+  static Boolean getValidatedBoolean(Delsvar delsvar) throws PrefillWarningException {
+    if (!isStringContent(delsvar)) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_BOOLEAN_FIELD);
+    }
+    String potentialBooleanString = getStringContent(delsvar);
+    if (!Boolean.TRUE.toString().equalsIgnoreCase(potentialBooleanString)
+        && !Boolean.FALSE.toString().equalsIgnoreCase(potentialBooleanString)) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_BOOLEAN_FIELD);
+    }
+    return Boolean.valueOf(potentialBooleanString);
+  }
+
+  static String getValidatedString(Delsvar delsvar, int validMaxLength)
+      throws PrefillWarningException {
+    if (!isStringContent(delsvar)) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
+    }
+    final String validatedMaxLengthString = getStringContent(delsvar);
+
+    if (validatedMaxLengthString != null && validatedMaxLengthString.length() > validMaxLength) {
+      throw new PrefillWarningException(
+          delsvar,
+          String.format(
+              WARNING_INVALID_STRING_MAXLENGTH, validMaxLength, validatedMaxLengthString.length()));
+    }
+    return validatedMaxLengthString;
+  }
+
+  /**
+   * Validates that a @{@link Delsvar} has a valid string value representation of a date in the
+   * format of yyyy-MM-dd. It also checks that it's an actual date, disallowing values such as
+   * 2019-01-33 etc.
+   *
+   * @return the delsvar String content
+   */
+  static String getValidatedDateString(Delsvar delsvar) throws PrefillWarningException {
+    if (!isStringContent(delsvar)) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
     }
 
-    static Boolean getValidatedBoolean(Delsvar delsvar) throws PrefillWarningException {
-        if (!isStringContent(delsvar)) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_BOOLEAN_FIELD);
-        }
-        String potentialBooleanString = getStringContent(delsvar);
-        if (!Boolean.TRUE.toString().equalsIgnoreCase(potentialBooleanString) && !Boolean.FALSE.toString()
-            .equalsIgnoreCase(potentialBooleanString)) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_BOOLEAN_FIELD);
-        }
-        return Boolean.valueOf(potentialBooleanString);
+    final String dateString = getStringContent(delsvar);
+
+    try {
+      if (!VALID_DATE_PATTERN.matcher(dateString).matches()) {
+        throw new IllegalArgumentException("Invalid date string value " + dateString);
+      }
+      final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_YYYY_MM_DD);
+      dateFormat.setLenient(false);
+      dateFormat.parse(dateString);
+    } catch (Exception e) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_DATE_CONTENT);
     }
+    return dateString;
+  }
 
-    static String getValidatedString(Delsvar delsvar, int validMaxLength) throws PrefillWarningException {
-        if (!isStringContent(delsvar)) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
-        }
-        final String validatedMaxLengthString = getStringContent(delsvar);
+  /**
+   * Tries to parse a CVType for an element that at least has a code and (valid) codeSystem. Throws
+   * {@link PrefillWarningException} if code or codeSystem is missing, or if {@link
+   * ConverterException} occurs
+   */
+  static CVType getValidatedCVTypeContent(Delsvar delsvar, List<String> validCodeSystems)
+      throws PrefillWarningException {
+    try {
+      final CVType cv = getCVSvarContent(delsvar);
 
-        if (validatedMaxLengthString != null && validatedMaxLengthString.length() > validMaxLength) {
-            throw new PrefillWarningException(delsvar,
-                String.format(WARNING_INVALID_STRING_MAXLENGTH, validMaxLength, validatedMaxLengthString.length()));
-        }
-        return validatedMaxLengthString;
+      if (cv == null) {
+        throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE);
+      }
+      if (!validCodeSystems.contains(cv.getCodeSystem())) {
+        throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODESYSTEM);
+      }
+      if (StringUtils.isEmpty(cv.getCode())) {
+        throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
+      }
+
+      return cv;
+    } catch (ConverterException e) {
+      throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE);
     }
+  }
 
-    /**
-     * Validates that a @{@link Delsvar} has a valid string value representation of a date in the format of yyyy-MM-dd.
-     * It also checks that it's an actual date, disallowing values such as 2019-01-33 etc.
-     *
-     * @return the delsvar String content
-     */
-    static String getValidatedDateString(Delsvar delsvar) throws PrefillWarningException {
-        if (!isStringContent(delsvar)) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_STRING_FIELD);
-        }
+  /**
+   * Tries to parse a CVType code for an element that at least has a code and (valid) codeSystem.
+   */
+  static String getValidatedCVTypeCodeContent(Delsvar delsvar, String validCodeSystem)
+      throws PrefillWarningException {
+    return getValidatedCVTypeContent(delsvar, Arrays.asList(validCodeSystem)).getCode();
+  }
 
-        final String dateString = getStringContent(delsvar);
-
-        try {
-            if (!VALID_DATE_PATTERN.matcher(dateString).matches()) {
-                throw new IllegalArgumentException("Invalid date string value " + dateString);
-            }
-            final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_YYYY_MM_DD);
-            dateFormat.setLenient(false);
-            dateFormat.parse(dateString);
-        } catch (Exception e) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_DATE_CONTENT);
-        }
-        return dateString;
-    }
-
-    /**
-     * Tries to parse a CVType for an element that at least has a code and (valid) codeSystem.
-     * Throws {@link PrefillWarningException} if code or codeSystem is missing, or if {@link ConverterException} occurs
-     */
-    static CVType getValidatedCVTypeContent(Delsvar delsvar, List<String> validCodeSystems) throws PrefillWarningException {
-        try {
-            final CVType cv = getCVSvarContent(delsvar);
-
-            if (cv == null) {
-                throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE);
-            }
-            if (!validCodeSystems.contains(cv.getCodeSystem())) {
-                throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODESYSTEM);
-            }
-            if (StringUtils.isEmpty(cv.getCode())) {
-                throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
-            }
-
-            return cv;
-        } catch (ConverterException e) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE);
-        }
-    }
-
-    /**
-     * Tries to parse a CVType code for an element that at least has a code and (valid) codeSystem.
-     */
-    static String getValidatedCVTypeCodeContent(Delsvar delsvar, String validCodeSystem) throws PrefillWarningException {
-        return getValidatedCVTypeContent(delsvar, Arrays.asList(validCodeSystem)).getCode();
-
-    }
-
-    static DatePeriodType getValidatedDatePeriodTypeContent(Delsvar delsvar, LocalDate defaultStartDateIfMissing, PrefillResult pr)
-        throws PrefillWarningException {
-        try {
-            DatePeriodType datePeriodType = parseDelsvarType(delsvar, dpNode -> {
+  static DatePeriodType getValidatedDatePeriodTypeContent(
+      Delsvar delsvar, LocalDate defaultStartDateIfMissing, PrefillResult pr)
+      throws PrefillWarningException {
+    try {
+      DatePeriodType datePeriodType =
+          parseDelsvarType(
+              delsvar,
+              dpNode -> {
                 final DatePeriodType tempPeriod = new DatePeriodType();
-                childElements(dpNode, child -> {
-                    switch (child.getLocalName()) {
+                childElements(
+                    dpNode,
+                    child -> {
+                      switch (child.getLocalName()) {
                         case "start":
-                            tempPeriod.setStart(LocalDate.parse(child.getTextContent()));
-                            break;
+                          tempPeriod.setStart(LocalDate.parse(child.getTextContent()));
+                          break;
                         case "end":
-                            tempPeriod.setEnd(LocalDate.parse(child.getTextContent()));
-                            break;
+                          tempPeriod.setEnd(LocalDate.parse(child.getTextContent()));
+                          break;
                         default:
-                            throw new IllegalArgumentException("Invalid DatePeriodType element " + child.getLocalName());
-                    }
-                });
+                          throw new IllegalArgumentException(
+                              "Invalid DatePeriodType element " + child.getLocalName());
+                      }
+                    });
 
                 return tempPeriod;
-            });
-            //Default startdate handling
-            if (StringUtils.isEmpty(datePeriodType.getStart())) {
-                pr.addMessage(PrefillEventType.INFO, delsvar, "No startdate provided - defaulting to " + defaultStartDateIfMissing);
-                datePeriodType.setStart(defaultStartDateIfMissing);
-            }
+              });
+      // Default startdate handling
+      if (StringUtils.isEmpty(datePeriodType.getStart())) {
+        pr.addMessage(
+            PrefillEventType.INFO,
+            delsvar,
+            "No startdate provided - defaulting to " + defaultStartDateIfMissing);
+        datePeriodType.setStart(defaultStartDateIfMissing);
+      }
 
-            return datePeriodType;
+      return datePeriodType;
 
-        } catch (ConverterException e) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
-        } catch (Exception e) {
-            throw new PrefillWarningException(delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
-        }
+    } catch (ConverterException e) {
+      throw new PrefillWarningException(
+          delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
+    } catch (Exception e) {
+      throw new PrefillWarningException(
+          delsvar, WARNING_INVALID_DATEPERIOD_CONTENT + " (" + e.getMessage() + ")");
     }
+  }
 
-    static String nullToEmpty(LocalDate localDate) {
-        return localDate == null ? "" : localDate.toString();
-    }
+  static String nullToEmpty(LocalDate localDate) {
+    return localDate == null ? "" : localDate.toString();
+  }
 }

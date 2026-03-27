@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,34 +25,34 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public class CertificateResponse {
 
-    private final String internalModel;
-    private final Utlatande utlatande;
-    private final CertificateMetaData metaData;
-    private final boolean revoked;
+  private final String internalModel;
+  private final Utlatande utlatande;
+  private final CertificateMetaData metaData;
+  private final boolean revoked;
 
-    public CertificateResponse(String internalModel, Utlatande utlatande, CertificateMetaData metaData, boolean revoked) {
-        hasText(internalModel, "'internalModel' must not be empty");
-        notNull(metaData, "'metaData' must not be null");
-        this.internalModel = internalModel;
-        this.utlatande = utlatande;
-        this.metaData = metaData;
-        this.revoked = revoked;
-    }
+  public CertificateResponse(
+      String internalModel, Utlatande utlatande, CertificateMetaData metaData, boolean revoked) {
+    hasText(internalModel, "'internalModel' must not be empty");
+    notNull(metaData, "'metaData' must not be null");
+    this.internalModel = internalModel;
+    this.utlatande = utlatande;
+    this.metaData = metaData;
+    this.revoked = revoked;
+  }
 
-    public String getInternalModel() {
-        return internalModel;
-    }
+  public String getInternalModel() {
+    return internalModel;
+  }
 
-    public Utlatande getUtlatande() {
-        return utlatande;
-    }
+  public Utlatande getUtlatande() {
+    return utlatande;
+  }
 
-    public CertificateMetaData getMetaData() {
-        return metaData;
-    }
+  public CertificateMetaData getMetaData() {
+    return metaData;
+  }
 
-    public boolean isRevoked() {
-        return revoked;
-    }
-
+  public boolean isRevoked() {
+    return revoked;
+  }
 }

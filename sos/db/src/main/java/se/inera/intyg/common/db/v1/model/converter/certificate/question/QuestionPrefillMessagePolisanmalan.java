@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,30 +35,27 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public class QuestionPrefillMessagePolisanmalan {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID)
-            .parent(POLISANMALAN_CATEGORY_ID)
-            .index(index)
-            .visible(false)
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .message(
-                        Message.builder()
-                            .content(texts.get(POLISANMALAN_PREFILL_MESSAGE_ID))
-                            .level(MessageLevel.OBSERVE)
-                            .build()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
-                        .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID)
+        .parent(POLISANMALAN_CATEGORY_ID)
+        .index(index)
+        .visible(false)
+        .config(
+            CertificateDataConfigMessage.builder()
+                .message(
+                    Message.builder()
+                        .content(texts.get(POLISANMALAN_PREFILL_MESSAGE_ID))
+                        .level(MessageLevel.OBSERVE)
+                        .build())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                  .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
+                  .build()
+            })
+        .build();
+  }
 }

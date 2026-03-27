@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,19 +31,17 @@ import se.inera.intyg.common.support.model.InternalDate;
 @AutoValue
 public abstract class Dodsorsak {
 
-    @JsonCreator
-    public static Dodsorsak create(@JsonProperty(DODSORSAK_OM_JSON_ID) String beskrivning,
-        @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
-        @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
-        return new AutoValue_Dodsorsak(beskrivning, datum, specifikation);
-    }
+  @JsonCreator
+  public static Dodsorsak create(
+      @JsonProperty(DODSORSAK_OM_JSON_ID) String beskrivning,
+      @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
+      @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
+    return new AutoValue_Dodsorsak(beskrivning, datum, specifikation);
+  }
 
-    @Nullable
-    public abstract String getBeskrivning();
+  @Nullable public abstract String getBeskrivning();
 
-    @Nullable
-    public abstract InternalDate getDatum();
+  @Nullable public abstract InternalDate getDatum();
 
-    @Nullable
-    public abstract Specifikation getSpecifikation();
+  @Nullable public abstract Specifikation getSpecifikation();
 }

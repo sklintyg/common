@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,42 +36,39 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionDiagnosgrund {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String diagnosgrund, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DIAGNOSGRUND_SVAR_ID)
-            .parent(DIAGNOS_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(DIAGNOSGRUND_SVAR_JSON_ID)
-                    .text(texts.get(DIAGNOSGRUND_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(DIAGNOSGRUND_SVAR_JSON_ID)
-                    .text(diagnosgrund)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(DIAGNOSGRUND_SVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DIAGNOSGRUND_SVAR_ID)
-                        .expression(singleExpression(DIAGNOSGRUND_SVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String diagnosgrund, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DIAGNOSGRUND_SVAR_ID)
+        .parent(DIAGNOS_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(DIAGNOSGRUND_SVAR_JSON_ID)
+                .text(texts.get(DIAGNOSGRUND_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(DIAGNOSGRUND_SVAR_JSON_ID)
+                .text(diagnosgrund)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(DIAGNOSGRUND_SVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DIAGNOSGRUND_SVAR_ID)
+                  .expression(singleExpression(DIAGNOSGRUND_SVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), DIAGNOSGRUND_SVAR_ID, DIAGNOSGRUND_SVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), DIAGNOSGRUND_SVAR_ID, DIAGNOSGRUND_SVAR_JSON_ID);
+  }
 }

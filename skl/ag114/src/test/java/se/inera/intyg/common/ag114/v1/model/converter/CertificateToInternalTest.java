@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,22 +66,20 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
-    private Ag114UtlatandeV1 expectedInternalCertificate;
-    @Mock
-    private CertificateTextProvider textProvider;
-    private Certificate certificate;
-    @Mock
-    private WebcertModuleService webcertModuleService;
-    @InjectMocks
-    private CertificateToInternal certificateToInternal;
+  private Ag114UtlatandeV1 expectedInternalCertificate;
+  @Mock private CertificateTextProvider textProvider;
+  private Certificate certificate;
+  @Mock private WebcertModuleService webcertModuleService;
+  @InjectMocks private CertificateToInternal certificateToInternal;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(anyString())).thenReturn("Test string");
-        final var internalLocalDateInterval = new InternalLocalDateInterval();
-        internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
-        internalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
-        expectedInternalCertificate = Ag114UtlatandeV1.builder()
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(anyString())).thenReturn("Test string");
+    final var internalLocalDateInterval = new InternalLocalDateInterval();
+    internalLocalDateInterval.setFrom(new InternalDate(LocalDate.now()));
+    internalLocalDateInterval.setTom(new InternalDate(LocalDate.now()));
+    expectedInternalCertificate =
+        Ag114UtlatandeV1.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
@@ -91,14 +88,11 @@ class CertificateToInternalTest {
             .setJournaluppgifter(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
             .setAnnatGrundForMUBeskrivning("annatBeskrivning")
-            .setSysselsattning(List.of(
-                Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)
-            ))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .setOnskarFormedlaDiagnos(true)
             .setDiagnoser(
-                List.of(Diagnos.create("F502", DIAGNOS_ICD_10_ID, "diagnosBeskrivning", null))
-            )
+                List.of(Diagnos.create("F502", DIAGNOS_ICD_10_ID, "diagnosBeskrivning", null)))
             .setNedsattArbetsformaga("nedsattArbetsformaga")
             .setArbetsformagaTrotsSjukdom(true)
             .setArbetsformagaTrotsSjukdomBeskrivning("trotsSjukdomBeskrivning")
@@ -109,200 +103,242 @@ class CertificateToInternalTest {
             .setSjukskrivningsperiod(internalLocalDateInterval)
             .build();
 
-        certificate = CertificateBuilder.create()
+    certificate =
+        CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
             .addElement(
-                QuestionIntygetBaseratPa.toCertificate(expectedInternalCertificate.getUndersokningAvPatienten(),
+                QuestionIntygetBaseratPa.toCertificate(
+                    expectedInternalCertificate.getUndersokningAvPatienten(),
                     expectedInternalCertificate.getTelefonkontaktMedPatienten(),
-                    expectedInternalCertificate.getJournaluppgifter(), expectedInternalCertificate.getAnnatGrundForMU(), 0, textProvider)
-            )
+                    expectedInternalCertificate.getJournaluppgifter(),
+                    expectedInternalCertificate.getAnnatGrundForMU(),
+                    0,
+                    textProvider))
             .addElement(
-                QuestionAnnatBeskrivning.toCertificate(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider)
-            )
+                QuestionAnnatBeskrivning.toCertificate(
+                    expectedInternalCertificate.getAnnatGrundForMUBeskrivning(), 0, textProvider))
+            .addElement(QuestionSysselsattningTyp.toCertificate(0, textProvider))
             .addElement(
-                QuestionSysselsattningTyp.toCertificate(0, textProvider)
-            )
+                QuestionNuvarandeArbete.toCertificate(
+                    expectedInternalCertificate.getNuvarandeArbete(), 0, textProvider))
             .addElement(
-                QuestionNuvarandeArbete.toCertificate(expectedInternalCertificate.getNuvarandeArbete(), 0, textProvider)
-            )
+                QuestionOnskaFormedlaDiagnos.toCertificate(
+                    expectedInternalCertificate.getOnskarFormedlaDiagnos(), 0, textProvider))
             .addElement(
-                QuestionOnskaFormedlaDiagnos.toCertificate(expectedInternalCertificate.getOnskarFormedlaDiagnos(), 0, textProvider)
-            )
+                QuestionDiagnos.toCertificate(
+                    expectedInternalCertificate.getDiagnoser(), 0, textProvider))
             .addElement(
-                QuestionDiagnos.toCertificate(expectedInternalCertificate.getDiagnoser(), 0, textProvider)
-            )
+                QuestionNedsattArbetsformaga.toCertificate(
+                    expectedInternalCertificate.getNedsattArbetsformaga(), 0, textProvider))
             .addElement(
-                QuestionNedsattArbetsformaga.toCertificate(expectedInternalCertificate.getNedsattArbetsformaga(), 0, textProvider)
-            )
-            .addElement(
-                QuestionArbetsformagaTrotsSjukdom.toCertificate(expectedInternalCertificate.getArbetsformagaTrotsSjukdom(), 0, textProvider)
-            )
+                QuestionArbetsformagaTrotsSjukdom.toCertificate(
+                    expectedInternalCertificate.getArbetsformagaTrotsSjukdom(), 0, textProvider))
             .addElement(
                 QuestionArbetsformagaTrotsSjukdomBeskrivning.toCertificate(
-                    expectedInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(), 0, textProvider)
-            )
+                    expectedInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
+                    0,
+                    textProvider))
             .addElement(
-                QuestionOvrigaUpplysningar.toCertificate(expectedInternalCertificate.getOvrigaUpplysningar(), 0, textProvider)
-            )
+                QuestionOvrigaUpplysningar.toCertificate(
+                    expectedInternalCertificate.getOvrigaUpplysningar(), 0, textProvider))
             .addElement(
-                QuestionKontaktMedArbetsgivaren.toCertificate(expectedInternalCertificate.getKontaktMedArbetsgivaren(), 0, textProvider)
-            )
+                QuestionKontaktMedArbetsgivaren.toCertificate(
+                    expectedInternalCertificate.getKontaktMedArbetsgivaren(), 0, textProvider))
             .addElement(
-                QuestionAnledningTillKontakt.toCertificate(expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider)
-            )
+                QuestionAnledningTillKontakt.toCertificate(
+                    expectedInternalCertificate.getAnledningTillKontakt(), 0, textProvider))
             .addElement(
-                QuestionSjukskrivningsgrad.toCertificate(expectedInternalCertificate.getSjukskrivningsgrad(), 0, textProvider)
-            )
+                QuestionSjukskrivningsgrad.toCertificate(
+                    expectedInternalCertificate.getSjukskrivningsgrad(), 0, textProvider))
             .addElement(
-                QuestionSjukskrivningsperiod.toCertificate(expectedInternalCertificate.getSjukskrivningsperiod(), 0, textProvider)
-            )
+                QuestionSjukskrivningsperiod.toCertificate(
+                    expectedInternalCertificate.getSjukskrivningsperiod(), 0, textProvider))
             .build();
+  }
 
-    }
+  private static GrundData getGrundData() {
+    final var grundData = new GrundData();
+    final var hosPersonal = new HoSPersonal();
+    final var vardenhet = new Vardenhet();
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+    hosPersonal.setVardenhet(vardenhet);
+    grundData.setSkapadAv(hosPersonal);
+    grundData.setPatient(patient);
+    return grundData;
+  }
 
-    private static GrundData getGrundData() {
-        final var grundData = new GrundData();
-        final var hosPersonal = new HoSPersonal();
-        final var vardenhet = new Vardenhet();
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
-        hosPersonal.setVardenhet(vardenhet);
-        grundData.setSkapadAv(hosPersonal);
-        grundData.setPatient(patient);
-        return grundData;
-    }
+  @Test
+  void shallIncludeId() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
+  }
 
-    @Test
-    void shallIncludeId() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
-    }
+  @Test
+  void shallIncludeTextVersion() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
+  }
 
-    @Test
-    void shallIncludeTextVersion() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
-    }
+  @Test
+  void shallIncludeGrundData() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+  }
 
-    @Test
-    void shallIncludeGrundData() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
-    }
+  @Test
+  void shallIncludeUndersokningAvPatienten() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getUndersokningAvPatienten(),
+        actualInternalCertificate.getUndersokningAvPatienten());
+  }
 
-    @Test
-    void shallIncludeUndersokningAvPatienten() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getUndersokningAvPatienten(), actualInternalCertificate.getUndersokningAvPatienten());
-    }
+  @Test
+  void shallIncludeTelefonkontaktMedPatient() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getTelefonkontaktMedPatienten(),
+        actualInternalCertificate.getTelefonkontaktMedPatienten());
+  }
 
-    @Test
-    void shallIncludeTelefonkontaktMedPatient() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getTelefonkontaktMedPatienten(),
-            actualInternalCertificate.getTelefonkontaktMedPatienten());
-    }
+  @Test
+  void shallIncludeJournaluppgifter() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getJournaluppgifter(),
+        actualInternalCertificate.getJournaluppgifter());
+  }
 
-    @Test
-    void shallIncludeJournaluppgifter() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getJournaluppgifter(), actualInternalCertificate.getJournaluppgifter());
-    }
+  @Test
+  void shallIncludeAnnatGrundForMU() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAnnatGrundForMU(),
+        actualInternalCertificate.getAnnatGrundForMU());
+  }
 
-    @Test
-    void shallIncludeAnnatGrundForMU() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAnnatGrundForMU(), actualInternalCertificate.getAnnatGrundForMU());
-    }
+  @Test
+  void shallIncludeAnnatBeskrivning() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
+        actualInternalCertificate.getAnnatGrundForMUBeskrivning());
+  }
 
-    @Test
-    void shallIncludeAnnatBeskrivning() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAnnatGrundForMUBeskrivning(),
-            actualInternalCertificate.getAnnatGrundForMUBeskrivning());
-    }
+  @Test
+  void shallIncludeSysselsattningsTyp() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getSysselsattning(),
+        actualInternalCertificate.getSysselsattning());
+  }
 
-    @Test
-    void shallIncludeSysselsattningsTyp() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getSysselsattning(),
-            actualInternalCertificate.getSysselsattning());
-    }
+  @Test
+  void shallIncludeNuvarandeArbete() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getNuvarandeArbete(),
+        actualInternalCertificate.getNuvarandeArbete());
+  }
 
-    @Test
-    void shallIncludeNuvarandeArbete() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getNuvarandeArbete(),
-            actualInternalCertificate.getNuvarandeArbete());
-    }
+  @Test
+  void shallIncludeOnskaFormedlaDiagnos() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getOnskarFormedlaDiagnos(),
+        actualInternalCertificate.getOnskarFormedlaDiagnos());
+  }
 
-    @Test
-    void shallIncludeOnskaFormedlaDiagnos() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getOnskarFormedlaDiagnos(),
-            actualInternalCertificate.getOnskarFormedlaDiagnos());
-    }
+  @Test
+  void shallIncludeDiagnos() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getDiagnoser(), actualInternalCertificate.getDiagnoser());
+  }
 
-    @Test
-    void shallIncludeDiagnos() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getDiagnoser(),
-            actualInternalCertificate.getDiagnoser());
-    }
+  @Test
+  void shallIncludeNedsattArbetsformaga() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getNedsattArbetsformaga(),
+        actualInternalCertificate.getNedsattArbetsformaga());
+  }
 
-    @Test
-    void shallIncludeNedsattArbetsformaga() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getNedsattArbetsformaga(),
-            actualInternalCertificate.getNedsattArbetsformaga());
-    }
+  @Test
+  void shallIncludeArbetsformagaTrotsSjukdom() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getArbetsformagaTrotsSjukdom(),
+        actualInternalCertificate.getArbetsformagaTrotsSjukdom());
+  }
 
-    @Test
-    void shallIncludeArbetsformagaTrotsSjukdom() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getArbetsformagaTrotsSjukdom(),
-            actualInternalCertificate.getArbetsformagaTrotsSjukdom());
-    }
+  @Test
+  void shallIncludeArbetsformagaTrotsSjukdomBeskrivning() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
+        actualInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning());
+  }
 
-    @Test
-    void shallIncludeArbetsformagaTrotsSjukdomBeskrivning() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning(),
-            actualInternalCertificate.getArbetsformagaTrotsSjukdomBeskrivning());
-    }
+  @Test
+  void shallIncludeOvrigaUpplysningar() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getOvrigaUpplysningar(),
+        actualInternalCertificate.getOvrigaUpplysningar());
+  }
 
-    @Test
-    void shallIncludeOvrigaUpplysningar() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getOvrigaUpplysningar(),
-            actualInternalCertificate.getOvrigaUpplysningar());
-    }
+  @Test
+  void shallIncludeKontaktMedArbetsgivaren() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getKontaktMedArbetsgivaren(),
+        actualInternalCertificate.getKontaktMedArbetsgivaren());
+  }
 
-    @Test
-    void shallIncludeKontaktMedArbetsgivaren() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getKontaktMedArbetsgivaren(),
-            actualInternalCertificate.getKontaktMedArbetsgivaren());
-    }
+  @Test
+  void shallIncludeAnledningTillKontakt() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAnledningTillKontakt(),
+        actualInternalCertificate.getAnledningTillKontakt());
+  }
 
-    @Test
-    void shallIncludeAnledningTillKontakt() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAnledningTillKontakt(),
-            actualInternalCertificate.getAnledningTillKontakt());
-    }
+  @Test
+  void shallIncludeSjukskrivningsgrad() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getSjukskrivningsgrad(),
+        actualInternalCertificate.getSjukskrivningsgrad());
+  }
 
-    @Test
-    void shallIncludeSjukskrivningsgrad() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getSjukskrivningsgrad(),
-            actualInternalCertificate.getSjukskrivningsgrad());
-    }
-
-    @Test
-    void shallIncludeSjukskrivningsgPeriod() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getSjukskrivningsperiod(),
-            actualInternalCertificate.getSjukskrivningsperiod());
-    }
+  @Test
+  void shallIncludeSjukskrivningsgPeriod() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getSjukskrivningsperiod(),
+        actualInternalCertificate.getSjukskrivningsperiod());
+  }
 }

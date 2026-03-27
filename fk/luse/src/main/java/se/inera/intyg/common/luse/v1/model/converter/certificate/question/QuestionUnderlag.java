@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.luse.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.luse.v1.model.converter.RespConstants.GRUNDFORMU_CATEGORY_ID;
@@ -32,11 +31,18 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionUnderlag extends AbstractQuestionUnderlag {
 
-    public static CertificateDataElement toCertificate(List<Underlag> underlag, int index, CertificateTextProvider texts) {
-        return toCertificate(underlag, UnderlagsTyp.UNDERLAG_FRANSKOLHALSOVARD, UNDERLAG_SVAR_ID_4, GRUNDFORMU_CATEGORY_ID, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Underlag> underlag, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        underlag,
+        UnderlagsTyp.UNDERLAG_FRANSKOLHALSOVARD,
+        UNDERLAG_SVAR_ID_4,
+        GRUNDFORMU_CATEGORY_ID,
+        index,
+        texts);
+  }
 
-    public static List<Underlag> toInternal(Certificate certificate) {
-        return toInternal(certificate, UNDERLAG_SVAR_ID_4);
-    }
+  public static List<Underlag> toInternal(Certificate certificate) {
+    return toInternal(certificate, UNDERLAG_SVAR_ID_4);
+  }
 }

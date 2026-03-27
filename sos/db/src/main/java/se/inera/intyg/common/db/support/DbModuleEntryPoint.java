@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,74 +30,73 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 @Component("DbModuleEntryPoint")
 public class DbModuleEntryPoint implements ModuleEntryPoint {
 
-    public static final String MODULE_ID = "db";
-    public static final String MODULE_NAME = "Dödsbevis";
-    //Should be blank (see INTYG-6418)
-    public static final String ISSUER_TYPE_ID = "";
+  public static final String MODULE_ID = "db";
+  public static final String MODULE_NAME = "Dödsbevis";
+  // Should be blank (see INTYG-6418)
+  public static final String ISSUER_TYPE_ID = "";
 
-    private static final String DEFAULT_RECIPIENT_ID = "SKV";
-    public static final String MODULE_DESCRIPTION = "Dödsbevis";
-    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+  private static final String DEFAULT_RECIPIENT_ID = "SKV";
+  public static final String MODULE_DESCRIPTION = "Dödsbevis";
+  public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
 
-    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
-    @Autowired(required = false)
-    private Optional<IntygTextsRepository> repo;
+  // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+  @Autowired(required = false)
+  private Optional<IntygTextsRepository> repo;
 
-    @Override
-    public String getModuleId() {
-        return MODULE_ID;
+  @Override
+  public String getModuleId() {
+    return MODULE_ID;
+  }
+
+  @Override
+  public String getModuleName() {
+    return MODULE_NAME;
+  }
+
+  @Override
+  public String getModuleDescription() {
+    return MODULE_DESCRIPTION;
+  }
+
+  @Override
+  public String getDetailedModuleDescription() {
+    if (repo.isPresent()) {
+      final String latestVersion = repo.get().getLatestVersion(getModuleId());
+      final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+      if (texts != null) {
+        return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+      }
     }
+    return null;
+  }
 
-    @Override
-    public String getModuleName() {
-        return MODULE_NAME;
-    }
+  @Override
+  public String getExternalId() {
+    return KvIntygstyp.DB.getCodeValue();
+  }
 
-    @Override
-    public String getModuleDescription() {
-        return MODULE_DESCRIPTION;
-    }
+  @Override
+  public String getIssuerTypeId() {
+    return ISSUER_TYPE_ID;
+  }
 
-    @Override
-    public String getDetailedModuleDescription() {
-        if (repo.isPresent()) {
-            final String latestVersion = repo.get().getLatestVersion(getModuleId());
-            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
-            if (texts != null) {
-                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
-            }
-        }
-        return null;
-    }
+  @Override
+  public String getDefaultRecipient() {
+    return DEFAULT_RECIPIENT_ID;
+  }
 
-    @Override
-    public String getExternalId() {
-        return KvIntygstyp.DB.getCodeValue();
-    }
+  @Override
+  public String getModuleCssPath(ApplicationOrigin originator) {
+    return "";
+  }
 
-    @Override
-    public String getIssuerTypeId() {
-        return ISSUER_TYPE_ID;
-    }
+  @Override
+  public String getModuleScriptPath(ApplicationOrigin originator) {
+    return "/web/webjars/db/webcert/module";
+  }
 
-    @Override
-    public String getDefaultRecipient() {
-        return DEFAULT_RECIPIENT_ID;
-    }
-
-    @Override
-    public String getModuleCssPath(ApplicationOrigin originator) {
-        return "";
-    }
-
-    @Override
-    public String getModuleScriptPath(ApplicationOrigin originator) {
-        return "/web/webjars/db/webcert/module";
-    }
-
-    @Override
-    public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        return "/web/webjars/db/webcert/module-deps.json";
-    }
-
+  @Override
+  public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
+    return "/web/webjars/db/webcert/module-deps.json";
+  }
 }

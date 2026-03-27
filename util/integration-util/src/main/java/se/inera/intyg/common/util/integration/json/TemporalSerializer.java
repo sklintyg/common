@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,14 +30,15 @@ import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
  */
 public class TemporalSerializer extends StdSerializer<Temporal> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public TemporalSerializer() {
-        super(Temporal.class);
-    }
+  public TemporalSerializer() {
+    super(Temporal.class);
+  }
 
-    @Override
-    public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(PartialDateAdapter.printPartialDate(partial));
-    }
+  @Override
+  public void serialize(Temporal partial, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException {
+    jgen.writeString(PartialDateAdapter.printPartialDate(partial));
+  }
 }

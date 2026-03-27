@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -45,88 +44,92 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueViewTextT
 @ExtendWith(MockitoExtension.class)
 class QuestionRekommendationerKontaktMedFhvTest {
 
-    @Mock
-    CertificateMessagesProvider messagesProvider;
+  @Mock CertificateMessagesProvider messagesProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(messagesProvider.get(any(String.class))).thenReturn(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID);
+  @BeforeEach
+  void setUp() {
+    when(messagesProvider.get(any(String.class)))
+        .thenReturn(REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID);
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return REKOMMENDATIONER_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewTextTests extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return messagesProvider;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
-
-        @Override
-        protected String getTextId() {
-            return REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID;
-        }
+    @Override
+    protected String getParent() {
+      return REKOMMENDATIONER_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeValueViewTextTests extends ValueViewTextTest<Boolean> {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionRekommendationerKontaktMedFhv.toCertificate(expectedValue, 0, messagesProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(false, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(true, CertificateDataValueViewText.builder().text("Ja").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewTextTests extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionRekommendationerKontaktMedFhv.toCertificate(null, 0, messagesProvider);
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return messagesProvider;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+
+    @Override
+    protected String getTextId() {
+      return REKOMMENDATIONER_KONTAKT_MED_FHV_DELSVAR_TEXT_ID;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeValueViewTextTests extends ValueViewTextTest<Boolean> {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      return QuestionRekommendationerKontaktMedFhv.toCertificate(
+          expectedValue, 0, messagesProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Boolean, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              false, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              true, CertificateDataValueViewText.builder().text("Ja").build()));
+    }
+  }
 }

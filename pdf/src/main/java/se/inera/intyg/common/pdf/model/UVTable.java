@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,201 +35,210 @@ import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**
- * The table component is somewhat complex since table data can be either property- or function-based.
+ * The table component is somewhat complex since table data can be either property- or
+ * function-based.
  */
 public class UVTable extends UVComponent {
 
-    private static final float DEFAULT_TABLE_WIDTH_MM = 140f;
+  private static final float DEFAULT_TABLE_WIDTH_MM = 140f;
 
-    public UVTable(UVRenderer renderer) {
-        super(renderer);
+  public UVTable(UVRenderer renderer) {
+    super(renderer);
+  }
+
+  @Override
+  @SuppressFBWarnings({"RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE", "NP_LOAD_OF_KNOWN_NULL_VALUE"})
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    String modelProp = (String) currentUvNode.get(MODEL_PROP);
+
+    // Handle any modelPropOverride for this "modelProp"
+    if (handleModelPropOveride(parent, modelProp)) {
+      return true;
     }
 
-    @Override
-    @SuppressFBWarnings({"RCN_REDUNDANT_NULLCHECK_OF_NULL_VALUE",
-        "NP_LOAD_OF_KNOWN_NULL_VALUE"})
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        String modelProp = (String) currentUvNode.get(MODEL_PROP);
+    List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
-        // Handle any modelPropOverride for this "modelProp"
-        if (handleModelPropOveride(parent, modelProp)) {
-            return true;
-        }
-
-        List<String> headerLabels = buildHeaderLabels(currentUvNode);
-
-        Table table = new Table(headerLabels.size())
+    Table table =
+        new Table(headerLabels.size())
             .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
             .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
             .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM))
             .setKeepTogether(true);
 
-        // Render headers with tabs
-        renderHeaders(headerLabels, table);
+    // Render headers with tabs
+    renderHeaders(headerLabels, table);
 
-        // Tables rows are tricky. Value props may be strings or functions.
-        ScriptObjectMirror valuePropsObj = (ScriptObjectMirror) currentUvNode.get("valueProps");
+    // Tables rows are tricky. Value props may be strings or functions.
+    ScriptObjectMirror valuePropsObj = (ScriptObjectMirror) currentUvNode.get("valueProps");
 
-        if (!valuePropsObj.isArray()) {
-            throw new IllegalArgumentException("Table valueProps must be of type array.");
+    if (!valuePropsObj.isArray()) {
+      throw new IllegalArgumentException("Table valueProps must be of type array.");
+    }
+
+    ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
+
+    List<List<String>> data = new ArrayList<>();
+
+    // Iterate over the modelValue if array.
+    if (modelValue != null && modelValue.isArray()) {
+
+      // Start rows
+      for (Object value : modelValue.values()) {
+
+        // Start columns
+        List<String> columnValues = new ArrayList<>();
+        for (Object valueProp : valuePropsObj.values()) {
+
+          if (valueProp instanceof String) {
+            handleStringValueProp(
+                modelProp, (ScriptObjectMirror) value, (String) valueProp, columnValues);
+          }
+          if (valueProp instanceof ScriptObjectMirror) {
+            ScriptObjectMirror valuePropSOM = (ScriptObjectMirror) valueProp;
+            throw new IllegalStateException(
+                "Found unhandled ScriptObjectMirror in UVTable for valueProp "
+                    + valuePropSOM.getClassName());
+          }
         }
+        data.add(columnValues);
+      }
 
-        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
+    } else if (modelValue != null && modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
+      List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
 
-        List<List<String>> data = new ArrayList<>();
+      // Start rows. colProps are rows... very confusing...
+      int row = 0;
+      for (String colProp : colProps) {
+        List<String> columnValues = new ArrayList<>();
+        // Start cols
+        int col = 0;
+        for (Object valueProp : valuePropsObj.values()) {
+          Object o = modelValue.get(colProp);
 
-        // Iterate over the modelValue if array.
-        if (modelValue != null && modelValue.isArray()) {
-
-            // Start rows
-            for (Object value : modelValue.values()) {
-
-                // Start columns
-                List<String> columnValues = new ArrayList<>();
-                for (Object valueProp : valuePropsObj.values()) {
-
-                    if (valueProp instanceof String) {
-                        handleStringValueProp(modelProp, (ScriptObjectMirror) value, (String) valueProp, columnValues);
-                    }
-                    if (valueProp instanceof ScriptObjectMirror) {
-                        ScriptObjectMirror valuePropSOM = (ScriptObjectMirror) valueProp;
-                        throw new IllegalStateException(
-                            "Found unhandled ScriptObjectMirror in UVTable for valueProp " + valuePropSOM.getClassName());
-                    }
-
-                }
-                data.add(columnValues);
+          ScriptObjectMirror som = (ScriptObjectMirror) o;
+          ScriptObjectMirror function = (ScriptObjectMirror) valueProp;
+          Object result;
+          try {
+            result = function.call(null, som, row, col++, colProp);
+          } catch (NashornException e) {
+            result = EJ_ANGIVET_STR;
+          }
+          if (result != null && !(result.toString().equals("undefined"))) {
+            String text = renderer.getText(result.toString());
+            if (text != null) {
+              columnValues.add(text);
+            } else {
+              columnValues.add(result.toString());
             }
-
-        } else if (modelValue != null && modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
-            List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
-
-            // Start rows. colProps are rows... very confusing...
-            int row = 0;
-            for (String colProp : colProps) {
-                List<String> columnValues = new ArrayList<>();
-                // Start cols
-                int col = 0;
-                for (Object valueProp : valuePropsObj.values()) {
-                    Object o = modelValue.get(colProp);
-
-                    ScriptObjectMirror som = (ScriptObjectMirror) o;
-                    ScriptObjectMirror function = (ScriptObjectMirror) valueProp;
-                    Object result;
-                    try {
-                        result = function.call(null, som, row, col++, colProp);
-                    } catch (NashornException e) {
-                        result = EJ_ANGIVET_STR;
-                    }
-                    if (result != null && !(result.toString().equals("undefined"))) {
-                        String text = renderer.getText(result.toString());
-                        if (text != null) {
-                            columnValues.add(text);
-                        } else {
-                            columnValues.add(result.toString());
-                        }
-                    } else if (result != null && result.toString().equals("undefined")) {
-                        columnValues.add(EJ_ANGIVET_TABLE_STR);
-                    } else {
-                        columnValues.add("");
-                    }
-                }
-                row++;
-                data.add(columnValues);
-            }
+          } else if (result != null && result.toString().equals("undefined")) {
+            columnValues.add(EJ_ANGIVET_TABLE_STR);
+          } else {
+            columnValues.add("");
+          }
         }
+        row++;
+        data.add(columnValues);
+      }
+    }
 
-        // RENDER
-        if (hasValuesInTable(data)) {
-            renderTableData(table, data, headerLabels);
-            parent.add(table);
+    // RENDER
+    if (hasValuesInTable(data)) {
+      renderTableData(table, data, headerLabels);
+      parent.add(table);
+    } else {
+      parent.add(
+          new Paragraph(EJ_ANGIVET_STR)
+              .setItalic()
+              .setMarginBottom(0f)
+              .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+              .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+              .setFont(renderer.svarFont)
+              .setFontSize(SVAR_FONT_SIZE)
+              .setPadding(0f)
+              .setMarginTop(0f)
+              .setKeepTogether(false));
+    }
+
+    return true;
+  }
+
+  private boolean hasValuesInTable(List<List<String>> tableData) {
+    return tableData.stream()
+        .anyMatch(
+            row ->
+                row.stream()
+                    .anyMatch(col -> !Strings.isNullOrEmpty(col) && !col.equals(EJ_ANGIVET_STR)));
+  }
+
+  private void handleStringValueProp(
+      String modelProp, ScriptObjectMirror value, String valueStr, List<String> columnValues) {
+
+    if (valueStr.contains("{") && valueStr.contains("}")) {
+      // Extract the string between...
+      String extracted = valueStr.substring(valueStr.indexOf("{") + 1, valueStr.indexOf("}"));
+      String result = (String) renderer.findInModel(value, extracted);
+      String textKey = valueStr.replaceAll("\\{" + extracted + "\\}", result);
+
+      String text = renderer.getText(textKey);
+      if (!Strings.isNullOrEmpty(text)) {
+        columnValues.add(text);
+      } else {
+        columnValues.add("");
+      }
+    } else {
+      Object result = renderer.findInModel(value, valueStr);
+      if (result != null) {
+        columnValues.add(result.toString());
+      } else {
+        columnValues.add("");
+      }
+    }
+  }
+
+  private void renderTableData(Table table, List<List<String>> data, List<String> headerLabels) {
+    for (List<String> row : data) {
+      int columnIndex = 0;
+      for (String col : row) {
+        Paragraph paragraph =
+            new Paragraph(col).setFont(renderer.svarFont).setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
+
+        // Weird extra rule - if first column has no header text, make the values bold.
+        if (columnIndex == 0 && headerLabels.get(0).isEmpty()) {
+          paragraph.setFont(renderer.fragaDelFragaFont);
+        }
+        table.addCell(new Cell().setBorder(Border.NO_BORDER).add(paragraph));
+        columnIndex++;
+      }
+    }
+  }
+
+  private void renderHeaders(List<String> headerLabels, Table table) {
+    for (String header : headerLabels) {
+      table.addHeaderCell(
+          new Cell()
+              .setBorder(Border.NO_BORDER)
+              .setBorderBottom(new SolidBorder(DEFAULT_BORDER_WIDTH))
+              .add(
+                  new Paragraph(header)
+                      .setFont(renderer.fragaDelFragaFont)
+                      .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
+    }
+  }
+
+  private List<String> buildHeaderLabels(ScriptObjectMirror currentUvNode) {
+    List<String> headerLabels = new ArrayList<>();
+    for (String header : fromStringArray(currentUvNode.get("headers"))) {
+      if (header.endsWith(".RBK")) {
+        headerLabels.add(renderer.getText(header));
+      } else {
+        String text = renderer.getText(header);
+        if (text != null) {
+          headerLabels.add(text);
         } else {
-            parent.add(new Paragraph(EJ_ANGIVET_STR).setItalic()
-                .setMarginBottom(0f)
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f)
-                .setKeepTogether(false));
+          headerLabels.add(header);
         }
-
-        return true;
+      }
     }
-
-    private boolean hasValuesInTable(List<List<String>> tableData) {
-        return tableData.stream().anyMatch(row -> row.stream().anyMatch(col -> !Strings.isNullOrEmpty(col) && !col.equals(EJ_ANGIVET_STR)));
-    }
-
-    private void handleStringValueProp(String modelProp, ScriptObjectMirror value, String valueStr, List<String> columnValues) {
-
-        if (valueStr.contains("{") && valueStr.contains("}")) {
-            // Extract the string between...
-            String extracted = valueStr.substring(valueStr.indexOf("{") + 1, valueStr.indexOf("}"));
-            String result = (String) renderer.findInModel(value, extracted);
-            String textKey = valueStr.replaceAll("\\{" + extracted + "\\}", result);
-
-            String text = renderer.getText(textKey);
-            if (!Strings.isNullOrEmpty(text)) {
-                columnValues.add(text);
-            } else {
-                columnValues.add("");
-            }
-        } else {
-            Object result = renderer.findInModel(value, valueStr);
-            if (result != null) {
-                columnValues.add(result.toString());
-            } else {
-                columnValues.add("");
-            }
-        }
-    }
-
-    private void renderTableData(Table table, List<List<String>> data, List<String> headerLabels) {
-        for (List<String> row : data) {
-            int columnIndex = 0;
-            for (String col : row) {
-                Paragraph paragraph = new Paragraph(col)
-                    .setFont(renderer.svarFont)
-                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
-
-                // Weird extra rule - if first column has no header text, make the values bold.
-                if (columnIndex == 0 && headerLabels.get(0).isEmpty()) {
-                    paragraph.setFont(renderer.fragaDelFragaFont);
-                }
-                table.addCell(new Cell().setBorder(Border.NO_BORDER).add(paragraph));
-                columnIndex++;
-            }
-        }
-    }
-
-    private void renderHeaders(List<String> headerLabels, Table table) {
-        for (String header : headerLabels) {
-            table.addHeaderCell(
-                new Cell()
-                    .setBorder(Border.NO_BORDER)
-                    .setBorderBottom(new SolidBorder(DEFAULT_BORDER_WIDTH))
-                    .add(
-                        new Paragraph(header)
-                            .setFont(renderer.fragaDelFragaFont)
-                            .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
-        }
-    }
-
-    private List<String> buildHeaderLabels(ScriptObjectMirror currentUvNode) {
-        List<String> headerLabels = new ArrayList<>();
-        for (String header : fromStringArray(currentUvNode.get("headers"))) {
-            if (header.endsWith(".RBK")) {
-                headerLabels.add(renderer.getText(header));
-            } else {
-                String text = renderer.getText(header);
-                if (text != null) {
-                    headerLabels.add(text);
-                } else {
-                    headerLabels.add(header);
-                }
-            }
-        }
-        return headerLabels;
-    }
+    return headerLabels;
+  }
 }

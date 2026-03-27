@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -58,176 +58,182 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 @ExtendWith(MockitoExtension.class)
 class QuestionIdentitetStyrktGenomTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTest extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return IDENTITET_STYRKT_GENOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return IDENTITET_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class IncludeConfigRadioMultipleCodeTests extends ConfigRadioMultipleCodeTest {
 
-        @Nested
-        class IncludeCommonElementTest extends CommonElementTest {
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected String getId() {
-                return IDENTITET_STYRKT_GENOM_SVAR_ID;
-            }
+      @Override
+      protected String getTextId() {
+        return IDENTITET_STYRKT_GENOM_TEXT_ID;
+      }
 
-            @Override
-            protected String getParent() {
-                return IDENTITET_CATEGORY_ID;
-            }
+      @Override
+      protected String getDescriptionId() {
+        return IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
+        return Arrays.asList(
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.ID_KORT.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_ID_KORT_TEXT_ID))
+                .build(),
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.KORKORT.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID))
+                .build(),
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.FORSAKRAN_KAP18.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORSAKRAN_KAP18_TEXT_ID))
+                .build(),
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID))
+                .build(),
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.PERS_KANNEDOM.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID))
+                .build(),
+            RadioMultipleCode.builder()
+                .id(IdKontrollKod.PASS.getCode())
+                .label(textProvider.get(IDENTITET_STYRKT_GENOM_PASS_TEXT_ID))
+                .build());
+      }
 
-        @Nested
-        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        class IncludeConfigRadioMultipleCodeTests extends ConfigRadioMultipleCodeTest {
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return IDENTITET_STYRKT_GENOM_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return IDENTITET_STYRKT_GENOM_DESCRIPTION_ID;
-            }
-
-            @Override
-            protected List<RadioMultipleCode> getExpectedRadioMultipleCodes() {
-                return Arrays.asList(
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.ID_KORT.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_ID_KORT_TEXT_ID))
-                        .build(),
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.KORKORT.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_KORKORT_TEXT_ID))
-                        .build(),
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.FORSAKRAN_KAP18.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORSAKRAN_KAP18_TEXT_ID))
-                        .build(),
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_FORETAG_ELLER_TJANSTEKORT_TEXT_ID))
-                        .build(),
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.PERS_KANNEDOM.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_PERS_KANNEDOM_TEXT_ID))
-                        .build(),
-                    RadioMultipleCode.builder()
-                        .id(IdKontrollKod.PASS.getCode())
-                        .label(textProvider.get(IDENTITET_STYRKT_GENOM_PASS_TEXT_ID))
-                        .build()
-                );
-            }
-
-            @Override
-            protected Layout getExpectedLayout() {
-                return COLUMNS;
-            }
-        }
-
-        @Nested
-        class IncludeValueCodeTest extends ValueCodeTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(
-                    Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()), 0, textProvider);
-            }
-
-            @Override
-            protected String getCodeId() {
-                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
-            }
-
-            @Override
-            protected String getCode() {
-                return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return IDENTITET_STYRKT_GENOM_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + IdKontrollKod.ID_KORT.getCode()
-                    + ") || exists(" + IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()
-                    + ") || exists(" + IdKontrollKod.KORKORT.getCode()
-                    + ") || exists(" + IdKontrollKod.PERS_KANNEDOM.getCode()
-                    + ") || exists(" + IdKontrollKod.FORSAKRAN_KAP18.getCode()
-                    + ") || exists(" + IdKontrollKod.PASS.getCode() + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Nested
-        @TestInstance(Lifecycle.PER_CLASS)
-        class ToInternal extends InternalValueTest<Vardkontakt, Vardkontakt> {
-
-            @Override
-            protected CertificateDataElement getElement(Vardkontakt input) {
-                return QuestionIdentitetStyrktGenom.toCertificate(input, 0, textProvider);
-            }
-
-            @Override
-            protected Vardkontakt toInternalValue(Certificate certificate) {
-                return QuestionIdentitetStyrktGenom.toInternal(certificate);
-            }
-
-            @Override
-            protected List<InputExpectedValuePair<Vardkontakt, Vardkontakt>> inputExpectedValuePairList() {
-                return List.of(
-                    new InputExpectedValuePair<>(
-                        null, Vardkontakt.create(null, null)),
-                    new InputExpectedValuePair<>(
-                        Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode()),
-                        Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode())),
-                    new InputExpectedValuePair<>(
-                        Vardkontakt.create(null, ""), Vardkontakt.create(null, null))
-                );
-            }
-        }
+      @Override
+      protected Layout getExpectedLayout() {
+        return COLUMNS;
+      }
     }
+
+    @Nested
+    class IncludeValueCodeTest extends ValueCodeTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(
+            Vardkontakt.create(null, IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()),
+            0,
+            textProvider);
+      }
+
+      @Override
+      protected String getCodeId() {
+        return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
+      }
+
+      @Override
+      protected String getCode() {
+        return IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode();
+      }
+    }
+
+    @Nested
+    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return IDENTITET_STYRKT_GENOM_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists("
+            + IdKontrollKod.ID_KORT.getCode()
+            + ") || exists("
+            + IdKontrollKod.FORETAG_ELLER_TJANSTEKORT.getCode()
+            + ") || exists("
+            + IdKontrollKod.KORKORT.getCode()
+            + ") || exists("
+            + IdKontrollKod.PERS_KANNEDOM.getCode()
+            + ") || exists("
+            + IdKontrollKod.FORSAKRAN_KAP18.getCode()
+            + ") || exists("
+            + IdKontrollKod.PASS.getCode()
+            + ")";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionIdentitetStyrktGenom.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+
+    @Nested
+    @TestInstance(Lifecycle.PER_CLASS)
+    class ToInternal extends InternalValueTest<Vardkontakt, Vardkontakt> {
+
+      @Override
+      protected CertificateDataElement getElement(Vardkontakt input) {
+        return QuestionIdentitetStyrktGenom.toCertificate(input, 0, textProvider);
+      }
+
+      @Override
+      protected Vardkontakt toInternalValue(Certificate certificate) {
+        return QuestionIdentitetStyrktGenom.toInternal(certificate);
+      }
+
+      @Override
+      protected List<InputExpectedValuePair<Vardkontakt, Vardkontakt>>
+          inputExpectedValuePairList() {
+        return List.of(
+            new InputExpectedValuePair<>(null, Vardkontakt.create(null, null)),
+            new InputExpectedValuePair<>(
+                Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode()),
+                Vardkontakt.create(null, IdKontrollKod.PERS_KANNEDOM.getCode())),
+            new InputExpectedValuePair<>(
+                Vardkontakt.create(null, ""), Vardkontakt.create(null, null)));
+      }
+    }
+  }
 }

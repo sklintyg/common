@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,133 +46,131 @@ import se.inera.intyg.common.support.facade.testsetup.model.value.ValueBooleanTe
 @ExtendWith(MockitoExtension.class)
 class QuestionUnderlagFinnsTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlagFinns.toCertificate(null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return UNDERLAGFINNS_SVAR_ID_3;
-        }
-
-        @Override
-        protected String getParent() {
-            return GRUNDFORMU_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return UNDERLAGFINNS_SVAR_ID_3;
     }
 
-    @Nested
-    class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return UNDERLAGFINNS_SVAR_JSON_ID_3;
-        }
-
-        @Override
-        protected String getTextId() {
-            return UNDERLAGFINNS_SVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected String getSelectedText() {
-            return UNDERLAGFINNS_SELECTED_TEXT;
-        }
-
-        @Override
-        protected String getUnselectedText() {
-            return UNDERLAGFINNS_UNSELECTED_TEXT;
-        }
+    @Override
+    protected String getParent() {
+      return GRUNDFORMU_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValueBooleanTest extends ValueBooleanTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(true, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigRadioBooleanTest extends ConfigRadioBooleanTest {
 
-        @Override
-        protected String getJsonId() {
-            return UNDERLAGFINNS_SVAR_JSON_ID_3;
-        }
-
-        @Override
-        protected Boolean getBoolean() {
-            return true;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return UNDERLAGFINNS_SVAR_ID_3;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "exists(" + UNDERLAGFINNS_SVAR_JSON_ID_3 + ")";
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
-
-        @Override
-        protected CertificateDataElement getElement(Boolean expectedValue) {
-            return QuestionUnderlagFinns.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected Boolean toInternalBooleanValue(Certificate certificate) {
-            return QuestionUnderlagFinns.toInternal(certificate);
-        }
+    @Override
+    protected String getId() {
+      return UNDERLAGFINNS_SVAR_JSON_ID_3;
     }
 
+    @Override
+    protected String getTextId() {
+      return UNDERLAGFINNS_SVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected String getSelectedText() {
+      return UNDERLAGFINNS_SELECTED_TEXT;
+    }
+
+    @Override
+    protected String getUnselectedText() {
+      return UNDERLAGFINNS_UNSELECTED_TEXT;
+    }
+  }
+
+  @Nested
+  class IncludeValueBooleanTest extends ValueBooleanTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlagFinns.toCertificate(true, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return UNDERLAGFINNS_SVAR_JSON_ID_3;
+    }
+
+    @Override
+    protected Boolean getBoolean() {
+      return true;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUnderlagFinns.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return UNDERLAGFINNS_SVAR_ID_3;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists(" + UNDERLAGFINNS_SVAR_JSON_ID_3 + ")";
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+    @Override
+    protected CertificateDataElement getElement(Boolean expectedValue) {
+      return QuestionUnderlagFinns.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected Boolean toInternalBooleanValue(Certificate certificate) {
+      return QuestionUnderlagFinns.toInternal(certificate);
+    }
+  }
 }

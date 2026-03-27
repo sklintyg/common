@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,35 +27,34 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultOfCall;
  */
 public final class ResultOfCallUtil {
 
-    private ResultOfCallUtil() {
-    }
+  private ResultOfCallUtil() {}
 
-    public static ResultOfCall okResult() {
-        ResultOfCall result = new ResultOfCall();
-        result.setResultCode(ResultCodeEnum.OK);
-        return result;
-    }
+  public static ResultOfCall okResult() {
+    ResultOfCall result = new ResultOfCall();
+    result.setResultCode(ResultCodeEnum.OK);
+    return result;
+  }
 
-    public static ResultOfCall failResult(String errorText) {
-        return failResult(ErrorIdEnum.VALIDATION_ERROR, errorText);
-    }
+  public static ResultOfCall failResult(String errorText) {
+    return failResult(ErrorIdEnum.VALIDATION_ERROR, errorText);
+  }
 
-    public static ResultOfCall applicationErrorResult(String errorText) {
-        return failResult(ErrorIdEnum.APPLICATION_ERROR, errorText);
-    }
+  public static ResultOfCall applicationErrorResult(String errorText) {
+    return failResult(ErrorIdEnum.APPLICATION_ERROR, errorText);
+  }
 
-    private static ResultOfCall failResult(ErrorIdEnum errorType, String errorText) {
-        ResultOfCall result = new ResultOfCall();
-        result.setResultCode(ResultCodeEnum.ERROR);
-        result.setErrorId(errorType);
-        result.setErrorText(errorText);
-        return result;
-    }
+  private static ResultOfCall failResult(ErrorIdEnum errorType, String errorText) {
+    ResultOfCall result = new ResultOfCall();
+    result.setResultCode(ResultCodeEnum.ERROR);
+    result.setErrorId(errorType);
+    result.setErrorText(errorText);
+    return result;
+  }
 
-    public static ResultOfCall infoResult(String infoText) {
-        ResultOfCall result = new ResultOfCall();
-        result.setResultCode(ResultCodeEnum.INFO);
-        result.setInfoText(infoText);
-        return result;
-    }
+  public static ResultOfCall infoResult(String infoText) {
+    ResultOfCall result = new ResultOfCall();
+    result.setResultCode(ResultCodeEnum.INFO);
+    result.setInfoText(infoText);
+    return result;
+  }
 }

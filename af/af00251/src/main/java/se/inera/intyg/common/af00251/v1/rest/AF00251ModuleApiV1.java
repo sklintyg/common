@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -58,170 +58,207 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.af00251.v1")
 public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AF00251ModuleApiV1.class);
-    public static final String SCHEMATRON_FILE = "af00251.v1.sch";
+  private static final Logger LOG = LoggerFactory.getLogger(AF00251ModuleApiV1.class);
+  public static final String SCHEMATRON_FILE = "af00251.v1.sch";
 
-    @Value("${pdf.footer.app.name.text:1177 intyg}")
-    private String pdfFooterAppName;
+  @Value("${pdf.footer.app.name.text:1177 intyg}")
+  private String pdfFooterAppName;
 
-    public AF00251ModuleApiV1() {
-        super(AF00251UtlatandeV1.class);
+  public AF00251ModuleApiV1() {
+    super(AF00251UtlatandeV1.class);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    AF00251UtlatandeV1 intyg = getInternal(internalModel);
+
+    final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(intyg);
+
+    final String filtreradInternalModel = toInternalModelResponse(filtreratUtlatande);
+
+    IntygTexts texts = getTexts(AF00251EntryPoint.MODULE_ID, filtreratUtlatande.getTextVersion());
+
+    Personnummer personId = filtreratUtlatande.getGrundData().getPatient().getPersonId();
+    return new PdfGenerator()
+        .generatePdf(
+            filtreratUtlatande.getId(),
+            filtreradInternalModel,
+            "1",
+            personId,
+            texts,
+            statuses,
+            applicationOrigin,
+            utkastStatus,
+            pdfFooterAppName);
+  }
+
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    return null;
+  }
+
+  @Override
+  protected String getSchematronFileName() {
+    return SCHEMATRON_FILE;
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(AF00251UtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
+
+  @Override
+  protected AF00251UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
+
+  @Override
+  protected Intyg utlatandeToIntyg(AF00251UtlatandeV1 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
+
+  @Override
+  protected AF00251UtlatandeV1 decorateWithSignature(
+      AF00251UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
+
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    try {
+      String additionalInfo = null;
+      final AF00251UtlatandeV1 af00251UtlatandeV1 = transportToInternal(intyg);
+      if (af00251UtlatandeV1.getSjukfranvaro() != null
+          && af00251UtlatandeV1.getSjukfranvaro().size() > 0) {
+        additionalInfo =
+            af00251UtlatandeV1.getSjukfranvaro().stream()
+                .map(Sjukfranvaro::getPeriod)
+                .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
+                .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
+                .map(
+                    interval ->
+                        interval.getFrom().toString() + " - " + interval.getTom().toString())
+                .orElse(null);
+      }
+      return additionalInfo;
+
+    } catch (ConverterException e) {
+      throw new ModuleException(
+          "Could not convert Intyg to Utlatande and as a result could not get additional info", e);
     }
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        AF00251UtlatandeV1 intyg = getInternal(internalModel);
+  @Override
+  public String updateBeforeSigning(
+      String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+      throws ModuleException {
+    final AF00251UtlatandeV1 utlatandeV1 = getInternal(internalModel, signingDate);
 
-        final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(intyg);
+    final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(utlatandeV1);
 
-        final String filtreradInternalModel = toInternalModelResponse(filtreratUtlatande);
+    return super.updateBeforeSigning(
+        toInternalModelResponse(filtreratUtlatande), hosPerson, signingDate);
+  }
 
-        IntygTexts texts = getTexts(AF00251EntryPoint.MODULE_ID, filtreratUtlatande.getTextVersion());
-
-        Personnummer personId = filtreratUtlatande.getGrundData()
-            .getPatient()
-            .getPersonId();
-        return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses,
-            applicationOrigin, utkastStatus, pdfFooterAppName);
-    }
-
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
-        return null;
-    }
-
-    @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
-    }
-
-    @Override
-    protected RegisterCertificateType internalToTransport(AF00251UtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
-    }
-
-    @Override
-    protected AF00251UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
-
-    @Override
-    protected Intyg utlatandeToIntyg(AF00251UtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
-
-    @Override
-    protected AF00251UtlatandeV1 decorateWithSignature(AF00251UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder()
-            .setSignature(base64EncodedSignatureXml)
-            .build();
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        try {
-            String additionalInfo = null;
-            final AF00251UtlatandeV1 af00251UtlatandeV1 = transportToInternal(intyg);
-            if (af00251UtlatandeV1.getSjukfranvaro() != null && af00251UtlatandeV1.getSjukfranvaro().size() > 0) {
-                additionalInfo = af00251UtlatandeV1.getSjukfranvaro().stream()
-                    .map(Sjukfranvaro::getPeriod)
-                    .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
-                    .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
-                    .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
-                    .orElse(null);
-            }
-            return additionalInfo;
-
-        } catch (ConverterException e) {
-            throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
-        }
-    }
-
-    @Override
-    public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException {
-        final AF00251UtlatandeV1 utlatandeV1 = getInternal(internalModel, signingDate);
-
-        final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(utlatandeV1);
-
-        return super.updateBeforeSigning(toInternalModelResponse(filtreratUtlatande), hosPerson, signingDate);
-    }
-
-    AF00251UtlatandeV1 filterUncheckedSjukfranvaro(AF00251UtlatandeV1 utlatandeV1) {
-        final List<Sjukfranvaro> filtreradSjukfranvaro = utlatandeV1.getSjukfranvaro()
-            .stream()
+  AF00251UtlatandeV1 filterUncheckedSjukfranvaro(AF00251UtlatandeV1 utlatandeV1) {
+    final List<Sjukfranvaro> filtreradSjukfranvaro =
+        utlatandeV1.getSjukfranvaro().stream()
             .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
             .collect(Collectors.toList());
 
-        return utlatandeV1.toBuilder()
-            .setSjukfranvaro(filtreradSjukfranvaro)
-            .build();
+    return utlatandeV1.toBuilder().setSjukfranvaro(filtreradSjukfranvaro).build();
+  }
+
+  boolean nullToFalse(Boolean value) {
+    if (value == null) {
+      return false;
     }
+    return value;
+  }
 
-    boolean nullToFalse(Boolean value) {
-        if (value == null) {
-            return false;
-        }
-        return value;
+  @Override
+  public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
+      throws ModuleException {
+    try {
+      if (!AF00251UtlatandeV1.class.isInstance(template)) {
+        LOG.error("Could not create a new internal Webcert model using template of wrong type");
+        throw new ModuleConverterException(
+            "Could not create a new internal Webcert model using template of wrong type");
+      }
+
+      AF00251UtlatandeV1 internal = (AF00251UtlatandeV1) template;
+
+      // Null out applicable fields
+      AF00251UtlatandeV1 renewCopy =
+          internal.toBuilder()
+              .setSjukfranvaro(null)
+              .setUndersokningsDatum(null)
+              .setAnnatDatum(null)
+              .setAnnatBeskrivning(null)
+              .build();
+
+      Relation relation = draftCopyHolder.getRelation();
+      if (internal.getSjukfranvaro() != null) {
+        Optional<LocalDate> lastDateOfLastIntyg =
+            internal.getSjukfranvaro().stream()
+                .sorted(
+                    (s1, s2) ->
+                        s2.getPeriod()
+                            .getTom()
+                            .asLocalDate()
+                            .compareTo(s1.getPeriod().getTom().asLocalDate()))
+                .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
+                .findFirst();
+        relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
+        Optional<Integer> lastSjukskrivningsgradOfLastIntyg =
+            internal.getSjukfranvaro().stream()
+                .sorted(
+                    (s1, s2) ->
+                        s2.getPeriod()
+                            .getTom()
+                            .asLocalDate()
+                            .compareTo(s1.getPeriod().getTom().asLocalDate()))
+                .map(sjukskrivning -> sjukskrivning.getNiva())
+                .findFirst();
+        lastSjukskrivningsgradOfLastIntyg.ifPresent(
+            grad -> relation.setSistaSjukskrivningsgrad(grad.toString()));
+      }
+      draftCopyHolder.setRelation(relation);
+
+      return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
     }
+  }
 
-    @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-        throws ModuleException {
-        try {
-            if (!AF00251UtlatandeV1.class.isInstance(template)) {
-                LOG.error("Could not create a new internal Webcert model using template of wrong type");
-                throw new ModuleConverterException("Could not create a new internal Webcert model using template of wrong type");
-            }
-
-            AF00251UtlatandeV1 internal = (AF00251UtlatandeV1) template;
-
-            // Null out applicable fields
-            AF00251UtlatandeV1 renewCopy = internal.toBuilder()
-                .setSjukfranvaro(null)
-                .setUndersokningsDatum(null)
-                .setAnnatDatum(null)
-                .setAnnatBeskrivning(null)
-                .build();
-
-            Relation relation = draftCopyHolder.getRelation();
-            if (internal.getSjukfranvaro() != null) {
-                Optional<LocalDate> lastDateOfLastIntyg = internal.getSjukfranvaro().stream()
-                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                    .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
-                    .findFirst();
-                relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
-                Optional<Integer> lastSjukskrivningsgradOfLastIntyg = internal.getSjukfranvaro().stream()
-                    .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
-                    .map(sjukskrivning -> sjukskrivning.getNiva())
-                    .findFirst();
-                lastSjukskrivningsgradOfLastIntyg.ifPresent(grad -> relation.setSistaSjukskrivningsgrad(grad.toString()));
-            }
-            draftCopyHolder.setRelation(relation);
-
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof AF00251UtlatandeV1) {
+      return toInternalModelResponse((AF00251UtlatandeV1) utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class AF00251UtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof AF00251UtlatandeV1) {
-            return toInternalModelResponse((AF00251UtlatandeV1) utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class AF00251UtlatandeV1, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
-    }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    return model;
+  }
 }

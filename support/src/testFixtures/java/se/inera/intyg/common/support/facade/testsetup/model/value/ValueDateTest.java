@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,28 +28,28 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueDateTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract LocalDate getDate();
+  protected abstract LocalDate getDate();
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.DATE;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.DATE;
+  }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueDate) question.getValue();
-        assertEquals(getJsonId(), value.getId());
-    }
+  @Test
+  void shouldIncludeValueId() {
+    final var question = getElement();
+    final var value = (CertificateDataValueDate) question.getValue();
+    assertEquals(getJsonId(), value.getId());
+  }
 
-    @Test
-    void shouldIncludeValueDate() {
-        final var question = getElement();
-        final var value = (CertificateDataValueDate) question.getValue();
-        assertEquals(getDate(), value.getDate());
-    }
+  @Test
+  void shouldIncludeValueDate() {
+    final var question = getElement();
+    final var value = (CertificateDataValueDate) question.getValue();
+    assertEquals(getDate(), value.getDate());
+  }
 }

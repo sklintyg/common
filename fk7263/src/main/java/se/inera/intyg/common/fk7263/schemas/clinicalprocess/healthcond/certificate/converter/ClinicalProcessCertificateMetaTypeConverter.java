@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,35 +28,36 @@ import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData
 
 public final class ClinicalProcessCertificateMetaTypeConverter {
 
-    private ClinicalProcessCertificateMetaTypeConverter() {
-    }
+  private ClinicalProcessCertificateMetaTypeConverter() {}
 
-    public static CertificateMetaData toCertificateMetaData(CertificateMetaType certificateMetaType) {
-        CertificateMetaData metaData = new CertificateMetaData();
-        metaData.setCertificateId(certificateMetaType.getCertificateId());
-        metaData.setCertificateType(certificateMetaType.getCertificateType());
-        metaData.setValidFrom(certificateMetaType.getValidFrom());
-        metaData.setValidTo(certificateMetaType.getValidTo());
-        metaData.setIssuerName(certificateMetaType.getIssuerName());
-        metaData.setFacilityName(certificateMetaType.getFacilityName());
-        metaData.setSignDate(certificateMetaType.getSignDate());
-        metaData.setAdditionalInfo(certificateMetaType.getComplemantaryInfo());
-        metaData.setAvailable("true".equalsIgnoreCase(certificateMetaType.getAvailable()));
-        List<Status> statuses = toStatusList(certificateMetaType.getStatus());
-        metaData.setStatus(statuses);
-        return metaData;
-    }
+  public static CertificateMetaData toCertificateMetaData(CertificateMetaType certificateMetaType) {
+    CertificateMetaData metaData = new CertificateMetaData();
+    metaData.setCertificateId(certificateMetaType.getCertificateId());
+    metaData.setCertificateType(certificateMetaType.getCertificateType());
+    metaData.setValidFrom(certificateMetaType.getValidFrom());
+    metaData.setValidTo(certificateMetaType.getValidTo());
+    metaData.setIssuerName(certificateMetaType.getIssuerName());
+    metaData.setFacilityName(certificateMetaType.getFacilityName());
+    metaData.setSignDate(certificateMetaType.getSignDate());
+    metaData.setAdditionalInfo(certificateMetaType.getComplemantaryInfo());
+    metaData.setAvailable("true".equalsIgnoreCase(certificateMetaType.getAvailable()));
+    List<Status> statuses = toStatusList(certificateMetaType.getStatus());
+    metaData.setStatus(statuses);
+    return metaData;
+  }
 
-    public static List<Status> toStatusList(List<UtlatandeStatus> certificateStatuses) {
-        List<Status> statuses = new ArrayList<>(certificateStatuses.size());
-        for (UtlatandeStatus certificateStatus : certificateStatuses) {
-            statuses.add(toStatus(certificateStatus));
-        }
-        return statuses;
+  public static List<Status> toStatusList(List<UtlatandeStatus> certificateStatuses) {
+    List<Status> statuses = new ArrayList<>(certificateStatuses.size());
+    for (UtlatandeStatus certificateStatus : certificateStatuses) {
+      statuses.add(toStatus(certificateStatus));
     }
+    return statuses;
+  }
 
-    public static Status toStatus(UtlatandeStatus certificateStatus) {
-        return new Status(CertificateState.valueOf(certificateStatus.getType().value()), certificateStatus.getTarget(),
-            certificateStatus.getTimestamp());
-    }
+  public static Status toStatus(UtlatandeStatus certificateStatus) {
+    return new Status(
+        CertificateState.valueOf(certificateStatus.getType().value()),
+        certificateStatus.getTarget(),
+        certificateStatus.getTimestamp());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,21 +26,21 @@ import java.util.List;
  */
 public final class Valideringsresultat {
 
-    private List<String> fel;
+  private List<String> fel;
 
-    public Valideringsresultat() {
-        fel = Collections.emptyList();
-    }
+  public Valideringsresultat() {
+    fel = Collections.emptyList();
+  }
 
-    public Valideringsresultat(List<String> fel) {
-        this.fel = fel;
-    }
+  public Valideringsresultat(List<String> fel) {
+    this.fel = fel;
+  }
 
-    public List<String> getFel() {
-        return fel;
-    }
+  public List<String> getFel() {
+    return fel;
+  }
 
-    public void setFel(List<String> fel) {
-        this.fel = fel;
-    }
+  public void setFel(List<String> fel) {
+    this.fel = fel;
+  }
 }

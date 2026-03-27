@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_CATEGORY_ID;
@@ -32,23 +31,21 @@ import se.inera.intyg.common.support.facade.model.config.MessageLevel;
 
 public class QuestionSynSynskarpaMessage {
 
-
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(SYN_VARDEN_SYNSKARPA_MESSAGE_ID)
-            .parent(SYN_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigMessage.builder()
-                    .text(textProvider.get(SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID))
-                    .message(
-                        Message.builder()
-                            .content(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
-                            .level(MessageLevel.OBSERVE)
-                            .build()
-                    )
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(SYN_VARDEN_SYNSKARPA_MESSAGE_ID)
+        .parent(SYN_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigMessage.builder()
+                .text(textProvider.get(SYN_VARDEN_SYNSKARPA_SVAR_TEXT_ID))
+                .message(
+                    Message.builder()
+                        .content(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
+                        .level(MessageLevel.OBSERVE)
+                        .build())
+                .build())
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import org.springframework.stereotype.Component;
@@ -66,65 +65,128 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4
 @Component(value = "internalToCertificateTsDiabetesV4")
 public class InternalToCertificate {
 
-    public Certificate convert(TsDiabetesUtlatandeV4 internalCertificate, CertificateTextProvider textProvider) {
-        var index = 0;
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
-            .addElement(CategoryIntygetAvser.toCertificate(index++, textProvider))
-            .addElement(QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, textProvider))
-            .addElement(CategoryIdentitet.toCertificate(index++, textProvider))
-            .addElement(QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getIdentitetStyrktGenom(), index++, textProvider))
-            .addElement(CategoryAllmant.toCertificate(index++, textProvider))
-            .addElement(QuestionPatientenFoljsAv.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesDiagnosAr.toCertificate(internalCertificate.getAllmant(),
-                internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
-            .addElement(QuestionDiabetesTyp.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesHarMedicinering.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesBehandling.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(QuestionDiabetesBehandlingAnnan.toCertificate(internalCertificate.getAllmant(), index++, textProvider))
-            .addElement(
-                QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(internalCertificate.getAllmant(),
-                    internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
-            .addElement(CategoryHypoglykemi.toCertificate(index++, textProvider))
-            .addElement(QuestionHypoglykemiKontrollSjukdomstillstand.toCertificate(internalCertificate.getHypoglykemi(), index++,
+  public Certificate convert(
+      TsDiabetesUtlatandeV4 internalCertificate, CertificateTextProvider textProvider) {
+    var index = 0;
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, textProvider))
+        .addElement(CategoryIntygetAvser.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionIntygetAvser.toCertificate(
+                internalCertificate.getIntygAvser(), index++, textProvider))
+        .addElement(CategoryIdentitet.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionIdentitetStyrktGenom.toCertificate(
+                internalCertificate.getIdentitetStyrktGenom(), index++, textProvider))
+        .addElement(CategoryAllmant.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionPatientenFoljsAv.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesDiagnosAr.toCertificate(
+                internalCertificate.getAllmant(),
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(internalCertificate.getHypoglykemi(), index++,
+        .addElement(
+            QuestionDiabetesTyp.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesBeskrivningAnnanTyp.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesHarMedicinering.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesBehandling.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesBehandlingAnnan.toCertificate(
+                internalCertificate.getAllmant(), index++, textProvider))
+        .addElement(
+            QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+                internalCertificate.getAllmant(),
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiForstarRiskerMedHypoglykemi.toCertificate(internalCertificate.getHypoglykemi(), index++,
+        .addElement(CategoryHypoglykemi.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiKontrollSjukdomstillstand.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiForstarRiskerMedHypoglykemi.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiVidtaAdekvataAtgarder.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toCertificate(
+                internalCertificate.getHypoglykemi(),
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(internalCertificate.getHypoglykemi(), index++,
+        .addElement(
+            QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeVaketSenasteTolv.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+                internalCertificate.getHypoglykemi(),
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiVidtaAdekvataAtgarder.toCertificate(internalCertificate.getHypoglykemi(), index++, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(internalCertificate.getHypoglykemi(), index++,
+        .addElement(
+            QuestionHypoglykemiAllvarligSenasteTolvManaderna.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(
+            QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(
+                internalCertificate.getHypoglykemi(),
+                internalCertificate.getGrundData().getPatient().getPersonId(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toCertificate(internalCertificate.getHypoglykemi(),
-                internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toCertificate(internalCertificate.getHypoglykemi(), index++,
+        .addElement(
+            QuestionHypoglykemiRegelbundnaBlodsockerkontroller.toCertificate(
+                internalCertificate.getHypoglykemi(), index++, textProvider))
+        .addElement(CategoryOvrigt.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(
+                internalCertificate.getOvrigt(), index++, textProvider))
+        .addElement(
+            QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(
+                internalCertificate.getOvrigt(), index++, textProvider))
+        .addElement(
+            QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(
+                internalCertificate.getOvrigt(), index++, textProvider))
+        .addElement(CategoryBedomning.toCertificate(index++, textProvider))
+        .addElement(
+            QuestionBedomningUppfyllerBehorighetskrav.toCertificate(
+                internalCertificate.getBedomning(),
+                internalCertificate.getTextVersion(),
+                index++,
                 textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(internalCertificate.getHypoglykemi(), index++,
-                textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTolv.toCertificate(internalCertificate.getHypoglykemi(), index++,
-                textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(internalCertificate.getHypoglykemi(), index++,
-                textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(internalCertificate.getHypoglykemi(),
-                internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
-            .addElement(QuestionHypoglykemiAllvarligSenasteTolvManaderna.toCertificate(internalCertificate.getHypoglykemi(), index++,
-                textProvider))
-            .addElement(QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(internalCertificate.getHypoglykemi(),
-                internalCertificate.getGrundData().getPatient().getPersonId(), index++, textProvider))
-            .addElement(QuestionHypoglykemiRegelbundnaBlodsockerkontroller.toCertificate(internalCertificate.getHypoglykemi(), index++,
-                textProvider))
-            .addElement(CategoryOvrigt.toCertificate(index++, textProvider))
-            .addElement(QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
-            .addElement(QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
-            .addElement(QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(internalCertificate.getOvrigt(), index++, textProvider))
-            .addElement(CategoryBedomning.toCertificate(index++, textProvider))
-            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(internalCertificate.getBedomning(),
-                internalCertificate.getTextVersion(), index++, textProvider))
-            .addElement(QuestionBedomningOvrigaKommentarer.toCertificate(internalCertificate.getBedomning(), index, textProvider))
-            .build();
-    }
+        .addElement(
+            QuestionBedomningOvrigaKommentarer.toCertificate(
+                internalCertificate.getBedomning(), index, textProvider))
+        .build();
+  }
 }

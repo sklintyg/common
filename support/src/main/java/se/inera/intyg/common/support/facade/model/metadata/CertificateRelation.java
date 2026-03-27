@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,13 +32,11 @@ import se.inera.intyg.common.support.facade.model.metadata.CertificateRelation.C
 @Builder
 public class CertificateRelation {
 
-    private String certificateId;
-    private CertificateRelationType type;
-    private CertificateStatus status;
-    private LocalDateTime created;
+  private String certificateId;
+  private CertificateRelationType type;
+  private CertificateStatus status;
+  private LocalDateTime created;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateRelationBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateRelationBuilder {}
 }

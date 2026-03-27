@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,78 +51,87 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterTSDiabetesResponderImplTest {
 
-    private static final String LOGICAL_ADDRESS = "logicalAddress";
+  private static final String LOGICAL_ADDRESS = "logicalAddress";
 
-    @Mock
-    private ModuleContainerApi moduleContainer;
+  @Mock private ModuleContainerApi moduleContainer;
 
-    @InjectMocks
-    private RegisterTSDiabetesResponderImpl responder;
+  @InjectMocks private RegisterTSDiabetesResponderImpl responder;
 
-    @Test
-    public void testRegisterTSDiabetes() throws Exception {
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
-        RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+  @Test
+  public void testRegisterTSDiabetes() throws Exception {
+    RegisterTSDiabetesType request =
+        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+    RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
 
-        assertNotNull(res);
-        assertEquals(ResultCodeType.OK, res.getResultat().getResultCode());
+    assertNotNull(res);
+    assertEquals(ResultCodeType.OK, res.getResultat().getResultCode());
 
-        ArgumentCaptor<CertificateHolder> certificateHolderCaptor = ArgumentCaptor.forClass(CertificateHolder.class);
-        verify(moduleContainer).certificateReceived(certificateHolderCaptor.capture());
+    ArgumentCaptor<CertificateHolder> certificateHolderCaptor =
+        ArgumentCaptor.forClass(CertificateHolder.class);
+    verify(moduleContainer).certificateReceived(certificateHolderCaptor.capture());
 
-        assertNotNull(certificateHolderCaptor.getValue());
-        assertNotNull(certificateHolderCaptor.getValue().getOriginalCertificate());
-    }
+    assertNotNull(certificateHolderCaptor.getValue());
+    assertNotNull(certificateHolderCaptor.getValue().getOriginalCertificate());
+  }
 
-    @Test
-    public void testRegisterTSDiabetesCertificateAlreadyExists() throws Exception {
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
-        doThrow(new CertificateAlreadyExistsException("intygId")).when(moduleContainer).certificateReceived(any(CertificateHolder.class));
-        RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+  @Test
+  public void testRegisterTSDiabetesCertificateAlreadyExists() throws Exception {
+    RegisterTSDiabetesType request =
+        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+    doThrow(new CertificateAlreadyExistsException("intygId"))
+        .when(moduleContainer)
+        .certificateReceived(any(CertificateHolder.class));
+    RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
 
-        assertNotNull(res);
-        assertEquals(ResultCodeType.INFO, res.getResultat().getResultCode());
-        assertEquals("Certificate already exists", res.getResultat().getResultText());
+    assertNotNull(res);
+    assertEquals(ResultCodeType.INFO, res.getResultat().getResultCode());
+    assertEquals("Certificate already exists", res.getResultat().getResultText());
 
-        verify(moduleContainer).certificateReceived(any(CertificateHolder.class));
-    }
+    verify(moduleContainer).certificateReceived(any(CertificateHolder.class));
+  }
 
-    @Test
-    public void testRegisterTSDiabetesInvalidCertificate() throws Exception {
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
-        doThrow(new InvalidCertificateException("intygId", null)).when(moduleContainer).certificateReceived(any(CertificateHolder.class));
-        RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+  @Test
+  public void testRegisterTSDiabetesInvalidCertificate() throws Exception {
+    RegisterTSDiabetesType request =
+        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+    doThrow(new InvalidCertificateException("intygId", null))
+        .when(moduleContainer)
+        .certificateReceived(any(CertificateHolder.class));
+    RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
 
-        assertNotNull(res);
-        assertEquals(ResultCodeType.ERROR, res.getResultat().getResultCode());
-        assertEquals(ErrorIdType.APPLICATION_ERROR, res.getResultat().getErrorId());
-        assertEquals("Invalid certificate ID", res.getResultat().getResultText());
+    assertNotNull(res);
+    assertEquals(ResultCodeType.ERROR, res.getResultat().getResultCode());
+    assertEquals(ErrorIdType.APPLICATION_ERROR, res.getResultat().getErrorId());
+    assertEquals("Invalid certificate ID", res.getResultat().getResultText());
 
-        verify(moduleContainer).certificateReceived(any(CertificateHolder.class));
-    }
+    verify(moduleContainer).certificateReceived(any(CertificateHolder.class));
+  }
 
-    @Test
-    public void testRegisterTSDiabetesValidationError() throws Exception {
-        TransportValidatorInstance validatorMock = mock(TransportValidatorInstance.class);
-        when(validatorMock.validate(any(TSDiabetesIntyg.class))).thenReturn(Arrays.asList("validationerror1"));
-        ReflectionTestUtils.setField(responder, "validator", validatorMock);
+  @Test
+  public void testRegisterTSDiabetesValidationError() throws Exception {
+    TransportValidatorInstance validatorMock = mock(TransportValidatorInstance.class);
+    when(validatorMock.validate(any(TSDiabetesIntyg.class)))
+        .thenReturn(Arrays.asList("validationerror1"));
+    ReflectionTestUtils.setField(responder, "validator", validatorMock);
 
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
-        RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+    RegisterTSDiabetesType request =
+        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+    RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
 
-        assertNotNull(res);
-        assertEquals(ResultCodeType.ERROR, res.getResultat().getResultCode());
-        assertEquals(ErrorIdType.VALIDATION_ERROR, res.getResultat().getErrorId());
-        assertTrue(res.getResultat().getResultText().startsWith("Validation Error(s) found:"));
+    assertNotNull(res);
+    assertEquals(ResultCodeType.ERROR, res.getResultat().getResultCode());
+    assertEquals(ErrorIdType.VALIDATION_ERROR, res.getResultat().getErrorId());
+    assertTrue(res.getResultat().getResultText().startsWith("Validation Error(s) found:"));
 
-        verifyNoInteractions(moduleContainer);
-    }
+    verifyNoInteractions(moduleContainer);
+  }
 
-    @Test(expected = RuntimeException.class)
-    public void testRegisterTSDiabetesJAXBException() throws Exception {
-        ReflectionTestUtils.setField(responder, "objectFactory", null);
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+  @Test(expected = RuntimeException.class)
+  public void testRegisterTSDiabetesJAXBException() throws Exception {
+    ReflectionTestUtils.setField(responder, "objectFactory", null);
+    RegisterTSDiabetesType request =
+        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
-        responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
-    }
+    responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+  }
 }

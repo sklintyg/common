@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,40 +31,40 @@ import se.inera.intyg.common.support.facade.model.config.DiagnosesTerminology;
 
 public abstract class ConfigDiagnosTest extends ConfigTest {
 
-    protected abstract Map<String, String> getTerminologies();
+  protected abstract Map<String, String> getTerminologies();
 
-    protected abstract List<String> getDiagnosListItemIds();
+  protected abstract List<String> getDiagnosListItemIds();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_DIAGNOSES;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_DIAGNOSES;
+  }
 
-    @Test
-    void shallIncludeTerminologies() {
-        var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
-        var terminology = certificateDataConfigDiagnoses.getTerminology();
-        assertAll(
-            () -> {
-                for (DiagnosesTerminology diagnosesTerminology : terminology) {
-                    assertTrue(getTerminologies().containsKey(diagnosesTerminology.getId()));
-                    assertEquals(diagnosesTerminology.getLabel(), getTerminologies().get(diagnosesTerminology.getId()));
-                }
-            }
-        );
-    }
+  @Test
+  void shallIncludeTerminologies() {
+    var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
+    var terminology = certificateDataConfigDiagnoses.getTerminology();
+    assertAll(
+        () -> {
+          for (DiagnosesTerminology diagnosesTerminology : terminology) {
+            assertTrue(getTerminologies().containsKey(diagnosesTerminology.getId()));
+            assertEquals(
+                diagnosesTerminology.getLabel(),
+                getTerminologies().get(diagnosesTerminology.getId()));
+          }
+        });
+  }
 
-    @Test
-    void shallIncludeDiagnoseListItems() {
-        var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
-        var list = certificateDataConfigDiagnoses.getList();
-        assertAll(
-            () -> {
-                assertEquals(list.size(), getDiagnosListItemIds().size());
-                for (int i = 0; i < list.size(); i++) {
-                    assertEquals(list.get(i).getId(), getDiagnosListItemIds().get(i));
-                }
-            }
-        );
-    }
+  @Test
+  void shallIncludeDiagnoseListItems() {
+    var certificateDataConfigDiagnoses = (CertificateDataConfigDiagnoses) getElement().getConfig();
+    var list = certificateDataConfigDiagnoses.getList();
+    assertAll(
+        () -> {
+          assertEquals(list.size(), getDiagnosListItemIds().size());
+          for (int i = 0; i < list.size(); i++) {
+            assertEquals(list.get(i).getId(), getDiagnosListItemIds().get(i));
+          }
+        });
+  }
 }

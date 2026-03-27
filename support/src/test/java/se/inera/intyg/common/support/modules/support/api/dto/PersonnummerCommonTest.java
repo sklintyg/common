@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,55 +32,58 @@ import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
- * Tests the {@link Personnummer} class in a context where test dependencies to common-support are required.
+ * Tests the {@link Personnummer} class in a context where test dependencies to common-support are
+ * required.
  */
 public class PersonnummerCommonTest {
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", false);
-    }
+  @BeforeClass
+  public static void setUp() throws Exception {
+    ClassLoader.getSystemClassLoader()
+        .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", false);
+  }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        ClassLoader.getSystemClassLoader().setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);
-    }
+  @AfterClass
+  public static void tearDown() throws Exception {
+    ClassLoader.getSystemClassLoader()
+        .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);
+  }
 
-    @Test
-    public void testIsSamordningsNummer() throws Exception {
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000-0000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("999999-9999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("0000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("9999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("199999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("99999999999912345")));
-    }
+  @Test
+  public void testIsSamordningsNummer() throws Exception {
+    assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000-0000")));
+    assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("999999-9999")));
+    assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("0000000000")));
+    assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("9999999999")));
+    assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000000000")));
+    assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("199999999999")));
+    assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("99999999999912345")));
+  }
 
-    @Test
-    public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
-        //Given
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final Personnummer originalPnr = createPnr("191212121212").get();
-        final CertificateHolder complexType = new CertificateHolder();
-        complexType.setCivicRegistrationNumber(originalPnr);
-        complexType.setAdditionalInfo("test text");
+  @Test
+  public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
+    // Given
+    final ObjectMapper objectMapper = new ObjectMapper();
+    final Personnummer originalPnr = createPnr("191212121212").get();
+    final CertificateHolder complexType = new CertificateHolder();
+    complexType.setCivicRegistrationNumber(originalPnr);
+    complexType.setAdditionalInfo("test text");
 
-        //When
-        final String json = objectMapper.writeValueAsString(complexType);
+    // When
+    final String json = objectMapper.writeValueAsString(complexType);
 
-        //Then
-        assertTrue(json.contains("\"civicRegistrationNumber\":\"191212121212\""));
+    // Then
+    assertTrue(json.contains("\"civicRegistrationNumber\":\"191212121212\""));
 
-        //When
-        final CertificateHolder patient = objectMapper.readValue(json, CertificateHolder.class);
+    // When
+    final CertificateHolder patient = objectMapper.readValue(json, CertificateHolder.class);
 
-        //Then
-        assertEquals(originalPnr.getPersonnummer(), patient.getCivicRegistrationNumber().getPersonnummer());
-    }
+    // Then
+    assertEquals(
+        originalPnr.getPersonnummer(), patient.getCivicRegistrationNumber().getPersonnummer());
+  }
 
-    private Optional<Personnummer> createPnr(String pnr) {
-        return Personnummer.createPersonnummer(pnr);
-    }
-
+  private Optional<Personnummer> createPnr(String pnr) {
+    return Personnummer.createPersonnummer(pnr);
+  }
 }

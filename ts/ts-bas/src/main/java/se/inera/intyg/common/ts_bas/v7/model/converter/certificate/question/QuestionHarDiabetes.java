@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,37 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Diabetes;
 
 public class QuestionHarDiabetes {
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider textProvider) {
-        final var harDiabetes = diabetes != null && diabetes.getHarDiabetes() != null ? diabetes.getHarDiabetes() : null;
-        return CertificateDataElement.builder()
-            .id(HAR_DIABETES_SVAR_ID)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(HAR_DIABETES_JSON_ID)
-                    .text(textProvider.get(HAR_DIABETES_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(HAR_DIABETES_JSON_ID)
-                    .selected(harDiabetes)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HAR_DIABETES_SVAR_ID)
-                        .expression(exists(HAR_DIABETES_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider textProvider) {
+    final var harDiabetes =
+        diabetes != null && diabetes.getHarDiabetes() != null ? diabetes.getHarDiabetes() : null;
+    return CertificateDataElement.builder()
+        .id(HAR_DIABETES_SVAR_ID)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(HAR_DIABETES_JSON_ID)
+                .text(textProvider.get(HAR_DIABETES_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(HAR_DIABETES_JSON_ID)
+                .selected(harDiabetes)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HAR_DIABETES_SVAR_ID)
+                  .expression(exists(HAR_DIABETES_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), HAR_DIABETES_SVAR_ID, HAR_DIABETES_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), HAR_DIABETES_SVAR_ID, HAR_DIABETES_JSON_ID);
+  }
 }

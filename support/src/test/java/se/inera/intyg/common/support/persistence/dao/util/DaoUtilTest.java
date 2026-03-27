@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,12 +26,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class DaoUtilTest {
 
-    @Test
-    public void testPnrWithAndWithoutDashYieldsSameResult() {
-        Personnummer pnr1 = Personnummer.createPersonnummer("191212121212").get();
-        Personnummer pnr2 = Personnummer.createPersonnummer("19121212-1212").get();
+  @Test
+  public void testPnrWithAndWithoutDashYieldsSameResult() {
+    Personnummer pnr1 = Personnummer.createPersonnummer("191212121212").get();
+    Personnummer pnr2 = Personnummer.createPersonnummer("19121212-1212").get();
 
-        assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr1));
-        assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr2));
-    }
+    assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr1));
+    assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr2));
+  }
 }

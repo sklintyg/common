@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,81 +42,90 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 
-/**
- * Factory for creating an editable model.
- */
+/** Factory for creating an editable model. */
 @Component("ts-diabetes.v3.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUtlatandeV3> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    /**
-     * Create a new ts-diabetes V3 draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link TsDiabetesUtlatandeV3} or throws a ConverterException if something unforeseen happens
-     */
-    @Override
-    public TsDiabetesUtlatandeV3 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+  /**
+   * Create a new ts-diabetes V3 draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link TsDiabetesUtlatandeV3} or throws a ConverterException if something unforeseen
+   *     happens
+   */
+  @Override
+  public TsDiabetesUtlatandeV3 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
 
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
-        GrundData grundData = new GrundData();
+    TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
+    GrundData grundData = new GrundData();
 
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
-        resetDataInGrundData(grundData);
-        template.setSignature(null);
-        // initialize otherwise empty utlatande
-        template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
-        template.setAllmant(Allmant.builder().build());
-        template.setSynfunktion(Synfunktion.builder().build());
-        template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    resetDataInGrundData(grundData);
+    template.setSignature(null);
+    // initialize otherwise empty utlatande
+    template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
+    template.setAllmant(Allmant.builder().build());
+    template.setSynfunktion(Synfunktion.builder().build());
+    template.setBedomning(
+        Bedomning.builder()
+            .setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class))
+            .build());
 
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        return template.setGrundData(grundData).build();
+    return template.setGrundData(grundData).build();
+  }
+
+  @Override
+  public TsDiabetesUtlatandeV3 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!TsDiabetesUtlatandeV3.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type TsDiabetesUtlatandeV3");
     }
 
-    @Override
-    public TsDiabetesUtlatandeV3 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!TsDiabetesUtlatandeV3.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type TsDiabetesUtlatandeV3");
-        }
+    TsDiabetesUtlatandeV3 tsDiabetesUtlatandeV3 = (TsDiabetesUtlatandeV3) template;
 
-        TsDiabetesUtlatandeV3 tsDiabetesUtlatandeV3 = (TsDiabetesUtlatandeV3) template;
+    LOG.trace(
+        "Creating copy with id {} from {}",
+        copyData.getCertificateId(),
+        tsDiabetesUtlatandeV3.getId());
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsDiabetesUtlatandeV3.getId());
+    TsDiabetesUtlatandeV3.Builder templateBuilder = tsDiabetesUtlatandeV3.toBuilder();
+    GrundData grundData = tsDiabetesUtlatandeV3.getGrundData();
 
-        TsDiabetesUtlatandeV3.Builder templateBuilder = tsDiabetesUtlatandeV3.toBuilder();
-        GrundData grundData = tsDiabetesUtlatandeV3.getGrundData();
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInGrundData(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
 
-        resetDataInGrundData(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
+  private void populateWithId(TsDiabetesUtlatandeV3.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(TsDiabetesUtlatandeV3.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
+  private void resetDataInGrundData(GrundData grundData) {
+    Patient patient = new Patient();
+    patient.setPersonId(grundData.getPatient().getPersonId());
+    grundData.setPatient(patient);
 
-    private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-
-        grundData.setSigneringsdatum(null);
-    }
+    grundData.setSigneringsdatum(null);
+  }
 }

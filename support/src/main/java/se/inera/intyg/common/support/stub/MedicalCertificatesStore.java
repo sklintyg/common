@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,37 +24,38 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MedicalCertificatesStore {
 
-    public static final String MAKULERAD_JA = "JA";
-    public static final String MAKULERAD_NEJ = "NEJ";
-    public static final String MEDDELANDE = "Meddelande";
-    public static final String MAKULERAD = "Makulerad";
-    public static final String PERSONNUMMER = "Personnummer";
+  public static final String MAKULERAD_JA = "JA";
+  public static final String MAKULERAD_NEJ = "NEJ";
+  public static final String MEDDELANDE = "Meddelande";
+  public static final String MAKULERAD = "Makulerad";
+  public static final String PERSONNUMMER = "Personnummer";
 
-    private ConcurrentHashMap<String, Map<String, String>> certificates = new ConcurrentHashMap<String, Map<String, String>>();
+  private ConcurrentHashMap<String, Map<String, String>> certificates =
+      new ConcurrentHashMap<String, Map<String, String>>();
 
-    public void addCertificate(String id, Map<String, String> props) {
-        certificates.put(id, props);
+  public void addCertificate(String id, Map<String, String> props) {
+    certificates.put(id, props);
+  }
+
+  public int getCount() {
+    return certificates.size();
+  }
+
+  public Map<String, Map<String, String>> getAll() {
+    return new HashMap<String, Map<String, String>>(certificates);
+  }
+
+  public void clear() {
+    certificates.clear();
+  }
+
+  public void makulera(String id, String meddelande) {
+    Map<String, String> m = certificates.get(id);
+    if (m == null) {
+      m = new HashMap<>();
     }
-
-    public int getCount() {
-        return certificates.size();
-    }
-
-    public Map<String, Map<String, String>> getAll() {
-        return new HashMap<String, Map<String, String>>(certificates);
-    }
-
-    public void clear() {
-        certificates.clear();
-    }
-
-    public void makulera(String id, String meddelande) {
-        Map<String, String> m = certificates.get(id);
-        if (m == null) {
-            m = new HashMap<>();
-        }
-        m.put(MAKULERAD, MAKULERAD_JA);
-        m.put(MEDDELANDE, meddelande);
-        certificates.put(id, m);
-    }
+    m.put(MAKULERAD, MAKULERAD_JA);
+    m.put(MEDDELANDE, meddelande);
+    certificates.put(id, m);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,18 +22,15 @@ import com.itextpdf.layout.element.Div;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Ej implementerad.
- */
+/** Ej implementerad. */
 public class UVTillaggsFragor extends UVComponent {
 
-    public UVTillaggsFragor(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVTillaggsFragor(UVRenderer renderer) {
+    super(renderer);
+  }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        return true;
-    }
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    return true;
+  }
 }
-

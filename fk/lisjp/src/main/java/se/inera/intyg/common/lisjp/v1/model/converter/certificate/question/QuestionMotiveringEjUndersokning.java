@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -43,60 +42,59 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionMotiveringEjUndersokning {
 
-    private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
+  private static final short LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG = (short) 150;
 
-    public static CertificateDataElement toCertificate(String value, int index) {
-        return CertificateDataElement.builder()
-            .id(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1)
-            .index(index)
-            .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text("Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten")
-                    .description(
-                        "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar "
-                            + "mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\n"
-                            + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
-                    .icon("lightbulb_outline")
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
-                        .expression(
-                            multipleAndExpression(
-                                not(
-                                    singleExpression(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)
-                                ),
-                                wrapWithParenthesis(
-                                    multipleOrExpression(
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
-                                        singleExpression(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)
-                                    )
-                                )
-                            )
-                        )
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-                        .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(String value, int index) {
+    return CertificateDataElement.builder()
+        .id(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1)
+        .index(index)
+        .parent(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(
+                    "Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten")
+                .description(
+                    "Observera att detta inte är en fråga från Försäkringskassan. Information om varför sjukskrivningen startar "
+                        + "mer än en vecka före dagens datum kan vara till hjälp för Försäkringskassan i deras handläggning.\n"
+                        + "Informationen du anger nedan, kommer att överföras till fältet \"Övriga upplysningar\" vid signering.")
+                .icon("lightbulb_outline")
+                .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+                .text(value)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1)
+                  .expression(
+                      multipleAndExpression(
+                          not(
+                              singleExpression(
+                                  GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1)),
+                          wrapWithParenthesis(
+                              multipleOrExpression(
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1),
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1),
+                                  singleExpression(
+                                      GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1)))))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
+                  .limit(LIMIT_MOTIVERING_INTE_BASERAT_PA_UNDERLAG)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-            MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+        MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1);
+  }
 }

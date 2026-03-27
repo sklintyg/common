@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -43,95 +42,101 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
 @ExtendWith(MockitoExtension.class)
 class QuestionAlkoholNarkotikaProvtagningMessageTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_ID;
     }
 
-    @Nested
-    class IncludeConfigViewText extends ConfigMessageTest {
-
-
-        @Override
-        protected String getMessageId() {
-            return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID;
     }
 
-    @Nested
-    class MessageVisbilityTests {
-
-        @Test
-        void shouldBeVisibleIfProvtagningIsTrue() {
-            final var narkotikaLakemedel = NarkotikaLakemedel.builder().setProvtagningBehovs(true).build();
-            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(narkotikaLakemedel, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfProvtagningIsFalse() {
-            final var narkotikaLakemedel = NarkotikaLakemedel.builder().setProvtagningBehovs(false).build();
-            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(narkotikaLakemedel, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfProvtagningIsNull() {
-            final var narkotikaLakemedel = NarkotikaLakemedel.builder().build();
-            final var element = QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(narkotikaLakemedel, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewText extends ConfigMessageTest {
+
+    @Override
+    protected String getMessageId() {
+      return PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID;
+    }
+
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
+    }
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class MessageVisbilityTests {
+
+    @Test
+    void shouldBeVisibleIfProvtagningIsTrue() {
+      final var narkotikaLakemedel =
+          NarkotikaLakemedel.builder().setProvtagningBehovs(true).build();
+      final var element =
+          QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(
+              narkotikaLakemedel, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfProvtagningIsFalse() {
+      final var narkotikaLakemedel =
+          NarkotikaLakemedel.builder().setProvtagningBehovs(false).build();
+      final var element =
+          QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(
+              narkotikaLakemedel, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfProvtagningIsNull() {
+      final var narkotikaLakemedel = NarkotikaLakemedel.builder().build();
+      final var element =
+          QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(
+              narkotikaLakemedel, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+  }
 }

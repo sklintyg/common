@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,30 +30,36 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigIc
 @Builder
 public class CertificateDataConfigIcf implements CertificateDataConfig {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataConfigType type = CertificateDataConfigType.UE_ICF;
-    @Getter(onMethod = @__(@Override))
-    String header;
-    @Getter(onMethod = @__(@Override))
-    String label;
-    @Getter(onMethod = @__(@Override))
-    String icon;
-    @Getter(onMethod = @__(@Override))
-    String text;
-    @Getter(onMethod = @__(@Override))
-    String description;
-    @Getter(onMethod = @__(@Override))
-    Accordion accordion;
-    @Getter(onMethod = @__(@Override))
-    Message message;
-    String id;
-    String modalLabel;
-    String collectionsLabel;
-    String placeholder;
-    IcfCodesPropertyType icfCodesPropertyName;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataConfigType type = CertificateDataConfigType.UE_ICF;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataConfigIcfBuilder {
+  @Getter(onMethod = @__(@Override))
+  String header;
 
-    }
+  @Getter(onMethod = @__(@Override))
+  String label;
+
+  @Getter(onMethod = @__(@Override))
+  String icon;
+
+  @Getter(onMethod = @__(@Override))
+  String text;
+
+  @Getter(onMethod = @__(@Override))
+  String description;
+
+  @Getter(onMethod = @__(@Override))
+  Accordion accordion;
+
+  @Getter(onMethod = @__(@Override))
+  Message message;
+
+  String id;
+  String modalLabel;
+  String collectionsLabel;
+  String placeholder;
+  IcfCodesPropertyType icfCodesPropertyName;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataConfigIcfBuilder {}
 }

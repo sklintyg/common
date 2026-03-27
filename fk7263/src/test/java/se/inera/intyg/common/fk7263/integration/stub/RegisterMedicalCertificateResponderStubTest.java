@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -46,59 +46,63 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingConfig
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, TransportToInternal.class})
 class RegisterMedicalCertificateResponderStubTest {
 
-    private static JAXBContext jaxbContext;
-    private RegisterMedicalCertificateType request;
-    private AttributedURIType logicalAddress = new AttributedURIType();
+  private static JAXBContext jaxbContext;
+  private RegisterMedicalCertificateType request;
+  private AttributedURIType logicalAddress = new AttributedURIType();
 
-    @Mock
-    MedicalCertificatesStore store;
+  @Mock MedicalCertificatesStore store;
 
-    @InjectMocks
-    RegisterMedicalCertificateResponderStub stub;
+  @InjectMocks RegisterMedicalCertificateResponderStub stub;
 
-    @BeforeAll
-    static void setUpOnce() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
-    }
+  @BeforeAll
+  static void setUpOnce() throws JAXBException {
+    jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
+  }
 
-    @BeforeEach
-    void setUp() throws Exception {
-        logicalAddress.setValue("FK");
-        // read request from file
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        request = unmarshaller
-            .unmarshal(new StreamSource(new ClassPathResource("fk7263/fk7263.xml").getInputStream()), RegisterMedicalCertificateType.class)
+  @BeforeEach
+  void setUp() throws Exception {
+    logicalAddress.setValue("FK");
+    // read request from file
+    Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+    request =
+        unmarshaller
+            .unmarshal(
+                new StreamSource(new ClassPathResource("fk7263/fk7263.xml").getInputStream()),
+                RegisterMedicalCertificateType.class)
             .getValue();
-    }
+  }
 
-    @SuppressWarnings("unchecked")
-    @Test
-    void testName() throws Exception {
+  @SuppressWarnings("unchecked")
+  @Test
+  void testName() throws Exception {
 
-        request.getLakarutlatande().setLakarutlatandeId("id-1234567890");
+    request.getLakarutlatande().setLakarutlatandeId("id-1234567890");
 
-        stub.registerMedicalCertificate(logicalAddress, request);
+    stub.registerMedicalCertificate(logicalAddress, request);
 
-        verify(store).addCertificate(eq("id-1234567890"), any(Map.class));
-    }
+    verify(store).addCertificate(eq("id-1234567890"), any(Map.class));
+  }
 
-    @Test
-    void testThrowsExceptionWhenIdIsError() {
+  @Test
+  void testThrowsExceptionWhenIdIsError() {
 
-        request.getLakarutlatande().setLakarutlatandeId("error");
+    request.getLakarutlatande().setLakarutlatandeId("error");
 
-        assertThrows(RuntimeException.class, () -> stub.registerMedicalCertificate(logicalAddress, request));
-    }
+    assertThrows(
+        RuntimeException.class, () -> stub.registerMedicalCertificate(logicalAddress, request));
+  }
 
-//    @Test
-//     void testValidation() throws Exception {
-//        // Invalid p-nr
-//        request.getLakarutlatande().getPatient().getPersonId().setExtension("121212-1212");
-//
-//        RegisterMedicalCertificateResponseType response = stub.registerMedicalCertificate(logicalAddress, request);
-//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-//    }
+  //    @Test
+  //     void testValidation() throws Exception {
+  //        // Invalid p-nr
+  //        request.getLakarutlatande().getPatient().getPersonId().setExtension("121212-1212");
+  //
+  //        RegisterMedicalCertificateResponseType response =
+  // stub.registerMedicalCertificate(logicalAddress, request);
+  //        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
+  //    }
 }

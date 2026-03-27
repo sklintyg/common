@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,45 +41,46 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Hypoglykemi;
 
 public class QuestionHypoglykemiAterkommandeVaketSenasteTre {
 
-    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
-        final var aterkommandeVaketSenasteTre =
-            hypoglykemi != null && hypoglykemi.getAterkommandeVaketSenasteTre() != null
-                ? hypoglykemi.getAterkommandeVaketSenasteTre() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
-            .parent(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
-                    .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID))
-                    .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
-                    .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
-                    .selected(aterkommandeVaketSenasteTre)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
-                        .expression(exists(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemi hypoglykemi, int index, CertificateTextProvider textProvider) {
+    final var aterkommandeVaketSenasteTre =
+        hypoglykemi != null && hypoglykemi.getAterkommandeVaketSenasteTre() != null
+            ? hypoglykemi.getAterkommandeVaketSenasteTre()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
+        .parent(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
+                .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TEXT_ID))
+                .selectedText(textProvider.get(SVAR_JA_TEXT_ID))
+                .unselectedText(textProvider.get(SVAR_NEJ_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID)
+                .selected(aterkommandeVaketSenasteTre)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_SVAR_ID)
+                  .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TOLV_JSON_ID))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID)
+                  .expression(exists(HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID,
-            HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID,
+        HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID);
+  }
 }

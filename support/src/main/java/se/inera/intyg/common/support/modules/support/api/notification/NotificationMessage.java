@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,202 +28,247 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
 
 public class NotificationMessage {
 
-    private String intygsId;
+  private String intygsId;
 
-    private String intygsTyp;
+  private String intygsTyp;
 
-    private String logiskAdress;
+  private String logiskAdress;
 
-    private LocalDateTime handelseTid;
+  private LocalDateTime handelseTid;
 
-    private HandelsekodEnum handelse;
+  private HandelsekodEnum handelse;
 
-    private SchemaVersion version;
+  private SchemaVersion version;
 
-    private String reference;
+  private String reference;
 
-    // The reason why this is an Object is that when serializing with
-    // @JsonRawValue (below), it works as intended even
-    // if this is a string. However, deserializing doesn't work without the
-    // deserialized json in this attribute being
-    // quoted. A String getter and an JsonNode setter, both working with an
-    // Object attribute, works.
-    private Object utkastJson;
+  // The reason why this is an Object is that when serializing with
+  // @JsonRawValue (below), it works as intended even
+  // if this is a string. However, deserializing doesn't work without the
+  // deserialized json in this attribute being
+  // quoted. A String getter and an JsonNode setter, both working with an
+  // Object attribute, works.
+  private Object utkastJson;
 
-    private FragorOchSvar fragaSvar;
+  private FragorOchSvar fragaSvar;
 
-    private ArendeCount skickadeFragor;
+  private ArendeCount skickadeFragor;
 
-    private ArendeCount mottagnaFragor;
+  private ArendeCount mottagnaFragor;
 
-    private Amneskod amne;
+  private Amneskod amne;
 
-    private LocalDate sistaSvarsDatum;
+  private LocalDate sistaSvarsDatum;
 
-    private byte[] statusUpdateXml;
+  private byte[] statusUpdateXml;
 
-    public NotificationMessage() {
-        // Needed for deserialization
-    }
+  public NotificationMessage() {
+    // Needed for deserialization
+  }
 
-    // CHECKSTYLE:OFF ParameterNumber
-    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-        ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+  // CHECKSTYLE:OFF ParameterNumber
+  public NotificationMessage(
+      String intygsId,
+      String intygsTyp,
+      LocalDateTime handelseTid,
+      HandelsekodEnum handelse,
+      String logiskAdress,
+      String utkastJson,
+      FragorOchSvar fragaSvar,
+      ArendeCount skickadeFragor,
+      ArendeCount mottagnaFragor,
+      SchemaVersion version,
+      String reference) {
 
-        this(intygsId, intygsTyp, handelseTid, handelse,
-            logiskAdress, utkastJson, fragaSvar, skickadeFragor,
-            mottagnaFragor, version, reference, null, null);
-    }
+    this(
+        intygsId,
+        intygsTyp,
+        handelseTid,
+        handelse,
+        logiskAdress,
+        utkastJson,
+        fragaSvar,
+        skickadeFragor,
+        mottagnaFragor,
+        version,
+        reference,
+        null,
+        null);
+  }
 
-    public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-        ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
-        LocalDate sistaSvarsDatum) {
+  public NotificationMessage(
+      String intygsId,
+      String intygsTyp,
+      LocalDateTime handelseTid,
+      HandelsekodEnum handelse,
+      String logiskAdress,
+      String utkastJson,
+      FragorOchSvar fragaSvar,
+      ArendeCount skickadeFragor,
+      ArendeCount mottagnaFragor,
+      SchemaVersion version,
+      String reference,
+      Amneskod amne,
+      LocalDate sistaSvarsDatum) {
 
-        super();
-        this.intygsId = intygsId;
-        this.intygsTyp = intygsTyp;
-        this.handelseTid = handelseTid;
-        this.handelse = handelse;
-        this.logiskAdress = logiskAdress;
-        this.utkastJson = utkastJson;
-        this.fragaSvar = fragaSvar;
-        this.skickadeFragor = skickadeFragor;
-        this.mottagnaFragor = mottagnaFragor;
-        this.version = version;
-        this.reference = reference;
-        this.amne = amne;
-        this.sistaSvarsDatum = sistaSvarsDatum;
-    }
-    // CHECKSTYLE:ON ParameterNumber
+    super();
+    this.intygsId = intygsId;
+    this.intygsTyp = intygsTyp;
+    this.handelseTid = handelseTid;
+    this.handelse = handelse;
+    this.logiskAdress = logiskAdress;
+    this.utkastJson = utkastJson;
+    this.fragaSvar = fragaSvar;
+    this.skickadeFragor = skickadeFragor;
+    this.mottagnaFragor = mottagnaFragor;
+    this.version = version;
+    this.reference = reference;
+    this.amne = amne;
+    this.sistaSvarsDatum = sistaSvarsDatum;
+  }
 
-    @Override
-    public String toString() {
-        return "NotificationMessage{"
-            + "intygsId='" + intygsId + '\''
-            + ", intygsTyp='" + intygsTyp + '\''
-            + ", logiskAdress='" + logiskAdress + '\''
-            + ", handelseTid=" + handelseTid
-            + ", handelse=" + handelse
-            + ", version=" + version
-            + ", reference='" + reference + '\''
-            + ", amne=" + amne
-            + ", sistaSvarsDatum=" + sistaSvarsDatum
-            + ", statusUpdateXml=" + Arrays.toString(statusUpdateXml)
-            + '}';
-    }
+  // CHECKSTYLE:ON ParameterNumber
 
-    public String getIntygsId() {
-        return intygsId;
-    }
+  @Override
+  public String toString() {
+    return "NotificationMessage{"
+        + "intygsId='"
+        + intygsId
+        + '\''
+        + ", intygsTyp='"
+        + intygsTyp
+        + '\''
+        + ", logiskAdress='"
+        + logiskAdress
+        + '\''
+        + ", handelseTid="
+        + handelseTid
+        + ", handelse="
+        + handelse
+        + ", version="
+        + version
+        + ", reference='"
+        + reference
+        + '\''
+        + ", amne="
+        + amne
+        + ", sistaSvarsDatum="
+        + sistaSvarsDatum
+        + ", statusUpdateXml="
+        + Arrays.toString(statusUpdateXml)
+        + '}';
+  }
 
-    public String getIntygsTyp() {
-        return intygsTyp;
-    }
+  public String getIntygsId() {
+    return intygsId;
+  }
 
-    public String getLogiskAdress() {
-        return logiskAdress;
-    }
+  public String getIntygsTyp() {
+    return intygsTyp;
+  }
 
-    public LocalDateTime getHandelseTid() {
-        return handelseTid;
-    }
+  public String getLogiskAdress() {
+    return logiskAdress;
+  }
 
-    public HandelsekodEnum getHandelse() {
-        return handelse;
-    }
+  public LocalDateTime getHandelseTid() {
+    return handelseTid;
+  }
 
-    @JsonRawValue
-    public String getUtkast() {
-        return utkastJson == null ? null : utkastJson.toString();
-    }
+  public HandelsekodEnum getHandelse() {
+    return handelse;
+  }
 
-    public FragorOchSvar getFragaSvar() {
-        return fragaSvar;
-    }
+  @JsonRawValue
+  public String getUtkast() {
+    return utkastJson == null ? null : utkastJson.toString();
+  }
 
-    public ArendeCount getSkickadeFragor() {
-        return skickadeFragor;
-    }
+  public FragorOchSvar getFragaSvar() {
+    return fragaSvar;
+  }
 
-    public ArendeCount getMottagnaFragor() {
-        return mottagnaFragor;
-    }
+  public ArendeCount getSkickadeFragor() {
+    return skickadeFragor;
+  }
 
-    public void setIntygsId(String intygsId) {
-        this.intygsId = intygsId;
-    }
+  public ArendeCount getMottagnaFragor() {
+    return mottagnaFragor;
+  }
 
-    public void setIntygsTyp(String intygsTyp) {
-        this.intygsTyp = intygsTyp;
-    }
+  public void setIntygsId(String intygsId) {
+    this.intygsId = intygsId;
+  }
 
-    public void setLogiskAdress(String logiskAdress) {
-        this.logiskAdress = logiskAdress;
-    }
+  public void setIntygsTyp(String intygsTyp) {
+    this.intygsTyp = intygsTyp;
+  }
 
-    public void setHandelseTid(LocalDateTime handelseTid) {
-        this.handelseTid = handelseTid;
-    }
+  public void setLogiskAdress(String logiskAdress) {
+    this.logiskAdress = logiskAdress;
+  }
 
-    public void setHandelse(HandelsekodEnum handelse) {
-        this.handelse = handelse;
-    }
+  public void setHandelseTid(LocalDateTime handelseTid) {
+    this.handelseTid = handelseTid;
+  }
 
-    public void setUtkast(JsonNode utkastJson) {
-        this.utkastJson = utkastJson;
-    }
+  public void setHandelse(HandelsekodEnum handelse) {
+    this.handelse = handelse;
+  }
 
-    public void setFragaSvar(FragorOchSvar fragaSvar) {
-        this.fragaSvar = fragaSvar;
-    }
+  public void setUtkast(JsonNode utkastJson) {
+    this.utkastJson = utkastJson;
+  }
 
-    public void setSkickadeFragor(ArendeCount skickadeFragor) {
-        this.skickadeFragor = skickadeFragor;
-    }
+  public void setFragaSvar(FragorOchSvar fragaSvar) {
+    this.fragaSvar = fragaSvar;
+  }
 
-    public void setMottagnaFragor(ArendeCount mottagnaFragor) {
-        this.mottagnaFragor = mottagnaFragor;
-    }
+  public void setSkickadeFragor(ArendeCount skickadeFragor) {
+    this.skickadeFragor = skickadeFragor;
+  }
 
-    public SchemaVersion getVersion() {
-        return version;
-    }
+  public void setMottagnaFragor(ArendeCount mottagnaFragor) {
+    this.mottagnaFragor = mottagnaFragor;
+  }
 
-    public void setVersion(SchemaVersion version) {
-        this.version = version;
-    }
+  public SchemaVersion getVersion() {
+    return version;
+  }
 
-    public String getReference() {
-        return reference;
-    }
+  public void setVersion(SchemaVersion version) {
+    this.version = version;
+  }
 
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
+  public String getReference() {
+    return reference;
+  }
 
-    public Amneskod getAmne() {
-        return amne;
-    }
+  public void setReference(String reference) {
+    this.reference = reference;
+  }
 
-    public void setAmne(Amneskod amne) {
-        this.amne = amne;
-    }
+  public Amneskod getAmne() {
+    return amne;
+  }
 
-    public LocalDate getSistaSvarsDatum() {
-        return sistaSvarsDatum;
-    }
+  public void setAmne(Amneskod amne) {
+    this.amne = amne;
+  }
 
-    public void setSistaSvarsDatum(LocalDate sistaSvarsDatum) {
-        this.sistaSvarsDatum = sistaSvarsDatum;
-    }
+  public LocalDate getSistaSvarsDatum() {
+    return sistaSvarsDatum;
+  }
 
-    public byte[] getStatusUpdateXml() {
-        return statusUpdateXml;
-    }
+  public void setSistaSvarsDatum(LocalDate sistaSvarsDatum) {
+    this.sistaSvarsDatum = sistaSvarsDatum;
+  }
 
-    public void setStatusUpdateXml(byte[] statusUpdateXml) {
-        this.statusUpdateXml = statusUpdateXml;
-    }
+  public byte[] getStatusUpdateXml() {
+    return statusUpdateXml;
+  }
+
+  public void setStatusUpdateXml(byte[] statusUpdateXml) {
+    this.statusUpdateXml = statusUpdateXml;
+  }
 }

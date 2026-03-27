@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,31 +35,38 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
 
-    @Spy
-    private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
+  @Spy private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
 
-    @InjectMocks
-    private InternalDraftValidatorImpl internalValidator;
+  @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
-    @Test
-    public void testValidateMinimaltUtkast() throws ScenarioNotFoundException {
-        final int numErrors = 0;
-        LuseUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testValidateMinimaltUtkast() throws ScenarioNotFoundException {
+    final int numErrors = 0;
+    LuseUtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 
-    @Test
-    public void testUnderlagSkolhalsovardGerFel() throws ScenarioNotFoundException {
-        final int numErrors = 1;
-        LuseUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("underlagSkolhalsovard").asInternalModel();
-        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
-        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
-    }
+  @Test
+  public void testUnderlagSkolhalsovardGerFel() throws ScenarioNotFoundException {
+    final int numErrors = 1;
+    LuseUtlatandeV1 utlatandeFromJson =
+        ScenarioFinder.getInternalScenario("underlagSkolhalsovard").asInternalModel();
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validateDraft(utlatandeFromJson);
+    assertEquals(
+        String.format("Expected %s validation errors", numErrors),
+        numErrors,
+        getNumberOfInternalValidationErrors(internalValidationResponse));
+  }
 
-    private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().size();
-    }
+  private static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().size();
+  }
 }

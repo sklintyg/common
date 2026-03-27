@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,38 +25,37 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfWriter;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
-/**
- * A simple container for components with an optional title text.
- */
+/** A simple container for components with an optional title text. */
 public class FkPage extends PdfComponent<FkPage> {
 
-    private String pageTitle;
-    private float indentationLeft = 2f;
+  private String pageTitle;
+  private float indentationLeft = 2f;
 
-    public FkPage() {
-        // Default constructor
+  public FkPage() {
+    // Default constructor
+  }
+
+  public FkPage(String pageTitle) {
+    this.pageTitle = pageTitle;
+  }
+
+  public FkPage(String pageTitle, float indentationLeft) {
+    this.pageTitle = pageTitle;
+    this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
+  }
+
+  @Override
+  public void render(Document document, PdfWriter writer, float x, float y)
+      throws DocumentException {
+
+    document.newPage();
+
+    if (pageTitle != null) {
+      Paragraph header = new Paragraph(pageTitle, PdfConstants.FONT_PAGETITLE);
+      header.setIndentationLeft(indentationLeft);
+      document.add(header);
     }
 
-    public FkPage(String pageTitle) {
-        this.pageTitle = pageTitle;
-    }
-
-    public FkPage(String pageTitle, float indentationLeft) {
-        this.pageTitle = pageTitle;
-        this.indentationLeft = Utilities.millimetersToPoints(indentationLeft);
-    }
-
-    @Override
-    public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
-
-        document.newPage();
-
-        if (pageTitle != null) {
-            Paragraph header = new Paragraph(pageTitle, PdfConstants.FONT_PAGETITLE);
-            header.setIndentationLeft(indentationLeft);
-            document.add(header);
-        }
-
-        super.render(document, writer, x, y);
-    }
+    super.render(document, writer, x, y);
+  }
 }

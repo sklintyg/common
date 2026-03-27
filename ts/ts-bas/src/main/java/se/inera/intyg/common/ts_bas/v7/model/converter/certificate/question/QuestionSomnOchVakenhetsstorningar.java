@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,42 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.SomnVakenhet;
 
 public class QuestionSomnOchVakenhetsstorningar {
 
-    public static CertificateDataElement toCertificate(SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      SomnVakenhet somnVakenhet, int index, CertificateTextProvider textProvider) {
 
-        final var teckenSomnstorningar = somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
+    final var teckenSomnstorningar =
+        somnVakenhet != null ? somnVakenhet.getTeckenSomnstorningar() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
-            .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
-                    .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
-                    .selected(teckenSomnstorningar)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
-                        .expression(exists(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
+        .parent(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
+                .text(textProvider.get(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID)
+                .selected(teckenSomnstorningar)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID)
+                  .expression(exists(TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID,
-            TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID,
+        TECKEN_SOMN_ELLER_VAKENHETSSTORNING_JSON_ID);
+  }
 }

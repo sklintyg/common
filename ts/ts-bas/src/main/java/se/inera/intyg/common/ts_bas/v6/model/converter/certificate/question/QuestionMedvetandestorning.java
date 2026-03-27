@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,25 +31,22 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
 
 public class QuestionMedvetandestorning {
 
-    public static CertificateDataElement toCertificate(Medvetandestorning medvetande, int index,
-        CertificateTextProvider textProvider) {
-        final var medvetandestorning =
-            medvetande != null && medvetande.getMedvetandestorning() != null ? medvetande.getMedvetandestorning()
-                : null;
-        return CertificateDataElement.builder()
-            .id(MEDVETANDESTORNING_SVAR_ID)
-            .parent(MEDVETANDESTORNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(MEDVETANDESTORNING_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(medvetandestorning))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Medvetandestorning medvetande, int index, CertificateTextProvider textProvider) {
+    final var medvetandestorning =
+        medvetande != null && medvetande.getMedvetandestorning() != null
+            ? medvetande.getMedvetandestorning()
+            : null;
+    return CertificateDataElement.builder()
+        .id(MEDVETANDESTORNING_SVAR_ID)
+        .parent(MEDVETANDESTORNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(MEDVETANDESTORNING_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder().text(booleanValue(medvetandestorning)).build())
+        .build();
+  }
 }

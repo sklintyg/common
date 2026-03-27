@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -64,155 +64,184 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.af00213.v1")
 public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
-    public static final String SCHEMATRON_FILE = "af00213.v1.sch";
-    private Map<String, String> validationMessages;
+  private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV1.class);
+  public static final String SCHEMATRON_FILE = "af00213.v1.sch";
+  private Map<String, String> validationMessages;
 
-    @Value("${pdf.footer.app.name.text:1177 intyg}")
-    private String pdfFooterAppName;
+  @Value("${pdf.footer.app.name.text:1177 intyg}")
+  private String pdfFooterAppName;
 
-    public Af00213ModuleApiV1() {
-        super(Af00213UtlatandeV1.class);
-        init();
+  public Af00213ModuleApiV1() {
+    super(Af00213UtlatandeV1.class);
+    init();
+  }
+
+  private void init() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("af00213-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
     }
+  }
 
-    private void init() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2
-                = new ClassPathResource("af00213-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
+  /** {@inheritDoc} */
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    Af00213UtlatandeV1 af00213Intyg = getInternal(internalModel);
+    IntygTexts texts = getTexts(Af00213EntryPoint.MODULE_ID, af00213Intyg.getTextVersion());
+
+    Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
+    return new PdfGenerator()
+        .generatePdf(
+            af00213Intyg.getId(),
+            internalModel,
+            getMajorVersion(af00213Intyg.getTextVersion()),
+            personId,
+            texts,
+            statuses,
+            applicationOrigin,
+            utkastStatus,
+            pdfFooterAppName);
+  }
+
+  private String getMajorVersion(String textVersion) {
+    return textVersion.split("\\.", 0)[0];
+  }
+
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus) {
+    return null;
+  }
+
+  @Override
+  protected String getSchematronFileName() {
+    return SCHEMATRON_FILE;
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(Af00213UtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande);
+  }
+
+  @Override
+  protected Af00213UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
+
+  @Override
+  protected Intyg utlatandeToIntyg(Af00213UtlatandeV1 utlatande) {
+    return UtlatandeToIntyg.convert(utlatande);
+  }
+
+  @Override
+  protected Af00213UtlatandeV1 decorateWithSignature(
+      Af00213UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
+    return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+  }
+
+  @Override
+  public String getAdditionalInfo(Intyg intyg) {
+    return null;
+  }
+
+  @Override
+  public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
+      throws ModuleException {
+    try {
+      if (!Af00213UtlatandeV1.class.isInstance(template)) {
+        LOG.error("Could not create a new internal Webcert model using template of wrong type");
+        throw new ModuleConverterException(
+            "Could not create a new internal Webcert model using template of wrong type");
+      }
+
+      Af00213UtlatandeV1 internal = (Af00213UtlatandeV1) template;
+
+      // Null out applicable fields
+      Af00213UtlatandeV1 renewCopy = internal.toBuilder().build();
+
+      Relation relation = draftCopyHolder.getRelation();
+      draftCopyHolder.setRelation(relation);
+
+      return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
     }
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        Af00213UtlatandeV1 af00213Intyg = getInternal(internalModel);
-        IntygTexts texts = getTexts(Af00213EntryPoint.MODULE_ID, af00213Intyg.getTextVersion());
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var textProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
 
-        Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, getMajorVersion(af00213Intyg.getTextVersion()), personId,
-            texts, statuses, applicationOrigin,
-            utkastStatus, pdfFooterAppName);
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var updateInternalCertificate =
+        CertificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof Af00213UtlatandeV1) {
+      return toInternalModelResponse((Af00213UtlatandeV1) utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class Af00213UtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
 
-    private String getMajorVersion(String textVersion) {
-        return textVersion.split("\\.", 0)[0];
-    }
-
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) {
-        return null;
-    }
-
-    @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
-    }
-
-    @Override
-    protected RegisterCertificateType internalToTransport(Af00213UtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
-    }
-
-    @Override
-    protected Af00213UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
-
-    @Override
-    protected Intyg utlatandeToIntyg(Af00213UtlatandeV1 utlatande) {
-        return UtlatandeToIntyg.convert(utlatande);
-    }
-
-    @Override
-    protected Af00213UtlatandeV1 decorateWithSignature(Af00213UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) {
-        return null;
-    }
-
-    @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-        throws ModuleException {
-        try {
-            if (!Af00213UtlatandeV1.class.isInstance(template)) {
-                LOG.error("Could not create a new internal Webcert model using template of wrong type");
-                throw new ModuleConverterException("Could not create a new internal Webcert model using template of wrong type");
-            }
-
-            Af00213UtlatandeV1 internal = (Af00213UtlatandeV1) template;
-
-            // Null out applicable fields
-            Af00213UtlatandeV1 renewCopy = internal.toBuilder()
-                .build();
-
-            Relation relation = draftCopyHolder.getRelation();
-            draftCopyHolder.setRelation(relation);
-
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
-    }
-
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created) throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof Af00213UtlatandeV1) {
-            return toInternalModelResponse((Af00213UtlatandeV1) utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class Af00213UtlatandeV1, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        final var internalCertificate = getInternal(model);
-        final var textProvider = getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
-        final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        TestabilityToolkit.fillCertificateWithTestData(certificate, fillType, new Af00213TestabilityCertificateTestdataProvider());
-        final var updateInternalCertificate = CertificateToInternal.convert(certificate, internalCertificate);
-        return toInternalModelResponse(updateInternalCertificate);
-    }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    final var internalCertificate = getInternal(model);
+    final var textProvider =
+        getTextProvider(internalCertificate.getTyp(), internalCertificate.getTextVersion());
+    final var certificate = InternalToCertificate.convert(internalCertificate, textProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    TestabilityToolkit.fillCertificateWithTestData(
+        certificate, fillType, new Af00213TestabilityCertificateTestdataProvider());
+    final var updateInternalCertificate =
+        CertificateToInternal.convert(certificate, internalCertificate);
+    return toInternalModelResponse(updateInternalCertificate);
+  }
 }

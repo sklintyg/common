@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -51,205 +51,281 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
-@ContextConfiguration(classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
 public class UtlatandeToIntygTest {
 
-    private final String PNR_TOLVAN = "191212121212";
+  private final String PNR_TOLVAN = "191212121212";
 
-    @Mock
-    private WebcertModuleService webcertModuleService;
+  @Mock private WebcertModuleService webcertModuleService;
 
-    @Test
-    public void testConvert() throws Exception {
-        final String intygsId = "intygsid";
-        final String textVersion = "textversion";
-        final String enhetsId = "enhetsid";
-        final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = PNR_TOLVAN;
-        final String skapadAvFullstandigtNamn = "fullstandigt namn";
-        final String skapadAvPersonId = "skapad av pid";
-        final LocalDateTime signeringsdatum = LocalDateTime.now();
-        final String arbetsplatsKod = "arbetsplatsKod";
-        final String postadress = "postadress";
-        final String postNummer = "postNummer";
-        final String postOrt = "postOrt";
-        final String epost = "epost";
-        final String telefonNummer = "telefonNummer";
-        final String vardgivarid = "vardgivarid";
-        final String vardgivarNamn = "vardgivarNamn";
-        final String forskrivarKod = "forskrivarKod";
-        final String fornamn = "fornamn";
-        final String efternamn = "efternamn";
-        final String mellannamn = "mellannamn";
-        final String patientPostadress = "patientPostadress";
-        final String patientPostnummer = "patientPostnummer";
-        final String patientPostort = "patientPostort";
+  @Test
+  public void testConvert() throws Exception {
+    final String intygsId = "intygsid";
+    final String textVersion = "textversion";
+    final String enhetsId = "enhetsid";
+    final String enhetsnamn = "enhetsnamn";
+    final String patientPersonId = PNR_TOLVAN;
+    final String skapadAvFullstandigtNamn = "fullstandigt namn";
+    final String skapadAvPersonId = "skapad av pid";
+    final LocalDateTime signeringsdatum = LocalDateTime.now();
+    final String arbetsplatsKod = "arbetsplatsKod";
+    final String postadress = "postadress";
+    final String postNummer = "postNummer";
+    final String postOrt = "postOrt";
+    final String epost = "epost";
+    final String telefonNummer = "telefonNummer";
+    final String vardgivarid = "vardgivarid";
+    final String vardgivarNamn = "vardgivarNamn";
+    final String forskrivarKod = "forskrivarKod";
+    final String fornamn = "fornamn";
+    final String efternamn = "efternamn";
+    final String mellannamn = "mellannamn";
+    final String patientPostadress = "patientPostadress";
+    final String patientPostnummer = "patientPostnummer";
+    final String patientPostort = "patientPostort";
 
-        LisjpUtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+    LisjpUtlatandeV1 utlatande =
+        buildUtlatande(
+            intygsId,
+            textVersion,
+            enhetsId,
+            enhetsnamn,
+            patientPersonId,
+            skapadAvFullstandigtNamn,
+            skapadAvPersonId,
+            signeringsdatum,
+            arbetsplatsKod,
+            postadress,
+            postNummer,
+            postOrt,
+            epost,
             telefonNummer,
-            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-            null, null);
+            vardgivarid,
+            vardgivarNamn,
+            forskrivarKod,
+            fornamn,
+            efternamn,
+            mellannamn,
+            patientPostadress,
+            patientPostnummer,
+            patientPostort,
+            null,
+            null);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-        assertEquals(enhetsId, intyg.getIntygsId().getRoot());
-        assertEquals(intygsId, intyg.getIntygsId().getExtension());
-        assertEquals(textVersion, intyg.getVersion());
-        assertEquals(KvIntygstyp.LISJP.getCodeValue(), intyg.getTyp().getCode());
-        assertEquals(KvIntygstyp.LISJP.getCodeSystem(), intyg.getTyp().getCodeSystem());
-        assertEquals(KvIntygstyp.LISJP.getDisplayName(), intyg.getTyp().getDisplayName());
-        assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
-        assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
-        assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
-        assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
-        assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
-        assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
-        assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
-        assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
-        assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
-        assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
-        assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
-        assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
-        assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
-        assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
-        assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
-        assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
-        assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
-        assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-        assertEquals("", intyg.getPatient().getFornamn());
-        assertEquals("", intyg.getPatient().getEfternamn());
-        assertNull(intyg.getPatient().getMellannamn());
-        assertEquals("", intyg.getPatient().getPostadress());
-        assertEquals("", intyg.getPatient().getPostnummer());
-        assertEquals("", intyg.getPatient().getPostort());
-        assertTrue(intyg.getRelation().isEmpty());
+    assertEquals(enhetsId, intyg.getIntygsId().getRoot());
+    assertEquals(intygsId, intyg.getIntygsId().getExtension());
+    assertEquals(textVersion, intyg.getVersion());
+    assertEquals(KvIntygstyp.LISJP.getCodeValue(), intyg.getTyp().getCode());
+    assertEquals(KvIntygstyp.LISJP.getCodeSystem(), intyg.getTyp().getCodeSystem());
+    assertEquals(KvIntygstyp.LISJP.getDisplayName(), intyg.getTyp().getDisplayName());
+    assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
+    assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
+    assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
+    assertEquals(skapadAvFullstandigtNamn, intyg.getSkapadAv().getFullstandigtNamn());
+    assertNotNull(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getRoot());
+    assertEquals(skapadAvPersonId, intyg.getSkapadAv().getPersonalId().getExtension());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getRoot());
+    assertEquals(enhetsId, intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getEnhetsId().getExtension());
+    assertEquals(enhetsnamn, intyg.getSkapadAv().getEnhet().getEnhetsnamn());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getRoot());
+    assertEquals(arbetsplatsKod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
+    assertEquals(postadress, intyg.getSkapadAv().getEnhet().getPostadress());
+    assertEquals(postNummer, intyg.getSkapadAv().getEnhet().getPostnummer());
+    assertEquals(postOrt, intyg.getSkapadAv().getEnhet().getPostort());
+    assertEquals(epost, intyg.getSkapadAv().getEnhet().getEpost());
+    assertEquals(telefonNummer, intyg.getSkapadAv().getEnhet().getTelefonnummer());
+    assertNotNull(intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getRoot());
+    assertEquals(
+        vardgivarid,
+        intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
+    assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
+    assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
+    assertEquals("", intyg.getPatient().getFornamn());
+    assertEquals("", intyg.getPatient().getEfternamn());
+    assertNull(intyg.getPatient().getMellannamn());
+    assertEquals("", intyg.getPatient().getPostadress());
+    assertEquals("", intyg.getPatient().getPostnummer());
+    assertEquals("", intyg.getPatient().getPostort());
+    assertTrue(intyg.getRelation().isEmpty());
+  }
+
+  @Test
+  public void testConvertWithRelation() {
+    RelationKod relationKod = RelationKod.FRLANG;
+    String relationIntygsId = "relationIntygsId";
+    LisjpUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
+
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    assertNotNull(intyg.getRelation());
+    assertEquals(1, intyg.getRelation().size());
+    assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
+    assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
+    assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
+    assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
+  }
+
+  @Test
+  public void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
+    Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
+    LisjpUtlatandeV1 utlatande =
+        buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
+
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    assertTrue(intyg.getSvar().isEmpty());
+  }
+
+  @Test
+  public void testConvertWithConcatToOvrigt() {
+    LisjpUtlatandeV1 utlatande =
+        buildUtlatande().toBuilder()
+            .setMotiveringTillInteBaseratPaUndersokning("Motivering!")
+            .build();
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    assertTrue(intyg.getSvar().size() == 1);
+    assertEquals(
+        "Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
+        intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+  }
+
+  @Test
+  public void testConvertWithConcatToOvrigt2() {
+    LisjpUtlatandeV1 utlatande =
+        buildUtlatande().toBuilder()
+            .setMotiveringTillInteBaseratPaUndersokning("Motivering!")
+            .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!")
+            .setOvrigt("TheRealOvrigt")
+            .build();
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    assertTrue(intyg.getSvar().size() == 1);
+    assertEquals(
+        "Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"
+            + "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: Motivering2!\nTheRealOvrigt",
+        intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+  }
+
+  @Test
+  public void testConvertDoesNotAddSvarForSysselsattningWithoutType() {
+    Sysselsattning sysselsattning = Sysselsattning.create(null);
+    LisjpUtlatandeV1 utlatande =
+        buildUtlatande().toBuilder().setSysselsattning(Arrays.asList(sysselsattning)).build();
+
+    Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+    assertTrue(intyg.getSvar().isEmpty());
+  }
+
+  private LisjpUtlatandeV1 buildUtlatande() {
+    return buildUtlatande(null, null);
+  }
+
+  private LisjpUtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
+    return buildUtlatande(
+        "intygsId",
+        "textVersion",
+        "enhetsId",
+        "enhetsnamn",
+        PNR_TOLVAN,
+        "skapadAvFullstandigtNamn",
+        "skapadAvPersonId",
+        LocalDateTime.now(),
+        "arbetsplatsKod",
+        "postadress",
+        "postNummer",
+        "postOrt",
+        "epost",
+        "telefonNummer",
+        "vardgivarid",
+        "vardgivarNamn",
+        "forskrivarKod",
+        "fornamn",
+        "efternamn",
+        "mellannamn",
+        "patientPostadress",
+        "patientPostnummer",
+        "patientPostort",
+        relationKod,
+        relationIntygsId);
+  }
+
+  private LisjpUtlatandeV1 buildUtlatande(
+      String intygsId,
+      String textVersion,
+      String enhetsId,
+      String enhetsnamn,
+      String patientPersonId,
+      String skapadAvFullstandigtNamn,
+      String skapadAvPersonId,
+      LocalDateTime signeringsdatum,
+      String arbetsplatsKod,
+      String postadress,
+      String postNummer,
+      String postOrt,
+      String epost,
+      String telefonNummer,
+      String vardgivarid,
+      String vardgivarNamn,
+      String forskrivarKod,
+      String fornamn,
+      String efternamn,
+      String mellannamn,
+      String patientPostadress,
+      String patientPostnummer,
+      String patientPostort,
+      RelationKod relationKod,
+      String relationIntygsId) {
+
+    LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
+    template.setId(intygsId);
+    template.setTextVersion(textVersion);
+
+    GrundData grundData = new GrundData();
+    HoSPersonal skapadAv = new HoSPersonal();
+
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid(enhetsId);
+    vardenhet.setEnhetsnamn(enhetsnamn);
+    vardenhet.setArbetsplatsKod(arbetsplatsKod);
+    vardenhet.setPostadress(postadress);
+    vardenhet.setPostnummer(postNummer);
+    vardenhet.setPostort(postOrt);
+    vardenhet.setEpost(epost);
+    vardenhet.setTelefonnummer(telefonNummer);
+
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(vardgivarid);
+    vardgivare.setVardgivarnamn(vardgivarNamn);
+    vardenhet.setVardgivare(vardgivare);
+
+    skapadAv.setVardenhet(vardenhet);
+    skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
+    skapadAv.setPersonId(skapadAvPersonId);
+    skapadAv.setForskrivarKod(forskrivarKod);
+    grundData.setSkapadAv(skapadAv);
+
+    Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
+
+    Patient patient = new Patient();
+    patient.setPersonId(personId);
+    patient.setFornamn(fornamn);
+    patient.setEfternamn(efternamn);
+    patient.setMellannamn(mellannamn);
+    patient.setPostadress(patientPostadress);
+    patient.setPostnummer(patientPostnummer);
+    patient.setPostort(patientPostort);
+
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(signeringsdatum);
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationIntygsId(relationIntygsId);
+      relation.setRelationKod(relationKod);
+      grundData.setRelation(relation);
     }
+    template.setGrundData(grundData);
 
-    @Test
-    public void testConvertWithRelation() {
-        RelationKod relationKod = RelationKod.FRLANG;
-        String relationIntygsId = "relationIntygsId";
-        LisjpUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
-
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
-        assertNotNull(intyg.getRelation());
-        assertEquals(1, intyg.getRelation().size());
-        assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
-        assertNotNull(intyg.getRelation().get(0).getTyp().getCodeSystem());
-        assertEquals(relationIntygsId, intyg.getRelation().get(0).getIntygsId().getExtension());
-        assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
-    }
-
-    @Test
-    public void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
-        Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
-        LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
-
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
-        assertTrue(intyg.getSvar().isEmpty());
-    }
-
-    @Test
-    public void testConvertWithConcatToOvrigt() {
-        LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!").build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
-        assertTrue(intyg.getSvar().size() == 1);
-        assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
-            intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
-    }
-
-    @Test
-    public void testConvertWithConcatToOvrigt2() {
-        LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!")
-            .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
-        assertTrue(intyg.getSvar().size() == 1);
-        assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"
-                + "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: Motivering2!\nTheRealOvrigt",
-            intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
-    }
-
-    @Test
-    public void testConvertDoesNotAddSvarForSysselsattningWithoutType() {
-        Sysselsattning sysselsattning = Sysselsattning.create(null);
-        LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setSysselsattning(Arrays.asList(sysselsattning)).build();
-
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
-        assertTrue(intyg.getSvar().isEmpty());
-    }
-
-    private LisjpUtlatandeV1 buildUtlatande() {
-        return buildUtlatande(null, null);
-    }
-
-    private LisjpUtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
-        return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
-    }
-
-    private LisjpUtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-        String arbetsplatsKod,
-        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-        String patientPostort, RelationKod relationKod, String relationIntygsId) {
-
-        LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
-        template.setId(intygsId);
-        template.setTextVersion(textVersion);
-
-        GrundData grundData = new GrundData();
-        HoSPersonal skapadAv = new HoSPersonal();
-
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid(enhetsId);
-        vardenhet.setEnhetsnamn(enhetsnamn);
-        vardenhet.setArbetsplatsKod(arbetsplatsKod);
-        vardenhet.setPostadress(postadress);
-        vardenhet.setPostnummer(postNummer);
-        vardenhet.setPostort(postOrt);
-        vardenhet.setEpost(epost);
-        vardenhet.setTelefonnummer(telefonNummer);
-
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(vardgivarid);
-        vardgivare.setVardgivarnamn(vardgivarNamn);
-        vardenhet.setVardgivare(vardgivare);
-
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
-        skapadAv.setPersonId(skapadAvPersonId);
-        skapadAv.setForskrivarKod(forskrivarKod);
-        grundData.setSkapadAv(skapadAv);
-
-        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
-
-        Patient patient = new Patient();
-        patient.setPersonId(personId);
-        patient.setFornamn(fornamn);
-        patient.setEfternamn(efternamn);
-        patient.setMellannamn(mellannamn);
-        patient.setPostadress(patientPostadress);
-        patient.setPostnummer(patientPostnummer);
-        patient.setPostort(patientPostort);
-
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(signeringsdatum);
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationIntygsId(relationIntygsId);
-            relation.setRelationKod(relationKod);
-            grundData.setRelation(relation);
-        }
-        template.setGrundData(grundData);
-
-        return template.build();
-    }
+    return template.build();
+  }
 }

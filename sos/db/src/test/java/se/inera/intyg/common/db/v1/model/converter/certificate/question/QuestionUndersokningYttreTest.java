@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -54,158 +54,174 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @ExtendWith(MockitoExtension.class)
 class QuestionUndersokningYttreTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionUndersokningYttre.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertEquals(UNDERSOKNING_YTTRE_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(UNDERSOKNING_YTTRE_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigType() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueJa() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(Undersokning.JA.name())
-                .label(Undersokning.JA.getBeskrivning())
-                .build();
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueSkaGoras() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(Undersokning.UNDERSOKNING_SKA_GORAS.name())
-                .label(Undersokning.UNDERSOKNING_SKA_GORAS.getBeskrivning())
-                .build();
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueKortForeDoden() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
-                .label(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.getBeskrivning())
-                .build();
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
-        }
-
-        @Test
-        void shouldIncludeCodeValueType() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeCodeValueId() {
-            final var question = QuestionUndersokningYttre.toCertificate(Undersokning.JA, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(Undersokning.JA.name(), certificateDataValueCode.getId());
-        }
-
-        @Test
-        void shouldIncludeCodeValue() {
-            final var question = QuestionUndersokningYttre.toCertificate(Undersokning.JA, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(Undersokning.JA.name(), certificateDataValueCode.getCode());
-        }
-
-        @Test
-        void shouldIncludeCodeValueEmpty() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertNull(certificateDataValueCode.getCode());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(UNDERSOKNING_YTTRE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "exists(" + Undersokning.JA.name()
-                + ") || exists(" + Undersokning.UNDERSOKNING_SKA_GORAS.name()
-                + ") || exists(" + Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name() + ")";
-
-            final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionUndersokningYttre.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<Undersokning> undersokningYttreValues() {
-            return Stream.of(
-                Undersokning.JA,
-                Undersokning.UNDERSOKNING_SKA_GORAS,
-                Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN,
-                null
-            );
-        }
-
-        @ParameterizedTest
-        @MethodSource("undersokningYttreValues")
-        void shouldIncludeTextValue(Undersokning expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionUndersokningYttre.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionUndersokningYttre.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
-        }
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertEquals(UNDERSOKNING_YTTRE_CATEGORY_ID, question.getParent());
     }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(UNDERSOKNING_YTTRE_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigType() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueJa() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(Undersokning.JA.name())
+              .label(Undersokning.JA.getBeskrivning())
+              .build();
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueSkaGoras() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(Undersokning.UNDERSOKNING_SKA_GORAS.name())
+              .label(Undersokning.UNDERSOKNING_SKA_GORAS.getBeskrivning())
+              .build();
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueKortForeDoden() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name())
+              .label(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.getBeskrivning())
+              .build();
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
+    }
+
+    @Test
+    void shouldIncludeCodeValueType() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeCodeValueId() {
+      final var question = QuestionUndersokningYttre.toCertificate(Undersokning.JA, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(Undersokning.JA.name(), certificateDataValueCode.getId());
+    }
+
+    @Test
+    void shouldIncludeCodeValue() {
+      final var question = QuestionUndersokningYttre.toCertificate(Undersokning.JA, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(Undersokning.JA.name(), certificateDataValueCode.getCode());
+    }
+
+    @Test
+    void shouldIncludeCodeValueEmpty() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertNull(certificateDataValueCode.getCode());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(
+          UNDERSOKNING_YTTRE_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var expectedExpression =
+          "exists("
+              + Undersokning.JA.name()
+              + ") || exists("
+              + Undersokning.UNDERSOKNING_SKA_GORAS.name()
+              + ") || exists("
+              + Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN.name()
+              + ")";
+
+      final var question = QuestionUndersokningYttre.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<Undersokning> undersokningYttreValues() {
+      return Stream.of(
+          Undersokning.JA,
+          Undersokning.UNDERSOKNING_SKA_GORAS,
+          Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN,
+          null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("undersokningYttreValues")
+    void shouldIncludeTextValue(Undersokning expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionUndersokningYttre.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionUndersokningYttre.toInternal(certificate);
+
+      assertEquals(expectedValue, actualValue);
+    }
+  }
 }

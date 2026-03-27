@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,149 +27,154 @@ import java.util.stream.Collectors;
 
 public class HoSPersonal {
 
-    private String personId;
+  private String personId;
 
-    private String fullstandigtNamn;
+  private String fullstandigtNamn;
 
-    private String forskrivarKod;
+  private String forskrivarKod;
 
-    private String titel;
+  private String titel;
 
-    private String medarbetarUppdrag;
+  private String medarbetarUppdrag;
 
-    private List<String> befattningar;
+  private List<String> befattningar;
 
-    private List<PaTitle> befattningsKoder;
+  private List<PaTitle> befattningsKoder;
 
-    private List<String> specialiteter;
+  private List<String> specialiteter;
 
-    private Vardenhet vardenhet;
+  private Vardenhet vardenhet;
 
-    public List<String> getSpecialiteter() {
-        if (specialiteter == null) {
-            specialiteter = new ArrayList<>();
-        }
-        return specialiteter;
+  public List<String> getSpecialiteter() {
+    if (specialiteter == null) {
+      specialiteter = new ArrayList<>();
     }
+    return specialiteter;
+  }
 
-    public List<String> getBefattningar() {
-        if (befattningar == null) {
-            befattningar = new ArrayList<>();
-        }
-        return befattningar;
+  public List<String> getBefattningar() {
+    if (befattningar == null) {
+      befattningar = new ArrayList<>();
     }
+    return befattningar;
+  }
 
-    @JsonIgnore
-    public List<String> getBefattningarAsCode() {
-        if (!getBefattningsKoder().isEmpty()) {
-            return getBefattningsKoder().stream()
-                .map(PaTitle::getKod)
-                .collect(Collectors.toCollection(ArrayList::new));
-        }
-        return getBefattningar();
+  @JsonIgnore
+  public List<String> getBefattningarAsCode() {
+    if (!getBefattningsKoder().isEmpty()) {
+      return getBefattningsKoder().stream()
+          .map(PaTitle::getKod)
+          .collect(Collectors.toCollection(ArrayList::new));
     }
+    return getBefattningar();
+  }
 
-    public List<PaTitle> getBefattningsKoder() {
-        if (befattningsKoder == null) {
-            befattningsKoder = new ArrayList<>();
-        }
-        return befattningsKoder;
+  public List<PaTitle> getBefattningsKoder() {
+    if (befattningsKoder == null) {
+      befattningsKoder = new ArrayList<>();
     }
+    return befattningsKoder;
+  }
 
-    public void clearAllBefattningsKoder() {
-        if (befattningsKoder != null) {
-            befattningsKoder.clear();
-        }
-        if (befattningar != null) {
-            befattningar.clear();
-        }
+  public void clearAllBefattningsKoder() {
+    if (befattningsKoder != null) {
+      befattningsKoder.clear();
     }
-
-    public String getPersonId() {
-        return personId;
+    if (befattningar != null) {
+      befattningar.clear();
     }
+  }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+  public String getPersonId() {
+    return personId;
+  }
+
+  public void setPersonId(String personId) {
+    this.personId = personId;
+  }
+
+  public String getFullstandigtNamn() {
+    return fullstandigtNamn;
+  }
+
+  public void setFullstandigtNamn(String fullstandigtNamn) {
+    this.fullstandigtNamn = fullstandigtNamn;
+  }
+
+  public String getForskrivarKod() {
+    return forskrivarKod;
+  }
+
+  public void setForskrivarKod(String forskrivarKod) {
+    this.forskrivarKod = forskrivarKod;
+  }
+
+  public String getTitel() {
+    return titel;
+  }
+
+  public void setTitel(String titel) {
+    this.titel = titel;
+  }
+
+  public String getMedarbetarUppdrag() {
+    return medarbetarUppdrag;
+  }
+
+  public void setMedarbetarUppdrag(String medarbetarUppdrag) {
+    this.medarbetarUppdrag = medarbetarUppdrag;
+  }
+
+  public Vardenhet getVardenhet() {
+    return vardenhet;
+  }
+
+  public void setVardenhet(Vardenhet vardenhet) {
+    this.vardenhet = vardenhet;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (object == null) {
+      return false;
     }
-
-    public String getFullstandigtNamn() {
-        return fullstandigtNamn;
+    if (!(object instanceof HoSPersonal)) {
+      return false;
     }
+    final HoSPersonal that = (HoSPersonal) object;
+    return Objects.equals(this.personId, that.personId)
+        && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+        && Objects.equals(this.forskrivarKod, that.forskrivarKod)
+        && Objects.equals(this.titel, that.titel)
+        && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
+        && Objects.deepEquals(this.befattningar, that.befattningar)
+        && Objects.deepEquals(this.specialiteter, that.specialiteter)
+        && Objects.equals(this.vardenhet, that.vardenhet);
+  }
 
-    public void setFullstandigtNamn(String fullstandigtNamn) {
-        this.fullstandigtNamn = fullstandigtNamn;
-    }
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        this.personId,
+        this.fullstandigtNamn,
+        this.forskrivarKod,
+        this.titel,
+        this.medarbetarUppdrag,
+        this.befattningar,
+        this.specialiteter);
+  }
 
-    public String getForskrivarKod() {
-        return forskrivarKod;
-    }
-
-    public void setForskrivarKod(String forskrivarKod) {
-        this.forskrivarKod = forskrivarKod;
-    }
-
-    public String getTitel() {
-        return titel;
-    }
-
-    public void setTitel(String titel) {
-        this.titel = titel;
-    }
-
-    public String getMedarbetarUppdrag() {
-        return medarbetarUppdrag;
-    }
-
-    public void setMedarbetarUppdrag(String medarbetarUppdrag) {
-        this.medarbetarUppdrag = medarbetarUppdrag;
-    }
-
-    public Vardenhet getVardenhet() {
-        return vardenhet;
-    }
-
-    public void setVardenhet(Vardenhet vardenhet) {
-        this.vardenhet = vardenhet;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof HoSPersonal)) {
-            return false;
-        }
-        final HoSPersonal that = (HoSPersonal) object;
-        return Objects.equals(this.personId, that.personId)
-            && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
-            && Objects.equals(this.forskrivarKod, that.forskrivarKod)
-            && Objects.equals(this.titel, that.titel)
-            && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
-            && Objects.deepEquals(this.befattningar, that.befattningar)
-            && Objects.deepEquals(this.specialiteter, that.specialiteter)
-            && Objects.equals(this.vardenhet, that.vardenhet);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod,
-            this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter);
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-            .add("personId", personId)
-            .add("fullstandigtNamn", fullstandigtNamn)
-            .add("forskrivarKod", forskrivarKod)
-            .add("titel", titel)
-            .add("medarbetarUppdrag", medarbetarUppdrag)
-            .add("befattningar", befattningar)
-            .add("specialiteter", specialiteter)
-            .add("vardenhet", vardenhet)
-            .toString();
-    }
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("personId", personId)
+        .add("fullstandigtNamn", fullstandigtNamn)
+        .add("forskrivarKod", forskrivarKod)
+        .add("titel", titel)
+        .add("medarbetarUppdrag", medarbetarUppdrag)
+        .add("befattningar", befattningar)
+        .add("specialiteter", specialiteter)
+        .add("vardenhet", vardenhet)
+        .toString();
+  }
 }

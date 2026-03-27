@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,128 +56,144 @@ import se.inera.intyg.common.support.facade.model.validation.ExpressionTypeEnum;
 @ExtendWith(MockitoExtension.class)
 class CategoryFunktionsnedsattningTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(any(String.class))).thenReturn("Test string");
-    }
+  @BeforeEach
+  void setup() {
+    when(texts.get(any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shouldIncludeId() {
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, category.getId());
-    }
+  @Test
+  void shouldIncludeId() {
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    assertEquals(FUNKTIONSNEDSATTNING_CATEGORY_ID, category.getId());
+  }
 
-    @Test
-    void shouldIncludeIndex() {
-        final var expectedIndex = 3;
-        final var category = CategoryFunktionsnedsattning.toCertificate(expectedIndex, texts);
-        assertEquals(expectedIndex, category.getIndex());
-    }
+  @Test
+  void shouldIncludeIndex() {
+    final var expectedIndex = 3;
+    final var category = CategoryFunktionsnedsattning.toCertificate(expectedIndex, texts);
+    assertEquals(expectedIndex, category.getIndex());
+  }
 
-    @Test
-    void shouldIncludeCategoryText() {
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID);
-    }
+  @Test
+  void shouldIncludeCategoryText() {
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    assertTrue(category.getConfig().getText().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_CATEGORY_TEXT_ID);
+  }
 
-    @Test
-    void shouldIncludeCategoryDescription() {
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing text");
-        verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID);
-    }
+  @Test
+  void shouldIncludeCategoryDescription() {
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    assertTrue(category.getConfig().getDescription().trim().length() > 0, "Missing text");
+    verify(texts, atLeastOnce()).get(FUNKTIONSNEDSATTNING_CATEGORY_DESCRIPTION_ID);
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryType() {
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        assertEquals(CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION, category.getValidation()[0].getType());
-    }
+  @Test
+  void shouldIncludeValidationCategoryMandatoryType() {
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    assertEquals(
+        CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION,
+        category.getValidation()[0].getType());
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryExpressionType() {
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(ExpressionTypeEnum.OR, validationCategoryMandatory.getExpressionType());
-    }
+  @Test
+  void shouldIncludeValidationCategoryMandatoryExpressionType() {
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(ExpressionTypeEnum.OR, validationCategoryMandatory.getExpressionType());
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionIntellektuell() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionIntellektuell() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_ID_8)
             .expression("$" + FUNKTIONSNEDSATTNING_INTELLEKTUELL_SVAR_JSON_ID_8)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(0));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(0));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionKommunikation() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionKommunikation() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_ID_9)
             .expression("$" + FUNKTIONSNEDSATTNING_KOMMUNIKATION_SVAR_JSON_ID_9)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(1));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(1));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionKoncentration() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionKoncentration() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_ID_10)
             .expression("$" + FUNKTIONSNEDSATTNING_KONCENTRATION_SVAR_JSON_ID_10)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(2));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(2));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionPsykisk() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionPsykisk() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11)
             .expression("$" + FUNKTIONSNEDSATTNING_PSYKISK_SVAR_JSON_ID_11)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(3));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(3));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionSynHorselTal() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionSynHorselTal() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_ID_12)
             .expression("$" + FUNKTIONSNEDSATTNING_SYNHORSELTAL_SVAR_JSON_ID_12)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(4));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(4));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionBalansKoordination() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionBalansKoordination() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_ID_13)
             .expression("$" + FUNKTIONSNEDSATTNING_BALANSKOORDINATION_SVAR_JSON_ID_13)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(5));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(5));
+  }
 
-    @Test
-    void shouldIncludeValidationCategoryMandatoryQuestionAnnan() {
-        final var expectedMandatoryQuestion = CertificateDataValidationMandatory.builder()
+  @Test
+  void shouldIncludeValidationCategoryMandatoryQuestionAnnan() {
+    final var expectedMandatoryQuestion =
+        CertificateDataValidationMandatory.builder()
             .questionId(FUNKTIONSNEDSATTNING_ANNAN_SVAR_ID_14)
             .expression("$" + FUNKTIONSNEDSATTNING_ANNAN_SVAR_JSON_ID_14)
             .build();
-        final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
-        final var validationCategoryMandatory = (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
-        assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(6));
-    }
+    final var category = CategoryFunktionsnedsattning.toCertificate(0, texts);
+    final var validationCategoryMandatory =
+        (CertificateDataValidationCategoryMandatory) category.getValidation()[0];
+    assertEquals(expectedMandatoryQuestion, validationCategoryMandatory.getQuestions().get(6));
+  }
 }

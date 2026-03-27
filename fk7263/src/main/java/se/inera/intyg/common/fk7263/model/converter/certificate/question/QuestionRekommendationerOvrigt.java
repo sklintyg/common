@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.REKOMMENDATIONER_CATEGORY_ID;
@@ -31,21 +30,17 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionRekommendationerOvrigt {
 
-    public static CertificateDataElement toCertificate(String ovrigt, int index, CertificateMessagesProvider messagesProvider) {
-        return CertificateDataElement.builder()
-            .id(REKOMMENDATIONER_OVRIGT_DELSVAR_ID)
-            .parent(REKOMMENDATIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(messagesProvider.get(REKOMMENDATIONER_OVRIGT_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(stringValue(ovrigt))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String ovrigt, int index, CertificateMessagesProvider messagesProvider) {
+    return CertificateDataElement.builder()
+        .id(REKOMMENDATIONER_OVRIGT_DELSVAR_ID)
+        .parent(REKOMMENDATIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(messagesProvider.get(REKOMMENDATIONER_OVRIGT_DELSVAR_TEXT_ID))
+                .build())
+        .value(CertificateDataValueViewText.builder().text(stringValue(ovrigt)).build())
+        .build();
+  }
 }

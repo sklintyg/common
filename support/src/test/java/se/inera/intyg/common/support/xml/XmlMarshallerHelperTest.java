@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,25 +30,25 @@ import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
 public class XmlMarshallerHelperTest {
 
-    @Test
-    public void marshalTest() {
+  @Test
+  public void marshalTest() {
 
-        JAXBElement<RegisterCertificateType> e1 = new ObjectFactory().createRegisterCertificate(bean());
-        String xml1 = XmlMarshallerHelper.marshal(e1);
+    JAXBElement<RegisterCertificateType> e1 = new ObjectFactory().createRegisterCertificate(bean());
+    String xml1 = XmlMarshallerHelper.marshal(e1);
 
-        JAXBElement<RegisterCertificateType> e2 = XmlMarshallerHelper.unmarshal(xml1);
-        String xml2 = XmlMarshallerHelper.marshal(e2);
+    JAXBElement<RegisterCertificateType> e2 = XmlMarshallerHelper.unmarshal(xml1);
+    String xml2 = XmlMarshallerHelper.marshal(e2);
 
-        assertEquals(xml1, xml2);
-    }
+    assertEquals(xml1, xml2);
+  }
 
-    RegisterCertificateType bean() {
-        RegisterCertificateType t = new RegisterCertificateType();
-        t.setUtlatande(new Utlatande());
-        t.getUtlatande().setSigneringsdatum(LocalDateTime.now());
-        t.getUtlatande().setUtlatandeId(new UtlatandeId());
-        t.getUtlatande().getUtlatandeId().setRoot("root");
-        t.getUtlatande().getUtlatandeId().setExtension("extension");
-        return t;
-    }
+  RegisterCertificateType bean() {
+    RegisterCertificateType t = new RegisterCertificateType();
+    t.setUtlatande(new Utlatande());
+    t.getUtlatande().setSigneringsdatum(LocalDateTime.now());
+    t.getUtlatande().setUtlatandeId(new UtlatandeId());
+    t.getUtlatande().getUtlatandeId().setRoot("root");
+    t.getUtlatande().getUtlatandeId().setExtension("extension");
+    return t;
+  }
 }

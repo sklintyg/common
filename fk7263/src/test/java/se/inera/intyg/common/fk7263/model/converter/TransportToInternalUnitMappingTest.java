@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -42,37 +41,52 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 @ExtendWith(MockitoExtension.class)
 class TransportToInternalUnitMappingTest {
 
-    private static final String RESOURCE = "TransportToInternalConverterTest/legacy-maximalt-fk7263-transport.xml";
+  private static final String RESOURCE =
+      "TransportToInternalConverterTest/legacy-maximalt-fk7263-transport.xml";
 
-    @Mock
-    private UnitMapperUtil unitMapperUtil;
+  @Mock private UnitMapperUtil unitMapperUtil;
 
-    @InjectMocks
-    private TransportToInternal transportToInternal;
+  @InjectMocks private TransportToInternal transportToInternal;
 
-
-    @Test
-    void shouldUseCareProviderMapperUtil() throws ConverterException, JAXBException, IOException {
-        JAXBElement<LakarutlatandeType> utlatandeElement = JAXBContext.newInstance(
-                LakarutlatandeType.class).createUnmarshaller()
-            .unmarshal(new StreamSource(new ClassPathResource(RESOURCE).getInputStream()),
+  @Test
+  void shouldUseCareProviderMapperUtil() throws ConverterException, JAXBException, IOException {
+    JAXBElement<LakarutlatandeType> utlatandeElement =
+        JAXBContext.newInstance(LakarutlatandeType.class)
+            .createUnmarshaller()
+            .unmarshal(
+                new StreamSource(new ClassPathResource(RESOURCE).getInputStream()),
                 LakarutlatandeType.class);
 
-        transportToInternal.initialize();
-        when(unitMapperUtil.getMappedUnit("VardgivarId",
-            "Landstinget Norrland", "VardenhetY", "Kir mott", utlatandeElement.getValue().getSigneringsdatum())).thenReturn(
-            new MappedUnit("TSTNMT2321000156-BETA", "Beta Regionen", "Beta enhets id", "Beta enhets namn"));
+    transportToInternal.initialize();
+    when(unitMapperUtil.getMappedUnit(
+            "VardgivarId",
+            "Landstinget Norrland",
+            "VardenhetY",
+            "Kir mott",
+            utlatandeElement.getValue().getSigneringsdatum()))
+        .thenReturn(
+            new MappedUnit(
+                "TSTNMT2321000156-BETA", "Beta Regionen", "Beta enhets id", "Beta enhets namn"));
 
-        var result = TransportToInternal.convert(utlatandeElement.getValue());
-        assertAll(() -> {
-            assertEquals("TSTNMT2321000156-BETA",
-                result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-            assertEquals("Beta Regionen",
-                result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
-            assertEquals("Beta enhets id",
-                result.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-            assertEquals("Beta enhets namn",
-                result.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    var result = TransportToInternal.convert(utlatandeElement.getValue());
+    assertAll(
+        () -> {
+          assertEquals(
+              "TSTNMT2321000156-BETA",
+              result.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+          assertEquals(
+              "Beta Regionen",
+              result
+                  .getGrundData()
+                  .getSkapadAv()
+                  .getVardenhet()
+                  .getVardgivare()
+                  .getVardgivarnamn());
+          assertEquals(
+              "Beta enhets id", result.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+          assertEquals(
+              "Beta enhets namn",
+              result.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
         });
-    }
+  }
 }

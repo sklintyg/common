@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,55 +31,53 @@ import se.riv.clinicalprocess.healthcond.certificate.v33.Forifyllnad;
 
 public class PrefillScenario {
 
-    private static final String PREFILL_RESOURCES_PATH = "classpath:/v1/prefill/";
-    private static final String TRANSPORT_MODEL_EXT = ".xml";
-    private static final String INTERNAL_MODEL_EXT = ".json";
+  private static final String PREFILL_RESOURCES_PATH = "classpath:/v1/prefill/";
+  private static final String TRANSPORT_MODEL_EXT = ".xml";
+  private static final String INTERNAL_MODEL_EXT = ".json";
 
+  private Forifyllnad forifyllnad;
+  private LisjpUtlatandeV1 utlatande;
 
-    private Forifyllnad forifyllnad;
-    private LisjpUtlatandeV1 utlatande;
-
-
-    public PrefillScenario(String scenarioName) {
-        try {
-            this.utlatande = getAsUtlatande(scenarioName);
-            this.forifyllnad = getForifyllnadFromCreateDraftRequest(scenarioName);
-        } catch (IOException e) {
-            throw new AssertionError("Failed to load scenario resources for scenario " + scenarioName, e);
-        }
-
-
+  public PrefillScenario(String scenarioName) {
+    try {
+      this.utlatande = getAsUtlatande(scenarioName);
+      this.forifyllnad = getForifyllnadFromCreateDraftRequest(scenarioName);
+    } catch (IOException e) {
+      throw new AssertionError("Failed to load scenario resources for scenario " + scenarioName, e);
     }
+  }
 
-    public Forifyllnad getForifyllnad() {
-        return forifyllnad;
+  public Forifyllnad getForifyllnad() {
+    return forifyllnad;
+  }
+
+  public LisjpUtlatandeV1 getUtlatande() {
+    return utlatande;
+  }
+
+  private String fileToString(String location) throws IOException {
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+    try {
+      Resource resource = context.getResource(location);
+      return IOUtils.toString(resource.getInputStream());
+    } finally {
+      context.close();
     }
+  }
 
-    public LisjpUtlatandeV1 getUtlatande() {
-        return utlatande;
-    }
+  private Forifyllnad getForifyllnadFromCreateDraftRequest(String scenarioFileName)
+      throws IOException {
+    JAXBElement<CreateDraftCertificateType> rct =
+        XmlMarshallerHelper.unmarshal(
+            fileToString(PREFILL_RESOURCES_PATH + scenarioFileName + TRANSPORT_MODEL_EXT));
+    return rct.getValue().getIntyg().getForifyllnad();
+  }
 
-    private String fileToString(String location) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        try {
-            Resource resource = context.getResource(location);
-            return IOUtils.toString(resource.getInputStream());
-        } finally {
-            context.close();
-        }
-    }
+  private LisjpUtlatandeV1 getAsUtlatande(String scenarioFileName) throws IOException {
 
-    private Forifyllnad getForifyllnadFromCreateDraftRequest(String scenarioFileName) throws IOException {
-        JAXBElement<CreateDraftCertificateType> rct =
-            XmlMarshallerHelper.unmarshal(
-                fileToString(PREFILL_RESOURCES_PATH + scenarioFileName + TRANSPORT_MODEL_EXT));
-        return rct.getValue().getIntyg().getForifyllnad();
-    }
-
-    private LisjpUtlatandeV1 getAsUtlatande(String scenarioFileName) throws IOException {
-
-        return new CustomObjectMapper().readValue(
-            fileToString(PREFILL_RESOURCES_PATH + scenarioFileName + INTERNAL_MODEL_EXT), LisjpUtlatandeV1.class);
-
-    }
+    return new CustomObjectMapper()
+        .readValue(
+            fileToString(PREFILL_RESOURCES_PATH + scenarioFileName + INTERNAL_MODEL_EXT),
+            LisjpUtlatandeV1.class);
+  }
 }

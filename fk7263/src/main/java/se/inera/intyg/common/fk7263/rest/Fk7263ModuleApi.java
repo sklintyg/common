@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -125,686 +125,764 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @Component(value = "moduleapi.fk7263.v1")
 public class Fk7263ModuleApi implements ModuleApi {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
+  private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
 
-    private static final Comparator<? super DatePeriodType> PERIOD_START = Comparator.comparing(DatePeriodType::getStart);
-    private static final String SPACE = "---";
-    public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
-    private static final String LINK_FK_ID = "linkFK";
-    private static final String PREAMBLE_FOR_CITIZEN = "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-        + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
-        + "Om du vill ansöka om sjukpenning, gör du det på {" + LINK_FK_ID + "}.";
-    private static final String FK_URL = "http://www.forsakringskassan.se/sjuk";
-    private static final String FK_NAME = "Försäkringskassan";
+  private static final Comparator<? super DatePeriodType> PERIOD_START =
+      Comparator.comparing(DatePeriodType::getStart);
+  private static final String SPACE = "---";
+  public static final String ADDITIONAL_INFO_LABEL = "Gäller intygsperiod";
+  private static final String LINK_FK_ID = "linkFK";
+  private static final String PREAMBLE_FOR_CITIZEN =
+      "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+          + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg. "
+          + "Om du vill ansöka om sjukpenning, gör du det på {"
+          + LINK_FK_ID
+          + "}.";
+  private static final String FK_URL = "http://www.forsakringskassan.se/sjuk";
+  private static final String FK_NAME = "Försäkringskassan";
 
-    @Autowired
-    private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
+  @Autowired private WebcertModelFactory<Fk7263Utlatande> webcertModelFactory;
 
-    @Autowired
-    private InternalDraftValidator internalDraftValidator;
+  @Autowired private InternalDraftValidator internalDraftValidator;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Autowired(required = false)
-    @Qualifier("registerMedicalCertificateClient")
-    private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
+  @Autowired(required = false)
+  @Qualifier("registerMedicalCertificateClient") private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
 
-    @Autowired
-    private Fk7263ModelCompareUtil modelCompareUtil;
+  @Autowired private Fk7263ModelCompareUtil modelCompareUtil;
 
-    @Autowired(required = false)
-    private GetMedicalCertificateResponderInterface getMedicalCertificateResponderInterface;
+  @Autowired(required = false)
+  private GetMedicalCertificateResponderInterface getMedicalCertificateResponderInterface;
 
-    @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
-    @Autowired(required = false)
-    private SummaryConverter summaryConverter;
-    @Autowired(required = false)
-    private UnitMapperUtil unitMapperUtil;
+  @Autowired(required = false)
+  private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
-    @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
-    private String pdfMinaIntygMarginText;
+  @Autowired(required = false)
+  private SummaryConverter summaryConverter;
 
-    private Map<String, String> validationMessages;
+  @Autowired(required = false)
+  private UnitMapperUtil unitMapperUtil;
 
-    public Fk7263ModuleApi() {
-        init();
+  @Value("${pdf.margin.printed.from.app.name:Intyget är utskrivet från 1177 intyg}")
+  private String pdfMinaIntygMarginText;
+
+  private Map<String, String> validationMessages;
+
+  public Fk7263ModuleApi() {
+    init();
+  }
+
+  private void init() {
+    try {
+      final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
+      final var inputStream2 = new ClassPathResource("fk7263-messages.js").getInputStream();
+      validationMessages =
+          MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    } catch (IOException exception) {
+      LOG.error("Error during initialization. Could not read messages files");
+      throw new RuntimeException(
+          "Error during initialization. Could not read messages files", exception);
+    }
+  }
+
+  private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
+    InternalDate lastPeriod = null;
+    String lastSjukskrivningsgrad = null;
+    if (internal.getNedsattMed25() != null && internal.getNedsattMed25().tomAsLocalDate() != null) {
+      lastPeriod = internal.getNedsattMed25().getTom();
+      lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
+    }
+    if (internal.getNedsattMed50() != null
+        && internal.getNedsattMed50().tomAsLocalDate() != null
+        && (lastPeriod == null
+            || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
+      lastPeriod = internal.getNedsattMed50().getTom();
+      lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
+    }
+    if (internal.getNedsattMed75() != null
+        && internal.getNedsattMed75().tomAsLocalDate() != null
+        && (lastPeriod == null
+            || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
+      lastPeriod = internal.getNedsattMed75().getTom();
+      lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
+    }
+    if (internal.getNedsattMed100() != null
+        && internal.getNedsattMed100().tomAsLocalDate() != null
+        && (lastPeriod == null
+            || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
+      lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
+    }
+    return lastSjukskrivningsgrad;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
+    return internalDraftValidator.validateDraft(getInternal(internalModel));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    try {
+      Fk7263Utlatande intyg = getInternal(internalModel);
+      PdfDefaultGenerator pdfGenerator =
+          new PdfDefaultGenerator(
+              intyg, statuses, applicationOrigin, utkastStatus, pdfMinaIntygMarginText);
+      return new PdfResponse(
+          pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(), false));
+    } catch (PdfGeneratorException e) {
+      LOG.error("Failed to generate PDF for certificate!", e);
+      throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
+    }
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public PdfResponse pdfEmployer(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      List<String> optionalFields,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    throw new RuntimeException("Not implemented");
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String createNewInternal(CreateNewDraftHolder draftCertificateHolder)
+      throws ModuleException {
+    try {
+      return toInternalModelResponse(
+          webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
+
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
+    }
+  }
+
+  @Override
+  public String createNewInternalFromTemplate(
+      CreateDraftCopyHolder draftCertificateHolder, Utlatande template) throws ModuleException {
+    try {
+      return toInternalModelResponse(
+          webcertModelFactory.createCopy(draftCertificateHolder, template));
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
+    }
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
+      throws ModuleException {
+
+    // Check that we got any data at all
+    if (xmlBody == null) {
+      throw new ModuleException("No xml body found in call to sendCertificateToRecipient!");
     }
 
-    private void init() {
-        try {
-            final var inputStream1 = new ClassPathResource("/common/messages.js").getInputStream();
-            final var inputStream2 = new ClassPathResource("fk7263-messages.js").getInputStream();
-            validationMessages = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        } catch (IOException exception) {
-            LOG.error("Error during initialization. Could not read messages files");
-            throw new RuntimeException("Error during initialization. Could not read messages files", exception);
-        }
+    if (logicalAddress == null) {
+      throw new ModuleException("No LogicalAddress found in call to sendCertificateToRecipient!");
     }
 
-    private static String buildSistaSjukskrivningsgrad(Fk7263Utlatande internal) {
-        InternalDate lastPeriod = null;
-        String lastSjukskrivningsgrad = null;
-        if (internal.getNedsattMed25() != null && internal.getNedsattMed25().tomAsLocalDate() != null) {
-            lastPeriod = internal.getNedsattMed25().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_4.name();
-        }
-        if (internal.getNedsattMed50() != null && internal.getNedsattMed50().tomAsLocalDate() != null
-            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed50().tomAsLocalDate()))) {
-            lastPeriod = internal.getNedsattMed50().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_1_2.name();
-        }
-        if (internal.getNedsattMed75() != null && internal.getNedsattMed75().tomAsLocalDate() != null
-            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed75().tomAsLocalDate()))) {
-            lastPeriod = internal.getNedsattMed75().getTom();
-            lastSjukskrivningsgrad = Nedsattningsgrad.NEDSATT_MED_3_4.name();
-        }
-        if (internal.getNedsattMed100() != null && internal.getNedsattMed100().tomAsLocalDate() != null
-            && (lastPeriod == null || lastPeriod.asLocalDate().isBefore(internal.getNedsattMed100().tomAsLocalDate()))) {
-            lastSjukskrivningsgrad = Nedsattningsgrad.HELT_NEDSATT.name();
-        }
-        return lastSjukskrivningsgrad;
-    }
+    JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+    sendCertificateToRecipient(el.getValue(), logicalAddress, recipientId);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
-        return internalDraftValidator.validateDraft(getInternal(internalModel));
-    }
+  @Override
+  public CertificateResponse getCertificate(
+      String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
+    request.setCertificateId(certificateId);
+    request.setPart(recipientId);
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        try {
-            Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus,
-                pdfMinaIntygMarginText);
-            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(), false));
-        } catch (PdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
+    GetMedicalCertificateResponseType response =
+        getMedicalCertificateResponderInterface.getMedicalCertificate(logicalAddress, request);
+
+    switch (response.getResult().getResultCode()) {
+      case INFO:
+      case OK:
+        return convert(response, false);
+      case ERROR:
+        ErrorIdType errorId = response.getResult().getErrorId();
+        String resultText = response.getResult().getResultText();
+        switch (errorId) {
+          case REVOKED:
+            return convert(response, true);
+          default:
+            LOG.error(
+                "Error of type {} occured when retrieving certificate '{}': {}",
+                errorId,
+                certificateId,
+                resultText);
+            throw new ModuleException(
+                "Error of type "
+                    + errorId
+                    + " occured when retrieving certificate "
+                    + certificateId
+                    + ", "
+                    + resultText);
         }
     }
+    LOG.error(
+        "An unidentified error occured when retrieving certificate '{}': {}",
+        certificateId,
+        response.getResult().getResultText());
+    throw new ModuleException(
+        "An unidentified error occured when retrieving certificate "
+            + certificateId
+            + ", "
+            + response.getResult().getResultText());
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus)
-        throws ModuleException {
-        throw new RuntimeException("Not implemented");
+  @Override
+  public void registerCertificate(String internalModel, String logicalAddress)
+      throws ModuleException {
+    // Check that we got any data at all
+    if (internalModel == null) {
+      throw new ModuleException("No internal model found in call to sendCertificateToRecipient!");
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException {
-        try {
-            return toInternalModelResponse(webcertModelFactory.createNewWebcertDraft(draftCertificateHolder));
+    if (logicalAddress == null) {
+      throw new ModuleException("No LogicalAddress found in call to sendCertificateToRecipient!");
+    }
+    RegisterMedicalCertificateType request;
+    try {
+      request = InternalToTransport.getJaxbObject(getUtlatandeFromJson(internalModel));
+    } catch (IOException | ConverterException e) {
+      throw new ModuleException(e.getMessage());
+    }
+    sendCertificateToRecipient(request, logicalAddress, null);
+  }
 
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
+  @Override
+  public String transformToStatisticsService(String inputXml) throws ModuleException {
+    Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml);
+    Intyg intyg = getIntygFromUtlatande(utlatande);
+    RegisterCertificateType type = new RegisterCertificateType();
+    type.setIntyg(intyg);
+    JAXBElement<RegisterCertificateType> el = new ObjectFactory().createRegisterCertificate(type);
+    return XmlMarshallerHelper.marshal(el);
+  }
+
+  @Override
+  public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, hosPerson, created);
+  }
+
+  @Override
+  public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, patient, created);
+  }
+
+  @Override
+  public String updateBeforeSigning(
+      String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+      throws ModuleException {
+    return updateInternal(internalModel, hosPerson, signingDate);
+  }
+
+  @Override
+  public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    return updateInternal(internalModel, patient, created);
+  }
+
+  @Override
+  public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
+    Fk7263Utlatande oldUtlatande;
+    Fk7263Utlatande newUtlatande;
+
+    try {
+      oldUtlatande = objectMapper.readValue(persistedState, Fk7263Utlatande.class);
+      newUtlatande = objectMapper.readValue(currentState, Fk7263Utlatande.class);
+    } catch (IOException e) {
+      throw new ModuleException(e);
     }
 
-    @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-        throws ModuleException {
-        try {
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
+    return modelCompareUtil.modelDiffers(oldUtlatande, newUtlatande);
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * Hard code code system name to ICD-10.
+   *
+   * This is a special case to solve JIRA issue https://inera-certificate.atlassian.net/browse/WEBCERT-1442.
+   * It should be removed when Forsakringskassan can handle code system name correctly.
+   */
+  RegisterMedicalCertificateType whenFkIsRecipientThenSetCodeSystemToICD10(
+      final RegisterMedicalCertificateType request) throws ModuleException {
+
+    LOG.debug("Recipient of RegisterMedicalCertificate certificate is Försäkringskassan");
+    LOG.debug(
+        "Set element 'lakarutlatande/medicinsktTillstand/tillstandsKod/codeSystemName' to value 'ICD-10'");
+
+    // Check that we got a lakarutlatande element
+    if (request.getLakarutlatande() == null) {
+      throw new ModuleException("No Lakarutlatande element found in request data!");
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+    LakarutlatandeType lakarutlatande = request.getLakarutlatande();
 
-        // Check that we got any data at all
-        if (xmlBody == null) {
-            throw new ModuleException("No xml body found in call to sendCertificateToRecipient!");
-        }
+    // Decide if this certificate has smittskydd checked
+    boolean inSmittskydd =
+        findAktivitetWithCode(
+                request.getLakarutlatande().getAktivitet(),
+                Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA)
+            != null;
 
-        if (logicalAddress == null) {
-            throw new ModuleException("No LogicalAddress found in call to sendCertificateToRecipient!");
-        }
-
-        JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
-        sendCertificateToRecipient(el.getValue(), logicalAddress, recipientId);
-    }
-
-    @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
-        GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
-        request.setCertificateId(certificateId);
-        request.setPart(recipientId);
-
-        GetMedicalCertificateResponseType response = getMedicalCertificateResponderInterface.getMedicalCertificate(logicalAddress, request);
-
-        switch (response.getResult().getResultCode()) {
-            case INFO:
-            case OK:
-                return convert(response, false);
-            case ERROR:
-                ErrorIdType errorId = response.getResult().getErrorId();
-                String resultText = response.getResult().getResultText();
-                switch (errorId) {
-                    case REVOKED:
-                        return convert(response, true);
-                    default:
-                        LOG.error("Error of type {} occured when retrieving certificate '{}': {}", errorId, certificateId, resultText);
-                        throw new ModuleException(
-                            "Error of type " + errorId + " occured when retrieving certificate " + certificateId + ", " + resultText);
-                }
-        }
-        LOG.error("An unidentified error occured when retrieving certificate '{}': {}", certificateId,
-            response.getResult().getResultText());
+    if (!inSmittskydd) {
+      // Check that we got a medicinsktTillstand element
+      if (lakarutlatande.getMedicinsktTillstand() == null) {
         throw new ModuleException(
-            "An unidentified error occured when retrieving certificate " + certificateId + ", "
-                + response.getResult().getResultText());
+            "No medicinsktTillstand element found in request data. Cannot set codeSystemName to 'ICD-10'!");
+      }
+
+      MedicinsktTillstandType medicinsktTillstand = lakarutlatande.getMedicinsktTillstand();
+
+      // Check that we got a tillstandskod element
+      if (medicinsktTillstand.getTillstandskod() == null) {
+        throw new ModuleException(
+            "No tillstandskod element found in request data. Cannot set codeSystemName to 'ICD-10'!");
+      }
+
+      CD tillstandskod = medicinsktTillstand.getTillstandskod();
+      tillstandskod.setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
+
+      // Update request
+      request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(tillstandskod);
+
+    } else {
+      try {
+        // tillstandskod is not mandatory when smittskydd is true, just try to set it.
+        request
+            .getLakarutlatande()
+            .getMedicinsktTillstand()
+            .getTillstandskod()
+            .setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
+
+      } catch (NullPointerException npe) {
+        LOG.debug(
+            "No tillstandskod element found in request data. "
+                + "Element is not mandatory when Smittskydd is checked. "
+                + "Cannot set codeSystemName to 'ICD-10'");
+      }
     }
 
-    @Override
-    public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
-        // Check that we got any data at all
-        if (internalModel == null) {
-            throw new ModuleException("No internal model found in call to sendCertificateToRecipient!");
+    return request;
+  }
+
+  @Override
+  public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson)
+      throws ModuleException, IOException {
+    // return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+
+    Fk7263Utlatande utlatande = objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+
+    // Explicitly populate the giltighet interval since it is information derived from
+    // the arbetsformaga but needs to be serialized into the Utkast model.
+    utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+    return utlatande;
+  }
+
+  @Override
+  public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created)
+      throws ModuleException, IOException {
+    return getInternal(utlatandeJson, created);
+  }
+
+  @Override
+  public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
+    try {
+      return TransportToInternal.convert(el.getValue().getLakarutlatande());
+    } catch (ConverterException e) {
+      LOG.error("Could not get utlatande from xml: {}", e.getMessage());
+      throw new ModuleException("Could not get utlatande from xml", e);
+    }
+  }
+
+  private CertificateResponse convert(GetMedicalCertificateResponseType response, boolean revoked)
+      throws ModuleException {
+    try {
+      Fk7263Utlatande utlatande = TransportToInternal.convert(response.getLakarutlatande());
+      String internalModel = objectMapper.writeValueAsString(utlatande);
+      CertificateMetaData metaData =
+          ClinicalProcessCertificateMetaTypeConverter.toCertificateMetaData(response.getMeta());
+      return new CertificateResponse(internalModel, utlatande, metaData, revoked);
+    } catch (Exception e) {
+      throw new ModuleException(e);
+    }
+  }
+
+  private AktivitetType findAktivitetWithCode(
+      List<AktivitetType> aktiviteter, Aktivitetskod aktivitetskod) throws ModuleException {
+    AktivitetType foundAktivitet = null;
+
+    try {
+      if (aktiviteter != null) {
+        for (int i = 0; i < aktiviteter.size(); i++) {
+          AktivitetType listAktivitet = aktiviteter.get(i);
+          if (listAktivitet.getAktivitetskod() != null
+              && listAktivitet.getAktivitetskod().compareTo(aktivitetskod) == 0) {
+            foundAktivitet = listAktivitet;
+            break;
+          }
         }
-
-        if (logicalAddress == null) {
-            throw new ModuleException("No LogicalAddress found in call to sendCertificateToRecipient!");
-        }
-        RegisterMedicalCertificateType request;
-        try {
-            request = InternalToTransport.getJaxbObject(getUtlatandeFromJson(internalModel));
-        } catch (IOException | ConverterException e) {
-            throw new ModuleException(e.getMessage());
-        }
-        sendCertificateToRecipient(request, logicalAddress, null);
+      }
+    } catch (Exception e) {
+      throw new ModuleException(e.getMessage(), e);
     }
 
-    @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml);
-        Intyg intyg = getIntygFromUtlatande(utlatande);
-        RegisterCertificateType type = new RegisterCertificateType();
-        type.setIntyg(intyg);
-        JAXBElement<RegisterCertificateType> el = new ObjectFactory().createRegisterCertificate(type);
-        return XmlMarshallerHelper.marshal(el);
+    return foundAktivitet;
+  }
+
+  // - - - - - Private transformation methods for building responses - - - - - //
+
+  private void sendCertificateToRecipient(
+      RegisterMedicalCertificateType originalRequest,
+      final String logicalAddress,
+      final String recipientId)
+      throws ModuleException {
+    RegisterMedicalCertificateType request = originalRequest;
+    // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
+    if (!Strings.isNullOrEmpty(recipientId)
+        && recipientId.equalsIgnoreCase(Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)) {
+      request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
     }
 
-    @Override
-    public String updateBeforeSave(String internalModel, HoSPersonal hosPerson, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, hosPerson, created);
+    // Due to sekretessmarkering and not storing patient names anymore, make sure
+    // PatientType#fullstandigtNamn is not null.
+    if (Strings.isNullOrEmpty(request.getLakarutlatande().getPatient().getFullstandigtNamn())) {
+      request.getLakarutlatande().getPatient().setFullstandigtNamn(SPACE);
     }
 
-    @Override
-    public String updateBeforeSave(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, patient, created);
-    }
+    AttributedURIType address = new AttributedURIType();
+    address.setValue(logicalAddress);
 
-    @Override
-    public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
-        return updateInternal(internalModel, hosPerson, signingDate);
-    }
+    try {
+      RegisterMedicalCertificateResponseType response =
+          registerMedicalCertificateClient.registerMedicalCertificate(address, request);
 
-    @Override
-    public String updateBeforeViewing(String internalModel, Patient patient, LocalDateTime created) throws ModuleException {
-        return updateInternal(internalModel, patient, created);
-    }
+      // check whether call was successful or not
+      if (response.getResult().getResultCode() != ResultCodeEnum.OK) {
+        boolean info = response.getResult().getResultCode() == ResultCodeEnum.INFO;
 
-    @Override
-    public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        Fk7263Utlatande oldUtlatande;
-        Fk7263Utlatande newUtlatande;
-
-        try {
-            oldUtlatande = objectMapper.readValue(persistedState, Fk7263Utlatande.class);
-            newUtlatande = objectMapper.readValue(currentState, Fk7263Utlatande.class);
-        } catch (IOException e) {
-            throw new ModuleException(e);
-        }
-
-        return modelCompareUtil.modelDiffers(oldUtlatande, newUtlatande);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * Hard code code system name to ICD-10.
-     *
-     * This is a special case to solve JIRA issue https://inera-certificate.atlassian.net/browse/WEBCERT-1442.
-     * It should be removed when Forsakringskassan can handle code system name correctly.
-     */
-    RegisterMedicalCertificateType whenFkIsRecipientThenSetCodeSystemToICD10(final RegisterMedicalCertificateType request)
-        throws ModuleException {
-
-        LOG.debug("Recipient of RegisterMedicalCertificate certificate is Försäkringskassan");
-        LOG.debug("Set element 'lakarutlatande/medicinsktTillstand/tillstandsKod/codeSystemName' to value 'ICD-10'");
-
-        // Check that we got a lakarutlatande element
-        if (request.getLakarutlatande() == null) {
-            throw new ModuleException("No Lakarutlatande element found in request data!");
-        }
-
-        LakarutlatandeType lakarutlatande = request.getLakarutlatande();
-
-        // Decide if this certificate has smittskydd checked
-        boolean inSmittskydd = findAktivitetWithCode(request.getLakarutlatande().getAktivitet(),
-            Aktivitetskod.AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA) != null;
-
-        if (!inSmittskydd) {
-            // Check that we got a medicinsktTillstand element
-            if (lakarutlatande.getMedicinsktTillstand() == null) {
-                throw new ModuleException("No medicinsktTillstand element found in request data. Cannot set codeSystemName to 'ICD-10'!");
-            }
-
-            MedicinsktTillstandType medicinsktTillstand = lakarutlatande.getMedicinsktTillstand();
-
-            // Check that we got a tillstandskod element
-            if (medicinsktTillstand.getTillstandskod() == null) {
-                throw new ModuleException("No tillstandskod element found in request data. Cannot set codeSystemName to 'ICD-10'!");
-            }
-
-            CD tillstandskod = medicinsktTillstand.getTillstandskod();
-            tillstandskod.setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
-
-            // Update request
-            request.getLakarutlatande().getMedicinsktTillstand().setTillstandskod(tillstandskod);
-
+        // This monstrosity is required because we want to handle when the certificate already
+        // exists in
+        // Intygstjänsten. When this happens Intygstjänsten will return an INFO result with a
+        // specified
+        // InfoText. To make sure we do not try to resend this request we need to throw an exception
+        // with
+        // ErrorIdEnum of ValidationError.
+        if (recipientId == null
+            && info
+            && CERTIFICATE_ALREADY_EXISTS.equals(response.getResult().getInfoText())) {
+          LOG.warn(
+              "Tried to register certificate ({}) which already exist in Intygstjänsten",
+              request.getLakarutlatande().getLakarutlatandeId());
+          throw new ExternalServiceCallException(
+              response.getResult().getInfoText(), ErrorIdEnum.VALIDATION_ERROR);
         } else {
-            try {
-                // tillstandskod is not mandatory when smittskydd is true, just try to set it.
-                request.getLakarutlatande().getMedicinsktTillstand().getTillstandskod()
-                    .setCodeSystemName(Diagnoskodverk.ICD_10_SE.getCodeSystemName());
-
-            } catch (NullPointerException npe) {
-                LOG.debug("No tillstandskod element found in request data. "
-                    + "Element is not mandatory when Smittskydd is checked. "
-                    + "Cannot set codeSystemName to 'ICD-10'");
-            }
+          String message =
+              info
+                  ? response.getResult().getInfoText()
+                  : response.getResult().getErrorId() + " : " + response.getResult().getErrorText();
+          LOG.error(
+              "Error occured when sending certificate '{}': {}",
+              request.getLakarutlatande() != null
+                  ? request.getLakarutlatande().getLakarutlatandeId()
+                  : null,
+              message);
+          throw new ExternalServiceCallException(message);
         }
-
-        return request;
+      }
+    } catch (SOAPFaultException e) {
+      throw new ExternalServiceCallException(e);
     }
+  }
 
-    @Override
-    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
-        // return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+  private Fk7263Utlatande getInternal(String internalModel) throws ModuleException {
 
-        Fk7263Utlatande utlatande = objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
+    try {
+      Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
 
-        // Explicitly populate the giltighet interval since it is information derived from
-        // the arbetsformaga but needs to be serialized into the Utkast model.
-        utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
-        return utlatande;
+      // Explicitly populate the giltighet interval since it is information derived from
+      // the arbetsformaga but needs to be serialized into the Utkast model.
+      utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+      return utlatande;
+
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
+  }
 
-    @Override
-    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created) throws ModuleException, IOException {
-        return getInternal(utlatandeJson, created);
+  private Fk7263Utlatande getInternal(String internalModel, LocalDateTime created)
+      throws ModuleException {
+
+    try {
+      Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
+
+      // Explicitly populate the giltighet interval since it is information derived from
+      // the arbetsformaga but needs to be serialized into the Utkast model.
+      utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
+      unitMapperUtil.decorateWithMappedCareProvider(utlatande, created);
+      return utlatande;
+
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
+  }
 
-    @Override
-    public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
-        try {
-            return TransportToInternal.convert(el.getValue().getLakarutlatande());
-        } catch (ConverterException e) {
-            LOG.error("Could not get utlatande from xml: {}", e.getMessage());
-            throw new ModuleException("Could not get utlatande from xml", e);
-        }
+  private String updateInternal(
+      String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
+      throws ModuleException {
+    try {
+      Fk7263Utlatande intyg = getInternal(internalModel, signingDate);
+      WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
+      return toInternalModelResponse(intyg);
+    } catch (ModuleException e) {
+      throw new ModuleException("Error while updating internal model skapadAv", e);
     }
+  }
 
-    private CertificateResponse convert(GetMedicalCertificateResponseType response, boolean revoked) throws ModuleException {
-        try {
-            Fk7263Utlatande utlatande = TransportToInternal.convert(response.getLakarutlatande());
-            String internalModel = objectMapper.writeValueAsString(utlatande);
-            CertificateMetaData metaData = ClinicalProcessCertificateMetaTypeConverter.toCertificateMetaData(response.getMeta());
-            return new CertificateResponse(internalModel, utlatande, metaData, revoked);
-        } catch (Exception e) {
-            throw new ModuleException(e);
-        }
+  private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
+      throws ModuleException {
+    try {
+      Fk7263Utlatande intyg = getInternal(internalModel, created);
+      WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
+      return toInternalModelResponse(intyg);
+    } catch (ModuleException | ConverterException e) {
+      throw new ModuleException("Error while updating internal model with patient", e);
     }
+  }
 
-    private AktivitetType findAktivitetWithCode(List<AktivitetType> aktiviteter, Aktivitetskod aktivitetskod) throws ModuleException {
-        AktivitetType foundAktivitet = null;
-
-        try {
-            if (aktiviteter != null) {
-                for (int i = 0; i < aktiviteter.size(); i++) {
-                    AktivitetType listAktivitet = aktiviteter.get(i);
-                    if (listAktivitet.getAktivitetskod() != null && listAktivitet.getAktivitetskod().compareTo(aktivitetskod) == 0) {
-                        foundAktivitet = listAktivitet;
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new ModuleException(e.getMessage(), e);
-        }
-
-        return foundAktivitet;
+  private String toInternalModelResponse(Fk7263Utlatande internalModel) throws ModuleException {
+    try {
+      StringWriter writer = new StringWriter();
+      objectMapper.writeValue(writer, internalModel);
+      return writer.toString();
+    } catch (IOException e) {
+      throw new ModuleSystemException("Failed to serialize internal model", e);
     }
+  }
 
-    // - - - - - Private transformation methods for building responses - - - - - //
+  @Override
+  public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    return ValidateXmlResponse.createValidResponse();
+  }
 
-    private void sendCertificateToRecipient(RegisterMedicalCertificateType originalRequest, final String logicalAddress,
-        final String recipientId)
-        throws ModuleException {
-        RegisterMedicalCertificateType request = originalRequest;
-        // This is a special case when recipient is Forsakringskassan. See JIRA issue WEBCERT-1442.
-        if (!Strings.isNullOrEmpty(recipientId) && recipientId.equalsIgnoreCase(Fk7263EntryPoint.DEFAULT_RECIPIENT_ID)) {
-            request = whenFkIsRecipientThenSetCodeSystemToICD10(request);
-        }
+  @Override
+  public Map<String, List<String>> getModuleSpecificArendeParameters(
+      Utlatande utlatande, List<String> frageIds) {
+    throw new UnsupportedOperationException();
+  }
 
-        // Due to sekretessmarkering and not storing patient names anymore, make sure PatientType#fullstandigtNamn is not null.
-        if (Strings.isNullOrEmpty(request.getLakarutlatande().getPatient().getFullstandigtNamn())) {
-            request.getLakarutlatande().getPatient().setFullstandigtNamn(SPACE);
-        }
+  @Override
+  public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
+      throws ModuleException {
+    try {
+      if (!Fk7263Utlatande.class.isInstance(template)) {
+        LOG.error("Could not create a new internal Webcert model from template");
+        throw new ModuleConverterException(
+            "Could not create a new internal Webcert model from template");
+      }
 
-        AttributedURIType address = new AttributedURIType();
-        address.setValue(logicalAddress);
+      Fk7263Utlatande internal = (Fk7263Utlatande) template;
 
-        try {
-            RegisterMedicalCertificateResponseType response = registerMedicalCertificateClient.registerMedicalCertificate(address, request);
+      Relation relation = draftCopyHolder.getRelation();
+      relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
+      relation.setSistaSjukskrivningsgrad(buildSistaSjukskrivningsgrad(internal));
+      draftCopyHolder.setRelation(relation);
 
-            // check whether call was successful or not
-            if (response.getResult().getResultCode() != ResultCodeEnum.OK) {
-                boolean info = response.getResult().getResultCode() == ResultCodeEnum.INFO;
+      internal.setKontaktMedFk(false);
+      internal.setNedsattMed100(null);
+      internal.setNedsattMed25(null);
+      internal.setNedsattMed50(null);
+      internal.setNedsattMed75(null);
+      internal.setNedsattMed25Beskrivning(null);
+      internal.setNedsattMed50Beskrivning(null);
+      internal.setNedsattMed75Beskrivning(null);
+      internal.setTjanstgoringstid(null);
+      internal.setTelefonkontaktMedPatienten(null);
+      internal.setUndersokningAvPatienten(null);
+      internal.setJournaluppgifter(null);
+      internal.setAnnanReferens(null);
+      internal.setAnnanReferensBeskrivning(null);
 
-                // This monstrosity is required because we want to handle when the certificate already exists in
-                // Intygstjänsten. When this happens Intygstjänsten will return an INFO result with a specified
-                // InfoText. To make sure we do not try to resend this request we need to throw an exception with
-                // ErrorIdEnum of ValidationError.
-                if (recipientId == null && info && CERTIFICATE_ALREADY_EXISTS.equals(response.getResult().getInfoText())) {
-                    LOG.warn("Tried to register certificate ({}) which already exist in Intygstjänsten",
-                        request.getLakarutlatande().getLakarutlatandeId());
-                    throw new ExternalServiceCallException(response.getResult().getInfoText(), ErrorIdEnum.VALIDATION_ERROR);
-                } else {
-                    String message = info
-                        ? response.getResult().getInfoText()
-                        : response.getResult().getErrorId() + " : " + response.getResult().getErrorText();
-                    LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getLakarutlatande() != null ? request.getLakarutlatande().getLakarutlatandeId() : null,
-                        message);
-                    throw new ExternalServiceCallException(message);
-                }
-            }
-        } catch (SOAPFaultException e) {
-            throw new ExternalServiceCallException(e);
-        }
-
+      return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, internal));
+    } catch (ConverterException e) {
+      LOG.error("Could not create a new internal Webcert model", e);
+      throw new ModuleConverterException("Could not create a new internal Webcert model", e);
     }
+  }
 
-    private Fk7263Utlatande getInternal(String internalModel)
-        throws ModuleException {
-
-        try {
-            Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
-
-            // Explicitly populate the giltighet interval since it is information derived from
-            // the arbetsformaga but needs to be serialized into the Utkast model.
-            utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
-            return utlatande;
-
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to deserialize internal model", e);
-        }
+  @Override
+  public Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException {
+    try {
+      return UtlatandeToIntyg.convert((Fk7263Utlatande) utlatande);
+    } catch (Exception e) {
+      LOG.error("Could not get intyg from utlatande: {}", e.getMessage());
+      throw new ModuleException("Could not get intyg from utlatande", e);
     }
+  }
 
-    private Fk7263Utlatande getInternal(String internalModel, LocalDateTime created)
-        throws ModuleException {
-
-        try {
-            Fk7263Utlatande utlatande = objectMapper.readValue(internalModel, Fk7263Utlatande.class);
-
-            // Explicitly populate the giltighet interval since it is information derived from
-            // the arbetsformaga but needs to be serialized into the Utkast model.
-            utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
-            unitMapperUtil.decorateWithMappedCareProvider(utlatande, created);
-            return utlatande;
-
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to deserialize internal model", e);
-        }
-    }
-
-    private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
-        try {
-            Fk7263Utlatande intyg = getInternal(internalModel, signingDate);
-            WebcertModelFactoryUtil.updateSkapadAv(intyg, hosPerson, signingDate);
-            return toInternalModelResponse(intyg);
-        } catch (ModuleException e) {
-            throw new ModuleException("Error while updating internal model skapadAv", e);
-        }
-    }
-
-    private String updateInternal(String internalModel, Patient patient, LocalDateTime created)
-        throws ModuleException {
-        try {
-            Fk7263Utlatande intyg = getInternal(internalModel, created);
-            WebcertModelFactoryUtil.populateWithPatientInfo(intyg.getGrundData(), patient);
-            return toInternalModelResponse(intyg);
-        } catch (ModuleException | ConverterException e) {
-            throw new ModuleException("Error while updating internal model with patient", e);
-        }
-    }
-
-    private String toInternalModelResponse(Fk7263Utlatande internalModel) throws ModuleException {
-        try {
-            StringWriter writer = new StringWriter();
-            objectMapper.writeValue(writer, internalModel);
-            return writer.toString();
-        } catch (IOException e) {
-            throw new ModuleSystemException("Failed to serialize internal model", e);
-        }
-    }
-
-    @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        return ValidateXmlResponse.createValidResponse();
-    }
-
-    @Override
-    public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande,
-        List<String> frageIds) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-        throws ModuleException {
-        try {
-            if (!Fk7263Utlatande.class.isInstance(template)) {
-                LOG.error("Could not create a new internal Webcert model from template");
-                throw new ModuleConverterException("Could not create a new internal Webcert model from template");
-            }
-
-            Fk7263Utlatande internal = (Fk7263Utlatande) template;
-
-            Relation relation = draftCopyHolder.getRelation();
-            relation.setSistaGiltighetsDatum(internal.getGiltighet().getTom());
-            relation.setSistaSjukskrivningsgrad(buildSistaSjukskrivningsgrad(internal));
-            draftCopyHolder.setRelation(relation);
-
-            internal.setKontaktMedFk(false);
-            internal.setNedsattMed100(null);
-            internal.setNedsattMed25(null);
-            internal.setNedsattMed50(null);
-            internal.setNedsattMed75(null);
-            internal.setNedsattMed25Beskrivning(null);
-            internal.setNedsattMed50Beskrivning(null);
-            internal.setNedsattMed75Beskrivning(null);
-            internal.setTjanstgoringstid(null);
-            internal.setTelefonkontaktMedPatienten(null);
-            internal.setUndersokningAvPatienten(null);
-            internal.setJournaluppgifter(null);
-            internal.setAnnanReferens(null);
-            internal.setAnnanReferensBeskrivning(null);
-
-            return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, internal));
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
-    }
-
-    @Override
-    public Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException {
-        try {
-            return UtlatandeToIntyg.convert((Fk7263Utlatande) utlatande);
-        } catch (Exception e) {
-            LOG.error("Could not get intyg from utlatande: {}", e.getMessage());
-            throw new ModuleException("Could not get intyg from utlatande", e);
-        }
-    }
-
-    @Override
-    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        List<DatePeriodType> periods = intyg.getSvar().stream()
+  @Override
+  public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+    List<DatePeriodType> periods =
+        intyg.getSvar().stream()
             .filter(svar -> BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32.equals(svar.getId()))
             .map(Svar::getDelsvar)
             .flatMap(List::stream)
-            .filter(delsvar -> delsvar != null && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
-            .map(delsvar -> {
-                try {
+            .filter(
+                delsvar ->
+                    delsvar != null
+                        && BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32.equals(delsvar.getId()))
+            .map(
+                delsvar -> {
+                  try {
                     return TransportConverterUtil.getDatePeriodTypeContent(delsvar);
-                } catch (ConverterException ce) {
-                    LOG.error("Failed retrieving additionalInfo for certificate {}: {}",
-                        intyg.getIntygsId().getExtension(), ce.getMessage());
+                  } catch (ConverterException ce) {
+                    LOG.error(
+                        "Failed retrieving additionalInfo for certificate {}: {}",
+                        intyg.getIntygsId().getExtension(),
+                        ce.getMessage());
                     return null;
-                }
-            })
+                  }
+                })
             .filter(Objects::nonNull)
             .sorted(PERIOD_START)
             .collect(Collectors.toList());
 
-        if (periods.isEmpty()) {
-            LOG.error("Failed retrieving additionalInfo for certificate {}: Found no periods.", intyg.getIntygsId().getExtension());
-            return null;
-        }
-
-        return periods.get(0).getStart().toString() + " - " + periods.get(periods.size() - 1).getEnd().toString();
+    if (periods.isEmpty()) {
+      LOG.error(
+          "Failed retrieving additionalInfo for certificate {}: Found no periods.",
+          intyg.getIntygsId().getExtension());
+      return null;
     }
 
-    @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        AttributedURIType uri = new AttributedURIType();
-        uri.setValue(logicalAddress);
+    return periods.get(0).getStart().toString()
+        + " - "
+        + periods.get(periods.size() - 1).getEnd().toString();
+  }
 
-        JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+  @Override
+  public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    AttributedURIType uri = new AttributedURIType();
+    uri.setValue(logicalAddress);
 
-        RevokeMedicalCertificateResponseType response =
-            revokeCertificateClient.revokeMedicalCertificate(uri, el.getValue());
-        if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
-            String message = "Could not send revoke to " + logicalAddress;
-            LOG.error(message);
-            throw new ExternalServiceCallException(message);
-        }
+    JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+
+    RevokeMedicalCertificateResponseType response =
+        revokeCertificateClient.revokeMedicalCertificate(uri, el.getValue());
+    if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
+      String message = "Could not send revoke to " + logicalAddress;
+      LOG.error(message);
+      throw new ExternalServiceCallException(message);
     }
+  }
 
-    @Override
-    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
-        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
+  @Override
+  public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande)
+      throws ModuleException {
+    RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
+    request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        JAXBElement<RevokeMedicalCertificateRequestType> el =
-            new se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory()
-                .createRevokeMedicalCertificateRequest(request);
+    JAXBElement<RevokeMedicalCertificateRequestType> el =
+        new se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1
+                .ObjectFactory()
+            .createRevokeMedicalCertificateRequest(request);
 
-        return XmlMarshallerHelper.marshal(el);
+    return XmlMarshallerHelper.marshal(el);
+  }
+
+  @Override
+  public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+    // Signatures are not applicable for FK7263.
+    return jsonModel;
+  }
+
+  @Override
+  public Certificate getCertificateFromJson(
+      String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
+      throws ModuleException {
+    final var internalCertificate = getInternal(certificateAsJson, created);
+    final var certificateMessagesProvider = getMessagesProvider();
+    final var certificate =
+        InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
+    final var certificateSummary =
+        summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
+    certificate.getMetadata().setSummary(certificateSummary);
+    return certificate;
+  }
+
+  @Override
+  public String getJsonFromCertificate(
+      Certificate certificate, String certificateAsJson, LocalDateTime created)
+      throws ModuleException, IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public CertificateTextProvider getTextProvider(
+      String certificateType, String certificateTypeVersion) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public CertificateMessagesProvider getMessagesProvider() {
+    return DefaultCertificateMessagesProvider.create(validationMessages);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof Fk7263Utlatande) {
+      return toInternalModelResponse((Fk7263Utlatande) utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
-        // Signatures are not applicable for FK7263.
-        return jsonModel;
+  @Override
+  public String getAdditionalInfoLabel() {
+    return ADDITIONAL_INFO_LABEL;
+  }
+
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    try {
+      final var utlatande = getUtlatandeFromJson(model);
+      final var updatedUtlatande =
+          TestabilityToolkit.getUtlatandeWithTestData(
+              utlatande, fillType, new Fk7263TestabilityUtlatandeTestDataProvider());
+      return getJsonFromUtlatande(updatedUtlatande);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Override
-    public Certificate getCertificateFromJson(String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-        throws ModuleException {
-        final var internalCertificate = getInternal(certificateAsJson, created);
-        final var certificateMessagesProvider = getMessagesProvider();
-        final var certificate = InternalToCertificate.convert(internalCertificate, certificateMessagesProvider);
-        final var certificateSummary = summaryConverter.convert(this, getIntygFromUtlatande(internalCertificate));
-        certificate.getMetadata().setSummary(certificateSummary);
-        return certificate;
-    }
-
-    @Override
-    public String getJsonFromCertificate(Certificate certificate, String certificateAsJson, LocalDateTime created)
-        throws ModuleException, IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public CertificateTextProvider getTextProvider(String certificateType, String certificateTypeVersion) {
-        throw new UnsupportedOperationException();
-    }
-
-
-    @Override
-    public CertificateMessagesProvider getMessagesProvider() {
-        return DefaultCertificateMessagesProvider.create(validationMessages);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof Fk7263Utlatande) {
-            return toInternalModelResponse((Fk7263Utlatande) utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class Fk7263Utlatande, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getAdditionalInfoLabel() {
-        return ADDITIONAL_INFO_LABEL;
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        try {
-            final var utlatande = getUtlatandeFromJson(model);
-            final var updatedUtlatande = TestabilityToolkit.getUtlatandeWithTestData(utlatande, fillType,
-                new Fk7263TestabilityUtlatandeTestDataProvider());
-            return getJsonFromUtlatande(updatedUtlatande);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public CertificateText getPreambleForCitizens() {
-        return CertificateText
-            .builder()
-            .type(CertificateTextType.PREAMBLE_TEXT)
-            .text(PREAMBLE_FOR_CITIZEN)
-            .links(List.of(
-                CertificateLink.builder()
-                    .url(FK_URL)
-                    .name(FK_NAME)
-                    .id(LINK_FK_ID)
-                    .build()
-            ))
-            .build();
-    }
+  @Override
+  public CertificateText getPreambleForCitizens() {
+    return CertificateText.builder()
+        .type(CertificateTextType.PREAMBLE_TEXT)
+        .text(PREAMBLE_FOR_CITIZEN)
+        .links(List.of(CertificateLink.builder().url(FK_URL).name(FK_NAME).id(LINK_FK_ID).build()))
+        .build();
+  }
 }

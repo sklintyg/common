@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,14 +27,15 @@ import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter
 
 public class InternalDateSerializer extends StdSerializer<InternalDate> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public InternalDateSerializer() {
-        super(InternalDate.class);
-    }
+  public InternalDateSerializer() {
+    super(InternalDate.class);
+  }
 
-    @Override
-    public void serialize(InternalDate date, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-        jgen.writeString(InternalDateAdapter.printInternalDate(date));
-    }
+  @Override
+  public void serialize(InternalDate date, JsonGenerator jgen, SerializerProvider provider)
+      throws IOException {
+    jgen.writeString(InternalDateAdapter.printInternalDate(date));
+  }
 }

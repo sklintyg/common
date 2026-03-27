@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,44 +23,46 @@ import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
- * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:
+ * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a
+ * scenario:
+ *
  * <ul>
- * <li>Transport model
- * <li>Internal model
+ *   <li>Transport model
+ *   <li>Internal model
  * </ul>
  *
  * @see ScenarioFinder
  */
 public interface Scenario {
 
-    /**
-     * Returns the name of the scenario. Useful for assertion messages.
-     *
-     * @return The scenario name.
-     */
-    String getName();
+  /**
+   * Returns the name of the scenario. Useful for assertion messages.
+   *
+   * @return The scenario name.
+   */
+  String getName();
 
-    /**
-     * Returns the scenario as a transport model.
-     *
-     * @return The scenario as a transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    RegisterMedicalCertificateType asTransportModel() throws ScenarioNotFoundException;
+  /**
+   * Returns the scenario as a transport model.
+   *
+   * @return The scenario as a transport model.
+   * @throws ScenarioNotFoundException if the scenario wasn't found.
+   */
+  RegisterMedicalCertificateType asTransportModel() throws ScenarioNotFoundException;
 
-    /**
-     * Returns the scenario as a rivta v3 transport model.
-     *
-     * @return The scenario as a rivta v3 transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
+  /**
+   * Returns the scenario as a rivta v3 transport model.
+   *
+   * @return The scenario as a rivta v3 transport model.
+   * @throws ScenarioNotFoundException if the scenario wasn't found.
+   */
+  RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
 
-    /**
-     * Returns the scenario as a internal Mina Intyg model.
-     *
-     * @return The scenario as a internal Mina Intyg model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
-     */
-    Fk7263Utlatande asInternalModel() throws ScenarioNotFoundException;
+  /**
+   * Returns the scenario as a internal Mina Intyg model.
+   *
+   * @return The scenario as a internal Mina Intyg model.
+   * @throws ScenarioNotFoundException if the scenario wasn't found.
+   */
+  Fk7263Utlatande asInternalModel() throws ScenarioNotFoundException;
 }

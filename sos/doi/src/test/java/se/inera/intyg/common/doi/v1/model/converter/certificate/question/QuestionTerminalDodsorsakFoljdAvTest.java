@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -69,16 +69,16 @@ import se.inera.intyg.common.support.model.InternalDate;
 @ExtendWith(MockitoExtension.class)
 class QuestionTerminalDodsorsakFoljdAvTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    private Dodsorsak causeOfDeathEmpty;
-    private List<CodeItem> allSpecifications;
+  private Dodsorsak causeOfDeathEmpty;
+  private List<CodeItem> allSpecifications;
 
-    @BeforeEach
-    void setup() {
-        causeOfDeathEmpty = Dodsorsak.create(null, null, null);
-        allSpecifications = List.of(
+  @BeforeEach
+  void setup() {
+    causeOfDeathEmpty = Dodsorsak.create(null, null, null);
+    allSpecifications =
+        List.of(
             CodeItem.builder()
                 .id(Specifikation.PLOTSLIG.name())
                 .label(FOLJD_OM_DELSVAR_PLOTSLIG)
@@ -93,493 +93,615 @@ class QuestionTerminalDodsorsakFoljdAvTest {
                 .id(Specifikation.UPPGIFT_SAKNAS.name())
                 .label(FOLJD_OM_DELSVAR_UPPGIFT_SAKNAS)
                 .code(Specifikation.UPPGIFT_SAKNAS.name())
-                .build()
-        );
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+                .build());
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    Stream<String> delsvarIdStream() {
+      return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID).stream();
+    }
+
+    private final Map<String, String> expectedId =
+        Map.of(
+            FOLJD_OM_DELSVAR_B_ID,
+            FOLJD_JSON_ID + "[0].beskrivning",
+            FOLJD_OM_DELSVAR_C_ID,
+            FOLJD_JSON_ID + "[1].beskrivning",
+            FOLJD_OM_DELSVAR_D_ID,
+            FOLJD_JSON_ID + "[2].beskrivning");
+
+    @ParameterizedTest
+    @MethodSource("delsvarIdStream")
+    void shouldIncludeQuestionId(String delsvarId) {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, delsvarId, FOLJD_OM_DELSVAR_B_LABEL);
+      CertificateDataConfigCauseOfDeath causeOfDeath =
+          (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(delsvarId, question.getId());
+      assertEquals(expectedId.get(delsvarId), causeOfDeath.getCauseOfDeath().getDescriptionId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty,
+              expectedIndex,
+              texts,
+              FOLJD_OM_DELSVAR_B_ID,
+              FOLJD_OM_DELSVAR_B_LABEL);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeText() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(FOLJD_AV_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeMaxDate() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      CertificateDataConfigCauseOfDeath causeOfDeath =
+          (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(LocalDate.now(), causeOfDeath.getCauseOfDeath().getMaxDate());
+    }
+
+    Stream<String> dodsOrsakerLabelStream() {
+      return List.of(FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_D_LABEL)
+          .stream();
+    }
+
+    @ParameterizedTest
+    @MethodSource("dodsOrsakerLabelStream")
+    void shouldIncludeLabel(String label) {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, label);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(config.getLabel(), label);
+    }
+
+    @Test
+    void shouldIncludeTerminalCauseOfDeathConfigType() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      assertEquals(CertificateDataConfigType.UE_CAUSE_OF_DEATH, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeTerminalCauseOfDeathList() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertNotNull(config.getCauseOfDeath());
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigId() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(FOLJD_JSON_ID, config.getCauseOfDeath().getId());
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigDescriptionId() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(FOLJD_JSON_ID + "[0].beskrivning", config.getCauseOfDeath().getDescriptionId());
+    }
+
+    Stream<String> debutIdStream() {
+      return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_ID).stream();
+    }
+
+    private final Map<String, String> expectedDebutId =
+        Map.of(
+            FOLJD_OM_DELSVAR_B_ID,
+            FOLJD_JSON_ID + "[0].datum",
+            FOLJD_OM_DELSVAR_C_ID,
+            FOLJD_JSON_ID + "[1].datum",
+            FOLJD_OM_DELSVAR_D_ID,
+            FOLJD_JSON_ID + "[2].datum");
+
+    @ParameterizedTest
+    @MethodSource("debutIdStream")
+    void shouldIncludeCorrectConfigDebutId(String debutId) {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, debutId, FOLJD_OM_DELSVAR_B_LABEL);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      CertificateDataValueCauseOfDeath valueCauseOfDeath =
+          (CertificateDataValueCauseOfDeath) question.getValue();
+      assertEquals(expectedDebutId.get(debutId), config.getCauseOfDeath().getDebutId());
+      assertEquals(expectedDebutId.get(debutId), valueCauseOfDeath.getDebut().getId());
+    }
+
+    @Test
+    void shouldIncludeCorrectConfigSpecifications() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
+      assertEquals(allSpecifications, config.getCauseOfDeath().getSpecifications());
+    }
+
+    @Test
+    void shouldIncludeValueTypeTerminalCauseOfDeath() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValueId() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var valueId = (CertificateDataValueCauseOfDeath) question.getValue();
+      assertEquals(FOLJD_JSON_ID, valueId.getId());
+    }
+
+    @Test
+    void shouldIncludeCorrectValueDebut() {
+      final var expectedDebut = LocalDate.now();
+      final var causeOfDeath = Dodsorsak.create(null, new InternalDate(expectedDebut), null);
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var values = (CertificateDataValueCauseOfDeath) question.getValue();
+      assertEquals(expectedDebut, values.getDebut().getDate());
+    }
+
+    @Test
+    void shouldIncludeCorrectValueSpecification() {
+      final var expectedSpecification =
+          CertificateDataValueCode.builder()
+              .id(Specifikation.KRONISK.name())
+              .code(Specifikation.KRONISK.name())
+              .build();
+      final var causeOfDeath = Dodsorsak.create(null, null, Specifikation.KRONISK);
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var values = (CertificateDataValueCauseOfDeath) question.getValue();
+      assertEquals(expectedSpecification, values.getSpecification());
+    }
+
+    @Test
+    void shouldIncludeCorrectValueDescription() {
+      final var expectedDescription = "expectedDescription";
+      final var causeOfDeath = Dodsorsak.create(expectedDescription, null, null);
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var values = (CertificateDataValueCauseOfDeath) question.getValue();
+      assertEquals(expectedDescription, values.getDescription().getText());
+    }
+
+    @Test
+    void shouldIncludeValidationTextType() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      assertEquals(
+          CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationTextId() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var certificateDataValidationMaxDate =
+          (CertificateDataValidationText) question.getValidation()[0];
+      assertEquals(FOLJD_JSON_ID + "[0].beskrivning", certificateDataValidationMaxDate.getId());
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var question =
+          QuestionTerminalDodsorsakFoljdAv.toCertificate(
+              causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
+      final var certificateDataValidationMaxDate =
+          (CertificateDataValidationText) question.getValidation()[0];
+      assertEquals(80, certificateDataValidationMaxDate.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<Dodsorsak> dodsOrsaker() {
+      return Stream.of(
+          Dodsorsak.create(
+              "beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
+          Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+          Dodsorsak.create(
+              "beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS));
+    }
+
+    @ParameterizedTest
+    @MethodSource("dodsOrsaker")
+    void shouldIncludeTextValue(Dodsorsak expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                      expectedValue, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL))
+              .build();
+
+      final var actualValue =
+          QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(FOLJD_OM_DELSVAR_B_ID));
+
+      assertEquals(expectedValue, actualValue.get(0));
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class FoljdAvHasNoValues {
 
-        Stream<String> delsvarIdStream() {
-            return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID).stream();
-        }
+      private Dodsorsak expectedValueForB;
+      private Dodsorsak expectedValueForC;
+      private Dodsorsak expectedValueForD;
+      private Certificate certificate;
 
-        private final Map<String, String> expectedId = Map.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_JSON_ID + "[0].beskrivning",
-            FOLJD_OM_DELSVAR_C_ID,
-            FOLJD_JSON_ID + "[1].beskrivning", FOLJD_OM_DELSVAR_D_ID, FOLJD_JSON_ID + "[2].beskrivning");
-
-        @ParameterizedTest
-        @MethodSource("delsvarIdStream")
-        void shouldIncludeQuestionId(String delsvarId) {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, delsvarId, FOLJD_OM_DELSVAR_B_LABEL);
-            CertificateDataConfigCauseOfDeath causeOfDeath = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(delsvarId, question.getId());
-            assertEquals(expectedId.get(delsvarId), causeOfDeath.getCauseOfDeath().getDescriptionId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, expectedIndex, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(TERMINAL_DODSORSAK_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(FOLJD_AV_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeMaxDate() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            CertificateDataConfigCauseOfDeath causeOfDeath = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(LocalDate.now(), causeOfDeath.getCauseOfDeath().getMaxDate());
-        }
-
-        Stream<String> dodsOrsakerLabelStream() {
-            return List.of(FOLJD_OM_DELSVAR_B_LABEL, FOLJD_OM_DELSVAR_C_LABEL, FOLJD_OM_DELSVAR_D_LABEL).stream();
-        }
-
-        @ParameterizedTest
-        @MethodSource("dodsOrsakerLabelStream")
-        void shouldIncludeLabel(String label) {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, label);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(config.getLabel(), label);
-        }
-
-        @Test
-        void shouldIncludeTerminalCauseOfDeathConfigType() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(CertificateDataConfigType.UE_CAUSE_OF_DEATH, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeTerminalCauseOfDeathList() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertNotNull(config.getCauseOfDeath());
-        }
-
-        @Test
-        void shouldIncludeCorrectConfigId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(FOLJD_JSON_ID, config.getCauseOfDeath().getId());
-        }
-
-        @Test
-        void shouldIncludeCorrectConfigDescriptionId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(FOLJD_JSON_ID + "[0].beskrivning", config.getCauseOfDeath().getDescriptionId());
-        }
-
-        Stream<String> debutIdStream() {
-            return List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_ID).stream();
-        }
-
-        private final Map<String, String> expectedDebutId = Map.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_JSON_ID + "[0].datum",
-            FOLJD_OM_DELSVAR_C_ID,
-            FOLJD_JSON_ID + "[1].datum", FOLJD_OM_DELSVAR_D_ID, FOLJD_JSON_ID + "[2].datum");
-
-        @ParameterizedTest
-        @MethodSource("debutIdStream")
-        void shouldIncludeCorrectConfigDebutId(String debutId) {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, debutId, FOLJD_OM_DELSVAR_B_LABEL);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            CertificateDataValueCauseOfDeath valueCauseOfDeath = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(expectedDebutId.get(debutId), config.getCauseOfDeath().getDebutId());
-            assertEquals(expectedDebutId.get(debutId), valueCauseOfDeath.getDebut().getId());
-        }
-
-
-        @Test
-        void shouldIncludeCorrectConfigSpecifications() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var config = (CertificateDataConfigCauseOfDeath) question.getConfig();
-            assertEquals(allSpecifications, config.getCauseOfDeath().getSpecifications());
-        }
-
-        @Test
-        void shouldIncludeValueTypeTerminalCauseOfDeath() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(CertificateDataValueType.CAUSE_OF_DEATH, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var valueId = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(FOLJD_JSON_ID, valueId.getId());
-        }
-
-        @Test
-        void shouldIncludeCorrectValueDebut() {
-            final var expectedDebut = LocalDate.now();
-            final var causeOfDeath = Dodsorsak.create(null, new InternalDate(expectedDebut), null);
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var values = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(expectedDebut, values.getDebut().getDate());
-        }
-
-        @Test
-        void shouldIncludeCorrectValueSpecification() {
-            final var expectedSpecification = CertificateDataValueCode.builder()
-                .id(Specifikation.KRONISK.name())
-                .code(Specifikation.KRONISK.name())
+      @BeforeEach
+      void setUp() {
+        expectedValueForB = Dodsorsak.create(null, null, null);
+        expectedValueForC = Dodsorsak.create(null, null, null);
+        expectedValueForD = Dodsorsak.create(null, null, null);
+        certificate =
+            CertificateBuilder.create()
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForB,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_B_ID,
+                        FOLJD_OM_DELSVAR_B_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForC,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_C_ID,
+                        FOLJD_OM_DELSVAR_C_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForD,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_D_ID,
+                        FOLJD_OM_DELSVAR_D_LABEL))
                 .build();
-            final var causeOfDeath = Dodsorsak.create(null, null, Specifikation.KRONISK);
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var values = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(expectedSpecification, values.getSpecification());
-        }
+      }
 
-        @Test
-        void shouldIncludeCorrectValueDescription() {
-            final var expectedDescription = "expectedDescription";
-            final var causeOfDeath = Dodsorsak.create(expectedDescription, null, null);
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeath, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var values = (CertificateDataValueCauseOfDeath) question.getValue();
-            assertEquals(expectedDescription, values.getDescription().getText());
-        }
+      @Test
+      void shallReturnDodsorsakListOfSizeThree() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
 
-        @Test
-        void shouldIncludeValidationTextType() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextId() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[0];
-            assertEquals(FOLJD_JSON_ID + "[0].beskrivning", certificateDataValidationMaxDate.getId());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var question = QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                causeOfDeathEmpty, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL);
-            final var certificateDataValidationMaxDate = (CertificateDataValidationText) question.getValidation()[0];
-            assertEquals(80, certificateDataValidationMaxDate.getLimit());
-        }
+        assertEquals(0, actualValue.size(), "Expect empty values but was: " + actualValue.size());
+      }
     }
 
     @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    class FoljdAvAHasValue {
 
-        Stream<Dodsorsak> dodsOrsaker() {
-            return Stream.of(
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.PLOTSLIG),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.UPPGIFT_SAKNAS)
-            );
-        }
+      private Dodsorsak expectedValueForB;
+      private Dodsorsak expectedValueForC;
+      private Dodsorsak expectedValueForD;
+      private Certificate certificate;
 
-        @ParameterizedTest
-        @MethodSource("dodsOrsaker")
-        void shouldIncludeTextValue(Dodsorsak expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionTerminalDodsorsakFoljdAv.toCertificate(
-                    expectedValue, 0, texts, FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_B_LABEL))
+      @BeforeEach
+      void setUp() {
+        expectedValueForB = Dodsorsak.create("Test", null, null);
+        expectedValueForC = Dodsorsak.create(null, null, null);
+        expectedValueForD = Dodsorsak.create(null, null, null);
+        certificate =
+            CertificateBuilder.create()
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForB,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_B_ID,
+                        FOLJD_OM_DELSVAR_B_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForC,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_C_ID,
+                        FOLJD_OM_DELSVAR_C_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForD,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_D_ID,
+                        FOLJD_OM_DELSVAR_D_LABEL))
                 .build();
+      }
 
-            final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(FOLJD_OM_DELSVAR_B_ID));
+      @Test
+      void shallReturnDodsorsakListOfSizeThree() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
 
-            assertEquals(expectedValue, actualValue.get(0));
-        }
+        assertEquals(1, actualValue.size(), "Expect three values but was: " + actualValue.size());
+      }
 
-        @Nested
-        class FoljdAvHasNoValues {
+      @Test
+      void shallReturnDodsorsakB() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
 
-            private Dodsorsak expectedValueForB;
-            private Dodsorsak expectedValueForC;
-            private Dodsorsak expectedValueForD;
-            private Certificate certificate;
-
-            @BeforeEach
-            void setUp() {
-                expectedValueForB = Dodsorsak.create(null, null, null);
-                expectedValueForC = Dodsorsak.create(null, null, null);
-                expectedValueForD = Dodsorsak.create(null, null, null);
-                certificate = CertificateBuilder.create()
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
-                            FOLJD_OM_DELSVAR_B_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
-                            FOLJD_OM_DELSVAR_C_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
-                            FOLJD_OM_DELSVAR_D_LABEL)
-                    )
-                    .build();
-            }
-
-            @Test
-            void shallReturnDodsorsakListOfSizeThree() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(0, actualValue.size(), "Expect empty values but was: " + actualValue.size());
-            }
-        }
-
-        @Nested
-        class FoljdAvAHasValue {
-
-            private Dodsorsak expectedValueForB;
-            private Dodsorsak expectedValueForC;
-            private Dodsorsak expectedValueForD;
-            private Certificate certificate;
-
-            @BeforeEach
-            void setUp() {
-                expectedValueForB = Dodsorsak.create("Test", null, null);
-                expectedValueForC = Dodsorsak.create(null, null, null);
-                expectedValueForD = Dodsorsak.create(null, null, null);
-                certificate = CertificateBuilder.create()
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
-                            FOLJD_OM_DELSVAR_B_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
-                            FOLJD_OM_DELSVAR_C_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
-                            FOLJD_OM_DELSVAR_D_LABEL)
-                    )
-                    .build();
-            }
-
-            @Test
-            void shallReturnDodsorsakListOfSizeThree() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(1, actualValue.size(), "Expect three values but was: " + actualValue.size());
-            }
-
-            @Test
-            void shallReturnDodsorsakB() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForB, actualValue.get(0));
-            }
-        }
-
-        @Nested
-        class FoljdAvCHasValue {
-
-            private Dodsorsak expectedValueForB;
-            private Dodsorsak expectedValueForC;
-            private Dodsorsak expectedValueForD;
-            private Certificate certificate;
-
-            @BeforeEach
-            void setUp() {
-                expectedValueForB = Dodsorsak.create(null, null, null);
-                expectedValueForC = Dodsorsak.create("Test", null, null);
-                expectedValueForD = Dodsorsak.create("", null, null);
-                certificate = CertificateBuilder.create()
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
-                            FOLJD_OM_DELSVAR_B_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
-                            FOLJD_OM_DELSVAR_C_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
-                            FOLJD_OM_DELSVAR_D_LABEL)
-                    )
-                    .build();
-            }
-
-            @Test
-            void shallReturnDodsorsakListOfSizeThree() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(2, actualValue.size(), "Expect two values but was: " + actualValue.size());
-            }
-
-            @Test
-            void shallReturnDodsorsakB() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForB, actualValue.get(0));
-            }
-
-            @Test
-            void shallReturnDodsorsakC() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForC, actualValue.get(1));
-            }
-        }
-
-        @Nested
-        class FoljdAvDHasValue {
-
-            private Dodsorsak expectedValueForB;
-            private Dodsorsak expectedValueForC;
-            private Dodsorsak expectedValueForD;
-            private Certificate certificate;
-
-            @BeforeEach
-            void setUp() {
-                expectedValueForB = Dodsorsak.create(null, null, null);
-                expectedValueForC = Dodsorsak.create(null, null, null);
-                expectedValueForD = Dodsorsak.create("Test", null, null);
-                certificate = CertificateBuilder.create()
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
-                            FOLJD_OM_DELSVAR_B_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
-                            FOLJD_OM_DELSVAR_C_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
-                            FOLJD_OM_DELSVAR_D_LABEL)
-                    )
-                    .build();
-            }
-
-            @Test
-            void shallReturnDodsorsakListOfSizeThree() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
-            }
-
-            @Test
-            void shallReturnDodsorsakB() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForB, actualValue.get(0));
-            }
-
-            @Test
-            void shallReturnDodsorsakC() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForC, actualValue.get(1));
-            }
-
-            @Test
-            void shallReturnDodsorsakD() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForD, actualValue.get(2));
-            }
-        }
-
-        @Nested
-        class FoljdAvAllHasValue {
-
-            private Dodsorsak expectedValueForB;
-            private Dodsorsak expectedValueForC;
-            private Dodsorsak expectedValueForD;
-            private Certificate certificate;
-
-            @BeforeEach
-            void setUp() {
-                expectedValueForB = Dodsorsak.create("Test", null, null);
-                expectedValueForC = Dodsorsak.create("Test", null, null);
-                expectedValueForD = Dodsorsak.create("Test", null, null);
-                certificate = CertificateBuilder.create()
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForB, 0, texts, FOLJD_OM_DELSVAR_B_ID,
-                            FOLJD_OM_DELSVAR_B_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForC, 0, texts, FOLJD_OM_DELSVAR_C_ID,
-                            FOLJD_OM_DELSVAR_C_LABEL)
-                    )
-                    .addElement(
-                        QuestionTerminalDodsorsakFoljdAv.toCertificate(expectedValueForD, 0, texts, FOLJD_OM_DELSVAR_D_ID,
-                            FOLJD_OM_DELSVAR_D_LABEL)
-                    )
-                    .build();
-            }
-
-            @Test
-            void shallReturnDodsorsakListOfSizeThree() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
-            }
-
-            @Test
-            void shallReturnDodsorsakB() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForB, actualValue.get(0));
-            }
-
-            @Test
-            void shallReturnDodsorsakC() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForC, actualValue.get(1));
-            }
-
-            @Test
-            void shallReturnDodsorsakD() {
-                final var actualValue = QuestionTerminalDodsorsakFoljdAv.toInternal(certificate, List.of(
-                    FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
-
-                assertEquals(expectedValueForD, actualValue.get(2));
-            }
-        }
+        assertEquals(expectedValueForB, actualValue.get(0));
+      }
     }
+
+    @Nested
+    class FoljdAvCHasValue {
+
+      private Dodsorsak expectedValueForB;
+      private Dodsorsak expectedValueForC;
+      private Dodsorsak expectedValueForD;
+      private Certificate certificate;
+
+      @BeforeEach
+      void setUp() {
+        expectedValueForB = Dodsorsak.create(null, null, null);
+        expectedValueForC = Dodsorsak.create("Test", null, null);
+        expectedValueForD = Dodsorsak.create("", null, null);
+        certificate =
+            CertificateBuilder.create()
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForB,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_B_ID,
+                        FOLJD_OM_DELSVAR_B_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForC,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_C_ID,
+                        FOLJD_OM_DELSVAR_C_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForD,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_D_ID,
+                        FOLJD_OM_DELSVAR_D_LABEL))
+                .build();
+      }
+
+      @Test
+      void shallReturnDodsorsakListOfSizeThree() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(2, actualValue.size(), "Expect two values but was: " + actualValue.size());
+      }
+
+      @Test
+      void shallReturnDodsorsakB() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForB, actualValue.get(0));
+      }
+
+      @Test
+      void shallReturnDodsorsakC() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForC, actualValue.get(1));
+      }
+    }
+
+    @Nested
+    class FoljdAvDHasValue {
+
+      private Dodsorsak expectedValueForB;
+      private Dodsorsak expectedValueForC;
+      private Dodsorsak expectedValueForD;
+      private Certificate certificate;
+
+      @BeforeEach
+      void setUp() {
+        expectedValueForB = Dodsorsak.create(null, null, null);
+        expectedValueForC = Dodsorsak.create(null, null, null);
+        expectedValueForD = Dodsorsak.create("Test", null, null);
+        certificate =
+            CertificateBuilder.create()
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForB,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_B_ID,
+                        FOLJD_OM_DELSVAR_B_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForC,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_C_ID,
+                        FOLJD_OM_DELSVAR_C_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForD,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_D_ID,
+                        FOLJD_OM_DELSVAR_D_LABEL))
+                .build();
+      }
+
+      @Test
+      void shallReturnDodsorsakListOfSizeThree() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
+      }
+
+      @Test
+      void shallReturnDodsorsakB() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForB, actualValue.get(0));
+      }
+
+      @Test
+      void shallReturnDodsorsakC() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForC, actualValue.get(1));
+      }
+
+      @Test
+      void shallReturnDodsorsakD() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForD, actualValue.get(2));
+      }
+    }
+
+    @Nested
+    class FoljdAvAllHasValue {
+
+      private Dodsorsak expectedValueForB;
+      private Dodsorsak expectedValueForC;
+      private Dodsorsak expectedValueForD;
+      private Certificate certificate;
+
+      @BeforeEach
+      void setUp() {
+        expectedValueForB = Dodsorsak.create("Test", null, null);
+        expectedValueForC = Dodsorsak.create("Test", null, null);
+        expectedValueForD = Dodsorsak.create("Test", null, null);
+        certificate =
+            CertificateBuilder.create()
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForB,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_B_ID,
+                        FOLJD_OM_DELSVAR_B_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForC,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_C_ID,
+                        FOLJD_OM_DELSVAR_C_LABEL))
+                .addElement(
+                    QuestionTerminalDodsorsakFoljdAv.toCertificate(
+                        expectedValueForD,
+                        0,
+                        texts,
+                        FOLJD_OM_DELSVAR_D_ID,
+                        FOLJD_OM_DELSVAR_D_LABEL))
+                .build();
+      }
+
+      @Test
+      void shallReturnDodsorsakListOfSizeThree() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(3, actualValue.size(), "Expect three values but was: " + actualValue.size());
+      }
+
+      @Test
+      void shallReturnDodsorsakB() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForB, actualValue.get(0));
+      }
+
+      @Test
+      void shallReturnDodsorsakC() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForC, actualValue.get(1));
+      }
+
+      @Test
+      void shallReturnDodsorsakD() {
+        final var actualValue =
+            QuestionTerminalDodsorsakFoljdAv.toInternal(
+                certificate,
+                List.of(FOLJD_OM_DELSVAR_B_ID, FOLJD_OM_DELSVAR_C_ID, FOLJD_OM_DELSVAR_D_ID));
+
+        assertEquals(expectedValueForD, actualValue.get(2));
+      }
+    }
+  }
 }

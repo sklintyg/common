@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,38 +40,36 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMappingKey;
 @ExtendWith(MockitoExtension.class)
 class UnitMappingConfigLoaderTest {
 
-    @InjectMocks
-    private UnitMappingConfigLoader unitMappingConfigLoader;
+  @InjectMocks private UnitMappingConfigLoader unitMappingConfigLoader;
 
-    @Test
-    void shallReturnEmptyListIfPathIsInvalid() {
-        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
-            "InvalidPath");
-        unitMappingConfigLoader.init();
+  @Test
+  void shallReturnEmptyListIfPathIsInvalid() {
+    ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath", "InvalidPath");
+    unitMappingConfigLoader.init();
 
-        assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
-    }
+    assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
+  }
 
-    @Test
-    void shallReturnEmptyListIfPathIsMissing() {
-        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
-            null);
-        unitMappingConfigLoader.init();
-        assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
-    }
+  @Test
+  void shallReturnEmptyListIfPathIsMissing() {
+    ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath", null);
+    unitMappingConfigLoader.init();
+    assertTrue(unitMappingConfigLoader.getUnitMappings().isEmpty());
+  }
 
-    @Test
-    void shallMapConfigContent() throws URISyntaxException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        final var filePath = Paths.get(
+  @Test
+  void shallMapConfigContent() throws URISyntaxException {
+    ClassLoader classLoader = getClass().getClassLoader();
+    final var filePath =
+        Paths.get(
                 classLoader.getResource("care-provider-mapping-config-active-mapping.json").toURI())
             .toString();
 
-        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
-            filePath);
-        unitMappingConfigLoader.init();
+    ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath", filePath);
+    unitMappingConfigLoader.init();
 
-        var expected = List.of(
+    var expected =
+        List.of(
             new UnitMapping(
                 "Region Stockholm",
                 "Avbolagisering av akutsjukhus",
@@ -79,9 +77,10 @@ class UnitMappingConfigLoaderTest {
                 LocalDateTime.of(2025, 5, 9, 8, 0, 0),
                 null,
                 Map.of(
-                    new UnitMappingKey("TSTNMT2321000156-ALFA"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
-                    new UnitMappingKey("TSTNMT2321000152-ALFA2"), new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")
-                ),
+                    new UnitMappingKey("TSTNMT2321000156-ALFA"),
+                        new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA"),
+                    new UnitMappingKey("TSTNMT2321000152-ALFA2"),
+                        new CareProviderInfo("Beta Regionen", "TSTNMT2321000156-BETA")),
                 null),
             new UnitMapping(
                 "Region Gävleborg",
@@ -90,26 +89,28 @@ class UnitMappingConfigLoaderTest {
                 LocalDateTime.of(2026, 6, 10, 9, 0, 0),
                 null,
                 Map.of(
-                    new UnitMappingKey("TSTNMT2321000156-DELTA"), new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")
-                ),
-                null)
-        );
+                    new UnitMappingKey("TSTNMT2321000156-DELTA"),
+                    new CareProviderInfo("Gamma Regionen", "TSTNMT2321000156-GAMMA")),
+                null));
 
-        assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
-    }
+    assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
+  }
 
-    @Test
-    void shallMapIssuedUnitMappingConfigContent() throws URISyntaxException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        final var filePath = Paths.get(
-                classLoader.getResource("care-provider-mapping-config-issued-unit-mapping.json").toURI())
+  @Test
+  void shallMapIssuedUnitMappingConfigContent() throws URISyntaxException {
+    ClassLoader classLoader = getClass().getClassLoader();
+    final var filePath =
+        Paths.get(
+                classLoader
+                    .getResource("care-provider-mapping-config-issued-unit-mapping.json")
+                    .toURI())
             .toString();
 
-        ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath",
-            filePath);
-        unitMappingConfigLoader.init();
+    ReflectionTestUtils.setField(unitMappingConfigLoader, "unitMappingConfigPath", filePath);
+    unitMappingConfigLoader.init();
 
-        var expected = List.of(
+    var expected =
+        List.of(
             new UnitMapping(
                 "Region Gävleborg",
                 "Bolagisering av primärvården",
@@ -118,21 +119,19 @@ class UnitMappingConfigLoaderTest {
                 null,
                 null,
                 Map.of(
-                    new UnitMappingKey("SE2321000016-5G8F"), new IssuedUnitInfo(
-                        "Region Gävleborg - Primärvård",
-                        "SE2321000016-5G8F",
-                        "SE2321000016-1G8F",
-                        "Region Gävleborg - Enhet 1"
-                    ),
-                    new UnitMappingKey("SE2321000016-6G8F"), new IssuedUnitInfo(
-                        "Region Gävleborg - Primärvård",
-                        "SE2321000016-5G8F",
-                        "SE2321000016-2G8F",
-                        "Region Gävleborg - Enhet 2"
-                    )
-                ))
-        );
+                    new UnitMappingKey("SE2321000016-5G8F"),
+                        new IssuedUnitInfo(
+                            "Region Gävleborg - Primärvård",
+                            "SE2321000016-5G8F",
+                            "SE2321000016-1G8F",
+                            "Region Gävleborg - Enhet 1"),
+                    new UnitMappingKey("SE2321000016-6G8F"),
+                        new IssuedUnitInfo(
+                            "Region Gävleborg - Primärvård",
+                            "SE2321000016-5G8F",
+                            "SE2321000016-2G8F",
+                            "Region Gävleborg - Enhet 2"))));
 
-        assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
-    }
+    assertEquals(expected, unitMappingConfigLoader.getUnitMappings());
+  }
 }

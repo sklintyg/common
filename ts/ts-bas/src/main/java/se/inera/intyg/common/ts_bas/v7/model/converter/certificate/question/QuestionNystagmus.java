@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,40 +38,33 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionNystagmus {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var nystagmus = syn != null ? syn.getNystagmus() : null;
-        return CertificateDataElement.builder()
-            .id(NYSTAGMUS_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(NYSTAGMUS_JSON_ID)
-                    .text(textProvider.get(NYSTAGMUS_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(NYSTAGMUS_JSON_ID)
-                    .selected(nystagmus)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(NYSTAGMUS_SVAR_ID)
-                        .expression(exists(NYSTAGMUS_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var nystagmus = syn != null ? syn.getNystagmus() : null;
+    return CertificateDataElement.builder()
+        .id(NYSTAGMUS_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(NYSTAGMUS_JSON_ID)
+                .text(textProvider.get(NYSTAGMUS_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder().id(NYSTAGMUS_JSON_ID).selected(nystagmus).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(NYSTAGMUS_SVAR_ID)
+                  .expression(exists(NYSTAGMUS_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), NYSTAGMUS_SVAR_ID, NYSTAGMUS_JSON_ID);
-    }
-
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), NYSTAGMUS_SVAR_ID, NYSTAGMUS_JSON_ID);
+  }
 }

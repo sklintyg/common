@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,10 +23,11 @@ import org.junit.jupiter.api.Test;
 
 public class HtmlParserTest {
 
-    @Test
-    public void testParserTextContainingHtmlRemoveAllPTags() {
+  @Test
+  public void testParserTextContainingHtmlRemoveAllPTags() {
 
-        final var text = "<!DOCTYPE html>\n"
+    final var text =
+        "<!DOCTYPE html>\n"
             + "<html>\n"
             + "    <head>\n"
             + "        <!-- head definitions go here -->\n"
@@ -38,15 +39,16 @@ public class HtmlParserTest {
             + "    </body>\n"
             + "</html>";
 
-        final var result = HtmlParser.toTextExcludeElement(text, "p");
+    final var result = HtmlParser.toTextExcludeElement(text, "p");
 
-        Assertions.assertEquals("", result);
-    }
+    Assertions.assertEquals("", result);
+  }
 
-    @Test
-    public void testParserTextContainingHtmlNoPTag() {
+  @Test
+  public void testParserTextContainingHtmlNoPTag() {
 
-        final var text = "<!DOCTYPE html>\n"
+    final var text =
+        "<!DOCTYPE html>\n"
             + "<html>\n"
             + "    <head>\n"
             + "        <!-- head definitions go here -->\n"
@@ -57,29 +59,28 @@ public class HtmlParserTest {
             + "    </body>\n"
             + "</html>";
 
-        final var result = HtmlParser.toTextExcludeElement(text, "p");
+    final var result = HtmlParser.toTextExcludeElement(text, "p");
 
-        Assertions.assertEquals("Hello World!", result);
-    }
+    Assertions.assertEquals("Hello World!", result);
+  }
 
-    @Test
-    public void testParserTextContainingNoHtml() {
+  @Test
+  public void testParserTextContainingNoHtml() {
 
-        final var text = "Just a regular string";
+    final var text = "Just a regular string";
 
-        final var result = HtmlParser.toTextExcludeElement(text, "p");
+    final var result = HtmlParser.toTextExcludeElement(text, "p");
 
-        Assertions.assertEquals(text, result);
-    }
+    Assertions.assertEquals(text, result);
+  }
 
-    @Test
-    public void testParserTextContainingNotCompleteHtmlRemoveAllPTags() {
+  @Test
+  public void testParserTextContainingNotCompleteHtmlRemoveAllPTags() {
 
-        final var text = "<p>Hello World!</p>Hello World!";
+    final var text = "<p>Hello World!</p>Hello World!";
 
-        final var result = HtmlParser.toTextExcludeElement(text, "p");
+    final var result = HtmlParser.toTextExcludeElement(text, "p");
 
-        Assertions.assertEquals("Hello World!", result);
-    }
-
+    Assertions.assertEquals("Hello World!", result);
+  }
 }

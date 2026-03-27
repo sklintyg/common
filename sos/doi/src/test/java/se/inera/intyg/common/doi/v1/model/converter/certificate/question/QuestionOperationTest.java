@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,180 +57,188 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @ExtendWith(MockitoExtension.class)
 class QuestionOperationTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertEquals(OPERATION_OM_DELSVAR_ID, question.getId());
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
-
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertEquals(OPERATION_OM_DELSVAR_ID, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionOperation.toCertificate(null, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertEquals(OPERATION_CATEGORY_ID, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeText() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
-            verify(texts, atLeastOnce()).get(OPERATION_QUESTION_TEXT_ID);
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigType() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueJa() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(OmOperation.JA.name())
-                .label("Test string")
-                .build();
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            verify(texts, atLeastOnce()).get(OPERATION_QUESTION_SELECTED_TEXT_ID);
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueNej() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(OmOperation.NEJ.name())
-                .label("Test string")
-                .build();
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            verify(texts, atLeastOnce()).get(OPERATION_QUESTION_UNSELECTED_TEXT_ID);
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
-        }
-
-        @Test
-        void shouldIncludeRadioMultipleCodeConfigValueUppgiftSaknas() {
-            final var expectedCode = RadioMultipleCode.builder()
-                .id(OmOperation.UPPGIFT_SAKNAS.name())
-                .label("Test string")
-                .build();
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataConfigRadioMultipleCode = (CertificateDataConfigRadioMultipleCode) question.getConfig();
-            verify(texts, atLeastOnce()).get(OPERATION_QUESTION_UNKNOWN_TEXT_ID);
-            assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
-        }
-
-        @Test
-        void shouldIncludeCodeValueType() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeCodeValueJa() {
-            final var expected = CertificateDataValueCode.builder()
-                .id(OmOperation.JA.name())
-                .code(OmOperation.JA.name())
-                .build();
-            final var question = QuestionOperation.toCertificate(OmOperation.JA, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(expected, certificateDataValueCode);
-        }
-
-        @Test
-        void shouldIncludeCodeValueNej() {
-            final var expected = CertificateDataValueCode.builder()
-                .id(OmOperation.NEJ.name())
-                .code(OmOperation.NEJ.name())
-                .build();
-            final var question = QuestionOperation.toCertificate(OmOperation.NEJ, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(expected, certificateDataValueCode);
-        }
-
-        @Test
-        void shouldIncludeCodeValueUppgiftSaknas() {
-            final var expected = CertificateDataValueCode.builder()
-                .id(OmOperation.UPPGIFT_SAKNAS.name())
-                .code(OmOperation.UPPGIFT_SAKNAS.name())
-                .build();
-            final var question = QuestionOperation.toCertificate(OmOperation.UPPGIFT_SAKNAS, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertEquals(expected, certificateDataValueCode);
-        }
-
-        @Test
-        void shouldIncludeCodeValueEmpty() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
-            assertNull(certificateDataValueCode.getCode());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryType() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            assertEquals(CertificateDataValidationType.MANDATORY_VALIDATION, question.getValidation()[0].getType());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryQuestionId() {
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(OPERATION_OM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
-        }
-
-        @Test
-        void shouldIncludeValidationMandatoryExpression() {
-            final var expectedExpression = "exists(" + OmOperation.JA.name()
-                + ") || exists(" + OmOperation.NEJ.name()
-                + ") || exists(" + OmOperation.UPPGIFT_SAKNAS.name() + ")";
-
-            final var question = QuestionOperation.toCertificate(null, 0, texts);
-            final var certificateDataValidationMandatory = (CertificateDataValidationMandatory) question.getValidation()[0];
-            assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
-        }
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionOperation.toCertificate(null, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
-
-        Stream<OmOperation> undersokningYttreValues() {
-            return Stream.of(
-                OmOperation.JA,
-                OmOperation.NEJ,
-                OmOperation.UPPGIFT_SAKNAS,
-                null
-            );
-        }
-
-        @ParameterizedTest
-        @MethodSource("undersokningYttreValues")
-        void shouldIncludeTextValue(OmOperation expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionOperation.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionOperation.toInternal(certificate);
-
-            assertEquals(expectedValue, actualValue);
-        }
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertEquals(OPERATION_CATEGORY_ID, question.getParent());
     }
+
+    @Test
+    void shouldIncludeText() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertTrue(question.getConfig().getText().trim().length() > 0, "Missing text");
+      verify(texts, atLeastOnce()).get(OPERATION_QUESTION_TEXT_ID);
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigType() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataConfigType.UE_RADIO_MULTIPLE_CODE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueJa() {
+      final var expectedCode =
+          RadioMultipleCode.builder().id(OmOperation.JA.name()).label("Test string").build();
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      verify(texts, atLeastOnce()).get(OPERATION_QUESTION_SELECTED_TEXT_ID);
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(0));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueNej() {
+      final var expectedCode =
+          RadioMultipleCode.builder().id(OmOperation.NEJ.name()).label("Test string").build();
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      verify(texts, atLeastOnce()).get(OPERATION_QUESTION_UNSELECTED_TEXT_ID);
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(1));
+    }
+
+    @Test
+    void shouldIncludeRadioMultipleCodeConfigValueUppgiftSaknas() {
+      final var expectedCode =
+          RadioMultipleCode.builder()
+              .id(OmOperation.UPPGIFT_SAKNAS.name())
+              .label("Test string")
+              .build();
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataConfigRadioMultipleCode =
+          (CertificateDataConfigRadioMultipleCode) question.getConfig();
+      verify(texts, atLeastOnce()).get(OPERATION_QUESTION_UNKNOWN_TEXT_ID);
+      assertEquals(expectedCode, certificateDataConfigRadioMultipleCode.getList().get(2));
+    }
+
+    @Test
+    void shouldIncludeCodeValueType() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertEquals(CertificateDataValueType.CODE, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeCodeValueJa() {
+      final var expected =
+          CertificateDataValueCode.builder()
+              .id(OmOperation.JA.name())
+              .code(OmOperation.JA.name())
+              .build();
+      final var question = QuestionOperation.toCertificate(OmOperation.JA, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(expected, certificateDataValueCode);
+    }
+
+    @Test
+    void shouldIncludeCodeValueNej() {
+      final var expected =
+          CertificateDataValueCode.builder()
+              .id(OmOperation.NEJ.name())
+              .code(OmOperation.NEJ.name())
+              .build();
+      final var question = QuestionOperation.toCertificate(OmOperation.NEJ, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(expected, certificateDataValueCode);
+    }
+
+    @Test
+    void shouldIncludeCodeValueUppgiftSaknas() {
+      final var expected =
+          CertificateDataValueCode.builder()
+              .id(OmOperation.UPPGIFT_SAKNAS.name())
+              .code(OmOperation.UPPGIFT_SAKNAS.name())
+              .build();
+      final var question = QuestionOperation.toCertificate(OmOperation.UPPGIFT_SAKNAS, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertEquals(expected, certificateDataValueCode);
+    }
+
+    @Test
+    void shouldIncludeCodeValueEmpty() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataValueCode = (CertificateDataValueCode) question.getValue();
+      assertNull(certificateDataValueCode.getCode());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryType() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      assertEquals(
+          CertificateDataValidationType.MANDATORY_VALIDATION,
+          question.getValidation()[0].getType());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryQuestionId() {
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(OPERATION_OM_DELSVAR_ID, certificateDataValidationMandatory.getQuestionId());
+    }
+
+    @Test
+    void shouldIncludeValidationMandatoryExpression() {
+      final var expectedExpression =
+          "exists("
+              + OmOperation.JA.name()
+              + ") || exists("
+              + OmOperation.NEJ.name()
+              + ") || exists("
+              + OmOperation.UPPGIFT_SAKNAS.name()
+              + ")";
+
+      final var question = QuestionOperation.toCertificate(null, 0, texts);
+      final var certificateDataValidationMandatory =
+          (CertificateDataValidationMandatory) question.getValidation()[0];
+      assertEquals(expectedExpression, certificateDataValidationMandatory.getExpression());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<OmOperation> undersokningYttreValues() {
+      return Stream.of(OmOperation.JA, OmOperation.NEJ, OmOperation.UPPGIFT_SAKNAS, null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("undersokningYttreValues")
+    void shouldIncludeTextValue(OmOperation expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(QuestionOperation.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionOperation.toInternal(certificate);
+
+      assertEquals(expectedValue, actualValue);
+    }
+  }
 }

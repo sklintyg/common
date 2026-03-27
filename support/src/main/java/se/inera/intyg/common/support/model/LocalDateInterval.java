@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,31 +25,31 @@ import java.time.LocalDate;
  */
 public final class LocalDateInterval {
 
-    private LocalDate from;
-    private LocalDate tom;
+  private LocalDate from;
+  private LocalDate tom;
 
-    public LocalDateInterval() {
-        // Needed for deserialization
-    }
+  public LocalDateInterval() {
+    // Needed for deserialization
+  }
 
-    public LocalDateInterval(LocalDate from, LocalDate tom) {
-        this.from = from;
-        this.tom = tom;
-    }
+  public LocalDateInterval(LocalDate from, LocalDate tom) {
+    this.from = from;
+    this.tom = tom;
+  }
 
-    public LocalDate getFrom() {
-        return from;
-    }
+  public LocalDate getFrom() {
+    return from;
+  }
 
-    public void setFrom(LocalDate from) {
-        this.from = from;
-    }
+  public void setFrom(LocalDate from) {
+    this.from = from;
+  }
 
-    public LocalDate getTom() {
-        return tom;
-    }
+  public LocalDate getTom() {
+    return tom;
+  }
 
-    public void setTom(LocalDate tom) {
-        this.tom = tom;
-    }
+  public void setTom(LocalDate tom) {
+    this.tom = tom;
+  }
 }

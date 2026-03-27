@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,14 +31,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
 @Builder
 public class CertificateDataValidationAutoFill implements CertificateDataValidation {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValidationType type = CertificateDataValidationType.AUTO_FILL_VALIDATION;
-    String questionId;
-    String expression;
-    CertificateDataValue fillValue;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValidationType type = CertificateDataValidationType.AUTO_FILL_VALIDATION;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValidationAutoFillBuilder {
+  String questionId;
+  String expression;
+  CertificateDataValue fillValue;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValidationAutoFillBuilder {}
 }

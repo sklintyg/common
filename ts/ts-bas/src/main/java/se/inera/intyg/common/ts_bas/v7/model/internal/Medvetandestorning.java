@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,26 +27,23 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Medvetandestorning.Builder.class)
 public abstract class Medvetandestorning {
 
-    public static Builder builder() {
-        return new AutoValue_Medvetandestorning.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Medvetandestorning.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Medvetandestorning build();
+    public abstract Medvetandestorning build();
 
-        @JsonProperty("medvetandestorning")
-        public abstract Builder setMedvetandestorning(Boolean medvetandestorning);
+    @JsonProperty("medvetandestorning")
+    public abstract Builder setMedvetandestorning(Boolean medvetandestorning);
 
-        @JsonProperty("beskrivning")
-        public abstract Builder setBeskrivning(String beskrivning);
-    }
+    @JsonProperty("beskrivning")
+    public abstract Builder setBeskrivning(String beskrivning);
+  }
 
-    @Nullable
-    public abstract Boolean getMedvetandestorning();
+  @Nullable public abstract Boolean getMedvetandestorning();
 
-    @Nullable
-    public abstract String getBeskrivning();
-
+  @Nullable public abstract String getBeskrivning();
 }

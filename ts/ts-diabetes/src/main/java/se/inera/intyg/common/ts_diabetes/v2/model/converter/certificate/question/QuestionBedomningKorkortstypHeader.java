@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v2.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ts_diabetes.v2.model.converter.RespConstants.BEDOMNING_CATEGORY_ID;
@@ -28,18 +27,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHe
 
 public class QuestionBedomningKorkortstypHeader {
 
-    public static CertificateDataElement toCertificate(int index) {
-        return CertificateDataElement.builder()
-            .id(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigHeader.builder()
-                    .text(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT)
-                    .build()
-            )
-            .build();
-
-    }
+  public static CertificateDataElement toCertificate(int index) {
+    return CertificateDataElement.builder()
+        .id(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_SVAR_ID)
+        .parent(BEDOMNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigHeader.builder()
+                .text(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_HEADER_TEXT)
+                .build())
+        .build();
+  }
 }
-

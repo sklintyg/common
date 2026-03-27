@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,16 +24,16 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 public final class InternalToTransport {
 
-    private InternalToTransport() {
+  private InternalToTransport() {}
+
+  public static RegisterCertificateType convert(TsDiabetesUtlatandeV4 source)
+      throws ConverterException {
+    if (source == null) {
+      throw new ConverterException("Source utlatande was null, cannot convert");
     }
 
-    public static RegisterCertificateType convert(TsDiabetesUtlatandeV4 source) throws ConverterException {
-        if (source == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-
-        final var transport = new RegisterCertificateType();
-        transport.setIntyg(UtlatandeToIntyg.convert(source));
-        return transport;
-    }
+    final var transport = new RegisterCertificateType();
+    transport.setIntyg(UtlatandeToIntyg.convert(source));
+    return transport;
+  }
 }

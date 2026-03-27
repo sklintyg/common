@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,14 +30,13 @@ import lombok.Value;
 @Builder
 public class CertificateDataIcfValue implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.ICF;
-    String id;
-    String text;
-    List<String> icfCodes;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.ICF;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataIcfValueBuilder {
+  String id;
+  String text;
+  List<String> icfCodes;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataIcfValueBuilder {}
 }

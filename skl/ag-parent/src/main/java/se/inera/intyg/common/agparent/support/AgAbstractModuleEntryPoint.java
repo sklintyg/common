@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,34 +24,31 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
-/**
- *
- */
+/** */
 public abstract class AgAbstractModuleEntryPoint implements ModuleEntryPoint {
 
-    public static final String DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
-    public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_2.RBK";
-    public static final String DEFAULT_RECIPIENT_ID = ""; // Should not be sent
+  public static final String DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+  public static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_2.RBK";
+  public static final String DEFAULT_RECIPIENT_ID = ""; // Should not be sent
 
-    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
-    @Autowired(required = false)
-    private Optional<IntygTextsRepository> repo;
+  // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+  @Autowired(required = false)
+  private Optional<IntygTextsRepository> repo;
 
-    @Override
-    public String getDetailedModuleDescription() {
-        if (repo.isPresent()) {
-            final String latestVersion = repo.get().getLatestVersion(getModuleId());
-            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
-            if (texts != null) {
-                return texts.getTexter().get(DESCRIPTION_TEXT_KEY);
-            }
-        }
-        return null;
+  @Override
+  public String getDetailedModuleDescription() {
+    if (repo.isPresent()) {
+      final String latestVersion = repo.get().getLatestVersion(getModuleId());
+      final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+      if (texts != null) {
+        return texts.getTexter().get(DESCRIPTION_TEXT_KEY);
+      }
     }
+    return null;
+  }
 
-    @Override
-    public String getDefaultRecipient() {
-        return DEFAULT_RECIPIENT_ID;
-    }
-
+  @Override
+  public String getDefaultRecipient() {
+    return DEFAULT_RECIPIENT_ID;
+  }
 }

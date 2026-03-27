@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,49 +41,50 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
-    public static Af00213UtlatandeV1 getUtlatande() {
-        Af00213UtlatandeV1.Builder utlatande = Af00213UtlatandeV1.builder();
-        utlatande.setId("1234567");
-        utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
-        utlatande.setTextVersion("1.0");
-        utlatande.setHarFunktionsnedsattning(true);
-        utlatande.setFunktionsnedsattning("Funktionsnedsättning");
+  public static Af00213UtlatandeV1 getUtlatande() {
+    Af00213UtlatandeV1.Builder utlatande = Af00213UtlatandeV1.builder();
+    utlatande.setId("1234567");
+    utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
+    utlatande.setTextVersion("1.0");
+    utlatande.setHarFunktionsnedsattning(true);
+    utlatande.setFunktionsnedsattning("Funktionsnedsättning");
 
-        utlatande.setHarAktivitetsbegransning(true);
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
+    utlatande.setHarAktivitetsbegransning(true);
+    utlatande.setAktivitetsbegransning("Väldigt sjuk");
 
-        utlatande.setHarUtredningBehandling(true);
-        utlatande.setUtredningBehandling("Medicin");
+    utlatande.setHarUtredningBehandling(true);
+    utlatande.setUtredningBehandling("Medicin");
 
-        utlatande.setHarArbetetsPaverkan(true);
-        utlatande.setArbetetsPaverkan("Halt");
+    utlatande.setHarArbetetsPaverkan(true);
+    utlatande.setArbetetsPaverkan("Halt");
 
-        utlatande.setOvrigt("Trevlig kille");
-        return utlatande.build();
-    }
+    utlatande.setOvrigt("Trevlig kille");
+    return utlatande.build();
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void endToEnd() throws Exception {
-        Af00213UtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-        Af00213UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
-        assertEquals(originalUtlatande, convertedIntyg);
-    }
-
+  @Test
+  public void endToEnd() throws Exception {
+    Af00213UtlatandeV1 originalUtlatande = getUtlatande();
+    RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+    Af00213UtlatandeV1 convertedIntyg =
+        TransportToInternal.convert(transportCertificate.getIntyg());
+    assertEquals(originalUtlatande, convertedIntyg);
+  }
 }

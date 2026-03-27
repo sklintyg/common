@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,70 +50,80 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 @ExtendWith({SpringExtension.class})
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class, UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 public class InternalToTransportTest {
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
+
+  public static TsDiabetesUtlatandeV4 getUtlatande() {
+    return getUtlatande(null, null, null);
+  }
+
+  public static TsDiabetesUtlatandeV4 getUtlatande(
+      RelationKod relationKod, String relationMeddelandeId, String referensId) {
+    TsDiabetesUtlatandeV4.Builder utlatande = TsDiabetesUtlatandeV4.builder();
+    utlatande.setId("1234567");
+    utlatande.setTextVersion("1.0");
+    GrundData grundData = IntygTestDataBuilder.getGrundData();
+
+    grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+
+    if (relationKod != null) {
+      Relation relation = new Relation();
+      relation.setRelationKod(relationKod);
+      relation.setMeddelandeId(relationMeddelandeId);
+      relation.setReferensId(referensId);
+      grundData.setRelation(relation);
     }
+    utlatande.setGrundData(grundData);
 
-    public static TsDiabetesUtlatandeV4 getUtlatande() {
-        return getUtlatande(null, null, null);
-    }
+    utlatande.setAllmant(Allmant.builder().build());
+    utlatande.setBedomning(Bedomning.builder().build());
+    utlatande.setHypoglykemi(Hypoglykemi.builder().build());
+    utlatande.setOvrigt(Ovrigt.builder().build());
 
-    public static TsDiabetesUtlatandeV4 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) {
-        TsDiabetesUtlatandeV4.Builder utlatande = TsDiabetesUtlatandeV4.builder();
-        utlatande.setId("1234567");
-        utlatande.setTextVersion("1.0");
-        GrundData grundData = IntygTestDataBuilder.getGrundData();
+    return utlatande.build();
+  }
 
-        grundData.setSigneringsdatum(LocalDateTime.parse("2015-12-07T15:48:05"));
+  @BeforeAll
+  static void initUtils() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        if (relationKod != null) {
-            Relation relation = new Relation();
-            relation.setRelationKod(relationKod);
-            relation.setMeddelandeId(relationMeddelandeId);
-            relation.setReferensId(referensId);
-            grundData.setRelation(relation);
-        }
-        utlatande.setGrundData(grundData);
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        utlatande.setAllmant(Allmant.builder().build());
-        utlatande.setBedomning(Bedomning.builder().build());
-        utlatande.setHypoglykemi(Hypoglykemi.builder().build());
-        utlatande.setOvrigt(Ovrigt.builder().build());
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-        return utlatande.build();
-    }
+  @Test
+  void testInternalToTransportConversion() throws Exception {
+    TsDiabetesUtlatandeV4 expected = getUtlatande();
+    RegisterCertificateType transport =
+        se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(expected);
+    TsDiabetesUtlatandeV4 actual = TransportToInternal.convert(transport.getIntyg());
 
-    @BeforeAll
-    static void initUtils() {
-        final var mapper = mock(UnitMapperUtil.class);
+    assertEquals(expected, actual);
+  }
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
-
-        new TransportConverterUtil(mapper).initialize();
-    }
-
-    @Test
-    void testInternalToTransportConversion() throws Exception {
-        TsDiabetesUtlatandeV4 expected = getUtlatande();
-        RegisterCertificateType transport = se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(expected);
-        TsDiabetesUtlatandeV4 actual = TransportToInternal.convert(transport.getIntyg());
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class,
-            () -> se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null));
-    }
+  @Test
+  void testInternalToTransportSourceNull() throws Exception {
+    assertThrows(
+        ConverterException.class,
+        () ->
+            se.inera.intyg.common.ts_diabetes.v4.model.converter.InternalToTransport.convert(null));
+  }
 }

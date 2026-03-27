@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,9 +23,9 @@ package se.inera.intyg.common.support.validate;
  */
 public class ValidationException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public ValidationException(String message) {
-        super(message);
-    }
+  public ValidationException(String message) {
+    super(message);
+  }
 }

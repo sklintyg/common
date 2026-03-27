@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,65 +42,61 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.WebcertModelFactoryI
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Specifically tests the renewal of LISJP where certain fields are nulled out.
- */
+/** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
 public class TsDiabetesModuleApiV3RenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "v3/TsDiabetesV3ModelCompareUtil/utlatande.json";
+  public static final String TESTFILE_UTLATANDE = "v3/TsDiabetesV3ModelCompareUtil/utlatande.json";
 
-    @Spy
-    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
+  @Spy private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
-    @Spy
-    private ObjectMapper objectMapper = new CustomObjectMapper();
+  @Spy private ObjectMapper objectMapper = new CustomObjectMapper();
 
-    @InjectMocks
-    private TsDiabetesModuleApiV3 moduleApi;
+  @InjectMocks private TsDiabetesModuleApiV3 moduleApi;
 
-    @BeforeEach
-    void init() {
-        ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
-    }
+  @BeforeEach
+  void init() {
+    ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
+  }
 
-    @Test
-    void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        final var original = getUtlatandeFromFile();
-        final var renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
-        assertNotNull(renewalFromTemplate);
+  @Test
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
+    final var original = getUtlatandeFromFile();
+    final var renewalFromTemplate =
+        moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
+    assertNotNull(renewalFromTemplate);
 
-        // Create two instances to compare field by field.
-        final var renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, TsDiabetesUtlatandeV3.class);
+    // Create two instances to compare field by field.
+    final var renewCopy =
+        new CustomObjectMapper().readValue(renewalFromTemplate, TsDiabetesUtlatandeV3.class);
 
-        // Blanked out values:
-        assertNull(renewCopy.getSignature());
+    // Blanked out values:
+    assertNull(renewCopy.getSignature());
 
-        // Retained values
-        // TODO: only tests ovrigt for now
-        assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+    // Retained values
+    // TODO: only tests ovrigt for now
+    assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
+    assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+  }
 
-    }
+  private CreateDraftCopyHolder createCopyHolder() {
+    final var draftCopyHolder = new CreateDraftCopyHolder("certificateId", createHosPersonal());
+    draftCopyHolder.setRelation(new Relation());
+    return draftCopyHolder;
+  }
 
-    private CreateDraftCopyHolder createCopyHolder() {
-        final var draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
-        draftCopyHolder.setRelation(new Relation());
-        return draftCopyHolder;
-    }
+  private HoSPersonal createHosPersonal() {
+    final var hosPersonal = new HoSPersonal();
+    hosPersonal.setPersonId("hsaId");
+    hosPersonal.setFullstandigtNamn("namn");
+    hosPersonal.setVardenhet(new Vardenhet());
+    hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
+    return hosPersonal;
+  }
 
-    private HoSPersonal createHosPersonal() {
-        final var hosPersonal = new HoSPersonal();
-        hosPersonal.setPersonId("hsaId");
-        hosPersonal.setFullstandigtNamn("namn");
-        hosPersonal.setVardenhet(new Vardenhet());
-        hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
-        return hosPersonal;
-    }
-
-    private TsDiabetesUtlatandeV3 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
-    }
+  private TsDiabetesUtlatandeV3 getUtlatandeFromFile() throws IOException {
+    return new CustomObjectMapper()
+        .readValue(
+            new ClassPathResource(TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
+  }
 }

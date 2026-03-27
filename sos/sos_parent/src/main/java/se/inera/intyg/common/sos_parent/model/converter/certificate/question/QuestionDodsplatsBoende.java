@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,66 +38,62 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionDodsplatsBoende {
 
-    public static CertificateDataElement toCertificate(DodsplatsBoende dodsplatsBoende, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DODSPLATS_BOENDE_DELSVAR_ID)
-            .parent(DODSPLATS_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(DODSPLATS_BOENDE_QUESTION_TEXT_ID))
-                    .description(texts.get(DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCode.builder()
-                                .id(DodsplatsBoende.SJUKHUS.name())
-                                .label(DodsplatsBoende.SJUKHUS.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(DodsplatsBoende.ORDINART_BOENDE.name())
-                                .label(DodsplatsBoende.ORDINART_BOENDE.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(DodsplatsBoende.SARSKILT_BOENDE.name())
-                                .label(DodsplatsBoende.SARSKILT_BOENDE.getBeskrivning())
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(DodsplatsBoende.ANNAN.name())
-                                .label(DodsplatsBoende.ANNAN.getBeskrivning())
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                dodsplatsBoende != null ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      DodsplatsBoende dodsplatsBoende, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DODSPLATS_BOENDE_DELSVAR_ID)
+        .parent(DODSPLATS_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(DODSPLATS_BOENDE_QUESTION_TEXT_ID))
+                .description(texts.get(DODSPLATS_BOENDE_QUESTION_DESCRIPTION_ID))
+                .list(
+                    Arrays.asList(
+                        RadioMultipleCode.builder()
+                            .id(DodsplatsBoende.SJUKHUS.name())
+                            .label(DodsplatsBoende.SJUKHUS.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(DodsplatsBoende.ORDINART_BOENDE.name())
+                            .label(DodsplatsBoende.ORDINART_BOENDE.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(DodsplatsBoende.SARSKILT_BOENDE.name())
+                            .label(DodsplatsBoende.SARSKILT_BOENDE.getBeskrivning())
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(DodsplatsBoende.ANNAN.name())
+                            .label(DodsplatsBoende.ANNAN.getBeskrivning())
+                            .build()))
+                .build())
+        .value(
+            dodsplatsBoende != null
+                ? CertificateDataValueCode.builder()
                     .id(dodsplatsBoende.name())
                     .code(dodsplatsBoende.name())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSPLATS_BOENDE_DELSVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                DodsplatsBoende.SJUKHUS.name(),
-                                DodsplatsBoende.ORDINART_BOENDE.name(),
-                                DodsplatsBoende.SARSKILT_BOENDE.name(),
-                                DodsplatsBoende.ANNAN.name()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSPLATS_BOENDE_DELSVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          DodsplatsBoende.SJUKHUS.name(),
+                          DodsplatsBoende.ORDINART_BOENDE.name(),
+                          DodsplatsBoende.SARSKILT_BOENDE.name(),
+                          DodsplatsBoende.ANNAN.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static DodsplatsBoende toInternal(Certificate certificate) {
-        final var codeValueString = codeValue(certificate.getData(), DODSPLATS_BOENDE_DELSVAR_ID);
-        if (codeValueString == null) {
-            return null;
-        }
-        return DodsplatsBoende.valueOf(codeValueString);
+  public static DodsplatsBoende toInternal(Certificate certificate) {
+    final var codeValueString = codeValue(certificate.getData(), DODSPLATS_BOENDE_DELSVAR_ID);
+    if (codeValueString == null) {
+      return null;
     }
+    return DodsplatsBoende.valueOf(codeValueString);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSFORMAGA_PROGNOS_CATEGORY_ID;
@@ -29,38 +28,34 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionArbetsformogaPrognos {
 
-    public static CertificateDataElement toCertificate(PrognosBedomning prognos, int index) {
-        return CertificateDataElement.builder()
-            .id(ARBETSFORMAGA_PROGNOS_SVAR_ID)
-            .parent(ARBETSFORMAGA_PROGNOS_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(mapPrognosBedomningToString(prognos))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(PrognosBedomning prognos, int index) {
+    return CertificateDataElement.builder()
+        .id(ARBETSFORMAGA_PROGNOS_SVAR_ID)
+        .parent(ARBETSFORMAGA_PROGNOS_CATEGORY_ID)
+        .index(index)
+        .config(CertificateDataConfigViewText.builder().build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(mapPrognosBedomningToString(prognos))
+                .build())
+        .build();
+  }
 
-    private static String mapPrognosBedomningToString(PrognosBedomning prognosBedomning) {
-        if (prognosBedomning == null) {
-            return "Ej angivet";
-        }
-        switch (prognosBedomning) {
-            case arbetsformagaPrognosJa:
-                return "Ja";
-            case arbetsformagaPrognosJaDelvis:
-                return "Ja, delvis";
-            case arbetsformagaPrognosNej:
-                return "Nej";
-            case arbetsformagaPrognosGarInteAttBedoma:
-                return "Går inte att bedöma";
-            default:
-                return "Ej angivet";
-        }
+  private static String mapPrognosBedomningToString(PrognosBedomning prognosBedomning) {
+    if (prognosBedomning == null) {
+      return "Ej angivet";
     }
+    switch (prognosBedomning) {
+      case arbetsformagaPrognosJa:
+        return "Ja";
+      case arbetsformagaPrognosJaDelvis:
+        return "Ja, delvis";
+      case arbetsformagaPrognosNej:
+        return "Nej";
+      case arbetsformagaPrognosGarInteAttBedoma:
+        return "Går inte att bedöma";
+      default:
+        return "Ej angivet";
+    }
+  }
 }

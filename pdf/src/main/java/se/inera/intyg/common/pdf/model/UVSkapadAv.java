@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,138 +40,154 @@ import se.inera.intyg.common.support.services.BefattningService;
  */
 public class UVSkapadAv extends UVComponent {
 
-    public UVSkapadAv(UVRenderer renderer) {
-        super(renderer);
+  public UVSkapadAv(UVRenderer renderer) {
+    super(renderer);
+  }
+
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    String modelProp = (String) currentUvNode.get(MODEL_PROP);
+
+    StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
+    StringBuilder kontaktUppgifter = buildKontaktuppgifter(modelProp);
+    String signaturDatum = buildSigneringsDatum();
+
+    boolean isUtkast =
+        renderer.getPrintConfig().isUtkast() || renderer.getPrintConfig().isLockedUtkast();
+    boolean showSignatureLine = renderer.getPrintConfig().showSignatureLine();
+    // Render
+    parent.setKeepTogether(true);
+
+    if (!isUtkast) {
+      parent.add(
+          new Paragraph("Intygsutfärdare:")
+              .setMarginBottom(0f)
+              .setFont(renderer.fragaDelFragaFont)
+              .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+      parent.add(
+          new Paragraph(intygsUtfardare.toString())
+              .setMarginTop(0f)
+              .setFont(renderer.svarFont)
+              .setFontSize(SVAR_FONT_SIZE));
     }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        String modelProp = (String) currentUvNode.get(MODEL_PROP);
-
-        StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
-        StringBuilder kontaktUppgifter = buildKontaktuppgifter(modelProp);
-        String signaturDatum = buildSigneringsDatum();
-
-        boolean isUtkast = renderer.getPrintConfig().isUtkast() || renderer.getPrintConfig().isLockedUtkast();
-        boolean showSignatureLine = renderer.getPrintConfig().showSignatureLine();
-        // Render
-        parent.setKeepTogether(true);
-
-        if (!isUtkast) {
-            parent.add(new Paragraph("Intygsutfärdare:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-            parent.add(new Paragraph(intygsUtfardare.toString())
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
-        }
-
-        parent.add(new Paragraph("Kontaktuppgifter:")
+    parent.add(
+        new Paragraph("Kontaktuppgifter:")
             .setMarginBottom(0f)
             .setFont(renderer.fragaDelFragaFont)
             .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-        parent.add(new Paragraph(kontaktUppgifter.toString())
+    parent.add(
+        new Paragraph(kontaktUppgifter.toString())
             .setMarginTop(0f)
             .setFont(renderer.svarFont)
             .setFontSize(SVAR_FONT_SIZE));
 
-        // Endast ut om det är ett signerat intyg.
-        if (!isUtkast) {
-            parent.add(new Paragraph("Intyget signerades:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-            parent.add(new Paragraph(signaturDatum)
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
-        }
-        if (showSignatureLine) {
-            // CHECKSTYLE:OFF MagicNumber
-            Div lineDiv = new Div();
-            lineDiv.setWidth(millimetersToPoints(50f));
-            lineDiv.setMarginTop(20f);
-            final SolidLine lineDrawer = new SolidLine(1f);
-            lineDrawer.setColor(WC_COLOR_07);
-            lineDiv.add(new LineSeparator(lineDrawer));
-            parent.add(lineDiv);
+    // Endast ut om det är ett signerat intyg.
+    if (!isUtkast) {
+      parent.add(
+          new Paragraph("Intyget signerades:")
+              .setMarginBottom(0f)
+              .setFont(renderer.fragaDelFragaFont)
+              .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+      parent.add(
+          new Paragraph(signaturDatum)
+              .setMarginTop(0f)
+              .setFont(renderer.svarFont)
+              .setFontSize(SVAR_FONT_SIZE));
+    }
+    if (showSignatureLine) {
+      // CHECKSTYLE:OFF MagicNumber
+      Div lineDiv = new Div();
+      lineDiv.setWidth(millimetersToPoints(50f));
+      lineDiv.setMarginTop(20f);
+      final SolidLine lineDrawer = new SolidLine(1f);
+      lineDrawer.setColor(WC_COLOR_07);
+      lineDiv.add(new LineSeparator(lineDrawer));
+      parent.add(lineDiv);
 
-            parent.add(new Paragraph("Intygsutfärdarens underskrift")
-                .setMarginTop(5f)
-                .setMarginBottom(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
-            // CHECKSTYLE:ON MagicNumber
-        }
-
-        return true;
+      parent.add(
+          new Paragraph("Intygsutfärdarens underskrift")
+              .setMarginTop(5f)
+              .setMarginBottom(0f)
+              .setFont(renderer.svarFont)
+              .setFontSize(SVAR_FONT_SIZE));
+      // CHECKSTYLE:ON MagicNumber
     }
 
-    private String buildSigneringsDatum() {
-        String str = (String) renderer.evalValueFromModel("grundData.signeringsdatum");
-        if (Strings.isNullOrEmpty(str)) {
-            return "";
-        }
-        LocalDateTime signeringsDatum = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return signeringsDatum.format(DateTimeFormatter.ISO_DATE);
+    return true;
+  }
+
+  private String buildSigneringsDatum() {
+    String str = (String) renderer.evalValueFromModel("grundData.signeringsdatum");
+    if (Strings.isNullOrEmpty(str)) {
+      return "";
+    }
+    LocalDateTime signeringsDatum = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    return signeringsDatum.format(DateTimeFormatter.ISO_DATE);
+  }
+
+  private StringBuilder buildIntygsutfardare(String modelProp) {
+    StringBuilder intygsUtfardare = new StringBuilder();
+    intygsUtfardare
+        .append(renderer.evalValueFromModel(modelProp + ".fullstandigtNamn").toString())
+        .append("\n");
+
+    // Befattningar
+    List<String> befattningar =
+        fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
+    if (befattningar.size() > 0) {
+      intygsUtfardare
+          .append(
+              befattningar.stream()
+                  .map(
+                      befattningsKod ->
+                          BefattningService.getDescriptionFromCode(befattningsKod)
+                              .orElse(befattningsKod))
+                  .collect(Collectors.joining(", ")))
+          .append("\n");
     }
 
-    private StringBuilder buildIntygsutfardare(String modelProp) {
-        StringBuilder intygsUtfardare = new StringBuilder();
-        intygsUtfardare.append(renderer.evalValueFromModel(modelProp + ".fullstandigtNamn").toString()).append("\n");
-
-        // Befattningar
-        List<String> befattningar = fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
-        if (befattningar.size() > 0) {
-            intygsUtfardare.append(befattningar.stream()
-                .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
-                .collect(Collectors.joining(", "))).append("\n");
-        }
-
-        // Specialistkompetenser
-        List<String> specialistkompentenser = fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
-        if (specialistkompentenser.size() > 0) {
-            intygsUtfardare.append(specialistkompentenser.stream().collect(Collectors.joining(", "))).append("\n");
-        }
-
-        // Leg yrkesgrupp.
-        return intygsUtfardare;
+    // Specialistkompetenser
+    List<String> specialistkompentenser =
+        fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
+    if (specialistkompentenser.size() > 0) {
+      intygsUtfardare
+          .append(specialistkompentenser.stream().collect(Collectors.joining(", ")))
+          .append("\n");
     }
 
-    private StringBuilder buildKontaktuppgifter(String modelProp) {
-        StringBuilder kontaktUppgifter = new StringBuilder();
+    // Leg yrkesgrupp.
+    return intygsUtfardare;
+  }
 
-        Object eval = renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn");
-        if (eval != null) {
-            kontaktUppgifter.append(eval.toString())
-                .append("\n");
-        }
+  private StringBuilder buildKontaktuppgifter(String modelProp) {
+    StringBuilder kontaktUppgifter = new StringBuilder();
 
-        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postadress");
-        if (eval != null) {
-            kontaktUppgifter.append(eval.toString())
-                .append("\n");
-        }
-
-        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer");
-        if (eval != null) {
-            kontaktUppgifter.append(eval.toString())
-                .append(" ");
-            Object evalPostort = renderer.evalValueFromModel(modelProp + ".vardenhet.postort");
-            if (evalPostort != null) {
-                kontaktUppgifter.append(evalPostort.toString());
-            }
-            kontaktUppgifter.append("\n");
-        }
-
-        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer");
-        if (eval != null) {
-            kontaktUppgifter.append(eval.toString())
-                .append("\n");
-        }
-
-        return kontaktUppgifter;
+    Object eval = renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn");
+    if (eval != null) {
+      kontaktUppgifter.append(eval.toString()).append("\n");
     }
+
+    eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postadress");
+    if (eval != null) {
+      kontaktUppgifter.append(eval.toString()).append("\n");
+    }
+
+    eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer");
+    if (eval != null) {
+      kontaktUppgifter.append(eval.toString()).append(" ");
+      Object evalPostort = renderer.evalValueFromModel(modelProp + ".vardenhet.postort");
+      if (evalPostort != null) {
+        kontaktUppgifter.append(evalPostort.toString());
+      }
+      kontaktUppgifter.append("\n");
+    }
+
+    eval = renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer");
+    if (eval != null) {
+      kontaktUppgifter.append(eval.toString()).append("\n");
+    }
+
+    return kontaktUppgifter;
+  }
 }

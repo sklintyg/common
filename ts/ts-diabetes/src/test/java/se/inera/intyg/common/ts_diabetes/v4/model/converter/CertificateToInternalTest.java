@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,18 +90,17 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class CertificateToInternalTest {
 
-    private Certificate certificate;
-    private TsDiabetesUtlatandeV4 expectedInternalCertificate;
-    @Mock
-    private CertificateTextProvider textProvider;
-    @InjectMocks
-    private CertificateToInternal certificateToInternal;
+  private Certificate certificate;
+  private TsDiabetesUtlatandeV4 expectedInternalCertificate;
+  @Mock private CertificateTextProvider textProvider;
+  @InjectMocks private CertificateToInternal certificateToInternal;
 
-    @BeforeEach
-    void setup() {
-        when(textProvider.get(anyString())).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(textProvider.get(anyString())).thenReturn("Test string");
 
-        final var allmant = Allmant.builder()
+    final var allmant =
+        Allmant.builder()
             .setPatientenFoljsAv(KvVardniva.SPECIALISTVARD)
             .setDiabetesDiagnosAr("1990")
             .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
@@ -115,12 +113,12 @@ class CertificateToInternalTest {
                     .setTabletter(true)
                     .setAnnan(true)
                     .setAnnanAngeVilken("Det här är en annan!")
-                    .build()
-            )
+                    .build())
             .setMedicineringMedforRiskForHypoglykemiTidpunkt(new InternalDate("2022-01-01"))
             .build();
 
-        final var hypoglykemi = Hypoglykemi.builder()
+    final var hypoglykemi =
+        Hypoglykemi.builder()
             .setKontrollSjukdomstillstand(false)
             .setKontrollSjukdomstillstandVarfor("Kontroll sjukdomstillstånd varför")
             .setForstarRiskerMedHypoglykemi(true)
@@ -138,22 +136,30 @@ class CertificateToInternalTest {
             .setRegelbundnaBlodsockerkontroller(true)
             .build();
 
-        final var ovrigt = Ovrigt.builder()
+    final var ovrigt =
+        Ovrigt.builder()
             .setKomplikationerAvSjukdomen(true)
             .setKomplikationerAvSjukdomenAnges("Komplikationer anges")
             .setBorUndersokasAvSpecialist("Specialist inom sjukvård")
             .build();
 
-        final var bedomning = Bedomning.builder()
-            .setUppfyllerBehorighetskrav(Set.of(BedomningKorkortstyp.VAR1, BedomningKorkortstyp.VAR12, BedomningKorkortstyp.VAR4))
+    final var bedomning =
+        Bedomning.builder()
+            .setUppfyllerBehorighetskrav(
+                Set.of(
+                    BedomningKorkortstyp.VAR1,
+                    BedomningKorkortstyp.VAR12,
+                    BedomningKorkortstyp.VAR4))
             .setOvrigaKommentarer(("Övriga kommentarer"))
             .build();
 
-        expectedInternalCertificate = TsDiabetesUtlatandeV4.builder()
+    expectedInternalCertificate =
+        TsDiabetesUtlatandeV4.builder()
             .setId("id")
             .setTextVersion("textVersion")
             .setGrundData(getGrundData())
-            .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvserKategori.VAR1, IntygAvserKategori.VAR2)))
+            .setIntygAvser(
+                IntygAvser.create(EnumSet.of(IntygAvserKategori.VAR1, IntygAvserKategori.VAR2)))
             .setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.PERS_KANNEDOM))
             .setAllmant(allmant)
             .setHypoglykemi(hypoglykemi)
@@ -161,325 +167,454 @@ class CertificateToInternalTest {
             .setBedomning(bedomning)
             .build();
 
-        certificate = CertificateBuilder.create()
+    certificate =
+        CertificateBuilder.create()
             .metadata(MetaDataGrundData.toCertificate(expectedInternalCertificate, textProvider))
             .addElement(
-                QuestionIntygetAvser.toCertificate(expectedInternalCertificate.getIntygAvser(), 0, textProvider)
-            )
+                QuestionIntygetAvser.toCertificate(
+                    expectedInternalCertificate.getIntygAvser(), 0, textProvider))
             .addElement(
-                QuestionIdentitetStyrktGenom.toCertificate(expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider)
-            )
+                QuestionIdentitetStyrktGenom.toCertificate(
+                    expectedInternalCertificate.getIdentitetStyrktGenom(), 0, textProvider))
             .addElement(QuestionPatientenFoljsAv.toCertificate(allmant, 0, textProvider))
             .addElement(
-                QuestionDiabetesDiagnosAr.toCertificate(allmant, Personnummer.createPersonnummer("19121212-1212").get(), 0, textProvider))
+                QuestionDiabetesDiagnosAr.toCertificate(
+                    allmant,
+                    Personnummer.createPersonnummer("19121212-1212").get(),
+                    0,
+                    textProvider))
             .addElement(QuestionDiabetesTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBeskrivningAnnanTyp.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesHarMedicinering.toCertificate(allmant, 0, textProvider))
-            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
+            .addElement(
+                QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBehandling.toCertificate(allmant, 0, textProvider))
             .addElement(QuestionDiabetesBehandlingAnnan.toCertificate(allmant, 0, textProvider))
-            .addElement(QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(allmant, null, 0, textProvider))
-            .addElement(QuestionHypoglykemiKontrollSjukdomstillstand.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiForstarRiskerMedHypoglykemi.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiVidtaAdekvataAtgarder.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toCertificate(hypoglykemi, null, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTolv.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(hypoglykemi, null, 0, textProvider))
-            .addElement(QuestionHypoglykemiAllvarligSenasteTolvManaderna.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(hypoglykemi, null, 0, textProvider))
-            .addElement(QuestionHypoglykemiRegelbundnaBlodsockerkontroller.toCertificate(hypoglykemi, 0, textProvider))
-            .addElement(QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider))
-            .addElement(QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider))
-            .addElement(QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider))
-            .addElement(QuestionBedomningUppfyllerBehorighetskrav.toCertificate(bedomning, "textVersion", 0, textProvider))
-            .addElement(QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider))
+            .addElement(
+                QuestionDiabetesMedicineringHypoglykemiRiskDatum.toCertificate(
+                    allmant, null, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiKontrollSjukdomstillstand.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiKontrollSjukdomstillstandVarfor.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiForstarRiskerMedHypoglykemi.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiFormagaKannaVarningstecken.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiVidtaAdekvataAtgarder.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeSenasteAret.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeSenasteAretTidpunkt.toCertificate(
+                    hypoglykemi, null, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeSenasteAretKontrolleras.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeSenasteAretTrafik.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeVaketSenasteTolv.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeVaketSenasteTre.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+                    hypoglykemi, null, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAllvarligSenasteTolvManaderna.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiAllvarligSenasteTolvManadernaTidpunkt.toCertificate(
+                    hypoglykemi, null, 0, textProvider))
+            .addElement(
+                QuestionHypoglykemiRegelbundnaBlodsockerkontroller.toCertificate(
+                    hypoglykemi, 0, textProvider))
+            .addElement(
+                QuestionOvrigtKomplikationerAvSjukdomen.toCertificate(ovrigt, 0, textProvider))
+            .addElement(
+                QuestionOvrigtKomplikationerAvSjukdomenAnges.toCertificate(ovrigt, 0, textProvider))
+            .addElement(
+                QuestionOvrigtBorUndersokasAvSpecialist.toCertificate(ovrigt, 0, textProvider))
+            .addElement(
+                QuestionBedomningUppfyllerBehorighetskrav.toCertificate(
+                    bedomning, "textVersion", 0, textProvider))
+            .addElement(
+                QuestionBedomningOvrigaKommentarer.toCertificate(bedomning, 0, textProvider))
             .build();
-    }
+  }
 
-    private static GrundData getGrundData() {
-        final var grundData = new GrundData();
-        final var hosPersonal = new HoSPersonal();
-        final var vardenhet = new Vardenhet();
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
-        hosPersonal.setVardenhet(vardenhet);
-        grundData.setSkapadAv(hosPersonal);
-        grundData.setPatient(patient);
-        return grundData;
-    }
+  private static GrundData getGrundData() {
+    final var grundData = new GrundData();
+    final var hosPersonal = new HoSPersonal();
+    final var vardenhet = new Vardenhet();
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
+    hosPersonal.setVardenhet(vardenhet);
+    grundData.setSkapadAv(hosPersonal);
+    grundData.setPatient(patient);
+    return grundData;
+  }
 
-    @Test
-    void shallIncludeId() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
-    }
+  @Test
+  void shallIncludeId() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(expectedInternalCertificate.getId(), actualInternalCertificate.getId());
+  }
 
-    @Test
-    void shallIncludeTextVersion() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
-    }
+  @Test
+  void shallIncludeTextVersion() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getTextVersion(), actualInternalCertificate.getTextVersion());
+  }
 
-    @Test
-    void shallIncludeGrundData() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
-    }
+  @Test
+  void shallIncludeGrundData() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertNotNull(actualInternalCertificate.getGrundData(), "GrundData is missing!");
+  }
 
-    @Test
-    void shallIncludeIntygetAvser() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
-    }
+  @Test
+  void shallIncludeIntygetAvser() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getIntygAvser(), expectedInternalCertificate.getIntygAvser());
+  }
 
-    @Test
-    void shallIncludeIdentitetStyrktGenom() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getIdentitetStyrktGenom(), expectedInternalCertificate.getIdentitetStyrktGenom());
-    }
+  @Test
+  void shallIncludeIdentitetStyrktGenom() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getIdentitetStyrktGenom(),
+        expectedInternalCertificate.getIdentitetStyrktGenom());
+  }
 
-    @Test
-    void shallIncludePatientenFoljsAv() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getPatientenFoljsAv(),
-            expectedInternalCertificate.getAllmant().getPatientenFoljsAv());
-    }
+  @Test
+  void shallIncludePatientenFoljsAv() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getPatientenFoljsAv(),
+        expectedInternalCertificate.getAllmant().getPatientenFoljsAv());
+  }
 
-    @Test
-    void shallIncludeDiagnosAr() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getDiabetesDiagnosAr(),
-            expectedInternalCertificate.getAllmant().getDiabetesDiagnosAr());
-    }
+  @Test
+  void shallIncludeDiagnosAr() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getDiabetesDiagnosAr(),
+        expectedInternalCertificate.getAllmant().getDiabetesDiagnosAr());
+  }
 
-    @Test
-    void shallIncludeDiabetesTyp() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getTypAvDiabetes(),
-            expectedInternalCertificate.getAllmant().getTypAvDiabetes());
-    }
+  @Test
+  void shallIncludeDiabetesTyp() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getTypAvDiabetes(),
+        expectedInternalCertificate.getAllmant().getTypAvDiabetes());
+  }
 
-    @Test
-    void shallIncludeDiabetesBeskrivningAnnanTyp() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes(),
-            expectedInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes());
-    }
+  @Test
+  void shallIncludeDiabetesBeskrivningAnnanTyp() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes(),
+        expectedInternalCertificate.getAllmant().getBeskrivningAnnanTypAvDiabetes());
+  }
 
-    @Test
-    void shallIncludeDiabetesHarMedicinering() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getMedicineringForDiabetes(),
-            expectedInternalCertificate.getAllmant().getMedicineringForDiabetes());
-    }
+  @Test
+  void shallIncludeDiabetesHarMedicinering() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getMedicineringForDiabetes(),
+        expectedInternalCertificate.getAllmant().getMedicineringForDiabetes());
+  }
 
-    @Test
-    void shallIncludeDiabetesMedicineringHypoglykemiRisk() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi(),
-            expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi());
-    }
+  @Test
+  void shallIncludeDiabetesMedicineringHypoglykemiRisk() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi(),
+        expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemi());
+  }
 
-    @Test
-    void shallIncludeDiabetesInsulin() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getInsulin(),
-            actualInternalCertificate.getAllmant().getBehandling().getInsulin());
-    }
+  @Test
+  void shallIncludeDiabetesInsulin() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAllmant().getBehandling().getInsulin(),
+        actualInternalCertificate.getAllmant().getBehandling().getInsulin());
+  }
 
-    @Test
-    void shallIncludeDiabetesTabletter() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getTabletter(),
-            actualInternalCertificate.getAllmant().getBehandling().getTabletter());
-    }
+  @Test
+  void shallIncludeDiabetesTabletter() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAllmant().getBehandling().getTabletter(),
+        actualInternalCertificate.getAllmant().getBehandling().getTabletter());
+  }
 
-    @Test
-    void shallIncludeDiabetesAnnan() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnan(),
-            actualInternalCertificate.getAllmant().getBehandling().getAnnan());
-    }
+  @Test
+  void shallIncludeDiabetesAnnan() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAllmant().getBehandling().getAnnan(),
+        actualInternalCertificate.getAllmant().getBehandling().getAnnan());
+  }
 
-    @Test
-    void shallIncludeBehandlingAnnanVilken() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken(),
-            actualInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken());
-    }
+  @Test
+  void shallIncludeBehandlingAnnanVilken() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken(),
+        actualInternalCertificate.getAllmant().getBehandling().getAnnanAngeVilken());
+  }
 
-    @Test
-    void shallIncludeMedicineringHypoglykemiRiskDatum() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
-            actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt());
-    }
+  @Test
+  void shallIncludeMedicineringHypoglykemiRiskDatum() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt(),
+        actualInternalCertificate.getAllmant().getMedicineringMedforRiskForHypoglykemiTidpunkt());
+  }
 
-    @Test
-    void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsFalse() {
-        final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(false).build();
-        final var utlatande = TsDiabetesUtlatandeV4.builder().setId("id").setTextVersion("textVersion")
-            .setGrundData(getGrundData()).build();
-        final var cert = CertificateBuilder.create()
-            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider)).build();
-        final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
-        assertNull(actualInternalCertificate.getAllmant().getBehandling());
-    }
+  @Test
+  void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsFalse() {
+    final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(false).build();
+    final var utlatande =
+        TsDiabetesUtlatandeV4.builder()
+            .setId("id")
+            .setTextVersion("textVersion")
+            .setGrundData(getGrundData())
+            .build();
+    final var cert =
+        CertificateBuilder.create()
+            .addElement(
+                QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
+            .build();
+    final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
+    assertNull(actualInternalCertificate.getAllmant().getBehandling());
+  }
 
-    @Test
-    void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsNull() {
-        final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(null).build();
-        final var utlatande = TsDiabetesUtlatandeV4.builder().setId("id").setTextVersion("textVersion")
-            .setGrundData(getGrundData()).build();
-        final var cert = CertificateBuilder.create()
-            .addElement(QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider)).build();
-        final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
-        assertNull(actualInternalCertificate.getAllmant().getBehandling());
-    }
+  @Test
+  void shallNotIncludeBehandlingWhenMedicineringMedforRiskIsNull() {
+    final var allmant = Allmant.builder().setMedicineringMedforRiskForHypoglykemi(null).build();
+    final var utlatande =
+        TsDiabetesUtlatandeV4.builder()
+            .setId("id")
+            .setTextVersion("textVersion")
+            .setGrundData(getGrundData())
+            .build();
+    final var cert =
+        CertificateBuilder.create()
+            .addElement(
+                QuestionDiabetesMedicineringHypoglykemiRisk.toCertificate(allmant, 0, textProvider))
+            .build();
+    final var actualInternalCertificate = certificateToInternal.convert(cert, utlatande);
+    assertNull(actualInternalCertificate.getAllmant().getBehandling());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiSjudomstillstand() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstand(),
-            actualInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstand());
-    }
+  @Test
+  void shallIncludeHypoglykemiSjudomstillstand() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstand(),
+        actualInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstand());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiSjudomstillstandVarfor() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstandVarfor(),
-            actualInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstandVarfor());
-    }
+  @Test
+  void shallIncludeHypoglykemiSjudomstillstandVarfor() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstandVarfor(),
+        actualInternalCertificate.getHypoglykemi().getKontrollSjukdomstillstandVarfor());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiForstarRiskerMedHypoglykemi() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getForstarRiskerMedHypoglykemi(),
-            actualInternalCertificate.getHypoglykemi().getForstarRiskerMedHypoglykemi());
-    }
+  @Test
+  void shallIncludeHypoglykemiForstarRiskerMedHypoglykemi() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getForstarRiskerMedHypoglykemi(),
+        actualInternalCertificate.getHypoglykemi().getForstarRiskerMedHypoglykemi());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiFormagaKannaVarningstecken() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getFormagaKannaVarningstecken(),
-            actualInternalCertificate.getHypoglykemi().getFormagaKannaVarningstecken());
-    }
+  @Test
+  void shallIncludeHypoglykemiFormagaKannaVarningstecken() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getFormagaKannaVarningstecken(),
+        actualInternalCertificate.getHypoglykemi().getFormagaKannaVarningstecken());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiVidtaAdekvataAtgarder() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getVidtaAdekvataAtgarder(),
-            actualInternalCertificate.getHypoglykemi().getVidtaAdekvataAtgarder());
-    }
+  @Test
+  void shallIncludeHypoglykemiVidtaAdekvataAtgarder() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getVidtaAdekvataAtgarder(),
+        actualInternalCertificate.getHypoglykemi().getVidtaAdekvataAtgarder());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeSenasteAret() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAret(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAret());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeSenasteAret() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAret(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAret());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeSenasteAretTidpunkt() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTidpunkt(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTidpunkt());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeSenasteAretTidpunkt() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTidpunkt(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTidpunkt());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeSenasteAretKontrolleras() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretKontrolleras(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretKontrolleras());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeSenasteAretKontrolleras() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretKontrolleras(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretKontrolleras());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeSenasteAretTrafik() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTrafik(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTrafik());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeSenasteAretTrafik() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTrafik(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeSenasteAretTrafik());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeVaketSenasteTolv() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTolv(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTolv());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeVaketSenasteTolv() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTolv(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTolv());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeVaketSenasteTre() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTre(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTre());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeVaketSenasteTre() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTre(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTre());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAterkommandeVaketSenasteTreTidpunkt() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt(),
-            actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt());
-    }
+  @Test
+  void shallIncludeHypoglykemiAterkommandeVaketSenasteTreTidpunkt() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt(),
+        actualInternalCertificate.getHypoglykemi().getAterkommandeVaketSenasteTreTidpunkt());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAllvarligSenasteTolvManaderna() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManaderna(),
-            actualInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManaderna());
-    }
+  @Test
+  void shallIncludeHypoglykemiAllvarligSenasteTolvManaderna() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManaderna(),
+        actualInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManaderna());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiAllvarligSenasteTolvManadernaTidpunkt() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt(),
-            actualInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt());
-    }
+  @Test
+  void shallIncludeHypoglykemiAllvarligSenasteTolvManadernaTidpunkt() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt(),
+        actualInternalCertificate.getHypoglykemi().getAllvarligSenasteTolvManadernaTidpunkt());
+  }
 
-    @Test
-    void shallIncludeHypoglykemiRegelbundnaBlodsockerkontroller() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getHypoglykemi().getRegelbundnaBlodsockerkontroller(),
-            actualInternalCertificate.getHypoglykemi().getRegelbundnaBlodsockerkontroller());
-    }
+  @Test
+  void shallIncludeHypoglykemiRegelbundnaBlodsockerkontroller() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getHypoglykemi().getRegelbundnaBlodsockerkontroller(),
+        actualInternalCertificate.getHypoglykemi().getRegelbundnaBlodsockerkontroller());
+  }
 
-    @Test
-    void shallIncludeOvrigtKomplikationerAvSjukdomen() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getOvrigt().getKomplikationerAvSjukdomen(),
-            actualInternalCertificate.getOvrigt().getKomplikationerAvSjukdomen());
-    }
+  @Test
+  void shallIncludeOvrigtKomplikationerAvSjukdomen() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getOvrigt().getKomplikationerAvSjukdomen(),
+        actualInternalCertificate.getOvrigt().getKomplikationerAvSjukdomen());
+  }
 
-    @Test
-    void shallIncludeOvrigtKomplikationerAvSjukdomenAnges() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getOvrigt().getKomplikationerAvSjukdomenAnges(),
-            actualInternalCertificate.getOvrigt().getKomplikationerAvSjukdomenAnges());
-    }
+  @Test
+  void shallIncludeOvrigtKomplikationerAvSjukdomenAnges() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getOvrigt().getKomplikationerAvSjukdomenAnges(),
+        actualInternalCertificate.getOvrigt().getKomplikationerAvSjukdomenAnges());
+  }
 
-    @Test
-    void shallIncludeOvrigtBorUndersokasAvSpecialist() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getOvrigt().getBorUndersokasAvSpecialist(),
-            actualInternalCertificate.getOvrigt().getBorUndersokasAvSpecialist());
-    }
+  @Test
+  void shallIncludeOvrigtBorUndersokasAvSpecialist() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getOvrigt().getBorUndersokasAvSpecialist(),
+        actualInternalCertificate.getOvrigt().getBorUndersokasAvSpecialist());
+  }
 
-    @Test
-    void shallIncludeBedomningUppfyllerBehorighetskrav() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getBedomning().getUppfyllerBehorighetskrav(),
-            actualInternalCertificate.getBedomning().getUppfyllerBehorighetskrav());
-    }
+  @Test
+  void shallIncludeBedomningUppfyllerBehorighetskrav() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getBedomning().getUppfyllerBehorighetskrav(),
+        actualInternalCertificate.getBedomning().getUppfyllerBehorighetskrav());
+  }
 
-    @Test
-    void shallIncludeBedomningOvrigaKommentarer() {
-        final var actualInternalCertificate = certificateToInternal.convert(certificate, expectedInternalCertificate);
-        assertEquals(expectedInternalCertificate.getBedomning().getOvrigaKommentarer(),
-            actualInternalCertificate.getBedomning().getOvrigaKommentarer());
-    }
+  @Test
+  void shallIncludeBedomningOvrigaKommentarer() {
+    final var actualInternalCertificate =
+        certificateToInternal.convert(certificate, expectedInternalCertificate);
+    assertEquals(
+        expectedInternalCertificate.getBedomning().getOvrigaKommentarer(),
+        actualInternalCertificate.getBedomning().getOvrigaKommentarer());
+  }
 }

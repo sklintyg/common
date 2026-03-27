@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,121 +48,125 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @ExtendWith(MockitoExtension.class)
 class QuestionMedicinskBehandlingSubstansintagTest {
 
-    @Mock
-    CertificateTextProvider texts;
+  @Mock CertificateTextProvider texts;
 
-    @Nested
-    class ToCertificate {
+  @Nested
+  class ToCertificate {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
 
-            assertEquals(SUBSTANSINTAG_DELSVAR_ID_21, question.getId());
-        }
-
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, expectedIndex, texts);
-
-            assertEquals(expectedIndex, question.getIndex());
-        }
-
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-
-            assertEquals(SUBSTANSINTAG_SVAR_ID_21, question.getParent());
-        }
-
-        @Test
-        void shouldIncludeConfigCertificateDataConfigTextArea() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigId() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-            final var config = (CertificateDataConfigTextArea) question.getConfig();
-
-            assertEquals(SUBSTANSINTAG_SVAR_JSON_ID_21, config.getId());
-        }
-
-        @Test
-        void shouldIncludeConfigText() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-
-            verify(texts, atLeastOnce()).get(SUBSTANSINTAG_DELSVAR_TEXT);
-        }
-
-        @Test
-        void shouldIncludeValueTypeText() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-
-            assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
-        }
-
-        @Test
-        void shouldIncludeValueId() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-
-            assertEquals(SUBSTANSINTAG_SVAR_JSON_ID_21, value.getId());
-        }
-
-        @Test
-        void shouldIncludeValueText() {
-            final var expectedText = "Annan text";
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedText, 0, texts);
-            final var value = (CertificateDataValueText) question.getValue();
-
-            assertEquals(expectedText, value.getText());
-        }
-
-        @Test
-        void shouldIncludeValidationLimit() {
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-            final var showValidation = (CertificateDataValidationText) question.getValidation()[0];
-
-            assertEquals(CertificateDataValidationType.TEXT_VALIDATION, showValidation.getType());
-        }
-
-        @Test
-        void shouldIncludeValidationTextLimit() {
-            final var expectedLimit = 3500;
-            final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
-            final var certificateDataValidationText = (CertificateDataValidationText) question.getValidation()[0];
-
-            assertEquals(expectedLimit, certificateDataValidationText.getLimit());
-        }
+      assertEquals(SUBSTANSINTAG_DELSVAR_ID_21, question.getId());
     }
 
-    @Nested
-    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-    class ToInternal {
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
 
-        Stream<String> textValues() {
-            return Stream.of("Här kommer en text!", "", null);
-        }
+      final var question =
+          QuestionMedicinskBehandlingSubstansintag.toCertificate(null, expectedIndex, texts);
 
-        @ParameterizedTest
-        @MethodSource("textValues")
-        void shouldIncludeTextValue(String expectedValue) {
-            final var certificate = CertificateBuilder.create()
-                .addElement(QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedValue, 0, texts))
-                .build();
-
-            final var actualValue = QuestionMedicinskBehandlingSubstansintag.toInternal(certificate);
-
-            if (expectedValue == null || expectedValue.isEmpty()) {
-                assertNull(actualValue);
-            } else {
-                assertEquals(expectedValue, actualValue);
-            }
-        }
+      assertEquals(expectedIndex, question.getIndex());
     }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+
+      assertEquals(SUBSTANSINTAG_SVAR_ID_21, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigCertificateDataConfigTextArea() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataConfigType.UE_TEXTAREA, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigId() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+      final var config = (CertificateDataConfigTextArea) question.getConfig();
+
+      assertEquals(SUBSTANSINTAG_SVAR_JSON_ID_21, config.getId());
+    }
+
+    @Test
+    void shouldIncludeConfigText() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+
+      verify(texts, atLeastOnce()).get(SUBSTANSINTAG_DELSVAR_TEXT);
+    }
+
+    @Test
+    void shouldIncludeValueTypeText() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+
+      assertEquals(CertificateDataValueType.TEXT, question.getValue().getType());
+    }
+
+    @Test
+    void shouldIncludeValueId() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+
+      assertEquals(SUBSTANSINTAG_SVAR_JSON_ID_21, value.getId());
+    }
+
+    @Test
+    void shouldIncludeValueText() {
+      final var expectedText = "Annan text";
+      final var question =
+          QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedText, 0, texts);
+      final var value = (CertificateDataValueText) question.getValue();
+
+      assertEquals(expectedText, value.getText());
+    }
+
+    @Test
+    void shouldIncludeValidationLimit() {
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+      final var showValidation = (CertificateDataValidationText) question.getValidation()[0];
+
+      assertEquals(CertificateDataValidationType.TEXT_VALIDATION, showValidation.getType());
+    }
+
+    @Test
+    void shouldIncludeValidationTextLimit() {
+      final var expectedLimit = 3500;
+      final var question = QuestionMedicinskBehandlingSubstansintag.toCertificate(null, 0, texts);
+      final var certificateDataValidationText =
+          (CertificateDataValidationText) question.getValidation()[0];
+
+      assertEquals(expectedLimit, certificateDataValidationText.getLimit());
+    }
+  }
+
+  @Nested
+  @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+  class ToInternal {
+
+    Stream<String> textValues() {
+      return Stream.of("Här kommer en text!", "", null);
+    }
+
+    @ParameterizedTest
+    @MethodSource("textValues")
+    void shouldIncludeTextValue(String expectedValue) {
+      final var certificate =
+          CertificateBuilder.create()
+              .addElement(
+                  QuestionMedicinskBehandlingSubstansintag.toCertificate(expectedValue, 0, texts))
+              .build();
+
+      final var actualValue = QuestionMedicinskBehandlingSubstansintag.toInternal(certificate);
+
+      if (expectedValue == null || expectedValue.isEmpty()) {
+        assertNull(actualValue);
+      } else {
+        assertEquals(expectedValue, actualValue);
+      }
+    }
+  }
 }

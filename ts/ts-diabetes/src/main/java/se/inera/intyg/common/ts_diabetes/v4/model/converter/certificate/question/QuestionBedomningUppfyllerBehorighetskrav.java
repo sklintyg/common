@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -68,164 +68,184 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.BedomningKorkortstyp;
 
 public class QuestionBedomningUppfyllerBehorighetskrav {
 
-    public static CertificateDataElement toCertificate(Bedomning bedomning, String textVersion, int index, CertificateTextProvider texts) {
-        final var uppfyllerBehorighetskrav = bedomning != null && bedomning.getUppfyllerBehorighetskrav() != null
-            ? bedomning.getUppfyllerBehorighetskrav() : null;
-        return CertificateDataElement.builder()
-            .id(BEDOMNING_SVAR_ID)
-            .parent(BEDOMNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigCheckboxMultipleCode.builder()
-                    .text(textVersion.equals(VERSION_4_0) ? BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT :
-                        texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID))
-                    .description(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID))
-                    .layout(Layout.INLINE)
-                    .list(
-                        List.of(
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR12.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR12_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR13.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR13_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR14.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR14_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR15.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR15_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR16.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR16_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR17.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR17_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR18.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR18_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR1.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR1_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR2.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR2_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR3.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR3_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR4.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR4_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR5.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR5_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR6.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR6_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR7.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR7_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR8.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR8_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR9.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID))
-                                .build(),
-                            CheckboxMultipleCode.builder()
-                                .id(BedomningKorkortstyp.VAR11.name())
-                                .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR11_LABEL_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueCodeList.builder()
-                    .list(
-                        uppfyllerBehorighetskrav != null ? uppfyllerBehorighetskrav.stream()
+  public static CertificateDataElement toCertificate(
+      Bedomning bedomning, String textVersion, int index, CertificateTextProvider texts) {
+    final var uppfyllerBehorighetskrav =
+        bedomning != null && bedomning.getUppfyllerBehorighetskrav() != null
+            ? bedomning.getUppfyllerBehorighetskrav()
+            : null;
+    return CertificateDataElement.builder()
+        .id(BEDOMNING_SVAR_ID)
+        .parent(BEDOMNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigCheckboxMultipleCode.builder()
+                .text(
+                    textVersion.equals(VERSION_4_0)
+                        ? BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT
+                        : texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_TEXT_ID))
+                .description(texts.get(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DESCRIPTION_ID))
+                .layout(Layout.INLINE)
+                .list(
+                    List.of(
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR12.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR12_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR13.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR13_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR14.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR14_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR15.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR15_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR16.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR16_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR17.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR17_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR18.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR18_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR1.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR1_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR2.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR2_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR3.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR3_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR4.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR4_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR5.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR5_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR6.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR6_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR7.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR7_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR8.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR8_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR9.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR9_LABEL_ID))
+                            .build(),
+                        CheckboxMultipleCode.builder()
+                            .id(BedomningKorkortstyp.VAR11.name())
+                            .label(texts.get(BEDOMNING_KORKORTSBEHORIGHET_VAR11_LABEL_ID))
+                            .build()))
+                .build())
+        .value(
+            CertificateDataValueCodeList.builder()
+                .list(
+                    uppfyllerBehorighetskrav != null
+                        ? uppfyllerBehorighetskrav.stream()
                             .map(QuestionBedomningUppfyllerBehorighetskrav::getValueCode)
-                            .collect(Collectors.toList()) : Collections.emptyList()
-                    )
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(BEDOMNING_SVAR_ID)
-                        .expression(multipleOrExpressionWithExists(getLicenceOptions(true).toArray(new String[0])))
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(BEDOMNING_SVAR_ID)
-                        .expression(multipleOrExpressionWithExists(getLicenceOptions(false).toArray(new String[0])))
-                        .id(List.of(BedomningKorkortstyp.VAR11.name()))
-                        .build(),
-                    CertificateDataValidationDisableSubElement.builder()
-                        .questionId(BEDOMNING_SVAR_ID)
-                        .expression(exists(BedomningKorkortstyp.VAR11.name()))
-                        .id(getLicenceOptions(false))
-                        .build()
-                }
-            )
-            .build();
+                            .collect(Collectors.toList())
+                        : Collections.emptyList())
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(BEDOMNING_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          getLicenceOptions(true).toArray(new String[0])))
+                  .build(),
+              CertificateDataValidationDisableSubElement.builder()
+                  .questionId(BEDOMNING_SVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          getLicenceOptions(false).toArray(new String[0])))
+                  .id(List.of(BedomningKorkortstyp.VAR11.name()))
+                  .build(),
+              CertificateDataValidationDisableSubElement.builder()
+                  .questionId(BEDOMNING_SVAR_ID)
+                  .expression(exists(BedomningKorkortstyp.VAR11.name()))
+                  .id(getLicenceOptions(false))
+                  .build()
+            })
+        .build();
+  }
+
+  private static List<String> getLicenceOptions(boolean includeUndecided) {
+    final var licenseOptions =
+        new ArrayList<>(
+            List.of(
+                BedomningKorkortstyp.VAR12.name(),
+                BedomningKorkortstyp.VAR13.name(),
+                BedomningKorkortstyp.VAR14.name(),
+                BedomningKorkortstyp.VAR15.name(),
+                BedomningKorkortstyp.VAR16.name(),
+                BedomningKorkortstyp.VAR17.name(),
+                BedomningKorkortstyp.VAR18.name(),
+                BedomningKorkortstyp.VAR1.name(),
+                BedomningKorkortstyp.VAR2.name(),
+                BedomningKorkortstyp.VAR3.name(),
+                BedomningKorkortstyp.VAR4.name(),
+                BedomningKorkortstyp.VAR5.name(),
+                BedomningKorkortstyp.VAR6.name(),
+                BedomningKorkortstyp.VAR7.name(),
+                BedomningKorkortstyp.VAR8.name(),
+                BedomningKorkortstyp.VAR9.name()));
+
+    if (includeUndecided) {
+      licenseOptions.add(BedomningKorkortstyp.VAR11.name());
+    }
+    return licenseOptions;
+  }
+
+  private static CertificateDataValueCode getValueCode(BedomningKorkortstyp bedomningKorkortstyp) {
+    return CertificateDataValueCode.builder()
+        .id(bedomningKorkortstyp.name())
+        .code(bedomningKorkortstyp.name())
+        .build();
+  }
+
+  public static Set<BedomningKorkortstyp> toInternal(Certificate certificate) {
+    final var certificateDataValueCodes = codeListValue(certificate.getData(), BEDOMNING_SVAR_ID);
+    if (certificateDataValueCodes.isEmpty()) {
+      return EnumSet.noneOf(BedomningKorkortstyp.class);
     }
 
-    private static List<String> getLicenceOptions(boolean includeUndecided) {
-        final var licenseOptions = new ArrayList<>(List.of(BedomningKorkortstyp.VAR12.name(), BedomningKorkortstyp.VAR13.name(),
-            BedomningKorkortstyp.VAR14.name(), BedomningKorkortstyp.VAR15.name(), BedomningKorkortstyp.VAR16.name(),
-            BedomningKorkortstyp.VAR17.name(), BedomningKorkortstyp.VAR18.name(), BedomningKorkortstyp.VAR1.name(),
-            BedomningKorkortstyp.VAR2.name(), BedomningKorkortstyp.VAR3.name(), BedomningKorkortstyp.VAR4.name(),
-            BedomningKorkortstyp.VAR5.name(), BedomningKorkortstyp.VAR6.name(), BedomningKorkortstyp.VAR7.name(),
-            BedomningKorkortstyp.VAR8.name(), BedomningKorkortstyp.VAR9.name()));
-
-        if (includeUndecided) {
-            licenseOptions.add(BedomningKorkortstyp.VAR11.name());
-        }
-        return licenseOptions;
-    }
-
-
-    private static CertificateDataValueCode getValueCode(BedomningKorkortstyp bedomningKorkortstyp) {
-        return CertificateDataValueCode.builder()
-            .id(bedomningKorkortstyp.name())
-            .code(bedomningKorkortstyp.name())
-            .build();
-    }
-
-    public static Set<BedomningKorkortstyp> toInternal(Certificate certificate) {
-        final var certificateDataValueCodes = codeListValue(certificate.getData(), BEDOMNING_SVAR_ID);
-        if (certificateDataValueCodes.isEmpty()) {
-            return EnumSet.noneOf(BedomningKorkortstyp.class);
-        }
-
-        final var uppfyllerKorkortsbehorigheter = certificateDataValueCodes.stream()
+    final var uppfyllerKorkortsbehorigheter =
+        certificateDataValueCodes.stream()
             .map(QuestionBedomningUppfyllerBehorighetskrav::getBedomningKorkortstyp)
             .filter(Objects::nonNull)
             .collect(Collectors.toSet());
 
-        if (uppfyllerKorkortsbehorigheter.isEmpty()) {
-            return EnumSet.noneOf(BedomningKorkortstyp.class);
-        }
-        return EnumSet.copyOf(uppfyllerKorkortsbehorigheter);
+    if (uppfyllerKorkortsbehorigheter.isEmpty()) {
+      return EnumSet.noneOf(BedomningKorkortstyp.class);
     }
+    return EnumSet.copyOf(uppfyllerKorkortsbehorigheter);
+  }
 
-    private static BedomningKorkortstyp getBedomningKorkortstyp(CertificateDataValueCode certificateDataValueCode) {
-        return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
-            ? BedomningKorkortstyp.valueOf(certificateDataValueCode.getId()) : null;
-    }
+  private static BedomningKorkortstyp getBedomningKorkortstyp(
+      CertificateDataValueCode certificateDataValueCode) {
+    return certificateDataValueCode.getId() != null && !certificateDataValueCode.getId().isEmpty()
+        ? BedomningKorkortstyp.valueOf(certificateDataValueCode.getId())
+        : null;
+  }
 }

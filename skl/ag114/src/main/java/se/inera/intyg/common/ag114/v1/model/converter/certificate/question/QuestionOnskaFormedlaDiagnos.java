@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.ANSWER_NO;
@@ -39,38 +38,39 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionOnskaFormedlaDiagnos {
 
-    public static CertificateDataElement toCertificate(Boolean formedlaDiagnos, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID)
-            .parent(CATEGORY_DIAGNOS_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID)
-                    .text(textProvider.get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID))
-                    .description(textProvider.get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID))
-                    .selectedText(ANSWER_YES)
-                    .unselectedText(ANSWER_NO)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID)
-                    .selected(formedlaDiagnos)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID)
-                        .expression(exists(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean formedlaDiagnos, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID)
+        .parent(CATEGORY_DIAGNOS_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID)
+                .text(textProvider.get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_TEXT_ID))
+                .description(textProvider.get(ONSKAR_FORMEDLA_DIAGNOS_SVAR_DESCRIPTION_ID))
+                .selectedText(ANSWER_YES)
+                .unselectedText(ANSWER_NO)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID)
+                .selected(formedlaDiagnos)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID)
+                  .expression(exists(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID,
+        ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID);
+  }
 }

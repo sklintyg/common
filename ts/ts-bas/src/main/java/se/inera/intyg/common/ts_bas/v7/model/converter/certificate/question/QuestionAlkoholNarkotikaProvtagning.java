@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -44,50 +44,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaProvtagning {
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
-        CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
 
-        final var behovsProvtagning = narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
+    final var behovsProvtagning =
+        narkotikaLakemedel != null ? narkotikaLakemedel.getProvtagningBehovs() : null;
 
-        return CertificateDataElement.builder()
-            .index(index)
-            .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
-            .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID)
-                    .text(textProvider.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID)
-                    .selected(behovsProvtagning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
-                        .expression(exists(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
-                        .expression(singleExpression(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID)
-                        .expression(singleExpression(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .index(index)
+        .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
+        .parent(MISSBRUK_BEROENDE_LAKEMEDEL_CATEGORY_ID)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID)
+                .text(textProvider.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID)
+                .selected(behovsProvtagning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID)
+                  .expression(exists(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID)
+                  .expression(singleExpression(VARDINSATSER_MISSBRUK_BEROENDE_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID)
+                  .expression(singleExpression(TECKEN_MISSBRUK_BEROENDE_JOURNAL_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID,
-            PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID,
+        PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_JSON_ID);
+  }
 }

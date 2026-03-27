@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,41 +35,36 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class Lakemedelsbehandling {
 
-    // CHECKSTYLE:OFF ParameterNumber
-    @JsonCreator
-    public static Lakemedelsbehandling create(@JsonProperty(LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID) Boolean harHaft,
-        @JsonProperty(LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID) Boolean pagar,
-        @JsonProperty(LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID) String aktuell,
-        @JsonProperty(LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID) Boolean pagatt,
-        @JsonProperty(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID) Boolean effekt,
-        @JsonProperty(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID) Boolean foljsamhet,
-        @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID) String avslutadTidpunkt,
-        @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID) String avslutadOrsak) {
-        return new AutoValue_Lakemedelsbehandling(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak);
-    }
-    // CHECKSTYLE:ON ParameterNumber
+  // CHECKSTYLE:OFF ParameterNumber
+  @JsonCreator
+  public static Lakemedelsbehandling create(
+      @JsonProperty(LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID) Boolean harHaft,
+      @JsonProperty(LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID) Boolean pagar,
+      @JsonProperty(LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID) String aktuell,
+      @JsonProperty(LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID) Boolean pagatt,
+      @JsonProperty(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID) Boolean effekt,
+      @JsonProperty(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID) Boolean foljsamhet,
+      @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID) String avslutadTidpunkt,
+      @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID) String avslutadOrsak) {
+    return new AutoValue_Lakemedelsbehandling(
+        harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak);
+  }
 
-    @Nullable
-    public abstract Boolean getHarHaft();
+  // CHECKSTYLE:ON ParameterNumber
 
-    @Nullable
-    public abstract Boolean getPagar();
+  @Nullable public abstract Boolean getHarHaft();
 
-    @Nullable
-    public abstract String getAktuell();
+  @Nullable public abstract Boolean getPagar();
 
-    @Nullable
-    public abstract Boolean getPagatt();
+  @Nullable public abstract String getAktuell();
 
-    @Nullable
-    public abstract Boolean getEffekt();
+  @Nullable public abstract Boolean getPagatt();
 
-    @Nullable
-    public abstract Boolean getFoljsamhet();
+  @Nullable public abstract Boolean getEffekt();
 
-    @Nullable
-    public abstract String getAvslutadTidpunkt();
+  @Nullable public abstract Boolean getFoljsamhet();
 
-    @Nullable
-    public abstract String getAvslutadOrsak();
+  @Nullable public abstract String getAvslutadTidpunkt();
+
+  @Nullable public abstract String getAvslutadOrsak();
 }

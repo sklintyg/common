@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,172 +50,175 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.IntygAvserKategori;
 @ExtendWith(MockitoExtension.class)
 class QuestionUppfattaSamtalFyraMeterTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return UPPFATTA_SAMTALSTAMMA_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
+      @Override
+      protected String getId() {
+        return UPPFATTA_SAMTALSTAMMA_JSON_ID;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getSelectedText() {
+        return SVAR_JA_TEXT;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getUnselectedText() {
+        return SVAR_NEJ_TEXT;
+      }
 
-            @Override
-            protected String getId() {
-                return UPPFATTA_SAMTALSTAMMA_SVAR_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected String getParent() {
-                return BALANSRUBBNINGAR_YRSEL_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getTextId() {
+        return UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID;
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
-
-            @Override
-            protected String getId() {
-                return UPPFATTA_SAMTALSTAMMA_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return SVAR_JA_TEXT;
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return SVAR_NEJ_TEXT;
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return UPPFATTA_SAMTALSTAMMA_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return UPPFATTA_SAMTALSTAMMA_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return UPPFATTA_SAMTALSTAMMA_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + UPPFATTA_SAMTALSTAMMA_JSON_ID + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Override
-        protected String getQuestionId() {
-            return INTYG_AVSER_SVAR_ID_1;
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
+      }
 
-        @Override
-        protected String getExpression() {
-            return "exists(" + IntygAvserKategori.IAV5.name()
-                + ") || exists(" + IntygAvserKategori.IAV6.name()
-                + ") || exists(" + IntygAvserKategori.IAV7.name()
-                + ") || exists(" + IntygAvserKategori.IAV8.name()
-                + ") || exists(" + IntygAvserKategori.IAV9.name() + ")";
-        }
+      @Override
+      protected String getJsonId() {
+        return UPPFATTA_SAMTALSTAMMA_JSON_ID;
+      }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return null;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected String getQuestionId() {
+        return UPPFATTA_SAMTALSTAMMA_SVAR_ID;
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                final var horselBalans = HorselBalans.builder()
-                    .setSvartUppfattaSamtal4Meter(expectedValue)
-                    .build();
-                return QuestionUppfattaSamtalFyraMeter.toCertificate(horselBalans, 0, textProvider);
-            }
+      @Override
+      protected String getExpression() {
+        return "exists(" + UPPFATTA_SAMTALSTAMMA_JSON_ID + ")";
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionUppfattaSamtalFyraMeter.toInternal(certificate);
-            }
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
     }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return INTYG_AVSER_SVAR_ID_1;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "exists("
+          + IntygAvserKategori.IAV5.name()
+          + ") || exists("
+          + IntygAvserKategori.IAV6.name()
+          + ") || exists("
+          + IntygAvserKategori.IAV7.name()
+          + ") || exists("
+          + IntygAvserKategori.IAV8.name()
+          + ") || exists("
+          + IntygAvserKategori.IAV9.name()
+          + ")";
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionUppfattaSamtalFyraMeter.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        final var horselBalans =
+            HorselBalans.builder().setSvartUppfattaSamtal4Meter(expectedValue).build();
+        return QuestionUppfattaSamtalFyraMeter.toCertificate(horselBalans, 0, textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionUppfattaSamtalFyraMeter.toInternal(certificate);
+      }
+    }
+  }
 }

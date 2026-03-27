@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,41 +36,47 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 
 public final class InternalToSchematronValidatorTestUtil {
 
-    private InternalToSchematronValidatorTestUtil() {
-    }
+  private InternalToSchematronValidatorTestUtil() {}
 
-    public static String getTransportValidationErrorString(SchematronOutputType result) {
-        return SVRLHelper.getAllFailedAssertions(result).stream()
-            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-            .collect(Collectors.joining(";"));
-    }
+  public static String getTransportValidationErrorString(SchematronOutputType result) {
+    return SVRLHelper.getAllFailedAssertions(result).stream()
+        .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+        .collect(Collectors.joining(";"));
+  }
 
-    public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().stream()
-            .map(e -> e.toString())
-            .collect(Collectors.joining(", "));
-    }
+  public static String getInternalValidationErrorString(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().stream()
+        .map(e -> e.toString())
+        .collect(Collectors.joining(", "));
+  }
 
-    public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
-        StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
-        ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
-        jaxbContext.createMarshaller().marshal(requestElement, sw);
-        return sw.toString();
-    }
+  public static String getXmlFromModel(RegisterCertificateType transport)
+      throws IOException, JAXBException {
+    StringWriter sw = new StringWriter();
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
+    ObjectFactory objectFactory = new ObjectFactory();
+    JAXBElement<RegisterCertificateType> requestElement =
+        objectFactory.createRegisterCertificate(transport);
+    jaxbContext.createMarshaller().marshal(requestElement, sw);
+    return sw.toString();
+  }
 
-    public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse, List<String> ignoredFields) {
-        return (int) internalValidationResponse.getValidationErrors().stream()
+  public static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse, List<String> ignoredFields) {
+    return (int)
+        internalValidationResponse.getValidationErrors().stream()
             .filter(e -> !ignoredFields.contains(e.getField()))
             .count();
-    }
+  }
 
-    public static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return getNumberOfInternalValidationErrors(internalValidationResponse, Collections.emptyList());
-    }
+  public static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse) {
+    return getNumberOfInternalValidationErrors(internalValidationResponse, Collections.emptyList());
+  }
 
-    public static int getNumberOfTransportValidationErrors(SchematronOutputType result) {
-        return SVRLHelper.getAllFailedAssertions(result).size();
-    }
+  public static int getNumberOfTransportValidationErrors(SchematronOutputType result) {
+    return SVRLHelper.getAllFailedAssertions(result).size();
+  }
 }

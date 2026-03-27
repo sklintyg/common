@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.testsetup.model.validation;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,26 +30,28 @@ import se.inera.intyg.common.support.facade.model.validation.ExpressionTypeEnum;
 
 public abstract class ValidationCategoryMandatoryTest extends ValidationTest {
 
-    protected abstract ExpressionTypeEnum getExpressionType();
+  protected abstract ExpressionTypeEnum getExpressionType();
 
-    protected abstract List<CertificateDataValidationMandatory> getListOfQuestions();
+  protected abstract List<CertificateDataValidationMandatory> getListOfQuestions();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.CATEGORY_MANDATORY_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeListOfQuestions() {
-        final var element = getElement();
-        final var validation = (CertificateDataValidationCategoryMandatory) element.getValidation()[getValidationIndex()];
-        assertIterableEquals(validation.getQuestions(), getListOfQuestions());
-    }
+  @Test
+  void shouldIncludeListOfQuestions() {
+    final var element = getElement();
+    final var validation =
+        (CertificateDataValidationCategoryMandatory) element.getValidation()[getValidationIndex()];
+    assertIterableEquals(validation.getQuestions(), getListOfQuestions());
+  }
 
-    @Test
-    void shouldIncludeExpressionType() {
-        final var element = getElement();
-        final var validation = (CertificateDataValidationCategoryMandatory) element.getValidation()[getValidationIndex()];
-        assertEquals(validation.getExpressionType(), getExpressionType());
-    }
+  @Test
+  void shouldIncludeExpressionType() {
+    final var element = getElement();
+    final var validation =
+        (CertificateDataValidationCategoryMandatory) element.getValidation()[getValidationIndex()];
+    assertEquals(validation.getExpressionType(), getExpressionType());
+  }
 }

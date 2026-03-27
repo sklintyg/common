@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,11 +20,10 @@ package se.inera.intyg.common.sos_parent.model.internal;
 
 public final class DodsplatsBoendeConstants {
 
-    public static final String SJUKHUS_VALUE = "Sjukhus";
-    public static final String ORDINART_BOENDE_VALUE = "Ordinärt boende";
-    public static final String SARSKILT_BOENDE_VALUE = "Särskilt boende";
-    public static final String ANNAN_VALUE = "Annan/okänd";
+  public static final String SJUKHUS_VALUE = "Sjukhus";
+  public static final String ORDINART_BOENDE_VALUE = "Ordinärt boende";
+  public static final String SARSKILT_BOENDE_VALUE = "Särskilt boende";
+  public static final String ANNAN_VALUE = "Annan/okänd";
 
-    private DodsplatsBoendeConstants() {
-    }
+  private DodsplatsBoendeConstants() {}
 }

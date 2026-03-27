@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
-
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
@@ -40,41 +38,45 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 
 public class QuestionBehovAvSjukskrivning extends AbstractQuestionBehovAvSjukskrivning {
 
-    public static CertificateDataElement toCertificate(List<Sjukskrivning> list, int index,
-        CertificateTextProvider texts, Relation relation) {
-        return toCertificate(
-            new QuestionBehovAvSjukskrivningConfigProvider(
-                relation != null ? relation.getRelationKod() : null,
-                relation != null ? relation.getSistaGiltighetsDatum() : null,
-                relation != null ? relation.getSistaSjukskrivningsgrad() : null,
-                convertValues(list)),
-            BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
-            CATEGORY_BEDOMNING, index,
-            texts);
-    }
+  public static CertificateDataElement toCertificate(
+      List<Sjukskrivning> list, int index, CertificateTextProvider texts, Relation relation) {
+    return toCertificate(
+        new QuestionBehovAvSjukskrivningConfigProvider(
+            relation != null ? relation.getRelationKod() : null,
+            relation != null ? relation.getSistaGiltighetsDatum() : null,
+            relation != null ? relation.getSistaSjukskrivningsgrad() : null,
+            convertValues(list)),
+        BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32,
+        CATEGORY_BEDOMNING,
+        index,
+        texts);
+  }
 
-    private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {
-        if (list == null) {
-            return Collections.emptyList();
-        }
-        return list.stream()
-            .map(QuestionBehovAvSjukskrivning::toSjukskrivningsValue)
-            .collect(Collectors.toList());
+  private static List<SjukskrivningValue> convertValues(List<Sjukskrivning> list) {
+    if (list == null) {
+      return Collections.emptyList();
     }
+    return list.stream()
+        .map(QuestionBehovAvSjukskrivning::toSjukskrivningsValue)
+        .collect(Collectors.toList());
+  }
 
-    private static SjukskrivningValue toSjukskrivningsValue(Sjukskrivning sjukskrivning) {
-        return new SjukskrivningValue(sjukskrivning.getPeriod(), Objects.requireNonNull(sjukskrivning.getSjukskrivningsgrad()).getId());
-    }
+  private static SjukskrivningValue toSjukskrivningsValue(Sjukskrivning sjukskrivning) {
+    return new SjukskrivningValue(
+        sjukskrivning.getPeriod(),
+        Objects.requireNonNull(sjukskrivning.getSjukskrivningsgrad()).getId());
+  }
 
-    public static List<Sjukskrivning> toInternal(Certificate certificate) {
-        var list = dateRangeListValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
+  public static List<Sjukskrivning> toInternal(Certificate certificate) {
+    var list = dateRangeListValue(certificate.getData(), BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32);
 
-        return list.stream().map(
-            QuestionBehovAvSjukskrivning::getSjukskrivning).collect(Collectors.toList());
-    }
+    return list.stream()
+        .map(QuestionBehovAvSjukskrivning::getSjukskrivning)
+        .collect(Collectors.toList());
+  }
 
-    private static Sjukskrivning getSjukskrivning(CertificateDataValueDateRange item) {
-        return Sjukskrivning.create(SjukskrivningsGrad.fromId(item.getId()),
-            getInternalLocalDateInterval(item));
-    }
+  private static Sjukskrivning getSjukskrivning(CertificateDataValueDateRange item) {
+    return Sjukskrivning.create(
+        SjukskrivningsGrad.fromId(item.getId()), getInternalLocalDateInterval(item));
+  }
 }

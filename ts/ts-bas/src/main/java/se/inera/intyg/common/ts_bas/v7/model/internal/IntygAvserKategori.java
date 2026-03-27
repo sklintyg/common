@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,9 +22,18 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 public enum IntygAvserKategori {
-    IAV1, IAV2, IAV3, IAV4, IAV5, IAV6, IAV7, IAV8, IAV9, IAV10;
+  IAV1,
+  IAV2,
+  IAV3,
+  IAV4,
+  IAV5,
+  IAV6,
+  IAV7,
+  IAV8,
+  IAV9,
+  IAV10;
 
-    public static Set<IntygAvserKategori> getNormalCategories() {
-        return ImmutableSet.of(IAV1, IAV2, IAV3, IAV4, IAV5, IAV6, IAV7, IAV8, IAV9);
-    }
+  public static Set<IntygAvserKategori> getNormalCategories() {
+    return ImmutableSet.of(IAV1, IAV2, IAV3, IAV4, IAV5, IAV6, IAV7, IAV8, IAV9);
+  }
 }

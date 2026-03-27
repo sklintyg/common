@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,14 +30,13 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueInte
 @Builder
 public class CertificateDataValueInteger implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.INTEGER;
-    String id;
-    Integer value;
-    String unitOfMeasurement;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.INTEGER;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueIntegerBuilder {
+  String id;
+  Integer value;
+  String unitOfMeasurement;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueIntegerBuilder {}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,142 +47,140 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Njurar;
 @ExtendWith(MockitoExtension.class)
 class QuestionNedsattNjurfunktionTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    @Nested
+    class IncludeCommonElementTests extends CommonElementTest {
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected String getId() {
+        return NEDSATT_NJURFUNKTION_SVAR_ID;
+      }
+
+      @Override
+      protected String getParent() {
+        return NJURFUNKTION_CATEGORY_ID;
+      }
+
+      @Override
+      protected int getIndex() {
+        return 0;
+      }
     }
 
     @Nested
-    class ToCertificate {
+    class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
 
+      @Override
+      protected String getId() {
+        return NEDSATT_NJURFUNKTION_JSON_ID;
+      }
 
-        @Nested
-        class IncludeCommonElementTests extends CommonElementTest {
+      @Override
+      protected String getSelectedText() {
+        return SVAR_JA_TEXT;
+      }
 
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
-            }
+      @Override
+      protected String getUnselectedText() {
+        return SVAR_NEJ_TEXT;
+      }
 
-            @Override
-            protected String getId() {
-                return NEDSATT_NJURFUNKTION_SVAR_ID;
-            }
+      @Override
+      protected CertificateTextProvider getTextProviderMock() {
+        return textProvider;
+      }
 
-            @Override
-            protected String getParent() {
-                return NJURFUNKTION_CATEGORY_ID;
-            }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected int getIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getTextId() {
+        return NEDSATT_NJURFUNKTION_SVAR_TEXT_ID;
+      }
 
-        @Nested
-        class IncludeConfigRadioBooleanTests extends ConfigRadioBooleanTest {
-
-            @Override
-            protected String getId() {
-                return NEDSATT_NJURFUNKTION_JSON_ID;
-            }
-
-            @Override
-            protected String getSelectedText() {
-                return SVAR_JA_TEXT;
-            }
-
-            @Override
-            protected String getUnselectedText() {
-                return SVAR_NEJ_TEXT;
-            }
-
-            @Override
-            protected CertificateTextProvider getTextProviderMock() {
-                return textProvider;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getTextId() {
-                return NEDSATT_NJURFUNKTION_SVAR_TEXT_ID;
-            }
-
-            @Override
-            protected String getDescriptionId() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValueRadioBooleanTest extends ValueBooleanTest {
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected String getJsonId() {
-                return NEDSATT_NJURFUNKTION_JSON_ID;
-            }
-
-            @Override
-            protected Boolean getBoolean() {
-                return null;
-            }
-        }
-
-        @Nested
-        class IncludeValidationMandatory extends ValidationMandatoryTest {
-
-            @Override
-            protected String getQuestionId() {
-                return NEDSATT_NJURFUNKTION_SVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "exists(" + NEDSATT_NJURFUNKTION_JSON_ID + ")";
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
+      @Override
+      protected String getDescriptionId() {
+        return null;
+      }
     }
 
     @Nested
-    class ToInternal {
+    class IncludeValueRadioBooleanTest extends ValueBooleanTest {
 
-        @Nested
-        @TestInstance(PER_CLASS)
-        class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
+      }
 
-            @Override
-            protected CertificateDataElement getElement(Boolean expectedValue) {
-                final var njurar = Njurar.create(expectedValue);
-                return QuestionNedsattNjurfunktion.toCertificate(njurar, 0, textProvider);
-            }
+      @Override
+      protected String getJsonId() {
+        return NEDSATT_NJURFUNKTION_JSON_ID;
+      }
 
-            @Override
-            protected Boolean toInternalBooleanValue(Certificate certificate) {
-                return QuestionNedsattNjurfunktion.toInternal(certificate);
-            }
-        }
+      @Override
+      protected Boolean getBoolean() {
+        return null;
+      }
     }
+
+    @Nested
+    class IncludeValidationMandatory extends ValidationMandatoryTest {
+
+      @Override
+      protected String getQuestionId() {
+        return NEDSATT_NJURFUNKTION_SVAR_ID;
+      }
+
+      @Override
+      protected String getExpression() {
+        return "exists(" + NEDSATT_NJURFUNKTION_JSON_ID + ")";
+      }
+
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionNedsattNjurfunktion.toCertificate(null, 0, textProvider);
+      }
+
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
+    }
+  }
+
+  @Nested
+  class ToInternal {
+
+    @Nested
+    @TestInstance(PER_CLASS)
+    class IncludeInternalBooleanValueTest extends InternalBooleanValueTest {
+
+      @Override
+      protected CertificateDataElement getElement(Boolean expectedValue) {
+        final var njurar = Njurar.create(expectedValue);
+        return QuestionNedsattNjurfunktion.toCertificate(njurar, 0, textProvider);
+      }
+
+      @Override
+      protected Boolean toInternalBooleanValue(Certificate certificate) {
+        return QuestionNedsattNjurfunktion.toInternal(certificate);
+      }
+    }
+  }
 }

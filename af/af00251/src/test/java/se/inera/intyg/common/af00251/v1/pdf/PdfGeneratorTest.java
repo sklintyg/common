@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,33 +49,44 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
-    private static final String PDF_PATH = "build/pdf/";
-    private PdfGenerator testee = new PdfGenerator();
+  private static final String PDF_PATH = "build/pdf/";
+  private PdfGenerator testee = new PdfGenerator();
 
-    @Test
-    public void testGeneratePdf() throws IOException, ModuleException {
-        IntygTextsAF00251RepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsAF00251RepositoryTestHelper();
-        intygsTextRepositoryHelper.update();
-        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("af00251", "1.0");
+  @Test
+  public void testGeneratePdf() throws IOException, ModuleException {
+    IntygTextsAF00251RepositoryTestHelper intygsTextRepositoryHelper =
+        new IntygTextsAF00251RepositoryTestHelper();
+    intygsTextRepositoryHelper.update();
+    IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("af00251", "1.0");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
+    String jsonModel =
+        IOUtils.toString(
+            new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
             StandardCharsets.UTF_8);
-        PdfResponse pdfResponse = testee
-            .generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
-                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, "footerAppName");
+    PdfResponse pdfResponse =
+        testee.generatePdf(
+            UUID.randomUUID().toString(),
+            jsonModel,
+            "1",
+            Personnummer.createPersonnummer("19121212-1212").get(),
+            intygTexts,
+            new ArrayList<>(),
+            ApplicationOrigin.WEBCERT,
+            UtkastStatus.SIGNED,
+            "footerAppName");
 
-        final Path path = Paths.get(PDF_PATH, pdfResponse.getFilename());
+    final Path path = Paths.get(PDF_PATH, pdfResponse.getFilename());
 
-        Files.deleteIfExists(path);
+    Files.deleteIfExists(path);
 
-        Files.createDirectories(path.getParent());
+    Files.createDirectories(path.getParent());
 
-        Files.write(path, pdfResponse.getPdfData(), StandardOpenOption.CREATE);
+    Files.write(path, pdfResponse.getPdfData(), StandardOpenOption.CREATE);
 
-        assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^af_lakarintyg_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
-        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
-
-    }
-
+    assertNotNull(pdfResponse);
+    Pattern p =
+        Pattern.compile(
+            "^af_lakarintyg_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+    assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
+  }
 }

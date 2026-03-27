@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID;
@@ -29,39 +28,32 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionArbetslivsinriktadRehabilitering {
 
-    private static final String NO = "Nej";
-    private static final String YES = "Ja";
-    private static final String NOT_PROVIDED = "Ej angivet";
-    private static final String UNJUDGEABLE = "Går inte att bedöma";
+  private static final String NO = "Nej";
+  private static final String YES = "Ja";
+  private static final String NOT_PROVIDED = "Ej angivet";
+  private static final String UNJUDGEABLE = "Går inte att bedöma";
 
-    public static CertificateDataElement toCertificate(Rehabilitering rehab, int index) {
+  public static CertificateDataElement toCertificate(Rehabilitering rehab, int index) {
 
-        return CertificateDataElement.builder()
-            .id(ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID)
-            .parent(ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(convertRehabilitering(rehab))
-                    .build()
-            )
-            .build();
+    return CertificateDataElement.builder()
+        .id(ARBETSLIVSINRIKTAD_REHABILITERING_SVAR_ID)
+        .parent(ARBETSLIVSINRIKTAD_REHABILITERING_CATEGORY_ID)
+        .index(index)
+        .config(CertificateDataConfigViewText.builder().build())
+        .value(CertificateDataValueViewText.builder().text(convertRehabilitering(rehab)).build())
+        .build();
+  }
+
+  private static String convertRehabilitering(Rehabilitering rehabilitering) {
+    if (rehabilitering == null) {
+      return NOT_PROVIDED;
     }
-
-    private static String convertRehabilitering(Rehabilitering rehabilitering) {
-        if (rehabilitering == null) {
-            return NOT_PROVIDED;
-        }
-        if (rehabilitering.equals(Rehabilitering.rehabiliteringGarInteAttBedoma)) {
-            return UNJUDGEABLE;
-        }
-        if (rehabilitering.equals(Rehabilitering.rehabiliteringAktuell)) {
-            return YES;
-        }
-        return NO;
+    if (rehabilitering.equals(Rehabilitering.rehabiliteringGarInteAttBedoma)) {
+      return UNJUDGEABLE;
     }
+    if (rehabilitering.equals(Rehabilitering.rehabiliteringAktuell)) {
+      return YES;
+    }
+    return NO;
+  }
 }

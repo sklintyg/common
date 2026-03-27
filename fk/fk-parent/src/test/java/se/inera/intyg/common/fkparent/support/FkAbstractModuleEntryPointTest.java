@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,44 +41,50 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 @RunWith(MockitoJUnitRunner.class)
 public class FkAbstractModuleEntryPointTest {
 
-    private static final String MODULE_ID = "moduleId";
+  private static final String MODULE_ID = "moduleId";
 
-    @Mock
-    private IntygTextsRepositoryImpl repo;
+  @Mock private IntygTextsRepositoryImpl repo;
 
-    @InjectMocks
-    private FkAbstractModuleEntryPoint entryPoint = mock(FkAbstractModuleEntryPoint.class);
+  @InjectMocks
+  private FkAbstractModuleEntryPoint entryPoint = mock(FkAbstractModuleEntryPoint.class);
 
-    @Before
-    public void setup() {
-        ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
-        when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();
-        when(entryPoint.getModuleId()).thenReturn(MODULE_ID);
-    }
+  @Before
+  public void setup() {
+    ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
+    when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();
+    when(entryPoint.getModuleId()).thenReturn(MODULE_ID);
+  }
 
-    @Test
-    public void testGetDetailedModuleDescription() {
-        final String version = "1.0";
-        final String detailedText = "detailed text";
-        when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
-        IntygTexts texts = new IntygTexts(version, MODULE_ID, LocalDate.now().minusDays(1), null,
-            new TreeMap<>(ImmutableMap.of(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, detailedText)), null, null);
-        when(repo.getTexts(MODULE_ID, version)).thenReturn(texts);
+  @Test
+  public void testGetDetailedModuleDescription() {
+    final String version = "1.0";
+    final String detailedText = "detailed text";
+    when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
+    IntygTexts texts =
+        new IntygTexts(
+            version,
+            MODULE_ID,
+            LocalDate.now().minusDays(1),
+            null,
+            new TreeMap<>(
+                ImmutableMap.of(FkAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, detailedText)),
+            null,
+            null);
+    when(repo.getTexts(MODULE_ID, version)).thenReturn(texts);
 
-        String res = entryPoint.getDetailedModuleDescription();
+    String res = entryPoint.getDetailedModuleDescription();
 
-        assertEquals(detailedText, res);
-        verify(repo).getLatestVersion(MODULE_ID);
-        verify(repo).getTexts(MODULE_ID, version);
-    }
+    assertEquals(detailedText, res);
+    verify(repo).getLatestVersion(MODULE_ID);
+    verify(repo).getTexts(MODULE_ID, version);
+  }
 
-    @Test
-    public void testGetDetailedModuleDescriptionNoRepo() {
-        ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
+  @Test
+  public void testGetDetailedModuleDescriptionNoRepo() {
+    ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
 
-        String res = entryPoint.getDetailedModuleDescription();
+    String res = entryPoint.getDetailedModuleDescription();
 
-        assertNull(res);
-    }
-
+    assertNull(res);
+  }
 }

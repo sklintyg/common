@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,46 +35,43 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.support.services.BefattningService;
 
-/**
- * Created 24/11-16
- */
+/** Created 24/11-16 */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
-    private static final String TITLE = "title";
+  private static final String TITLE = "title";
 
-    private FkPdfDefinition buildPdfDefinition() throws java.lang.Exception {
-        FkPdfDefinition def = new FkPdfDefinition();
-        def.addPageEvent(new PageNumberingEventHandler());
+  private FkPdfDefinition buildPdfDefinition() throws java.lang.Exception {
+    FkPdfDefinition def = new FkPdfDefinition();
+    def.addPageEvent(new PageNumberingEventHandler());
 
-        FkPage page = new FkPage();
-        FkLabel mainHeader = new FkLabel("Test Header")
-            .size(40, 12f);
-        page.getChildren().add(mainHeader);
+    FkPage page = new FkPage();
+    FkLabel mainHeader = new FkLabel("Test Header").size(40, 12f);
+    page.getChildren().add(mainHeader);
 
-        def.addChild(page);
-        return def;
-    }
+    def.addChild(page);
+    return def;
+  }
 
-    @Test
-    public void testGeneratePdf() throws Exception {
-        FkPdfDefinition def = buildPdfDefinition();
-        byte[] pdfFileBytes = PdfGenerator.generatePdf(def, TITLE);
-        assertNotNull(pdfFileBytes);
-        assertFalse(Arrays.equals(pdfFileBytes, new byte[0]));
-    }
+  @Test
+  public void testGeneratePdf() throws Exception {
+    FkPdfDefinition def = buildPdfDefinition();
+    byte[] pdfFileBytes = PdfGenerator.generatePdf(def, TITLE);
+    assertNotNull(pdfFileBytes);
+    assertFalse(Arrays.equals(pdfFileBytes, new byte[0]));
+  }
 
-    @Test
-    public void testGeneratePdfName() throws Exception {
-        final String PREFIX = "test";
-        final LocalDateTime tidpunkt = LocalDateTime.now();
+  @Test
+  public void testGeneratePdfName() throws Exception {
+    final String PREFIX = "test";
+    final LocalDateTime tidpunkt = LocalDateTime.now();
 
-        String expected = PREFIX + "_" + tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
+    String expected =
+        PREFIX + "_" + tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
 
-        String actual = PdfGenerator.generatePdfFilename(tidpunkt, PREFIX);
+    String actual = PdfGenerator.generatePdfFilename(tidpunkt, PREFIX);
 
-        assertEquals(expected, actual);
-    }
-
+    assertEquals(expected, actual);
+  }
 }

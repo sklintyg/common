@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,9 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.question;
-
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
@@ -31,13 +29,19 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionPlaneradBehandling extends AbstractQuestionPlaneradBehandling {
 
-    public static CertificateDataElement toCertificate(String value, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, PLANERADBEHANDLING_SVAR_ID_20, CATEGORY_MEDICINSKABEHANDLINGAR, PLANERADBEHANDLING_SVAR_JSON_ID_20,
-            index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        PLANERADBEHANDLING_SVAR_ID_20,
+        CATEGORY_MEDICINSKABEHANDLINGAR,
+        PLANERADBEHANDLING_SVAR_JSON_ID_20,
+        index,
+        texts);
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return toInternal(certificate, PLANERADBEHANDLING_SVAR_ID_20, PLANERADBEHANDLING_SVAR_JSON_ID_20);
-    }
+  public static String toInternal(Certificate certificate) {
+    return toInternal(
+        certificate, PLANERADBEHANDLING_SVAR_ID_20, PLANERADBEHANDLING_SVAR_JSON_ID_20);
+  }
 }

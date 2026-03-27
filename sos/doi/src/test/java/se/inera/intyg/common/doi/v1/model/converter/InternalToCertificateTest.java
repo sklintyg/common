@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -79,32 +79,33 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class InternalToCertificateTest {
 
-    private InternalToCertificate internalToCertificate;
+  private InternalToCertificate internalToCertificate;
 
-    private GrundData grundData;
-    private DoiUtlatandeV1 internalCertificate;
-    private CertificateTextProvider texts;
-    private TypeAheadProvider typeAheadProvider;
+  private GrundData grundData;
+  private DoiUtlatandeV1 internalCertificate;
+  private CertificateTextProvider texts;
+  private TypeAheadProvider typeAheadProvider;
 
-    private List<String> kommuner = List.of("Östersund", "Strömsund", "Stockholm");
+  private List<String> kommuner = List.of("Östersund", "Strömsund", "Stockholm");
 
-    @BeforeEach
-    void setUp() {
-        internalToCertificate = new InternalToCertificate();
+  @BeforeEach
+  void setUp() {
+    internalToCertificate = new InternalToCertificate();
 
-        final var unit = new Vardenhet();
+    final var unit = new Vardenhet();
 
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
 
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
 
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
 
-        internalCertificate = DoiUtlatandeV1.builder()
+    internalCertificate =
+        DoiUtlatandeV1.builder()
             .setId("certificateId")
             .setTextVersion("1.0")
             .setGrundData(grundData)
@@ -115,10 +116,17 @@ class InternalToCertificateTest {
             .setDodsplatsKommun("DodsplatsKommun")
             .setDodsplatsBoende(DodsplatsBoende.SJUKHUS)
             .setBarn(false)
-            .setTerminalDodsorsak(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
-            .setFoljd(List.of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
-                Dodsorsak.create("beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK)))
+            .setTerminalDodsorsak(
+                Dodsorsak.create(
+                    "beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK))
+            .setFoljd(
+                List.of(
+                    Dodsorsak.create(
+                        "beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+                    Dodsorsak.create(
+                        "beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK),
+                    Dodsorsak.create(
+                        "beskrivning", new InternalDate(LocalDate.now()), Specifikation.KRONISK)))
             .setOperation(OmOperation.JA)
             .setOperationDatum(new InternalDate(LocalDate.now()))
             .setOperationAnledning("OperationAnledning")
@@ -129,246 +137,293 @@ class InternalToCertificateTest {
             .setGrunder(Collections.emptyList())
             .build();
 
-        texts = mock(CertificateTextProvider.class);
-        typeAheadProvider = mock(TypeAheadProvider.class);
-        doReturn(kommuner).when(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
-    }
+    texts = mock(CertificateTextProvider.class);
+    typeAheadProvider = mock(TypeAheadProvider.class);
+    doReturn(kommuner).when(typeAheadProvider).getValues(TypeAheadEnum.MUNICIPALITIES);
+  }
 
-    @Test
-    void shallIncludeMetadata() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
-    }
+  @Test
+  void shallIncludeMetadata() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertNotNull(actualCertificate.getMetadata(), "Shall contain metadata");
+  }
 
-    @Test
-    void shallIncludeQuestionIdentitetStyrkt() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionIdentitetStyrkt() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionLand() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(2, actualCertificate.getData().get(LAND_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionLand() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(2, actualCertificate.getData().get(LAND_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryDodsdatumDodsplats() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(3, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryDodsdatumDodsplats() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(3, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsdatumSakert() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(4, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsdatumSakert() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(4, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsdatum() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(5, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsdatum() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(5, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOsakertDodsdatum() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(6, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOsakertDodsdatum() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(6, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAntraffadDod() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(7, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAntraffadDod() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(7, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplats() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(8, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplats() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(8, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsKommun() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(9, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsKommun() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(9, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsKommunWithListOfKommun() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        final var certificateDataElement = actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID);
-        final var certificateDataConfigTypeAhead = (CertificateDataConfigTypeAhead) certificateDataElement.getConfig();
-        assertEquals(kommuner, certificateDataConfigTypeAhead.getTypeAhead());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsKommunWithListOfKommun() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    final var certificateDataElement = actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID);
+    final var certificateDataConfigTypeAhead =
+        (CertificateDataConfigTypeAhead) certificateDataElement.getConfig();
+    assertEquals(kommuner, certificateDataConfigTypeAhead.getTypeAhead());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsBoende() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(10, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsBoende() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(10, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryBarn() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(11, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryBarn() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(11, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionBarn() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(12, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionBarn() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(12, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAutoFillWithinBarn() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(13, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAutoFillWithinBarn() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(
+        13, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAutoFillAfterBarn() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(14, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAutoFillAfterBarn() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(
+        14, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryTerminalDodsorsak() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(15, actualCertificate.getData().get(TERMINAL_DODSORSAK_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryTerminalDodsorsak() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(15, actualCertificate.getData().get(TERMINAL_DODSORSAK_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionTerminalDodsorsakSjukdom() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(16, actualCertificate.getData().get(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionTerminalDodsorsakSjukdom() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(
+        16, actualCertificate.getData().get(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionTerminalDodsorsak() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(17, actualCertificate.getData().get(DODSORSAK_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionTerminalDodsorsak() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(17, actualCertificate.getData().get(DODSORSAK_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionTerminalDodsorsakFoljdAvB() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(18, actualCertificate.getData().get(FOLJD_OM_DELSVAR_B_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionTerminalDodsorsakFoljdAvB() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(18, actualCertificate.getData().get(FOLJD_OM_DELSVAR_B_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionTerminalDodsorsakFoljdAvC() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(19, actualCertificate.getData().get(FOLJD_OM_DELSVAR_C_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionTerminalDodsorsakFoljdAvC() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(19, actualCertificate.getData().get(FOLJD_OM_DELSVAR_C_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionTerminalDodsorsakFoljdAvD() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(20, actualCertificate.getData().get(FOLJD_OM_DELSVAR_D_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionTerminalDodsorsakFoljdAvD() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(20, actualCertificate.getData().get(FOLJD_OM_DELSVAR_D_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionBidragandeSjukdomar() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(21, actualCertificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionBidragandeSjukdomar() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(21, actualCertificate.getData().get(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryOperation() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(22, actualCertificate.getData().get(OPERATION_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryOperation() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(22, actualCertificate.getData().get(OPERATION_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOperation() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(23, actualCertificate.getData().get(OPERATION_OM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOperation() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(23, actualCertificate.getData().get(OPERATION_OM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOperationDatum() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOperationDatum() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOperationDatumNull() {
-        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder().setOperationDatum(null).build();
-        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
-        assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOperationDatumNull() {
+    final var internalCertificeOperationDatumNull =
+        internalCertificate.toBuilder().setOperationDatum(null).build();
+    final var actualCertificate =
+        internalToCertificate.convert(
+            internalCertificeOperationDatumNull, texts, typeAheadProvider);
+    assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOperationDatumInvalidDate() {
-        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder()
-            .setOperationDatum(new InternalDate("2020"))
-            .build();
-        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
-        assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOperationDatumInvalidDate() {
+    final var internalCertificeOperationDatumNull =
+        internalCertificate.toBuilder().setOperationDatum(new InternalDate("2020")).build();
+    final var actualCertificate =
+        internalToCertificate.convert(
+            internalCertificeOperationDatumNull, texts, typeAheadProvider);
+    assertEquals(24, actualCertificate.getData().get(OPERATION_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOperationAnledning() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(25, actualCertificate.getData().get(OPERATION_ANLEDNING_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOperationAnledning() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(25, actualCertificate.getData().get(OPERATION_ANLEDNING_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategorySkadaForgiftning() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(26, actualCertificate.getData().get(FORGIFTNING_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategorySkadaForgiftning() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(26, actualCertificate.getData().get(FORGIFTNING_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionSkadaForgiftning() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(27, actualCertificate.getData().get(FORGIFTNING_OM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionSkadaForgiftning() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(27, actualCertificate.getData().get(FORGIFTNING_OM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionForgiftningOrsak() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(28, actualCertificate.getData().get(FORGIFTNING_ORSAK_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionForgiftningOrsak() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(28, actualCertificate.getData().get(FORGIFTNING_ORSAK_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionForgiftningDatum() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionForgiftningDatum() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionForgiftningDatumNull() {
-        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder().setOperationDatum(null).build();
-        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
-        assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionForgiftningDatumNull() {
+    final var internalCertificeOperationDatumNull =
+        internalCertificate.toBuilder().setOperationDatum(null).build();
+    final var actualCertificate =
+        internalToCertificate.convert(
+            internalCertificeOperationDatumNull, texts, typeAheadProvider);
+    assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionForgiftningDatumInvalidDate() {
-        final var internalCertificeOperationDatumNull = internalCertificate.toBuilder()
-            .setOperationDatum(new InternalDate("2020"))
-            .build();
-        final var actualCertificate = internalToCertificate.convert(internalCertificeOperationDatumNull, texts, typeAheadProvider);
-        assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionForgiftningDatumInvalidDate() {
+    final var internalCertificeOperationDatumNull =
+        internalCertificate.toBuilder().setOperationDatum(new InternalDate("2020")).build();
+    final var actualCertificate =
+        internalToCertificate.convert(
+            internalCertificeOperationDatumNull, texts, typeAheadProvider);
+    assertEquals(29, actualCertificate.getData().get(FORGIFTNING_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionForgiftningUppkommelse() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(30, actualCertificate.getData().get(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionForgiftningUppkommelse() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(
+        30, actualCertificate.getData().get(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryDodsorsaksUppgifter() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(31, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryDodsorsaksUppgifter() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(31, actualCertificate.getData().get(DODSORSAKS_UPPGIFTER_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionGrunderDodsorsaksUppgifter() {
-        final var actualCertificate = internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
-        assertEquals(32, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionGrunderDodsorsaksUppgifter() {
+    final var actualCertificate =
+        internalToCertificate.convert(internalCertificate, texts, typeAheadProvider);
+    assertEquals(32, actualCertificate.getData().get(GRUNDER_DELSVAR_ID).getIndex());
+  }
 }

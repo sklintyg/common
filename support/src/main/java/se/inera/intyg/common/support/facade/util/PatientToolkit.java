@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,30 +23,29 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class PatientToolkit {
 
-    public static LocalDate birthDate(Personnummer personId) {
-        if (personId == null) {
-            throw new IllegalArgumentException("Cannot get birth date when personId is null!");
-        }
-
-        return LocalDate.of(
-            Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
-            Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
-            getDayOfMonth(personId)
-        );
+  public static LocalDate birthDate(Personnummer personId) {
+    if (personId == null) {
+      throw new IllegalArgumentException("Cannot get birth date when personId is null!");
     }
 
-    private static int getDayOfMonth(Personnummer personId) {
-        final var dayOfMonth = Integer.parseInt(personId.getOriginalPnr().substring(6, 8));
-        if (dayOfMonth > 60) {
-            return dayOfMonth - 60;
-        }
-        return dayOfMonth;
-    }
+    return LocalDate.of(
+        Integer.parseInt(personId.getOriginalPnr().substring(0, 4)),
+        Integer.parseInt(personId.getOriginalPnr().substring(4, 6)),
+        getDayOfMonth(personId));
+  }
 
-    public static Integer birthYear(Personnummer personId) {
-        if (personId == null) {
-            throw new IllegalArgumentException("Cannot get birth year when personId is null!");
-        }
-        return Integer.parseInt(personId.getOriginalPnr().substring(0, 4));
+  private static int getDayOfMonth(Personnummer personId) {
+    final var dayOfMonth = Integer.parseInt(personId.getOriginalPnr().substring(6, 8));
+    if (dayOfMonth > 60) {
+      return dayOfMonth - 60;
     }
+    return dayOfMonth;
+  }
+
+  public static Integer birthYear(Personnummer personId) {
+    if (personId == null) {
+      throw new IllegalArgumentException("Cannot get birth year when personId is null!");
+    }
+    return Integer.parseInt(personId.getOriginalPnr().substring(0, 4));
+  }
 }

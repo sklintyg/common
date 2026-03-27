@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,46 +39,43 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionOperationDatum {
 
+  public static CertificateDataElement toCertificate(
+      LocalDate operationDatum, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(OPERATION_DATUM_DELSVAR_ID)
+        .parent(OPERATION_OM_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .id(OPERATION_DATUM_JSON_ID)
+                .maxDate(LocalDate.now())
+                .text(texts.get(OPERATION_DATUM_QUESTION_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(OPERATION_DATUM_JSON_ID)
+                .date(operationDatum)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OPERATION_DATUM_DELSVAR_ID)
+                  .expression(singleExpression(OPERATION_DATUM_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(OPERATION_OM_DELSVAR_ID)
+                  .expression(singleExpression(OmOperation.JA.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static CertificateDataElement toCertificate(LocalDate operationDatum, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OPERATION_DATUM_DELSVAR_ID)
-            .parent(OPERATION_OM_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .id(OPERATION_DATUM_JSON_ID)
-                    .maxDate(LocalDate.now())
-                    .text(texts.get(OPERATION_DATUM_QUESTION_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(OPERATION_DATUM_JSON_ID)
-                    .date(operationDatum)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OPERATION_DATUM_DELSVAR_ID)
-                        .expression(singleExpression(OPERATION_DATUM_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(OPERATION_OM_DELSVAR_ID)
-                        .expression(singleExpression(OmOperation.JA.name()))
-                        .build()
-                }
-            )
-            .build();
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(certificate.getData(), OPERATION_DATUM_DELSVAR_ID, OPERATION_DATUM_JSON_ID);
+    if (localDate == null) {
+      return null;
     }
-
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), OPERATION_DATUM_DELSVAR_ID, OPERATION_DATUM_JSON_ID);
-        if (localDate == null) {
-            return null;
-        }
-        return new InternalDate(localDate);
-    }
-
+    return new InternalDate(localDate);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,114 +30,119 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 @Component("TsTrk1062EntryPoint")
 public class TsTrk1062EntryPoint implements ModuleEntryPoint {
 
-    public static final String MODULE_ID = "tstrk1062";
-    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
+  public static final String MODULE_ID = "tstrk1062";
+  public static final String MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
 
-    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
-    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+  private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
+  private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
 
-    // CHECKSTYLE:OFF LineLength
-    private static final String MODULE_DESCRIPTION = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
-    // CHECKSTYLE:ON LineLength
+  // CHECKSTYLE:OFF LineLength
+  private static final String MODULE_DESCRIPTION =
+      "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
+  // CHECKSTYLE:ON LineLength
 
-    private static final String WEBCERT_MODULE_CSS_PATH = "/web/webjars/tstrk1062/webcert/css/tstrk1062.css";
-    private static final String WEBCERT_MODULE_SCRIPT_PATH = "/web/webjars/tstrk1062/webcert/module";
-    private static final String WEBCERT_MODULE_DEPENDENCY_PATH = "/web/webjars/tstrk1062/webcert/module-deps.json";
+  private static final String WEBCERT_MODULE_CSS_PATH =
+      "/web/webjars/tstrk1062/webcert/css/tstrk1062.css";
+  private static final String WEBCERT_MODULE_SCRIPT_PATH = "/web/webjars/tstrk1062/webcert/module";
+  private static final String WEBCERT_MODULE_DEPENDENCY_PATH =
+      "/web/webjars/tstrk1062/webcert/module-deps.json";
 
-    private static final String MINA_INTYG_MODULE_CSS_PATH = "";
-    private static final String MINA_INTYG_MODULE_SCRIPT_PATH = "/web/webjars/tstrk1062/minaintyg/js/module";
-    private static final String MINA_INTYG_MODULE_DEPENDENCY_PATH = "/web/webjars/tstrk1062/minaintyg/js/module-deps.json";
+  private static final String MINA_INTYG_MODULE_CSS_PATH = "";
+  private static final String MINA_INTYG_MODULE_SCRIPT_PATH =
+      "/web/webjars/tstrk1062/minaintyg/js/module";
+  private static final String MINA_INTYG_MODULE_DEPENDENCY_PATH =
+      "/web/webjars/tstrk1062/minaintyg/js/module-deps.json";
 
-    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
-    private final Optional<IntygTextsRepository> repo;
+  // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+  private final Optional<IntygTextsRepository> repo;
 
-    public TsTrk1062EntryPoint() {
-        this.repo = Optional.empty();
+  public TsTrk1062EntryPoint() {
+    this.repo = Optional.empty();
+  }
+
+  @Autowired(required = false)
+  public TsTrk1062EntryPoint(Optional<IntygTextsRepository> repo) {
+    this.repo = repo;
+  }
+
+  @Override
+  public String getModuleId() {
+    return MODULE_ID;
+  }
+
+  @Override
+  public String getModuleName() {
+    return MODULE_NAME;
+  }
+
+  @Override
+  public String getModuleDescription() {
+    return MODULE_DESCRIPTION;
+  }
+
+  @Override
+  public String getDetailedModuleDescription() {
+    String detailedModuleDescription = null;
+    if (repo.isPresent()) {
+      final IntygTextsRepository intygTextsRepository = repo.get();
+      final String latestVersion = intygTextsRepository.getLatestVersion(getModuleId());
+      final IntygTexts texts = intygTextsRepository.getTexts(getModuleId(), latestVersion);
+      if (texts != null) {
+        detailedModuleDescription = texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+      }
     }
+    return detailedModuleDescription;
+  }
 
-    @Autowired(required = false)
-    public TsTrk1062EntryPoint(Optional<IntygTextsRepository> repo) {
-        this.repo = repo;
+  @Override
+  public String getModuleCssPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return MINA_INTYG_MODULE_CSS_PATH;
+      case WEBCERT:
+        return WEBCERT_MODULE_CSS_PATH;
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleId() {
-        return MODULE_ID;
+  @Override
+  public String getModuleScriptPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return MINA_INTYG_MODULE_SCRIPT_PATH;
+      case WEBCERT:
+        return WEBCERT_MODULE_SCRIPT_PATH;
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleName() {
-        return MODULE_NAME;
+  @Override
+  public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
+    switch (originator) {
+      case MINA_INTYG:
+        return MINA_INTYG_MODULE_DEPENDENCY_PATH;
+      case WEBCERT:
+        return WEBCERT_MODULE_DEPENDENCY_PATH;
+      default:
+        return null;
     }
+  }
 
-    @Override
-    public String getModuleDescription() {
-        return MODULE_DESCRIPTION;
-    }
+  @Override
+  public String getDefaultRecipient() {
+    return DEFAULT_RECIPIENT_ID;
+  }
 
-    @Override
-    public String getDetailedModuleDescription() {
-        String detailedModuleDescription = null;
-        if (repo.isPresent()) {
-            final IntygTextsRepository intygTextsRepository = repo.get();
-            final String latestVersion = intygTextsRepository.getLatestVersion(getModuleId());
-            final IntygTexts texts = intygTextsRepository.getTexts(getModuleId(), latestVersion);
-            if (texts != null) {
-                detailedModuleDescription = texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
-            }
-        }
-        return detailedModuleDescription;
-    }
+  @Override
+  public String getExternalId() {
+    return KvIntygstyp.TSTRK1062.getCodeValue();
+  }
 
-    @Override
-    public String getModuleCssPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return MINA_INTYG_MODULE_CSS_PATH;
-            case WEBCERT:
-                return WEBCERT_MODULE_CSS_PATH;
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public String getModuleScriptPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return MINA_INTYG_MODULE_SCRIPT_PATH;
-            case WEBCERT:
-                return WEBCERT_MODULE_SCRIPT_PATH;
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        switch (originator) {
-            case MINA_INTYG:
-                return MINA_INTYG_MODULE_DEPENDENCY_PATH;
-            case WEBCERT:
-                return WEBCERT_MODULE_DEPENDENCY_PATH;
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public String getDefaultRecipient() {
-        return DEFAULT_RECIPIENT_ID;
-    }
-
-    @Override
-    public String getExternalId() {
-        return KvIntygstyp.TSTRK1062.getCodeValue();
-    }
-
-    @Override
-    public String getIssuerTypeId() {
-        // Same as externalId for ts
-        return this.getExternalId();
-    }
+  @Override
+  public String getIssuerTypeId() {
+    // Same as externalId for ts
+    return this.getExternalId();
+  }
 }

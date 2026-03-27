@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,136 +40,147 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 /**
  * Base class with common methods used by SMI type PDF definition construction.
  *
- * Created by marced on 2016-10-25.
+ * <p>Created by marced on 2016-10-25.
  */
 public class FkBasePdfDefinitionBuilder {
 
-    protected static final String DATE_PATTERN = "yyyy-MM-dd";
-    protected static final String PROPERTY_KEY_FORMID = "formId";
-    protected static final String PROPERTY_KEY_FORMID_ROW2 = "formIdRow2";
-    protected static final String PROPERTY_KEY_BLANKETT_ID = "blankettId";
-    protected static final String PROPERTY_KEY_BLANKETT_VERSION = "blankettVersion";
+  protected static final String DATE_PATTERN = "yyyy-MM-dd";
+  protected static final String PROPERTY_KEY_FORMID = "formId";
+  protected static final String PROPERTY_KEY_FORMID_ROW2 = "formIdRow2";
+  protected static final String PROPERTY_KEY_BLANKETT_ID = "blankettId";
+  protected static final String PROPERTY_KEY_BLANKETT_VERSION = "blankettVersion";
 
-    protected IntygTexts intygTexts;
+  protected IntygTexts intygTexts;
 
-    protected String getPropertyValue(String propertyName) {
-        return this.intygTexts.getProperties().getProperty(propertyName, "");
+  protected String getPropertyValue(String propertyName) {
+    return this.intygTexts.getProperties().getProperty(propertyName, "");
+  }
+
+  protected String getPrintedByText(
+      ApplicationOrigin applicationOrigin, String printedFromMinaIntyg) {
+    switch (applicationOrigin) {
+      case WEBCERT:
+        return "Intyget är utskrivet från Webcert";
+      case MINA_INTYG:
+        return printedFromMinaIntyg;
+      default:
+        throw new IllegalArgumentException("Unknown ApplicationOrigin " + applicationOrigin);
+    }
+  }
+
+  protected String getText(String key) {
+    return getText(key, false);
+  }
+
+  protected String getText(String key, boolean allowMissing) {
+    String text = intygTexts.getTexter().get(key);
+    if (text == null && !allowMissing) {
+      // Not finding a text is considered fatal
+      throw new IllegalArgumentException(
+          intygTexts.getIntygsTyp()
+              + " (version "
+              + intygTexts.getVersion()
+              + ") dynamic text for key '"
+              + key
+              + "' requested for PDF but was not found. Please check text sources / question id's");
+    }
+    return text;
+  }
+
+  protected boolean isSentToFk(List<Status> statuses) {
+    return statuses != null
+        && statuses.stream()
+            .anyMatch(
+                s ->
+                    CertificateState.SENT.equals(s.getType())
+                        && FkAbstractModuleEntryPoint.DEFAULT_RECIPIENT_ID.equals(s.getTarget()));
+  }
+
+  protected boolean isMakulerad(List<Status> statuses) {
+    return statuses != null
+        && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+  }
+
+  protected String nullSafeString(String string) {
+    return string != null ? string : "";
+  }
+
+  protected String nullSafeString(InternalDate date) {
+    return date != null ? date.getDate() : "";
+  }
+
+  protected Diagnos safeGetDiagnos(ImmutableList<Diagnos> diagnoser, int index) {
+    if (index < diagnoser.size()) {
+      return diagnoser.get(index);
+    }
+    return Diagnos.create("", "", "", "");
+  }
+
+  protected boolean safeBoolean(Boolean b) {
+    return b != null && b;
+  }
+
+  protected String concatStringList(List<String> strings) {
+    StringJoiner sj = new StringJoiner(", ");
+    for (String s : strings) {
+      sj.add(s);
+    }
+    return sj.toString();
+  }
+
+  protected String buildVardEnhetAdress(Vardenhet ve) {
+    StringBuilder sb = new StringBuilder();
+    sb.append(nullSafeString(ve.getEnhetsnamn()))
+        .append("\n")
+        .append(nullSafeString(ve.getPostadress()))
+        .append("\n")
+        .append(nullSafeString(ve.getPostnummer()))
+        .append(" ")
+        .append(nullSafeString(ve.getPostort()))
+        .append("\n");
+    if (nullSafeString(ve.getTelefonnummer()).length() > 0) {
+      sb.append("Telefon: ").append(nullSafeString(ve.getTelefonnummer()));
     }
 
-    protected String getPrintedByText(ApplicationOrigin applicationOrigin, String printedFromMinaIntyg) {
-        switch (applicationOrigin) {
-            case WEBCERT:
-                return "Intyget är utskrivet från Webcert";
-            case MINA_INTYG:
-                return printedFromMinaIntyg;
-            default:
-                throw new IllegalArgumentException("Unknown ApplicationOrigin " + applicationOrigin);
-        }
+    return sb.toString();
+  }
+
+  protected FkPage buildTillagsfragorPage(ImmutableList<Tillaggsfraga> tillaggsfragor) {
+    // Check if tillaggsfragor exists
+    if (tillaggsfragor == null || tillaggsfragor.isEmpty()) {
+      return null;
     }
 
-    protected String getText(String key) {
-        return getText(key, false);
+    List<PdfComponent<? extends PdfComponent>> allElements = new ArrayList<>();
+
+    // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
+    for (int i = 0; i < tillaggsfragor.size(); i++) {
+      Tillaggsfraga tillaggsfraga = tillaggsfragor.get(i);
+
+      String text = getText("DFR_" + tillaggsfraga.getId() + ".1.RBK", true);
+
+      if (text != null) {
+        allElements.add(new FkTillaggsFraga((i + 1) + ". " + text, tillaggsfraga.getSvar()));
+      }
     }
 
-    protected String getText(String key, boolean allowMissing) {
-        String text = intygTexts.getTexter().get(key);
-        if (text == null && !allowMissing) {
-            // Not finding a text is considered fatal
-            throw new IllegalArgumentException(
-                intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
-                    + "' requested for PDF but was not found. Please check text sources / question id's");
-        }
-        return text;
+    if (allElements.isEmpty()) {
+      return null;
     }
 
-    protected boolean isSentToFk(List<Status> statuses) {
-        return statuses != null && statuses.stream()
-            .anyMatch(s -> CertificateState.SENT.equals(s.getType())
-                && FkAbstractModuleEntryPoint.DEFAULT_RECIPIENT_ID.equals(s.getTarget()));
-    }
+    FkPage thisPage = new FkPage("Tilläggsfrågor");
+    thisPage.getChildren().addAll(allElements);
+    return thisPage;
+  }
 
-    protected boolean isMakulerad(List<Status> statuses) {
-        return statuses != null && statuses.stream()
-            .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
-    }
+  protected void clearSkapadAvForUtkast(GrundData grundData) {
 
-    protected String nullSafeString(String string) {
-        return string != null ? string : "";
-    }
+    HoSPersonal skapadAv = grundData.getSkapadAv();
 
-    protected String nullSafeString(InternalDate date) {
-        return date != null ? date.getDate() : "";
-    }
-
-    protected Diagnos safeGetDiagnos(ImmutableList<Diagnos> diagnoser, int index) {
-        if (index < diagnoser.size()) {
-            return diagnoser.get(index);
-        }
-        return Diagnos.create("", "", "", "");
-    }
-
-    protected boolean safeBoolean(Boolean b) {
-        return b != null && b;
-    }
-
-    protected String concatStringList(List<String> strings) {
-        StringJoiner sj = new StringJoiner(", ");
-        for (String s : strings) {
-            sj.add(s);
-        }
-        return sj.toString();
-    }
-
-    protected String buildVardEnhetAdress(Vardenhet ve) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(nullSafeString(ve.getEnhetsnamn())).append("\n")
-            .append(nullSafeString(ve.getPostadress())).append("\n")
-            .append(nullSafeString(ve.getPostnummer())).append(" ").append(nullSafeString(ve.getPostort())).append("\n");
-        if (nullSafeString(ve.getTelefonnummer()).length() > 0) {
-            sb.append("Telefon: ").append(nullSafeString(ve.getTelefonnummer()));
-        }
-
-        return sb.toString();
-
-    }
-
-    protected FkPage buildTillagsfragorPage(ImmutableList<Tillaggsfraga> tillaggsfragor) {
-        // Check if tillaggsfragor exists
-        if (tillaggsfragor == null || tillaggsfragor.isEmpty()) {
-            return null;
-        }
-
-        List<PdfComponent<? extends PdfComponent>> allElements = new ArrayList<>();
-
-        // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
-        for (int i = 0; i < tillaggsfragor.size(); i++) {
-            Tillaggsfraga tillaggsfraga = tillaggsfragor.get(i);
-
-            String text = getText("DFR_" + tillaggsfraga.getId() + ".1.RBK", true);
-
-            if (text != null) {
-                allElements
-                    .add(new FkTillaggsFraga((i + 1) + ". " + text, tillaggsfraga.getSvar()));
-            }
-        }
-
-        if (allElements.isEmpty()) {
-            return null;
-        }
-
-        FkPage thisPage = new FkPage("Tilläggsfrågor");
-        thisPage.getChildren().addAll(allElements);
-        return thisPage;
-    }
-
-    protected void clearSkapadAvForUtkast(GrundData grundData) {
-
-        HoSPersonal skapadAv = grundData.getSkapadAv();
-
-        skapadAv.setFullstandigtNamn("");
-        skapadAv.setPersonId("");
-        skapadAv.getVardenhet().setArbetsplatsKod("");
-        skapadAv.clearAllBefattningsKoder();
-        skapadAv.getSpecialiteter().clear();
-    }
+    skapadAv.setFullstandigtNamn("");
+    skapadAv.setPersonId("");
+    skapadAv.getVardenhet().setArbetsplatsKod("");
+    skapadAv.clearAllBefattningsKoder();
+    skapadAv.getSpecialiteter().clear();
+  }
 }

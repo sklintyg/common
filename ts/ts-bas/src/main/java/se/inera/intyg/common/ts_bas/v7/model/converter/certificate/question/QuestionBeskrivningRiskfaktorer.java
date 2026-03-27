@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,48 +40,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 
 public class QuestionBeskrivningRiskfaktorer {
 
-    private static final short TEXT_LIMIT = 180;
+  private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
-        final var hjartKarlBeskrivningRiskfaktorer =
-            hjartKarl != null && hjartKarl.getBeskrivningRiskfaktorer() != null ? hjartKarl.getBeskrivningRiskfaktorer() : null;
-        return CertificateDataElement.builder()
-            .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
-            .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
-                    .text(textProvider.get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
-                    .text(hjartKarlBeskrivningRiskfaktorer)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
-                        .expression(singleExpression(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(RISKFAKTORER_STROKE_SVAR_ID)
-                        .expression(singleExpression(RISKFAKTORER_STROKE_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
+    final var hjartKarlBeskrivningRiskfaktorer =
+        hjartKarl != null && hjartKarl.getBeskrivningRiskfaktorer() != null
+            ? hjartKarl.getBeskrivningRiskfaktorer()
+            : null;
+    return CertificateDataElement.builder()
+        .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
+        .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
+                .text(textProvider.get(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
+                .text(hjartKarlBeskrivningRiskfaktorer)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID)
+                  .expression(singleExpression(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(RISKFAKTORER_STROKE_SVAR_ID)
+                  .expression(singleExpression(RISKFAKTORER_STROKE_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID,
-            TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID,
+        TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,23 +26,28 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 
 public final class ConverterUtil {
 
-    private ConverterUtil() {
-    }
+  private ConverterUtil() {}
 
-    public static CertificateHolder toCertificateHolder(TsBasUtlatandeV7 utlatande) throws ModuleException {
-        CertificateHolder certificateHolder = new CertificateHolder();
-        certificateHolder.setId(utlatande.getId());
-        certificateHolder.setCareUnitId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-        certificateHolder.setCareUnitName(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        certificateHolder.setCareGiverId(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-        certificateHolder.setSigningDoctorId(utlatande.getGrundData().getSkapadAv().getPersonId());
-        certificateHolder.setSigningDoctorName(utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
-        certificateHolder.setCivicRegistrationNumber(utlatande.getGrundData().getPatient().getPersonId());
-        certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
-        certificateHolder.setType(TsBasEntryPoint.MODULE_ID);
-        certificateHolder.setTypeVersion(utlatande.getTextVersion());
-        certificateHolder.setAdditionalInfo(Joiner.on(", ").join(utlatande.getIntygAvser().getKorkortstyp()));
-        return certificateHolder;
-    }
-
+  public static CertificateHolder toCertificateHolder(TsBasUtlatandeV7 utlatande)
+      throws ModuleException {
+    CertificateHolder certificateHolder = new CertificateHolder();
+    certificateHolder.setId(utlatande.getId());
+    certificateHolder.setCareUnitId(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+    certificateHolder.setCareUnitName(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    certificateHolder.setCareGiverId(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+    certificateHolder.setSigningDoctorId(utlatande.getGrundData().getSkapadAv().getPersonId());
+    certificateHolder.setSigningDoctorName(
+        utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
+    certificateHolder.setCivicRegistrationNumber(
+        utlatande.getGrundData().getPatient().getPersonId());
+    certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
+    certificateHolder.setType(TsBasEntryPoint.MODULE_ID);
+    certificateHolder.setTypeVersion(utlatande.getTextVersion());
+    certificateHolder.setAdditionalInfo(
+        Joiner.on(", ").join(utlatande.getIntygAvser().getKorkortstyp()));
+    return certificateHolder;
+  }
 }

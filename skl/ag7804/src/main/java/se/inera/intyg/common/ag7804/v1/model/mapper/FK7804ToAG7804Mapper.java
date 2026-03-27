@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,39 +33,41 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
  */
 public class FK7804ToAG7804Mapper implements Mapper {
 
-    private WebcertModelFactoryImpl factory = new WebcertModelFactoryImpl();
+  private WebcertModelFactoryImpl factory = new WebcertModelFactoryImpl();
 
-    private ObjectMapper objectMapper;
+  private ObjectMapper objectMapper;
 
-    private Ag7804UtlatandeV1 utlatande;
+  private Ag7804UtlatandeV1 utlatande;
 
-    public FK7804ToAG7804Mapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+  public FK7804ToAG7804Mapper(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
+  @Override
+  public Mapper map(Utlatande source, CreateDraftCopyHolder draftData) throws ModuleException {
+    try {
+      utlatande = factory.createCopy(draftData, source);
+      return this;
+    } catch (ConverterException e) {
+      throw new ModuleException(
+          String.format(
+              "Error mapping data from certificate '%s' to draft '%s'",
+              source.getId(), draftData.getCertificateId()),
+          e);
     }
+  }
 
-    @Override
-    public Mapper map(Utlatande source, CreateDraftCopyHolder draftData) throws ModuleException {
-        try {
-            utlatande = factory.createCopy(draftData, source);
-            return this;
-        } catch (ConverterException e) {
-            throw new ModuleException(
-                String.format("Error mapping data from certificate '%s' to draft '%s'", source.getId(), draftData.getCertificateId()), e);
-        }
+  @Override
+  public String json() throws ModuleException {
+    try {
+      return objectMapper.writeValueAsString(utlatande);
+    } catch (IOException e) {
+      throw new ModuleException("Failed to serialize model", e);
     }
+  }
 
-    @Override
-    public String json() throws ModuleException {
-        try {
-            return objectMapper.writeValueAsString(utlatande);
-        } catch (IOException e) {
-            throw new ModuleException("Failed to serialize model", e);
-        }
-    }
-
-    @Override
-    public Utlatande utlatande() {
-        return utlatande;
-    }
-
+  @Override
+  public Utlatande utlatande() {
+    return utlatande;
+  }
 }

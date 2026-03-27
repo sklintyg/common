@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,108 +42,112 @@ import org.junit.jupiter.api.Test;
 
 class ValidationExpressionToolkitTest {
 
-    @Test
-    void shallPrefixWithDollarCharacter() {
-        assertEquals("$variable", singleExpression("variable"));
-    }
+  @Test
+  void shallPrefixWithDollarCharacter() {
+    assertEquals("$variable", singleExpression("variable"));
+  }
 
-    @Test
-    void shallWrapWithParenthesis() {
-        assertEquals("(variable)", wrapWithParenthesis("variable"));
-    }
+  @Test
+  void shallWrapWithParenthesis() {
+    assertEquals("(variable)", wrapWithParenthesis("variable"));
+  }
 
-    @Test
-    void shallPrefixWithExclamation() {
-        assertEquals("!variable", not("variable"));
-    }
+  @Test
+  void shallPrefixWithExclamation() {
+    assertEquals("!variable", not("variable"));
+  }
 
-    @Test
-    void shallWrapWithExistsFunction() {
-        assertEquals("exists(variable)", exists("variable"));
-    }
+  @Test
+  void shallWrapWithExistsFunction() {
+    assertEquals("exists(variable)", exists("variable"));
+  }
 
-    @Test
-    void shallAddDoublePipeBetweenExpression() {
-        assertEquals("variable1 || variable2 || variable3", multipleOrExpression("variable1", "variable2", "variable3"));
-    }
+  @Test
+  void shallAddDoublePipeBetweenExpression() {
+    assertEquals(
+        "variable1 || variable2 || variable3",
+        multipleOrExpression("variable1", "variable2", "variable3"));
+  }
 
-    @Test
-    void shallAddDoubleAmpersandBetweenExpression() {
-        assertEquals("variable1 && variable2 && variable3", multipleAndExpression("variable1", "variable2", "variable3"));
-    }
+  @Test
+  void shallAddDoubleAmpersandBetweenExpression() {
+    assertEquals(
+        "variable1 && variable2 && variable3",
+        multipleAndExpression("variable1", "variable2", "variable3"));
+  }
 
-    @Test
-    void shallWrapWithApostrophe() {
-        assertEquals("'variable'", withCitation("variable"));
-    }
+  @Test
+  void shallWrapWithApostrophe() {
+    assertEquals("'variable'", withCitation("variable"));
+  }
 
-    @Test
-    void shallAddLessThan() {
-        assertEquals("variable1 < variable2", lessThan("variable1", "variable2"));
-    }
+  @Test
+  void shallAddLessThan() {
+    assertEquals("variable1 < variable2", lessThan("variable1", "variable2"));
+  }
 
-    @Test
-    void shallAddLessThanOrEquals() {
-        assertEquals("variable1 <= variable2", lessThanOrEqual("variable1", "variable2"));
-    }
+  @Test
+  void shallAddLessThanOrEquals() {
+    assertEquals("variable1 <= variable2", lessThanOrEqual("variable1", "variable2"));
+  }
 
-    @Test
-    void shallAddLessThanOrEqualsWithLong() {
-        assertEquals("variable1 <= 1", lessThanOrEqual("variable1", 1L));
-    }
+  @Test
+  void shallAddLessThanOrEqualsWithLong() {
+    assertEquals("variable1 <= 1", lessThanOrEqual("variable1", 1L));
+  }
 
-    @Test
-    void shallAddMoreThan() {
-        assertEquals("variable1 > variable2", moreThan("variable1", "variable2"));
-    }
+  @Test
+  void shallAddMoreThan() {
+    assertEquals("variable1 > variable2", moreThan("variable1", "variable2"));
+  }
 
-    @Test
-    void shallAddMoreThanWithLong() {
-        assertEquals("variable1 > 1", moreThan("variable1", 1L));
-    }
+  @Test
+  void shallAddMoreThanWithLong() {
+    assertEquals("variable1 > 1", moreThan("variable1", 1L));
+  }
 
-    @Test
-    void shallAppendAttribute() {
-        assertEquals("variable1.variable2", appendAttribute("variable1", "variable2"));
-    }
+  @Test
+  void shallAppendAttribute() {
+    assertEquals("variable1.variable2", appendAttribute("variable1", "variable2"));
+  }
 
-    @Test
-    void shallAddEquals() {
-        assertEquals("variable1 == variable2", equalsWith("variable1", "variable2"));
-    }
+  @Test
+  void shallAddEquals() {
+    assertEquals("variable1 == variable2", equalsWith("variable1", "variable2"));
+  }
 
-    @Test
-    void shallWrapWithNotEmpty() {
-        assertEquals("!empty(variable)", wrapWithNotEmpty("variable"));
-    }
+  @Test
+  void shallWrapWithNotEmpty() {
+    assertEquals("!empty(variable)", wrapWithNotEmpty("variable"));
+  }
 
-    @Test
-    void shallSubtract() {
-        assertEquals("variable - variable", subtract("variable", "variable"));
-    }
+  @Test
+  void shallSubtract() {
+    assertEquals("variable - variable", subtract("variable", "variable"));
+  }
 
-    @Test
-    void shallAddTo() {
-        assertEquals("variable.to", to("variable"));
-    }
+  @Test
+  void shallAddTo() {
+    assertEquals("variable.to", to("variable"));
+  }
 
-    @Test
-    void shallAddFrom() {
-        assertEquals("variable.from", from("variable"));
-    }
+  @Test
+  void shallAddFrom() {
+    assertEquals("variable.from", from("variable"));
+  }
 
-    @Test
-    void shallAddMoreThanOrEquals() {
-        assertEquals("variable >= variable2", moreThanOrEqual("variable", "variable2"));
-    }
+  @Test
+  void shallAddMoreThanOrEquals() {
+    assertEquals("variable >= variable2", moreThanOrEqual("variable", "variable2"));
+  }
 
-    @Test
-    void shallAddMoreThanOrEqualsWithLong() {
-        assertEquals("variable >= 2", moreThanOrEqual("variable", 2L));
-    }
+  @Test
+  void shallAddMoreThanOrEqualsWithLong() {
+    assertEquals("variable >= 2", moreThanOrEqual("variable", 2L));
+  }
 
-    @Test
-    void shallWrapWithAttribute() {
-        assertEquals("attribute(variable)", wrapWithAttribute("variable", "attribute"));
-    }
+  @Test
+  void shallWrapWithAttribute() {
+    assertEquals("attribute(variable)", wrapWithAttribute("variable", "attribute"));
+  }
 }

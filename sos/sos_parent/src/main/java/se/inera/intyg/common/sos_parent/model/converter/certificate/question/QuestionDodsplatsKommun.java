@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -37,43 +37,36 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionDodsplatsKommun {
 
-    private static final short TEXT_LIMIT = 28;
+  private static final short TEXT_LIMIT = 28;
 
-    public static CertificateDataElement toCertificate(List<String> municipalities, String kommun, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(DODSPLATS_KOMMUN_DELSVAR_ID)
-            .parent(DODSPLATS_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTypeAhead.builder()
-                    .text(texts.get(DODSPLATS_KOMMUN_TEXT_ID))
-                    .id(DODSPLATS_KOMMUN_JSON_ID)
-                    .typeAhead(municipalities)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(DODSPLATS_KOMMUN_JSON_ID)
-                    .text(kommun)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(DODSPLATS_KOMMUN_DELSVAR_ID)
-                        .expression(singleExpression(DODSPLATS_KOMMUN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(DODSPLATS_KOMMUN_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      List<String> municipalities, String kommun, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(DODSPLATS_KOMMUN_DELSVAR_ID)
+        .parent(DODSPLATS_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTypeAhead.builder()
+                .text(texts.get(DODSPLATS_KOMMUN_TEXT_ID))
+                .id(DODSPLATS_KOMMUN_JSON_ID)
+                .typeAhead(municipalities)
+                .build())
+        .value(CertificateDataValueText.builder().id(DODSPLATS_KOMMUN_JSON_ID).text(kommun).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(DODSPLATS_KOMMUN_DELSVAR_ID)
+                  .expression(singleExpression(DODSPLATS_KOMMUN_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(DODSPLATS_KOMMUN_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), DODSPLATS_KOMMUN_DELSVAR_ID, DODSPLATS_KOMMUN_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(certificate.getData(), DODSPLATS_KOMMUN_DELSVAR_ID, DODSPLATS_KOMMUN_JSON_ID);
+  }
 }

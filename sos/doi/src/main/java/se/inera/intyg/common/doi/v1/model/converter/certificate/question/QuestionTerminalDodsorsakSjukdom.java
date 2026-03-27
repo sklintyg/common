@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,16 +28,15 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHe
 
 public class QuestionTerminalDodsorsakSjukdom {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID)
-            .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigHeader.builder()
-                    .text(texts.get(TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(TERMINAL_DODSORSAK_SJUKDOM_SVAR_ID)
+        .parent(TERMINAL_DODSORSAK_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigHeader.builder()
+                .text(texts.get(TERMINAL_DODSORSAK_SJUKDOM_TEXT_ID))
+                .build())
+        .build();
+  }
 }

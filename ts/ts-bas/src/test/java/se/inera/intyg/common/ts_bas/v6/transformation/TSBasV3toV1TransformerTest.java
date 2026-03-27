@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,108 +41,125 @@ import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class TSBasV3toV1TransformerTest {
 
-    private static final String V3_UTLATANDE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
-    private static final String V3_UTLATANDE_SIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
-    private static final String V3_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
-    private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_32 = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
-    private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_34 = "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
-    private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
-    private static final String V1_TS_BAS_SCHEMA = "specializations/TS-Bas/ts-bas_model.xsd";
-    private static final String V1_CORE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_1.0.xsd";
-    private static final String V1_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_1.0.xsd";
-    private static final String V1_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_1.0.xsd";
+  private static final String V3_UTLATANDE_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
+  private static final String V3_UTLATANDE_SIG_SCHEMA =
+      "core_components/xmldsig-core-schema_0.1.xsd";
+  private static final String V3_UTLATANDE_TYPES_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
+  private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_32 =
+      "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+  private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA_34 =
+      "core_components/clinicalprocess_healthcond_certificate_3.4_ext.xsd";
+  private static final String V3_REGISTER_SCHEMA =
+      "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
+  private static final String V1_TS_BAS_SCHEMA = "specializations/TS-Bas/ts-bas_model.xsd";
+  private static final String V1_CORE_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_1.0.xsd";
+  private static final String V1_TYPES_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_types_1.0.xsd";
+  private static final String V1_REGISTER_SCHEMA =
+      "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_1.0.xsd";
 
-    private static Schema v3Schema;
+  private static Schema v3Schema;
 
-    private static Schema v1Schema;
+  private static Schema v1Schema;
 
-    @BeforeClass
-    public static void initV3Schema() throws Exception {
-        SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_32);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_34);
-        schemaValidatorBuilder.registerResource(V3_UTLATANDE_SIG_SCHEMA);
-        v3Schema = schemaValidatorBuilder.build(rootSource);
+  @BeforeClass
+  public static void initV3Schema() throws Exception {
+    SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
+    Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
+    schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
+    schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_SCHEMA);
+    schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_32);
+    schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA_34);
+    schemaValidatorBuilder.registerResource(V3_UTLATANDE_SIG_SCHEMA);
+    v3Schema = schemaValidatorBuilder.build(rootSource);
+  }
+
+  @BeforeClass
+  public static void initV1Schema() throws Exception {
+    SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
+    Source rootSource = schemaValidatorBuilder.registerResource(V1_REGISTER_SCHEMA);
+    schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
+    schemaValidatorBuilder.registerResource(V1_TYPES_SCHEMA);
+    schemaValidatorBuilder.registerResource(V1_TS_BAS_SCHEMA);
+
+    v1Schema = schemaValidatorBuilder.build(rootSource);
+  }
+
+  @Test
+  public void testTransformation() throws Exception {
+    List<String> testFiles =
+        asList(
+            "valid-diabetes-typ2-kost.xml",
+            "valid-korrigerad-synskarpa.xml",
+            "valid-maximal.xml",
+            "valid-minimal.xml",
+            "valid-persontransport.xml",
+            "valid-sjukhusvard.xml",
+            "valid-utan-korrigerad-synskarpa.xml");
+
+    XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
+
+    for (String xmlFile : testFiles) {
+      String xmlContents =
+          Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+      final var v3Result = validate(v3Schema, xmlContents);
+      if (!v3Result.isEmpty()) {
+        fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result);
+      }
+
+      String result = transformer.transform(xmlContents);
+
+      final var v1Results = validate(v1Schema, result);
+      if (!v1Results.isEmpty()) {
+        fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results);
+      }
     }
+  }
 
-    @BeforeClass
-    public static void initV1Schema() throws Exception {
-        SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        Source rootSource = schemaValidatorBuilder.registerResource(V1_REGISTER_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_TS_BAS_SCHEMA);
+  private static List<SAXParseException> validate(Schema schema, String xml) {
+    StreamSource xmlSource =
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
 
-        v1Schema = schemaValidatorBuilder.build(rootSource);
+    Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
+    Validator validator = validatorObject.getLeft();
+    ArrayList<SAXParseException> exceptions = validatorObject.getRight();
+    try {
+      validator.validate(xmlSource);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+      return exceptions;
     }
+    return exceptions;
+  }
 
-    @Test
-    public void testTransformation() throws Exception {
-        List<String> testFiles = asList("valid-diabetes-typ2-kost.xml",
-            "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
-            "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
+  private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v1Schema) {
+    Validator validator = v1Schema.newValidator();
+    final ArrayList<SAXParseException> exceptions = new ArrayList<>();
+    Pair<Validator, ArrayList<SAXParseException>> ret = Pair.of(validator, exceptions);
+    validator.setErrorHandler(
+        new ErrorHandler() {
+          @Override
+          public void warning(SAXParseException exception) {
+            exceptions.add(exception);
+          }
 
-        XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
+          @Override
+          public void fatalError(SAXParseException exception) {
+            exceptions.add(exception);
+          }
 
-        for (String xmlFile : testFiles) {
-            String xmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
-            final var v3Result = validate(v3Schema, xmlContents);
-            if (!v3Result.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result);
-            }
-
-            String result = transformer.transform(xmlContents);
-
-            final var v1Results = validate(v1Schema, result);
-            if (!v1Results.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results);
-            }
-        }
-    }
-
-    private static List<SAXParseException> validate(Schema schema, String xml) {
-        StreamSource xmlSource = new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
-
-        Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
-        Validator validator = validatorObject.getLeft();
-        ArrayList<SAXParseException> exceptions = validatorObject.getRight();
-        try {
-            validator.validate(xmlSource);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return exceptions;
-        }
-        return exceptions;
-    }
-
-    private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v1Schema) {
-        Validator validator = v1Schema.newValidator();
-        final ArrayList<SAXParseException> exceptions = new ArrayList<>();
-        Pair<Validator, ArrayList<SAXParseException>> ret = Pair.of(validator, exceptions);
-        validator.setErrorHandler(new ErrorHandler() {
-            @Override
-            public void warning(SAXParseException exception) {
-                exceptions.add(exception);
-            }
-
-            @Override
-            public void fatalError(SAXParseException exception) {
-                exceptions.add(exception);
-            }
-
-            @Override
-            public void error(SAXParseException exception) {
-                exceptions.add(exception);
-            }
+          @Override
+          public void error(SAXParseException exception) {
+            exceptions.add(exception);
+          }
         });
-        return ret;
-    }
+    return ret;
+  }
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
-
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 }

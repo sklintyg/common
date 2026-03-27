@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
@@ -32,22 +31,22 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
 
 public class QuestionHypoglykemiEgenkontrollBlodsocker {
 
-    public static CertificateDataElement toCertificate(Hypoglykemier hypoglykemier, int index, CertificateTextProvider textProvider) {
-        final var egenkontrollBlodsocker = hypoglykemier != null ? hypoglykemier.getEgenkontrollBlodsocker() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID)
-            .parent(HYPOGLYKEMI_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(egenkontrollBlodsocker))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemier hypoglykemier, int index, CertificateTextProvider textProvider) {
+    final var egenkontrollBlodsocker =
+        hypoglykemier != null ? hypoglykemier.getEgenkontrollBlodsocker() : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_ID)
+        .parent(HYPOGLYKEMI_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(HYPOGLYKEMI_EGENKONTROLL_BLODSOCKER_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(booleanValue(egenkontrollBlodsocker))
+                .build())
+        .build();
+  }
 }

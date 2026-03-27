@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,27 +33,30 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 public final class ValidatorTestUtil {
 
-    private ValidatorTestUtil() {
-    }
+  private ValidatorTestUtil() {}
 
-    public static String getTransportValidationErrorString(SchematronOutputType result) {
-        return SVRLHelper.getAllFailedAssertions(result).stream()
-            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-            .collect(Collectors.joining(";"));
-    }
+  public static String getTransportValidationErrorString(SchematronOutputType result) {
+    return SVRLHelper.getAllFailedAssertions(result).stream()
+        .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+        .collect(Collectors.joining(";"));
+  }
 
-    public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().stream()
-            .map(e -> e.getField())
-            .collect(Collectors.joining(", "));
-    }
+  public static String getInternalValidationErrorString(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().stream()
+        .map(e -> e.getField())
+        .collect(Collectors.joining(", "));
+  }
 
-    public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
-        StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
-        ObjectFactory objectFactory = new ObjectFactory();
-        JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
-        jaxbContext.createMarshaller().marshal(requestElement, sw);
-        return sw.toString();
-    }
+  public static String getXmlFromModel(RegisterCertificateType transport)
+      throws IOException, JAXBException {
+    StringWriter sw = new StringWriter();
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+    ObjectFactory objectFactory = new ObjectFactory();
+    JAXBElement<RegisterCertificateType> requestElement =
+        objectFactory.createRegisterCertificate(transport);
+    jaxbContext.createMarshaller().marshal(requestElement, sw);
+    return sw.toString();
+  }
 }

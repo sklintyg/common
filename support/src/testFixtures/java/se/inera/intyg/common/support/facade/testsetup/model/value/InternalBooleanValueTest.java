@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,24 +29,22 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public abstract class InternalBooleanValueTest {
 
-    protected abstract CertificateDataElement getElement(Boolean expectedValue);
+  protected abstract CertificateDataElement getElement(Boolean expectedValue);
 
-    protected abstract Boolean toInternalBooleanValue(Certificate certificate);
+  protected abstract Boolean toInternalBooleanValue(Certificate certificate);
 
-    protected Stream<Boolean> booleanValues() {
-        return Stream.of(true, false, null);
-    }
+  protected Stream<Boolean> booleanValues() {
+    return Stream.of(true, false, null);
+  }
 
-    @ParameterizedTest
-    @MethodSource("booleanValues")
-    void shouldIncludeBooleanValue(Boolean expectedValue) {
+  @ParameterizedTest
+  @MethodSource("booleanValues")
+  void shouldIncludeBooleanValue(Boolean expectedValue) {
 
-        final var certificate = CertificateBuilder.create()
-            .addElement(getElement(expectedValue))
-            .build();
-        final var actualValue = toInternalBooleanValue(certificate);
+    final var certificate =
+        CertificateBuilder.create().addElement(getElement(expectedValue)).build();
+    final var actualValue = toInternalBooleanValue(certificate);
 
-        assertEquals(expectedValue, actualValue);
-    }
-
+    assertEquals(expectedValue, actualValue);
+  }
 }

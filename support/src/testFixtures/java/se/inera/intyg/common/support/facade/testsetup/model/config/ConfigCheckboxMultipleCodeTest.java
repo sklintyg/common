@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,26 +30,26 @@ import se.inera.intyg.common.support.facade.model.config.Layout;
 
 public abstract class ConfigCheckboxMultipleCodeTest extends ConfigTest {
 
-    protected abstract List<CheckboxMultipleCode> getExpectedListOfCodes();
+  protected abstract List<CheckboxMultipleCode> getExpectedListOfCodes();
 
-    protected abstract Layout getLayout();
+  protected abstract Layout getLayout();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_CODE;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_CHECKBOX_MULTIPLE_CODE;
+  }
 
-    @Test
-    void shouldIncludeExpectedListOfCodes() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        assertIterableEquals(config.getList(), getExpectedListOfCodes());
-    }
+  @Test
+  void shouldIncludeExpectedListOfCodes() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
+    assertIterableEquals(config.getList(), getExpectedListOfCodes());
+  }
 
-    @Test
-    void shouldIncludeLayout() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
-        assertEquals(getLayout(), config.getLayout());
-    }
+  @Test
+  void shouldIncludeLayout() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxMultipleCode) question.getConfig();
+    assertEquals(getLayout(), config.getLayout());
+  }
 }

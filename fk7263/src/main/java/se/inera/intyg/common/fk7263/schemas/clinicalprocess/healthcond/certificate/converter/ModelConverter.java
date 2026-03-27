@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,12 +28,12 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
  */
 public final class ModelConverter {
 
-    private ModelConverter() {
-    }
+  private ModelConverter() {}
 
-    public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
+  public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
-        ClinicalProcessCertificateMetaTypeBuilder builder = new ClinicalProcessCertificateMetaTypeBuilder()
+    ClinicalProcessCertificateMetaTypeBuilder builder =
+        new ClinicalProcessCertificateMetaTypeBuilder()
             .certificateId(source.getId())
             .certificateType(source.getType())
             .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
@@ -43,18 +43,18 @@ public final class ModelConverter {
             .available(String.valueOf(!source.isDeleted()))
             .complemantaryInfo(source.getAdditionalInfo());
 
-        CertificateMetaType meta = builder.build();
+    CertificateMetaType meta = builder.build();
 
-        meta.getStatus().addAll(CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
-        return builder.build();
+    meta.getStatus()
+        .addAll(
+            CertificateStateHolderConverter.toCertificateStatusType(source.getCertificateStates()));
+    return builder.build();
+  }
+
+  private static LocalDate toLocalDate(String date) {
+    if (date == null) {
+      return null;
     }
-
-
-    private static LocalDate toLocalDate(String date) {
-        if (date == null) {
-            return null;
-        }
-        return LocalDate.parse(date);
-    }
-
+    return LocalDate.parse(date);
+  }
 }

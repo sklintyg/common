@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,26 +33,29 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class ValueMedicalInvestigationTest<T> extends ValueTest {
 
-    protected abstract CertificateDataElement getElement(T input);
+  protected abstract CertificateDataElement getElement(T input);
 
-    protected abstract List<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>> inputExpectedValuePairList();
+  protected abstract List<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>>
+      inputExpectedValuePairList();
 
-    protected Stream<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>> inputExpectedValuePairStream() {
-        return inputExpectedValuePairList().stream();
-    }
+  protected Stream<InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>>
+      inputExpectedValuePairStream() {
+    return inputExpectedValuePairList().stream();
+  }
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.MEDICAL_INVESTIGATION_LIST;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.MEDICAL_INVESTIGATION_LIST;
+  }
 
-    @ParameterizedTest
-    @MethodSource("inputExpectedValuePairStream")
-    void shouldIncludeMedicalInvestigationList(
-        InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList> inputExpectedValuePair) {
+  @ParameterizedTest
+  @MethodSource("inputExpectedValuePairStream")
+  void shouldIncludeMedicalInvestigationList(
+      InputExpectedValuePair<T, CertificateDataValueMedicalInvestigationList>
+          inputExpectedValuePair) {
 
-        final var question = getElement(inputExpectedValuePair.getInput());
-        final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
-        assertEquals(inputExpectedValuePair.getExpectedValue(), value);
-    }
+    final var question = getElement(inputExpectedValuePair.getInput());
+    final var value = (CertificateDataValueMedicalInvestigationList) question.getValue();
+    assertEquals(inputExpectedValuePair.getExpectedValue(), value);
+  }
 }

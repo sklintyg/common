@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,44 +24,45 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.stream.Stream;
 
 public enum KvVardniva {
+  PRIMARVARD("VN1", "Primärvård"),
+  SPECIALISTVARD("VN2", "Specialistvård");
 
-    PRIMARVARD("VN1", "Primärvård"),
-    SPECIALISTVARD("VN2", "Specialistvård");
+  final String code;
+  final String description;
 
-    final String code;
-    final String description;
+  KvVardniva(String code, String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    KvVardniva(String code, String description) {
-        this.code = code;
-        this.description = description;
+  @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+  public static KvVardniva fromId(@JsonProperty("id") String id) {
+    String normId = id != null ? id.trim() : null;
+    for (KvVardniva typ : values()) {
+      if (typ.getCode().equals(normId)) {
+        return typ;
+      }
     }
+    throw new IllegalArgumentException(id);
+  }
 
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static KvVardniva fromId(@JsonProperty("id") String id) {
-        String normId = id != null ? id.trim() : null;
-        for (KvVardniva typ : values()) {
-            if (typ.getCode().equals(normId)) {
-                return typ;
-            }
-        }
-        throw new IllegalArgumentException(id);
-    }
+  public static KvVardniva fromCode(String code) {
+    return Stream.of(KvVardniva.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 
-    public static KvVardniva fromCode(String code) {
-        return Stream.of(KvVardniva.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  @JsonValue
+  public String getId() {
+    return this.code;
+  }
 
-    @JsonValue
-    public String getId() {
-        return this.code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 }

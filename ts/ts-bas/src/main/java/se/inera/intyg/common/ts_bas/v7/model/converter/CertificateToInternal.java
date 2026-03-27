@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -94,106 +94,112 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Utvecklingsstorning;
 @Component(value = "certificateToInternalTsBas")
 public class CertificateToInternal {
 
-    public TsBasUtlatandeV7 convert(Certificate certificate, TsBasUtlatandeV7 internalCertificate) {
-        return TsBasUtlatandeV7.builder()
-            .setId(internalCertificate.getId())
-            .setTextVersion(internalCertificate.getTextVersion())
-            .setGrundData(MetaDataGrundData.toInternal(certificate.getMetadata(), internalCertificate.getGrundData()))
-            .setIntygAvser(QuestionIntygetAvser.toInternal(certificate))
-            .setSyn(Syn.builder()
+  public TsBasUtlatandeV7 convert(Certificate certificate, TsBasUtlatandeV7 internalCertificate) {
+    return TsBasUtlatandeV7.builder()
+        .setId(internalCertificate.getId())
+        .setTextVersion(internalCertificate.getTextVersion())
+        .setGrundData(
+            MetaDataGrundData.toInternal(
+                certificate.getMetadata(), internalCertificate.getGrundData()))
+        .setIntygAvser(QuestionIntygetAvser.toInternal(certificate))
+        .setSyn(
+            Syn.builder()
                 .setSynfaltsdefekter(QuestionSynfaltsdefekter.toInternal(certificate))
                 .setNattblindhet(QuestionNattblindhet.toInternal(certificate))
                 .setProgressivOgonsjukdom(QuestionProgressivOgonsjukdom.toInternal(certificate))
                 .setDiplopi(QuestionDubbelseende.toInternal(certificate))
                 .setNystagmus(QuestionNystagmus.toInternal(certificate))
                 .setSynskarpaSkickasSeparat(QuestionSynskarpaSkickasSeparat.toInternal(certificate))
-                .setKorrektionsglasensStyrka(QuestionKorrektionsglasensStyrka.toInternal(certificate))
+                .setKorrektionsglasensStyrka(
+                    QuestionKorrektionsglasensStyrka.toInternal(certificate))
                 .setHogerOga(QuestionSynskarpa.toInternal(certificate, RIGHT_EYE))
                 .setVansterOga(QuestionSynskarpa.toInternal(certificate, LEFT_EYE))
                 .setBinokulart(QuestionSynskarpa.toInternal(certificate, BINOCULAR))
                 .build())
-            .setSomnVakenhet(SomnVakenhet.create(QuestionSomnOchVakenhetsstorningar.toInternal(certificate)))
-            .setNarkotikaLakemedel(NarkotikaLakemedel.builder()
+        .setSomnVakenhet(
+            SomnVakenhet.create(QuestionSomnOchVakenhetsstorningar.toInternal(certificate)))
+        .setNarkotikaLakemedel(
+            NarkotikaLakemedel.builder()
                 .setTeckenMissbruk(QuestionAlkoholNarkotikaJournaluppgifter.toInternal(certificate))
-                .setForemalForVardinsats(QuestionAlkoholNarkotikaVardinsatser.toInternal(certificate))
+                .setForemalForVardinsats(
+                    QuestionAlkoholNarkotikaVardinsatser.toInternal(certificate))
                 .setProvtagningBehovs(QuestionAlkoholNarkotikaProvtagning.toInternal(certificate))
-                .setLakarordineratLakemedelsbruk(QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate))
-                .setLakemedelOchDos(QuestionAlkoholNarkotikaOrdineratLakamedel.toInternal(certificate))
+                .setLakarordineratLakemedelsbruk(
+                    QuestionAlkoholNarkotikaLakarordinerat.toInternal(certificate))
+                .setLakemedelOchDos(
+                    QuestionAlkoholNarkotikaOrdineratLakamedel.toInternal(certificate))
                 .build())
-            .setPsykiskt(Psykiskt.create(QuestionPsykiskSjukdomStorning.toInternal(certificate)))
-            .setUtvecklingsstorning(Utvecklingsstorning.builder()
-                .setPsykiskUtvecklingsstorning(QuestionPsykiskUtvecklingsstorning.toInternal(certificate))
+        .setPsykiskt(Psykiskt.create(QuestionPsykiskSjukdomStorning.toInternal(certificate)))
+        .setUtvecklingsstorning(
+            Utvecklingsstorning.builder()
+                .setPsykiskUtvecklingsstorning(
+                    QuestionPsykiskUtvecklingsstorning.toInternal(certificate))
                 .setHarSyndrom(QuestionAdhdAddDampAsbergersTourettes.toInternal(certificate))
                 .build())
-            .setVardkontakt(QuestionIdentitetStyrktGenom.toInternal(certificate))
-            .setHorselBalans(
-                HorselBalans.builder()
-                    .setBalansrubbningar(QuestionBalansrubbningar.toInternal(certificate))
-                    .setSvartUppfattaSamtal4Meter(QuestionUppfattaSamtalFyraMeter.toInternal(certificate))
-                    .build()
-            )
-            .setFunktionsnedsattning(
-                Funktionsnedsattning.builder()
-                    .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
-                    .setBeskrivning(QuestionFunktionsnedsattningBeskrivning.toInternal(certificate))
-                    .setOtillrackligRorelseformaga(QuestionOtillrackligRorelseFormoga.toInternal(certificate))
-                    .build()
-            )
-            .setHjartKarl(
-                HjartKarl.builder()
-                    .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
-                    .setHjarnskadaEfterTrauma(QuestionHjarnskadaEfterTrauma.toInternal(certificate))
-                    .setRiskfaktorerStroke(QuestionRiskfaktorerForStroke.toInternal(certificate))
-                    .setBeskrivningRiskfaktorer(QuestionBeskrivningRiskfaktorer.toInternal(certificate))
-                    .build()
-            )
-            .setDiabetes(
-                Diabetes.builder()
-                    .setHarDiabetes(QuestionHarDiabetes.toInternal(certificate))
-                    .setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate))
-                    .setKost(QuestionDiabetesBehandling.toInternal(certificate, KOSTBEHANDLING_DELSVAR_JSON_ID))
-                    .setTabletter(QuestionDiabetesBehandling.toInternal(certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID))
-                    .setInsulin(QuestionDiabetesBehandling.toInternal(certificate, INSULINBEHANDLING_DELSVAR_JSON_ID))
-                    .build()
-            )
-            .setNeurologi(
-                Neurologi.create(QuestionTeckenPaNeurologiskSjukdom.toInternal(certificate))
-            )
-            .setMedvetandestorning(
-                Medvetandestorning.builder()
-                    .setMedvetandestorning(QuestionMedvetandestorning.toInternal(certificate))
-                    .setBeskrivning(QuestionMedvetandestorningBeskrivning.toInternal(certificate))
-                    .build()
-            )
-            .setNjurar(
-                Njurar.create(QuestionNedsattNjurfunktion.toInternal(certificate))
-            )
-            .setKognitivt(
-                Kognitivt.create(QuestionKognitivFormoga.toInternal(certificate))
-            )
-            .setBedomning(
-                Bedomning.builder()
-                    .setKorkortstyp(QuestionBedomningKorkortsTyp.toInternal(certificate))
-                    .setLakareSpecialKompetens(QuestionBedomningLakareSpecialKompetens.toInternal(certificate))
-                    .build()
-            )
-            .setSjukhusvard(
-                Sjukhusvard.builder()
-                    .setSjukhusEllerLakarkontakt(QuestionVardatsPaSjukhus.toInternal(certificate))
-                    .setTidpunkt(QuestionTidpunktVardPaSjukhus.toInternal(certificate))
-                    .setVardinrattning(QuestionVardinrattningensNamn.toInternal(certificate))
-                    .setAnledning(QuestionVardatsPaSjukhusOrsak.toInternal(certificate))
-                    .build()
-            )
-            .setMedicinering(
-                Medicinering.builder()
-                    .setStadigvarandeMedicinering(QuestionStadigvarandeMedicinering.toInternal(certificate))
-                    .setBeskrivning(QuestionStadigvarandeMedicineringBeskrivning.toInternal(certificate))
-                    .build()
-            )
-            .setKommentar(
-                QuestionOvrigt.toInternal(certificate)
-            )
-            .build();
-    }
+        .setVardkontakt(QuestionIdentitetStyrktGenom.toInternal(certificate))
+        .setHorselBalans(
+            HorselBalans.builder()
+                .setBalansrubbningar(QuestionBalansrubbningar.toInternal(certificate))
+                .setSvartUppfattaSamtal4Meter(
+                    QuestionUppfattaSamtalFyraMeter.toInternal(certificate))
+                .build())
+        .setFunktionsnedsattning(
+            Funktionsnedsattning.builder()
+                .setFunktionsnedsattning(QuestionFunktionsnedsattning.toInternal(certificate))
+                .setBeskrivning(QuestionFunktionsnedsattningBeskrivning.toInternal(certificate))
+                .setOtillrackligRorelseformaga(
+                    QuestionOtillrackligRorelseFormoga.toInternal(certificate))
+                .build())
+        .setHjartKarl(
+            HjartKarl.builder()
+                .setHjartKarlSjukdom(QuestionHjartOchKarlsjukdom.toInternal(certificate))
+                .setHjarnskadaEfterTrauma(QuestionHjarnskadaEfterTrauma.toInternal(certificate))
+                .setRiskfaktorerStroke(QuestionRiskfaktorerForStroke.toInternal(certificate))
+                .setBeskrivningRiskfaktorer(QuestionBeskrivningRiskfaktorer.toInternal(certificate))
+                .build())
+        .setDiabetes(
+            Diabetes.builder()
+                .setHarDiabetes(QuestionHarDiabetes.toInternal(certificate))
+                .setDiabetesTyp(QuestionDiabetesTyp.toInternal(certificate))
+                .setKost(
+                    QuestionDiabetesBehandling.toInternal(
+                        certificate, KOSTBEHANDLING_DELSVAR_JSON_ID))
+                .setTabletter(
+                    QuestionDiabetesBehandling.toInternal(
+                        certificate, TABLETTBEHANDLING_DELSVAR_JSON_ID))
+                .setInsulin(
+                    QuestionDiabetesBehandling.toInternal(
+                        certificate, INSULINBEHANDLING_DELSVAR_JSON_ID))
+                .build())
+        .setNeurologi(Neurologi.create(QuestionTeckenPaNeurologiskSjukdom.toInternal(certificate)))
+        .setMedvetandestorning(
+            Medvetandestorning.builder()
+                .setMedvetandestorning(QuestionMedvetandestorning.toInternal(certificate))
+                .setBeskrivning(QuestionMedvetandestorningBeskrivning.toInternal(certificate))
+                .build())
+        .setNjurar(Njurar.create(QuestionNedsattNjurfunktion.toInternal(certificate)))
+        .setKognitivt(Kognitivt.create(QuestionKognitivFormoga.toInternal(certificate)))
+        .setBedomning(
+            Bedomning.builder()
+                .setKorkortstyp(QuestionBedomningKorkortsTyp.toInternal(certificate))
+                .setLakareSpecialKompetens(
+                    QuestionBedomningLakareSpecialKompetens.toInternal(certificate))
+                .build())
+        .setSjukhusvard(
+            Sjukhusvard.builder()
+                .setSjukhusEllerLakarkontakt(QuestionVardatsPaSjukhus.toInternal(certificate))
+                .setTidpunkt(QuestionTidpunktVardPaSjukhus.toInternal(certificate))
+                .setVardinrattning(QuestionVardinrattningensNamn.toInternal(certificate))
+                .setAnledning(QuestionVardatsPaSjukhusOrsak.toInternal(certificate))
+                .build())
+        .setMedicinering(
+            Medicinering.builder()
+                .setStadigvarandeMedicinering(
+                    QuestionStadigvarandeMedicinering.toInternal(certificate))
+                .setBeskrivning(
+                    QuestionStadigvarandeMedicineringBeskrivning.toInternal(certificate))
+                .build())
+        .setKommentar(QuestionOvrigt.toInternal(certificate))
+        .build();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
@@ -32,36 +31,39 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
 
 public class QuestionDiabetesTyp {
 
-    private static final String DIABETES_TYP_1 = "DIABETES_TYP_1";
-    public static final String DIABETES_TYP_2 = "DIABETES_TYP_2";
+  private static final String DIABETES_TYP_1 = "DIABETES_TYP_1";
+  public static final String DIABETES_TYP_2 = "DIABETES_TYP_2";
 
-    public static CertificateDataElement toCertificate(Diabetes diabetes, int index, CertificateTextProvider texts) {
-        final var diabetesTyp = diabetes != null && diabetes.getDiabetesTyp() != null ? diabetes.getDiabetesTyp() : null;
-        return CertificateDataElement.builder()
-            .id(TYP_AV_DIABETES_SVAR_ID)
-            .parent(HAR_DIABETES_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(texts.get(TYP_AV_DIABETES_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(diabetesTyp != null ? stringValue(getDiabetesType(diabetesTyp)) : stringValue(null))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Diabetes diabetes, int index, CertificateTextProvider texts) {
+    final var diabetesTyp =
+        diabetes != null && diabetes.getDiabetesTyp() != null ? diabetes.getDiabetesTyp() : null;
+    return CertificateDataElement.builder()
+        .id(TYP_AV_DIABETES_SVAR_ID)
+        .parent(HAR_DIABETES_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(texts.get(TYP_AV_DIABETES_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(
+                    diabetesTyp != null
+                        ? stringValue(getDiabetesType(diabetesTyp))
+                        : stringValue(null))
+                .build())
+        .build();
+  }
 
-    private static String getDiabetesType(String diabetesTyp) {
-        switch (diabetesTyp) {
-            case DIABETES_TYP_1:
-                return "Typ 1";
-            case DIABETES_TYP_2:
-                return "Typ 2";
-            default:
-                return null;
-        }
+  private static String getDiabetesType(String diabetesTyp) {
+    switch (diabetesTyp) {
+      case DIABETES_TYP_1:
+        return "Typ 1";
+      case DIABETES_TYP_2:
+        return "Typ 2";
+      default:
+        return null;
     }
+  }
 }

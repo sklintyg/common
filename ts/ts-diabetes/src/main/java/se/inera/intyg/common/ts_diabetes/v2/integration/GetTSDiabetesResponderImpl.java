@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -47,95 +47,108 @@ import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterface {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetTSDiabetesResponderImpl.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(GetTSDiabetesResponderImpl.class);
 
-    private final ModuleContainerApi moduleContainer;
+  private final ModuleContainerApi moduleContainer;
 
-    public GetTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
-        this.moduleContainer = moduleContainer;
+  public GetTSDiabetesResponderImpl(ModuleContainerApi moduleContainer) {
+    this.moduleContainer = moduleContainer;
+  }
+
+  @Override
+  public GetTSDiabetesResponseType getTSDiabetes(String logicalAddress, GetTSDiabetesType request) {
+
+    GetTSDiabetesResponseType response = new GetTSDiabetesResponseType();
+    CertificateHolder certificate = null;
+
+    String certificateId = request.getIntygsId();
+    Personnummer personnummer = getPersonnummer(request);
+
+    if (certificateId == null || certificateId.length() == 0) {
+      LOGGER.info(
+          LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
+      response.setResultat(
+          ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "non-existing certificateId"));
+      return response;
     }
 
-    @Override
-    public GetTSDiabetesResponseType getTSDiabetes(String logicalAddress, GetTSDiabetesType request) {
-
-        GetTSDiabetesResponseType response = new GetTSDiabetesResponseType();
-        CertificateHolder certificate = null;
-
-        String certificateId = request.getIntygsId();
-        Personnummer personnummer = getPersonnummer(request);
-
-        if (certificateId == null || certificateId.length() == 0) {
-            LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
-            response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "non-existing certificateId"));
-            return response;
-        }
-
-        try {
-            certificate = moduleContainer.getCertificate(certificateId, personnummer, false);
-            if (personnummer != null && !certificate.getCivicRegistrationNumber().equals(personnummer)) {
-                response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
-                return response;
-            }
-            if (certificate.isDeletedByCareGiver()) {
-                response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
-                    String.format("Certificate '%s' has been deleted by care giver", certificateId)));
-            } else {
-                moduleContainer.logCertificateRetrieved(certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
-                TSDiabetesIntyg tsDiabetesIntyg = JAXB
-                    .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
-                response.setIntyg(tsDiabetesIntyg);
-                response.setMeta(createMetaData(certificate));
-                if (certificate.isRevoked()) {
-                    response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED,
-                        String.format("Certificate '%s' has been revoked", request.getIntygsId())));
-                } else {
-                    response.setResultat(ResultTypeUtil.okResult());
-                }
-            }
-        } catch (InvalidCertificateException e) {
-            response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
-        }
+    try {
+      certificate = moduleContainer.getCertificate(certificateId, personnummer, false);
+      if (personnummer != null && !certificate.getCivicRegistrationNumber().equals(personnummer)) {
+        response.setResultat(
+            ResultTypeUtil.errorResult(
+                ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
         return response;
-    }
-
-    private IntygMeta createMetaData(CertificateHolder certificate) {
-        IntygMeta intygMeta = new IntygMeta();
-        intygMeta.setAdditionalInfo(certificate.getAdditionalInfo());
-        intygMeta.setAvailable(String.valueOf(!certificate.isDeleted()));
-        intygMeta.getStatus().addAll(convertToStatuses(certificate.getCertificateStates()));
-        return intygMeta;
-    }
-
-    private Collection<? extends IntygStatus> convertToStatuses(List<CertificateStateHolder> certificateStates) {
-        List<IntygStatus> statuses = new ArrayList<>();
-        for (CertificateStateHolder csh : certificateStates) {
-            statuses.add(convert(csh));
+      }
+      if (certificate.isDeletedByCareGiver()) {
+        response.setResultat(
+            ResultTypeUtil.errorResult(
+                ErrorIdType.APPLICATION_ERROR,
+                String.format("Certificate '%s' has been deleted by care giver", certificateId)));
+      } else {
+        moduleContainer.logCertificateRetrieved(
+            certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
+        TSDiabetesIntyg tsDiabetesIntyg =
+            JAXB.unmarshal(
+                    new StringReader(certificate.getOriginalCertificate()),
+                    RegisterTSDiabetesType.class)
+                .getIntyg();
+        response.setIntyg(tsDiabetesIntyg);
+        response.setMeta(createMetaData(certificate));
+        if (certificate.isRevoked()) {
+          response.setResultat(
+              ResultTypeUtil.errorResult(
+                  ErrorIdType.REVOKED,
+                  String.format("Certificate '%s' has been revoked", request.getIntygsId())));
+        } else {
+          response.setResultat(ResultTypeUtil.okResult());
         }
-        return statuses;
+      }
+    } catch (InvalidCertificateException e) {
+      response.setResultat(
+          ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
+    }
+    return response;
+  }
+
+  private IntygMeta createMetaData(CertificateHolder certificate) {
+    IntygMeta intygMeta = new IntygMeta();
+    intygMeta.setAdditionalInfo(certificate.getAdditionalInfo());
+    intygMeta.setAvailable(String.valueOf(!certificate.isDeleted()));
+    intygMeta.getStatus().addAll(convertToStatuses(certificate.getCertificateStates()));
+    return intygMeta;
+  }
+
+  private Collection<? extends IntygStatus> convertToStatuses(
+      List<CertificateStateHolder> certificateStates) {
+    List<IntygStatus> statuses = new ArrayList<>();
+    for (CertificateStateHolder csh : certificateStates) {
+      statuses.add(convert(csh));
+    }
+    return statuses;
+  }
+
+  private IntygStatus convert(CertificateStateHolder source) {
+    IntygStatus status = new IntygStatus();
+    status.setTarget(source.getTarget());
+    status.setTimestamp(source.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+    status.setType(mapToStatus(source.getState()));
+    return status;
+  }
+
+  private Personnummer getPersonnummer(GetTSDiabetesType request) {
+    if (request.getPersonId() != null) {
+      Optional<Personnummer> optional =
+          Personnummer.createPersonnummer(request.getPersonId().getExtension());
+      if (optional.isPresent()) {
+        return optional.get();
+      }
     }
 
-    private IntygStatus convert(CertificateStateHolder source) {
-        IntygStatus status = new IntygStatus();
-        status.setTarget(source.getTarget());
-        status.setTimestamp(source.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        status.setType(mapToStatus(source.getState()));
-        return status;
-    }
+    return null;
+  }
 
-
-    private Personnummer getPersonnummer(GetTSDiabetesType request) {
-        if (request.getPersonId() != null) {
-            Optional<Personnummer> optional = Personnummer.createPersonnummer(request.getPersonId().getExtension());
-            if (optional.isPresent()) {
-                return optional.get();
-            }
-        }
-
-        return null;
-    }
-
-    private Status mapToStatus(CertificateState state) {
-        return Status.valueOf(state.name());
-    }
-
+  private Status mapToStatus(CertificateState state) {
+    return Status.valueOf(state.name());
+  }
 }

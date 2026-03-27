@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,47 +40,45 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionForgiftningUppkommelse {
 
-    public static final short LIMIT = (short) 150;
+  public static final short LIMIT = (short) 150;
 
-    public static CertificateDataElement toCertificate(String forgiftningUppkommelse, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID)
-            .parent(FORGIFTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID))
-                    .description(texts.get(FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID))
-                    .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
-                    .text(forgiftningUppkommelse)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_UPPKOMMELSE_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(FORGIFTNING_OM_DELSVAR_ID)
-                        .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
-                        .build(),
-                    CertificateDataValidationText.builder()
-                        .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
-                        .limit(LIMIT)
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String forgiftningUppkommelse, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID)
+        .parent(FORGIFTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(texts.get(FORGIFTNING_UPPKOMMELSE_QUESTION_TEXT_ID))
+                .description(texts.get(FORGIFTNING_UPPKOMMELSE_DESCRIPTION_TEXT_ID))
+                .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
+                .text(forgiftningUppkommelse)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(FORGIFTNING_UPPKOMMELSE_DELSVAR_ID)
+                  .expression(singleExpression(FORGIFTNING_UPPKOMMELSE_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(FORGIFTNING_OM_DELSVAR_ID)
+                  .expression(singleExpression(FORGIFTNING_OM_JSON_ID))
+                  .build(),
+              CertificateDataValidationText.builder()
+                  .id(FORGIFTNING_UPPKOMMELSE_JSON_ID)
+                  .limit(LIMIT)
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, FORGIFTNING_UPPKOMMELSE_JSON_ID);
-    }
-
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(), FORGIFTNING_UPPKOMMELSE_DELSVAR_ID, FORGIFTNING_UPPKOMMELSE_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
-
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_ID;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID;
@@ -33,15 +32,22 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionIntygetBaseratPa extends AbstractQuestionIntygetBaseratPa {
 
-    public static CertificateDataElement toCertificate(LisjpUtlatandeV1 internalCertificate, int index,
-        CertificateTextProvider textProvider) {
-        return toCertificate(internalCertificate.getUndersokningAvPatienten(), internalCertificate.getTelefonkontaktMedPatienten(),
-            internalCertificate.getJournaluppgifter(), internalCertificate.getAnnatGrundForMU(), GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-            GRUNDFORMU_CATEGORY_ID, index, GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID, GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_ID,
-            textProvider);
-    }
+  public static CertificateDataElement toCertificate(
+      LisjpUtlatandeV1 internalCertificate, int index, CertificateTextProvider textProvider) {
+    return toCertificate(
+        internalCertificate.getUndersokningAvPatienten(),
+        internalCertificate.getTelefonkontaktMedPatienten(),
+        internalCertificate.getJournaluppgifter(),
+        internalCertificate.getAnnatGrundForMU(),
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
+        GRUNDFORMU_CATEGORY_ID,
+        index,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_TEXT_ID,
+        GRUNDFORMEDICINSKTUNDERLAG_SVAR_DESCRIPTION_ID,
+        textProvider);
+  }
 
-    public static InternalDate toInternal(Certificate certificate, String itemId) {
-        return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, itemId);
-    }
+  public static InternalDate toInternal(Certificate certificate, String itemId) {
+    return toInternal(certificate, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, itemId);
+  }
 }

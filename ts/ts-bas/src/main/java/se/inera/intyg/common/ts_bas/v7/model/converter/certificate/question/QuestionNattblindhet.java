@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,38 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 
 public class QuestionNattblindhet {
 
-    public static CertificateDataElement toCertificate(Syn syn, int index, CertificateTextProvider textProvider) {
-        final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
+  public static CertificateDataElement toCertificate(
+      Syn syn, int index, CertificateTextProvider textProvider) {
+    final var nattblindhet = syn != null ? syn.getNattblindhet() : null;
 
-        return CertificateDataElement.builder()
-            .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
-            .parent(SYNFUNKTIONER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
-                    .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
-                    .selected(nattblindhet)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
-                        .expression(exists(SEENDE_NEDSATT_BELYSNING_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
+        .parent(SYNFUNKTIONER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
+                .text(textProvider.get(SEENDE_NEDSATT_BELYSNING_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(SEENDE_NEDSATT_BELYSNING_JSON_ID)
+                .selected(nattblindhet)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(SEENDE_NEDSATT_BELYSNING_SVAR_ID)
+                  .expression(exists(SEENDE_NEDSATT_BELYSNING_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SEENDE_NEDSATT_BELYSNING_SVAR_ID, SEENDE_NEDSATT_BELYSNING_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), SEENDE_NEDSATT_BELYSNING_SVAR_ID, SEENDE_NEDSATT_BELYSNING_JSON_ID);
+  }
 }

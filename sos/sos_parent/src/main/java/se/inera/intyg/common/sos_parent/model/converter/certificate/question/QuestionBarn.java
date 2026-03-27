@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,79 +48,62 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBoolean;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-
 public class QuestionBarn {
 
-    public static CertificateDataElement toCertificate(Personnummer personId, Boolean dodsdatumSakert, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(BARN_DELSVAR_ID)
-            .parent(BARN_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(BARN_JSON_ID)
-                    .text(texts.get(BARN_QUESTION_TEXT_ID))
-                    .selectedText(texts.get(BARN_QUESTION_SELECTED_QUESTION))
-                    .unselectedText(texts.get(BARN_QUESTION_UNSELECTED_QUESTION))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(BARN_JSON_ID)
-                    .selected(dodsdatumSakert)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(BARN_DELSVAR_ID)
-                        .expression(exists(BARN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationAutoFill.builder()
-                        .questionId(DODSDATUM_DELSVAR_ID)
-                        .expression(
-                            lessThanOrEqual(
-                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
-                                birthDate(personId)
-                                    .plusDays(TWENTY_EIGHT_DAYS)
-                                    .toEpochDay()
-                            )
-                        )
-                        .fillValue(
-                            CertificateDataValueBoolean.builder()
-                                .id(BARN_JSON_ID)
-                                .selected(true)
-                                .build()
-                        )
-                        .build(),
-                    CertificateDataValidationAutoFill.builder()
-                        .questionId(DODSDATUM_DELSVAR_ID)
-                        .expression(
-                            moreThan(
-                                wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
-                                birthDate(personId)
-                                    .plusDays(TWENTY_EIGHT_DAYS)
-                                    .toEpochDay()
-                            )
-                        )
-                        .fillValue(
-                            CertificateDataValueBoolean.builder()
-                                .id(BARN_JSON_ID)
-                                .selected(false)
-                                .build()
-                        )
-                        .build(),
-                    CertificateDataValidationDisable.builder()
-                        .questionId(DODSDATUM_DELSVAR_ID)
-                        .expression(singleExpression(DODSDATUM_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Personnummer personId, Boolean dodsdatumSakert, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(BARN_DELSVAR_ID)
+        .parent(BARN_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(BARN_JSON_ID)
+                .text(texts.get(BARN_QUESTION_TEXT_ID))
+                .selectedText(texts.get(BARN_QUESTION_SELECTED_QUESTION))
+                .unselectedText(texts.get(BARN_QUESTION_UNSELECTED_QUESTION))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(BARN_JSON_ID)
+                .selected(dodsdatumSakert)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(BARN_DELSVAR_ID)
+                  .expression(exists(BARN_JSON_ID))
+                  .build(),
+              CertificateDataValidationAutoFill.builder()
+                  .questionId(DODSDATUM_DELSVAR_ID)
+                  .expression(
+                      lessThanOrEqual(
+                          wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
+                          birthDate(personId).plusDays(TWENTY_EIGHT_DAYS).toEpochDay()))
+                  .fillValue(
+                      CertificateDataValueBoolean.builder().id(BARN_JSON_ID).selected(true).build())
+                  .build(),
+              CertificateDataValidationAutoFill.builder()
+                  .questionId(DODSDATUM_DELSVAR_ID)
+                  .expression(
+                      moreThan(
+                          wrapWithAttribute(withCitation(DODSDATUM_JSON_ID), TO_EPOCH_DAY),
+                          birthDate(personId).plusDays(TWENTY_EIGHT_DAYS).toEpochDay()))
+                  .fillValue(
+                      CertificateDataValueBoolean.builder()
+                          .id(BARN_JSON_ID)
+                          .selected(false)
+                          .build())
+                  .build(),
+              CertificateDataValidationDisable.builder()
+                  .questionId(DODSDATUM_DELSVAR_ID)
+                  .expression(singleExpression(DODSDATUM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), BARN_DELSVAR_ID, BARN_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), BARN_DELSVAR_ID, BARN_JSON_ID);
+  }
 }

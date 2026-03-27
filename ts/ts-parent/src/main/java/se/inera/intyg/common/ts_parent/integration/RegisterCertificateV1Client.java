@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,28 +27,27 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.Regi
 
 public class RegisterCertificateV1Client extends SendTSClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV1Client.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV1Client.class);
 
-    private static final String REGISTER_V1_NAMESPACE =
-        "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
+  private static final String REGISTER_V1_NAMESPACE =
+      "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
 
-    private static final QName REGISTER_V1_PORT_NAME =
-        new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21",
-            "RegisterCertificateResponderPort");
+  private static final QName REGISTER_V1_PORT_NAME =
+      new QName(
+          "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21",
+          "RegisterCertificateResponderPort");
 
+  public RegisterCertificateV1Client(String url) {
+    super(url);
+  }
 
-    public RegisterCertificateV1Client(String url) {
-        super(url);
-    }
+  @Override
+  protected void setupService() {
+    setupService(new RegisterCertificateResponderService(), REGISTER_V1_PORT_NAME);
+  }
 
-    @Override
-    protected void setupService() {
-        setupService(new RegisterCertificateResponderService(), REGISTER_V1_PORT_NAME);
-    }
-
-    @Override
-    protected Dispatch<SOAPMessage> createDispatchMessage() {
-        return createDispatchMessage(REGISTER_V1_NAMESPACE, REGISTER_V1_PORT_NAME);
-    }
-
+  @Override
+  protected Dispatch<SOAPMessage> createDispatchMessage() {
+    return createDispatchMessage(REGISTER_V1_NAMESPACE, REGISTER_V1_PORT_NAME);
+  }
 }

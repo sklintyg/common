@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,53 +26,51 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class ArbetslivsinriktadeAtgarder {
 
-    @JsonCreator
-    public static ArbetslivsinriktadeAtgarder create(@JsonProperty("typ") ArbetslivsinriktadeAtgarderVal typ) {
-        return new AutoValue_ArbetslivsinriktadeAtgarder(typ);
+  @JsonCreator
+  public static ArbetslivsinriktadeAtgarder create(
+      @JsonProperty("typ") ArbetslivsinriktadeAtgarderVal typ) {
+    return new AutoValue_ArbetslivsinriktadeAtgarder(typ);
+  }
+
+  public abstract ArbetslivsinriktadeAtgarderVal getTyp();
+
+  public enum ArbetslivsinriktadeAtgarderVal {
+    INTE_AKTUELLT("EJ_AKTUELLT", "Inte aktuellt"),
+    ARBETSTRANING("ARBETSTRANING", "Arbetsträning"),
+    ARBETSANPASSNING("ARBETSANPASSNING", "Arbetsanpassning"),
+    BESOK_PA_ARBETSPLATSEN("BESOK_ARBETSPLATS", "Besök på arbetsplatsen"),
+    ERGONOMISK_BEDOMNING("ERGONOMISK", "Ergonomisk bedömning"),
+    HJALPMEDEL("HJALPMEDEL", "Hjälpmedel"),
+    KONTAKT_MED_FORETAGSHALSOVARD("KONTAKT_FHV", "Kontakt med företagshälsovård"),
+    OMFORDELNING_AV_ARBETSUPPGIFTER("OMFORDELNING", "Omfördelning av arbetsuppgifter"),
+    OVRIGT("OVRIGA_ATGARDER", "Övrigt");
+
+    private final String id;
+    private final String label;
+
+    ArbetslivsinriktadeAtgarderVal(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    public abstract ArbetslivsinriktadeAtgarderVal getTyp();
-
-    public enum ArbetslivsinriktadeAtgarderVal {
-
-        INTE_AKTUELLT("EJ_AKTUELLT", "Inte aktuellt"),
-        ARBETSTRANING("ARBETSTRANING", "Arbetsträning"),
-        ARBETSANPASSNING("ARBETSANPASSNING", "Arbetsanpassning"),
-        BESOK_PA_ARBETSPLATSEN("BESOK_ARBETSPLATS", "Besök på arbetsplatsen"),
-        ERGONOMISK_BEDOMNING("ERGONOMISK", "Ergonomisk bedömning"),
-        HJALPMEDEL("HJALPMEDEL", "Hjälpmedel"),
-        KONTAKT_MED_FORETAGSHALSOVARD("KONTAKT_FHV", "Kontakt med företagshälsovård"),
-        OMFORDELNING_AV_ARBETSUPPGIFTER("OMFORDELNING", "Omfördelning av arbetsuppgifter"),
-        OVRIGT("OVRIGA_ATGARDER", "Övrigt");
-
-        private final String id;
-        private final String label;
-
-        ArbetslivsinriktadeAtgarderVal(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static ArbetslivsinriktadeAtgarderVal fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (ArbetslivsinriktadeAtgarderVal typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-
+    @JsonValue
+    public String getId() {
+      return id;
     }
 
+    public String getLabel() {
+      return label;
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static ArbetslivsinriktadeAtgarderVal fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (ArbetslivsinriktadeAtgarderVal typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

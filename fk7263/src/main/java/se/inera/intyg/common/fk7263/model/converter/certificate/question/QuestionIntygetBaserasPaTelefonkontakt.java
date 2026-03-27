@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate.question;
 
 import static se.inera.intyg.common.fk7263.model.converter.RespConstants.INTYGET_BASERAS_PA_CATEGORY_ID;
@@ -31,26 +30,21 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class QuestionIntygetBaserasPaTelefonkontakt {
 
-    public static CertificateDataElement toCertificate(InternalDate telefonkontakt, int index) {
-        final var date = validDate(telefonkontakt) ? telefonkontakt.toString() : null;
-        return CertificateDataElement.builder()
-            .id(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID)
-            .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(stringValue(date))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(InternalDate telefonkontakt, int index) {
+    final var date = validDate(telefonkontakt) ? telefonkontakt.toString() : null;
+    return CertificateDataElement.builder()
+        .id(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_ID)
+        .parent(INTYGET_BASERAS_PA_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(TELEFONKONTAKT_MED_PATIENTEN_DELSVAR_TEXT)
+                .build())
+        .value(CertificateDataValueViewText.builder().text(stringValue(date)).build())
+        .build();
+  }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
-    }
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -52,171 +52,183 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunktTest {
 
-    @Mock
-    private CertificateTextProvider textProvider;
+  @Mock private CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        doReturn("Text!").when(textProvider).get(anyString());
+  @BeforeEach
+  void setUp() {
+    doReturn("Text!").when(textProvider).get(anyString());
+  }
+
+  @Nested
+  class IncludeCommonElementTest extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          null, null, getIndex(), textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTest extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, null, getIndex(), textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 3;
-        }
+    @Override
+    protected String getId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigDateTest extends ConfigDateTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, personId, 0, textProvider);
-        }
-
-        @Override
-        protected String getJsonId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected String getTextId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected LocalDate getMinDate() {
-            return LocalDate.parse("1912-12-12");
-        }
-
-        @Override
-        protected LocalDate getMaxDate() {
-            return LocalDate.now();
-        }
+    @Override
+    protected String getParent() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
     }
 
-    @Nested
-    class IncludeValueDateTest extends ValueDateTest {
+    @Override
+    protected int getIndex() {
+      return 3;
+    }
+  }
 
-        @Override
-        protected CertificateDataElement getElement() {
-            final var hypoglykemi = Hypoglykemi.builder().setAterkommandeVaketSenasteTreTidpunkt(new InternalDate(getDate()))
-                .build();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(hypoglykemi, null, 0, textProvider);
-        }
+  @Nested
+  class IncludeConfigDateTest extends ConfigDateTest {
 
-        @Override
-        protected String getJsonId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-        }
-
-        @Override
-        protected LocalDate getDate() {
-            return LocalDate.parse("2023-01-13");
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeValidationShowTest extends ValidationShowTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          null, personId, 0, textProvider);
     }
 
-    @Nested
-    class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(null, null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 1;
-        }
-
-        @Override
-        protected String getQuestionId() {
-            return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
-        }
-
-        @Override
-        protected String getExpression() {
-            return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
-        }
+    @Override
+    protected String getJsonId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
     }
 
-    @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class IncludeInternalDateValueTest extends InternalValueTest<Hypoglykemi, InternalDate> {
-
-        @Override
-        protected CertificateDataElement getElement(Hypoglykemi input) {
-            final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(input, personId, 0, textProvider);
-        }
-
-        @Override
-        protected InternalDate toInternalValue(Certificate certificate) {
-            return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toInternal(certificate);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Hypoglykemi, InternalDate>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(Hypoglykemi.builder()
-                    .setAterkommandeVaketSenasteTreTidpunkt(new InternalDate("2022-12-15")).build(), new InternalDate("2022-12-15")),
-                new InputExpectedValuePair<>(Hypoglykemi.builder()
-                    .setAterkommandeVaketSenasteTreTidpunkt(new InternalDate("")).build(), null),
-                new InputExpectedValuePair<>(null, null)
-            );
-        }
+    @Override
+    protected String getTextId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_TEXT_ID;
     }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected LocalDate getMinDate() {
+      return LocalDate.parse("1912-12-12");
+    }
+
+    @Override
+    protected LocalDate getMaxDate() {
+      return LocalDate.now();
+    }
+  }
+
+  @Nested
+  class IncludeValueDateTest extends ValueDateTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      final var hypoglykemi =
+          Hypoglykemi.builder()
+              .setAterkommandeVaketSenasteTreTidpunkt(new InternalDate(getDate()))
+              .build();
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          hypoglykemi, null, 0, textProvider);
+    }
+
+    @Override
+    protected String getJsonId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
+    }
+
+    @Override
+    protected LocalDate getDate() {
+      return LocalDate.parse("2023-01-13");
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTest extends ValidationShowTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          null, null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_JSON_ID;
+    }
+  }
+
+  @Nested
+  class IncludeValidationMandatoryTest extends ValidationMandatoryTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          null, null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 1;
+    }
+
+    @Override
+    protected String getQuestionId() {
+      return HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_DELSVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + HYPOGLYKEMI_ATERKOMMANDE_VAKET_SENASTE_TRE_TIDPUNKT_JSON_ID;
+    }
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class IncludeInternalDateValueTest extends InternalValueTest<Hypoglykemi, InternalDate> {
+
+    @Override
+    protected CertificateDataElement getElement(Hypoglykemi input) {
+      final var personId = Personnummer.createPersonnummer("191212121212").orElseThrow();
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toCertificate(
+          input, personId, 0, textProvider);
+    }
+
+    @Override
+    protected InternalDate toInternalValue(Certificate certificate) {
+      return QuestionHypoglykemiAterkommandeVaketSenasteTreTidpunkt.toInternal(certificate);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Hypoglykemi, InternalDate>> inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              Hypoglykemi.builder()
+                  .setAterkommandeVaketSenasteTreTidpunkt(new InternalDate("2022-12-15"))
+                  .build(),
+              new InternalDate("2022-12-15")),
+          new InputExpectedValuePair<>(
+              Hypoglykemi.builder()
+                  .setAterkommandeVaketSenasteTreTidpunkt(new InternalDate(""))
+                  .build(),
+              null),
+          new InputExpectedValuePair<>(null, null));
+    }
+  }
 }

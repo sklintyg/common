@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,36 +19,35 @@
 package se.inera.intyg.common.support.model;
 
 public enum StatusKod {
+  RECEIV("RECEIVED"),
+  SENTTO("SENT"),
+  CANCEL("CANCELLED"),
+  DELETE("DELETED"),
+  RESTOR("RESTORED");
 
-    RECEIV("RECEIVED"),
-    SENTTO("SENT"),
-    CANCEL("CANCELLED"),
-    DELETE("DELETED"),
-    RESTOR("RESTORED");
+  private final String displayName;
 
-    private final String displayName;
+  StatusKod(String displayName) {
+    this.displayName = displayName;
+  }
 
-    StatusKod(String displayName) {
-        this.displayName = displayName;
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public CertificateState toCertificateState() {
+    switch (this) {
+      case RECEIV:
+        return CertificateState.RECEIVED;
+      case SENTTO:
+        return CertificateState.SENT;
+      case CANCEL:
+        return CertificateState.CANCELLED;
+      case DELETE:
+        return CertificateState.DELETED;
+      case RESTOR:
+        return CertificateState.RESTORED;
     }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public CertificateState toCertificateState() {
-        switch (this) {
-            case RECEIV:
-                return CertificateState.RECEIVED;
-            case SENTTO:
-                return CertificateState.SENT;
-            case CANCEL:
-                return CertificateState.CANCELLED;
-            case DELETE:
-                return CertificateState.DELETED;
-            case RESTOR:
-                return CertificateState.RESTORED;
-        }
-        return null;
-    }
+    return null;
+  }
 }

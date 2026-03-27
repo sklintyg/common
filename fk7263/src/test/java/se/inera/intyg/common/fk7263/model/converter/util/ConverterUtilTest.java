@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,25 +30,24 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
 public class ConverterUtilTest {
 
-    private static CustomObjectMapper objectMapper = new CustomObjectMapper();
+  private static CustomObjectMapper objectMapper = new CustomObjectMapper();
 
-    private String json = readRequestFromFile("/ConverterUtilTest/minimalt-fk7263-internal.json");
+  private String json = readRequestFromFile("/ConverterUtilTest/minimalt-fk7263-internal.json");
 
-    @Test
-    public void testConvertFromUtlatande() throws Exception {
-        Fk7263Utlatande utlatande = objectMapper.readValue(json, Fk7263Utlatande.class);
-        CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
-        Assert.assertEquals("id", holder.getId());
-        Assert.assertEquals("Enhetsid", holder.getCareUnitId());
-        Assert.assertEquals("VardgivarId", holder.getCareGiverId());
+  @Test
+  public void testConvertFromUtlatande() throws Exception {
+    Fk7263Utlatande utlatande = objectMapper.readValue(json, Fk7263Utlatande.class);
+    CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
+    Assert.assertEquals("id", holder.getId());
+    Assert.assertEquals("Enhetsid", holder.getCareUnitId());
+    Assert.assertEquals("VardgivarId", holder.getCareGiverId());
+  }
+
+  private static String readRequestFromFile(String filePath) {
+    try {
+      return Resources.toString(new ClassPathResource(filePath).getURL(), Charsets.UTF_8);
+    } catch (IOException e) {
+      return null;
     }
-
-    private static String readRequestFromFile(String filePath) {
-        try {
-            return Resources.toString(new ClassPathResource(filePath).getURL(), Charsets.UTF_8);
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
+  }
 }

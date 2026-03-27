@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,24 +23,23 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 
-    public void setDateToCurrentYear(InternalDate date) {
-        if (date != null) {
-            modifyDateYear(date);
-        }
+  public void setDateToCurrentYear(InternalDate date) {
+    if (date != null) {
+      modifyDateYear(date);
     }
+  }
 
-    public void setDateToLastYear(InternalDate date) {
-        if (date != null) {
-            modifyDateYear(date, -1);
-        }
+  public void setDateToLastYear(InternalDate date) {
+    if (date != null) {
+      modifyDateYear(date, -1);
     }
+  }
 
-    private void modifyDateYear(InternalDate date, int years) {
-        date.setDate(String.valueOf(LocalDate.now().getYear() + years) + date.getDate().substring(4));
-    }
+  private void modifyDateYear(InternalDate date, int years) {
+    date.setDate(String.valueOf(LocalDate.now().getYear() + years) + date.getDate().substring(4));
+  }
 
-    private void modifyDateYear(InternalDate date) {
-        this.modifyDateYear(date, 0);
-    }
-
+  private void modifyDateYear(InternalDate date) {
+    this.modifyDateYear(date, 0);
+  }
 }

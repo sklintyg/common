@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,51 +42,48 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public class QuestionPolisanmalan {
 
-    public static CertificateDataElement toCertificate(Boolean polisanmalan, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(POLISANMALAN_DELSVAR_ID)
-            .parent(POLISANMALAN_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(POLISANMALAN_JSON_ID)
-                    .text(texts.get(POLISANMALAN_QUESTION_TEXT_ID))
-                    .selectedText(texts.get(POLISANMALAN_QUESTION_SELECTED_TEXT))
-                    .unselectedText(texts.get(POLISANMALAN_QUESTION_UNSELECTED_TEXT))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(POLISANMALAN_JSON_ID)
-                    .selected(polisanmalan)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(POLISANMALAN_DELSVAR_ID)
-                        .expression(exists(POLISANMALAN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationDisable.builder()
-                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
-                        .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
-                        .build(),
-                    CertificateDataValidationAutoFill.builder()
-                        .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
-                        .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
-                        .fillValue(
-                            CertificateDataValueBoolean.builder()
-                                .id(POLISANMALAN_JSON_ID)
-                                .selected(true)
-                                .build()
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean polisanmalan, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(POLISANMALAN_DELSVAR_ID)
+        .parent(POLISANMALAN_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(POLISANMALAN_JSON_ID)
+                .text(texts.get(POLISANMALAN_QUESTION_TEXT_ID))
+                .selectedText(texts.get(POLISANMALAN_QUESTION_SELECTED_TEXT))
+                .unselectedText(texts.get(POLISANMALAN_QUESTION_UNSELECTED_TEXT))
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(POLISANMALAN_JSON_ID)
+                .selected(polisanmalan)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(POLISANMALAN_DELSVAR_ID)
+                  .expression(exists(POLISANMALAN_JSON_ID))
+                  .build(),
+              CertificateDataValidationDisable.builder()
+                  .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                  .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
+                  .build(),
+              CertificateDataValidationAutoFill.builder()
+                  .questionId(UNDERSOKNING_YTTRE_DELSVAR_ID)
+                  .expression(singleExpression(Undersokning.UNDERSOKNING_SKA_GORAS.name()))
+                  .fillValue(
+                      CertificateDataValueBoolean.builder()
+                          .id(POLISANMALAN_JSON_ID)
+                          .selected(true)
+                          .build())
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), POLISANMALAN_DELSVAR_ID, POLISANMALAN_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(certificate.getData(), POLISANMALAN_DELSVAR_ID, POLISANMALAN_JSON_ID);
+  }
 }

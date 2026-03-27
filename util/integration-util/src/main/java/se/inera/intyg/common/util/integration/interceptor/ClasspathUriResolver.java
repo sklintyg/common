@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,12 +30,12 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class ClasspathUriResolver implements URIResolver {
 
-    @Override
-    public Source resolve(String href, String base) throws TransformerException {
-        try {
-            return new StreamSource(new ClassPathResource(href).getInputStream());
-        } catch (IOException e) {
-            throw new TransformerException("Failed to load resource " + href + " from classpath.", e);
-        }
+  @Override
+  public Source resolve(String href, String base) throws TransformerException {
+    try {
+      return new StreamSource(new ClassPathResource(href).getInputStream());
+    } catch (IOException e) {
+      throw new TransformerException("Failed to load resource " + href + " from classpath.", e);
     }
+  }
 }

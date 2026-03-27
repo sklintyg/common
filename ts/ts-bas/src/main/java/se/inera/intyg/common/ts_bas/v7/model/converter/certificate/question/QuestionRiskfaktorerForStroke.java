@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,39 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.HjartKarl;
 
 public class QuestionRiskfaktorerForStroke {
 
-    public static CertificateDataElement toCertificate(HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
-        final var hjartKarlRiskForStroke =
-            hjartKarl != null && hjartKarl.getRiskfaktorerStroke() != null ? hjartKarl.getRiskfaktorerStroke() : null;
-        return CertificateDataElement.builder()
-            .id(RISKFAKTORER_STROKE_SVAR_ID)
-            .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(RISKFAKTORER_STROKE_JSON_ID)
-                    .text(textProvider.get(RISKFAKTORER_STROKE_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(RISKFAKTORER_STROKE_JSON_ID)
-                    .selected(hjartKarlRiskForStroke)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(RISKFAKTORER_STROKE_SVAR_ID)
-                        .expression(exists(RISKFAKTORER_STROKE_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      HjartKarl hjartKarl, int index, CertificateTextProvider textProvider) {
+    final var hjartKarlRiskForStroke =
+        hjartKarl != null && hjartKarl.getRiskfaktorerStroke() != null
+            ? hjartKarl.getRiskfaktorerStroke()
+            : null;
+    return CertificateDataElement.builder()
+        .id(RISKFAKTORER_STROKE_SVAR_ID)
+        .parent(HJART_ELLER_KARLSJUKDOM_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(RISKFAKTORER_STROKE_JSON_ID)
+                .text(textProvider.get(RISKFAKTORER_STROKE_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(RISKFAKTORER_STROKE_JSON_ID)
+                .selected(hjartKarlRiskForStroke)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(RISKFAKTORER_STROKE_SVAR_ID)
+                  .expression(exists(RISKFAKTORER_STROKE_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), RISKFAKTORER_STROKE_SVAR_ID, RISKFAKTORER_STROKE_JSON_ID);
-    }
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(), RISKFAKTORER_STROKE_SVAR_ID, RISKFAKTORER_STROKE_JSON_ID);
+  }
 }

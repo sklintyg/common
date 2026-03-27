@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,68 +27,85 @@ import org.springframework.core.io.ClassPathResource;
 
 class MessageParserTest {
 
-    @Test
-    void parseOneFile() throws IOException {
-        final var inputStream = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
+  @Test
+  void parseOneFile() throws IOException {
+    final var inputStream = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
 
-        final var map = MessagesParser.create().parse(inputStream).collect();
+    final var map = MessagesParser.create().parse(inputStream).collect();
 
-        assertEquals(37, map.keySet().size());
-    }
+    assertEquals(37, map.keySet().size());
+  }
 
-    @Test
-    void parseTwoFiles() throws IOException {
-        final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
-        final var inputStream2 = new ClassPathResource("/messages/webcertMessages.js").getInputStream();
+  @Test
+  void parseTwoFiles() throws IOException {
+    final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
+    final var inputStream2 = new ClassPathResource("/messages/webcertMessages.js").getInputStream();
 
-        final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+    final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
 
-        assertEquals(711, map.keySet().size());
-    }
+    assertEquals(711, map.keySet().size());
+  }
 
-    @Test
-    void parseThreeFiles() throws IOException {
-        final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
-        final var inputStream2 = new ClassPathResource("/messages/webcertMessages.js").getInputStream();
-        final var inputStream3 = new ClassPathResource("/messages/lisjpMessages2.js").getInputStream();
+  @Test
+  void parseThreeFiles() throws IOException {
+    final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
+    final var inputStream2 = new ClassPathResource("/messages/webcertMessages.js").getInputStream();
+    final var inputStream3 = new ClassPathResource("/messages/lisjpMessages2.js").getInputStream();
 
-        final var map = MessagesParser.create().parse(inputStream1).parse(inputStream2).parse(inputStream3).collect();
+    final var map =
+        MessagesParser.create()
+            .parse(inputStream1)
+            .parse(inputStream2)
+            .parse(inputStream3)
+            .collect();
 
-        assertEquals(712, map.keySet().size());
-    }
+    assertEquals(712, map.keySet().size());
+  }
 
-    @Test
-    void filesContainsSameKeyShallThrowException() throws IOException {
-        final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
-        final var inputStream2 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
+  @Test
+  void filesContainsSameKeyShallThrowException() throws IOException {
+    final var inputStream1 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
+    final var inputStream2 = new ClassPathResource("/messages/lisjpMessages.js").getInputStream();
 
-        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
-            MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
-        });
+    RuntimeException exception =
+        Assertions.assertThrows(
+            RuntimeException.class,
+            () -> {
+              MessagesParser.create().parse(inputStream1).parse(inputStream2).collect();
+            });
 
-        assertEquals("Maps contains same keys. This need to be resolved.", exception.getMessage());
-    }
+    assertEquals("Maps contains same keys. This need to be resolved.", exception.getMessage());
+  }
 
-    @Test
-    void noStartOrEndPositionShallThrowException() throws IOException {
-        final var inputStream = new ClassPathResource("/messages/withoutStartAndEndPosition.txt").getInputStream();
+  @Test
+  void noStartOrEndPositionShallThrowException() throws IOException {
+    final var inputStream =
+        new ClassPathResource("/messages/withoutStartAndEndPosition.txt").getInputStream();
 
-        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
-            MessagesParser.create().parse(inputStream);
-        });
+    RuntimeException exception =
+        Assertions.assertThrows(
+            RuntimeException.class,
+            () -> {
+              MessagesParser.create().parse(inputStream);
+            });
 
-        assertEquals("No start or end position found. Start position found: false. End position found: false", exception.getMessage());
-    }
+    assertEquals(
+        "No start or end position found. Start position found: false. End position found: false",
+        exception.getMessage());
+  }
 
-    @Test
-    void notPossbileToConvertToJsonShallThrowException() throws IOException {
-        final var inputStream = new ClassPathResource("/messages/notConvertableToJson.txt").getInputStream();
+  @Test
+  void notPossbileToConvertToJsonShallThrowException() throws IOException {
+    final var inputStream =
+        new ClassPathResource("/messages/notConvertableToJson.txt").getInputStream();
 
-        RuntimeException exception = Assertions.assertThrows(RuntimeException.class, () -> {
-            MessagesParser.create().parse(inputStream);
-        });
+    RuntimeException exception =
+        Assertions.assertThrows(
+            RuntimeException.class,
+            () -> {
+              MessagesParser.create().parse(inputStream);
+            });
 
-        assertEquals("Could not convert json to map", exception.getMessage());
-    }
-
+    assertEquals("Could not convert json to map", exception.getMessage());
+  }
 }

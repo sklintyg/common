@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -66,211 +66,218 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class TransportToInternal {
 
-    private TransportToInternal() {
+  private TransportToInternal() {}
+
+  public static Ag114UtlatandeV1 convert(Intyg source) throws ConverterException {
+    if (source == null) {
+      throw new ConverterException("Source utlatande was null, cannot convert");
+    }
+    Ag114UtlatandeV1.Builder utlatande = Ag114UtlatandeV1.builder();
+    utlatande.setId(source.getIntygsId().getExtension());
+    utlatande.setGrundData(getGrundData(source, PatientInfo.BASIC));
+    utlatande.setTextVersion(source.getVersion());
+    utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
+    setSvar(utlatande, source);
+    return utlatande.build();
+  }
+
+  private static void setSvar(Ag114UtlatandeV1.Builder utlatande, Intyg source)
+      throws ConverterException {
+
+    List<Diagnos> diagnoser = new ArrayList<>();
+    List<Sysselsattning> sysselsattningar = new ArrayList<>();
+
+    for (Svar svar : source.getSvar()) {
+      switch (svar.getId()) {
+        case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10:
+          handleGrundForMedicinsktUnderlag(utlatande, svar);
+          break;
+        case TYP_AV_SYSSELSATTNING_SVAR_ID_1:
+          handleSysselsattning(sysselsattningar, svar);
+          break;
+        case NUVARANDE_ARBETE_SVAR_ID_2:
+          handleNuvarandeArbete(utlatande, svar);
+          break;
+        case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3:
+          handleOnskarFormedla(utlatande, svar);
+          break;
+        case TYP_AV_DIAGNOS_SVAR_ID_4:
+          handleDiagnos(diagnoser, svar);
+          break;
+        case NEDSATT_ARBETSFORMAGA_SVAR_ID_5:
+          handleNedsattArbetsFormaga(utlatande, svar);
+          break;
+        case ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6:
+          handleArbetsformagaTrotsSjukdom(utlatande, svar);
+          break;
+        case BEDOMNING_SVAR_ID_7:
+          handleBedomning(utlatande, svar);
+          break;
+        case OVRIGT_SVAR_ID_8:
+          handleOvrigaUpplysningar(utlatande, svar);
+          break;
+        case KONTAKT_ONSKAS_SVAR_ID_9:
+          handleOnskarKontakt(utlatande, svar);
+          break;
+      }
     }
 
-    public static Ag114UtlatandeV1 convert(Intyg source) throws ConverterException {
-        if (source == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-        Ag114UtlatandeV1.Builder utlatande = Ag114UtlatandeV1.builder();
-        utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(getGrundData(source, PatientInfo.BASIC));
-        utlatande.setTextVersion(source.getVersion());
-        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
-        setSvar(utlatande, source);
-        return utlatande.build();
+    utlatande.setSysselsattning(sysselsattningar);
+    utlatande.setDiagnoser(diagnoser);
+  }
+
+  private static void handleGrundForMedicinsktUnderlag(
+      Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+    InternalDate grundForMedicinsktUnderlagDatum = null;
+    RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1:
+          String referensTypString = getCVSvarContent(delsvar).getCode();
+          grundForMedicinsktUnderlagTyp =
+              RespConstants.ReferensTyp.byTransportId(referensTypString);
+          break;
+        case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2:
+          grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
+          break;
+        case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3:
+          utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
 
-    private static void setSvar(Ag114UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-
-        List<Diagnos> diagnoser = new ArrayList<>();
-        List<Sysselsattning> sysselsattningar = new ArrayList<>();
-
-        for (Svar svar : source.getSvar()) {
-            switch (svar.getId()) {
-                case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10:
-                    handleGrundForMedicinsktUnderlag(utlatande, svar);
-                    break;
-                case TYP_AV_SYSSELSATTNING_SVAR_ID_1:
-                    handleSysselsattning(sysselsattningar, svar);
-                    break;
-                case NUVARANDE_ARBETE_SVAR_ID_2:
-                    handleNuvarandeArbete(utlatande, svar);
-                    break;
-                case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3:
-                    handleOnskarFormedla(utlatande, svar);
-                    break;
-                case TYP_AV_DIAGNOS_SVAR_ID_4:
-                    handleDiagnos(diagnoser, svar);
-                    break;
-                case NEDSATT_ARBETSFORMAGA_SVAR_ID_5:
-                    handleNedsattArbetsFormaga(utlatande, svar);
-                    break;
-                case ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6:
-                    handleArbetsformagaTrotsSjukdom(utlatande, svar);
-                    break;
-                case BEDOMNING_SVAR_ID_7:
-                    handleBedomning(utlatande, svar);
-                    break;
-                case OVRIGT_SVAR_ID_8:
-                    handleOvrigaUpplysningar(utlatande, svar);
-                    break;
-                case KONTAKT_ONSKAS_SVAR_ID_9:
-                    handleOnskarKontakt(utlatande, svar);
-                    break;
-            }
-        }
-
-        utlatande.setSysselsattning(sysselsattningar);
-        utlatande.setDiagnoser(diagnoser);
+    switch (grundForMedicinsktUnderlagTyp) {
+      case UNDERSOKNING:
+        utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
+        break;
+      case JOURNAL:
+        utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
+        break;
+      case TELEFONKONTAKT:
+        utlatande.setTelefonkontaktMedPatienten(grundForMedicinsktUnderlagDatum);
+        break;
+      case ANNAT:
+        utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
+        break;
     }
+  }
 
-    private static void handleGrundForMedicinsktUnderlag(Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        InternalDate grundForMedicinsktUnderlagDatum = null;
-        RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1:
-                    String referensTypString = getCVSvarContent(delsvar).getCode();
-                    grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(referensTypString);
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2:
-                    grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
-                    break;
-                case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3:
-                    utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-
-        switch (grundForMedicinsktUnderlagTyp) {
-            case UNDERSOKNING:
-                utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
-                break;
-            case JOURNAL:
-                utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
-                break;
-            case TELEFONKONTAKT:
-                utlatande.setTelefonkontaktMedPatienten(grundForMedicinsktUnderlagDatum);
-                break;
-            case ANNAT:
-                utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
-                break;
-        }
+  private static void handleNuvarandeArbete(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case NUVARANDE_ARBETE_DELSVAR_ID_2:
+          utlatande.setNuvarandeArbete(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-
-    private static void handleNuvarandeArbete(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case NUVARANDE_ARBETE_DELSVAR_ID_2:
-                    utlatande.setNuvarandeArbete(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleSysselsattning(List<Sysselsattning> sysselsattning, Svar svar)
+      throws ConverterException {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case TYP_AV_SYSSELSATTNING_DELSVAR_ID_1:
+          String sysselsattningsTypString = getCVSvarContent(delsvar).getCode();
+          sysselsattning.add(
+              Sysselsattning.create(
+                  Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleSysselsattning(List<Sysselsattning> sysselsattning, Svar svar) throws ConverterException {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case TYP_AV_SYSSELSATTNING_DELSVAR_ID_1:
-                    String sysselsattningsTypString = getCVSvarContent(delsvar).getCode();
-                    sysselsattning.add(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleOnskarFormedla(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3:
+          utlatande.setOnskarFormedlaDiagnos(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleOnskarFormedla(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3:
-                    utlatande.setOnskarFormedlaDiagnos(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleNedsattArbetsFormaga(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5:
+          utlatande.setNedsattArbetsformaga(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleNedsattArbetsFormaga(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5:
-                    utlatande.setNedsattArbetsformaga(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleArbetsformagaTrotsSjukdom(
+      Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1:
+          utlatande.setArbetsformagaTrotsSjukdom(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        case ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2:
+          utlatande.setArbetsformagaTrotsSjukdomBeskrivning(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleArbetsformagaTrotsSjukdom(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1:
-                    utlatande.setArbetsformagaTrotsSjukdom(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                case ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2:
-                    utlatande.setArbetsformagaTrotsSjukdomBeskrivning(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleBedomning(Ag114UtlatandeV1.Builder utlatande, Svar svar)
+      throws ConverterException {
+
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1:
+          utlatande.setSjukskrivningsgrad(
+              String.valueOf((int) getPQSvarContent(delsvar).getValue()));
+          break;
+        case SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2:
+          DatePeriodType datePeriod = getDatePeriodTypeContent(delsvar);
+          InternalLocalDateInterval period =
+              new InternalLocalDateInterval(
+                  datePeriod.getStart().toString(), datePeriod.getEnd().toString());
+          utlatande.setSjukskrivningsperiod(period);
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleBedomning(Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1:
-                    utlatande.setSjukskrivningsgrad(String.valueOf((int) getPQSvarContent(delsvar).getValue()));
-                    break;
-                case SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2:
-                    DatePeriodType datePeriod = getDatePeriodTypeContent(delsvar);
-                    InternalLocalDateInterval period = new InternalLocalDateInterval(datePeriod.getStart().toString(),
-                        datePeriod.getEnd().toString());
-                    utlatande.setSjukskrivningsperiod(period);
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleOvrigaUpplysningar(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case OVRIGT_DELSVAR_ID_8:
+          utlatande.setOvrigaUpplysningar(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleOvrigaUpplysningar(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case OVRIGT_DELSVAR_ID_8:
-                    utlatande.setOvrigaUpplysningar(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleOnskarKontakt(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case KONTAKT_ONSKAS_DELSVAR_ID_9:
+          utlatande.setKontaktMedArbetsgivaren(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9:
+          utlatande.setAnledningTillKontakt(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
-
-    private static void handleOnskarKontakt(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case KONTAKT_ONSKAS_DELSVAR_ID_9:
-                    utlatande.setKontaktMedArbetsgivaren(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9:
-                    utlatande.setAnledningTillKontakt(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
+  }
 }

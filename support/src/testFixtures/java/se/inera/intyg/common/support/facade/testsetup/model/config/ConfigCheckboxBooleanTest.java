@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,57 +29,58 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigCheckboxBooleanTest extends ConfigTest {
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract String getLabelId();
+  protected abstract String getLabelId();
 
-    protected abstract String getSelectedTextId();
+  protected abstract String getSelectedTextId();
 
-    protected abstract String getUnselectedTextId();
+  protected abstract String getUnselectedTextId();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_CHECKBOX_BOOLEAN;
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_CHECKBOX_BOOLEAN;
+  }
+
+  @Test
+  void shouldIncludeConfigId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
+    assertEquals(getJsonId(), config.getId());
+  }
+
+  @Test
+  void shouldIncludeLabelId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
+    if (getLabelId() != null) {
+      assertTrue(config.getLabel().trim().length() > 0, "Missing label");
+      verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
     }
+  }
 
-    @Test
-    void shouldIncludeConfigId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        assertEquals(getJsonId(), config.getId());
+  @Test
+  void shouldIncludeSelectedText() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
+    if (getSelectedTextId() != null && !config.getSelectedText().equals(getSelectedTextId())) {
+      assertTrue(config.getSelectedText().trim().length() > 0, "Missing selected text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getSelectedTextId());
+    } else {
+      assertEquals(getSelectedTextId(), config.getSelectedText(), "Missing selected text");
     }
+  }
 
-    @Test
-    void shouldIncludeLabelId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        if (getLabelId() != null) {
-            assertTrue(config.getLabel().trim().length() > 0, "Missing label");
-            verify(getTextProviderMock(), atLeastOnce()).get(getLabelId());
-        }
+  @Test
+  void shouldIncludeUnselectedText() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
+    if (getUnselectedTextId() != null
+        && !config.getUnselectedText().equals(getUnselectedTextId())) {
+      assertTrue(config.getUnselectedText().trim().length() > 0, "Missing unselected text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getUnselectedTextId());
+    } else {
+      assertEquals(getUnselectedTextId(), config.getUnselectedText(), "Missing selected text");
     }
-
-    @Test
-    void shouldIncludeSelectedText() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        if (getSelectedTextId() != null && !config.getSelectedText().equals(getSelectedTextId())) {
-            assertTrue(config.getSelectedText().trim().length() > 0, "Missing selected text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getSelectedTextId());
-        } else {
-            assertEquals(getSelectedTextId(), config.getSelectedText(), "Missing selected text");
-        }
-    }
-
-    @Test
-    void shouldIncludeUnselectedText() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigCheckboxBoolean) question.getConfig();
-        if (getUnselectedTextId() != null && !config.getUnselectedText().equals(getUnselectedTextId())) {
-            assertTrue(config.getUnselectedText().trim().length() > 0, "Missing unselected text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getUnselectedTextId());
-        } else {
-            assertEquals(getUnselectedTextId(), config.getUnselectedText(), "Missing selected text");
-        }
-    }
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,23 +20,22 @@ package se.inera.intyg.common.ts_diabetes.v2.model.internal;
 
 public class Vardkontakt {
 
-    private String typ;
-    private String idkontroll;
+  private String typ;
+  private String idkontroll;
 
-    public String getTyp() {
-        return typ;
-    }
+  public String getTyp() {
+    return typ;
+  }
 
-    public void setTyp(String typ) {
-        this.typ = typ;
-    }
+  public void setTyp(String typ) {
+    this.typ = typ;
+  }
 
-    public String getIdkontroll() {
-        return idkontroll;
-    }
+  public String getIdkontroll() {
+    return idkontroll;
+  }
 
-    public void setIdkontroll(String idkontroll) {
-        this.idkontroll = idkontroll;
-    }
-
+  public void setIdkontroll(String idkontroll) {
+    this.idkontroll = idkontroll;
+  }
 }

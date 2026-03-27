@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,9 +22,18 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 
 public enum IntygAvserKategori {
-    C1, C1E, C, CE, D1, D1E, D, DE, TAXI, ANNAT;
+  C1,
+  C1E,
+  C,
+  CE,
+  D1,
+  D1E,
+  D,
+  DE,
+  TAXI,
+  ANNAT;
 
-    public static Set<IntygAvserKategori> getNormalCategories() {
-        return ImmutableSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
-    }
+  public static Set<IntygAvserKategori> getNormalCategories() {
+    return ImmutableSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+  }
 }

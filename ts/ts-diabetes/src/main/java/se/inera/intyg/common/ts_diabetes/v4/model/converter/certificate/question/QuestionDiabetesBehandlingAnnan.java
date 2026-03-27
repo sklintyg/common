@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,48 +39,49 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Allmant;
 
 public class QuestionDiabetesBehandlingAnnan {
 
-    private static final short TEXT_LIMIT = 53;
+  private static final short TEXT_LIMIT = 53;
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var behandling = allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;
-        final var annanAngeVilken = behandling != null ? behandling.getAnnanAngeVilken() : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID)
-            .parent(ALLMANT_BEHANDLING_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextField.builder()
-                    .text(textProvider.get(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID))
-                    .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
-                    .text(annanAngeVilken)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID)
-                        .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(ALLMANT_BEHANDLING_SVAR_ID)
-                        .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider textProvider) {
+    final var behandling =
+        allmant != null && allmant.getBehandling() != null ? allmant.getBehandling() : null;
+    final var annanAngeVilken = behandling != null ? behandling.getAnnanAngeVilken() : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID)
+        .parent(ALLMANT_BEHANDLING_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextField.builder()
+                .text(textProvider.get(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_TEXT_ID))
+                .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
+                .text(annanAngeVilken)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID)
+                  .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(ALLMANT_BEHANDLING_SVAR_ID)
+                  .expression(singleExpression(ALLMANT_BEHANDLING_ANNAN_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID,
-            ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_DELSVAR_ID,
+        ALLMANT_BEHANDLING_ANNAN_ANGE_VILKEN_JSON_ID);
+  }
 }

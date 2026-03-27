@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,70 +29,70 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.VerticalAlignment;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
-/**
- * Adds watermark (if applicable).
- */
+/** Adds watermark (if applicable). */
 public class WaterMarkerer implements IEventHandler {
 
-    private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
-    private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
-    private static final String LOCKED_DRAFT_WATERMARK_TEXT = "LÅST UTKAST";
+  private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
+  private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
+  private static final String LOCKED_DRAFT_WATERMARK_TEXT = "LÅST UTKAST";
 
-    private static final int ROTATION = 45;
-    private static final float FILL_OPACITY = 0.5f;
-    private static final float WATERMARK_FONT_SIZE = 100f;
+  private static final int ROTATION = 45;
+  private static final float FILL_OPACITY = 0.5f;
+  private static final float WATERMARK_FONT_SIZE = 100f;
 
-    private static final DeviceRgb WATERMARK_COLOR = new DeviceRgb(128, 128, 128);
+  private static final DeviceRgb WATERMARK_COLOR = new DeviceRgb(128, 128, 128);
 
-    private final PrintConfig printConfig;
-    private final PdfFont watermarkFont;
+  private final PrintConfig printConfig;
+  private final PdfFont watermarkFont;
 
-    public WaterMarkerer(PrintConfig printConfig, PdfFont watermarkFont) {
-        this.printConfig = printConfig;
-        this.watermarkFont = watermarkFont;
+  public WaterMarkerer(PrintConfig printConfig, PdfFont watermarkFont) {
+    this.printConfig = printConfig;
+    this.watermarkFont = watermarkFont;
+  }
+
+  @Override
+  public void handleEvent(Event event) {
+    if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && !printConfig.isMakulerad()) {
+      return;
     }
 
-    @Override
-    public void handleEvent(Event event) {
-        if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && !printConfig.isMakulerad()) {
-            return;
-        }
-
-        if (!(event instanceof PdfDocumentEvent)) {
-            return;
-        }
-        final var docEvent = (PdfDocumentEvent) event;
-        final var pdf = docEvent.getDocument();
-        final var page = docEvent.getPage();
-        final var pageSize = page.getPageSize();
-        final var pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
-
-        try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
-            canvas.setFont(watermarkFont);
-            canvas.setFontSize(WATERMARK_FONT_SIZE);
-            canvas.setFontColor(WATERMARK_COLOR, FILL_OPACITY);
-
-            final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
-            final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
-
-            canvas.showTextAligned(resolveText(),
-                x,
-                y, TextAlignment.CENTER, VerticalAlignment.MIDDLE, (float) Math.toRadians(ROTATION));
-
-        }
+    if (!(event instanceof PdfDocumentEvent)) {
+      return;
     }
+    final var docEvent = (PdfDocumentEvent) event;
+    final var pdf = docEvent.getDocument();
+    final var page = docEvent.getPage();
+    final var pageSize = page.getPageSize();
+    final var pdfCanvas = new PdfCanvas(page.newContentStreamBefore(), page.getResources(), pdf);
 
-    private String resolveText() {
-        if (printConfig.isMakulerad()) {
-            return CANCELLED_WATERMARK_TEXT;
-        }
-        if (printConfig.isLockedUtkast()) {
-            return LOCKED_DRAFT_WATERMARK_TEXT;
-        }
-        if (printConfig.isUtkast()) {
-            return DRAFT_WATERMARK_TEXT;
-        }
-        throw new IllegalStateException("This state should never be.");
+    try (Canvas canvas = new Canvas(pdfCanvas, pageSize)) {
+      canvas.setFont(watermarkFont);
+      canvas.setFontSize(WATERMARK_FONT_SIZE);
+      canvas.setFontColor(WATERMARK_COLOR, FILL_OPACITY);
+
+      final float x = (pageSize.getLeft() + pageSize.getRight()) / 2;
+      final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
+
+      canvas.showTextAligned(
+          resolveText(),
+          x,
+          y,
+          TextAlignment.CENTER,
+          VerticalAlignment.MIDDLE,
+          (float) Math.toRadians(ROTATION));
     }
+  }
+
+  private String resolveText() {
+    if (printConfig.isMakulerad()) {
+      return CANCELLED_WATERMARK_TEXT;
+    }
+    if (printConfig.isLockedUtkast()) {
+      return LOCKED_DRAFT_WATERMARK_TEXT;
+    }
+    if (printConfig.isUtkast()) {
+      return DRAFT_WATERMARK_TEXT;
+    }
+    throw new IllegalStateException("This state should never be.");
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,18 +24,14 @@ import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvIdKontroll;
 
-/**
- * Created by marced on 2018-09-05.
- */
+/** Created by marced on 2018-09-05. */
 @AutoValue
 public abstract class IdKontroll {
 
-    @JsonCreator
-    public static IdKontroll create(@JsonProperty("typ") KvIdKontroll typ) {
-        return new AutoValue_IdKontroll(typ);
-    }
+  @JsonCreator
+  public static IdKontroll create(@JsonProperty("typ") KvIdKontroll typ) {
+    return new AutoValue_IdKontroll(typ);
+  }
 
-    @Nullable
-    public abstract KvIdKontroll getTyp();
-
+  @Nullable public abstract KvIdKontroll getTyp();
 }

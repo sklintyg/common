@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,42 +30,59 @@ import org.hamcrest.Matcher;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
-/**
- *
- */
+/** */
 public class Asserts {
 
-    public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher) {
-        assertValidationMessage(message, categoryMatcher, fieldMatcher, typeMatcher, anyOf(nullValue(), any(String.class)));
-    }
+  public static void assertValidationMessage(
+      ValidationMessage message,
+      Matcher<String> categoryMatcher,
+      Matcher<String> fieldMatcher,
+      Matcher<ValidationMessageType> typeMatcher) {
+    assertValidationMessage(
+        message, categoryMatcher, fieldMatcher, typeMatcher, anyOf(nullValue(), any(String.class)));
+  }
 
-    public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
-        Matcher<String> messageMatcher) {
-        assertValidationMessage(message, categoryMatcher, fieldMatcher, typeMatcher, messageMatcher, anyOf(nullValue(), any(String.class)));
-    }
+  public static void assertValidationMessage(
+      ValidationMessage message,
+      Matcher<String> categoryMatcher,
+      Matcher<String> fieldMatcher,
+      Matcher<ValidationMessageType> typeMatcher,
+      Matcher<String> messageMatcher) {
+    assertValidationMessage(
+        message,
+        categoryMatcher,
+        fieldMatcher,
+        typeMatcher,
+        messageMatcher,
+        anyOf(nullValue(), any(String.class)));
+  }
 
-    public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
-        Matcher<String> messageMatcher, Matcher<String> dynamicKeyMatcher) {
-        assertThat("Invalid ValidationMessage, Category", message.getCategory(), categoryMatcher);
-        assertThat("Invalid ValidationMessage, Field", message.getField(), fieldMatcher);
-        assertThat("Invalid ValidationMessage, Validation Message Type", message.getType(), typeMatcher);
-        assertThat("Invalid ValidationMessage, Validation Message", message.getMessage(), messageMatcher);
-        assertThat("Invalid ValidationMessage, Validation Dynamic Key", message.getDynamicKey(),
-            dynamicKeyMatcher);
-    }
+  public static void assertValidationMessage(
+      ValidationMessage message,
+      Matcher<String> categoryMatcher,
+      Matcher<String> fieldMatcher,
+      Matcher<ValidationMessageType> typeMatcher,
+      Matcher<String> messageMatcher,
+      Matcher<String> dynamicKeyMatcher) {
+    assertThat("Invalid ValidationMessage, Category", message.getCategory(), categoryMatcher);
+    assertThat("Invalid ValidationMessage, Field", message.getField(), fieldMatcher);
+    assertThat(
+        "Invalid ValidationMessage, Validation Message Type", message.getType(), typeMatcher);
+    assertThat(
+        "Invalid ValidationMessage, Validation Message", message.getMessage(), messageMatcher);
+    assertThat(
+        "Invalid ValidationMessage, Validation Dynamic Key",
+        message.getDynamicKey(),
+        dynamicKeyMatcher);
+  }
 
-    public static void assertValidationMessages(List<ValidationMessage> messages, int expectedCount) {
+  public static void assertValidationMessages(List<ValidationMessage> messages, int expectedCount) {
 
-        assertThat(toString(messages), messages, hasSize(expectedCount));
+    assertThat(toString(messages), messages, hasSize(expectedCount));
+  }
 
-    }
+  public static String toString(List<ValidationMessage> messages) {
 
-    public static String toString(List<ValidationMessage> messages) {
-
-        return messages.stream().map(ValidationMessage::toString).collect(Collectors.joining("\n"));
-    }
-
+    return messages.stream().map(ValidationMessage::toString).collect(Collectors.joining("\n"));
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,47 +20,55 @@ package se.inera.intyg.common.support.modules.support.api.notification;
 
 public class ArendeCount {
 
-    private int totalt;
+  private int totalt;
 
-    private int ejBesvarade;
+  private int ejBesvarade;
 
-    private int besvarade;
+  private int besvarade;
 
-    private int hanterade;
+  private int hanterade;
 
-    public ArendeCount(int totalt, int ejBesvarade, int besvarade, int hanterade) {
-        this.totalt = totalt;
-        this.ejBesvarade = ejBesvarade;
-        this.besvarade = besvarade;
-        this.hanterade = hanterade;
-    }
+  public ArendeCount(int totalt, int ejBesvarade, int besvarade, int hanterade) {
+    this.totalt = totalt;
+    this.ejBesvarade = ejBesvarade;
+    this.besvarade = besvarade;
+    this.hanterade = hanterade;
+  }
 
-    public ArendeCount() {
-        // Needed for deserialization
-    }
+  public ArendeCount() {
+    // Needed for deserialization
+  }
 
-    public static ArendeCount getEmpty() {
-        return new ArendeCount(0, 0, 0, 0);
-    }
+  public static ArendeCount getEmpty() {
+    return new ArendeCount(0, 0, 0, 0);
+  }
 
-    @Override
-    public String toString() {
-        return "Arenden [totalt=" + totalt + ", ejBesvarade=" + ejBesvarade + ", besvarade=" + besvarade + ", hanterade=" + hanterade + "]";
-    }
+  @Override
+  public String toString() {
+    return "Arenden [totalt="
+        + totalt
+        + ", ejBesvarade="
+        + ejBesvarade
+        + ", besvarade="
+        + besvarade
+        + ", hanterade="
+        + hanterade
+        + "]";
+  }
 
-    public int getTotalt() {
-        return totalt;
-    }
+  public int getTotalt() {
+    return totalt;
+  }
 
-    public int getEjBesvarade() {
-        return ejBesvarade;
-    }
+  public int getEjBesvarade() {
+    return ejBesvarade;
+  }
 
-    public int getBesvarade() {
-        return besvarade;
-    }
+  public int getBesvarade() {
+    return besvarade;
+  }
 
-    public int getHanterade() {
-        return hanterade;
-    }
+  public int getHanterade() {
+    return hanterade;
+  }
 }

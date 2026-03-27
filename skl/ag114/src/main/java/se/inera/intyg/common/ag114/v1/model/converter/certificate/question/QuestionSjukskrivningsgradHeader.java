@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag114.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.ag114.v1.model.converter.RespConstants.CATEGORY_BEDOMNING_ID;
@@ -30,17 +29,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigHe
 
 public class QuestionSjukskrivningsgradHeader {
 
-    public static CertificateDataElement toCertificate(int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(SJUKSKRIVNINGSGRAD_HEADER_ID)
-            .index(index)
-            .parent(CATEGORY_BEDOMNING_ID)
-            .config(
-                CertificateDataConfigHeader.builder()
-                    .text(textProvider.get(SJUKSKRIVNINGSGRAD_HEADER_TEXT_ID))
-                    .description(textProvider.get(SJUKSKRIVNINGSGRAD_HEADER_DESCRIPTION_ID))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(SJUKSKRIVNINGSGRAD_HEADER_ID)
+        .index(index)
+        .parent(CATEGORY_BEDOMNING_ID)
+        .config(
+            CertificateDataConfigHeader.builder()
+                .text(textProvider.get(SJUKSKRIVNINGSGRAD_HEADER_TEXT_ID))
+                .description(textProvider.get(SJUKSKRIVNINGSGRAD_HEADER_DESCRIPTION_ID))
+                .build())
+        .build();
+  }
 }

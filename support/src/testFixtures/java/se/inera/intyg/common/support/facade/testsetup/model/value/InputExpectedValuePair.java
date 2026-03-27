@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,25 +20,24 @@ package se.inera.intyg.common.support.facade.testsetup.model.value;
 
 public class InputExpectedValuePair<T, S> {
 
-    private final T input;
-    private final S expectedValue;
+  private final T input;
+  private final S expectedValue;
 
-    public InputExpectedValuePair(T input, S expectedValue) {
-        this.input = input;
-        this.expectedValue = expectedValue;
-    }
+  public InputExpectedValuePair(T input, S expectedValue) {
+    this.input = input;
+    this.expectedValue = expectedValue;
+  }
 
-    public T getInput() {
-        return input;
-    }
+  public T getInput() {
+    return input;
+  }
 
-    public S getExpectedValue() {
-        return expectedValue;
-    }
+  public S getExpectedValue() {
+    return expectedValue;
+  }
 
-    @Override
-    public String toString() {
-        return input != null ? input.toString() : "null";
-    }
-
+  @Override
+  public String toString() {
+    return input != null ? input.toString() : "null";
+  }
 }

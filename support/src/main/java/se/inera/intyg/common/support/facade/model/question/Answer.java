@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,14 +30,12 @@ import se.inera.intyg.common.support.facade.model.question.Answer.AnswerBuilder;
 @Builder
 public class Answer {
 
-    private String id;
-    private String message;
-    private String author;
-    private LocalDateTime sent;
-    private String[] contactInfo;
+  private String id;
+  private String message;
+  private String author;
+  private LocalDateTime sent;
+  private String[] contactInfo;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class AnswerBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class AnswerBuilder {}
 }

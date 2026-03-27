@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,11 +25,17 @@ import org.junit.Test;
 
 public class DiagnoskodverkTest {
 
-    @Test
-    public void testGetEnumByCodeSystem() {
-        assertEquals(Diagnoskodverk.ICD_10_SE, Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.ICD_10_SE.getCodeSystem()));
-        assertEquals(Diagnoskodverk.KSH_97_P, Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.KSH_97_P.getCodeSystem()));
-        assertEquals(Diagnoskodverk.SNOMED_CT, Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.SNOMED_CT.getCodeSystem()));
-        assertNull(Diagnoskodverk.getEnumByCodeSystem("Doesnt exist"));
-    }
+  @Test
+  public void testGetEnumByCodeSystem() {
+    assertEquals(
+        Diagnoskodverk.ICD_10_SE,
+        Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.ICD_10_SE.getCodeSystem()));
+    assertEquals(
+        Diagnoskodverk.KSH_97_P,
+        Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.KSH_97_P.getCodeSystem()));
+    assertEquals(
+        Diagnoskodverk.SNOMED_CT,
+        Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.SNOMED_CT.getCodeSystem()));
+    assertNull(Diagnoskodverk.getEnumByCodeSystem("Doesnt exist"));
+  }
 }

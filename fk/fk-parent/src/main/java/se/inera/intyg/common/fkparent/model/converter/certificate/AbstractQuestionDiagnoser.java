@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,162 +48,153 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
 public abstract class AbstractQuestionDiagnoser {
 
-    public static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
+  public static final short LIMIT_DIAGNOSIS_DESC = (short) 81;
 
-    protected static CertificateDataElement toCertificate(List<Diagnos> diagnoser, String questionId, String parentId, String textId,
-        String descriptionId, List<CertificateDataValidation> additionalValidations, int index,
-        CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .parent(parentId)
-            .index(index)
-            .config(
-                CertificateDataConfigDiagnoses.builder()
-                    .text(textProvider.get(textId))
-                    .description(descriptionId != null ? textProvider.get(descriptionId) : null)
-                    .terminology(
-                        List.of(
-                            DiagnosesTerminology.builder()
-                                .id(DIAGNOS_ICD_10_ID)
-                                .label(DIAGNOS_ICD_10_LABEL)
-                                .build(),
-                            DiagnosesTerminology.builder()
-                                .id(DIAGNOS_KSH_97_ID)
-                                .label(DIAGNOS_KSH_97_LABEL)
-                                .build()
-                        )
-                    )
-                    .list(
-                        List.of(
-                            DiagnosesListItem.builder()
-                                .id(DIAGNOSES_LIST_ITEM_1_ID)
-                                .build(),
-                            DiagnosesListItem.builder()
-                                .id(DIAGNOSES_LIST_ITEM_2_ID)
-                                .build(),
-                            DiagnosesListItem.builder()
-                                .id(DIAGNOSES_LIST_ITEM_3_ID)
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                CertificateDataValueDiagnosisList.builder()
-                    .list(createDiagnosValue(diagnoser))
-                    .build()
-            )
-            .validation(
-                getValidations(additionalValidations, questionId)
-            )
-            .build();
+  protected static CertificateDataElement toCertificate(
+      List<Diagnos> diagnoser,
+      String questionId,
+      String parentId,
+      String textId,
+      String descriptionId,
+      List<CertificateDataValidation> additionalValidations,
+      int index,
+      CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .parent(parentId)
+        .index(index)
+        .config(
+            CertificateDataConfigDiagnoses.builder()
+                .text(textProvider.get(textId))
+                .description(descriptionId != null ? textProvider.get(descriptionId) : null)
+                .terminology(
+                    List.of(
+                        DiagnosesTerminology.builder()
+                            .id(DIAGNOS_ICD_10_ID)
+                            .label(DIAGNOS_ICD_10_LABEL)
+                            .build(),
+                        DiagnosesTerminology.builder()
+                            .id(DIAGNOS_KSH_97_ID)
+                            .label(DIAGNOS_KSH_97_LABEL)
+                            .build()))
+                .list(
+                    List.of(
+                        DiagnosesListItem.builder().id(DIAGNOSES_LIST_ITEM_1_ID).build(),
+                        DiagnosesListItem.builder().id(DIAGNOSES_LIST_ITEM_2_ID).build(),
+                        DiagnosesListItem.builder().id(DIAGNOSES_LIST_ITEM_3_ID).build()))
+                .build())
+        .value(
+            CertificateDataValueDiagnosisList.builder().list(createDiagnosValue(diagnoser)).build())
+        .validation(getValidations(additionalValidations, questionId))
+        .build();
+  }
+
+  private static CertificateDataValidation[] getValidations(
+      List<CertificateDataValidation> additionalValidations, String questionId) {
+    final var certificateDataValidationsList = new ArrayList<CertificateDataValidation>();
+
+    certificateDataValidationsList.add(
+        CertificateDataValidationMandatory.builder()
+            .questionId(questionId)
+            .expression(withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID)))
+            .build());
+    certificateDataValidationsList.add(
+        CertificateDataValidationText.builder().id(questionId).limit(LIMIT_DIAGNOSIS_DESC).build());
+
+    if (additionalValidations != null) {
+      certificateDataValidationsList.addAll(additionalValidations);
     }
 
-    private static CertificateDataValidation[] getValidations(List<CertificateDataValidation> additionalValidations, String questionId) {
-        final var certificateDataValidationsList = new ArrayList<CertificateDataValidation>();
+    final var certificateDataValidationsArray =
+        new CertificateDataValidation[certificateDataValidationsList.size()];
+    return certificateDataValidationsList.toArray(certificateDataValidationsArray);
+  }
 
-        certificateDataValidationsList.add(
-            CertificateDataValidationMandatory.builder()
-                .questionId(questionId)
-                .expression(withCitation(singleExpression(DIAGNOSES_LIST_ITEM_1_ID)))
-                .build());
-        certificateDataValidationsList.add(
-            CertificateDataValidationText.builder()
-                .id(questionId)
-                .limit(LIMIT_DIAGNOSIS_DESC)
-                .build());
-
-        if (additionalValidations != null) {
-            certificateDataValidationsList.addAll(
-                additionalValidations
-            );
-        }
-
-        final var certificateDataValidationsArray = new CertificateDataValidation[certificateDataValidationsList.size()];
-        return certificateDataValidationsList.toArray(certificateDataValidationsArray);
+  private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
+    if (diagnoses == null) {
+      return Collections.emptyList();
     }
 
-    private static List<CertificateDataValueDiagnosis> createDiagnosValue(List<Diagnos> diagnoses) {
-        if (diagnoses == null) {
-            return Collections.emptyList();
-        }
+    final List<CertificateDataValueDiagnosis> newDiagnoses = new ArrayList<>();
+    for (int i = 0; i < diagnoses.size(); i++) {
+      final var diagnosis = diagnoses.get(i);
+      if (diagnosis.getDiagnosKod() == null) {
+        continue;
+      }
 
-        final List<CertificateDataValueDiagnosis> newDiagnoses = new ArrayList<>();
-        for (int i = 0; i < diagnoses.size(); i++) {
-            final var diagnosis = diagnoses.get(i);
-            if (diagnosis.getDiagnosKod() == null) {
-                continue;
-            }
-
-            newDiagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnosis));
-        }
-
-        return newDiagnoses;
+      newDiagnoses.add(createDiagnosis(Integer.toString(i + 1), diagnosis));
     }
 
-    private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
-        return CertificateDataValueDiagnosis.builder()
-            .id(convertIntToId(id))
-            .terminology(diagnos.getDiagnosKodSystem())
-            .code(diagnos.getDiagnosKod())
-            .description(diagnos.getDiagnosBeskrivning())
-            .build();
+    return newDiagnoses;
+  }
+
+  private static CertificateDataValueDiagnosis createDiagnosis(String id, Diagnos diagnos) {
+    return CertificateDataValueDiagnosis.builder()
+        .id(convertIntToId(id))
+        .terminology(diagnos.getDiagnosKodSystem())
+        .code(diagnos.getDiagnosKod())
+        .description(diagnos.getDiagnosBeskrivning())
+        .build();
+  }
+
+  protected static List<Diagnos> toInternal(
+      Certificate certificate, String questionId, WebcertModuleService moduleService) {
+    var diagnosisList = diagnosisListValue(certificate.getData(), questionId);
+    int maxDiagnosIndex = getMaxDiagnosisIndex(diagnosisList);
+
+    List<Diagnos> newDiagnosisList = new ArrayList<>();
+    while (newDiagnosisList.size() < maxDiagnosIndex) {
+      newDiagnosisList.add(Diagnos.create(null, null, null, null));
     }
 
-    protected static List<Diagnos> toInternal(Certificate certificate, String questionId, WebcertModuleService moduleService) {
-        var diagnosisList = diagnosisListValue(certificate.getData(), questionId);
-        int maxDiagnosIndex = getMaxDiagnosisIndex(diagnosisList);
-
-        List<Diagnos> newDiagnosisList = new ArrayList<>();
-        while (newDiagnosisList.size() < maxDiagnosIndex) {
-            newDiagnosisList.add(Diagnos.create(null, null, null, null));
-        }
-
-        diagnosisList.forEach(diagnosis -> {
-            var newDiagnosis = Diagnos.create(
-                diagnosis.getCode(),
-                diagnosis.getTerminology(),
-                diagnosis.getDescription(),
-                moduleService.getDescriptionFromDiagnosKod(diagnosis.getCode(), diagnosis.getTerminology()));
-            newDiagnosisList.set(convertIdToInt(diagnosis.getId()), newDiagnosis);
+    diagnosisList.forEach(
+        diagnosis -> {
+          var newDiagnosis =
+              Diagnos.create(
+                  diagnosis.getCode(),
+                  diagnosis.getTerminology(),
+                  diagnosis.getDescription(),
+                  moduleService.getDescriptionFromDiagnosKod(
+                      diagnosis.getCode(), diagnosis.getTerminology()));
+          newDiagnosisList.set(convertIdToInt(diagnosis.getId()), newDiagnosis);
         });
-        return newDiagnosisList;
-    }
+    return newDiagnosisList;
+  }
 
-    private static int getMaxDiagnosisIndex(List<CertificateDataValueDiagnosis> diagnosisList) {
-        int value = 0;
-        for (CertificateDataValueDiagnosis diagnosis : diagnosisList) {
-            int diagnosisIndex = convertIdToInt(diagnosis.getId()) + 1;
-            if (diagnosisIndex > value) {
-                value = diagnosisIndex;
-            }
-        }
-        return value;
+  private static int getMaxDiagnosisIndex(List<CertificateDataValueDiagnosis> diagnosisList) {
+    int value = 0;
+    for (CertificateDataValueDiagnosis diagnosis : diagnosisList) {
+      int diagnosisIndex = convertIdToInt(diagnosis.getId()) + 1;
+      if (diagnosisIndex > value) {
+        value = diagnosisIndex;
+      }
     }
+    return value;
+  }
 
-    private static int convertIdToInt(String id) {
-        switch (id) {
-            case DIAGNOSES_LIST_ITEM_1_ID:
-                return 0;
-            case DIAGNOSES_LIST_ITEM_2_ID:
-                return 1;
-            case DIAGNOSES_LIST_ITEM_3_ID:
-                return 2;
-            default:
-                return 0;
-        }
+  private static int convertIdToInt(String id) {
+    switch (id) {
+      case DIAGNOSES_LIST_ITEM_1_ID:
+        return 0;
+      case DIAGNOSES_LIST_ITEM_2_ID:
+        return 1;
+      case DIAGNOSES_LIST_ITEM_3_ID:
+        return 2;
+      default:
+        return 0;
     }
+  }
 
-    private static String convertIntToId(String id) {
-        switch (id) {
-            case "1":
-                return DIAGNOSES_LIST_ITEM_1_ID;
-            case "2":
-                return DIAGNOSES_LIST_ITEM_2_ID;
-            case "3":
-                return DIAGNOSES_LIST_ITEM_3_ID;
-            default:
-                return "";
-        }
+  private static String convertIntToId(String id) {
+    switch (id) {
+      case "1":
+        return DIAGNOSES_LIST_ITEM_1_ID;
+      case "2":
+        return DIAGNOSES_LIST_ITEM_2_ID;
+      case "3":
+        return DIAGNOSES_LIST_ITEM_3_ID;
+      default:
+        return "";
     }
+  }
 }

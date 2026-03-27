@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,34 +27,30 @@ import jakarta.annotation.Nullable;
 @JsonDeserialize(builder = AutoValue_Funktionsnedsattning.Builder.class)
 public abstract class Funktionsnedsattning {
 
-    public abstract Builder toBuilder();
+  public abstract Builder toBuilder();
 
-    public static Builder builder() {
-        return new AutoValue_Funktionsnedsattning.Builder();
-    }
+  public static Builder builder() {
+    return new AutoValue_Funktionsnedsattning.Builder();
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Funktionsnedsattning build();
+    public abstract Funktionsnedsattning build();
 
-        @JsonProperty("funktionsnedsattning")
-        public abstract Builder setFunktionsnedsattning(Boolean funktionsnedsattning);
+    @JsonProperty("funktionsnedsattning")
+    public abstract Builder setFunktionsnedsattning(Boolean funktionsnedsattning);
 
-        @JsonProperty("beskrivning")
-        public abstract Builder setBeskrivning(String beskrivning);
+    @JsonProperty("beskrivning")
+    public abstract Builder setBeskrivning(String beskrivning);
 
-        @JsonProperty("otillrackligRorelseformaga")
-        public abstract Builder setOtillrackligRorelseformaga(Boolean otillrackligRorelseformaga);
-    }
+    @JsonProperty("otillrackligRorelseformaga")
+    public abstract Builder setOtillrackligRorelseformaga(Boolean otillrackligRorelseformaga);
+  }
 
-    @Nullable
-    public abstract Boolean getFunktionsnedsattning();
+  @Nullable public abstract Boolean getFunktionsnedsattning();
 
-    @Nullable
-    public abstract String getBeskrivning();
+  @Nullable public abstract String getBeskrivning();
 
-    @Nullable
-    public abstract Boolean getOtillrackligRorelseformaga();
-
+  @Nullable public abstract Boolean getOtillrackligRorelseformaga();
 }

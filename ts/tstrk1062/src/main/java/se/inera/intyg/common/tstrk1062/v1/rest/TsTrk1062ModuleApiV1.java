@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -63,119 +63,141 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component("moduleapi.tstrk1062.v1")
 public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1> {
 
-    public static final String SCHEMATRON_FILE = "tstrk1062.v1.sch";
+  public static final String SCHEMATRON_FILE = "tstrk1062.v1.sch";
 
-    private static final Logger LOG = LoggerFactory.getLogger(TsTrk1062ModuleApiV1.class);
+  private static final Logger LOG = LoggerFactory.getLogger(TsTrk1062ModuleApiV1.class);
 
-    @Autowired
-    private PdfGenerator pdfGenerator;
+  @Autowired private PdfGenerator pdfGenerator;
 
-    @Value("${pdf.footer.app.name.text:1177 intyg}")
-    private String pdfFooterAppName;
+  @Value("${pdf.footer.app.name.text:1177 intyg}")
+  private String pdfFooterAppName;
 
-    public TsTrk1062ModuleApiV1() {
-        super(TsTrk1062UtlatandeV1.class);
+  public TsTrk1062ModuleApiV1() {
+    super(TsTrk1062UtlatandeV1.class);
+  }
+
+  @Override
+  public PdfResponse pdf(
+      String internalModel,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus)
+      throws ModuleException {
+    TsTrk1062UtlatandeV1 utlatande = getInternal(internalModel);
+    IntygTexts texts = getTexts(TsTrk1062EntryPoint.MODULE_ID, utlatande.getTextVersion());
+
+    Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+    return pdfGenerator.generatePdf(
+        utlatande.getId(),
+        internalModel,
+        personId,
+        texts,
+        statuses,
+        applicationOrigin,
+        utkastStatus,
+        pdfFooterAppName);
+  }
+
+  @Override
+  public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
+      throws ModuleException {
+    if (Strings.isNullOrEmpty(xmlBody)) {
+      throw new ModuleException("Request does not contain the original xml");
     }
 
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
-        TsTrk1062UtlatandeV1 utlatande = getInternal(internalModel);
-        IntygTexts texts = getTexts(TsTrk1062EntryPoint.MODULE_ID, utlatande.getTextVersion());
-
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        return pdfGenerator.generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-            utkastStatus, pdfFooterAppName);
+    if (Strings.isNullOrEmpty(logicalAddress)) {
+      throw new ModuleException("Request does not contain a logical address");
     }
 
-    @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        if (Strings.isNullOrEmpty(xmlBody)) {
-            throw new ModuleException("Request does not contain the original xml");
-        }
+    RegisterCertificateType request =
+        JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
 
-        if (Strings.isNullOrEmpty(logicalAddress)) {
-            throw new ModuleException("Request does not contain a logical address");
-        }
+    try {
+      RegisterCertificateResponseType response =
+          registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
 
-        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
-
-        try {
-            RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
-
-            handleResponse(response, request);
-        } catch (SOAPFaultException e) {
-            throw new ExternalServiceCallException(e);
-        }
+      handleResponse(response, request);
+    } catch (SOAPFaultException e) {
+      throw new ExternalServiceCallException(e);
     }
+  }
 
-    @Override
-    public TsTrk1062UtlatandeV1 getUtlatandeFromXml(String xml) throws ModuleException {
-        try {
-            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
-        } catch (Exception e) {
-            LOG.error("Could not get utlatande from xml: {}", e.getMessage());
-            throw new ModuleException("Could not get utlatande from xml", e);
-        }
+  @Override
+  public TsTrk1062UtlatandeV1 getUtlatandeFromXml(String xml) throws ModuleException {
+    try {
+      return transportToInternal(
+          JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
+    } catch (Exception e) {
+      LOG.error("Could not get utlatande from xml: {}", e.getMessage());
+      throw new ModuleException("Could not get utlatande from xml", e);
     }
+  }
 
-    @Override
-    protected Intyg utlatandeToIntyg(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande, moduleService);
+  @Override
+  protected Intyg utlatandeToIntyg(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
+    return UtlatandeToIntyg.convert(utlatande, moduleService);
+  }
+
+  @Override
+  protected RegisterCertificateValidator getRegisterCertificateValidator() {
+    return new RegisterCertificateValidator(SCHEMATRON_FILE);
+  }
+
+  @Override
+  protected RegisterCertificateType internalToTransport(TsTrk1062UtlatandeV1 utlatande)
+      throws ConverterException {
+    return InternalToTransport.convert(utlatande, moduleService);
+  }
+
+  @Override
+  protected TsTrk1062UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
+    return TransportToInternal.convert(intyg);
+  }
+
+  @Override
+  protected TsTrk1062UtlatandeV1 decorateDiagnoserWithDescriptions(TsTrk1062UtlatandeV1 utlatande) {
+    final List<DiagnosKodad> diagnosKodadList = utlatande.getDiagnosKodad();
+    if (diagnosKodadList != null && diagnosKodadList.size() > 0) {
+      List<DiagnosKodad> decoratedDiagnoser =
+          diagnosKodadList.stream()
+              .map(
+                  diagnos ->
+                      DiagnosKodad.create(
+                          diagnos.getDiagnosKod(),
+                          diagnos.getDiagnosKodSystem(),
+                          diagnos.getDiagnosBeskrivning(),
+                          moduleService.getDescriptionFromDiagnosKod(
+                              diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
+                          diagnos.getDiagnosArtal()))
+              .collect(Collectors.toList());
+      return utlatande.toBuilder().setDiagnosKodad(decoratedDiagnoser).build();
+    } else {
+      return utlatande;
     }
+  }
 
-    @Override
-    protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return new RegisterCertificateValidator(SCHEMATRON_FILE);
+  @Override
+  public PatientDetailResolveOrder getPatientDetailResolveOrder() {
+    List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
+    List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
+
+    return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
+  }
+
+  @Override
+  public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
+    if (utlatande instanceof TsTrk1062UtlatandeV1) {
+      return toInternalModelResponse(utlatande);
     }
+    final var message = utlatande == null ? "null" : utlatande.getClass().toString();
+    throw new IllegalArgumentException(
+        "Utlatande was not instance of class TsTrk1062UtlatandeV1, utlatande was instance of class: "
+            + message);
+  }
 
-    @Override
-    protected RegisterCertificateType internalToTransport(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande, moduleService);
-    }
-
-    @Override
-    protected TsTrk1062UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
-        return TransportToInternal.convert(intyg);
-    }
-
-    @Override
-    protected TsTrk1062UtlatandeV1 decorateDiagnoserWithDescriptions(TsTrk1062UtlatandeV1 utlatande) {
-        final List<DiagnosKodad> diagnosKodadList = utlatande.getDiagnosKodad();
-        if (diagnosKodadList != null && diagnosKodadList.size() > 0) {
-            List<DiagnosKodad> decoratedDiagnoser = diagnosKodadList.stream()
-                .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
-                    diagnos.getDiagnosKodSystem(),
-                    diagnos.getDiagnosBeskrivning(),
-                    moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
-                    diagnos.getDiagnosArtal()))
-                .collect(Collectors.toList());
-            return utlatande.toBuilder().setDiagnosKodad(decoratedDiagnoser).build();
-        } else {
-            return utlatande;
-        }
-    }
-
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
-
-        return new PatientDetailResolveOrder(null, adressStrat, otherStrat);
-    }
-
-    @Override
-    public String getJsonFromUtlatande(Utlatande utlatande) throws ModuleException {
-        if (utlatande instanceof TsTrk1062UtlatandeV1) {
-            return toInternalModelResponse(utlatande);
-        }
-        final var message = utlatande == null ? "null" : utlatande.getClass().toString();
-        throw new IllegalArgumentException(
-            "Utlatande was not instance of class TsTrk1062UtlatandeV1, utlatande was instance of class: " + message);
-    }
-
-    @Override
-    public String getUpdatedJsonWithTestData(String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
-        return model;
-    }
+  @Override
+  public String getUpdatedJsonWithTestData(
+      String model, FillType fillType, TypeAheadProvider typeAheadProvider) throws ModuleException {
+    return model;
+  }
 }

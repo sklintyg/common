@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,40 +38,41 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class QuestionAktivitetsbegransning {
 
-    public static CertificateDataElement toCertificate(String aktivitetsbegransning, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
-            .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
-                    .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_DESCRIPTION))
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
-                    .text(aktivitetsbegransning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
-                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
-                        .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String aktivitetsbegransning, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
+        .parent(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_TEXT))
+                .description(texts.get(AKTIVITETSBEGRANSNING_DELSVAR_DESCRIPTION))
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
+                .text(aktivitetsbegransning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_22)
+                  .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(AKTIVITETSBEGRANSNING_DELSVAR_ID_21)
+                  .expression(singleExpression(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), AKTIVITETSBEGRANSNING_DELSVAR_ID_22, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        AKTIVITETSBEGRANSNING_DELSVAR_ID_22,
+        AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22);
+  }
 }

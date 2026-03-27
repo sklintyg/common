@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.support.facade.model.config;
 
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
@@ -32,15 +31,13 @@ import se.inera.intyg.common.support.facade.model.config.CauseOfDeath.CauseOfDea
 @Builder
 public class CauseOfDeath {
 
-    String id;
-    String descriptionId;
-    String debutId;
-    List<CodeItem> specifications;
-    LocalDate maxDate;
-    LocalDate minDate;
+  String id;
+  String descriptionId;
+  String debutId;
+  List<CodeItem> specifications;
+  LocalDate maxDate;
+  LocalDate minDate;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CauseOfDeathBuilder {
-
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CauseOfDeathBuilder {}
 }

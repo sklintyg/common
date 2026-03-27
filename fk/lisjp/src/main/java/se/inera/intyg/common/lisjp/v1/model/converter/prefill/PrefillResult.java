@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,101 +29,99 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public class PrefillResult {
 
-    private final String intygsId;
-    private final String intygsTyp;
-    private final String intygsVersion;
-    private final List<SvarResult> messages = new ArrayList<>();
-    private ObjectMapper objectMapper = new ObjectMapper();
+  private final String intygsId;
+  private final String intygsTyp;
+  private final String intygsVersion;
+  private final List<SvarResult> messages = new ArrayList<>();
+  private ObjectMapper objectMapper = new ObjectMapper();
 
-    PrefillResult(String intygsId, String intygsTyp, String intygsVersion) {
-        this.intygsId = intygsId;
-        this.intygsTyp = intygsTyp;
-        this.intygsVersion = intygsVersion;
+  PrefillResult(String intygsId, String intygsTyp, String intygsVersion) {
+    this.intygsId = intygsId;
+    this.intygsTyp = intygsTyp;
+    this.intygsVersion = intygsVersion;
+  }
+
+  public String getIntygsTyp() {
+    return intygsTyp;
+  }
+
+  public String getIntygsVersion() {
+    return intygsVersion;
+  }
+
+  public String getIntygsId() {
+    return intygsId;
+  }
+
+  public List<SvarResult> getMessages() {
+    return messages;
+  }
+
+  public String toJsonReport() {
+    try {
+      return objectMapper.writeValueAsString(this);
+    } catch (JsonProcessingException e) {
+      return this.toString();
+    }
+  }
+
+  void addMessage(PrefillEventType eventType, Svar svar, String message) {
+    if (svar == null) {
+      addMessage(eventType, "", message, "");
+    } else {
+      addMessage(eventType, svar.getId(), message, svar);
+    }
+  }
+
+  void addMessage(PrefillEventType eventType, Delsvar delsvar, String message) {
+    if (delsvar == null) {
+      addMessage(eventType, "", message, "");
+    } else {
+      addMessage(eventType, delsvar.getId(), message, delsvar);
+    }
+  }
+
+  void addMessage(PrefillEventType eventType, String svarsId, String message, Serializable input) {
+    messages.add(new SvarResult(eventType, svarsId, message, input));
+  }
+
+  enum PrefillEventType {
+    INFO,
+    WARNING
+  }
+
+  static class SvarResult {
+
+    private final String svarId;
+    private PrefillEventType eventType;
+    private String message;
+    private Serializable input;
+
+    SvarResult(PrefillEventType eventType, String svarId, String message, Serializable input) {
+      this.eventType = eventType;
+      this.svarId = svarId;
+      this.message = message;
+      this.input = input;
     }
 
-
-    public String getIntygsTyp() {
-        return intygsTyp;
+    public String getSvarId() {
+      return svarId;
     }
 
-    public String getIntygsVersion() {
-        return intygsVersion;
+    public String getMessage() {
+      return message;
     }
 
-    public String getIntygsId() {
-        return intygsId;
+    // Input could potentially contain sensitive information that we dont't want to risk ending up
+    // in logs etc, so we ignore
+    // them when serializing SvarResult.
+    @JsonIgnore
+    public Serializable getInput() {
+      return input;
     }
 
-    public List<SvarResult> getMessages() {
-        return messages;
+    public PrefillEventType getEventType() {
+      return eventType;
     }
-
-    public String toJsonReport() {
-        try {
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            return this.toString();
-        }
-    }
-
-    void addMessage(PrefillEventType eventType, Svar svar, String message) {
-        if (svar == null) {
-            addMessage(eventType, "", message, "");
-        } else {
-            addMessage(eventType, svar.getId(), message, svar);
-        }
-
-    }
-
-    void addMessage(PrefillEventType eventType, Delsvar delsvar, String message) {
-        if (delsvar == null) {
-            addMessage(eventType, "", message, "");
-        } else {
-            addMessage(eventType, delsvar.getId(), message, delsvar);
-        }
-    }
-
-
-    void addMessage(PrefillEventType eventType, String svarsId, String message, Serializable input) {
-        messages.add(new SvarResult(eventType, svarsId, message, input));
-    }
-
-
-    enum PrefillEventType {
-        INFO, WARNING
-    }
-
-    static class SvarResult {
-
-        private final String svarId;
-        private PrefillEventType eventType;
-        private String message;
-        private Serializable input;
-
-        SvarResult(PrefillEventType eventType, String svarId, String message, Serializable input) {
-            this.eventType = eventType;
-            this.svarId = svarId;
-            this.message = message;
-            this.input = input;
-        }
-
-        public String getSvarId() {
-            return svarId;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        // Input could potentially contain sensitive information that we dont't want to risk ending up in logs etc, so we ignore
-        // them when serializing SvarResult.
-        @JsonIgnore
-        public Serializable getInput() {
-            return input;
-        }
-
-        public PrefillEventType getEventType() {
-            return eventType;
-        }
-    }
+  }
 }

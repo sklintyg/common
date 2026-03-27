@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,160 +41,171 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 @RunWith(MockitoJUnitRunner.class)
 public class TsTrk1062EntryPointTest {
 
-    private IntygTextsRepository mockIntygTextsRepository;
+  private IntygTextsRepository mockIntygTextsRepository;
 
-    private TsTrk1062EntryPoint tsTrk1062EntryPoint;
+  private TsTrk1062EntryPoint tsTrk1062EntryPoint;
 
-    private static String LATEST_VERSION = "1.0";
+  private static String LATEST_VERSION = "1.0";
 
-    @Before
-    public void setUp() {
-        mockIntygTextsRepository = mock(IntygTextsRepository.class);
-        tsTrk1062EntryPoint = new TsTrk1062EntryPoint(Optional.of(mockIntygTextsRepository));
-    }
+  @Before
+  public void setUp() {
+    mockIntygTextsRepository = mock(IntygTextsRepository.class);
+    tsTrk1062EntryPoint = new TsTrk1062EntryPoint(Optional.of(mockIntygTextsRepository));
+  }
 
-    @Test
-    public void testGetModuleId() throws Exception {
-        final String actualModuleId = tsTrk1062EntryPoint.getModuleId();
-        assertNotNull("ModuleId should not be null", actualModuleId);
-        assertFalse("ModuleId should not be empty", actualModuleId.isEmpty());
-    }
+  @Test
+  public void testGetModuleId() throws Exception {
+    final String actualModuleId = tsTrk1062EntryPoint.getModuleId();
+    assertNotNull("ModuleId should not be null", actualModuleId);
+    assertFalse("ModuleId should not be empty", actualModuleId.isEmpty());
+  }
 
-    @Test
-    public void testGetModuleName() throws Exception {
-        final String actualModuleName = tsTrk1062EntryPoint.getModuleName();
-        assertNotNull("ModuleName should not be null", actualModuleName);
-        assertFalse("ModuleName should not be empty", actualModuleName.isEmpty());
-    }
+  @Test
+  public void testGetModuleName() throws Exception {
+    final String actualModuleName = tsTrk1062EntryPoint.getModuleName();
+    assertNotNull("ModuleName should not be null", actualModuleName);
+    assertFalse("ModuleName should not be empty", actualModuleName.isEmpty());
+  }
 
-    @Test
-    public void testGetModuleDescription() throws Exception {
-        final String actualModuleDescription = tsTrk1062EntryPoint.getModuleDescription();
-        assertNotNull("ModuleDescription should not be null", actualModuleDescription);
-        assertFalse("ModuleDescription should not be empty", actualModuleDescription.isEmpty());
-    }
+  @Test
+  public void testGetModuleDescription() throws Exception {
+    final String actualModuleDescription = tsTrk1062EntryPoint.getModuleDescription();
+    assertNotNull("ModuleDescription should not be null", actualModuleDescription);
+    assertFalse("ModuleDescription should not be empty", actualModuleDescription.isEmpty());
+  }
 
-    @Test
-    public void testGetDetailedModuleDescription() throws Exception {
-        final String expectedDetailedModuleDescription = "Text";
-        final SortedMap<String, String> mockedTextMap = mock(SortedMap.class);
-        doReturn(expectedDetailedModuleDescription).when(mockedTextMap).get(any());
+  @Test
+  public void testGetDetailedModuleDescription() throws Exception {
+    final String expectedDetailedModuleDescription = "Text";
+    final SortedMap<String, String> mockedTextMap = mock(SortedMap.class);
+    doReturn(expectedDetailedModuleDescription).when(mockedTextMap).get(any());
 
-        final IntygTexts expectedIntygTexts = new IntygTexts("1.0", "tstrk1062", null, null, mockedTextMap, null, null);
+    final IntygTexts expectedIntygTexts =
+        new IntygTexts("1.0", "tstrk1062", null, null, mockedTextMap, null, null);
 
-        doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
-        doReturn(expectedIntygTexts).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
+    doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
+    doReturn(expectedIntygTexts).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
 
-        final String actualDetailedModuleDescription = tsTrk1062EntryPoint.getDetailedModuleDescription();
+    final String actualDetailedModuleDescription =
+        tsTrk1062EntryPoint.getDetailedModuleDescription();
 
-        assertNotNull("DetailedModuleDescription should not be null", actualDetailedModuleDescription);
-        assertEquals("DetailedModuleDescription not equal", expectedDetailedModuleDescription, actualDetailedModuleDescription);
-    }
+    assertNotNull("DetailedModuleDescription should not be null", actualDetailedModuleDescription);
+    assertEquals(
+        "DetailedModuleDescription not equal",
+        expectedDetailedModuleDescription,
+        actualDetailedModuleDescription);
+  }
 
-    @Test
-    public void testGetDetailedModuleDescriptionMissingTexts() throws Exception {
-        doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
-        doReturn(null).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
+  @Test
+  public void testGetDetailedModuleDescriptionMissingTexts() throws Exception {
+    doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
+    doReturn(null).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
 
-        final String actualDetailedModuleDescription = tsTrk1062EntryPoint.getDetailedModuleDescription();
+    final String actualDetailedModuleDescription =
+        tsTrk1062EntryPoint.getDetailedModuleDescription();
 
-        assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
-    }
+    assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
+  }
 
-    @Test
-    public void testGetDetailedModuleDescriptionMissingRepo() throws Exception {
-        final TsTrk1062EntryPoint tsTrk1062EntryPointWithoutRepo = new TsTrk1062EntryPoint();
-        final String actualDetailedModuleDescription = tsTrk1062EntryPointWithoutRepo.getDetailedModuleDescription();
+  @Test
+  public void testGetDetailedModuleDescriptionMissingRepo() throws Exception {
+    final TsTrk1062EntryPoint tsTrk1062EntryPointWithoutRepo = new TsTrk1062EntryPoint();
+    final String actualDetailedModuleDescription =
+        tsTrk1062EntryPointWithoutRepo.getDetailedModuleDescription();
 
-        assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
-    }
+    assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
+  }
 
-    @Test
-    public void testGetModuleCssPathMinaIntyg() throws Exception {
-        final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.MINA_INTYG);
-        assertNotNull("Mina Intyg cssPath should not be null", actualPath);
-        assertTrue("Mina Intyg cssPath should be empty", actualPath.isEmpty());
-    }
+  @Test
+  public void testGetModuleCssPathMinaIntyg() throws Exception {
+    final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.MINA_INTYG);
+    assertNotNull("Mina Intyg cssPath should not be null", actualPath);
+    assertTrue("Mina Intyg cssPath should be empty", actualPath.isEmpty());
+  }
 
-    @Test
-    public void testGetModuleCssPathWebCert() throws Exception {
-        final String expectedPath = "/web/webjars/tstrk1062/webcert/css/tstrk1062.css";
-        final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.WEBCERT);
-        assertNotNull("WebCert cssPath should not be null", actualPath);
-        assertEquals("WebCert cssPath not equal", expectedPath, actualPath);
-    }
+  @Test
+  public void testGetModuleCssPathWebCert() throws Exception {
+    final String expectedPath = "/web/webjars/tstrk1062/webcert/css/tstrk1062.css";
+    final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.WEBCERT);
+    assertNotNull("WebCert cssPath should not be null", actualPath);
+    assertEquals("WebCert cssPath not equal", expectedPath, actualPath);
+  }
 
-    @Test
-    public void testGetModuleCssPathIntygstjansten() throws Exception {
-        final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.INTYGSTJANST);
-        assertNull("Intygstjanst cssPath should be null", actualPath);
-    }
+  @Test
+  public void testGetModuleCssPathIntygstjansten() throws Exception {
+    final String actualPath = tsTrk1062EntryPoint.getModuleCssPath(ApplicationOrigin.INTYGSTJANST);
+    assertNull("Intygstjanst cssPath should be null", actualPath);
+  }
 
-    @Test
-    public void testGetModuleScriptPathMinaIntyg() throws Exception {
-        final String expectedPath = "/web/webjars/tstrk1062/minaintyg/js/module";
-        final String actualPath = tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.MINA_INTYG);
-        assertNotNull("Mina intyg scriptpath should not be null", actualPath);
-        assertEquals("Mina intyg scriptpath not equal", expectedPath, actualPath);
-    }
+  @Test
+  public void testGetModuleScriptPathMinaIntyg() throws Exception {
+    final String expectedPath = "/web/webjars/tstrk1062/minaintyg/js/module";
+    final String actualPath = tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.MINA_INTYG);
+    assertNotNull("Mina intyg scriptpath should not be null", actualPath);
+    assertEquals("Mina intyg scriptpath not equal", expectedPath, actualPath);
+  }
 
-    @Test
-    public void testGetModuleScriptPathWebCert() throws Exception {
-        final String expectedPath = "/web/webjars/tstrk1062/webcert/module";
-        final String actualPath = tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.WEBCERT);
-        assertNotNull("WebCert scriptpath should not be null", actualPath);
-        assertEquals("WebCert scriptpath not equal", expectedPath, actualPath);
-    }
+  @Test
+  public void testGetModuleScriptPathWebCert() throws Exception {
+    final String expectedPath = "/web/webjars/tstrk1062/webcert/module";
+    final String actualPath = tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.WEBCERT);
+    assertNotNull("WebCert scriptpath should not be null", actualPath);
+    assertEquals("WebCert scriptpath not equal", expectedPath, actualPath);
+  }
 
-    @Test
-    public void testGetModuleScriptPathIntygstjansten() throws Exception {
-        final String actualPath = tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.INTYGSTJANST);
-        assertNull("Intygstjanst scriptpath should be null", actualPath);
-    }
+  @Test
+  public void testGetModuleScriptPathIntygstjansten() throws Exception {
+    final String actualPath =
+        tsTrk1062EntryPoint.getModuleScriptPath(ApplicationOrigin.INTYGSTJANST);
+    assertNull("Intygstjanst scriptpath should be null", actualPath);
+  }
 
-    @Test
-    public void testGetModuleDependencyPathMinaIntyg() throws Exception {
-        final String expectedPath = "/web/webjars/tstrk1062/minaintyg/js/module-deps.json";
-        final String actualPath = tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.MINA_INTYG);
-        assertNotNull("Mina intyg dependencyPath should not be null", actualPath);
-        assertEquals("Mina intyg dependencyPath not equal", expectedPath, actualPath);
-    }
+  @Test
+  public void testGetModuleDependencyPathMinaIntyg() throws Exception {
+    final String expectedPath = "/web/webjars/tstrk1062/minaintyg/js/module-deps.json";
+    final String actualPath =
+        tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.MINA_INTYG);
+    assertNotNull("Mina intyg dependencyPath should not be null", actualPath);
+    assertEquals("Mina intyg dependencyPath not equal", expectedPath, actualPath);
+  }
 
-    @Test
-    public void testGetModuleDependencyPathWebCert() throws Exception {
-        final String expectedPath = "/web/webjars/tstrk1062/webcert/module-deps.json";
-        final String actualPath = tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.WEBCERT);
-        assertNotNull("WebCert dependencyPath should not be null", actualPath);
-        assertEquals("WebCert dependencyPath not equal", expectedPath, actualPath);
-    }
+  @Test
+  public void testGetModuleDependencyPathWebCert() throws Exception {
+    final String expectedPath = "/web/webjars/tstrk1062/webcert/module-deps.json";
+    final String actualPath =
+        tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.WEBCERT);
+    assertNotNull("WebCert dependencyPath should not be null", actualPath);
+    assertEquals("WebCert dependencyPath not equal", expectedPath, actualPath);
+  }
 
-    @Test
-    public void testGetModuleDependencyPathIntygstjansten() throws Exception {
-        final String actualPath = tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.INTYGSTJANST);
-        assertNull("Intygstjanst dependencyPath should be null", actualPath);
-    }
+  @Test
+  public void testGetModuleDependencyPathIntygstjansten() throws Exception {
+    final String actualPath =
+        tsTrk1062EntryPoint.getModuleDependencyDefinitionPath(ApplicationOrigin.INTYGSTJANST);
+    assertNull("Intygstjanst dependencyPath should be null", actualPath);
+  }
 
-    @Test
-    public void testGetDefaultRecipient() throws Exception {
-        final String expectedRecipient = "TRANSP";
-        final String actualRecipient = tsTrk1062EntryPoint.getDefaultRecipient();
-        assertNotNull("Recipient should not be null", actualRecipient);
-        assertEquals("Recipient not equal", expectedRecipient, actualRecipient);
-    }
+  @Test
+  public void testGetDefaultRecipient() throws Exception {
+    final String expectedRecipient = "TRANSP";
+    final String actualRecipient = tsTrk1062EntryPoint.getDefaultRecipient();
+    assertNotNull("Recipient should not be null", actualRecipient);
+    assertEquals("Recipient not equal", expectedRecipient, actualRecipient);
+  }
 
-    @Test
-    public void testGetExternalId() throws Exception {
-        final String expectedExternalId = "TSTRK1062";
-        final String actualExternalId = tsTrk1062EntryPoint.getExternalId();
-        assertNotNull("ExternalId should not be null", actualExternalId);
-        assertEquals("ExternalId not equal", expectedExternalId, actualExternalId);
-    }
+  @Test
+  public void testGetExternalId() throws Exception {
+    final String expectedExternalId = "TSTRK1062";
+    final String actualExternalId = tsTrk1062EntryPoint.getExternalId();
+    assertNotNull("ExternalId should not be null", actualExternalId);
+    assertEquals("ExternalId not equal", expectedExternalId, actualExternalId);
+  }
 
-    @Test
-    public void testGetIssuerTypeId() throws Exception {
-        final String expectedIssuerTypeId = "TSTRK1062";
-        final String actualIssuerTypeId = tsTrk1062EntryPoint.getIssuerTypeId();
-        assertNotNull("IssuerTypeId should not be null", actualIssuerTypeId);
-        assertEquals("IssuerTypeId not equal", expectedIssuerTypeId, actualIssuerTypeId);
-    }
+  @Test
+  public void testGetIssuerTypeId() throws Exception {
+    final String expectedIssuerTypeId = "TSTRK1062";
+    final String actualIssuerTypeId = tsTrk1062EntryPoint.getIssuerTypeId();
+    assertNotNull("IssuerTypeId should not be null", actualIssuerTypeId);
+    assertEquals("IssuerTypeId not equal", expectedIssuerTypeId, actualIssuerTypeId);
+  }
 }

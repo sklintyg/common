@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -98,220 +98,167 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.TsBasUtlatandeV7;
 @Component(value = "internalToCertificateTsBas")
 public class InternalToCertificate {
 
-    public Certificate convert(TsBasUtlatandeV7 internalCertificate, CertificateTextProvider texts) {
-        int index = 0;
-        return CertificateBuilder.create()
-            .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
-            .addElement(
-                CategoryIntygetAvser.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts)
-            )
-            .addElement(
-                CategoryIdentitet.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionIdentitetStyrktGenom.toCertificate(internalCertificate.getVardkontakt(), index++, texts)
-            )
-            .addElement(
-                CategorySynfunktioner.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionNattblindhet.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionProgressivOgonsjukdom.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionLakarintygAvOgonspecialistMessage.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionNystagmus.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionSynskarpaSkickasSeparatHeader.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionSynskarpaSkickasSeparat.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionSynskarpa.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionTidigareUtfordUndersokningMessage.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionKorrektionsglasensStyrka.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                QuestionKorrektionsglasensStyrkaMessage.toCertificate(internalCertificate.getSyn(), index++, texts)
-            )
-            .addElement(
-                CategoryHorselOchBalanssinne.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionBalansrubbningar.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
-            )
-            .addElement(
-                QuestionUppfattaSamtalFyraMeter.toCertificate(internalCertificate.getHorselBalans(), index++, texts)
-            )
-            .addElement(
-                CategoryFunktionsnedsattning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionFunktionsnedsattning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
-            )
-            .addElement(
-                QuestionFunktionsnedsattningBeskrivning.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
-            )
-            .addElement(
-                QuestionOtillrackligRorelseFormoga.toCertificate(internalCertificate.getFunktionsnedsattning(), index++, texts)
-            )
-            .addElement(
-                CategoryHjartOchKarlsjukdom.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHjartOchKarlsjukdom.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
-            )
-            .addElement(
-                QuestionHjarnskadaEfterTrauma.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
-            )
-            .addElement(
-                QuestionRiskfaktorerForStroke.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
-            )
-            .addElement(
-                QuestionBeskrivningRiskfaktorer.toCertificate(internalCertificate.getHjartKarl(), index++, texts)
-            )
-            .addElement(
-                CategoryDiabetes.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionHarDiabetes.toCertificate(internalCertificate.getDiabetes(), index++, texts)
-            )
-            .addElement(
-                QuestionDiabetesTyp.toCertificate(internalCertificate.getDiabetes(), index++, texts)
-            )
-            .addElement(
-                QuestionDiabetesBehandling.toCertificate(internalCertificate.getDiabetes(), index++, texts)
-            )
-            .addElement(
-                QuestionTablettEllerInsulinMessage.toCertificate(internalCertificate.getDiabetes(), index++, texts)
-            )
-            .addElement(
-                CategoryNeurologiskaSjukdomar.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionTeckenPaNeurologiskSjukdom.toCertificate(internalCertificate.getNeurologi(), index++, texts)
-            )
-            .addElement(
-                CategoryMedvetandestorning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionMedvetandestorning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
-            )
-            .addElement(
-                QuestionMedvetandestorningBeskrivning.toCertificate(internalCertificate.getMedvetandestorning(), index++, texts)
-            )
-            .addElement(
-                CategoryNjursjukdomar.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionNedsattNjurfunktion.toCertificate(internalCertificate.getNjurar(), index++, texts)
-            )
-            .addElement(
-                CategoryDemensOchAndraKognitivaStorningar.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionKognitivFormoga.toCertificate(internalCertificate.getKognitivt(), index++, texts)
-            )
-            .addElement(
-                CategorySomnOchVakenhetsstorningar.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionSomnOchVakenhetsstorningar.toCertificate(internalCertificate.getSomnVakenhet(), index++, texts)
-            )
-            .addElement(
-                CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaVardinsatser.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaProvtagning.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaLakarordinerat.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(internalCertificate.getNarkotikaLakemedel(), index++, texts)
-            )
-            .addElement(
-                CategoryPsykiskSjukdomStorning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionPsykiskSjukdomStorning.toCertificate(internalCertificate.getPsykiskt(), index++, texts)
-            )
-            .addElement(
-                CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionPsykiskUtvecklingsstorning.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
-            )
-            .addElement(
-                QuestionAdhdAddDampAsbergersTourettes.toCertificate(internalCertificate.getUtvecklingsstorning(), index++, texts)
-            )
-            .addElement(
-                CategorySjukhusvard.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionVardatsPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
-            )
-            .addElement(
-                QuestionTidpunktVardPaSjukhus.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
-            )
-            .addElement(
-                QuestionVardinrattningensNamn.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
-            )
-            .addElement(
-                QuestionVardatsPaSjukhusOrsak.toCertificate(internalCertificate.getSjukhusvard(), index++, texts)
-            )
-            .addElement(
-                CategoryOvrigMedicinering.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionStadigvarandeMedicinering.toCertificate(internalCertificate.getMedicinering(), index++, texts)
-            )
-            .addElement(
-                QuestionStadigvarandeMedicineringBeskrivning.toCertificate(internalCertificate.getMedicinering(), index++, texts)
-            )
-            .addElement(
-                CategoryOvrigt.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionOvrigt.toCertificate(internalCertificate.getKommentar(), index++, texts)
-            )
-            .addElement(
-                CategoryBedomning.toCertificate(index++, texts)
-            )
-            .addElement(
-                QuestionBedomningKorkortsTyp.toCertificate(internalCertificate.getBedomning(), index++, texts)
-            )
-            .addElement(
-                QuestionBedomningLakareSpecialKompetens.toCertificate(internalCertificate.getBedomning(), index, texts)
-            )
-            .build();
-    }
+  public Certificate convert(TsBasUtlatandeV7 internalCertificate, CertificateTextProvider texts) {
+    int index = 0;
+    return CertificateBuilder.create()
+        .metadata(MetaDataGrundData.toCertificate(internalCertificate, texts))
+        .addElement(CategoryIntygetAvser.toCertificate(index++, texts))
+        .addElement(
+            QuestionIntygetAvser.toCertificate(internalCertificate.getIntygAvser(), index++, texts))
+        .addElement(CategoryIdentitet.toCertificate(index++, texts))
+        .addElement(
+            QuestionIdentitetStyrktGenom.toCertificate(
+                internalCertificate.getVardkontakt(), index++, texts))
+        .addElement(CategorySynfunktioner.toCertificate(index++, texts))
+        .addElement(
+            QuestionSynfaltsdefekter.toCertificate(internalCertificate.getSyn(), index++, texts))
+        .addElement(
+            QuestionNattblindhet.toCertificate(internalCertificate.getSyn(), index++, texts))
+        .addElement(
+            QuestionProgressivOgonsjukdom.toCertificate(
+                internalCertificate.getSyn(), index++, texts))
+        .addElement(
+            QuestionLakarintygAvOgonspecialistMessage.toCertificate(
+                internalCertificate.getSyn(), index++, texts))
+        .addElement(
+            QuestionDubbelseende.toCertificate(internalCertificate.getSyn(), index++, texts))
+        .addElement(QuestionNystagmus.toCertificate(internalCertificate.getSyn(), index++, texts))
+        .addElement(QuestionSynskarpaSkickasSeparatHeader.toCertificate(index++, texts))
+        .addElement(
+            QuestionSynskarpaSkickasSeparat.toCertificate(
+                internalCertificate.getSyn(), index++, texts))
+        .addElement(QuestionSynskarpa.toCertificate(internalCertificate.getSyn(), index++, texts))
+        .addElement(QuestionTidigareUtfordUndersokningMessage.toCertificate(index++, texts))
+        .addElement(
+            QuestionKorrektionsglasensStyrka.toCertificate(
+                internalCertificate.getSyn(), index++, texts))
+        .addElement(
+            QuestionKorrektionsglasensStyrkaMessage.toCertificate(
+                internalCertificate.getSyn(), index++, texts))
+        .addElement(CategoryHorselOchBalanssinne.toCertificate(index++, texts))
+        .addElement(
+            QuestionBalansrubbningar.toCertificate(
+                internalCertificate.getHorselBalans(), index++, texts))
+        .addElement(
+            QuestionUppfattaSamtalFyraMeter.toCertificate(
+                internalCertificate.getHorselBalans(), index++, texts))
+        .addElement(CategoryFunktionsnedsattning.toCertificate(index++, texts))
+        .addElement(
+            QuestionFunktionsnedsattning.toCertificate(
+                internalCertificate.getFunktionsnedsattning(), index++, texts))
+        .addElement(
+            QuestionFunktionsnedsattningBeskrivning.toCertificate(
+                internalCertificate.getFunktionsnedsattning(), index++, texts))
+        .addElement(
+            QuestionOtillrackligRorelseFormoga.toCertificate(
+                internalCertificate.getFunktionsnedsattning(), index++, texts))
+        .addElement(CategoryHjartOchKarlsjukdom.toCertificate(index++, texts))
+        .addElement(
+            QuestionHjartOchKarlsjukdom.toCertificate(
+                internalCertificate.getHjartKarl(), index++, texts))
+        .addElement(
+            QuestionHjarnskadaEfterTrauma.toCertificate(
+                internalCertificate.getHjartKarl(), index++, texts))
+        .addElement(
+            QuestionRiskfaktorerForStroke.toCertificate(
+                internalCertificate.getHjartKarl(), index++, texts))
+        .addElement(
+            QuestionBeskrivningRiskfaktorer.toCertificate(
+                internalCertificate.getHjartKarl(), index++, texts))
+        .addElement(CategoryDiabetes.toCertificate(index++, texts))
+        .addElement(
+            QuestionHarDiabetes.toCertificate(internalCertificate.getDiabetes(), index++, texts))
+        .addElement(
+            QuestionDiabetesTyp.toCertificate(internalCertificate.getDiabetes(), index++, texts))
+        .addElement(
+            QuestionDiabetesBehandling.toCertificate(
+                internalCertificate.getDiabetes(), index++, texts))
+        .addElement(
+            QuestionTablettEllerInsulinMessage.toCertificate(
+                internalCertificate.getDiabetes(), index++, texts))
+        .addElement(CategoryNeurologiskaSjukdomar.toCertificate(index++, texts))
+        .addElement(
+            QuestionTeckenPaNeurologiskSjukdom.toCertificate(
+                internalCertificate.getNeurologi(), index++, texts))
+        .addElement(CategoryMedvetandestorning.toCertificate(index++, texts))
+        .addElement(
+            QuestionMedvetandestorning.toCertificate(
+                internalCertificate.getMedvetandestorning(), index++, texts))
+        .addElement(
+            QuestionMedvetandestorningBeskrivning.toCertificate(
+                internalCertificate.getMedvetandestorning(), index++, texts))
+        .addElement(CategoryNjursjukdomar.toCertificate(index++, texts))
+        .addElement(
+            QuestionNedsattNjurfunktion.toCertificate(
+                internalCertificate.getNjurar(), index++, texts))
+        .addElement(CategoryDemensOchAndraKognitivaStorningar.toCertificate(index++, texts))
+        .addElement(
+            QuestionKognitivFormoga.toCertificate(
+                internalCertificate.getKognitivt(), index++, texts))
+        .addElement(CategorySomnOchVakenhetsstorningar.toCertificate(index++, texts))
+        .addElement(
+            QuestionSomnOchVakenhetsstorningar.toCertificate(
+                internalCertificate.getSomnVakenhet(), index++, texts))
+        .addElement(CategoryAlkoholNarkotikaOchLakamedel.toCertificate(index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaJournaluppgifter.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaVardinsatser.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaProvtagning.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaProvtagningMessage.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaLakarordinerat.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(
+            QuestionAlkoholNarkotikaOrdineratLakamedel.toCertificate(
+                internalCertificate.getNarkotikaLakemedel(), index++, texts))
+        .addElement(CategoryPsykiskSjukdomStorning.toCertificate(index++, texts))
+        .addElement(
+            QuestionPsykiskSjukdomStorning.toCertificate(
+                internalCertificate.getPsykiskt(), index++, texts))
+        .addElement(CategoryPsykiskUtvecklingsstorning.toCertificate(index++, texts))
+        .addElement(
+            QuestionPsykiskUtvecklingsstorning.toCertificate(
+                internalCertificate.getUtvecklingsstorning(), index++, texts))
+        .addElement(
+            QuestionAdhdAddDampAsbergersTourettes.toCertificate(
+                internalCertificate.getUtvecklingsstorning(), index++, texts))
+        .addElement(CategorySjukhusvard.toCertificate(index++, texts))
+        .addElement(
+            QuestionVardatsPaSjukhus.toCertificate(
+                internalCertificate.getSjukhusvard(), index++, texts))
+        .addElement(
+            QuestionTidpunktVardPaSjukhus.toCertificate(
+                internalCertificate.getSjukhusvard(), index++, texts))
+        .addElement(
+            QuestionVardinrattningensNamn.toCertificate(
+                internalCertificate.getSjukhusvard(), index++, texts))
+        .addElement(
+            QuestionVardatsPaSjukhusOrsak.toCertificate(
+                internalCertificate.getSjukhusvard(), index++, texts))
+        .addElement(CategoryOvrigMedicinering.toCertificate(index++, texts))
+        .addElement(
+            QuestionStadigvarandeMedicinering.toCertificate(
+                internalCertificate.getMedicinering(), index++, texts))
+        .addElement(
+            QuestionStadigvarandeMedicineringBeskrivning.toCertificate(
+                internalCertificate.getMedicinering(), index++, texts))
+        .addElement(CategoryOvrigt.toCertificate(index++, texts))
+        .addElement(
+            QuestionOvrigt.toCertificate(internalCertificate.getKommentar(), index++, texts))
+        .addElement(CategoryBedomning.toCertificate(index++, texts))
+        .addElement(
+            QuestionBedomningKorkortsTyp.toCertificate(
+                internalCertificate.getBedomning(), index++, texts))
+        .addElement(
+            QuestionBedomningLakareSpecialKompetens.toCertificate(
+                internalCertificate.getBedomning(), index, texts))
+        .build();
+  }
 }

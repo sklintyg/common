@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -65,26 +65,27 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class InternalToCertificateTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
-    private DbUtlatandeV1 internalCertificate;
-    private List<String> kommuner = List.of("Östersund", "Strömsund", "Stockholm");
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+  private DbUtlatandeV1 internalCertificate;
+  private List<String> kommuner = List.of("Östersund", "Strömsund", "Stockholm");
 
-    @BeforeEach
-    void setup() {
-        final var unit = new Vardenhet();
+  @BeforeEach
+  void setup() {
+    final var unit = new Vardenhet();
 
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
 
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
 
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
 
-        internalCertificate = DbUtlatandeV1.builder()
+    internalCertificate =
+        DbUtlatandeV1.builder()
             .setGrundData(grundData)
             .setId("id")
             .setTextVersion("TextVersion")
@@ -101,165 +102,197 @@ class InternalToCertificateTest {
             .setPolisanmalan(true)
             .build();
 
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
-    }
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
 
-    @Test
-    void shallIncludeMetaData() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertNotNull(actualCertificate.getMetadata(), "Metadata is missing!");
-    }
+  @Test
+  void shallIncludeMetaData() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertNotNull(actualCertificate.getMetadata(), "Metadata is missing!");
+  }
 
-    @Test
-    void shallIncludeCategoryKompletterandePatientuppgifterInCorrectPosition() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(0, actualCertificate.getData().get(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryKompletterandePatientuppgifterInCorrectPosition() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(
+        0, actualCertificate.getData().get(KOMPLETTERANDE_PATIENTUPPGIFTER_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionIdentitetStyrkt() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionIdentitetStyrkt() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(1, actualCertificate.getData().get(IDENTITET_STYRKT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryDodsdatumDodsplats() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(2, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryDodsdatumDodsplats() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(2, actualCertificate.getData().get(DODSDATUM_DODSPLATS_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsdatumSakert() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(3, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsdatumSakert() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(3, actualCertificate.getData().get(DODSDATUM_SAKERT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsdatum() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(4, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsdatum() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(4, actualCertificate.getData().get(DODSDATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionOsakertDodsdatum() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(5, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionOsakertDodsdatum() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(5, actualCertificate.getData().get(DODSDATUM_OSAKERT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAntraffadDod() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(6, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAntraffadDod() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(6, actualCertificate.getData().get(ANTRAFFAT_DOD_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplats() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(7, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplats() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(7, actualCertificate.getData().get(DODSPLATS_SVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsKommun() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(8, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsKommun() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(8, actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsKommunWithListOfKommun() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        final var certificateDataElement = actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID);
-        final var certificateDataConfigTypeAhead = (CertificateDataConfigTypeAhead) certificateDataElement.getConfig();
-        assertEquals(kommuner, certificateDataConfigTypeAhead.getTypeAhead());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsKommunWithListOfKommun() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    final var certificateDataElement = actualCertificate.getData().get(DODSPLATS_KOMMUN_DELSVAR_ID);
+    final var certificateDataConfigTypeAhead =
+        (CertificateDataConfigTypeAhead) certificateDataElement.getConfig();
+    assertEquals(kommuner, certificateDataConfigTypeAhead.getTypeAhead());
+  }
 
-    @Test
-    void shallIncludeQuestionDodsplatsBoende() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(9, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionDodsplatsBoende() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(9, actualCertificate.getData().get(DODSPLATS_BOENDE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryBarn() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(10, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryBarn() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(10, actualCertificate.getData().get(BARN_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionBarn() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(11, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionBarn() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(11, actualCertificate.getData().get(BARN_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAutoFillWithinBarn() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(12, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAutoFillWithinBarn() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(
+        12, actualCertificate.getData().get(BARN_AUTOFILL_WITHIN_MESSAGE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAutoFillAfterBarn() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(13, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAutoFillAfterBarn() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(
+        13, actualCertificate.getData().get(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryExplosivtImplantat() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(14, actualCertificate.getData().get(EXPLOSIVT_IMPLANTAT_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryExplosivtImplantat() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(14, actualCertificate.getData().get(EXPLOSIVT_IMPLANTAT_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionExplosivtImplantat() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(15, actualCertificate.getData().get(EXPLOSIV_IMPLANTAT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionExplosivtImplantat() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(15, actualCertificate.getData().get(EXPLOSIV_IMPLANTAT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionAvlagsnatImplantat() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(16, actualCertificate.getData().get(EXPLOSIV_AVLAGSNAT_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionAvlagsnatImplantat() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(16, actualCertificate.getData().get(EXPLOSIV_AVLAGSNAT_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryUndersokningYttre() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(17, actualCertificate.getData().get(UNDERSOKNING_YTTRE_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryUndersokningYttre() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(17, actualCertificate.getData().get(UNDERSOKNING_YTTRE_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionUndersokningYttre() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(18, actualCertificate.getData().get(UNDERSOKNING_YTTRE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionUndersokningYttre() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(18, actualCertificate.getData().get(UNDERSOKNING_YTTRE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionUndersokningsdatum() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(19, actualCertificate.getData().get(UNDERSOKNING_DATUM_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionUndersokningsdatum() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(19, actualCertificate.getData().get(UNDERSOKNING_DATUM_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeCategoryPolisanmalan() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(20, actualCertificate.getData().get(POLISANMALAN_CATEGORY_ID).getIndex());
-    }
+  @Test
+  void shallIncludeCategoryPolisanmalan() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(20, actualCertificate.getData().get(POLISANMALAN_CATEGORY_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionPolisanmalan() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(21, actualCertificate.getData().get(POLISANMALAN_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionPolisanmalan() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(21, actualCertificate.getData().get(POLISANMALAN_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionPrefillPolisanmalan() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(22, actualCertificate.getData().get(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionPrefillPolisanmalan() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(
+        22, actualCertificate.getData().get(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID).getIndex());
+  }
 
-    @Test
-    void shallIncludeQuestionPrintPolisanmalan() {
-        final var actualCertificate = InternalToCertificate.convert(internalCertificate, texts, kommuner);
-        assertEquals(23, actualCertificate.getData().get(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID).getIndex());
-    }
+  @Test
+  void shallIncludeQuestionPrintPolisanmalan() {
+    final var actualCertificate =
+        InternalToCertificate.convert(internalCertificate, texts, kommuner);
+    assertEquals(
+        23, actualCertificate.getData().get(POLISANMALAN_PRINT_MESSAGE_DELSVAR_ID).getIndex());
+  }
 }

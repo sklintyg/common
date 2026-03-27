@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.support.facade.util;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -30,45 +29,43 @@ import org.junit.jupiter.api.Test;
 
 class ViewTextToolkitTest {
 
-    private static final String NOT_SPECIFIED = "Ej angivet";
-    private static final String YES = "Ja";
-    private static final String NO = "Nej";
+  private static final String NOT_SPECIFIED = "Ej angivet";
+  private static final String YES = "Ja";
+  private static final String NO = "Nej";
 
-    @Test
-    void shallConvertBooleanValues() {
-        assertAll(
-            () -> assertEquals(YES, booleanValue(true)),
-            () -> assertEquals(NO, booleanValue(false)),
-            () -> assertEquals(NOT_SPECIFIED, booleanValue(null))
-        );
-    }
+  @Test
+  void shallConvertBooleanValues() {
+    assertAll(
+        () -> assertEquals(YES, booleanValue(true)),
+        () -> assertEquals(NO, booleanValue(false)),
+        () -> assertEquals(NOT_SPECIFIED, booleanValue(null)));
+  }
 
-    @Test
-    void shallConvertRadioBooleanValues() {
-        assertAll(
-            () -> assertEquals(YES, radioBooleanValue(true)),
-            () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(false)),
-            () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(null))
-        );
-    }
+  @Test
+  void shallConvertRadioBooleanValues() {
+    assertAll(
+        () -> assertEquals(YES, radioBooleanValue(true)),
+        () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(false)),
+        () -> assertEquals(NOT_SPECIFIED, radioBooleanValue(null)));
+  }
 
-    @Test
-    void shallConvertStringValue() {
-        final var expectedValue = "expectedValue";
-        assertAll(
-            () -> assertEquals(expectedValue, stringValue(expectedValue)),
-            () -> assertEquals(NOT_SPECIFIED, stringValue(null))
-        );
-    }
+  @Test
+  void shallConvertStringValue() {
+    final var expectedValue = "expectedValue";
+    assertAll(
+        () -> assertEquals(expectedValue, stringValue(expectedValue)),
+        () -> assertEquals(NOT_SPECIFIED, stringValue(null)));
+  }
 
-    @Test
-    void shallConvertMultipleStringValuesWithComma() {
-        final var expectedValue = "test, test, test";
-        assertAll(
-            () -> assertEquals(expectedValue, multipleStringValuesWithComma("test", "test", "test")),
-            () -> assertEquals(expectedValue, multipleStringValuesWithComma("    test", "test", "test     ")),
-            () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma("", "", "")),
-            () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma(null, null, null))
-        );
-    }
+  @Test
+  void shallConvertMultipleStringValuesWithComma() {
+    final var expectedValue = "test, test, test";
+    assertAll(
+        () -> assertEquals(expectedValue, multipleStringValuesWithComma("test", "test", "test")),
+        () ->
+            assertEquals(
+                expectedValue, multipleStringValuesWithComma("    test", "test", "test     ")),
+        () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma("", "", "")),
+        () -> assertEquals(NOT_SPECIFIED, multipleStringValuesWithComma(null, null, null)));
+  }
 }

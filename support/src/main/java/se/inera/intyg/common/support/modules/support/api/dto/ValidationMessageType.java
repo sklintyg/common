@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,12 +19,14 @@
 package se.inera.intyg.common.support.modules.support.api.dto;
 
 public enum ValidationMessageType {
-    BLANK,
-    EMPTY, // empty does not generate error unless "Visa vad som saknas" is pressed
-    INVALID_FORMAT, // invalid_format DOES generate error even if "Visa vad som saknas" is NOT pressed
-    INCORRECT_COMBINATION,
-    OTHER,
-    PERIOD_OVERLAP,
-    WARN // Warn never generates error or stops signing. It's used for non-blocking info/warning messages
-    // such as when user has specified a date which is in the future which may be weird but not invalid.
+  BLANK,
+  EMPTY, // empty does not generate error unless "Visa vad som saknas" is pressed
+  INVALID_FORMAT, // invalid_format DOES generate error even if "Visa vad som saknas" is NOT pressed
+  INCORRECT_COMBINATION,
+  OTHER,
+  PERIOD_OVERLAP,
+  WARN // Warn never generates error or stops signing. It's used for non-blocking info/warning
+  // messages
+  // such as when user has specified a date which is in the future which may be weird but not
+  // invalid.
 }

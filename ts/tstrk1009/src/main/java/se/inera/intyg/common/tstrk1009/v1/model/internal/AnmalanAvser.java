@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,11 +26,10 @@ import jakarta.annotation.Nullable;
 @AutoValue
 public abstract class AnmalanAvser {
 
-    @JsonCreator
-    public static AnmalanAvser create(@JsonProperty("typ") Korkortsolamplighet typ) {
-        return new AutoValue_AnmalanAvser(typ);
-    }
+  @JsonCreator
+  public static AnmalanAvser create(@JsonProperty("typ") Korkortsolamplighet typ) {
+    return new AutoValue_AnmalanAvser(typ);
+  }
 
-    @Nullable
-    public abstract Korkortsolamplighet getTyp();
+  @Nullable public abstract Korkortsolamplighet getTyp();
 }

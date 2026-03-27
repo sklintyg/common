@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,116 +57,121 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
 
-    private static final String INTYG_TYPE_VERSION_1 = "1.0";
-    private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
-    @Mock
-    private IntygTextsService intygTexts;
+  private static final String INTYG_TYPE_VERSION_1 = "1.0";
+  private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
+  @Mock private IntygTextsService intygTexts;
 
-    @InjectMocks
-    private WebcertModelFactoryImpl factory;
+  @InjectMocks private WebcertModelFactoryImpl factory;
 
-    @Before
-    public void setUpMocks() {
-        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsBasEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-            .thenReturn(INTYG_TYPE_VERSION_1_1);
-    }
+  @Before
+  public void setUpMocks() {
+    when(intygTexts.getLatestVersionForSameMajorVersion(
+            eq(TsBasEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+        .thenReturn(INTYG_TYPE_VERSION_1_1);
+  }
 
-    @BeforeClass
-    public static void setUp() {
-        final var mapper = mock(UnitMapperUtil.class);
+  @BeforeClass
+  public static void setUp() {
+    final var mapper = mock(UnitMapperUtil.class);
 
-        when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
-            .thenAnswer(inv -> new MappedUnit(
-                inv.getArgument(0, String.class),
-                inv.getArgument(1, String.class),
-                inv.getArgument(2, String.class),
-                inv.getArgument(3, String.class)
-            ));
+    when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
+        .thenAnswer(
+            inv ->
+                new MappedUnit(
+                    inv.getArgument(0, String.class),
+                    inv.getArgument(1, String.class),
+                    inv.getArgument(2, String.class),
+                    inv.getArgument(3, String.class)));
 
-        new InternalConverterUtil(mapper).initialize();
-        new TransportConverterUtil(mapper).initialize();
-    }
+    new InternalConverterUtil(mapper).initialize();
+    new TransportConverterUtil(mapper).initialize();
+  }
 
-    @Test
-    public void testCreateEditableModel() throws Exception {
+  @Test
+  public void testCreateEditableModel() throws Exception {
 
-        TsBasUtlatandeV7 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
+    TsBasUtlatandeV7 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
-        assertNotNull(utlatande);
-        assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
-        assertNotNull(utlatande.getGrundData().getSkapadAv());
-        assertNotNull(utlatande.getGrundData().getPatient());
+    assertNotNull(utlatande);
+    assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
+    assertNotNull(utlatande.getGrundData().getSkapadAv());
+    assertNotNull(utlatande.getGrundData().getPatient());
 
-        /** Just verify some stuff from the json to make sure all is well.. */
-        assertEquals("testID", utlatande.getId());
-        assertEquals("Johnny Jobs Appleseed", utlatande.getGrundData().getPatient().getFullstandigtNamn());
-        assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
-        assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
-        assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
-        assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
-    }
+    /** Just verify some stuff from the json to make sure all is well.. */
+    assertEquals("testID", utlatande.getId());
+    assertEquals(
+        "Johnny Jobs Appleseed", utlatande.getGrundData().getPatient().getFullstandigtNamn());
+    assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
+    assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
+    assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
+    assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
+  }
 
-    @Test
-    public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV2
-        TsBasUtlatandeV7 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
-    }
+  @Test
+  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+      throws ConverterException {
+    // this to follow schema during CertificateStatusUpdateForCareV2
+    TsBasUtlatandeV7 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+    assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
+  }
 
-    @Test(expected = ConverterException.class)
-    public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatandeV7.builder().build());
-    }
+  @Test(expected = ConverterException.class)
+  public void testCreateCopyCertificateIdMissing() throws Exception {
+    factory.createCopy(
+        new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatandeV7.builder().build());
+  }
 
-    @Test
-    public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
-        //Given
-        GrundData grundData = new GrundData();
-        grundData.setSigneringsdatum(LocalDateTime.now());
-        final HoSPersonal hoSPersonal = new HoSPersonal();
-        final Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("1234");
-        hoSPersonal.setVardenhet(vardenhet);
-        grundData.setSkapadAv(hoSPersonal);
-        grundData.setPatient(new Patient());
+  @Test
+  public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+    // Given
+    GrundData grundData = new GrundData();
+    grundData.setSigneringsdatum(LocalDateTime.now());
+    final HoSPersonal hoSPersonal = new HoSPersonal();
+    final Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("1234");
+    hoSPersonal.setVardenhet(vardenhet);
+    grundData.setSkapadAv(hoSPersonal);
+    grundData.setPatient(new Patient());
 
-        final TsBasUtlatandeV7 tsBasUtlatande = TsBasUtlatandeV7.builder().setGrundData(grundData).build();
+    final TsBasUtlatandeV7 tsBasUtlatande =
+        TsBasUtlatandeV7.builder().setGrundData(grundData).build();
 
-        //When
-        TsBasUtlatandeV7 utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);
+    // When
+    TsBasUtlatandeV7 utlatande =
+        factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);
 
-        //Then
-        assertNull(utlatande.getGrundData().getSigneringsdatum());
-    }
+    // Then
+    assertNull(utlatande.getGrundData().getSigneringsdatum());
+  }
 
-    private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        Patient patient = new Patient();
-        patient.setFornamn("Johnny");
-        patient.setMellannamn("Jobs");
-        patient.setEfternamn("Appleseed");
-        patient.setFullstandigtNamn("Johnny Jobs Appleseed");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("Testvägen 12");
-        patient.setPostnummer("13337");
-        patient.setPostort("Huddinge");
-        return new CreateNewDraftHolder(intygId, "1.0", createHosPersonal(), patient);
-    }
+  private CreateNewDraftHolder buildNewDraftData(String intygId) {
+    Patient patient = new Patient();
+    patient.setFornamn("Johnny");
+    patient.setMellannamn("Jobs");
+    patient.setEfternamn("Appleseed");
+    patient.setFullstandigtNamn("Johnny Jobs Appleseed");
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPostadress("Testvägen 12");
+    patient.setPostnummer("13337");
+    patient.setPostort("Huddinge");
+    return new CreateNewDraftHolder(intygId, "1.0", createHosPersonal(), patient);
+  }
 
-    private HoSPersonal createHosPersonal() {
-        HoSPersonal hosPerson = new HoSPersonal();
-        hosPerson.setPersonId("hsaId1");
-        hosPerson.setFullstandigtNamn("Doktor A");
-        hosPerson.setVardenhet(createVardenhet());
-        return hosPerson;
-    }
+  private HoSPersonal createHosPersonal() {
+    HoSPersonal hosPerson = new HoSPersonal();
+    hosPerson.setPersonId("hsaId1");
+    hosPerson.setFullstandigtNamn("Doktor A");
+    hosPerson.setVardenhet(createVardenhet());
+    return hosPerson;
+  }
 
-    private Vardenhet createVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("hsaId");
-        vardenhet.setEnhetsnamn("ve1");
-        vardenhet.setVardgivare(new Vardgivare());
-        vardenhet.getVardgivare().setVardgivarid("vg1");
-        vardenhet.getVardgivare().setVardgivarnamn("vg1");
-        return vardenhet;
-    }
+  private Vardenhet createVardenhet() {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsid("hsaId");
+    vardenhet.setEnhetsnamn("ve1");
+    vardenhet.setVardgivare(new Vardgivare());
+    vardenhet.getVardgivare().setVardgivarid("vg1");
+    vardenhet.getVardgivare().setVardgivarnamn("vg1");
+    return vardenhet;
+  }
 }

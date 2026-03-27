@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,22 +34,23 @@ import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 @Component(value = "luae_fs.SvarIdHelperImpl.v1")
 public class SvarIdHelperImpl implements SvarIdHelper<LuaefsUtlatandeV1> {
 
-    @Override
-    public List<String> calculateFrageIdHandleForGrundForMU(LuaefsUtlatandeV1 utlatande) {
-        List<String> filledPositions = new ArrayList<>();
-        filledPositions.add(RespConstants.getJsonPropertyFromFrageId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1));
-        if (utlatande.getUndersokningAvPatienten() != null) {
-            filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
-        }
-        if (utlatande.getJournaluppgifter() != null) {
-            filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
-        }
-        if (utlatande.getAnhorigsBeskrivningAvPatienten() != null) {
-            filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1);
-        }
-        if (utlatande.getAnnatGrundForMU() != null) {
-            filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
-        }
-        return filledPositions;
+  @Override
+  public List<String> calculateFrageIdHandleForGrundForMU(LuaefsUtlatandeV1 utlatande) {
+    List<String> filledPositions = new ArrayList<>();
+    filledPositions.add(
+        RespConstants.getJsonPropertyFromFrageId(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1));
+    if (utlatande.getUndersokningAvPatienten() != null) {
+      filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1);
     }
+    if (utlatande.getJournaluppgifter() != null) {
+      filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1);
+    }
+    if (utlatande.getAnhorigsBeskrivningAvPatienten() != null) {
+      filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1);
+    }
+    if (utlatande.getAnnatGrundForMU() != null) {
+      filledPositions.add(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1);
+    }
+    return filledPositions;
+  }
 }

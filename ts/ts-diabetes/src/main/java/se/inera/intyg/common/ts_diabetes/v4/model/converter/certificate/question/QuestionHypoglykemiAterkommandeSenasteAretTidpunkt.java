@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,51 +42,59 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class QuestionHypoglykemiAterkommandeSenasteAretTidpunkt {
 
-    public static CertificateDataElement toCertificate(Hypoglykemi hypoglykemi, Personnummer personId, int index,
-        CertificateTextProvider textProvider) {
-        final var aterkommandeSenasteAretTidpunkt =
-            hypoglykemi != null && hypoglykemi.getAterkommandeSenasteAretTidpunkt() != null
-                ? hypoglykemi.getAterkommandeSenasteAretTidpunkt() : null;
-        return CertificateDataElement.builder()
-            .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID)
-            .parent(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigDate.builder()
-                    .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
-                    .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_TEXT_ID))
-                    .maxDate(LocalDate.now())
-                    .minDate(personId != null ? birthDate(personId) : null)
-                    .build()
-            )
-            .value(
-                CertificateDataValueDate.builder()
-                    .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
-                    .date(validDate(aterkommandeSenasteAretTidpunkt) ? aterkommandeSenasteAretTidpunkt.asLocalDate() : null)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID))
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID)
-                        .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID))
-                        .build(),
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Hypoglykemi hypoglykemi,
+      Personnummer personId,
+      int index,
+      CertificateTextProvider textProvider) {
+    final var aterkommandeSenasteAretTidpunkt =
+        hypoglykemi != null && hypoglykemi.getAterkommandeSenasteAretTidpunkt() != null
+            ? hypoglykemi.getAterkommandeSenasteAretTidpunkt()
+            : null;
+    return CertificateDataElement.builder()
+        .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID)
+        .parent(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigDate.builder()
+                .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+                .text(textProvider.get(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_TEXT_ID))
+                .maxDate(LocalDate.now())
+                .minDate(personId != null ? birthDate(personId) : null)
+                .build())
+        .value(
+            CertificateDataValueDate.builder()
+                .id(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+                .date(
+                    validDate(aterkommandeSenasteAretTidpunkt)
+                        ? aterkommandeSenasteAretTidpunkt.asLocalDate()
+                        : null)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
+                  .expression(singleExpression(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_JSON_ID))
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID)
+                  .expression(
+                      singleExpression(HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID))
+                  .build(),
+            })
+        .build();
+  }
 
-    private static boolean validDate(InternalDate date) {
-        return date != null && date.isValidDate();
-    }
+  private static boolean validDate(InternalDate date) {
+    return date != null && date.isValidDate();
+  }
 
-    public static InternalDate toInternal(Certificate certificate) {
-        final var localDate = dateValue(certificate.getData(), HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
+  public static InternalDate toInternal(Certificate certificate) {
+    final var localDate =
+        dateValue(
+            certificate.getData(),
+            HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
             HYPOGLYKEMI_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID);
-        return localDate != null ? new InternalDate(localDate) : null;
-    }
+    return localDate != null ? new InternalDate(localDate) : null;
+  }
 }

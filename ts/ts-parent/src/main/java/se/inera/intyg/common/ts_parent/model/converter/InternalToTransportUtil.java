@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,105 +43,113 @@ import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 public final class InternalToTransportUtil {
 
-    private static final DateTimeFormatter SIGNERINGS_TIDSTAMPEL_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-    public static final String DELIMITER_REGEXP = "\\.";
+  private static final DateTimeFormatter SIGNERINGS_TIDSTAMPEL_FORMAT =
+      DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+  public static final String DELIMITER_REGEXP = "\\.";
 
-    private InternalToTransportUtil() {
+  private InternalToTransportUtil() {}
+
+  public static GrundData buildGrundData(
+      se.inera.intyg.common.support.model.common.internal.GrundData source) {
+    GrundData grundData = new GrundData();
+    grundData.setPatient(buildPatient(source.getPatient()));
+    grundData.setSigneringsTidstampel(
+        source.getSigneringsdatum().format(SIGNERINGS_TIDSTAMPEL_FORMAT));
+    grundData.setSkapadAv(buildSkapadAv(source.getSkapadAv()));
+    return grundData;
+  }
+
+  public static DiabetesTypVarden convertDiabetesTyp(DiabetesKod kod) {
+    if (kod == DiabetesKod.DIABETES_TYP_1) {
+      return DiabetesTypVarden.TYP_1;
+    } else if (kod == DiabetesKod.DIABETES_TYP_2) {
+      return DiabetesTypVarden.TYP_2;
     }
+    throw new IllegalArgumentException(kod.name());
+  }
 
-    public static GrundData buildGrundData(se.inera.intyg.common.support.model.common.internal.GrundData source) {
-        GrundData grundData = new GrundData();
-        grundData.setPatient(buildPatient(source.getPatient()));
-        grundData.setSigneringsTidstampel(source.getSigneringsdatum().format(SIGNERINGS_TIDSTAMPEL_FORMAT));
-        grundData.setSkapadAv(buildSkapadAv(source.getSkapadAv()));
-        return grundData;
+  public static Optional<String> getVersion(Utlatande source) {
+    if (Strings.nullToEmpty(source.getTextVersion()).trim().isEmpty()) {
+      return Optional.empty();
     }
+    return Optional.of(source.getTextVersion());
+  }
 
-    public static DiabetesTypVarden convertDiabetesTyp(DiabetesKod kod) {
-        if (kod == DiabetesKod.DIABETES_TYP_1) {
-            return DiabetesTypVarden.TYP_1;
-        } else if (kod == DiabetesKod.DIABETES_TYP_2) {
-            return DiabetesTypVarden.TYP_2;
-        }
-        throw new IllegalArgumentException(kod.name());
-    }
-
-    public static Optional<String> getVersion(Utlatande source) {
-        if (Strings.nullToEmpty(source.getTextVersion()).trim().isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(source.getTextVersion());
-    }
-
-    private static Patient buildPatient(se.inera.intyg.common.support.model.common.internal.Patient source) {
-        Patient patient = new Patient();
-        patient.setEfternamn(source.getEfternamn());
-        patient.setFornamn(source.getFornamn());
-        patient.setFullstandigtNamn(Joiner.on(' ').skipNulls().join(source.getFornamn(), source.getMellannamn(), source.getEfternamn()));
-        patient.setPersonId(buildII(SamordningsnummerValidator.isSamordningsNummer(
-                Optional.of(source.getPersonId()))
+  private static Patient buildPatient(
+      se.inera.intyg.common.support.model.common.internal.Patient source) {
+    Patient patient = new Patient();
+    patient.setEfternamn(source.getEfternamn());
+    patient.setFornamn(source.getFornamn());
+    patient.setFullstandigtNamn(
+        Joiner.on(' ')
+            .skipNulls()
+            .join(source.getFornamn(), source.getMellannamn(), source.getEfternamn()));
+    patient.setPersonId(
+        buildII(
+            SamordningsnummerValidator.isSamordningsNummer(Optional.of(source.getPersonId()))
                 ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID,
             source.getPersonId().getPersonnummerWithDash()));
-        patient.setPostadress(source.getPostadress());
-        patient.setPostnummer(source.getPostnummer());
-        patient.setPostort(source.getPostort());
-        return patient;
+    patient.setPostadress(source.getPostadress());
+    patient.setPostnummer(source.getPostnummer());
+    patient.setPostort(source.getPostort());
+    return patient;
+  }
+
+  private static SkapadAv buildSkapadAv(HoSPersonal source) {
+    SkapadAv skapadAv = new SkapadAv();
+    skapadAv.setAtLakare(source.getBefattningarAsCode().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
+    skapadAv.setFullstandigtNamn(source.getFullstandigtNamn());
+    skapadAv.setPersonId(buildII(Constants.HSA_ID_OID, source.getPersonId()));
+    skapadAv.setVardenhet(buildVardenhet(source.getVardenhet()));
+
+    List<String> befattningsKoder = getBefattningsKoder(source);
+    skapadAv.getBefattningar().addAll(befattningsKoder);
+
+    if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
+      skapadAv.getSpecialiteter().addAll(source.getSpecialiteter());
     }
 
-    private static SkapadAv buildSkapadAv(HoSPersonal source) {
-        SkapadAv skapadAv = new SkapadAv();
-        skapadAv.setAtLakare(source.getBefattningarAsCode().contains(BEFATTNINGSKOD_LAKARE_EJ_LEG_AT));
-        skapadAv.setFullstandigtNamn(source.getFullstandigtNamn());
-        skapadAv.setPersonId(buildII(Constants.HSA_ID_OID, source.getPersonId()));
-        skapadAv.setVardenhet(buildVardenhet(source.getVardenhet()));
+    return skapadAv;
+  }
 
-        List<String> befattningsKoder = getBefattningsKoder(source);
-        skapadAv.getBefattningar().addAll(befattningsKoder);
-
-        if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
-            skapadAv.getSpecialiteter().addAll(source.getSpecialiteter());
-        }
-
-        return skapadAv;
-    }
-
-    private static List<String> getBefattningsKoder(HoSPersonal source) {
-        return Optional.of(source.getBefattningsKoder())
-            .filter(paTitles -> !paTitles.isEmpty())
-            .map(paTitles -> paTitles.stream()
-                .distinct()
-                .map(PaTitle::getKlartext))
-            .orElseGet(
-                () -> source.getBefattningar().stream()
+  private static List<String> getBefattningsKoder(HoSPersonal source) {
+    return Optional.of(source.getBefattningsKoder())
+        .filter(paTitles -> !paTitles.isEmpty())
+        .map(paTitles -> paTitles.stream().distinct().map(PaTitle::getKlartext))
+        .orElseGet(
+            () ->
+                source.getBefattningar().stream()
                     .distinct()
-                    .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
-            ).toList();
-    }
+                    .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code)))
+        .toList();
+  }
 
-    private static Vardenhet buildVardenhet(se.inera.intyg.common.support.model.common.internal.Vardenhet source) {
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsId(buildII(Constants.HSA_ID_OID, source.getEnhetsid()));
-        vardenhet.setEnhetsnamn(source.getEnhetsnamn());
-        vardenhet.setPostadress(source.getPostadress());
-        vardenhet.setPostnummer(source.getPostnummer());
-        vardenhet.setPostort(source.getPostort());
-        vardenhet.setTelefonnummer(source.getTelefonnummer());
-        vardenhet.setVardgivare(buildVardgivare(source.getVardgivare()));
-        return vardenhet;
-    }
+  private static Vardenhet buildVardenhet(
+      se.inera.intyg.common.support.model.common.internal.Vardenhet source) {
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setEnhetsId(buildII(Constants.HSA_ID_OID, source.getEnhetsid()));
+    vardenhet.setEnhetsnamn(source.getEnhetsnamn());
+    vardenhet.setPostadress(source.getPostadress());
+    vardenhet.setPostnummer(source.getPostnummer());
+    vardenhet.setPostort(source.getPostort());
+    vardenhet.setTelefonnummer(source.getTelefonnummer());
+    vardenhet.setVardgivare(buildVardgivare(source.getVardgivare()));
+    return vardenhet;
+  }
 
-    private static Vardgivare buildVardgivare(se.inera.intyg.common.support.model.common.internal.Vardgivare source) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(buildII(Constants.HSA_ID_OID, source.getVardgivarid()));
-        vardgivare.setVardgivarnamn(source.getVardgivarnamn());
-        return vardgivare;
-    }
+  private static Vardgivare buildVardgivare(
+      se.inera.intyg.common.support.model.common.internal.Vardgivare source) {
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarid(buildII(Constants.HSA_ID_OID, source.getVardgivarid()));
+    vardgivare.setVardgivarnamn(source.getVardgivarnamn());
+    return vardgivare;
+  }
 
-    private static II buildII(String root, String extension) {
-        II ii = new II();
-        ii.setExtension(extension);
-        ii.setRoot(root);
-        return ii;
-    }
+  private static II buildII(String root, String extension) {
+    II ii = new II();
+    ii.setExtension(extension);
+    ii.setRoot(root);
+    return ii;
+  }
 }

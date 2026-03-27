@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,37 +27,37 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueType
 
 public abstract class ValueIntegerTest extends ValueTest {
 
-    protected abstract CertificateDataElement getElement();
+  protected abstract CertificateDataElement getElement();
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract Integer getValue();
+  protected abstract Integer getValue();
 
-    protected abstract String getUnitOfMeasurement();
+  protected abstract String getUnitOfMeasurement();
 
-    @Override
-    protected CertificateDataValueType getType() {
-        return CertificateDataValueType.INTEGER;
-    }
+  @Override
+  protected CertificateDataValueType getType() {
+    return CertificateDataValueType.INTEGER;
+  }
 
-    @Test
-    void shouldIncludeValueId() {
-        final var question = getElement();
-        final var value = (CertificateDataValueInteger) question.getValue();
-        assertEquals(getJsonId(), value.getId());
-    }
+  @Test
+  void shouldIncludeValueId() {
+    final var question = getElement();
+    final var value = (CertificateDataValueInteger) question.getValue();
+    assertEquals(getJsonId(), value.getId());
+  }
 
-    @Test
-    void shouldIncludeValueInteger() {
-        final var question = getElement();
-        final var value = (CertificateDataValueInteger) question.getValue();
-        assertEquals(getValue(), value.getValue());
-    }
+  @Test
+  void shouldIncludeValueInteger() {
+    final var question = getElement();
+    final var value = (CertificateDataValueInteger) question.getValue();
+    assertEquals(getValue(), value.getValue());
+  }
 
-    @Test
-    void shouldIncludeUnitOfMeasurement() {
-        final var question = getElement();
-        final var value = (CertificateDataValueInteger) question.getValue();
-        assertEquals(getUnitOfMeasurement(), value.getUnitOfMeasurement());
-    }
+  @Test
+  void shouldIncludeUnitOfMeasurement() {
+    final var question = getElement();
+    final var value = (CertificateDataValueInteger) question.getValue();
+    assertEquals(getUnitOfMeasurement(), value.getUnitOfMeasurement());
+  }
 }

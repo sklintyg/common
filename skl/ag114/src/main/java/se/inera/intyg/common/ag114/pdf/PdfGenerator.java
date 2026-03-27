@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -50,139 +50,163 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class PdfGenerator {
 
-    protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
-    private static final String PDF_SUMMARY_HEADER = Ag114EntryPoint.MODULE_NAME;
-    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skr_logo.png";
-    private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag1-14-uv-viewmodel.v%s.js";
-    private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
-    private static final String INFO_SIGNED_TEXT_COMPLETE = "Detta är en utskrift av ett elektroniskt intyg. "
-        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
-    private static final String INFO_SIGNED_TEXT_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. "
-        + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
-    private static final String INFO_SIGNED_TEXT_COMMON = "Intyget är avsett för patientens arbetsgivare och "
-        + "används under sjuklöneperioden.";
-    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och "
-        + "ska INTE skickas till arbetsgivaren.";
-    private static final String OPTIONAL_FIELD_DIAGNOSER = TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
-    private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
-    private static final String OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT = "På patientens begäran uppges inte diagnos";
+  protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
+  private static final String PDF_SUMMARY_HEADER = Ag114EntryPoint.MODULE_NAME;
+  private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skr_logo.png";
+  private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag1-14-uv-viewmodel.v%s.js";
+  private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
+  private static final String INFO_SIGNED_TEXT_COMPLETE =
+      "Detta är en utskrift av ett elektroniskt intyg. "
+          + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+  private static final String INFO_SIGNED_TEXT_CUSTOMIZED =
+      "Detta är en anpassad utskrift av ett elektroniskt intyg. "
+          + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
+  private static final String INFO_SIGNED_TEXT_COMMON =
+      "Intyget är avsett för patientens arbetsgivare och " + "används under sjuklöneperioden.";
+  private static final String INFO_UTKAST_TEXT =
+      "Detta är en utskrift av ett elektroniskt intygsutkast och "
+          + "ska INTE skickas till arbetsgivaren.";
+  private static final String OPTIONAL_FIELD_DIAGNOSER = TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
+  private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER =
+      ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
+  private static final String OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT =
+      "På patientens begäran uppges inte diagnos";
 
-    // CHECKSTYLE:OFF ParameterNumber
-    public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
-        List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields, String footerAppName)
-        throws ModuleException {
+  // CHECKSTYLE:OFF ParameterNumber
+  public PdfResponse generatePdf(
+      String intygsId,
+      String jsonModel,
+      String majorVersion,
+      Personnummer personId,
+      IntygTexts intygTexts,
+      List<Status> statuses,
+      ApplicationOrigin applicationOrigin,
+      UtkastStatus utkastStatus,
+      List<String> optionalFields,
+      String footerAppName)
+      throws ModuleException {
 
-        try {
-            String cleanedJson = cleanJsonModel(jsonModel);
-            String upJsModel = loadUvViewConfig(majorVersion);
-            byte[] logoData = loadLogotype();
+    try {
+      String cleanedJson = cleanJsonModel(jsonModel);
+      String upJsModel = loadUvViewConfig(majorVersion);
+      byte[] logoData = loadLogotype();
 
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
-            boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
-            boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+      boolean isUtkast =
+          UtkastStatus.DRAFT_COMPLETE == utkastStatus
+              || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+      boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+      boolean isMakulerad =
+          statuses != null
+              && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
-            Map<String, String> modelPropReplacements = buildModelPropReplacements(optionalFields);
+      Map<String, String> modelPropReplacements = buildModelPropReplacements(optionalFields);
 
-            PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(intygsId)
-                .withIntygsNamn(Ag114EntryPoint.MODULE_NAME)
-                .withIntygsKod(Ag114EntryPoint.ISSUER_TYPE_ID)
-                .withPersonnummer(personId.getPersonnummerWithDash())
-                .withInfoText(buildInfoText(isUtkast || isLockedUtkast, modelPropReplacements.isEmpty()))
-                .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
-                .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
-                .withUtfardarLogotyp(logoData)
-                .withIsUtkast(isUtkast)
-                .withIsLockedUtkast(isLockedUtkast)
-                .withIsMakulerad(isMakulerad)
-                .withApplicationOrigin(applicationOrigin)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .withModelPropReplacements(modelPropReplacements)
-                .withFooterAppName(footerAppName)
-                .build();
+      PrintConfig printConfig =
+          PrintConfig.PrintConfigBuilder.aPrintConfig()
+              .withIntygJsonModel(cleanedJson)
+              .withUpJsModel(upJsModel)
+              .withIntygsId(intygsId)
+              .withIntygsNamn(Ag114EntryPoint.MODULE_NAME)
+              .withIntygsKod(Ag114EntryPoint.ISSUER_TYPE_ID)
+              .withPersonnummer(personId.getPersonnummerWithDash())
+              .withInfoText(
+                  buildInfoText(isUtkast || isLockedUtkast, modelPropReplacements.isEmpty()))
+              .withSummary(
+                  new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
+              .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
+              .withUtfardarLogotyp(logoData)
+              .withIsUtkast(isUtkast)
+              .withIsLockedUtkast(isLockedUtkast)
+              .withIsMakulerad(isMakulerad)
+              .withApplicationOrigin(applicationOrigin)
+              .withSignBox(true)
+              .withSignatureLine(true)
+              .withModelPropReplacements(modelPropReplacements)
+              .withFooterAppName(footerAppName)
+              .build();
 
-            byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
-            return new PdfResponse(data, buildFilename());
-        } catch (IOException e) {
-            LOG.error("Error generating PDF for AG1-14: " + e.getMessage());
-            throw new ModuleException("Error generating PDF for AG1-14: " + e.getMessage());
-        }
+      byte[] data = new UVRenderer().startRendering(printConfig, intygTexts, buildFilename());
+      return new PdfResponse(data, buildFilename());
+    } catch (IOException e) {
+      LOG.error("Error generating PDF for AG1-14: " + e.getMessage());
+      throw new ModuleException("Error generating PDF for AG1-14: " + e.getMessage());
     }
-    // CHECKSTYLE:ON ParameterNumber
+  }
 
-    /**
-     * Build a map of modelProp names and a replacement text to be used when rendering it.
-     */
-    private Map<String, String> buildModelPropReplacements(List<String> optionalFields) {
-        Map<String, String> overrides = new HashMap<>();
-        if (optionalFields != null) {
-            // Only diagnoser is optional for this type as of now
-            if (optionalFields.stream().anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_DIAGNOSER))) {
-                overrides.put(OPTIONAL_FIELD_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
-            }
-            // Even not strictly optional, the yes/no can also be toggled...
-            if (optionalFields.stream().anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_FORMEDLA_DIAGNOSER))) {
-                overrides.put(OPTIONAL_FIELD_FORMEDLA_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
-            }
-        }
-        return overrides;
+  // CHECKSTYLE:ON ParameterNumber
+
+  /** Build a map of modelProp names and a replacement text to be used when rendering it. */
+  private Map<String, String> buildModelPropReplacements(List<String> optionalFields) {
+    Map<String, String> overrides = new HashMap<>();
+    if (optionalFields != null) {
+      // Only diagnoser is optional for this type as of now
+      if (optionalFields.stream().anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_DIAGNOSER))) {
+        overrides.put(OPTIONAL_FIELD_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
+      }
+      // Even not strictly optional, the yes/no can also be toggled...
+      if (optionalFields.stream()
+          .anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_FORMEDLA_DIAGNOSER))) {
+        overrides.put(OPTIONAL_FIELD_FORMEDLA_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
+      }
     }
+    return overrides;
+  }
 
-    private String buildInfoText(boolean isUtkast, boolean isComplete) {
-        if (isUtkast) {
-            return INFO_UTKAST_TEXT;
-        }
-
-        StringBuilder buf = new StringBuilder();
-
-        if (isComplete) {
-            buf.append(INFO_SIGNED_TEXT_COMPLETE);
-        } else {
-            buf.append(INFO_SIGNED_TEXT_CUSTOMIZED);
-        }
-
-        buf.append(" ");
-        buf.append(INFO_SIGNED_TEXT_COMMON);
-
-        return buf.toString();
-    }
-
-    private byte[] loadLogotype() throws IOException {
-        return IOUtils.toByteArray(new ClassPathResource(PDF_LOGOTYPE_CLASSPATH_URI).getInputStream());
-    }
-
-    private String cleanJsonModel(String jsonModel) throws IOException {
-        JsonNode intygJsonNode = toIntygJsonNode(jsonModel);
-        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
-
-        if (Strings.isNullOrEmpty(cleanedJson)) {
-            throw new IllegalArgumentException("Cannot generate PDF, supplied intyg JSON model is null or empty.");
-        }
-        return cleanedJson;
+  private String buildInfoText(boolean isUtkast, boolean isComplete) {
+    if (isUtkast) {
+      return INFO_UTKAST_TEXT;
     }
 
-    private String loadUvViewConfig(String majorVersion) throws IOException {
-        String templateUriPath = String.format(PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE, majorVersion);
-        String upJsModel = IOUtils.toString(new ClassPathResource(templateUriPath).getInputStream(),
-            Charset.forName("UTF-8"));
-        if (Strings.isNullOrEmpty(upJsModel)) {
-            throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + templateUriPath);
-        }
-        return upJsModel;
+    StringBuilder buf = new StringBuilder();
+
+    if (isComplete) {
+      buf.append(INFO_SIGNED_TEXT_COMPLETE);
+    } else {
+      buf.append(INFO_SIGNED_TEXT_CUSTOMIZED);
     }
 
-    // af_medicinskt_utlatande_åå_mm_dd_ttmm
-    private String buildFilename() {
-        LocalDateTime now = LocalDateTime.now();
-        return CERTIFICATE_FILE_PREFIX + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
-    }
+    buf.append(" ");
+    buf.append(INFO_SIGNED_TEXT_COMMON);
 
-    private JsonNode toIntygJsonNode(String jsonModel) throws IOException {
-        return new ObjectMapper().readTree(jsonModel);
-    }
+    return buf.toString();
+  }
 
+  private byte[] loadLogotype() throws IOException {
+    return IOUtils.toByteArray(new ClassPathResource(PDF_LOGOTYPE_CLASSPATH_URI).getInputStream());
+  }
+
+  private String cleanJsonModel(String jsonModel) throws IOException {
+    JsonNode intygJsonNode = toIntygJsonNode(jsonModel);
+    String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+    if (Strings.isNullOrEmpty(cleanedJson)) {
+      throw new IllegalArgumentException(
+          "Cannot generate PDF, supplied intyg JSON model is null or empty.");
+    }
+    return cleanedJson;
+  }
+
+  private String loadUvViewConfig(String majorVersion) throws IOException {
+    String templateUriPath = String.format(PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE, majorVersion);
+    String upJsModel =
+        IOUtils.toString(
+            new ClassPathResource(templateUriPath).getInputStream(), Charset.forName("UTF-8"));
+    if (Strings.isNullOrEmpty(upJsModel)) {
+      throw new IllegalArgumentException(
+          "Cannot generate PDF, UV viewConfig not found on classpath: " + templateUriPath);
+    }
+    return upJsModel;
+  }
+
+  // af_medicinskt_utlatande_åå_mm_dd_ttmm
+  private String buildFilename() {
+    LocalDateTime now = LocalDateTime.now();
+    return CERTIFICATE_FILE_PREFIX
+        + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm"))
+        + ".pdf";
+  }
+
+  private JsonNode toIntygJsonNode(String jsonModel) throws IOException {
+    return new ObjectMapper().readTree(jsonModel);
+  }
 }

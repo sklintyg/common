@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,17 +20,17 @@ package se.inera.intyg.common.support.modules.support.api.exception;
 
 public class ModuleSystemException extends ModuleException {
 
-    private static final long serialVersionUID = -2598625429265609018L;
+  private static final long serialVersionUID = -2598625429265609018L;
 
-    public ModuleSystemException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public ModuleSystemException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ModuleSystemException(String message) {
-        super(message);
-    }
+  public ModuleSystemException(String message) {
+    super(message);
+  }
 
-    public ModuleSystemException(Throwable cause) {
-        super(cause);
-    }
+  public ModuleSystemException(Throwable cause) {
+    super(cause);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,17 +26,17 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigTextFieldTest extends ConfigTest {
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_TEXTFIELD;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_TEXTFIELD;
+  }
 
-    @Test
-    void shouldIncludeConfigId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigTextField) question.getConfig();
-        assertEquals(getJsonId(), config.getId());
-    }
+  @Test
+  void shouldIncludeConfigId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigTextField) question.getConfig();
+    assertEquals(getJsonId(), config.getId());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -40,61 +40,56 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueCode
 
 public class QuestionOperation {
 
-    public static CertificateDataElement toCertificate(OmOperation omOperation, int index, CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(OPERATION_OM_DELSVAR_ID)
-            .parent(OPERATION_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioMultipleCode.builder()
-                    .text(texts.get(OPERATION_QUESTION_TEXT_ID))
-                    .list(
-                        Arrays.asList(
-                            RadioMultipleCode.builder()
-                                .id(OmOperation.JA.name())
-                                .label(texts.get(OPERATION_QUESTION_SELECTED_TEXT_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(OmOperation.NEJ.name())
-                                .label(texts.get(OPERATION_QUESTION_UNSELECTED_TEXT_ID))
-                                .build(),
-                            RadioMultipleCode.builder()
-                                .id(OmOperation.UPPGIFT_SAKNAS.name())
-                                .label(texts.get(OPERATION_QUESTION_UNKNOWN_TEXT_ID))
-                                .build()
-                        )
-                    )
-                    .build()
-            )
-            .value(
-                omOperation != null ? CertificateDataValueCode.builder()
+  public static CertificateDataElement toCertificate(
+      OmOperation omOperation, int index, CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(OPERATION_OM_DELSVAR_ID)
+        .parent(OPERATION_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioMultipleCode.builder()
+                .text(texts.get(OPERATION_QUESTION_TEXT_ID))
+                .list(
+                    Arrays.asList(
+                        RadioMultipleCode.builder()
+                            .id(OmOperation.JA.name())
+                            .label(texts.get(OPERATION_QUESTION_SELECTED_TEXT_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(OmOperation.NEJ.name())
+                            .label(texts.get(OPERATION_QUESTION_UNSELECTED_TEXT_ID))
+                            .build(),
+                        RadioMultipleCode.builder()
+                            .id(OmOperation.UPPGIFT_SAKNAS.name())
+                            .label(texts.get(OPERATION_QUESTION_UNKNOWN_TEXT_ID))
+                            .build()))
+                .build())
+        .value(
+            omOperation != null
+                ? CertificateDataValueCode.builder()
                     .id(omOperation.name())
                     .code(omOperation.name())
-                    .build() : CertificateDataValueCode.builder().build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(OPERATION_OM_DELSVAR_ID)
-                        .expression(
-                            multipleOrExpressionWithExists(
-                                OmOperation.JA.name(),
-                                OmOperation.NEJ.name(),
-                                OmOperation.UPPGIFT_SAKNAS.name()
-                            )
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+                    .build()
+                : CertificateDataValueCode.builder().build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(OPERATION_OM_DELSVAR_ID)
+                  .expression(
+                      multipleOrExpressionWithExists(
+                          OmOperation.JA.name(),
+                          OmOperation.NEJ.name(),
+                          OmOperation.UPPGIFT_SAKNAS.name()))
+                  .build()
+            })
+        .build();
+  }
 
-    public static OmOperation toInternal(Certificate certificate) {
-        final var codeValueString = codeValue(certificate.getData(), OPERATION_OM_DELSVAR_ID);
-        if (codeValueString == null) {
-            return null;
-        }
-        return OmOperation.valueOf(codeValueString);
+  public static OmOperation toInternal(Certificate certificate) {
+    final var codeValueString = codeValue(certificate.getData(), OPERATION_OM_DELSVAR_ID);
+    if (codeValueString == null) {
+      return null;
     }
-
+    return OmOperation.valueOf(codeValueString);
+  }
 }

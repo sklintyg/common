@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ValidationExpressionToolkit.singleExpression;
@@ -32,40 +31,32 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueText
 
 public class AbstractQuestionKontaktBeskrivning {
 
-    public static CertificateDataElement toCertificate(String value, String questionId, String parent, String jsonId, String textId,
-        String expression,
-        int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(jsonId)
-                    .text(texts.get(textId))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(jsonId)
-                    .text(value)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationShow.builder()
-                        .questionId(parent)
-                        .expression(
-                            singleExpression(expression)
-                        )
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String value,
+      String questionId,
+      String parent,
+      String jsonId,
+      String textId,
+      String expression,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(CertificateDataConfigTextArea.builder().id(jsonId).text(texts.get(textId)).build())
+        .value(CertificateDataValueText.builder().id(jsonId).text(value).build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationShow.builder()
+                  .questionId(parent)
+                  .expression(singleExpression(expression))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate, String questionId, String jsonId) {
-        return textValue(certificate.getData(), questionId, jsonId);
-    }
+  public static String toInternal(Certificate certificate, String questionId, String jsonId) {
+    return textValue(certificate.getData(), questionId, jsonId);
+  }
 }

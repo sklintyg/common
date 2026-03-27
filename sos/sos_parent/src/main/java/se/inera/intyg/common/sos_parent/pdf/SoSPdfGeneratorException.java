@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,23 +21,21 @@ package se.inera.intyg.common.sos_parent.pdf;
 /**
  * Signals a fatal problem when generating the PDF.
  *
- * Created by marced on 23/09/16.
+ * <p>Created by marced on 23/09/16.
  */
-
 public class SoSPdfGeneratorException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    public SoSPdfGeneratorException(String message) {
-        super(message);
-    }
+  public SoSPdfGeneratorException(String message) {
+    super(message);
+  }
 
-    public SoSPdfGeneratorException(Throwable cause) {
-        super(cause);
-    }
+  public SoSPdfGeneratorException(Throwable cause) {
+    super(cause);
+  }
 
-    public SoSPdfGeneratorException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
+  public SoSPdfGeneratorException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

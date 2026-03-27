@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,54 +31,60 @@ import java.time.format.DateTimeFormatter;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 
 /**
- * Generic PDF renderer that delegates (almost) all rendering logic to a given model.
- * The aim is that it could be used for rendering all SIT type PDFs.
+ * Generic PDF renderer that delegates (almost) all rendering logic to a given model. The aim is
+ * that it could be used for rendering all SIT type PDFs.
  *
- * Created by marced on 30/09/16.
+ * <p>Created by marced on 30/09/16.
  */
 // CHECKSTYLE:OFF MagicNumber
 public final class PdfGenerator {
 
-    private PdfGenerator() {
+  private PdfGenerator() {}
+
+  public static byte[] generatePdf(FkPdfDefinition model, String documentTitle)
+      throws PdfGeneratorException {
+
+    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+    try {
+
+      Document document = new Document();
+      document.setPageSize(PageSize.A4);
+      document.setMargins(
+          model.getPageMargins()[0],
+          model.getPageMargins()[1],
+          model.getPageMargins()[2],
+          model.getPageMargins()[3]);
+      PdfWriter writer = PdfWriter.getInstance(document, bos);
+
+      // Add preference to viewer applications to NOT scale when printing (it's just a hint, the
+      // user can change this)
+      writer.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
+
+      // Add specified event handlers
+      for (PdfPageEventHelper eventHelper : model.getPageEvents()) {
+        writer.setPageEvent(eventHelper);
+      }
+
+      document.open();
+      document.addTitle(generatePdfFilename(LocalDateTime.now(), documentTitle));
+
+      // Leave actual rendering to the model, giving it starting x/y offset of top-left corner.
+      model.render(
+          document, writer, 0f, Utilities.pointsToMillimeters(document.getPageSize().getTop()));
+
+      // Finish off by closing the document (this will invoke any page event handlers)
+      document.close();
+
+    } catch (DocumentException | RuntimeException e) {
+      throw new PdfGeneratorException("Failed to create PDF", e);
     }
 
-    public static byte[] generatePdf(FkPdfDefinition model, String documentTitle) throws PdfGeneratorException {
+    return bos.toByteArray();
+  }
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        try {
-
-            Document document = new Document();
-            document.setPageSize(PageSize.A4);
-            document.setMargins(model.getPageMargins()[0], model.getPageMargins()[1], model.getPageMargins()[2], model.getPageMargins()[3]);
-            PdfWriter writer = PdfWriter.getInstance(document, bos);
-
-            //Add preference to viewer applications to NOT scale when printing (it's just a hint, the user can change this)
-            writer.addViewerPreference(PdfName.PRINTSCALING, PdfName.NONE);
-
-            // Add specified event handlers
-            for (PdfPageEventHelper eventHelper : model.getPageEvents()) {
-                writer.setPageEvent(eventHelper);
-            }
-
-            document.open();
-            document.addTitle(generatePdfFilename(LocalDateTime.now(), documentTitle));
-
-            //Leave actual rendering to the model, giving it starting x/y offset of top-left corner.
-            model.render(document, writer, 0f, Utilities.pointsToMillimeters(document.getPageSize().getTop()));
-
-            // Finish off by closing the document (this will invoke any page event handlers)
-            document.close();
-
-        } catch (DocumentException | RuntimeException e) {
-            throw new PdfGeneratorException("Failed to create PDF", e);
-        }
-
-        return bos.toByteArray();
-    }
-
-    public static String generatePdfFilename(LocalDateTime tidpunkt, String fileNamePrefix) {
-        final String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
-        return String.format("%s_%s.pdf", fileNamePrefix, utskriftsTidpunkt);
-    }
+  public static String generatePdfFilename(LocalDateTime tidpunkt, String fileNamePrefix) {
+    final String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+    return String.format("%s_%s.pdf", fileNamePrefix, utskriftsTidpunkt);
+  }
 }

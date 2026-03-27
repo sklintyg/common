@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.lisjp.v1.model.converter.certificate.question;
 
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_CATEGORY_ID;
@@ -31,18 +30,25 @@ import se.inera.intyg.common.support.facade.model.CertificateDataElement;
 
 public class QuestionFunktionsnedsattning extends AbstractQuestionFunktionsnedsattningLisjp {
 
-    public static CertificateDataElement toCertificate(String value,
-        List<String> disabilityCategories, int index,
-        CertificateTextProvider texts) {
-        return toCertificate(value, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_CATEGORY_ID, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-            disabilityCategories, index, texts);
-    }
+  public static CertificateDataElement toCertificate(
+      String value, List<String> disabilityCategories, int index, CertificateTextProvider texts) {
+    return toCertificate(
+        value,
+        FUNKTIONSNEDSATTNING_SVAR_ID_35,
+        FUNKTIONSNEDSATTNING_CATEGORY_ID,
+        FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+        disabilityCategories,
+        index,
+        texts);
+  }
 
-    public static String toInternalTextValue(Certificate certificate) {
-        return toInternalTextValue(certificate, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
-    }
+  public static String toInternalTextValue(Certificate certificate) {
+    return toInternalTextValue(
+        certificate, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
+  }
 
-    public static List<String> toInternalCodeValue(Certificate certificate) {
-        return toInternalCodeValue(certificate, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
-    }
+  public static List<String> toInternalCodeValue(Certificate certificate) {
+    return toInternalCodeValue(
+        certificate, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35);
+  }
 }

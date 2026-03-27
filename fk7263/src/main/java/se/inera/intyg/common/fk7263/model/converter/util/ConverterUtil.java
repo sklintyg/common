@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,26 +25,32 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 
 public final class ConverterUtil {
 
-    private ConverterUtil() {
-    }
+  private ConverterUtil() {}
 
-    public static CertificateHolder toCertificateHolder(Fk7263Utlatande utlatande) throws ModuleException {
-        CertificateHolder certificateHolder = new CertificateHolder();
-        certificateHolder.setId(utlatande.getId());
-        certificateHolder.setCareUnitId(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-        certificateHolder.setCareUnitName(utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
-        certificateHolder.setCareGiverId(utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-        certificateHolder.setSigningDoctorId(utlatande.getGrundData().getSkapadAv().getPersonId());
-        certificateHolder.setSigningDoctorName(utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
-        certificateHolder.setCivicRegistrationNumber(utlatande.getGrundData().getPatient().getPersonId());
-        certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
-        certificateHolder.setType(Fk7263EntryPoint.MODULE_ID);
-        certificateHolder.setTypeVersion(Fk7263EntryPoint.DEFAULT_LOCKED_TYPE_VERSION);
-        certificateHolder.setValidFromDate(utlatande.getGiltighet().getFrom().toString());
-        certificateHolder.setValidToDate(utlatande.getGiltighet().getTom().toString());
-        certificateHolder
-            .setAdditionalInfo(utlatande.getGiltighet().getFrom().toString() + " - " + utlatande.getGiltighet().getTom().toString());
-        return certificateHolder;
-    }
-
+  public static CertificateHolder toCertificateHolder(Fk7263Utlatande utlatande)
+      throws ModuleException {
+    CertificateHolder certificateHolder = new CertificateHolder();
+    certificateHolder.setId(utlatande.getId());
+    certificateHolder.setCareUnitId(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+    certificateHolder.setCareUnitName(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
+    certificateHolder.setCareGiverId(
+        utlatande.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+    certificateHolder.setSigningDoctorId(utlatande.getGrundData().getSkapadAv().getPersonId());
+    certificateHolder.setSigningDoctorName(
+        utlatande.getGrundData().getSkapadAv().getFullstandigtNamn());
+    certificateHolder.setCivicRegistrationNumber(
+        utlatande.getGrundData().getPatient().getPersonId());
+    certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
+    certificateHolder.setType(Fk7263EntryPoint.MODULE_ID);
+    certificateHolder.setTypeVersion(Fk7263EntryPoint.DEFAULT_LOCKED_TYPE_VERSION);
+    certificateHolder.setValidFromDate(utlatande.getGiltighet().getFrom().toString());
+    certificateHolder.setValidToDate(utlatande.getGiltighet().getTom().toString());
+    certificateHolder.setAdditionalInfo(
+        utlatande.getGiltighet().getFrom().toString()
+            + " - "
+            + utlatande.getGiltighet().getTom().toString());
+    return certificateHolder;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -24,9 +24,9 @@ import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 
-    public void setNowMinusDays(InternalDate date, int days) {
-        if (date != null) {
-            date.setDate(LocalDate.now().minusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE));
-        }
+  public void setNowMinusDays(InternalDate date, int days) {
+    if (date != null) {
+      date.setDate(LocalDate.now().minusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE));
     }
+  }
 }

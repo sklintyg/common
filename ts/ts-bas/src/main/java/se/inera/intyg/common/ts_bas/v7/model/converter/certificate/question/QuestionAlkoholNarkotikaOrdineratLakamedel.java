@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -39,49 +39,50 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.NarkotikaLakemedel;
 
 public class QuestionAlkoholNarkotikaOrdineratLakamedel {
 
-    private static final short TEXT_LIMIT = 180;
+  private static final short TEXT_LIMIT = 180;
 
-    public static CertificateDataElement toCertificate(NarkotikaLakemedel narkotikaLakemedel, int index,
-        CertificateTextProvider textProvider) {
+  public static CertificateDataElement toCertificate(
+      NarkotikaLakemedel narkotikaLakemedel, int index, CertificateTextProvider textProvider) {
 
-        final var lakemedelOchDos = narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
+    final var lakemedelOchDos =
+        narkotikaLakemedel != null ? narkotikaLakemedel.getLakemedelOchDos() : null;
 
-        return CertificateDataElement.builder()
-            .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)
-            .parent(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .text(textProvider.get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID))
-                    .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
-                    .text(lakemedelOchDos)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)
-                        .expression(singleExpression(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID))
-                        .build(),
-                    CertificateDataValidationShow.builder()
-                        .questionId(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
-                        .expression(singleExpression(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+    return CertificateDataElement.builder()
+        .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)
+        .parent(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .text(textProvider.get(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_TEXT_ID))
+                .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
+                .text(lakemedelOchDos)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID)
+                  .expression(singleExpression(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID))
+                  .build(),
+              CertificateDataValidationShow.builder()
+                  .questionId(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID)
+                  .expression(singleExpression(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return textValue(certificate.getData(), LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID, LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return textValue(
+        certificate.getData(),
+        LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID,
+        LAKEMEDEL_ORDINERAD_DOS_DELSVAR_JSON_ID);
+  }
 }

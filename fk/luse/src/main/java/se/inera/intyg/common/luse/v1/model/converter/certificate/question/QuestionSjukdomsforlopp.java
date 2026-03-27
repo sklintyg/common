@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -36,41 +36,40 @@ import se.inera.intyg.common.support.facade.util.ValueToolkit;
 
 public class QuestionSjukdomsforlopp {
 
-    private static final short TEXT_LIMIT = 3500;
+  private static final short TEXT_LIMIT = 3500;
 
-    public static CertificateDataElement toCertificate(String textValue, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(SJUKDOMSFORLOPP_SVAR_ID)
-            .parent(BAKGRUND_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigTextArea.builder()
-                    .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
-                    .text(textProvider.get(SJUKDOMSFORLOPP_SVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueText.builder()
-                    .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
-                    .text(textValue)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationText.builder()
-                        .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
-                        .limit(TEXT_LIMIT)
-                        .build(),
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(SJUKDOMSFORLOPP_SVAR_ID)
-                        .expression(singleExpression(SJUKDOMSFORLOPP_SVAR_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String textValue, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(SJUKDOMSFORLOPP_SVAR_ID)
+        .parent(BAKGRUND_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigTextArea.builder()
+                .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
+                .text(textProvider.get(SJUKDOMSFORLOPP_SVAR_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueText.builder()
+                .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
+                .text(textValue)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationText.builder()
+                  .id(SJUKDOMSFORLOPP_SVAR_JSON_ID)
+                  .limit(TEXT_LIMIT)
+                  .build(),
+              CertificateDataValidationMandatory.builder()
+                  .questionId(SJUKDOMSFORLOPP_SVAR_ID)
+                  .expression(singleExpression(SJUKDOMSFORLOPP_SVAR_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static String toInternal(Certificate certificate) {
-        return ValueToolkit.textValue(certificate.getData(), SJUKDOMSFORLOPP_SVAR_ID, SJUKDOMSFORLOPP_SVAR_JSON_ID);
-    }
+  public static String toInternal(Certificate certificate) {
+    return ValueToolkit.textValue(
+        certificate.getData(), SJUKDOMSFORLOPP_SVAR_ID, SJUKDOMSFORLOPP_SVAR_JSON_ID);
+  }
 }

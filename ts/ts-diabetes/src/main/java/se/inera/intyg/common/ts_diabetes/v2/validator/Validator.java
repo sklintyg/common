@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,16 +27,15 @@ import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 @Component("ts-diabetes.v2.InternalDraftValidator")
 public class Validator implements InternalDraftValidator<TsDiabetesUtlatandeV2> {
 
-    /**
-     * Validates an external Utlatande.
-     *
-     * @param utlatande se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
-     * @return List of validation errors, or an empty string if validated correctly
-     */
-    @Override
-    public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV2 utlatande) {
-        InternalValidatorInstance instance = new InternalValidatorInstance();
-        return instance.validate(utlatande);
-    }
-
+  /**
+   * Validates an external Utlatande.
+   *
+   * @param utlatande se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
+   * @return List of validation errors, or an empty string if validated correctly
+   */
+  @Override
+  public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV2 utlatande) {
+    InternalValidatorInstance instance = new InternalValidatorInstance();
+    return instance.validate(utlatande);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -62,180 +62,165 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 @JsonDeserialize(builder = AutoValue_DoiUtlatandeV1.Builder.class)
 public abstract class DoiUtlatandeV1 implements SosUtlatande {
 
-    public static Builder builder() {
-        return new AutoValue_DoiUtlatandeV1.Builder().setGrunder(ImmutableList.<Dodsorsaksgrund>of())
-            .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
+  public static Builder builder() {
+    return new AutoValue_DoiUtlatandeV1.Builder()
+        .setGrunder(ImmutableList.<Dodsorsaksgrund>of())
+        .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of())
+        .setFoljd(ImmutableList.<Dodsorsak>of());
+  }
+
+  @Override
+  public String getTyp() {
+    return DoiModuleEntryPoint.MODULE_ID;
+  }
+
+  @Override
+  public abstract String getId();
+
+  @Override
+  public abstract GrundData getGrundData();
+
+  @Override
+  public abstract String getTextVersion();
+
+  @Override
+  @Nullable public abstract String getIdentitetStyrkt();
+
+  @Override
+  @Nullable public abstract Boolean getDodsdatumSakert();
+
+  @Override
+  @Nullable public abstract InternalDate getDodsdatum();
+
+  @Override
+  @Nullable public abstract InternalDate getAntraffatDodDatum();
+
+  @Override
+  @Nullable public abstract String getDodsplatsKommun();
+
+  @Override
+  @Nullable public abstract DodsplatsBoende getDodsplatsBoende();
+
+  @Override
+  @Nullable public abstract Boolean getBarn();
+
+  @Nullable public abstract String getLand();
+
+  @Nullable public abstract Dodsorsak getTerminalDodsorsak();
+
+  public abstract ImmutableList<Dodsorsak> getFoljd();
+
+  public abstract ImmutableList<Dodsorsak> getBidragandeSjukdomar();
+
+  @Nullable public abstract OmOperation getOperation();
+
+  @Nullable public abstract InternalDate getOperationDatum();
+
+  @Nullable public abstract String getOperationAnledning();
+
+  @Nullable public abstract Boolean getForgiftning();
+
+  @Nullable public abstract ForgiftningOrsak getForgiftningOrsak();
+
+  @Nullable public abstract InternalDate getForgiftningDatum();
+
+  @Nullable public abstract String getForgiftningUppkommelse();
+
+  public abstract ImmutableList<Dodsorsaksgrund> getGrunder();
+
+  @Nullable @Override
+  public abstract String getSignature();
+
+  /*
+   * Retrieve a builder from an existing DoiUtlatande object. The builder can then be used
+   * to create a new copy with modified attributes.
+   */
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract DoiUtlatandeV1 build();
+
+    @JsonProperty(ID_JSON_ID)
+    public abstract Builder setId(String id);
+
+    @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
+    public abstract Builder setGrundData(GrundData grundData);
+
+    @JsonProperty(TEXTVERSION_JSON_ID)
+    public abstract Builder setTextVersion(String textVersion);
+
+    @JsonProperty(IDENTITET_STYRKT_JSON_ID)
+    public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
+
+    @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
+    public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
+
+    @JsonProperty(DODSDATUM_JSON_ID)
+    public abstract Builder setDodsdatum(InternalDate dodsdatum);
+
+    @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
+    public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
+
+    @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
+    public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
+
+    @JsonProperty(DODSPLATS_BOENDE_JSON_ID)
+    public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
+
+    @JsonProperty(BARN_JSON_ID)
+    public abstract Builder setBarn(Boolean barn);
+
+    @JsonProperty(LAND_JSON_ID)
+    public abstract Builder setLand(String land);
+
+    @JsonProperty(TERMINAL_DODSORSAK_JSON_ID)
+    public abstract Builder setTerminalDodsorsak(Dodsorsak dodsorsak);
+
+    @JsonProperty(FOLJD_JSON_ID)
+    public Builder setFoljd(List<Dodsorsak> dodsorsak) {
+      return setFoljd(ImmutableList.copyOf(dodsorsak));
     }
 
-    @Override
-    public String getTyp() {
-        return DoiModuleEntryPoint.MODULE_ID;
+    abstract Builder setFoljd(ImmutableList<Dodsorsak> dodsorsak);
+
+    @JsonProperty(BIDRAGANDE_SJUKDOM_JSON_ID)
+    public Builder setBidragandeSjukdomar(List<Dodsorsak> bidragandeSjukdomar) {
+      return setBidragandeSjukdomar(ImmutableList.copyOf(bidragandeSjukdomar));
     }
 
-    @Override
-    public abstract String getId();
+    abstract Builder setBidragandeSjukdomar(ImmutableList<Dodsorsak> bidragandeSjukdomar);
 
-    @Override
-    public abstract GrundData getGrundData();
+    @JsonProperty(OPERATION_OM_JSON_ID)
+    public abstract Builder setOperation(OmOperation operation);
 
-    @Override
-    public abstract String getTextVersion();
+    @JsonProperty(OPERATION_DATUM_JSON_ID)
+    public abstract Builder setOperationDatum(InternalDate operationDatum);
 
-    @Override
-    @Nullable
-    public abstract String getIdentitetStyrkt();
+    @JsonProperty(OPERATION_ANLEDNING_JSON_ID)
+    public abstract Builder setOperationAnledning(String operationAnledning);
 
-    @Override
-    @Nullable
-    public abstract Boolean getDodsdatumSakert();
+    @JsonProperty(FORGIFTNING_OM_JSON_ID)
+    public abstract Builder setForgiftning(Boolean forgiftning);
 
-    @Override
-    @Nullable
-    public abstract InternalDate getDodsdatum();
+    @JsonProperty(FORGIFTNING_ORSAK_JSON_ID)
+    public abstract Builder setForgiftningOrsak(ForgiftningOrsak forgiftningOrsak);
 
-    @Override
-    @Nullable
-    public abstract InternalDate getAntraffatDodDatum();
+    @JsonProperty(FORGIFTNING_DATUM_JSON_ID)
+    public abstract Builder setForgiftningDatum(InternalDate forgiftningDatum);
 
-    @Override
-    @Nullable
-    public abstract String getDodsplatsKommun();
+    @JsonProperty(FORGIFTNING_UPPKOMMELSE_JSON_ID)
+    public abstract Builder setForgiftningUppkommelse(String forgiftningUppkommelse);
 
-    @Override
-    @Nullable
-    public abstract DodsplatsBoende getDodsplatsBoende();
+    @JsonProperty(SIGNATURE)
+    public abstract Builder setSignature(String signature);
 
-    @Override
-    @Nullable
-    public abstract Boolean getBarn();
-
-    @Nullable
-    public abstract String getLand();
-
-    @Nullable
-    public abstract Dodsorsak getTerminalDodsorsak();
-
-    public abstract ImmutableList<Dodsorsak> getFoljd();
-
-    public abstract ImmutableList<Dodsorsak> getBidragandeSjukdomar();
-
-    @Nullable
-    public abstract OmOperation getOperation();
-
-    @Nullable
-    public abstract InternalDate getOperationDatum();
-
-    @Nullable
-    public abstract String getOperationAnledning();
-
-    @Nullable
-    public abstract Boolean getForgiftning();
-
-    @Nullable
-    public abstract ForgiftningOrsak getForgiftningOrsak();
-
-    @Nullable
-    public abstract InternalDate getForgiftningDatum();
-
-    @Nullable
-    public abstract String getForgiftningUppkommelse();
-
-    public abstract ImmutableList<Dodsorsaksgrund> getGrunder();
-
-    @Nullable
-    @Override
-    public abstract String getSignature();
-
-    /*
-     * Retrieve a builder from an existing DoiUtlatande object. The builder can then be used
-     * to create a new copy with modified attributes.
-     */
-    public abstract Builder toBuilder();
-
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract DoiUtlatandeV1 build();
-
-        @JsonProperty(ID_JSON_ID)
-        public abstract Builder setId(String id);
-
-        @JsonProperty(GRUNDDATA_SVAR_JSON_ID)
-        public abstract Builder setGrundData(GrundData grundData);
-
-        @JsonProperty(TEXTVERSION_JSON_ID)
-        public abstract Builder setTextVersion(String textVersion);
-
-        @JsonProperty(IDENTITET_STYRKT_JSON_ID)
-        public abstract Builder setIdentitetStyrkt(String identitetStyrkt);
-
-        @JsonProperty(DODSDATUM_SAKERT_JSON_ID)
-        public abstract Builder setDodsdatumSakert(Boolean dodsdatumSakert);
-
-        @JsonProperty(DODSDATUM_JSON_ID)
-        public abstract Builder setDodsdatum(InternalDate dodsdatum);
-
-        @JsonProperty(ANTRAFFAT_DOD_DATUM_JSON_ID)
-        public abstract Builder setAntraffatDodDatum(InternalDate antraffatDodDatum);
-
-        @JsonProperty(DODSPLATS_KOMMUN_JSON_ID)
-        public abstract Builder setDodsplatsKommun(String dodsplatsKommun);
-
-        @JsonProperty(DODSPLATS_BOENDE_JSON_ID)
-        public abstract Builder setDodsplatsBoende(DodsplatsBoende dodsplatsBoende);
-
-        @JsonProperty(BARN_JSON_ID)
-        public abstract Builder setBarn(Boolean barn);
-
-        @JsonProperty(LAND_JSON_ID)
-        public abstract Builder setLand(String land);
-
-        @JsonProperty(TERMINAL_DODSORSAK_JSON_ID)
-        public abstract Builder setTerminalDodsorsak(Dodsorsak dodsorsak);
-
-        @JsonProperty(FOLJD_JSON_ID)
-        public Builder setFoljd(List<Dodsorsak> dodsorsak) {
-            return setFoljd(ImmutableList.copyOf(dodsorsak));
-        }
-
-        abstract Builder setFoljd(ImmutableList<Dodsorsak> dodsorsak);
-
-        @JsonProperty(BIDRAGANDE_SJUKDOM_JSON_ID)
-        public Builder setBidragandeSjukdomar(List<Dodsorsak> bidragandeSjukdomar) {
-            return setBidragandeSjukdomar(ImmutableList.copyOf(bidragandeSjukdomar));
-        }
-
-        abstract Builder setBidragandeSjukdomar(ImmutableList<Dodsorsak> bidragandeSjukdomar);
-
-        @JsonProperty(OPERATION_OM_JSON_ID)
-        public abstract Builder setOperation(OmOperation operation);
-
-        @JsonProperty(OPERATION_DATUM_JSON_ID)
-        public abstract Builder setOperationDatum(InternalDate operationDatum);
-
-        @JsonProperty(OPERATION_ANLEDNING_JSON_ID)
-        public abstract Builder setOperationAnledning(String operationAnledning);
-
-        @JsonProperty(FORGIFTNING_OM_JSON_ID)
-        public abstract Builder setForgiftning(Boolean forgiftning);
-
-        @JsonProperty(FORGIFTNING_ORSAK_JSON_ID)
-        public abstract Builder setForgiftningOrsak(ForgiftningOrsak forgiftningOrsak);
-
-        @JsonProperty(FORGIFTNING_DATUM_JSON_ID)
-        public abstract Builder setForgiftningDatum(InternalDate forgiftningDatum);
-
-        @JsonProperty(FORGIFTNING_UPPKOMMELSE_JSON_ID)
-        public abstract Builder setForgiftningUppkommelse(String forgiftningUppkommelse);
-
-        @JsonProperty(SIGNATURE)
-        public abstract Builder setSignature(String signature);
-
-        @JsonProperty(GRUNDER_JSON_ID)
-        public Builder setGrunder(List<Dodsorsaksgrund> grunder) {
-            return setGrunder(ImmutableList.copyOf(grunder));
-        }
-
-        abstract Builder setGrunder(ImmutableList<Dodsorsaksgrund> grunder);
+    @JsonProperty(GRUNDER_JSON_ID)
+    public Builder setGrunder(List<Dodsorsaksgrund> grunder) {
+      return setGrunder(ImmutableList.copyOf(grunder));
     }
+
+    abstract Builder setGrunder(ImmutableList<Dodsorsaksgrund> grunder);
+  }
 }

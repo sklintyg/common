@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,82 +29,80 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class IntygTestDataBuilder {
 
-    private IntygTestDataBuilder() {
-    }
+  private IntygTestDataBuilder() {}
 
-    public static Utlatande getUtlatande() {
-        return new Utlatande() {
-            private GrundData grundData = IntygTestDataBuilder.getGrundData();
+  public static Utlatande getUtlatande() {
+    return new Utlatande() {
+      private GrundData grundData = IntygTestDataBuilder.getGrundData();
 
-            @Override
-            public String getTyp() {
-                return "testTyp";
-            }
+      @Override
+      public String getTyp() {
+        return "testTyp";
+      }
 
-            @Override
-            public String getTextVersion() {
-                return "1.0";
-            }
+      @Override
+      public String getTextVersion() {
+        return "1.0";
+      }
 
-            @Override
-            public String getSignature() {
-                return "signature";
-            }
+      @Override
+      public String getSignature() {
+        return "signature";
+      }
 
-            @Override
-            public String getId() {
-                return "test-id";
-            }
+      @Override
+      public String getId() {
+        return "test-id";
+      }
 
-            @Override
-            public GrundData getGrundData() {
-                return grundData;
-            }
-        };
-    }
-
-    public static GrundData getGrundData() {
-        GrundData grundData = new GrundData();
-        grundData.setSigneringsdatum(LocalDateTime.now());
-        grundData.setSkapadAv(getHosPersonal());
-        grundData.setPatient(getPatient());
+      @Override
+      public GrundData getGrundData() {
         return grundData;
-    }
+      }
+    };
+  }
 
-    private static Patient getPatient() {
-        Personnummer personnummer = Personnummer.createPersonnummer("19270310-4321").get();
-        Patient patient = new Patient();
-        patient.setPersonId(personnummer);
-        return patient;
-    }
+  public static GrundData getGrundData() {
+    GrundData grundData = new GrundData();
+    grundData.setSigneringsdatum(LocalDateTime.now());
+    grundData.setSkapadAv(getHosPersonal());
+    grundData.setPatient(getPatient());
+    return grundData;
+  }
 
-    private static HoSPersonal getHosPersonal() {
-        HoSPersonal personal = new HoSPersonal();
-        personal.setVardenhet(getVardenhet());
-        personal.setForskrivarKod("09874321");
-        personal.setFullstandigtNamn("Karl Karlsson");
-        personal.setPersonId("19650708-1234");
-        personal.getBefattningar().add("Klinikchef");
-        personal.getBefattningar().add("Forskningsledare");
-        personal.getSpecialiteter().add("Kirurg");
-        return personal;
-    }
+  private static Patient getPatient() {
+    Personnummer personnummer = Personnummer.createPersonnummer("19270310-4321").get();
+    Patient patient = new Patient();
+    patient.setPersonId(personnummer);
+    return patient;
+  }
 
-    private static Vardenhet getVardenhet() {
-        Vardenhet vardenhet = new Vardenhet();
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarnamn("VG1");
-        vardgivare.setVardgivarid("12345678");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setTelefonnummer("0812341234");
-        vardenhet.setArbetsplatsKod("45312");
-        vardenhet.setEnhetsid("123456789");
-        vardenhet.setEnhetsnamn("VE1");
-        vardenhet.setEpost("ve1@vg1.se");
-        vardenhet.setPostadress("Enhetsg. 1");
-        vardenhet.setPostnummer("100 10");
-        vardenhet.setPostort("Stadby");
-        return vardenhet;
-    }
+  private static HoSPersonal getHosPersonal() {
+    HoSPersonal personal = new HoSPersonal();
+    personal.setVardenhet(getVardenhet());
+    personal.setForskrivarKod("09874321");
+    personal.setFullstandigtNamn("Karl Karlsson");
+    personal.setPersonId("19650708-1234");
+    personal.getBefattningar().add("Klinikchef");
+    personal.getBefattningar().add("Forskningsledare");
+    personal.getSpecialiteter().add("Kirurg");
+    return personal;
+  }
 
+  private static Vardenhet getVardenhet() {
+    Vardenhet vardenhet = new Vardenhet();
+    Vardgivare vardgivare = new Vardgivare();
+    vardgivare.setVardgivarnamn("VG1");
+    vardgivare.setVardgivarid("12345678");
+    vardenhet.setVardgivare(vardgivare);
+    vardenhet.setTelefonnummer("0812341234");
+    vardenhet.setArbetsplatsKod("45312");
+    vardenhet.setEnhetsid("123456789");
+    vardenhet.setEnhetsnamn("VE1");
+    vardenhet.setEpost("ve1@vg1.se");
+    vardenhet.setPostadress("Enhetsg. 1");
+    vardenhet.setPostnummer("100 10");
+    vardenhet.setPostort("Stadby");
+    return vardenhet;
+  }
 }

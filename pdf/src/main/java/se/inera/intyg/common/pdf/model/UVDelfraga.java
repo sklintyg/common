@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,39 +23,37 @@ import com.itextpdf.layout.element.Paragraph;
 import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-/**
- * Renders a Delfraga element.
- */
+/** Renders a Delfraga element. */
 public class UVDelfraga extends UVComponent {
 
-    public UVDelfraga(UVRenderer renderer) {
-        super(renderer);
-    }
+  public UVDelfraga(UVRenderer renderer) {
+    super(renderer);
+  }
 
-    @Override
-    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        String labelKey = (String) currentUvNode.get(LABEL_KEY);
+  @Override
+  public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+    String labelKey = (String) currentUvNode.get(LABEL_KEY);
 
-        // Check if we have hide/show expressions
-        boolean render = show(currentUvNode);
-        if (render) {
-            String delFraga = labelKey != null ? renderer.getText(labelKey) : "";
-            if (delFraga != null) {
-                parent.add(new Paragraph(delFraga)
-                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                    .setFont(renderer.fragaDelFragaFont)
-                    .setFontColor(WC_COLOR_09)
-                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
-                    .setPadding(0f)
-                    .setMarginTop(0f)
-                    .setMarginBottom(0f)
-                    .setKeepTogether(true)
-                );
-            }
-            // Allow page breaks (separating delfraga title from answer)
-            parent.setKeepTogether(false);
-        }
-        return render;
+    // Check if we have hide/show expressions
+    boolean render = show(currentUvNode);
+    if (render) {
+      String delFraga = labelKey != null ? renderer.getText(labelKey) : "";
+      if (delFraga != null) {
+        parent.add(
+            new Paragraph(delFraga)
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.fragaDelFragaFont)
+                .setFontColor(WC_COLOR_09)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
+                .setPadding(0f)
+                .setMarginTop(0f)
+                .setMarginBottom(0f)
+                .setKeepTogether(true));
+      }
+      // Allow page breaks (separating delfraga title from answer)
+      parent.setKeepTogether(false);
     }
+    return render;
+  }
 }

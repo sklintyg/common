@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -20,48 +20,46 @@ package se.inera.intyg.common.support.modules.service;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 
-/**
- * Interface for exposing Webcert services that can be used by modules.
- */
+/** Interface for exposing Webcert services that can be used by modules. */
 public interface WebcertModuleService {
 
-    /**
-     * Validates a diagnosis code using the DiagnosService.
-     *
-     * @param codeFragment the code to validate
-     * @param codeSystemStr the string representing the code system the diagnosis belongs to
-     * @return true if the code matches a diagnosis, false otherwise.
-     */
-    boolean validateDiagnosisCode(String codeFragment, String codeSystemStr);
+  /**
+   * Validates a diagnosis code using the DiagnosService.
+   *
+   * @param codeFragment the code to validate
+   * @param codeSystemStr the string representing the code system the diagnosis belongs to
+   * @return true if the code matches a diagnosis, false otherwise.
+   */
+  boolean validateDiagnosisCode(String codeFragment, String codeSystemStr);
 
-    /**
-     * Validates a diagnosis code using the DiagnosService.
-     *
-     * @param codeFragment the code to validate
-     * @param codeSystem the enum representing the code system the diagnosis belongs to
-     * @return true if the code matches a diagnosis, false otherwise.
-     */
-    boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
+  /**
+   * Validates a diagnosis code using the DiagnosService.
+   *
+   * @param codeFragment the code to validate
+   * @param codeSystem the enum representing the code system the diagnosis belongs to
+   * @return true if the code matches a diagnosis, false otherwise.
+   */
+  boolean validateDiagnosisCode(String codeFragment, Diagnoskodverk codeSystem);
 
-    /**
-     * Validates that diagnosis code has a valid format.
-     *
-     * @param code The code to validate
-     * @return true if the code format is valid, false otherwise.
-     */
-    boolean validateDiagnosisCodeFormat(String code);
+  /**
+   * Validates that diagnosis code has a valid format.
+   *
+   * @param code The code to validate
+   * @return true if the code format is valid, false otherwise.
+   */
+  boolean validateDiagnosisCodeFormat(String code);
 
-    /**
-     * Gets the description belonging to a diagnosis code.
-     * <p>
-     * The given code may represent a group of multiple diagnosis codes, and thus generate a list of matches instead of
-     * only one. This means that the mapping is no longer 1:1. In that case, as well as in the case where there is no
-     * match, description will be set to "" since we do not wish to interpret what is being delivered to us - we only
-     * wish to forward the information.
-     *
-     * @param code the code of the diagnosis
-     * @param codeSystemStr the codeSystem used for the diagnosis code
-     * @return the description if there is one and only one, otherwise empty String
-     */
-    String getDescriptionFromDiagnosKod(String code, String codeSystemStr);
+  /**
+   * Gets the description belonging to a diagnosis code.
+   *
+   * <p>The given code may represent a group of multiple diagnosis codes, and thus generate a list
+   * of matches instead of only one. This means that the mapping is no longer 1:1. In that case, as
+   * well as in the case where there is no match, description will be set to "" since we do not wish
+   * to interpret what is being delivered to us - we only wish to forward the information.
+   *
+   * @param code the code of the diagnosis
+   * @param codeSystemStr the codeSystem used for the diagnosis code
+   * @return the description if there is one and only one, otherwise empty String
+   */
+  String getDescriptionFromDiagnosKod(String code, String codeSystemStr);
 }

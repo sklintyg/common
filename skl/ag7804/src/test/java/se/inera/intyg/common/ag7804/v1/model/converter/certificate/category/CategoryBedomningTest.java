@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ag7804.v1.model.converter.certificate.category;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -43,78 +42,82 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 class CategoryBedomningTest {
 
-    private GrundData grundData;
-    private CertificateTextProvider texts;
+  private GrundData grundData;
+  private CertificateTextProvider texts;
+
+  @BeforeEach
+  void setup() {
+    final var patient = new Patient();
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+
+    final var unit = new Vardenhet();
+
+    final var skapadAv = new HoSPersonal();
+    skapadAv.setVardenhet(unit);
+
+    grundData = new GrundData();
+    grundData.setSkapadAv(skapadAv);
+    grundData.setPatient(patient);
+
+    texts = Mockito.mock(CertificateTextProvider.class);
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  class ToCertificate {
+
+    private Ag7804UtlatandeV1 internalCertificate;
 
     @BeforeEach
-    void setup() {
-        final var patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-
-        final var unit = new Vardenhet();
-
-        final var skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(unit);
-
-        grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-
-        texts = Mockito.mock(CertificateTextProvider.class);
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+    void createInternalCertificateToConvert() {
+      internalCertificate =
+          Ag7804UtlatandeV1.builder()
+              .setGrundData(grundData)
+              .setId("id")
+              .setTextVersion("TextVersion")
+              .build();
     }
 
-    @Nested
-    class ToCertificate {
+    @Test
+    void shouldIncludeCategoryElement() {
+      final var expectedIndex = 17;
 
-        private Ag7804UtlatandeV1 internalCertificate;
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
-        @BeforeEach
-        void createInternalCertificateToConvert() {
-            internalCertificate = Ag7804UtlatandeV1.builder()
-                .setGrundData(grundData)
-                .setId("id")
-                .setTextVersion("TextVersion")
-                .build();
+      final var category = certificate.getData().get(CATEGORY_BEDOMNING);
 
-        }
-
-        @Test
-        void shouldIncludeCategoryElement() {
-            final var expectedIndex = 17;
-
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(CATEGORY_BEDOMNING);
-
-            assertAll("Validating category",
-                () -> assertEquals(CATEGORY_BEDOMNING, category.getId()),
-                () -> assertEquals(expectedIndex, category.getIndex()),
-                () -> assertNull(category.getParent(), "Should not contain a parent"),
-                () -> assertNull(category.getValue(), "Should not contain a value"),
-                () -> assertNotNull(category.getConfig(), "Should include config")
-            );
-        }
-
-        @Test
-        void shouldIncludeCategoryConfig() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-
-            final var category = certificate.getData().get(CATEGORY_BEDOMNING);
-
-            assertEquals(CertificateDataConfigType.CATEGORY, category.getConfig().getType());
-
-            assertAll("Validating category configuration",
-                () -> assertTrue(category.getConfig().getText().trim().length() > 0, "Missing selected text"),
-                () -> assertNull(category.getConfig().getDescription(), "Should not contain a description")
-            );
-        }
-
-        @Test
-        void shouldNotIncludeAnyValidation() {
-            final var certificate = InternalToCertificate.convert(internalCertificate, texts);
-            final var question = certificate.getData().get(CATEGORY_BEDOMNING);
-            assertNull(question.getValidation(), "Should not contain any validation");
-        }
+      assertAll(
+          "Validating category",
+          () -> assertEquals(CATEGORY_BEDOMNING, category.getId()),
+          () -> assertEquals(expectedIndex, category.getIndex()),
+          () -> assertNull(category.getParent(), "Should not contain a parent"),
+          () -> assertNull(category.getValue(), "Should not contain a value"),
+          () -> assertNotNull(category.getConfig(), "Should include config"));
     }
+
+    @Test
+    void shouldIncludeCategoryConfig() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+      final var category = certificate.getData().get(CATEGORY_BEDOMNING);
+
+      assertEquals(CertificateDataConfigType.CATEGORY, category.getConfig().getType());
+
+      assertAll(
+          "Validating category configuration",
+          () ->
+              assertTrue(
+                  category.getConfig().getText().trim().length() > 0, "Missing selected text"),
+          () ->
+              assertNull(
+                  category.getConfig().getDescription(), "Should not contain a description"));
+    }
+
+    @Test
+    void shouldNotIncludeAnyValidation() {
+      final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+      final var question = certificate.getData().get(CATEGORY_BEDOMNING);
+      assertNull(question.getValidation(), "Should not contain any validation");
+    }
+  }
 }

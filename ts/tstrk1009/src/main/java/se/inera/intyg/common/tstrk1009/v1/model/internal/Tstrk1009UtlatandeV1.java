@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,86 +38,76 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 @JsonDeserialize(builder = AutoValue_Tstrk1009UtlatandeV1.Builder.class)
 public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
 
-    @Override
-    public String getTyp() {
-        return Tstrk1009EntryPoint.MODULE_ID;
-    }
+  @Override
+  public String getTyp() {
+    return Tstrk1009EntryPoint.MODULE_ID;
+  }
 
-    @Override
-    @Nullable
-    public abstract String getId();
+  @Override
+  @Nullable public abstract String getId();
 
-    @Override
-    @Nullable
-    public abstract GrundData getGrundData();
+  @Override
+  @Nullable public abstract GrundData getGrundData();
 
-    @Override
-    @Nullable
-    public abstract String getTextVersion();
+  @Override
+  @Nullable public abstract String getTextVersion();
 
-    @Override
-    @Nullable
-    public abstract String getSignature();
+  @Override
+  @Nullable public abstract String getSignature();
 
-    @Nullable
-    public abstract IdentitetStyrktGenom getIdentitetStyrktGenom();
+  @Nullable public abstract IdentitetStyrktGenom getIdentitetStyrktGenom();
 
-    @Nullable
-    public abstract AnmalanAvser getAnmalanAvser();
+  @Nullable public abstract AnmalanAvser getAnmalanAvser();
 
-    @Nullable
-    public abstract String getMedicinskaForhallanden();
+  @Nullable public abstract String getMedicinskaForhallanden();
 
-    @Nullable
-    public abstract InternalDate getSenasteUndersokningsdatum();
+  @Nullable public abstract InternalDate getSenasteUndersokningsdatum();
 
-    @Nullable
-    public abstract IntygetAvser getIntygetAvserBehorigheter();
+  @Nullable public abstract IntygetAvser getIntygetAvserBehorigheter();
 
-    @Nullable
-    public abstract Boolean getInformationOmTsBeslutOnskas();
+  @Nullable public abstract Boolean getInformationOmTsBeslutOnskas();
 
-    public abstract Builder toBuilder();
+  public abstract Builder toBuilder();
 
-    public static Builder builder() {
-        return new AutoValue_Tstrk1009UtlatandeV1.Builder()
-            .setIntygetAvserBehorigheter(IntygetAvser.create(null))
-            .setSignature(null);
-    }
+  public static Builder builder() {
+    return new AutoValue_Tstrk1009UtlatandeV1.Builder()
+        .setIntygetAvserBehorigheter(IntygetAvser.create(null))
+        .setSignature(null);
+  }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+  @AutoValue.Builder
+  public abstract static class Builder {
 
-        public abstract Tstrk1009UtlatandeV1 build();
+    public abstract Tstrk1009UtlatandeV1 build();
 
-        @JsonProperty("id")
-        public abstract Builder setId(String id);
+    @JsonProperty("id")
+    public abstract Builder setId(String id);
 
-        @JsonProperty("grundData")
-        public abstract Builder setGrundData(GrundData grundData);
+    @JsonProperty("grundData")
+    public abstract Builder setGrundData(GrundData grundData);
 
-        @JsonProperty("textVersion")
-        public abstract Builder setTextVersion(String textVersion);
+    @JsonProperty("textVersion")
+    public abstract Builder setTextVersion(String textVersion);
 
-        @JsonProperty("signature")
-        public abstract Builder setSignature(String signature);
+    @JsonProperty("signature")
+    public abstract Builder setSignature(String signature);
 
-        @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)
-        public abstract Builder setIdentitetStyrktGenom(IdentitetStyrktGenom identitetStyrktGenom);
+    @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)
+    public abstract Builder setIdentitetStyrktGenom(IdentitetStyrktGenom identitetStyrktGenom);
 
-        @JsonProperty(ANMALAN_AVSER_JSON_ID)
-        public abstract Builder setAnmalanAvser(AnmalanAvser anmalanAvser);
+    @JsonProperty(ANMALAN_AVSER_JSON_ID)
+    public abstract Builder setAnmalanAvser(AnmalanAvser anmalanAvser);
 
-        @JsonProperty(MEDICINSKA_FORHALLANDEN_JSON_ID)
-        public abstract Builder setMedicinskaForhallanden(String medicinskaForhallanden);
+    @JsonProperty(MEDICINSKA_FORHALLANDEN_JSON_ID)
+    public abstract Builder setMedicinskaForhallanden(String medicinskaForhallanden);
 
-        @JsonProperty(SENASTE_UNDERSOKNINGSDATUM_JSON_ID)
-        public abstract Builder setSenasteUndersokningsdatum(InternalDate internalDate);
+    @JsonProperty(SENASTE_UNDERSOKNINGSDATUM_JSON_ID)
+    public abstract Builder setSenasteUndersokningsdatum(InternalDate internalDate);
 
-        @JsonProperty(INTYGET_AVSER_BEHORIGHET_JSON_ID)
-        public abstract Builder setIntygetAvserBehorigheter(IntygetAvser intygetAvserBehorigheter);
+    @JsonProperty(INTYGET_AVSER_BEHORIGHET_JSON_ID)
+    public abstract Builder setIntygetAvserBehorigheter(IntygetAvser intygetAvserBehorigheter);
 
-        @JsonProperty(INFORMATION_OM_TS_BESLUT_ONSKAS_JSON_ID)
-        public abstract Builder setInformationOmTsBeslutOnskas(Boolean informationOmTsBeslutOnskas);
-    }
+    @JsonProperty(INFORMATION_OM_TS_BESLUT_ONSKAS_JSON_ID)
+    public abstract Builder setInformationOmTsBeslutOnskas(Boolean informationOmTsBeslutOnskas);
+  }
 }

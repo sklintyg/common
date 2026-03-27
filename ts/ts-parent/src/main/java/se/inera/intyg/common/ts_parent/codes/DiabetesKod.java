@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -21,28 +21,29 @@ package se.inera.intyg.common.ts_parent.codes;
 import java.util.stream.Stream;
 
 public enum DiabetesKod {
+  DIABETES_TYP_1("E10", "Diabetes mellitus typ 1"),
+  DIABETES_TYP_2("E11", "Diabetes mellitus typ 2");
 
-    DIABETES_TYP_1("E10", "Diabetes mellitus typ 1"),
-    DIABETES_TYP_2("E11", "Diabetes mellitus typ 2");
+  final String code;
+  final String description;
 
-    final String code;
-    final String description;
+  DiabetesKod(String code, String description) {
+    this.code = code;
+    this.description = description;
+  }
 
-    DiabetesKod(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public static DiabetesKod fromCode(String code) {
-        return Stream.of(DiabetesKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
-    }
+  public static DiabetesKod fromCode(String code) {
+    return Stream.of(DiabetesKod.values())
+        .filter(s -> code.equals(s.getCode()))
+        .findFirst()
+        .orElseThrow(() -> new IllegalArgumentException(code));
+  }
 }

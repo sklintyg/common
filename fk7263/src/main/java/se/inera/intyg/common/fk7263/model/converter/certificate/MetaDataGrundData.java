@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fk7263.model.converter.certificate;
 
 import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.MODULE_DETAILED_DESCRIPTION;
@@ -29,23 +28,19 @@ import se.inera.intyg.common.support.facade.util.MetaDataToolkit;
 
 public class MetaDataGrundData {
 
-    public static CertificateMetadata toCertificate(Fk7263Utlatande internalCertificate) {
-        return CertificateMetadata.builder()
-            .id(internalCertificate.getId())
-            .type(internalCertificate.getTyp())
-            .typeName(Fk7263EntryPoint.ISSUER_TYPE_ID)
-            .typeVersion(internalCertificate.getTextVersion())
-            .name(MODULE_NAME)
-            .description(MODULE_DETAILED_DESCRIPTION)
-            .unit(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv().getVardenhet())
-            )
-            .issuedBy(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv())
-            )
-            .patient(
-                MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient())
-            )
-            .build();
-    }
+  public static CertificateMetadata toCertificate(Fk7263Utlatande internalCertificate) {
+    return CertificateMetadata.builder()
+        .id(internalCertificate.getId())
+        .type(internalCertificate.getTyp())
+        .typeName(Fk7263EntryPoint.ISSUER_TYPE_ID)
+        .typeVersion(internalCertificate.getTextVersion())
+        .name(MODULE_NAME)
+        .description(MODULE_DETAILED_DESCRIPTION)
+        .unit(
+            MetaDataToolkit.toCertificate(
+                internalCertificate.getGrundData().getSkapadAv().getVardenhet()))
+        .issuedBy(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getSkapadAv()))
+        .patient(MetaDataToolkit.toCertificate(internalCertificate.getGrundData().getPatient()))
+        .build();
+  }
 }

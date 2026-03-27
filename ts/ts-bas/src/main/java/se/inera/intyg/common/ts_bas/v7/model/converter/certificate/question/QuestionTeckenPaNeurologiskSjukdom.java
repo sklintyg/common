@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,41 +38,42 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Neurologi;
 
 public class QuestionTeckenPaNeurologiskSjukdom {
 
-    public static CertificateDataElement toCertificate(Neurologi neurologi, int index, CertificateTextProvider textProvider) {
-        final var neurologiskSjukdom =
-            neurologi != null && neurologi.getNeurologiskSjukdom() != null ? neurologi.getNeurologiskSjukdom() : null;
-        return CertificateDataElement.builder()
-            .id(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
-            .parent(NEUROLOGISK_SJUKDOM_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID)
-                    .text(textProvider.get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID)
-                    .selected(neurologiskSjukdom)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
-                        .expression(exists(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID))
-                        .build()
-                }
-            )
+  public static CertificateDataElement toCertificate(
+      Neurologi neurologi, int index, CertificateTextProvider textProvider) {
+    final var neurologiskSjukdom =
+        neurologi != null && neurologi.getNeurologiskSjukdom() != null
+            ? neurologi.getNeurologiskSjukdom()
+            : null;
+    return CertificateDataElement.builder()
+        .id(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
+        .parent(NEUROLOGISK_SJUKDOM_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID)
+                .text(textProvider.get(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID)
+                .selected(neurologiskSjukdom)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID)
+                  .expression(exists(TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-            .build();
-    }
-
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID, TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID,
+        TECKEN_NEUROLOGISK_SJUKDOM_JSON_ID);
+  }
 }

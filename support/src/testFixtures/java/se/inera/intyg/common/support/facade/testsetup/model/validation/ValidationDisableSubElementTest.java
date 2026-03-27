@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -28,35 +28,38 @@ import se.inera.intyg.common.support.facade.model.validation.CertificateDataVali
 
 public abstract class ValidationDisableSubElementTest extends ValidationTest {
 
-    protected abstract String getQuestionId();
+  protected abstract String getQuestionId();
 
-    protected abstract String getExpression();
+  protected abstract String getExpression();
 
-    protected abstract List<String> getListOfIds();
+  protected abstract List<String> getListOfIds();
 
-    @Override
-    protected CertificateDataValidationType getType() {
-        return CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION;
-    }
+  @Override
+  protected CertificateDataValidationType getType() {
+    return CertificateDataValidationType.DISABLE_SUB_ELEMENT_VALIDATION;
+  }
 
-    @Test
-    void shouldIncludeValidationDisableSubElementQuestionId() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
-        assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
-    }
+  @Test
+  void shouldIncludeValidationDisableSubElementQuestionId() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
+    assertEquals(getQuestionId(), certificateDataValidation.getQuestionId());
+  }
 
-    @Test
-    void shouldIncludeValidationDisableSubElementExpression() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
-        assertEquals(getExpression(), certificateDataValidation.getExpression());
-    }
+  @Test
+  void shouldIncludeValidationDisableSubElementExpression() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
+    assertEquals(getExpression(), certificateDataValidation.getExpression());
+  }
 
-    @Test
-    void shouldIncludeListOfIds() {
-        final var question = getElement();
-        final var certificateDataValidation = (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
-        assertIterableEquals(certificateDataValidation.getId(), getListOfIds());
-    }
+  @Test
+  void shouldIncludeListOfIds() {
+    final var question = getElement();
+    final var certificateDataValidation =
+        (CertificateDataValidationDisableSubElement) question.getValidation()[getValidationIndex()];
+    assertIterableEquals(certificateDataValidation.getId(), getListOfIds());
+  }
 }

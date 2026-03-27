@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,64 +33,72 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
+  private static final RegisterCertificateValidator VALIDATOR =
+      new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
 
-    static {
-        // avoid com.helger debug log
-        GlobalDebug.setDebugModeDirect(false);
-    }
+  static {
+    // avoid com.helger debug log
+    GlobalDebug.setDebugModeDirect(false);
+  }
 
-    @Test
-    public void brokenXmlFailsTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/lisjp_broken.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void brokenXmlFailsTest() throws Exception {
+    String inputXml =
+        Resources.toString(getResource("v1/transport/lisjp_broken.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertFalse(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void validXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void validXmlPassesTest() throws Exception {
+    String inputXml = Resources.toString(getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertTrue(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void invalidAntalDiagnoser() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/diagnosMaxTreDiagnoser.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  public void invalidAntalDiagnoser() throws Exception {
+    String inputXml =
+        Resources.toString(getResource("v1/transport/diagnosMaxTreDiagnoser.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertFalse(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    // Since change request ID06 (INTYG-2286), Delfråga 39.2 is no longer in use.
-    public void delfraga392IsNoLongerValid() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/prognosMedDelfraga39-2.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().isEmpty());
-    }
+  @Test
+  // Since change request ID06 (INTYG-2286), Delfråga 39.2 is no longer in use.
+  public void delfraga392IsNoLongerValid() throws Exception {
+    String inputXml =
+        Resources.toString(getResource("v1/transport/prognosMedDelfraga39-2.xml"), Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertFalse(response.getValidationErrors().isEmpty());
+  }
 
-    @Test
-    public void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
-        String inputXml = Resources
-            .toString(getResource("v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
-                Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(String.format("Expected 1 error but was %s",
-            response.getValidationErrors().size()), response.getValidationErrors().size() == 1);
-    }
+  @Test
+  public void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource(
+                "v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
+            Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertTrue(
+        String.format("Expected 1 error but was %s", response.getValidationErrors().size()),
+        response.getValidationErrors().size() == 1);
+  }
 
-    @Test
-    public void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
-        String inputXml = Resources
-            .toString(getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
-                Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(String.format("Expected 0 error but was %s",
-            response.getValidationErrors().size()), response.getValidationErrors().size() == 0);
-    }
+  @Test
+  public void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
+    String inputXml =
+        Resources.toString(
+            getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
+            Charsets.UTF_8);
+    ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+    assertTrue(
+        String.format("Expected 0 error but was %s", response.getValidationErrors().size()),
+        response.getValidationErrors().size() == 0);
+  }
 
-
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
-    }
+  private static URL getResource(String href) {
+    return Thread.currentThread().getContextClassLoader().getResource(href);
+  }
 }

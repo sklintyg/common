@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,47 +27,43 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 
 public final class MetaDataToolkit {
 
-    public static Unit toCertificate(Vardenhet unit) {
-        return Unit.builder()
-            .unitId(unit.getEnhetsid())
-            .unitName(unit.getEnhetsnamn())
-            .address(unit.getPostadress())
-            .zipCode(unit.getPostnummer())
-            .city(unit.getPostort())
-            .email(unit.getEpost())
-            .phoneNumber(unit.getTelefonnummer())
-            .workplaceCode(unit.getArbetsplatsKod())
-            .build();
-    }
+  public static Unit toCertificate(Vardenhet unit) {
+    return Unit.builder()
+        .unitId(unit.getEnhetsid())
+        .unitName(unit.getEnhetsnamn())
+        .address(unit.getPostadress())
+        .zipCode(unit.getPostnummer())
+        .city(unit.getPostort())
+        .email(unit.getEpost())
+        .phoneNumber(unit.getTelefonnummer())
+        .workplaceCode(unit.getArbetsplatsKod())
+        .build();
+  }
 
-    public static Staff toCertificate(HoSPersonal staff) {
-        return Staff.builder()
-            .personId(staff.getPersonId())
-            .fullName(staff.getFullstandigtNamn())
-            .build();
-    }
+  public static Staff toCertificate(HoSPersonal staff) {
+    return Staff.builder()
+        .personId(staff.getPersonId())
+        .fullName(staff.getFullstandigtNamn())
+        .build();
+  }
 
-    public static Patient toCertificate(
-        se.inera.intyg.common.support.model.common.internal.Patient patient) {
-        return Patient.builder()
-            .personId(
-                PersonId.builder()
-                    .id(patient.getPersonId().getPersonnummerWithDash())
-                    .build()
-            )
-            .firstName(asString(patient.getFornamn()))
-            .middleName(asString(patient.getMellannamn()))
-            .lastName(asString(patient.getEfternamn()))
-            .fullName(patient.getFullstandigtNamn())
-            .street(patient.getPostadress())
-            .zipCode(patient.getPostnummer())
-            .city(patient.getPostort())
-            .testIndicated(patient.isTestIndicator())
-            .addressFromPU(patient.isAddressDetailsSourcePU())
-            .build();
-    }
+  public static Patient toCertificate(
+      se.inera.intyg.common.support.model.common.internal.Patient patient) {
+    return Patient.builder()
+        .personId(PersonId.builder().id(patient.getPersonId().getPersonnummerWithDash()).build())
+        .firstName(asString(patient.getFornamn()))
+        .middleName(asString(patient.getMellannamn()))
+        .lastName(asString(patient.getEfternamn()))
+        .fullName(patient.getFullstandigtNamn())
+        .street(patient.getPostadress())
+        .zipCode(patient.getPostnummer())
+        .city(patient.getPostort())
+        .testIndicated(patient.isTestIndicator())
+        .addressFromPU(patient.isAddressDetailsSourcePU())
+        .build();
+  }
 
-    private static String asString(String s) {
-        return s != null ? s : "";
-    }
+  private static String asString(String s) {
+    return s != null ? s : "";
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,18 +18,16 @@
  */
 package se.inera.intyg.common.luse.v1.utils;
 
-/**
- * Thrown when an expected scenario wasn't found.
- */
+/** Thrown when an expected scenario wasn't found. */
 public class ScenarioNotFoundException extends Exception {
 
-    private static final long serialVersionUID = 2092187161098644931L;
+  private static final long serialVersionUID = 2092187161098644931L;
 
-    public ScenarioNotFoundException(String scenario, String model) {
-        super(String.format("Could not find %s model scenario %s", model, scenario));
-    }
+  public ScenarioNotFoundException(String scenario, String model) {
+    super(String.format("Could not find %s model scenario %s", model, scenario));
+  }
 
-    public ScenarioNotFoundException(String scenario, String model, Throwable cause) {
-        super(String.format("Could not find %s model scenario %s", model, scenario), cause);
-    }
+  public ScenarioNotFoundException(String scenario, String model, Throwable cause) {
+    super(String.format("Could not find %s model scenario %s", model, scenario), cause);
+  }
 }

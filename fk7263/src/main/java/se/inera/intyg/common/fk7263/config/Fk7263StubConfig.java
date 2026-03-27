@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,19 +34,18 @@ import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 @Profile({"dev", "it-fk-stub"})
 public class Fk7263StubConfig {
 
-    @Autowired
-    private Bus bus;
+  @Autowired private Bus bus;
 
-    @Bean
-    public RegisterMedicalCertificateResponderInterface registerMedicalCertificateStub() {
-        return new RegisterMedicalCertificateResponderStub(new MedicalCertificatesStore());
-    }
+  @Bean
+  public RegisterMedicalCertificateResponderInterface registerMedicalCertificateStub() {
+    return new RegisterMedicalCertificateResponderStub(new MedicalCertificatesStore());
+  }
 
-    @Bean
-    public Endpoint registerMedicalCertificateStubEndpoint(
-        @Qualifier("registerMedicalCertificateStub") RegisterMedicalCertificateResponderInterface implementor) {
-        final var endpoint = new EndpointImpl(bus, implementor);
-        endpoint.publish("/stubs/RegisterMedicalCertificate/3/rivtabp20");
-        return endpoint;
-    }
+  @Bean
+  public Endpoint registerMedicalCertificateStubEndpoint(
+      @Qualifier("registerMedicalCertificateStub") RegisterMedicalCertificateResponderInterface implementor) {
+    final var endpoint = new EndpointImpl(bus, implementor);
+    endpoint.publish("/stubs/RegisterMedicalCertificate/3/rivtabp20");
+    return endpoint;
+  }
 }

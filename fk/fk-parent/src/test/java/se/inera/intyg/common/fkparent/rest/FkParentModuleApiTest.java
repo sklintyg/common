@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -110,9 +110,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class, UnitMappingConfigLoader.class,
-    UnitMapperUtil.class,
-    InternalConverterUtil.class})
+@ContextConfiguration(
+    classes = {
+      BefattningService.class,
+      UnitMappingConfigLoader.class,
+      UnitMapperUtil.class,
+      InternalConverterUtil.class
+    })
 public class FkParentModuleApiTest {
 
   private static final String INTYG_ID = "test-id";
@@ -123,26 +127,20 @@ public class FkParentModuleApiTest {
   private static ClassPathResource revokeCertificateFile;
   private static Utlatande utlatande;
   private static String json;
+
   @SuppressWarnings("unchecked")
   @InjectMocks
-  FkParentModuleApi<Utlatande> moduleApi = mock(FkParentModuleApi.class,
-      Mockito.CALLS_REAL_METHODS);
-  @Mock
-  private InternalDraftValidator<Utlatande> internalDraftValidator;
-  @Mock
-  private WebcertModelFactory<Utlatande> webcertModelFactory;
-  @Mock
-  private RegisterCertificateResponderInterface registerCertificateResponderInterface;
-  @Mock
-  private GetCertificateResponderInterface getCertificateResponderInterface;
-  @Mock
-  private RegisterCertificateValidator validator;
-  @Mock
-  private SvarIdHelper<Utlatande> svarIdHelper;
-  @Mock
-  private RevokeCertificateResponderInterface revokeCertificateClient;
-  @Spy
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  FkParentModuleApi<Utlatande> moduleApi =
+      mock(FkParentModuleApi.class, Mockito.CALLS_REAL_METHODS);
+
+  @Mock private InternalDraftValidator<Utlatande> internalDraftValidator;
+  @Mock private WebcertModelFactory<Utlatande> webcertModelFactory;
+  @Mock private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+  @Mock private GetCertificateResponderInterface getCertificateResponderInterface;
+  @Mock private RegisterCertificateValidator validator;
+  @Mock private SvarIdHelper<Utlatande> svarIdHelper;
+  @Mock private RevokeCertificateResponderInterface revokeCertificateClient;
+  @Spy private ObjectMapper objectMapper = new CustomObjectMapper();
 
   public FkParentModuleApiTest() {
     MockitoAnnotations.initMocks(this);
@@ -181,9 +179,8 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testCreateNewInternal() throws Exception {
-    CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID,
-        INTYG_TYPE_VERSION_1, new HoSPersonal(),
-        new Patient());
+    CreateNewDraftHolder draftCertificateHolder =
+        new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient());
     String res = moduleApi.createNewInternal(draftCertificateHolder);
 
     assertNotNull(res);
@@ -192,8 +189,8 @@ public class FkParentModuleApiTest {
 
   @Test(expected = ModuleConverterException.class)
   public void testCreateNewInternalConverterException() throws Exception {
-    when(webcertModelFactory.createNewWebcertDraft(any(CreateNewDraftHolder.class))).thenThrow(
-        new ConverterException());
+    when(webcertModelFactory.createNewWebcertDraft(any(CreateNewDraftHolder.class)))
+        .thenThrow(new ConverterException());
     moduleApi.createNewInternal(
         new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient()));
   }
@@ -209,10 +206,10 @@ public class FkParentModuleApiTest {
 
   @Test(expected = ModuleConverterException.class)
   public void testCreateNewInternalFromTemplateConverterException() throws Exception {
-    when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class),
-        any(Utlatande.class))).thenThrow(new ConverterException());
-    moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()),
-        utlatande);
+    when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class)))
+        .thenThrow(new ConverterException());
+    moduleApi.createNewInternalFromTemplate(
+        new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
   }
 
   @Test
@@ -226,10 +223,10 @@ public class FkParentModuleApiTest {
 
   @Test(expected = ModuleConverterException.class)
   public void testCreateRenewalFromTemplateConverterException() throws Exception {
-    when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class),
-        any(Utlatande.class))).thenThrow(new ConverterException());
-    moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()),
-        utlatande);
+    when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class)))
+        .thenThrow(new ConverterException());
+    moduleApi.createRenewalFromTemplate(
+        new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
   }
 
   @Test(expected = ExternalServiceCallException.class)
@@ -238,8 +235,8 @@ public class FkParentModuleApiTest {
 
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.errorResult(ErrorIdType.TECHNICAL_ERROR, "error"));
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
     moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
   }
@@ -248,8 +245,8 @@ public class FkParentModuleApiTest {
   public void testSendCertificateToRecipientSoapFault() throws Exception {
     String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenThrow(mock(SOAPFaultException.class));
     moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
   }
@@ -258,12 +255,12 @@ public class FkParentModuleApiTest {
   public void testSendCertificateToRecipientResponseResultMissing() throws Exception {
     String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
 
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(new RegisterCertificateResponseType());
     moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
-    verify(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class));
+    verify(registerCertificateResponderInterface)
+        .registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class));
   }
 
   @Test
@@ -272,12 +269,12 @@ public class FkParentModuleApiTest {
 
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.okResult());
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
     moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
-    verify(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class));
+    verify(registerCertificateResponderInterface)
+        .registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class));
   }
 
   @Test(expected = ModuleException.class)
@@ -292,10 +289,10 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testGetCertificate() throws Exception {
-    GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(),
-        GetCertificateResponseType.class);
-    when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS),
-        any(GetCertificateType.class)))
+    GetCertificateResponseType getCertificateResponse =
+        JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
+    when(getCertificateResponderInterface.getCertificate(
+            eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
         .thenReturn(getCertificateResponse);
     doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
     doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
@@ -305,26 +302,26 @@ public class FkParentModuleApiTest {
     assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
     assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
     assertFalse(res.isRevoked());
-    ArgumentCaptor<GetCertificateType> parametersCaptor = ArgumentCaptor.forClass(
-        GetCertificateType.class);
-    verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS),
-        parametersCaptor.capture());
+    ArgumentCaptor<GetCertificateType> parametersCaptor =
+        ArgumentCaptor.forClass(GetCertificateType.class);
+    verify(getCertificateResponderInterface)
+        .getCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
     assertEquals(INTYG_ID, parametersCaptor.getValue().getIntygsId().getExtension());
     assertNotNull(parametersCaptor.getValue().getIntygsId().getRoot());
   }
 
   @Test
   public void testGetCertificateRevoked() throws Exception {
-    GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(),
-        GetCertificateResponseType.class);
+    GetCertificateResponseType getCertificateResponse =
+        JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
     IntygsStatus revokedStatus = new IntygsStatus();
     revokedStatus.setPart(new Part());
     revokedStatus.getPart().setCode("HSVARD");
     revokedStatus.setStatus(new Statuskod());
     revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
     getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
-    when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS),
-        any(GetCertificateType.class)))
+    when(getCertificateResponderInterface.getCertificate(
+            eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
         .thenReturn(getCertificateResponse);
     doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
     doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
@@ -334,16 +331,16 @@ public class FkParentModuleApiTest {
     assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
     assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
     assertTrue(res.isRevoked());
-    verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS),
-        any(GetCertificateType.class));
+    verify(getCertificateResponderInterface)
+        .getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class));
   }
 
   @Test(expected = ModuleException.class)
   public void testGetCertificateConvertException() throws Exception {
-    GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(),
-        GetCertificateResponseType.class);
-    when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS),
-        any(GetCertificateType.class)))
+    GetCertificateResponseType getCertificateResponse =
+        JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
+    when(getCertificateResponderInterface.getCertificate(
+            eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
         .thenReturn(getCertificateResponse);
     doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -352,8 +349,8 @@ public class FkParentModuleApiTest {
 
   @Test(expected = ModuleException.class)
   public void testGetCertificateSoapFault() throws Exception {
-    when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS),
-        any(GetCertificateType.class)))
+    when(getCertificateResponderInterface.getCertificate(
+            eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
         .thenThrow(mock(SOAPFaultException.class));
 
     moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
@@ -361,13 +358,13 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testRegisterCertificate() throws Exception {
-    RegisterCertificateType registerCertificateType = JAXB.unmarshal(
-        registerCertificateFile.getFile(), RegisterCertificateType.class);
+    RegisterCertificateType registerCertificateType =
+        JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
     doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.okResult());
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
     moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -382,13 +379,13 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testRegisterCertificateResponseError() throws Exception {
-    RegisterCertificateType registerCertificateType = JAXB.unmarshal(
-        registerCertificateFile.getFile(), RegisterCertificateType.class);
+    RegisterCertificateType registerCertificateType =
+        JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
     doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
     try {
@@ -401,13 +398,13 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testRegisterCertificateAlreadyExists() throws Exception {
-    RegisterCertificateType registerCertificateType = JAXB.unmarshal(
-        registerCertificateFile.getFile(), RegisterCertificateType.class);
+    RegisterCertificateType registerCertificateType =
+        JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
     doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
     try {
@@ -420,13 +417,13 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testRegisterCertificateOtherInfoResult() throws Exception {
-    RegisterCertificateType registerCertificateType = JAXB.unmarshal(
-        registerCertificateFile.getFile(), RegisterCertificateType.class);
+    RegisterCertificateType registerCertificateType =
+        JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
     doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
     RegisterCertificateResponseType response = new RegisterCertificateResponseType();
     response.setResult(ResultTypeUtil.infoResult("Other info"));
-    when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS),
-        any(RegisterCertificateType.class)))
+    when(registerCertificateResponderInterface.registerCertificate(
+            eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
     try {
@@ -440,14 +437,16 @@ public class FkParentModuleApiTest {
   @Test
   public void testUpdateBeforeSave() throws Exception {
     final String otherHosPersonalName = "Other Person";
-    doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+    doAnswer(invocation -> (Utlatande) invocation.getArguments()[0])
+        .when(moduleApi)
         .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
     HoSPersonal hosPersonal = new HoSPersonal();
     hosPersonal.setFullstandigtNamn(otherHosPersonalName);
     String res = moduleApi.updateBeforeSave(json, hosPersonal, null);
     assertNotNull(res);
-    assertEquals(otherHosPersonalName,
+    assertEquals(
+        otherHosPersonalName,
         moduleApi.getInternal(res).getGrundData().getSkapadAv().getFullstandigtNamn());
     assertNull(moduleApi.getInternal(res).getGrundData().getSigneringsdatum());
     verify(moduleApi).decorateDiagnoserWithDescriptions(any(Utlatande.class));
@@ -470,14 +469,16 @@ public class FkParentModuleApiTest {
   public void testUpdateBeforeSigning() throws Exception {
     final String otherHosPersonalName = "Other Person";
     final LocalDateTime signDate = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
-    doAnswer(invocation -> (Utlatande) invocation.getArguments()[0]).when(moduleApi)
+    doAnswer(invocation -> (Utlatande) invocation.getArguments()[0])
+        .when(moduleApi)
         .decorateDiagnoserWithDescriptions(any(Utlatande.class));
 
     HoSPersonal hosPersonal = new HoSPersonal();
     hosPersonal.setFullstandigtNamn(otherHosPersonalName);
     String res = moduleApi.updateBeforeSigning(json, hosPersonal, signDate);
     assertNotNull(res);
-    assertEquals(otherHosPersonalName,
+    assertEquals(
+        otherHosPersonalName,
         moduleApi.getInternal(res).getGrundData().getSkapadAv().getFullstandigtNamn());
     assertEquals(signDate, moduleApi.getInternal(res).getGrundData().getSigneringsdatum());
     verify(moduleApi).decorateDiagnoserWithDescriptions(any(Utlatande.class));
@@ -527,8 +528,8 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testGetIntygFromUtlatande() throws Exception {
-    Intyg intyg = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class)
-        .getIntyg();
+    Intyg intyg =
+        JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class).getIntyg();
     doReturn(intyg).when(moduleApi).utlatandeToIntyg(any(Utlatande.class));
     Intyg res = moduleApi.getIntygFromUtlatande(new TestUtlatande());
     assertNotNull(res);
@@ -565,8 +566,8 @@ public class FkParentModuleApiTest {
     when(svarIdHelper.calculateFrageIdHandleForGrundForMU(any(Utlatande.class)))
         .thenReturn(Arrays.asList(svarIdHelperAnswer1, svarIdHelperAnswer2));
 
-    Map<String, List<String>> res = moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(),
-        frageIds);
+    Map<String, List<String>> res =
+        moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), frageIds);
     assertEquals(3, res.keySet().size());
     assertEquals(2, res.get("1").size());
     assertEquals(svarIdHelperAnswer1, res.get("1").get(0));
@@ -583,14 +584,15 @@ public class FkParentModuleApiTest {
     String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
     RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
     revokeResponse.setResult(ResultTypeUtil.okResult());
-    when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS),
-        any(RevokeCertificateType.class))).thenReturn(revokeResponse);
+    when(revokeCertificateClient.revokeCertificate(
+            eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class)))
+        .thenReturn(revokeResponse);
 
     moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
-    ArgumentCaptor<RevokeCertificateType> parametersCaptor = ArgumentCaptor.forClass(
-        RevokeCertificateType.class);
-    verify(revokeCertificateClient).revokeCertificate(eq(LOGICAL_ADDRESS),
-        parametersCaptor.capture());
+    ArgumentCaptor<RevokeCertificateType> parametersCaptor =
+        ArgumentCaptor.forClass(RevokeCertificateType.class);
+    verify(revokeCertificateClient)
+        .revokeCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
     assertNotNull(parametersCaptor.getValue());
     assertEquals(INTYG_ID, parametersCaptor.getValue().getIntygsId().getExtension());
   }
@@ -600,8 +602,9 @@ public class FkParentModuleApiTest {
     String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
     RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
     revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-    when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS),
-        any(RevokeCertificateType.class))).thenReturn(revokeResponse);
+    when(revokeCertificateClient.revokeCertificate(
+            eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class)))
+        .thenReturn(revokeResponse);
 
     moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
   }
@@ -610,10 +613,11 @@ public class FkParentModuleApiTest {
   public void testCreateRevokeRequest() throws Exception {
     final String meddelande = "meddelande";
 
-    String res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(),
-        meddelande);
-    RevokeCertificateType resultObject = JAXB.unmarshal(new StringReader(res),
-        RevokeCertificateType.class);
+    String res =
+        moduleApi.createRevokeRequest(
+            utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
+    RevokeCertificateType resultObject =
+        JAXB.unmarshal(new StringReader(res), RevokeCertificateType.class);
     assertNotNull(resultObject);
     assertEquals(meddelande, resultObject.getMeddelande());
     assertEquals(INTYG_ID, resultObject.getIntygsId().getExtension());
@@ -621,8 +625,8 @@ public class FkParentModuleApiTest {
 
   @Test
   public void testHandleResponseInfo() throws Exception {
-    RegisterCertificateResponseType response = createRegisterCertificateResponse(
-        ResultCodeType.INFO);
+    RegisterCertificateResponseType response =
+        createRegisterCertificateResponse(ResultCodeType.INFO);
     RegisterCertificateType request = new RegisterCertificateType();
 
     moduleApi.handleResponse(response, request);
@@ -630,8 +634,8 @@ public class FkParentModuleApiTest {
 
   @Test(expected = ExternalServiceCallException.class)
   public void testHandleResponseError() throws Exception {
-    RegisterCertificateResponseType response = createRegisterCertificateResponse(
-        ResultCodeType.ERROR);
+    RegisterCertificateResponseType response =
+        createRegisterCertificateResponse(ResultCodeType.ERROR);
     RegisterCertificateType request = new RegisterCertificateType();
 
     moduleApi.handleResponse(response, request);
@@ -639,11 +643,13 @@ public class FkParentModuleApiTest {
 
   @Test
   public void shouldReturnPreambleForCitizens() {
-    final var expectedResult = CertificateText.builder()
-        .type(CertificateTextType.PREAMBLE_TEXT)
-        .text("Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
-            + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.")
-        .build();
+    final var expectedResult =
+        CertificateText.builder()
+            .type(CertificateTextType.PREAMBLE_TEXT)
+            .text(
+                "Det här är ditt intyg. Intyget innehåller all information som vården fyllt i. "
+                    + "Du kan inte ändra något i ditt intyg. Har du frågor kontaktar du den som skrivit ditt intyg.")
+            .build();
 
     assertEquals(expectedResult, moduleApi.getPreambleForCitizens());
   }
@@ -708,5 +714,4 @@ public class FkParentModuleApiTest {
       return signature;
     }
   }
-
 }

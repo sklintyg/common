@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,35 +27,35 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigTy
 
 public abstract class ConfigDateTest extends ConfigTest {
 
-    protected abstract String getJsonId();
+  protected abstract String getJsonId();
 
-    protected abstract LocalDate getMinDate();
+  protected abstract LocalDate getMinDate();
 
-    protected abstract LocalDate getMaxDate();
+  protected abstract LocalDate getMaxDate();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_DATE;
-    }
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_DATE;
+  }
 
-    @Test
-    void shouldIncludeConfigId() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigDate) question.getConfig();
-        assertEquals(getJsonId(), config.getId());
-    }
+  @Test
+  void shouldIncludeConfigId() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigDate) question.getConfig();
+    assertEquals(getJsonId(), config.getId());
+  }
 
-    @Test
-    void shouldIncludeMinDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigDate) question.getConfig();
-        assertEquals(getMinDate(), config.getMinDate());
-    }
+  @Test
+  void shouldIncludeMinDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigDate) question.getConfig();
+    assertEquals(getMinDate(), config.getMinDate());
+  }
 
-    @Test
-    void shouldIncludeMaxDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigDate) question.getConfig();
-        assertEquals(getMaxDate(), config.getMaxDate());
-    }
+  @Test
+  void shouldIncludeMaxDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigDate) question.getConfig();
+    assertEquals(getMaxDate(), config.getMaxDate());
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,84 +30,84 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 @JsonDeserialize(builder = Bedomning.Builder.class)
 public final class Bedomning {
 
-    private final Set<BedomningKorkortstyp> korkortstyp;
-    private final String lakareSpecialKompetens;
+  private final Set<BedomningKorkortstyp> korkortstyp;
+  private final String lakareSpecialKompetens;
 
-    private Bedomning(Set<BedomningKorkortstyp> korkortstyp, String lakareSpecialKompetens) {
-        this.korkortstyp = korkortstyp;
-        this.lakareSpecialKompetens = lakareSpecialKompetens;
+  private Bedomning(Set<BedomningKorkortstyp> korkortstyp, String lakareSpecialKompetens) {
+    this.korkortstyp = korkortstyp;
+    this.lakareSpecialKompetens = lakareSpecialKompetens;
+  }
+
+  public static Builder builder() {
+    return new Bedomning.Builder();
+  }
+
+  public static class Builder {
+
+    private Set<BedomningKorkortstyp> korkortstyp;
+    private String lakareSpecialKompetens;
+
+    public Bedomning build() {
+      return new Bedomning(this.korkortstyp, this.lakareSpecialKompetens);
     }
 
-    public static Builder builder() {
-        return new Bedomning.Builder();
+    @JsonProperty("korkortstyp")
+    @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
+    public Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp) {
+      this.korkortstyp = korkortstyp;
+      return this;
     }
 
-    public static class Builder {
-
-        private Set<BedomningKorkortstyp> korkortstyp;
-        private String lakareSpecialKompetens;
-
-        public Bedomning build() {
-            return new Bedomning(this.korkortstyp, this.lakareSpecialKompetens);
+    /**
+     * @deprecated This method exist only to be backward compatible with the old json-format. It is
+     *     only used when reading the old json-format from the database. When Bedomning is store in
+     *     the database this variable is not used, instead KAN_INTE_TA_STALLNING is stored in
+     *     korkortstyp.<br>
+     *     The method is not used from the front-end code.<br>
+     */
+    @Deprecated
+    @JsonProperty("kanInteTaStallning")
+    public Builder setKanInteTaStallning(Boolean kanInteTaStallning) {
+      if (kanInteTaStallning) {
+        if (this.korkortstyp != null && !this.korkortstyp.isEmpty()) {
+          throw new IllegalStateException(
+              "Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from "
+                  + "the database. This indicates that the code is not working as excepted.");
         }
-
-        @JsonProperty("korkortstyp")
-        @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
-        public Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp) {
-            this.korkortstyp = korkortstyp;
-            return this;
-        }
-
-        /**
-         * @deprecated This method exist only to be backward compatible with the old json-format. It is only used when reading the
-         * old json-format from the database. When Bedomning is store in the database this variable is not used, instead
-         * KAN_INTE_TA_STALLNING is stored in korkortstyp.<br/>
-         * The method is not used from the front-end code.<br/>
-         */
-        @Deprecated
-        @JsonProperty("kanInteTaStallning")
-        public Builder setKanInteTaStallning(Boolean kanInteTaStallning) {
-            if (kanInteTaStallning) {
-                if (this.korkortstyp != null && !this.korkortstyp.isEmpty()) {
-                    throw new IllegalStateException("Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from "
-                        + "the database. This indicates that the code is not working as excepted.");
-                }
-                this.korkortstyp = EnumSet.of(BedomningKorkortstyp.VAR11);
-            }
-            return this;
-        }
-
-        @JsonProperty("lakareSpecialKompetens")
-        public Builder setLakareSpecialKompetens(String lakareSpecialKompetens) {
-            this.lakareSpecialKompetens = lakareSpecialKompetens;
-            return this;
-        }
-
+        this.korkortstyp = EnumSet.of(BedomningKorkortstyp.VAR11);
+      }
+      return this;
     }
 
-    @Nullable
-    @JsonSerialize(using = BedomningKorkortstypEnumSetSerializer.class)
-    public Set<BedomningKorkortstyp> getKorkortstyp() {
-        return this.korkortstyp;
+    @JsonProperty("lakareSpecialKompetens")
+    public Builder setLakareSpecialKompetens(String lakareSpecialKompetens) {
+      this.lakareSpecialKompetens = lakareSpecialKompetens;
+      return this;
     }
+  }
 
-    @Nullable
-    public String getLakareSpecialKompetens() {
-        return this.lakareSpecialKompetens;
+  @Nullable @JsonSerialize(using = BedomningKorkortstypEnumSetSerializer.class)
+  public Set<BedomningKorkortstyp> getKorkortstyp() {
+    return this.korkortstyp;
+  }
+
+  @Nullable public String getLakareSpecialKompetens() {
+    return this.lakareSpecialKompetens;
+  }
+
+  public static class BedomningKorkortstypEnumSetSerializer
+      extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
+    protected BedomningKorkortstypEnumSetSerializer() {
+      super(BedomningKorkortstyp.class);
     }
+  }
 
-    public static class BedomningKorkortstypEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+  public static class BedomningKorkortstypEnumSetDeserializer
+      extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
 
-        protected BedomningKorkortstypEnumSetSerializer() {
-            super(BedomningKorkortstyp.class);
-        }
+    protected BedomningKorkortstypEnumSetDeserializer() {
+      super(BedomningKorkortstyp.class);
     }
-
-    public static class BedomningKorkortstypEnumSetDeserializer extends
-        AbstractEnumSetDeserializer<BedomningKorkortstyp> {
-
-        protected BedomningKorkortstypEnumSetDeserializer() {
-            super(BedomningKorkortstyp.class);
-        }
-    }
+  }
 }

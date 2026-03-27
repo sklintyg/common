@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,40 +38,40 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Funktionsnedsattning;
 
 public class QuestionFunktionsnedsattning {
 
-    public static CertificateDataElement toCertificate(Funktionsnedsattning funktionsnedsattning, int index,
-        CertificateTextProvider textProvider) {
-        final var funktionnedsattning = funktionsnedsattning != null ? funktionsnedsattning.getFunktionsnedsattning() : null;
-        return CertificateDataElement.builder()
-            .id(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
-            .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigRadioBoolean.builder()
-                    .id(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                    .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID))
-                    .selectedText(SVAR_JA_TEXT)
-                    .unselectedText(SVAR_NEJ_TEXT)
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
-                    .selected(funktionnedsattning)
-                    .build()
-            )
-            .validation(
-                new CertificateDataValidation[]{
-                    CertificateDataValidationMandatory.builder()
-                        .questionId(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
-                        .expression(exists(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
-                        .build()
-                }
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Funktionsnedsattning funktionsnedsattning, int index, CertificateTextProvider textProvider) {
+    final var funktionnedsattning =
+        funktionsnedsattning != null ? funktionsnedsattning.getFunktionsnedsattning() : null;
+    return CertificateDataElement.builder()
+        .id(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
+        .parent(SJUKDOM_FUNKTIONSNEDSATTNING_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigRadioBoolean.builder()
+                .id(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                .text(textProvider.get(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_TEXT_ID))
+                .selectedText(SVAR_JA_TEXT)
+                .unselectedText(SVAR_NEJ_TEXT)
+                .build())
+        .value(
+            CertificateDataValueBoolean.builder()
+                .id(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID)
+                .selected(funktionnedsattning)
+                .build())
+        .validation(
+            new CertificateDataValidation[] {
+              CertificateDataValidationMandatory.builder()
+                  .questionId(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID)
+                  .expression(exists(SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID))
+                  .build()
+            })
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate) {
-        return booleanValue(certificate.getData(), SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID, SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID);
-    }
-
+  public static Boolean toInternal(Certificate certificate) {
+    return booleanValue(
+        certificate.getData(),
+        SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID,
+        SJUKDOM_FUNKTIONSNEDSATTNING_JSON_ID);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -49,89 +49,93 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @ExtendWith(MockitoExtension.class)
 class QuestionAutoFillMessageAfter28DaysBarnTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    private Personnummer personId = Personnummer.createPersonnummer("19121212-1212").get();
+  private Personnummer personId = Personnummer.createPersonnummer("19121212-1212").get();
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      assertEquals(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question =
+          QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      assertEquals(BARN_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigType() {
+      final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      assertEquals(UE_MESSAGE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigMessage() {
+      final var certificateDataElement =
+          QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      final var certificateDataElementConfig =
+          (CertificateDataConfigMessage) certificateDataElement.getConfig();
+      assertFalse(
+          certificateDataElementConfig.getMessage().getContent().trim().isEmpty(),
+          "Missing message");
+      verify(texts, atLeastOnce()).get(BARN_AUTO_FILL_AFTER_MESSAGE_ID);
+    }
+
+    @Test
+    void shouldIncludeConfigLevelInfo() {
+      final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      final var config = (CertificateDataConfigMessage) question.getConfig();
+      assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            assertEquals(BARN_AUTOFILL_AFTER_MESSAGE_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return DODSDATUM_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        final var withinTwentyEightDaysAfter19121212 = -20811;
+        return "epochDay('" + DODSDATUM_JSON_ID + "') > " + withinTwentyEightDaysAfter19121212;
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            assertEquals(BARN_CATEGORY_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      }
 
-        @Test
-        void shouldIncludeConfigType() {
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            assertEquals(UE_MESSAGE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigMessage() {
-            final var certificateDataElement = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-            assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
-            verify(texts, atLeastOnce()).get(BARN_AUTO_FILL_AFTER_MESSAGE_ID);
-        }
-
-        @Test
-        void shouldIncludeConfigLevelInfo() {
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            final var config = (CertificateDataConfigMessage) question.getConfig();
-            assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return DODSDATUM_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                final var withinTwentyEightDaysAfter19121212 = -20811;
-                return "epochDay('" + DODSDATUM_JSON_ID + "') > " + withinTwentyEightDaysAfter19121212;
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Test
-        void shouldIncludeVisibilityFalse() {
-            final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
-            assertEquals(false, question.getVisible());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
     }
+
+    @Test
+    void shouldIncludeVisibilityFalse() {
+      final var question = QuestionAutoFillMessageAfter28DaysBarn.toCertificate(personId, 0, texts);
+      assertEquals(false, question.getVisible());
+    }
+  }
 }

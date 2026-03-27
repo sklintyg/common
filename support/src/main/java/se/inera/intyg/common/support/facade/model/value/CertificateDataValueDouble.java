@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDoub
 @Builder
 public class CertificateDataValueDouble implements CertificateDataValue {
 
-    @Getter(onMethod = @__(@Override))
-    CertificateDataValueType type = CertificateDataValueType.DOUBLE;
-    String id;
-    Double value;
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.DOUBLE;
 
-    @JsonPOJOBuilder(withPrefix = "")
-    public static class CertificateDataValueDoubleBuilder {
+  String id;
+  Double value;
 
-    }
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueDoubleBuilder {}
 }

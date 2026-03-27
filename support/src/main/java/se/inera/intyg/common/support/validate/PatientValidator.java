@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,33 +26,53 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 
 public final class PatientValidator {
 
-    private static final StringValidator STRING_VALIDATOR = new StringValidator();
+  private static final StringValidator STRING_VALIDATOR = new StringValidator();
 
-    private PatientValidator() {
+  private PatientValidator() {}
+
+  public static void validate(Patient patient, List<ValidationMessage> validationMessages) {
+    if (patient == null) {
+      throw new RuntimeException("No Patient found when attempting to validate");
     }
+    validateString(
+        validationMessages,
+        patient.getPostadress(),
+        "patient",
+        "grunddata.patient.postadress",
+        "common.validation.patient.postadress.missing");
 
-    public static void validate(Patient patient, List<ValidationMessage> validationMessages) {
-        if (patient == null) {
-            throw new RuntimeException("No Patient found when attempting to validate");
-        }
-        validateString(validationMessages, patient.getPostadress(), "patient",
-            "grunddata.patient.postadress", "common.validation.patient.postadress.missing");
-
-        if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()) {
-            validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
-                ValidationMessageType.EMPTY, "common.validation.patient.postnummer.missing"));
-        } else if (!STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
-            validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
-                ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
-        }
-        validateString(validationMessages, patient.getPostort(), "patient",
-            "grunddata.patient.postort", "common.validation.patient.postort.missing");
+    if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()) {
+      validationMessages.add(
+          new ValidationMessage(
+              "patient",
+              "grunddata.patient.postnummer",
+              ValidationMessageType.EMPTY,
+              "common.validation.patient.postnummer.missing"));
+    } else if (!STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+      validationMessages.add(
+          new ValidationMessage(
+              "patient",
+              "grunddata.patient.postnummer",
+              ValidationMessageType.INVALID_FORMAT,
+              "common.validation.postnummer.incorrect-format"));
     }
+    validateString(
+        validationMessages,
+        patient.getPostort(),
+        "patient",
+        "grunddata.patient.postort",
+        "common.validation.patient.postort.missing");
+  }
 
-    private static void validateString(List<ValidationMessage> validationMessages, String text,
-        String category, String field, String message) {
-        if (Strings.nullToEmpty(text).trim().isEmpty()) {
-            validationMessages.add(new ValidationMessage(category, field, ValidationMessageType.EMPTY, message));
-        }
+  private static void validateString(
+      List<ValidationMessage> validationMessages,
+      String text,
+      String category,
+      String field,
+      String message) {
+    if (Strings.nullToEmpty(text).trim().isEmpty()) {
+      validationMessages.add(
+          new ValidationMessage(category, field, ValidationMessageType.EMPTY, message));
     }
+  }
 }

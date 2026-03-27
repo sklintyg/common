@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -33,118 +33,136 @@ import se.inera.intyg.common.support.facade.model.config.MedicalInvestigation;
 
 public abstract class ConfigMedicalInvestigationTest extends ConfigTest {
 
-    protected abstract String getTypeText();
+  protected abstract String getTypeText();
 
-    protected abstract String getDateText();
+  protected abstract String getDateText();
 
-    protected abstract String getInformationSourceText();
+  protected abstract String getInformationSourceText();
 
-    protected abstract String getInformationSourceDescription();
+  protected abstract String getInformationSourceDescription();
 
-    protected abstract List<MedicalInvestigation> getMedicalInvestigations();
+  protected abstract List<MedicalInvestigation> getMedicalInvestigations();
 
-    protected abstract List<LocalDate> getMaxDates();
+  protected abstract List<LocalDate> getMaxDates();
 
-    protected abstract List<LocalDate> getMinDates();
+  protected abstract List<LocalDate> getMinDates();
 
-    @Override
-    protected CertificateDataConfigType getType() {
-        return CertificateDataConfigType.UE_MEDICAL_INVESTIGATION;
+  @Override
+  protected CertificateDataConfigType getType() {
+    return CertificateDataConfigType.UE_MEDICAL_INVESTIGATION;
+  }
+
+  @Test
+  void shouldIncludeTypeText() {
+    final var config = getConfig();
+    if (getLabelId() != null) {
+      assertTrue(config.getTypeText().trim().length() > 0, "Missing type text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getTypeText());
     }
+  }
 
-    @Test
-    void shouldIncludeTypeText() {
-        final var config = getConfig();
-        if (getLabelId() != null) {
-            assertTrue(config.getTypeText().trim().length() > 0, "Missing type text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getTypeText());
-        }
+  @Test
+  void shouldIncludeDateText() {
+    final var config = getConfig();
+    if (getIconId() != null) {
+      assertEquals(getDateText(), config.getDateText());
     }
+  }
 
-    @Test
-    void shouldIncludeDateText() {
-        final var config = getConfig();
-        if (getIconId() != null) {
-            assertEquals(getDateText(), config.getDateText());
-        }
+  @Test
+  void shouldIncludeInformationSourceText() {
+    final var config = getConfig();
+    if (getLabelId() != null) {
+      assertTrue(config.getInformationSourceText().trim().length() > 0, "Missing type text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getInformationSourceText());
     }
+  }
 
-    @Test
-    void shouldIncludeInformationSourceText() {
-        final var config = getConfig();
-        if (getLabelId() != null) {
-            assertTrue(config.getInformationSourceText().trim().length() > 0, "Missing type text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getInformationSourceText());
-        }
+  @Test
+  void shouldIncludeInformationSourceDescription() {
+    final var config = getConfig();
+    if (getLabelId() != null) {
+      assertTrue(config.getInformationSourceDescription().trim().length() > 0, "Missing type text");
+      verify(getTextProviderMock(), atLeastOnce()).get(getInformationSourceDescription());
     }
+  }
 
-    @Test
-    void shouldIncludeInformationSourceDescription() {
-        final var config = getConfig();
-        if (getLabelId() != null) {
-            assertTrue(config.getInformationSourceDescription().trim().length() > 0, "Missing type text");
-            verify(getTextProviderMock(), atLeastOnce()).get(getInformationSourceDescription());
-        }
-    }
-
-    @Test
-    void shouldIncludeCorrectInvestigationTypeIds() {
-        final var expectedTypeIds = getMedicalInvestigations().stream().map(MedicalInvestigation::getInvestigationTypeId)
+  @Test
+  void shouldIncludeCorrectInvestigationTypeIds() {
+    final var expectedTypeIds =
+        getMedicalInvestigations().stream()
+            .map(MedicalInvestigation::getInvestigationTypeId)
             .collect(Collectors.toList());
-        final var actualTypeIds = getConfig().getList().stream().map(MedicalInvestigation::getInvestigationTypeId)
+    final var actualTypeIds =
+        getConfig().getList().stream()
+            .map(MedicalInvestigation::getInvestigationTypeId)
             .collect(Collectors.toList());
-        assertEquals(expectedTypeIds, actualTypeIds);
-    }
+    assertEquals(expectedTypeIds, actualTypeIds);
+  }
 
-    @Test
-    void shouldIncludeCorrectDateIds() {
-        final var expectedDateIds = getMedicalInvestigations().stream().map(MedicalInvestigation::getDateId).collect(Collectors.toList());
-        final var actualDateIds = getConfig().getList().stream().map(MedicalInvestigation::getDateId).collect(Collectors.toList());
-        assertEquals(expectedDateIds, actualDateIds);
-    }
-
-    @Test
-    void shouldIncludeCorrectTypeOptions() {
-        final var expectedTypeOptions = getMedicalInvestigations().stream().map(MedicalInvestigation::getTypeOptions)
+  @Test
+  void shouldIncludeCorrectDateIds() {
+    final var expectedDateIds =
+        getMedicalInvestigations().stream()
+            .map(MedicalInvestigation::getDateId)
             .collect(Collectors.toList());
-        final var actualTypeOptions = getConfig().getList().stream().map(MedicalInvestigation::getTypeOptions).collect(Collectors.toList());
-        assertEquals(expectedTypeOptions, actualTypeOptions);
-    }
-
-    @Test
-    void shouldIncludeCorrectInformationSourceIds() {
-        final var expectedTypeOptions = getMedicalInvestigations().stream().map(MedicalInvestigation::getInformationSourceId)
+    final var actualDateIds =
+        getConfig().getList().stream()
+            .map(MedicalInvestigation::getDateId)
             .collect(Collectors.toList());
-        final var actualTypeOptions = getConfig().getList().stream().map(MedicalInvestigation::getInformationSourceId)
+    assertEquals(expectedDateIds, actualDateIds);
+  }
+
+  @Test
+  void shouldIncludeCorrectTypeOptions() {
+    final var expectedTypeOptions =
+        getMedicalInvestigations().stream()
+            .map(MedicalInvestigation::getTypeOptions)
             .collect(Collectors.toList());
-        assertEquals(expectedTypeOptions, actualTypeOptions);
+    final var actualTypeOptions =
+        getConfig().getList().stream()
+            .map(MedicalInvestigation::getTypeOptions)
+            .collect(Collectors.toList());
+    assertEquals(expectedTypeOptions, actualTypeOptions);
+  }
+
+  @Test
+  void shouldIncludeCorrectInformationSourceIds() {
+    final var expectedTypeOptions =
+        getMedicalInvestigations().stream()
+            .map(MedicalInvestigation::getInformationSourceId)
+            .collect(Collectors.toList());
+    final var actualTypeOptions =
+        getConfig().getList().stream()
+            .map(MedicalInvestigation::getInformationSourceId)
+            .collect(Collectors.toList());
+    assertEquals(expectedTypeOptions, actualTypeOptions);
+  }
+
+  @Test
+  void shouldIncludeMaxDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+    final var expectedMaxDates = getMaxDates();
+
+    for (int i = 0; i < expectedMaxDates.size(); i++) {
+      assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
     }
+  }
 
-    @Test
-    void shouldIncludeMaxDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
-        final var expectedMaxDates = getMaxDates();
+  @Test
+  void shouldIncludeMinDate() {
+    final var question = getElement();
+    final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
+    final var expectedMinDates = getMinDates();
 
-        for (int i = 0; i < expectedMaxDates.size(); i++) {
-            assertEquals(expectedMaxDates.get(i), config.getList().get(i).getMaxDate());
-        }
+    for (int i = 0; i < expectedMinDates.size(); i++) {
+      assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
     }
+  }
 
-    @Test
-    void shouldIncludeMinDate() {
-        final var question = getElement();
-        final var config = (CertificateDataConfigMedicalInvestigation) question.getConfig();
-        final var expectedMinDates = getMinDates();
-
-        for (int i = 0; i < expectedMinDates.size(); i++) {
-            assertEquals(expectedMinDates.get(i), config.getList().get(i).getMinDate());
-        }
-    }
-
-    private CertificateDataConfigMedicalInvestigation getConfig() {
-        final var question = getElement();
-        return (CertificateDataConfigMedicalInvestigation) question.getConfig();
-    }
-
+  private CertificateDataConfigMedicalInvestigation getConfig() {
+    final var question = getElement();
+    return (CertificateDataConfigMedicalInvestigation) question.getConfig();
+  }
 }

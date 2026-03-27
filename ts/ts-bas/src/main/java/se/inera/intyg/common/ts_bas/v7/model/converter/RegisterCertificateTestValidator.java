@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -32,37 +32,41 @@ import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class RegisterCertificateTestValidator {
 
-    private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
-    private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
-    private static final String EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
-    private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
-    private static final String TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
+  private static final String RESPONDER_SCHEMA =
+      "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
+  private static final String GENERAL_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
+  private static final String EXT_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+  private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
+  private static final String TYPES_SCHEMA =
+      "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
 
-    private static final Logger LOG = LoggerFactory.getLogger(
-        RegisterCertificateTestValidator.class);
+  private static final Logger LOG = LoggerFactory.getLogger(RegisterCertificateTestValidator.class);
 
-    private Schema generalSchema;
+  private Schema generalSchema;
 
-    public void initGeneralSchema() throws IOException, SAXException {
-        SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        schemaValidatorBuilder.registerResource(TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(GENERAL_SCHEMA);
-        schemaValidatorBuilder.registerResource(EXT_SCHEMA);
-        schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
-        Source rootSource = schemaValidatorBuilder.registerResource(RESPONDER_SCHEMA);
-        generalSchema = schemaValidatorBuilder.build(rootSource);
+  public void initGeneralSchema() throws IOException, SAXException {
+    SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
+    schemaValidatorBuilder.registerResource(TYPES_SCHEMA);
+    schemaValidatorBuilder.registerResource(GENERAL_SCHEMA);
+    schemaValidatorBuilder.registerResource(EXT_SCHEMA);
+    schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
+    Source rootSource = schemaValidatorBuilder.registerResource(RESPONDER_SCHEMA);
+    generalSchema = schemaValidatorBuilder.build(rootSource);
+  }
+
+  public boolean validateGeneral(@Nonnull final String xmlContent)
+      throws IOException, SAXException {
+    initGeneralSchema();
+    StreamSource xmlSource =
+        new StreamSource(new ByteArrayInputStream(xmlContent.getBytes(Charsets.UTF_8)));
+    try {
+      generalSchema.newValidator().validate(xmlSource);
+      return true;
+    } catch (Exception ex) {
+      LOG.error("Error: " + ex.getMessage(), ex);
+      return false;
     }
-
-    public boolean validateGeneral(@Nonnull final String xmlContent) throws IOException, SAXException {
-        initGeneralSchema();
-        StreamSource xmlSource = new StreamSource(new ByteArrayInputStream(xmlContent.getBytes(Charsets.UTF_8)));
-        try {
-            generalSchema.newValidator().validate(xmlSource);
-            return true;
-        } catch (Exception ex) {
-            LOG.error("Error: " + ex.getMessage(), ex);
-            return false;
-        }
-    }
-
+  }
 }

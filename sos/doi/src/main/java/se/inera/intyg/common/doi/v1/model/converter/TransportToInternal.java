@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -82,273 +82,284 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 
-    private TransportToInternal() {
+  private TransportToInternal() {}
+
+  public static DoiUtlatandeV1 convert(Intyg intyg) throws ConverterException {
+    DoiUtlatandeV1.Builder utlatande = DoiUtlatandeV1.builder();
+    utlatande.setId(intyg.getIntygsId().getExtension());
+    utlatande.setTextVersion(intyg.getVersion());
+    utlatande.setGrundData(
+        TransportConverterUtil.getGrundData(
+            intyg, PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
+    utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intyg.getUnderskrift()));
+    setSvar(utlatande, intyg);
+    return utlatande.build();
+  }
+
+  private static void setSvar(DoiUtlatandeV1.Builder utlatande, Intyg intyg)
+      throws ConverterException {
+    Map<Integer, Dodsorsak> foljd = new HashMap<>();
+    List<Dodsorsak> bidragandeSjukdomar = new ArrayList<>();
+    List<Dodsorsaksgrund> grunder = new ArrayList<>();
+
+    for (Svar svar : intyg.getSvar()) {
+      switch (svar.getId()) {
+        case IDENTITET_STYRKT_SVAR_ID:
+          handleIdentitetStyrkt(utlatande, svar);
+          break;
+        case DODSDATUM_SVAR_ID:
+          handleDodsdatum(utlatande, svar);
+          break;
+        case DODSPLATS_SVAR_ID:
+          handleDodsplats(utlatande, svar);
+          break;
+        case BARN_SVAR_ID:
+          handleBarn(utlatande, svar);
+          break;
+        case DODSORSAK_SVAR_ID:
+          handleDodsorsak(utlatande, svar);
+          break;
+        case FOLJD_SVAR_ID:
+          handleFoljd(foljd, svar);
+          break;
+        case BIDRAGANDE_SJUKDOM_SVAR_ID:
+          handleBidragandeSjukdom(bidragandeSjukdomar, svar);
+          break;
+        case OPERATION_SVAR_ID:
+          handleOperation(utlatande, svar);
+          break;
+        case FORGIFTNING_SVAR_ID:
+          handleForgiftning(utlatande, svar);
+          break;
+        case GRUNDER_SVAR_ID:
+          handleGrund(grunder, svar);
+          break;
+        case LAND_SVAR_ID:
+          handleLand(utlatande, svar);
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
 
-    public static DoiUtlatandeV1 convert(Intyg intyg) throws ConverterException {
-        DoiUtlatandeV1.Builder utlatande = DoiUtlatandeV1.builder();
-        utlatande.setId(intyg.getIntygsId().getExtension());
-        utlatande.setTextVersion(intyg.getVersion());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg,
-            PatientInfo.EXTENDED_WITH_ADDRESS_DETAILS_SOURCE));
-        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intyg.getUnderskrift()));
-        setSvar(utlatande, intyg);
-        return utlatande.build();
-    }
-
-    private static void setSvar(DoiUtlatandeV1.Builder utlatande, Intyg intyg) throws ConverterException {
-        Map<Integer, Dodsorsak> foljd = new HashMap<>();
-        List<Dodsorsak> bidragandeSjukdomar = new ArrayList<>();
-        List<Dodsorsaksgrund> grunder = new ArrayList<>();
-
-        for (Svar svar : intyg.getSvar()) {
-            switch (svar.getId()) {
-                case IDENTITET_STYRKT_SVAR_ID:
-                    handleIdentitetStyrkt(utlatande, svar);
-                    break;
-                case DODSDATUM_SVAR_ID:
-                    handleDodsdatum(utlatande, svar);
-                    break;
-                case DODSPLATS_SVAR_ID:
-                    handleDodsplats(utlatande, svar);
-                    break;
-                case BARN_SVAR_ID:
-                    handleBarn(utlatande, svar);
-                    break;
-                case DODSORSAK_SVAR_ID:
-                    handleDodsorsak(utlatande, svar);
-                    break;
-                case FOLJD_SVAR_ID:
-                    handleFoljd(foljd, svar);
-                    break;
-                case BIDRAGANDE_SJUKDOM_SVAR_ID:
-                    handleBidragandeSjukdom(bidragandeSjukdomar, svar);
-                    break;
-                case OPERATION_SVAR_ID:
-                    handleOperation(utlatande, svar);
-                    break;
-                case FORGIFTNING_SVAR_ID:
-                    handleForgiftning(utlatande, svar);
-                    break;
-                case GRUNDER_SVAR_ID:
-                    handleGrund(grunder, svar);
-                    break;
-                case LAND_SVAR_ID:
-                    handleLand(utlatande, svar);
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-
-        utlatande.setFoljd(foljd.entrySet().stream()
+    utlatande.setFoljd(
+        foljd.entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
             .collect(Collectors.toList()));
-        utlatande.setBidragandeSjukdomar(bidragandeSjukdomar);
-        utlatande.setGrunder(grunder);
-    }
+    utlatande.setBidragandeSjukdomar(bidragandeSjukdomar);
+    utlatande.setGrunder(grunder);
+  }
 
-    private static void handleLand(DoiUtlatandeV1.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        if (delsvar == null) {
-            throw new IllegalArgumentException();
-        }
-        switch (delsvar.getId()) {
-            case LAND_DELSVAR_ID:
-                utlatande.setLand(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+  private static void handleLand(DoiUtlatandeV1.Builder utlatande, Svar svar) {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    if (delsvar == null) {
+      throw new IllegalArgumentException();
     }
-
-    private static void handleGrund(List<Dodsorsaksgrund> grunder, Svar svar) throws ConverterException {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        if (delsvar == null) {
-            throw new IllegalArgumentException();
-        }
-        switch (delsvar.getId()) {
-            case GRUNDER_DELSVAR_ID:
-                grunder.add(Dodsorsaksgrund.valueOf(getCVSvarContent(delsvar).getCode()));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+    switch (delsvar.getId()) {
+      case LAND_DELSVAR_ID:
+        utlatande.setLand(getStringContent(delsvar));
+        break;
+      default:
+        throw new IllegalArgumentException();
     }
+  }
 
-    private static void handleForgiftning(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case FORGIFTNING_OM_DELSVAR_ID:
-                    utlatande.setForgiftning(Boolean.parseBoolean(getStringContent(delsvar)));
-                    break;
-                case FORGIFTNING_ORSAK_DELSVAR_ID:
-                    utlatande.setForgiftningOrsak(ForgiftningOrsak.valueOf(getCVSvarContent(delsvar).getCode()));
-                    break;
-                case FORGIFTNING_DATUM_DELSVAR_ID:
-                    utlatande.setForgiftningDatum(new InternalDate(getStringContent(delsvar)));
-                    break;
-                case FORGIFTNING_UPPKOMMELSE_DELSVAR_ID:
-                    utlatande.setForgiftningUppkommelse(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
+  private static void handleGrund(List<Dodsorsaksgrund> grunder, Svar svar)
+      throws ConverterException {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    if (delsvar == null) {
+      throw new IllegalArgumentException();
+    }
+    switch (delsvar.getId()) {
+      case GRUNDER_DELSVAR_ID:
+        grunder.add(Dodsorsaksgrund.valueOf(getCVSvarContent(delsvar).getCode()));
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
+
+  private static void handleForgiftning(DoiUtlatandeV1.Builder utlatande, Svar svar)
+      throws ConverterException {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case FORGIFTNING_OM_DELSVAR_ID:
+          utlatande.setForgiftning(Boolean.parseBoolean(getStringContent(delsvar)));
+          break;
+        case FORGIFTNING_ORSAK_DELSVAR_ID:
+          utlatande.setForgiftningOrsak(
+              ForgiftningOrsak.valueOf(getCVSvarContent(delsvar).getCode()));
+          break;
+        case FORGIFTNING_DATUM_DELSVAR_ID:
+          utlatande.setForgiftningDatum(new InternalDate(getStringContent(delsvar)));
+          break;
+        case FORGIFTNING_UPPKOMMELSE_DELSVAR_ID:
+          utlatande.setForgiftningUppkommelse(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
+    }
+  }
+
+  private static void handleOperation(DoiUtlatandeV1.Builder utlatande, Svar svar)
+      throws ConverterException {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case OPERATION_OM_DELSVAR_ID:
+          if (!isStringContent(delsvar)) {
+            if (UPPGIFT_SAKNAS_CODE.equals(getCVSvarContent(delsvar).getCode())) {
+              utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
+            } else {
+              throw new IllegalArgumentException("Unknown code for Om operation");
             }
-        }
+          } else {
+            utlatande.setOperation(
+                Boolean.parseBoolean(getStringContent(delsvar)) ? OmOperation.JA : OmOperation.NEJ);
+          }
+          break;
+        case OPERATION_DATUM_DELSVAR_ID:
+          utlatande.setOperationDatum(new InternalDate(getStringContent(delsvar)));
+          break;
+        case OPERATION_ANLEDNING_DELSVAR_ID:
+          utlatande.setOperationAnledning(getStringContent(delsvar));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleOperation(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case OPERATION_OM_DELSVAR_ID:
-                    if (!isStringContent(delsvar)) {
-                        if (UPPGIFT_SAKNAS_CODE.equals(getCVSvarContent(delsvar).getCode())) {
-                            utlatande.setOperation(OmOperation.UPPGIFT_SAKNAS);
-                        } else {
-                            throw new IllegalArgumentException("Unknown code for Om operation");
-                        }
-                    } else {
-                        utlatande.setOperation(Boolean.parseBoolean(getStringContent(delsvar)) ? OmOperation.JA : OmOperation.NEJ);
-                    }
-                    break;
-                case OPERATION_DATUM_DELSVAR_ID:
-                    utlatande.setOperationDatum(new InternalDate(getStringContent(delsvar)));
-                    break;
-                case OPERATION_ANLEDNING_DELSVAR_ID:
-                    utlatande.setOperationAnledning(getStringContent(delsvar));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleBidragandeSjukdom(List<Dodsorsak> bidragandeSjukdomar, Svar svar)
+      throws ConverterException {
+    String description = null;
+    InternalDate date = null;
+    Specifikation specification = null;
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID:
+          description = getStringContent(delsvar);
+          break;
+        case BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID:
+          date = new InternalDate(getStringContent(delsvar));
+          break;
+        case BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID:
+          specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+    bidragandeSjukdomar.add(Dodsorsak.create(description, date, specification));
+  }
 
-    private static void handleBidragandeSjukdom(List<Dodsorsak> bidragandeSjukdomar, Svar svar) throws ConverterException {
-        String description = null;
-        InternalDate date = null;
-        Specifikation specification = null;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID:
-                    description = getStringContent(delsvar);
-                    break;
-                case BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID:
-                    date = new InternalDate(getStringContent(delsvar));
-                    break;
-                case BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID:
-                    specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        bidragandeSjukdomar.add(Dodsorsak.create(description, date, specification));
+  private static void handleFoljd(Map<Integer, Dodsorsak> foljd, Svar svar)
+      throws ConverterException {
+    String description = null;
+    InternalDate date = null;
+    Specifikation specification = null;
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case FOLJD_OM_DELSVAR_ID:
+          description = getStringContent(delsvar);
+          break;
+        case FOLJD_DATUM_DELSVAR_ID:
+          date = new InternalDate(getStringContent(delsvar));
+          break;
+        case FOLJD_SPECIFIKATION_DELSVAR_ID:
+          specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+    foljd.put(svar.getInstans(), Dodsorsak.create(description, date, specification));
+  }
 
-    private static void handleFoljd(Map<Integer, Dodsorsak> foljd, Svar svar) throws ConverterException {
-        String description = null;
-        InternalDate date = null;
-        Specifikation specification = null;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case FOLJD_OM_DELSVAR_ID:
-                    description = getStringContent(delsvar);
-                    break;
-                case FOLJD_DATUM_DELSVAR_ID:
-                    date = new InternalDate(getStringContent(delsvar));
-                    break;
-                case FOLJD_SPECIFIKATION_DELSVAR_ID:
-                    specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        foljd.put(svar.getInstans(), Dodsorsak.create(description, date, specification));
+  private static void handleDodsorsak(DoiUtlatandeV1.Builder utlatande, Svar svar)
+      throws ConverterException {
+    String description = null;
+    InternalDate date = null;
+    Specifikation specification = null;
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case DODSORSAK_DELSVAR_ID:
+          description = getStringContent(delsvar);
+          break;
+        case DODSORSAK_DATUM_DELSVAR_ID:
+          date = new InternalDate(getStringContent(delsvar));
+          break;
+        case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
+          specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+    utlatande.setTerminalDodsorsak(Dodsorsak.create(description, date, specification));
+  }
 
-    private static void handleDodsorsak(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        String description = null;
-        InternalDate date = null;
-        Specifikation specification = null;
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case DODSORSAK_DELSVAR_ID:
-                    description = getStringContent(delsvar);
-                    break;
-                case DODSORSAK_DATUM_DELSVAR_ID:
-                    date = new InternalDate(getStringContent(delsvar));
-                    break;
-                case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
-                    specification = Specifikation.fromId(getCVSvarContent(delsvar).getCode());
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-        utlatande.setTerminalDodsorsak(Dodsorsak.create(description, date, specification));
+  private static void handleBarn(DoiUtlatandeV1.Builder utlatande, Svar svar) {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    if (delsvar == null) {
+      throw new IllegalArgumentException();
     }
+    switch (delsvar.getId()) {
+      case BARN_DELSVAR_ID:
+        utlatande.setBarn(Boolean.valueOf(getStringContent(delsvar)));
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
 
-    private static void handleBarn(DoiUtlatandeV1.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        if (delsvar == null) {
-            throw new IllegalArgumentException();
-        }
-        switch (delsvar.getId()) {
-            case BARN_DELSVAR_ID:
-                utlatande.setBarn(Boolean.valueOf(getStringContent(delsvar)));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+  private static void handleDodsplats(DoiUtlatandeV1.Builder utlatande, Svar svar)
+      throws ConverterException {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case DODSPLATS_KOMMUN_DELSVAR_ID:
+          utlatande.setDodsplatsKommun(getStringContent(delsvar));
+          break;
+        case DODSPLATS_BOENDE_DELSVAR_ID:
+          CVType typ = getCVSvarContent(delsvar);
+          utlatande.setDodsplatsBoende(DodsplatsBoende.valueOf(typ.getCode()));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleDodsplats(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case DODSPLATS_KOMMUN_DELSVAR_ID:
-                    utlatande.setDodsplatsKommun(getStringContent(delsvar));
-                    break;
-                case DODSPLATS_BOENDE_DELSVAR_ID:
-                    CVType typ = getCVSvarContent(delsvar);
-                    utlatande.setDodsplatsBoende(DodsplatsBoende.valueOf(typ.getCode()));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleDodsdatum(DoiUtlatandeV1.Builder utlatande, Svar svar) {
+    for (Delsvar delsvar : svar.getDelsvar()) {
+      switch (delsvar.getId()) {
+        case DODSDATUM_SAKERT_DELSVAR_ID:
+          utlatande.setDodsdatumSakert(Boolean.valueOf(getStringContent(delsvar)));
+          break;
+        case DODSDATUM_DELSVAR_ID:
+          utlatande.setDodsdatum(new InternalDate(getStringContent(delsvar)));
+          break;
+        case ANTRAFFAT_DOD_DATUM_DELSVAR_ID:
+          utlatande.setAntraffatDodDatum(new InternalDate(getStringContent(delsvar)));
+          break;
+        default:
+          throw new IllegalArgumentException();
+      }
     }
+  }
 
-    private static void handleDodsdatum(DoiUtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case DODSDATUM_SAKERT_DELSVAR_ID:
-                    utlatande.setDodsdatumSakert(Boolean.valueOf(getStringContent(delsvar)));
-                    break;
-                case DODSDATUM_DELSVAR_ID:
-                    utlatande.setDodsdatum(new InternalDate(getStringContent(delsvar)));
-                    break;
-                case ANTRAFFAT_DOD_DATUM_DELSVAR_ID:
-                    utlatande.setAntraffatDodDatum(new InternalDate(getStringContent(delsvar)));
-                    break;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+  private static void handleIdentitetStyrkt(DoiUtlatandeV1.Builder utlatande, Svar svar) {
+    Delsvar delsvar = svar.getDelsvar().get(0);
+    if (delsvar == null) {
+      throw new IllegalArgumentException();
     }
-
-    private static void handleIdentitetStyrkt(DoiUtlatandeV1.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        if (delsvar == null) {
-            throw new IllegalArgumentException();
-        }
-        switch (delsvar.getId()) {
-            case IDENTITET_STYRKT_DELSVAR_ID:
-                utlatande.setIdentitetStyrkt(getStringContent(delsvar));
-                break;
-            default:
-                throw new IllegalArgumentException();
-        }
+    switch (delsvar.getId()) {
+      case IDENTITET_STYRKT_DELSVAR_ID:
+        utlatande.setIdentitetStyrkt(getStringContent(delsvar));
+        break;
+      default:
+        throw new IllegalArgumentException();
     }
+  }
 }

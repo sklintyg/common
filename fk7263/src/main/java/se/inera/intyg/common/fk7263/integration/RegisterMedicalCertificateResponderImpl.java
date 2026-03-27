@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -41,77 +41,103 @@ import se.inera.intyg.common.support.validate.CertificateValidationException;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.logging.LogMarkers;
 
-public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalCertificateResponderInterface {
+public class RegisterMedicalCertificateResponderImpl
+    implements RegisterMedicalCertificateResponderInterface {
 
-    public static final String CERTIFICATE_ALREADY_EXISTS = "Certificate already exists";
+  public static final String CERTIFICATE_ALREADY_EXISTS = "Certificate already exists";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterMedicalCertificateResponderImpl.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(RegisterMedicalCertificateResponderImpl.class);
 
-    private ObjectFactory objectFactory;
+  private ObjectFactory objectFactory;
 
-    private final ModuleContainerApi moduleContainer;
+  private final ModuleContainerApi moduleContainer;
 
-    public RegisterMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
-        this.moduleContainer = moduleContainer;
-        objectFactory = new ObjectFactory();
+  public RegisterMedicalCertificateResponderImpl(ModuleContainerApi moduleContainer) {
+    this.moduleContainer = moduleContainer;
+    objectFactory = new ObjectFactory();
+  }
+
+  @Override
+  public RegisterMedicalCertificateResponseType registerMedicalCertificate(
+      AttributedURIType logicalAddress, RegisterMedicalCertificateType registerMedicalCertificate) {
+    RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+
+    try {
+      validateTransport(registerMedicalCertificate);
+
+      Fk7263Utlatande utlatande =
+          TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
+
+      String xml = xmlToString(registerMedicalCertificate);
+      CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
+      certificateHolder.setOriginalCertificate(xml);
+
+      moduleContainer.certificateReceived(certificateHolder);
+
+      response.setResult(ResultOfCallUtil.okResult());
+
+    } catch (CertificateAlreadyExistsException e) {
+      response.setResult(ResultOfCallUtil.infoResult(CERTIFICATE_ALREADY_EXISTS));
+      String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
+      String issuedBy =
+          registerMedicalCertificate
+              .getLakarutlatande()
+              .getSkapadAvHosPersonal()
+              .getEnhet()
+              .getEnhetsId()
+              .getExtension();
+      LOGGER.warn(
+          LogMarkers.VALIDATION,
+          "Validation warning for intyg "
+              + certificateId
+              + " issued by "
+              + issuedBy
+              + ": Certificate already exists - ignored.");
+
+    } catch (CertificateValidationException | ConverterException e) {
+      response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
+      LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
+
+    } catch (InvalidCertificateException e) {
+      response.setResult(ResultOfCallUtil.applicationErrorResult("Invalid certificate ID"));
+      String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
+      String issuedBy =
+          registerMedicalCertificate
+              .getLakarutlatande()
+              .getSkapadAvHosPersonal()
+              .getEnhet()
+              .getEnhetsId()
+              .getExtension();
+      LOGGER.error(
+          LogMarkers.VALIDATION,
+          "Failed to create Certificate with id "
+              + certificateId
+              + " issued by "
+              + issuedBy
+              + ": Certificate ID already exists for another person.");
+
+    } catch (Exception e) {
+      LOGGER.error("Error in Webservice: ", e);
+      throw new RuntimeException(e);
     }
 
-    @Override
-    public RegisterMedicalCertificateResponseType registerMedicalCertificate(AttributedURIType logicalAddress,
-        RegisterMedicalCertificateType registerMedicalCertificate) {
-        RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
+    return response;
+  }
 
-        try {
-            validateTransport(registerMedicalCertificate);
-
-            Fk7263Utlatande utlatande = TransportToInternal.convert(registerMedicalCertificate.getLakarutlatande());
-
-            String xml = xmlToString(registerMedicalCertificate);
-            CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
-            certificateHolder.setOriginalCertificate(xml);
-
-            moduleContainer.certificateReceived(certificateHolder);
-
-            response.setResult(ResultOfCallUtil.okResult());
-
-        } catch (CertificateAlreadyExistsException e) {
-            response.setResult(ResultOfCallUtil.infoResult(CERTIFICATE_ALREADY_EXISTS));
-            String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
-            String issuedBy = registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId()
-                .getExtension();
-            LOGGER.warn(LogMarkers.VALIDATION,
-                "Validation warning for intyg " + certificateId + " issued by " + issuedBy + ": Certificate already exists - ignored.");
-
-        } catch (CertificateValidationException | ConverterException e) {
-            response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
-            LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
-
-        } catch (InvalidCertificateException e) {
-            response.setResult(ResultOfCallUtil.applicationErrorResult("Invalid certificate ID"));
-            String certificateId = registerMedicalCertificate.getLakarutlatande().getLakarutlatandeId();
-            String issuedBy = registerMedicalCertificate.getLakarutlatande().getSkapadAvHosPersonal().getEnhet().getEnhetsId()
-                .getExtension();
-            LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
-                + ": Certificate ID already exists for another person.");
-
-        } catch (Exception e) {
-            LOGGER.error("Error in Webservice: ", e);
-            throw new RuntimeException(e);
-        }
-
-        return response;
+  private void validateTransport(RegisterMedicalCertificateType registerMedicalCertificate)
+      throws CertificateValidationException {
+    List<String> validationErrors =
+        new ProgrammaticTransportValidator(registerMedicalCertificate.getLakarutlatande())
+            .validate();
+    if (!validationErrors.isEmpty()) {
+      throw new CertificateValidationException(validationErrors);
     }
+  }
 
-    private void validateTransport(RegisterMedicalCertificateType registerMedicalCertificate) throws CertificateValidationException {
-        List<String> validationErrors = new ProgrammaticTransportValidator(registerMedicalCertificate.getLakarutlatande()).validate();
-        if (!validationErrors.isEmpty()) {
-            throw new CertificateValidationException(validationErrors);
-        }
-    }
-
-    private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) {
-        JAXBElement<RegisterMedicalCertificateType> requestElement = objectFactory
-            .createRegisterMedicalCertificate(registerMedicalCertificate);
-        return XmlMarshallerHelper.marshal(requestElement);
-    }
+  private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) {
+    JAXBElement<RegisterMedicalCertificateType> requestElement =
+        objectFactory.createRegisterMedicalCertificate(registerMedicalCertificate);
+    return XmlMarshallerHelper.marshal(requestElement);
+  }
 }

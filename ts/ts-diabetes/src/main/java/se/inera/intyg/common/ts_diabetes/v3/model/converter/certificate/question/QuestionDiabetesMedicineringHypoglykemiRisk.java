@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,24 +31,24 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
 
 public class QuestionDiabetesMedicineringHypoglykemiRisk {
 
-    public static CertificateDataElement toCertificate(Allmant allmant, int index, CertificateTextProvider textProvider) {
-        final var medicineringMedforRiskForHypoglykemi =
-            allmant != null && allmant.getBehandling() != null ? allmant.getBehandling().getRiskHypoglykemi()
-                : null;
-        return CertificateDataElement.builder()
-            .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
-            .parent(ALLMANT_BEHANDLING_SVAR_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(booleanValue(medicineringMedforRiskForHypoglykemi))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Allmant allmant, int index, CertificateTextProvider textProvider) {
+    final var medicineringMedforRiskForHypoglykemi =
+        allmant != null && allmant.getBehandling() != null
+            ? allmant.getBehandling().getRiskHypoglykemi()
+            : null;
+    return CertificateDataElement.builder()
+        .id(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_SVAR_ID)
+        .parent(ALLMANT_BEHANDLING_SVAR_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(ALLMANT_MEDICINERING_MEDFOR_RISK_FOR_HYPOGYKEMI_TEXT_ID))
+                .build())
+        .value(
+            CertificateDataValueViewText.builder()
+                .text(booleanValue(medicineringMedforRiskForHypoglykemi))
+                .build())
+        .build();
+  }
 }

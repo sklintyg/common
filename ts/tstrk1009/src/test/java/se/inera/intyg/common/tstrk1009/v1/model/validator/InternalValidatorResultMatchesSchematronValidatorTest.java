@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,153 +57,190 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
-    private Scenario scenario;
+  private Scenario scenario;
 
-    private boolean shouldFail;
+  private boolean shouldFail;
 
-    // Used for labeling tests.
-    private String name;
+  // Used for labeling tests.
+  private String name;
 
-    static {
-        // avoid com.helger debug log
-        GlobalDebug.setDebugModeDirect(false);
-    }
+  static {
+    // avoid com.helger debug log
+    GlobalDebug.setDebugModeDirect(false);
+  }
 
-    private static InternalValidatorInstance internalValidator;
+  private static InternalValidatorInstance internalValidator;
 
-    public InternalValidatorResultMatchesSchematronValidatorTest(String name, Scenario scenario, boolean shouldFail) {
-        this.scenario = scenario;
-        this.shouldFail = shouldFail;
-        this.name = name;
-    }
+  public InternalValidatorResultMatchesSchematronValidatorTest(
+      String name, Scenario scenario, boolean shouldFail) {
+    this.scenario = scenario;
+    this.shouldFail = shouldFail;
+    this.name = name;
+  }
 
-    @Before
-    public void setup() {
-        internalValidator = new InternalValidatorInstance();
-    }
+  @Before
+  public void setup() {
+    internalValidator = new InternalValidatorInstance();
+  }
 
-    /**
-     * Process test data and supply it to the test.
-     * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
-     * outcome of the test}.
-     *
-     * @return Collection<Object [ ]>
-     */
-    @Parameters(name = "{index}: Scenario: {0}")
-    public static Collection<Object[]> data() throws ScenarioNotFoundException {
+  /**
+   * Process test data and supply it to the test. The format for the test data needs to be: {name to
+   * display for current test, the scenario to test, expected outcome of the test}.
+   *
+   * @return Collection<Object [ ]>
+   */
+  @Parameters(name = "{index}: Scenario: {0}")
+  public static Collection<Object[]> data() throws ScenarioNotFoundException {
 
-        List<Object[]> retList = new ArrayList<>();
-        // Failing tests
-//        retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
-//                .map(u -> new Object[] { u.getName(), u, true })
-//                .collect(Collectors.toList()));
-        // Passing tests
-        retList.addAll(
-            ScenarioFinder.getInternalScenarios("valid-max*").stream()
-                .map(u -> new Object[]{u.getName(), u, false})
-                .collect(Collectors.toList()));
-        return retList;
-    }
+    List<Object[]> retList = new ArrayList<>();
+    // Failing tests
+    //        retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
+    //                .map(u -> new Object[] { u.getName(), u, true })
+    //                .collect(Collectors.toList()));
+    // Passing tests
+    retList.addAll(
+        ScenarioFinder.getInternalScenarios("valid-max*").stream()
+            .map(u -> new Object[] {u.getName(), u, false})
+            .collect(Collectors.toList()));
+    return retList;
+  }
 
-    @Test
-    public void testScenarios() throws Exception {
-        doInternalAndSchematronValidation(scenario, shouldFail);
-    }
+  @Test
+  public void testScenarios() throws Exception {
+    doInternalAndSchematronValidation(scenario, shouldFail);
+  }
 
-    /**
-     * Perform internal and schematron validation on the supplied Scenario.
-     *
-     * @param fail Whether the test should expect validation errors or not.
-     */
-    private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
-        Tstrk1009UtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
+  /**
+   * Perform internal and schematron validation on the supplied Scenario.
+   *
+   * @param fail Whether the test should expect validation errors or not.
+   */
+  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
+    Tstrk1009UtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
 
-        ValidateDraftResponse internalValidationResponse = internalValidator.validate(utlatandeFromJson);
+    ValidateDraftResponse internalValidationResponse =
+        internalValidator.validate(utlatandeFromJson);
 
-        final List<ValidationMessage> filteredValidations = internalValidationResponse.getValidationErrors().stream()
+    final List<ValidationMessage> filteredValidations =
+        internalValidationResponse.getValidationErrors().stream()
             .filter(error -> !error.getCategory().equals("patient"))
             .collect(Collectors.toList());
 
-        internalValidationResponse = new ValidateDraftResponse(
+    internalValidationResponse =
+        new ValidateDraftResponse(
             filteredValidations.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID,
             filteredValidations);
 
-        RegisterCertificateType intyg = scenario.asTransportModel();
-        String convertedXML = getXmlFromIntyg(intyg);
+    RegisterCertificateType intyg = scenario.asTransportModel();
+    String convertedXML = getXmlFromIntyg(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+    RegisterCertificateValidator validator =
+        new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
+    SchematronOutputType result =
+        validator.validateSchematron(
+            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
-        String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
+    String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 
-        String transportValidationErrors = getTransportValidationErrorString(result);
+    String transportValidationErrors = getTransportValidationErrorString(result);
 
-        doAssertions(fail, internalValidationResponse, result, internalValidationErrors, transportValidationErrors);
+    doAssertions(
+        fail,
+        internalValidationResponse,
+        result,
+        internalValidationErrors,
+        transportValidationErrors);
+  }
+
+  private void doAssertions(
+      boolean fail,
+      ValidateDraftResponse internalValidationResponse,
+      SchematronOutputType result,
+      String internalValidationErrors,
+      String transportValidationErrors) {
+    if (fail) {
+      assertEquals(
+          String.format(
+              "Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
+              name, transportValidationErrors, internalValidationErrors),
+          getNumberOfTransportValidationErrors(result),
+          getNumberOfInternalValidationErrors(internalValidationResponse));
+
+      assertEquals(
+          String.format("File: %s, Internal validation, expected ValidationStatus.INVALID", name),
+          ValidationStatus.INVALID,
+          internalValidationResponse.getStatus());
+
+      assertTrue(
+          String.format("File: %s, Schematronvalidation, expected errors > 0", name),
+          SVRLHelper.getAllFailedAssertions(result).size() > 0);
+    } else {
+      assertEquals(
+          String.format(
+              "File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
+              name, internalValidationErrors),
+          ValidationStatus.VALID,
+          internalValidationResponse.getStatus());
+
+      assertEquals(
+          String.format(
+              "File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
+              name, transportValidationErrors),
+          0,
+          SVRLHelper.getAllFailedAssertions(result).size());
     }
+  }
 
-    private void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-        String internalValidationErrors, String transportValidationErrors) {
-        if (fail) {
-            assertEquals(
-                String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
-                    name, transportValidationErrors, internalValidationErrors),
-                getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse));
+  private static String getXmlFromIntyg(RegisterCertificateType intyg) throws Exception {
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    StringWriter xml = new StringWriter();
 
-            assertEquals(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                name), ValidationStatus.INVALID, internalValidationResponse.getStatus());
+    marshaller.marshal(wrapJaxb(intyg), xml);
 
-            assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                    name),
-                SVRLHelper.getAllFailedAssertions(result).size() > 0);
-        } else {
-            assertEquals(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                name, internalValidationErrors), ValidationStatus.VALID, internalValidationResponse.getStatus());
+    return xml.toString();
+  }
 
-            assertEquals(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                name, transportValidationErrors), 0, SVRLHelper.getAllFailedAssertions(result).size());
-        }
+  private static JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
+    return new JAXBElement<>(
+        new QName(
+            "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3",
+            "RegisterCertificate"),
+        RegisterCertificateType.class,
+        ws);
+  }
+
+  private static String getTransportValidationErrorString(SchematronOutputType result) {
+    return SVRLHelper.getAllFailedAssertions(result).stream()
+        .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+        .collect(Collectors.joining(";"));
+  }
+
+  private static String getInternalValidationErrorString(
+      ValidateDraftResponse internalValidationResponse) {
+    return internalValidationResponse.getValidationErrors().stream()
+        .map(ValidationMessage::getMessage)
+        .collect(Collectors.joining(", "));
+  }
+
+  private static int getNumberOfInternalValidationErrors(
+      ValidateDraftResponse internalValidationResponse) {
+    // Rules R33-35 is validated differently between schematron and internal due to frontend
+    // limitations.
+    Long numberOfspecialErrors =
+        internalValidationResponse.getValidationErrors().stream()
+            .filter(e -> e.getMessage().contains("ts-bas.validation.syn.r3"))
+            .count();
+    if (numberOfspecialErrors > 1) {
+      return internalValidationResponse.getValidationErrors().size()
+          - (numberOfspecialErrors.intValue() - 1);
     }
+    return internalValidationResponse.getValidationErrors().size()
+        - numberOfspecialErrors.intValue();
+  }
 
-    private static String getXmlFromIntyg(RegisterCertificateType intyg) throws Exception {
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        StringWriter xml = new StringWriter();
-
-        marshaller.marshal(wrapJaxb(intyg), xml);
-
-        return xml.toString();
-    }
-
-    private static JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        return new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-            RegisterCertificateType.class, ws);
-    }
-
-    private static String getTransportValidationErrorString(SchematronOutputType result) {
-        return SVRLHelper.getAllFailedAssertions(result).stream()
-            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-            .collect(Collectors.joining(";"));
-    }
-
-    private static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().stream()
-            .map(ValidationMessage::getMessage)
-            .collect(Collectors.joining(", "));
-    }
-
-    private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        // Rules R33-35 is validated differently between schematron and internal due to frontend limitations.
-        Long numberOfspecialErrors = internalValidationResponse.getValidationErrors().stream()
-            .filter(e -> e.getMessage().contains("ts-bas.validation.syn.r3")).count();
-        if (numberOfspecialErrors > 1) {
-            return internalValidationResponse.getValidationErrors().size() - (numberOfspecialErrors.intValue() - 1);
-        }
-        return internalValidationResponse.getValidationErrors().size() - numberOfspecialErrors.intValue();
-    }
-
-    private static int getNumberOfTransportValidationErrors(SchematronOutputType result) {
-        return SVRLHelper.getAllFailedAssertions(result).size();
-    }
+  private static int getNumberOfTransportValidationErrors(SchematronOutputType result) {
+    return SVRLHelper.getAllFailedAssertions(result).size();
+  }
 }

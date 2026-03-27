@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -31,47 +31,47 @@ import org.junit.Test;
  */
 public class PartialDateAdapterTest {
 
-    private static final String YEAR = "2013";
-    private static final String YEAR_MONTH = "2013-12";
-    private static final String YEAR_MONTH_DAY = "2013-12-24";
+  private static final String YEAR = "2013";
+  private static final String YEAR_MONTH = "2013-12";
+  private static final String YEAR_MONTH_DAY = "2013-12-24";
 
-    private static final Year YEAR_PARTIAL = Year.of(2013);
-    private static final YearMonth YEAR_MONTH_PARTIAL = YearMonth.of(2013, 12);
-    private static final LocalDate YEAR_MONTH_DAY_PARTIAL = LocalDate.of(2013, 12, 24);
+  private static final Year YEAR_PARTIAL = Year.of(2013);
+  private static final YearMonth YEAR_MONTH_PARTIAL = YearMonth.of(2013, 12);
+  private static final LocalDate YEAR_MONTH_DAY_PARTIAL = LocalDate.of(2013, 12, 24);
 
-    @Test
-    public void testParseYear() {
-        Temporal partial = PartialDateAdapter.parsePartialDate(YEAR);
-        assertEquals(YEAR_PARTIAL, partial);
-    }
+  @Test
+  public void testParseYear() {
+    Temporal partial = PartialDateAdapter.parsePartialDate(YEAR);
+    assertEquals(YEAR_PARTIAL, partial);
+  }
 
-    @Test
-    public void testParseYearMonth() {
-        Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH);
-        assertEquals(YEAR_MONTH_PARTIAL, partial);
-    }
+  @Test
+  public void testParseYearMonth() {
+    Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH);
+    assertEquals(YEAR_MONTH_PARTIAL, partial);
+  }
 
-    @Test
-    public void testParseYearMonthDay() {
-        Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH_DAY);
-        assertEquals(YEAR_MONTH_DAY_PARTIAL, partial);
-    }
+  @Test
+  public void testParseYearMonthDay() {
+    Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH_DAY);
+    assertEquals(YEAR_MONTH_DAY_PARTIAL, partial);
+  }
 
-    @Test
-    public void testPrintYear() {
-        String date = PartialDateAdapter.printPartialDate(YEAR_PARTIAL);
-        assertEquals(YEAR, date);
-    }
+  @Test
+  public void testPrintYear() {
+    String date = PartialDateAdapter.printPartialDate(YEAR_PARTIAL);
+    assertEquals(YEAR, date);
+  }
 
-    @Test
-    public void testPrintYearMonth() {
-        String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_PARTIAL);
-        assertEquals(YEAR_MONTH, date);
-    }
+  @Test
+  public void testPrintYearMonth() {
+    String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_PARTIAL);
+    assertEquals(YEAR_MONTH, date);
+  }
 
-    @Test
-    public void testPrintYearMonthDay() {
-        String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_DAY_PARTIAL);
-        assertEquals(YEAR_MONTH_DAY, date);
-    }
+  @Test
+  public void testPrintYearMonthDay() {
+    String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_DAY_PARTIAL);
+    assertEquals(YEAR_MONTH_DAY, date);
+  }
 }

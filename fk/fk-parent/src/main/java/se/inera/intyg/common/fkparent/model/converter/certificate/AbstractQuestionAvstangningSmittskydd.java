@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.fkparent.model.converter.certificate;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANSWER_NOT_SELECTED;
@@ -32,30 +31,29 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueBool
 
 public abstract class AbstractQuestionAvstangningSmittskydd {
 
-    public static CertificateDataElement toCertificate(Boolean value, String questionId, String parent, String jsonId, int index,
-        CertificateTextProvider texts) {
-        return CertificateDataElement.builder()
-            .id(questionId)
-            .index(index)
-            .parent(parent)
-            .config(
-                CertificateDataConfigCheckboxBoolean.builder()
-                    .id(jsonId)
-                    .label(texts.get(AVSTANGNING_SMITTSKYDD_QUESTION_LABEL))
-                    .selectedText(texts.get(ANSWER_YES))
-                    .unselectedText(texts.get(ANSWER_NOT_SELECTED))
-                    .build()
-            )
-            .value(
-                CertificateDataValueBoolean.builder()
-                    .id(jsonId)
-                    .selected(value)
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      Boolean value,
+      String questionId,
+      String parent,
+      String jsonId,
+      int index,
+      CertificateTextProvider texts) {
+    return CertificateDataElement.builder()
+        .id(questionId)
+        .index(index)
+        .parent(parent)
+        .config(
+            CertificateDataConfigCheckboxBoolean.builder()
+                .id(jsonId)
+                .label(texts.get(AVSTANGNING_SMITTSKYDD_QUESTION_LABEL))
+                .selectedText(texts.get(ANSWER_YES))
+                .unselectedText(texts.get(ANSWER_NOT_SELECTED))
+                .build())
+        .value(CertificateDataValueBoolean.builder().id(jsonId).selected(value).build())
+        .build();
+  }
 
-    public static Boolean toInternal(Certificate certificate, String questionId, String jsonId) {
-        return booleanValue(certificate.getData(), questionId, jsonId);
-    }
+  public static Boolean toInternal(Certificate certificate, String questionId, String jsonId) {
+    return booleanValue(certificate.getData(), questionId, jsonId);
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,77 +38,81 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 
-/**
- * Factory for creating an editable model.
- */
+/** Factory for creating an editable model. */
 @Component(value = "ag114.WebcertModelFactoryImpl.v1")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114UtlatandeV1> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
+  private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Autowired(required = false)
-    private IntygTextsService intygTexts;
+  @Autowired(required = false)
+  private IntygTextsService intygTexts;
 
-    /**
-     * Create a new ag114 draft pre-populated with the attached data.
-     *
-     * @param newDraftData {@link CreateNewDraftHolder}
-     * @return {@link Ag114UtlatandeV1} or throws a ConverterException if something unforeseen happens
-     */
-    @Override
-    public Ag114UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
+  /**
+   * Create a new ag114 draft pre-populated with the attached data.
+   *
+   * @param newDraftData {@link CreateNewDraftHolder}
+   * @return {@link Ag114UtlatandeV1} or throws a ConverterException if something unforeseen happens
+   */
+  @Override
+  public Ag114UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData)
+      throws ConverterException {
 
-        LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
+    LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Ag114UtlatandeV1.Builder template = Ag114UtlatandeV1.builder();
-        GrundData grundData = new GrundData();
+    Ag114UtlatandeV1.Builder template = Ag114UtlatandeV1.builder();
+    GrundData grundData = new GrundData();
 
-        List<Sysselsattning> sysselsattning = Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE));
-        template.setSysselsattning(sysselsattning);
+    List<Sysselsattning> sysselsattning =
+        Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE));
+    template.setSysselsattning(sysselsattning);
 
-        template.setTextVersion(newDraftData.getIntygTypeVersion());
-        populateWithId(template, newDraftData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
-        resetDataInGrundData(grundData);
+    template.setTextVersion(newDraftData.getIntygTypeVersion());
+    populateWithId(template, newDraftData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+    resetDataInGrundData(grundData);
 
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+    // Default to latest minor version available for major version of intygtype
+    template.setTextVersion(
+        intygTexts.getLatestVersionForSameMajorVersion(
+            Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        return template.setGrundData(grundData).build();
+    return template.setGrundData(grundData).build();
+  }
+
+  @Override
+  public Ag114UtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template)
+      throws ConverterException {
+    if (!Ag114UtlatandeV1.class.isInstance(template)) {
+      throw new ConverterException("Template is not of type Ag114Utlatande");
     }
 
-    @Override
-    public Ag114UtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!Ag114UtlatandeV1.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type Ag114Utlatande");
-        }
+    Ag114UtlatandeV1 ag114UtlatandeV1 = (Ag114UtlatandeV1) template;
+    LOG.trace(
+        "Creating copy with id {} from {}", copyData.getCertificateId(), ag114UtlatandeV1.getId());
 
-        Ag114UtlatandeV1 ag114UtlatandeV1 = (Ag114UtlatandeV1) template;
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), ag114UtlatandeV1.getId());
+    Ag114UtlatandeV1.Builder templateBuilder = ag114UtlatandeV1.toBuilder();
+    GrundData grundData = ag114UtlatandeV1.getGrundData();
 
-        Ag114UtlatandeV1.Builder templateBuilder = ag114UtlatandeV1.toBuilder();
-        GrundData grundData = ag114UtlatandeV1.getGrundData();
+    populateWithId(templateBuilder, copyData.getCertificateId());
+    WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+    resetDataInGrundData(grundData);
+    templateBuilder.setSignature(null);
+    return templateBuilder.build();
+  }
 
-        resetDataInGrundData(grundData);
-        templateBuilder.setSignature(null);
-        return templateBuilder.build();
+  private void populateWithId(Ag114UtlatandeV1.Builder utlatande, String utlatandeId)
+      throws ConverterException {
+    if (utlatandeId == null || utlatandeId.trim().length() == 0) {
+      throw new ConverterException("No certificateID found");
     }
+    utlatande.setId(utlatandeId);
+  }
 
-    private void populateWithId(Ag114UtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
-        if (utlatandeId == null || utlatandeId.trim().length() == 0) {
-            throw new ConverterException("No certificateID found");
-        }
-        utlatande.setId(utlatandeId);
-    }
-
-    private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(null);
-    }
+  private void resetDataInGrundData(GrundData grundData) {
+    Patient patient = new Patient();
+    patient.setPersonId(grundData.getPatient().getPersonId());
+    grundData.setPatient(patient);
+    grundData.setSigneringsdatum(null);
+  }
 }

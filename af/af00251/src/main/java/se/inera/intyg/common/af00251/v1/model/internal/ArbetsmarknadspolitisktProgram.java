@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,77 +29,69 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 
-/**
- * Fråga 2.
- */
+/** Fråga 2. */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_ArbetsmarknadspolitisktProgram.Builder.class)
 public abstract class ArbetsmarknadspolitisktProgram {
 
-    @Nullable
-    public abstract String getMedicinskBedomning();
+  @Nullable public abstract String getMedicinskBedomning();
 
-    @Nullable
-    public abstract Omfattning getOmfattning();
+  @Nullable public abstract Omfattning getOmfattning();
 
-    @Nullable
-    public abstract Integer getOmfattningDeltid();
+  @Nullable public abstract Integer getOmfattningDeltid();
 
+  public static ArbetsmarknadspolitisktProgram.Builder builder() {
+    return new AutoValue_ArbetsmarknadspolitisktProgram.Builder();
+  }
 
-    public static ArbetsmarknadspolitisktProgram.Builder builder() {
-        return new AutoValue_ArbetsmarknadspolitisktProgram.Builder();
+  @AutoValue.Builder
+  public abstract static class Builder {
+
+    public abstract ArbetsmarknadspolitisktProgram build();
+
+    @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21)
+    public abstract ArbetsmarknadspolitisktProgram.Builder setMedicinskBedomning(
+        String medicinskBedomning);
+
+    @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22)
+    public abstract ArbetsmarknadspolitisktProgram.Builder setOmfattning(Omfattning omfattning);
+
+    @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23)
+    public abstract ArbetsmarknadspolitisktProgram.Builder setOmfattningDeltid(
+        Integer omfattningDeltid);
+  }
+
+  public enum Omfattning {
+    HELTID("HELTID", "Heltid (40 timmar/vecka)"),
+    DELTID("DELTID", "Deltid"),
+    OKAND("OKAND", "Okänd");
+
+    private final String id;
+    private final String label;
+
+    Omfattning(String id, String label) {
+      this.id = id;
+      this.label = label;
     }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
-
-        public abstract ArbetsmarknadspolitisktProgram build();
-
-        @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21)
-        public abstract ArbetsmarknadspolitisktProgram.Builder setMedicinskBedomning(String medicinskBedomning);
-
-        @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22)
-        public abstract ArbetsmarknadspolitisktProgram.Builder setOmfattning(Omfattning omfattning);
-
-        @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23)
-        public abstract ArbetsmarknadspolitisktProgram.Builder setOmfattningDeltid(Integer omfattningDeltid);
+    @JsonValue
+    public String getId() {
+      return id;
     }
 
-    public enum Omfattning {
-
-        HELTID("HELTID", "Heltid (40 timmar/vecka)"),
-        DELTID("DELTID", "Deltid"),
-        OKAND("OKAND", "Okänd");
-
-        private final String id;
-        private final String label;
-
-        Omfattning(String id, String label) {
-            this.id = id;
-            this.label = label;
-        }
-
-        @JsonValue
-        public String getId() {
-            return id;
-        }
-
-        public String getLabel() {
-            return label;
-        }
-
-        @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-        public static Omfattning fromId(@JsonProperty("id") String id) {
-            String normId = id != null ? id.trim() : null;
-            for (Omfattning typ : values()) {
-                if (typ.id.equals(normId)) {
-                    return typ;
-                }
-            }
-            throw new IllegalArgumentException();
-        }
-
+    public String getLabel() {
+      return label;
     }
 
-
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static Omfattning fromId(@JsonProperty("id") String id) {
+      String normId = id != null ? id.trim() : null;
+      for (Omfattning typ : values()) {
+        if (typ.id.equals(normId)) {
+          return typ;
+        }
+      }
+      throw new IllegalArgumentException();
+    }
+  }
 }

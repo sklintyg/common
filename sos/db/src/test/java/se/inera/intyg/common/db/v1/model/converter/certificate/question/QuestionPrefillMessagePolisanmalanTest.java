@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -48,86 +48,88 @@ import se.inera.intyg.common.support.facade.testsetup.model.validation.Validatio
 @ExtendWith(MockitoExtension.class)
 class QuestionPrefillMessagePolisanmalanTest {
 
-    @Mock
-    private CertificateTextProvider texts;
+  @Mock private CertificateTextProvider texts;
 
-    @BeforeEach
-    void setup() {
-        when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  @BeforeEach
+  void setup() {
+    when(texts.get(Mockito.any(String.class))).thenReturn("Test string");
+  }
+
+  @Nested
+  @TestInstance(Lifecycle.PER_CLASS)
+  class ToCertificate {
+
+    @Test
+    void shouldIncludeId() {
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      assertEquals(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID, question.getId());
+    }
+
+    @Test
+    void shouldIncludeIndex() {
+      final var expectedIndex = 1;
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(expectedIndex, texts);
+      assertEquals(expectedIndex, question.getIndex());
+    }
+
+    @Test
+    void shouldIncludeParentId() {
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      assertEquals(POLISANMALAN_CATEGORY_ID, question.getParent());
+    }
+
+    @Test
+    void shouldIncludeConfigType() {
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      assertEquals(UE_MESSAGE, question.getConfig().getType());
+    }
+
+    @Test
+    void shouldIncludeConfigMessage() {
+      final var certificateDataElement = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      final var certificateDataElementConfig =
+          (CertificateDataConfigMessage) certificateDataElement.getConfig();
+      assertFalse(
+          certificateDataElementConfig.getMessage().getContent().trim().isEmpty(),
+          "Missing message");
+      verify(texts, atLeastOnce()).get(POLISANMALAN_PREFILL_MESSAGE_ID);
+    }
+
+    @Test
+    void shouldIncludeConfigLevelInfo() {
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      final var config = (CertificateDataConfigMessage) question.getConfig();
+      assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
     }
 
     @Nested
-    @TestInstance(Lifecycle.PER_CLASS)
-    class ToCertificate {
+    class IncludeValidationShowTest extends ValidationShowTest {
 
-        @Test
-        void shouldIncludeId() {
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            assertEquals(POLISANMALAN_PREFILL_MESSAGE_DELSVAR_ID, question.getId());
-        }
+      @Override
+      protected String getQuestionId() {
+        return UNDERSOKNING_YTTRE_DELSVAR_ID;
+      }
 
-        @Test
-        void shouldIncludeIndex() {
-            final var expectedIndex = 1;
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(expectedIndex, texts);
-            assertEquals(expectedIndex, question.getIndex());
-        }
+      @Override
+      protected String getExpression() {
+        return "$" + Undersokning.UNDERSOKNING_SKA_GORAS.name();
+      }
 
-        @Test
-        void shouldIncludeParentId() {
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            assertEquals(POLISANMALAN_CATEGORY_ID, question.getParent());
-        }
+      @Override
+      protected CertificateDataElement getElement() {
+        return QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      }
 
-        @Test
-        void shouldIncludeConfigType() {
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            assertEquals(UE_MESSAGE, question.getConfig().getType());
-        }
-
-        @Test
-        void shouldIncludeConfigMessage() {
-            final var certificateDataElement = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            final var certificateDataElementConfig = (CertificateDataConfigMessage) certificateDataElement.getConfig();
-            assertFalse(certificateDataElementConfig.getMessage().getContent().trim().isEmpty(), "Missing message");
-            verify(texts, atLeastOnce()).get(POLISANMALAN_PREFILL_MESSAGE_ID);
-        }
-
-        @Test
-        void shouldIncludeConfigLevelInfo() {
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            final var config = (CertificateDataConfigMessage) question.getConfig();
-            assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
-        }
-
-        @Nested
-        class IncludeValidationShowTest extends ValidationShowTest {
-
-            @Override
-            protected String getQuestionId() {
-                return UNDERSOKNING_YTTRE_DELSVAR_ID;
-            }
-
-            @Override
-            protected String getExpression() {
-                return "$" + Undersokning.UNDERSOKNING_SKA_GORAS.name();
-            }
-
-            @Override
-            protected CertificateDataElement getElement() {
-                return QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            }
-
-            @Override
-            protected int getValidationIndex() {
-                return 0;
-            }
-        }
-
-        @Test
-        void shouldIncludeVisibilityFalse() {
-            final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
-            assertEquals(false, question.getVisible());
-        }
+      @Override
+      protected int getValidationIndex() {
+        return 0;
+      }
     }
+
+    @Test
+    void shouldIncludeVisibilityFalse() {
+      final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
+      assertEquals(false, question.getVisible());
+    }
+  }
 }

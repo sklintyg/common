@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -60,259 +60,326 @@ import se.inera.intyg.schemas.contract.Personnummer;
  */
 public class InternalToTransportConverterTest {
 
-    @Test
-    public void testConvertUtlatande() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            Fk7263Utlatande intUtlatande = scenario.asInternalModel();
+  @Test
+  public void testConvertUtlatande() throws Exception {
+    for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
+      Fk7263Utlatande intUtlatande = scenario.asInternalModel();
 
-            RegisterMedicalCertificateType actual = InternalToTransport.getJaxbObject(intUtlatande);
+      RegisterMedicalCertificateType actual = InternalToTransport.getJaxbObject(intUtlatande);
 
-            RegisterMedicalCertificateType expected = scenario.asTransportModel();
+      RegisterMedicalCertificateType expected = scenario.asTransportModel();
 
-            ModelAssert.assertEquals("Error in scenario " + scenario.getName(), expected, actual);
-        }
+      ModelAssert.assertEquals("Error in scenario " + scenario.getName(), expected, actual);
     }
+  }
 
-    @Test
-    public void testConversionUtanFalt5() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionUtanFalt5()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande internalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json").getInputStream(), Fk7263Utlatande.class);
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande internalFormat =
+        objectMapper.readValue(
+            new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json")
+                .getInputStream(),
+            Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificate =
+        InternalToTransport.getJaxbObject(internalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
-            .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testConversionMaximal() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionMaximal()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande internalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande internalFormat =
+        objectMapper.readValue(
+            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificate =
+        InternalToTransport.getJaxbObject(internalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
-            .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testConversionWithDiagnosisAsKSH97() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionWithDiagnosisAsKSH97()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande internalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande internalFormat =
+        objectMapper.readValue(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificate =
+        InternalToTransport.getJaxbObject(internalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificate), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
-            .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testConversionMinimal() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionMinimal()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande externalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande externalFormat =
+        objectMapper.readValue(
+            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificateType =
+        InternalToTransport.getJaxbObject(externalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
-            .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testConversionKommentar() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionKommentar()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande externalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/friviligttext-fk7263-internal.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande externalFormat =
+        objectMapper.readValue(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/friviligttext-fk7263-internal.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
-        RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
-        String expected = "8b: " + "nedsattMed25Beskrivning. " + "nedsattMed50Beskrivning. " + "nedsattMed75Beskrivning. kommentar";
-        String result = registerMedicalCertificateType.getLakarutlatande().getKommentar();
-        assertEquals(expected, result);
-    }
+    RegisterMedicalCertificateType registerMedicalCertificateType =
+        InternalToTransport.getJaxbObject(externalFormat);
+    String expected =
+        "8b: "
+            + "nedsattMed25Beskrivning. "
+            + "nedsattMed50Beskrivning. "
+            + "nedsattMed75Beskrivning. kommentar";
+    String result = registerMedicalCertificateType.getLakarutlatande().getKommentar();
+    assertEquals(expected, result);
+  }
 
-    @Test
-    public void testConversionOrimligtDatum() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionOrimligtDatum()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande externalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande externalFormat =
+        objectMapper.readValue(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificateType =
+        InternalToTransport.getJaxbObject(externalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources
-            .toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
-                .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testConversionMinimalSmiL() throws JAXBException, IOException, SAXException, ConverterException {
+  @Test
+  public void testConversionMinimalSmiL()
+      throws JAXBException, IOException, SAXException, ConverterException {
 
-        ObjectMapper objectMapper = new CustomObjectMapper();
-        Fk7263Utlatande externalFormat = objectMapper.readValue(
-            new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json").getInputStream(),
+    ObjectMapper objectMapper = new CustomObjectMapper();
+    Fk7263Utlatande externalFormat =
+        objectMapper.readValue(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json")
+                .getInputStream(),
             Fk7263Utlatande.class);
 
-        RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
+    RegisterMedicalCertificateType registerMedicalCertificateType =
+        InternalToTransport.getJaxbObject(externalFormat);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
-        StringWriter stringWriter = new StringWriter();
-        Marshaller marshaller = jaxbContext.createMarshaller();
-        marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
+    JAXBContext jaxbContext =
+        JAXBContext.newInstance(RegisterMedicalCertificateType.class, LakarutlatandeType.class);
+    StringWriter stringWriter = new StringWriter();
+    Marshaller marshaller = jaxbContext.createMarshaller();
+    marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
-        // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
-            .getURL(), Charsets.UTF_8);
+    // read expected XML and compare with resulting RegisterMedicalCertificateType
+    String expectation =
+        Resources.toString(
+            new ClassPathResource(
+                    "InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
+                .getURL(),
+            Charsets.UTF_8);
 
-        Diff diff = DiffBuilder
-            .compare(Input.fromString(expectation.toString()))
+    Diff diff =
+        DiffBuilder.compare(Input.fromString(expectation.toString()))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
-    }
+    assertFalse(diff.toString(), diff.hasDifferences());
+  }
 
-    @Test
-    public void testPersonnummerRoot() throws Exception {
-        final String pnr = "19121212-1212";
-        Fk7263Utlatande utlatande = new Fk7263Utlatande();
-        GrundData grundData = new GrundData();
-        Patient patient = new Patient();
-        patient.setPersonId(createPnr(pnr));
-        grundData.setPatient(patient);
-        HoSPersonal skapadAv = new HoSPersonal();
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setVardgivare(new Vardgivare());
-        skapadAv.setVardenhet(vardenhet);
-        grundData.setSkapadAv(skapadAv);
-        utlatande.setGrundData(grundData);
-        RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
-        assertEquals(Constants.PERSON_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
-        assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
-    }
+  @Test
+  public void testPersonnummerRoot() throws Exception {
+    final String pnr = "19121212-1212";
+    Fk7263Utlatande utlatande = new Fk7263Utlatande();
+    GrundData grundData = new GrundData();
+    Patient patient = new Patient();
+    patient.setPersonId(createPnr(pnr));
+    grundData.setPatient(patient);
+    HoSPersonal skapadAv = new HoSPersonal();
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setVardgivare(new Vardgivare());
+    skapadAv.setVardenhet(vardenhet);
+    grundData.setSkapadAv(skapadAv);
+    utlatande.setGrundData(grundData);
+    RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
+    assertEquals(
+        Constants.PERSON_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
+    assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
+  }
 
-    @Test
-    public void testSamordningRoot() throws Exception {
-        final String pnr = "19800191-0002";
-        Fk7263Utlatande utlatande = new Fk7263Utlatande();
-        GrundData grundData = new GrundData();
-        Patient patient = new Patient();
-        patient.setPersonId(createPnr(pnr));
-        grundData.setPatient(patient);
-        HoSPersonal skapadAv = new HoSPersonal();
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setVardgivare(new Vardgivare());
-        skapadAv.setVardenhet(vardenhet);
-        grundData.setSkapadAv(skapadAv);
-        utlatande.setGrundData(grundData);
-        RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
-        assertEquals(Constants.SAMORDNING_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
-        assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
-    }
+  @Test
+  public void testSamordningRoot() throws Exception {
+    final String pnr = "19800191-0002";
+    Fk7263Utlatande utlatande = new Fk7263Utlatande();
+    GrundData grundData = new GrundData();
+    Patient patient = new Patient();
+    patient.setPersonId(createPnr(pnr));
+    grundData.setPatient(patient);
+    HoSPersonal skapadAv = new HoSPersonal();
+    Vardenhet vardenhet = new Vardenhet();
+    vardenhet.setVardgivare(new Vardgivare());
+    skapadAv.setVardenhet(vardenhet);
+    grundData.setSkapadAv(skapadAv);
+    utlatande.setGrundData(grundData);
+    RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
+    assertEquals(
+        Constants.SAMORDNING_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
+    assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
+  }
 
-    private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
-    }
+  private Personnummer createPnr(String civicRegistrationNumber) {
+    return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+  }
 
-    private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<>(
-            new QName("urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3", "RegisterMedicalCertificate"),
-            RegisterMedicalCertificateType.class, ws);
-        return jaxbElement;
-    }
-
+  private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
+    JAXBElement<?> jaxbElement =
+        new JAXBElement<>(
+            new QName(
+                "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3",
+                "RegisterMedicalCertificate"),
+            RegisterMedicalCertificateType.class,
+            ws);
+    return jaxbElement;
+  }
 }

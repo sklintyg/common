@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -45,119 +45,120 @@ import se.inera.intyg.common.ts_bas.v7.model.internal.Syn;
 @ExtendWith(MockitoExtension.class)
 class QuestionKorrektionsglasensStyrkaMessageTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
-
-        }
-
-        @Override
-        protected String getId() {
-            return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return SYNFUNKTIONER_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_ID;
     }
 
-    @Nested
-    class IncludeConfigMessageTest extends ConfigMessageTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID;
-        }
-
-        @Override
-        protected MessageLevel getMessageLevel() {
-            return MessageLevel.INFO;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return SYNFUNKTIONER_CATEGORY_ID;
     }
 
-    @Nested
-    class IncludeValidationShowTests extends ValidationShowTest {
+    @Override
+    protected int getIndex() {
+      return 0;
+    }
+  }
 
-        @Override
-        protected String getQuestionId() {
-            return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
-        }
+  @Nested
+  class IncludeConfigMessageTest extends ConfigMessageTest {
 
-        @Override
-        protected String getExpression() {
-            return "$" + UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected int getValidationIndex() {
-            return 0;
-        }
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
     }
 
-    @Nested
-    class IncludeVisibilityTests {
-
-        @Test
-        void shouldBeVisibleIfkorrektionsglasensStyrkaIsTrue() {
-            final var syn = Syn.builder().setKorrektionsglasensStyrka(true).build();
-            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
-            assertTrue(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsFalse() {
-            final var syn = Syn.builder().setKorrektionsglasensStyrka(false).build();
-            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
-
-        @Test
-        void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsNull() {
-            final var syn = Syn.builder().build();
-            final var element = QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
-            assertFalse(element.getVisible());
-        }
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
     }
+
+    @Override
+    protected String getTextId() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID;
+    }
+
+    @Override
+    protected MessageLevel getMessageLevel() {
+      return MessageLevel.INFO;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+  }
+
+  @Nested
+  class IncludeValidationShowTests extends ValidationShowTest {
+
+    @Override
+    protected String getQuestionId() {
+      return UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID;
+    }
+
+    @Override
+    protected String getExpression() {
+      return "$" + UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_JSON_ID;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionKorrektionsglasensStyrkaMessage.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected int getValidationIndex() {
+      return 0;
+    }
+  }
+
+  @Nested
+  class IncludeVisibilityTests {
+
+    @Test
+    void shouldBeVisibleIfkorrektionsglasensStyrkaIsTrue() {
+      final var syn = Syn.builder().setKorrektionsglasensStyrka(true).build();
+      final var element =
+          QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+      assertTrue(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsFalse() {
+      final var syn = Syn.builder().setKorrektionsglasensStyrka(false).build();
+      final var element =
+          QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+
+    @Test
+    void shouldNotBeVisibleIfkorrektionsglasensStyrkaIsNull() {
+      final var syn = Syn.builder().build();
+      final var element =
+          QuestionKorrektionsglasensStyrkaMessage.toCertificate(syn, 0, textProvider);
+      assertFalse(element.getVisible());
+    }
+  }
 }

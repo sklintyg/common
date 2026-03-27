@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
@@ -46,90 +45,92 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
 @ExtendWith(MockitoExtension.class)
 class QuestionStadigvarandeMedicineringTest {
 
-    @Mock
-    CertificateTextProvider textProvider;
+  @Mock CertificateTextProvider textProvider;
 
-    @BeforeEach
-    void setUp() {
-        when(textProvider.get(any(String.class))).thenReturn("test string");
+  @BeforeEach
+  void setUp() {
+    when(textProvider.get(any(String.class))).thenReturn("test string");
+  }
+
+  @Nested
+  class IncludeCommonElementTests extends CommonElementTest {
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionStadigvarandeMedicinering.toCertificate(null, 0, textProvider);
     }
 
-    @Nested
-    class IncludeCommonElementTests extends CommonElementTest {
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionStadigvarandeMedicinering.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getId() {
-            return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
-        }
-
-        @Override
-        protected String getParent() {
-            return STADIGVARANDE_MEDICINERING_CATEGORY_ID;
-        }
-
-        @Override
-        protected int getIndex() {
-            return 0;
-        }
+    @Override
+    protected String getId() {
+      return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID;
     }
 
-    @Nested
-    class IncludeConfigViewText extends ConfigViewTextTest {
-
-        @Override
-        protected CertificateTextProvider getTextProviderMock() {
-            return textProvider;
-        }
-
-        @Override
-        protected CertificateDataElement getElement() {
-            return QuestionStadigvarandeMedicinering.toCertificate(null, 0, textProvider);
-        }
-
-        @Override
-        protected String getTextId() {
-            return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
-        }
-
-        @Override
-        protected String getDescriptionId() {
-            return null;
-        }
-
-        @Override
-        protected CertificateMessagesProvider getMessageProviderMock() {
-            return null;
-        }
-
-        @Override
-        protected String getMessageId() {
-            return null;
-        }
+    @Override
+    protected String getParent() {
+      return STADIGVARANDE_MEDICINERING_CATEGORY_ID;
     }
 
-    @Nested
-    @TestInstance(PER_CLASS)
-    class IncludeValueViewText extends ValueViewTextTest<Medicinering> {
-
-        @Override
-        protected CertificateDataElement getElement(Medicinering expectedValue) {
-            return QuestionStadigvarandeMedicinering.toCertificate(expectedValue, 0, textProvider);
-        }
-
-        @Override
-        protected List<InputExpectedValuePair<Medicinering, CertificateDataValueViewText>> inputExpectedValuePairList() {
-            return List.of(
-                new InputExpectedValuePair<>(null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
-                new InputExpectedValuePair<>(Medicinering.builder().setStadigvarandeMedicinering(true).build(),
-                    CertificateDataValueViewText.builder().text("Ja").build()),
-                new InputExpectedValuePair<>(Medicinering.builder().setStadigvarandeMedicinering(false).build(),
-                    CertificateDataValueViewText.builder().text("Nej").build())
-            );
-        }
+    @Override
+    protected int getIndex() {
+      return 0;
     }
+  }
+
+  @Nested
+  class IncludeConfigViewText extends ConfigViewTextTest {
+
+    @Override
+    protected CertificateTextProvider getTextProviderMock() {
+      return textProvider;
+    }
+
+    @Override
+    protected CertificateDataElement getElement() {
+      return QuestionStadigvarandeMedicinering.toCertificate(null, 0, textProvider);
+    }
+
+    @Override
+    protected String getTextId() {
+      return FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_TEXT_ID;
+    }
+
+    @Override
+    protected String getDescriptionId() {
+      return null;
+    }
+
+    @Override
+    protected CertificateMessagesProvider getMessageProviderMock() {
+      return null;
+    }
+
+    @Override
+    protected String getMessageId() {
+      return null;
+    }
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class IncludeValueViewText extends ValueViewTextTest<Medicinering> {
+
+    @Override
+    protected CertificateDataElement getElement(Medicinering expectedValue) {
+      return QuestionStadigvarandeMedicinering.toCertificate(expectedValue, 0, textProvider);
+    }
+
+    @Override
+    protected List<InputExpectedValuePair<Medicinering, CertificateDataValueViewText>>
+        inputExpectedValuePairList() {
+      return List.of(
+          new InputExpectedValuePair<>(
+              null, CertificateDataValueViewText.builder().text("Ej angivet").build()),
+          new InputExpectedValuePair<>(
+              Medicinering.builder().setStadigvarandeMedicinering(true).build(),
+              CertificateDataValueViewText.builder().text("Ja").build()),
+          new InputExpectedValuePair<>(
+              Medicinering.builder().setStadigvarandeMedicinering(false).build(),
+              CertificateDataValueViewText.builder().text("Nej").build()));
+    }
+  }
 }

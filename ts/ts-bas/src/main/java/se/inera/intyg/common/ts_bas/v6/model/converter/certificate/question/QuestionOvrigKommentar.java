@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.inera.intyg.common.ts_bas.v6.model.converter.certificate.question;
 
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.stringValue;
@@ -31,21 +30,17 @@ import se.inera.intyg.common.support.facade.model.value.CertificateDataValueView
 
 public class QuestionOvrigKommentar {
 
-    public static CertificateDataElement toCertificate(String kommentar, int index, CertificateTextProvider textProvider) {
-        return CertificateDataElement.builder()
-            .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID)
-            .parent(OVRIGA_KOMMENTARER_CATEGORY_ID)
-            .index(index)
-            .config(
-                CertificateDataConfigViewText.builder()
-                    .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID))
-                    .build()
-            )
-            .value(
-                CertificateDataValueViewText.builder()
-                    .text(stringValue(kommentar))
-                    .build()
-            )
-            .build();
-    }
+  public static CertificateDataElement toCertificate(
+      String kommentar, int index, CertificateTextProvider textProvider) {
+    return CertificateDataElement.builder()
+        .id(OVRIGA_KOMMENTARER_DELSVARSVAR_ID)
+        .parent(OVRIGA_KOMMENTARER_CATEGORY_ID)
+        .index(index)
+        .config(
+            CertificateDataConfigViewText.builder()
+                .text(textProvider.get(OVRIGA_KOMMENTARER_DELSVARSVAR_TEXT_ID))
+                .build())
+        .value(CertificateDataValueViewText.builder().text(stringValue(kommentar)).build())
+        .build();
+  }
 }

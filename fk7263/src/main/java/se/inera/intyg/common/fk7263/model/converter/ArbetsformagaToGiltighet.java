@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -26,76 +26,71 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
 
-/**
- * Created by erik on 15-04-08.
- */
+/** Created by erik on 15-04-08. */
 public final class ArbetsformagaToGiltighet {
 
-    private ArbetsformagaToGiltighet() {
+  private ArbetsformagaToGiltighet() {}
 
+  /**
+   * Uses the NedsattMedNN information on the Utlatande to build a LocalDateInterval with the
+   * earliest fromDate to the latest toDate.
+   *
+   * <p>If there are invalid dates (format etc.) on the Utlatande "NedsattMedNN", we catch all
+   * Exceptions and just return null as Giltighet. (WEBCERT-1940)
+   *
+   * @return Aa LocalDateInterval with the earliest fromDate to the latest toDate. Null if there are
+   *     invalid/unparsable dates.
+   */
+  public static LocalDateInterval getGiltighetFromUtlatande(Fk7263Utlatande utlatande) {
+    try {
+      return new LocalDateInterval(getValidFromDate(utlatande), getValidToDate(utlatande));
+    } catch (Exception e) {
+      return null;
     }
+  }
 
-    /**
-     * Uses the NedsattMedNN information on the Utlatande to build a LocalDateInterval with the earliest fromDate to the
-     * latest toDate.
-     *
-     * If there are invalid dates (format etc.) on the Utlatande "NedsattMedNN", we catch all Exceptions and just return null
-     * as Giltighet. (WEBCERT-1940)
-     *
-     * @return Aa LocalDateInterval with the earliest fromDate to the
-     * latest toDate. Null if there are invalid/unparsable dates.
-     */
-    public static LocalDateInterval getGiltighetFromUtlatande(Fk7263Utlatande utlatande) {
-        try {
-            return new LocalDateInterval(getValidFromDate(utlatande), getValidToDate(utlatande));
-        } catch (Exception e) {
-            return null;
-        }
+  private static LocalDate getValidToDate(Fk7263Utlatande utlatande) {
+    LocalDate toDate = null;
+    List<InternalDate> toDates = new ArrayList<>();
+    addTomDate(utlatande.getNedsattMed100(), toDates);
+    addTomDate(utlatande.getNedsattMed75(), toDates);
+    addTomDate(utlatande.getNedsattMed50(), toDates);
+    addTomDate(utlatande.getNedsattMed25(), toDates);
+
+    for (InternalDate internalDate : toDates) {
+      if (toDate == null || internalDate.asLocalDate().isAfter(toDate)) {
+        toDate = internalDate.asLocalDate();
+      }
     }
+    return toDate;
+  }
 
-    private static LocalDate getValidToDate(Fk7263Utlatande utlatande) {
-        LocalDate toDate = null;
-        List<InternalDate> toDates = new ArrayList<>();
-        addTomDate(utlatande.getNedsattMed100(), toDates);
-        addTomDate(utlatande.getNedsattMed75(), toDates);
-        addTomDate(utlatande.getNedsattMed50(), toDates);
-        addTomDate(utlatande.getNedsattMed25(), toDates);
+  private static LocalDate getValidFromDate(Fk7263Utlatande utlatande) {
+    LocalDate fromDate = null;
 
-        for (InternalDate internalDate : toDates) {
-            if (toDate == null || internalDate.asLocalDate().isAfter(toDate)) {
-                toDate = internalDate.asLocalDate();
-            }
-        }
-        return toDate;
+    List<InternalDate> fromDates = new ArrayList<>();
+    addFromDate(utlatande.getNedsattMed100(), fromDates);
+    addFromDate(utlatande.getNedsattMed75(), fromDates);
+    addFromDate(utlatande.getNedsattMed50(), fromDates);
+    addFromDate(utlatande.getNedsattMed25(), fromDates);
+
+    for (InternalDate internalDate : fromDates) {
+      if (fromDate == null || internalDate.asLocalDate().isBefore(fromDate)) {
+        fromDate = internalDate.asLocalDate();
+      }
     }
+    return fromDate;
+  }
 
-    private static LocalDate getValidFromDate(Fk7263Utlatande utlatande) {
-        LocalDate fromDate = null;
-
-        List<InternalDate> fromDates = new ArrayList<>();
-        addFromDate(utlatande.getNedsattMed100(), fromDates);
-        addFromDate(utlatande.getNedsattMed75(), fromDates);
-        addFromDate(utlatande.getNedsattMed50(), fromDates);
-        addFromDate(utlatande.getNedsattMed25(), fromDates);
-
-        for (InternalDate internalDate : fromDates) {
-            if (fromDate == null || internalDate.asLocalDate().isBefore(fromDate)) {
-                fromDate = internalDate.asLocalDate();
-            }
-        }
-        return fromDate;
+  private static void addTomDate(InternalLocalDateInterval interval, List<InternalDate> dates) {
+    if (interval != null && interval.getTom() != null) {
+      dates.add(interval.getTom());
     }
+  }
 
-    private static void addTomDate(InternalLocalDateInterval interval, List<InternalDate> dates) {
-        if (interval != null && interval.getTom() != null) {
-            dates.add(interval.getTom());
-        }
+  private static void addFromDate(InternalLocalDateInterval interval, List<InternalDate> dates) {
+    if (interval != null && interval.getFrom() != null) {
+      dates.add(interval.getFrom());
     }
-
-    private static void addFromDate(InternalLocalDateInterval interval, List<InternalDate> dates) {
-        if (interval != null && interval.getFrom() != null) {
-            dates.add(interval.getFrom());
-        }
-    }
-
+  }
 }

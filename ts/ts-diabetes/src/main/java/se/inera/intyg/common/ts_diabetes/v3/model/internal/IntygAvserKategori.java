@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Inera AB (http://www.inera.se)
+ * Copyright (C) 2026 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,24 +19,24 @@
 package se.inera.intyg.common.ts_diabetes.v3.model.internal;
 
 /**
- * This is a subset (IAV1-IAV9, IAV11-IAV17) of "Kv intyget avser"
- * {@link se.inera.intyg.common.ts_parent.codes.IntygAvserKod}.
+ * This is a subset (IAV1-IAV9, IAV11-IAV17) of "Kv intyget avser" {@link
+ * se.inera.intyg.common.ts_parent.codes.IntygAvserKod}.
  */
 public enum IntygAvserKategori {
-    IAV11,
-    IAV12,
-    IAV13,
-    IAV14,
-    IAV15,
-    IAV16,
-    IAV17,
-    IAV1,
-    IAV2,
-    IAV3,
-    IAV4,
-    IAV5,
-    IAV6,
-    IAV7,
-    IAV8,
-    IAV9
+  IAV11,
+  IAV12,
+  IAV13,
+  IAV14,
+  IAV15,
+  IAV16,
+  IAV17,
+  IAV1,
+  IAV2,
+  IAV3,
+  IAV4,
+  IAV5,
+  IAV6,
+  IAV7,
+  IAV8,
+  IAV9
 }
