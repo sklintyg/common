@@ -4,6 +4,7 @@ plugins {
     id "org.owasp.dependencycheck" version "12.1.9"
     id 'jacoco'
     id 'org.cyclonedx.bom' version '3.1.0'
+    id 'com.diffplug.spotless' version '8.3.0'
 }
 
 ext {
@@ -22,6 +23,7 @@ ext {
     commonsIoVersion = "2.21.0"
     equalsVerifierVersion = "4.3.1"
     guavaVersion = "33.5.0-jre"
+    googleJavaFormatVersion = "1.34.0"
     itextVersion = "5.5.13.4"
     itext7Version = "7.2.6"
     itextPdfHtmlVersion = "5.0.5"
@@ -147,6 +149,27 @@ allprojects {
                         "**/integrationtest/**"
                 ])
             }))
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'com.diffplug.spotless'
+
+    spotless {
+        enforceCheck = false
+        java {
+            replaceRegex(
+                    'normalize copyright years',
+                    'Copyright \\(C\\) \\d{4}(-\\d{4})?',
+                    "Copyright (C) ${java.time.Year.now().value}"
+            )
+            target 'src/*/java/**/*.java'
+            licenseHeaderFile(rootProject.file('spotless.license.txt'), 'package ')
+            googleJavaFormat(googleJavaFormatVersion)
+            removeUnusedImports()
+            forbidWildcardImports()
+            formatAnnotations()
         }
     }
 }
