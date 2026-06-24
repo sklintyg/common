@@ -23,7 +23,7 @@ ext {
     commonsIoVersion = "2.21.0"
     equalsVerifierVersion = "4.3.1"
     guavaVersion = "33.5.0-jre"
-    googleJavaFormatVersion = "1.34.0"
+    googleJavaFormatVersion = "1.35.0"
     itextVersion = "5.5.13.4"
     itext7Version = "7.2.6"
     itextPdfHtmlVersion = "5.0.5"
@@ -50,7 +50,7 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(25)
         }
     }
 
