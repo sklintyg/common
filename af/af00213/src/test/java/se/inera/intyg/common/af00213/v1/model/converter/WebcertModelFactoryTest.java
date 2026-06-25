@@ -18,19 +18,22 @@
  */
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -43,7 +46,8 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
@@ -54,7 +58,7 @@ public class WebcertModelFactoryTest {
 
   @Mock private IntygTextsService intygTextsService;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(Af00213EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
@@ -73,15 +77,19 @@ public class WebcertModelFactoryTest {
     assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+        assertThrows(IllegalArgumentException.class, () -> {
     modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  }
+  });
+    }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+        assertThrows(ConverterException.class, () -> {
     modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
-  }
+  });
+    }
 
   @Test
   public void testUpdateSkapadAv() throws ConverterException {

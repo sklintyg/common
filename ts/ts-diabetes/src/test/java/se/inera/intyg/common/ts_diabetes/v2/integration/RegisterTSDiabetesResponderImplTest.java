@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -29,12 +30,14 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
@@ -48,7 +51,8 @@ import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class RegisterTSDiabetesResponderImplTest {
 
   private static final String LOGICAL_ADDRESS = "logicalAddress";
@@ -126,12 +130,14 @@ public class RegisterTSDiabetesResponderImplTest {
     verifyNoInteractions(moduleContainer);
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testRegisterTSDiabetesJAXBException() throws Exception {
+        assertThrows(RuntimeException.class, () -> {
     ReflectionTestUtils.setField(responder, "objectFactory", null);
     RegisterTSDiabetesType request =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
     responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
-  }
+  });
+    }
 }

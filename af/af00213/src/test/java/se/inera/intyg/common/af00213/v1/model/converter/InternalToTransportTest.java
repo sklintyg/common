@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -167,10 +168,12 @@ public class InternalToTransportTest {
     assertEquals(expected, actual);
   }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testInternalToTransportSourceNull() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     InternalToTransport.convert(null);
-  }
+  });
+    }
 
   @Test
   public void convertDecorateSvarPaTest() throws Exception {

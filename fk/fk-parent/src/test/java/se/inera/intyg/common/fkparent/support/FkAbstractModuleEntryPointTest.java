@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.fkparent.support;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,17 +28,20 @@ import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.TreeMap;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class FkAbstractModuleEntryPointTest {
 
   private static final String MODULE_ID = "moduleId";
@@ -48,7 +51,7 @@ public class FkAbstractModuleEntryPointTest {
   @InjectMocks
   private FkAbstractModuleEntryPoint entryPoint = mock(FkAbstractModuleEntryPoint.class);
 
-  @Before
+  @BeforeEach
   public void setup() {
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
     when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();

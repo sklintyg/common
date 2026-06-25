@@ -18,23 +18,26 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -52,7 +55,8 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class WebcertModelFactoryTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -61,14 +65,14 @@ public class WebcertModelFactoryTest {
 
   @InjectMocks private WebcertModelFactoryImpl factory;
 
-  @Before
+  @BeforeEach
   public void setUpMocks() {
     when(intygTexts.getLatestVersionForSameMajorVersion(
             eq(Tstrk1009EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -113,11 +117,13 @@ public class WebcertModelFactoryTest {
     assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
   }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     factory.createCopy(
         new CreateDraftCopyHolder("", new HoSPersonal()), Tstrk1009UtlatandeV1.builder().build());
-  }
+  });
+    }
 
   @Test
   public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {

@@ -19,16 +19,18 @@
 package se.inera.intyg.common.af00251.v1.model.validator;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
@@ -38,7 +40,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalValidatorTest {
 
   private static final String DOT = ".";
@@ -105,9 +108,9 @@ public class InternalValidatorTest {
     ValidateDraftResponse internalValidationResponse =
         internalValidator.validateDraft(utlatandeFromJson);
     assertEquals(
-        String.format("Expected %s validation errors", numErrors),
         numErrors,
-        getNumberOfInternalValidationErrors(internalValidationResponse));
+        getNumberOfInternalValidationErrors(internalValidationResponse),
+        String.format("Expected %s validation errors", numErrors));
   }
 
   @Test

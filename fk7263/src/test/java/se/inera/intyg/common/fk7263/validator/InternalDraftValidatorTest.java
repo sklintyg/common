@@ -18,21 +18,23 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Joiner;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
@@ -40,7 +42,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 
   @Mock private WebcertModuleService mockModuleService;
@@ -61,7 +64,7 @@ public class InternalDraftValidatorTest {
     return collection.iterator().next();
   }
 
-  @Before
+  @BeforeEach
   public void setUpModuleServiceExpectation() {
     Mockito.when(
             mockModuleService.validateDiagnosisCode(
@@ -76,19 +79,19 @@ public class InternalDraftValidatorTest {
       Fk7263Utlatande utlatande = scenario.asInternalModel();
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
       assertEquals(
+          ValidationStatus.VALID,
+          validationResponse.getStatus(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          ValidationStatus.VALID,
-          validationResponse.getStatus());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
 
       assertTrue(
+          validationResponse.getValidationErrors().isEmpty(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          validationResponse.getValidationErrors().isEmpty());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
     }
   }
 
@@ -100,9 +103,9 @@ public class InternalDraftValidatorTest {
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
       assertEquals(
-          "Error in scenario " + scenario.getName() + "\n",
           ValidationStatus.INVALID,
-          validationResponse.getStatus());
+          validationResponse.getStatus(),
+          "Error in scenario " + scenario.getName() + "\n");
     }
   }
 

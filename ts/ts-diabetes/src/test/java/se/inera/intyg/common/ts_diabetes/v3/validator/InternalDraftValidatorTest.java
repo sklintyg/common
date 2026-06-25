@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
@@ -59,11 +59,13 @@ import com.google.common.collect.ImmutableSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -71,7 +73,8 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 
   @InjectMocks InternalDraftValidatorImpl validator;
@@ -123,8 +126,8 @@ public class InternalDraftValidatorTest {
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
-    Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+    assertEquals(
         BEDOMNING_JSON_ID + "." + BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID, error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
@@ -141,7 +144,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
   }
@@ -158,7 +161,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
@@ -176,7 +179,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
+    assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
@@ -193,7 +196,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -239,7 +242,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -259,7 +262,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -282,7 +285,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
@@ -308,7 +311,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
@@ -327,7 +330,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
@@ -547,7 +550,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -805,7 +808,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals("vardenhet", error.getCategory());
-    Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer", error.getField());
+    assertEquals("grunddata.skapadAv.vardenhet.postnummer", error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 }

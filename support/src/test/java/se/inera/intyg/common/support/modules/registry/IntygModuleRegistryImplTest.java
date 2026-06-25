@@ -18,21 +18,24 @@
  */
 package se.inera.intyg.common.support.modules.registry;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -40,7 +43,8 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class IntygModuleRegistryImplTest {
 
   private static final ApplicationOrigin ORIGIN = ApplicationOrigin.WEBCERT;
@@ -77,7 +81,7 @@ public class IntygModuleRegistryImplTest {
 
   private IntygModuleRegistryImpl registry;
 
-  @Before
+  @BeforeEach
   public void setup() {
     when(entryPointMock1.getModuleId()).thenReturn(MODULE_ID_1);
     when(entryPointMock1.getExternalId()).thenReturn(EXTERNAL_ID_1);
@@ -143,27 +147,35 @@ public class IntygModuleRegistryImplTest {
     assertNotNull(res);
   }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetModuleApiNotFound() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.getModuleApi("nonExistentModule", "1.0");
-  }
+  });
+    }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetModuleApiNotFoundMissingIntygTypeParameter() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.getModuleApi("", "1.0");
-  }
+  });
+    }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetModuleApiNotFoundMissingIntygTypeVersionParameter() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.getModuleApi(MODULE_ID_1, null);
-  }
+  });
+    }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetModuleApiNotFoundBeanNotFoundInAppContext() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     when(applicationContext.getBean(anyString()))
         .thenThrow(new NoSuchBeanDefinitionException("error"));
     registry.getModuleApi(MODULE_ID_1, INTYG_VERSION);
-  }
+  });
+    }
 
   @Test
   public void testGetModuleEntryPoint() throws Exception {
@@ -172,10 +184,12 @@ public class IntygModuleRegistryImplTest {
     assertEquals(MODULE_ID_1, res.getModuleId());
   }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetModuleEntryPointNotFound() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.getModuleEntryPoint("nonExistentModule");
-  }
+  });
+    }
 
   @Test
   public void testGetIntygModule() throws Exception {
@@ -184,10 +198,12 @@ public class IntygModuleRegistryImplTest {
     assertEquals(MODULE_ID_1, res.getId());
   }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testGetIntygModuleNotFound() throws Exception {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.getIntygModule("nonExistentModule");
-  }
+  });
+    }
 
   @Test
   public void testGetModuleEntryPoints() {
@@ -232,10 +248,12 @@ public class IntygModuleRegistryImplTest {
     assertEquals(MODULE_ID_2_DEFAULT_FALLBACK_INTYG_VERSION, version);
   }
 
-  @Test(expected = ModuleNotFoundException.class)
+  @Test
   public void testResolveVersionFail() throws ModuleNotFoundException {
+        assertThrows(ModuleNotFoundException.class, () -> {
     registry.resolveVersionFromUtlatandeJson(MODULE_ID_1, buildUtlatandeJson(MODULE_ID_1, ""));
-  }
+  });
+    }
 
   private String buildUtlatandeJson(String moduleId, String textVersion) {
     return "{\"typ\": \"" + moduleId + "\", \"textVersion\": \"" + textVersion + "\"}";

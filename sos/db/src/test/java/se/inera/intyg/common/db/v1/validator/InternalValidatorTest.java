@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -31,12 +31,14 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
@@ -46,7 +48,8 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalValidatorTest {
 
   @Mock private TypeAheadProvider typeAheadProvider;
@@ -80,7 +83,7 @@ public class InternalValidatorTest {
     return utlatande;
   }
 
-  @Before
+  @BeforeEach
   public void setup() {
     when(typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES))
         .thenReturn(List.of("kommun", "NACKA", "sdf"));

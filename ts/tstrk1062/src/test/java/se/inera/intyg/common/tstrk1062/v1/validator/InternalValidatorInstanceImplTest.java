@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID;
@@ -63,11 +63,13 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -88,14 +90,15 @@ import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalValidatorInstanceImplTest {
 
   @InjectMocks InternalValidatorInstanceImpl validator;
 
   private TsTrk1062UtlatandeV1.Builder builderTemplate;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     builderTemplate =
         TsTrk1062UtlatandeV1.builder()
@@ -125,7 +128,7 @@ public class InternalValidatorInstanceImplTest {
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
 
-    assertFalse("Shouldn't have error messages", validateDraftResponse.hasErrorMessages());
+    assertFalse( validateDraftResponse.hasErrorMessages(),"Shouldn't have error messages");
   }
 
   @Test
@@ -228,7 +231,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals("Should have two error messages", 2, validationMessages.size());
+    assertEquals( 2, validationMessages.size(),"Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -260,7 +263,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals("Should have two error messages", 2, validationMessages.size());
+    assertEquals( 2, validationMessages.size(),"Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -376,7 +379,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals("Should have three error messages", 3, validationMessages.size());
+    assertEquals( 3, validationMessages.size(),"Should have three error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -423,7 +426,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals("Should have three error messages", 3, validationMessages.size());
+    assertEquals( 3, validationMessages.size(),"Should have three error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -510,7 +513,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals("Should have two error messages", 2, validationMessages.size());
+    assertEquals( 2, validationMessages.size(),"Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -932,7 +935,7 @@ public class InternalValidatorInstanceImplTest {
       String category,
       String field) {
     final ValidationMessage validationMessage = validationMessageMap.get(field);
-    assertNotNull("Missing message for " + field, validationMessage);
+    assertNotNull( validationMessage,"Missing message for " + field);
     assertValidationMessage(validationMessage, validationMessageType, category, field);
   }
 
@@ -946,7 +949,7 @@ public class InternalValidatorInstanceImplTest {
       ValidationMessageType validationMessageType,
       String category,
       String field) {
-    assertEquals("Should have error messages", 1, validationMessage.size());
+    assertEquals( 1, validationMessage.size(),"Should have error messages");
     assertValidationMessage(validationMessage.get(0), validationMessageType, category, field);
   }
 
@@ -955,10 +958,10 @@ public class InternalValidatorInstanceImplTest {
       ValidationMessageType validationMessageType,
       String category,
       String field) {
-    assertEquals(
-        "Should have Empty message type", validationMessageType, validationMessage.getType());
-    assertEquals("Should have category: " + category, category, validationMessage.getCategory());
-    assertEquals("Should have field: " + field, field, validationMessage.getField());
+    assertEquals( validationMessageType, validationMessage.getType(),
+        "Should have Empty message type");
+    assertEquals( category, validationMessage.getCategory(),"Should have category: " + category);
+    assertEquals( field, validationMessage.getField(),"Should have field: " + field);
   }
 
   private GrundData buildGrundData(LocalDateTime timeStamp) {

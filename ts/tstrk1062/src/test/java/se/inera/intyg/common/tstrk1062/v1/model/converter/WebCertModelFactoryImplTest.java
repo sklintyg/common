@@ -18,18 +18,21 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -44,7 +47,8 @@ import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class WebCertModelFactoryImplTest {
 
   private static final String INTYG_ID = "intygsId";
@@ -55,7 +59,7 @@ public class WebCertModelFactoryImplTest {
 
   private WebcertModelFactoryImpl modelFactory;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     intygTextsService = mock(IntygTextsService.class);
     modelFactory = new WebcertModelFactoryImpl(intygTextsService);
@@ -74,22 +78,22 @@ public class WebCertModelFactoryImplTest {
 
     final TsTrk1062UtlatandeV1 utlatande = modelFactory.createNewWebcertDraft(createNewDraftHolder);
 
-    assertNotNull("Utlatande is null", utlatande);
+    assertNotNull( utlatande,"Utlatande is null");
     final HoSPersonal skapadAv = utlatande.getGrundData().getSkapadAv();
-    assertNotNull("SkapadAv is null", skapadAv);
+    assertNotNull( skapadAv,"SkapadAv is null");
     assertEquals(
-        "Vårdgivare not equal",
         vardenhet.getVardgivare().getVardgivarid(),
-        skapadAv.getVardenhet().getVardgivare().getVardgivarid());
-    assertEquals(
-        "Vårdenhet not equal", vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid());
-    assertEquals("PersonalId not equal", hosPersonal.getPersonId(), skapadAv.getPersonId());
+        skapadAv.getVardenhet().getVardgivare().getVardgivarid(),
+        "Vårdgivare not equal");
+    assertEquals( vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid(),
+        "Vårdenhet not equal");
+    assertEquals( hosPersonal.getPersonId(), skapadAv.getPersonId(),"PersonalId not equal");
     final Patient actualPatient = utlatande.getGrundData().getPatient();
-    assertNotNull("Patient is null", actualPatient);
+    assertNotNull( actualPatient,"Patient is null");
     assertEquals(
-        "Personnummer not equal",
         patient.getPersonId().getPersonnummer(),
-        actualPatient.getPersonId().getPersonnummer());
+        actualPatient.getPersonId().getPersonnummer(),
+        "Personnummer not equal");
     assertEquals(INTYG_TYPE_VERSION_1_2, utlatande.getTextVersion());
   }
 
@@ -106,39 +110,42 @@ public class WebCertModelFactoryImplTest {
     final TsTrk1062UtlatandeV1 utlatandeCopy =
         modelFactory.createCopy(createDraftCopyHolder, utlatande);
 
-    assertNotNull("UtlatandeCopy is null", utlatandeCopy);
-    assertEquals("IntygsId not equal", INTYG_ID, utlatandeCopy.getId());
-    assertNotNull("Grunddata not null", utlatandeCopy.getGrundData());
-    assertNotNull("Patient not null", utlatandeCopy.getGrundData().getPatient());
+    assertNotNull( utlatandeCopy,"UtlatandeCopy is null");
+    assertEquals( INTYG_ID, utlatandeCopy.getId(),"IntygsId not equal");
+    assertNotNull( utlatandeCopy.getGrundData(),"Grunddata not null");
+    assertNotNull( utlatandeCopy.getGrundData().getPatient(),"Patient not null");
     assertEquals(
-        "PatientId not equal",
         "191212121212",
-        utlatandeCopy.getGrundData().getPatient().getPersonId().getPersonnummer());
-    assertNotNull("SkapadAv not null", utlatandeCopy.getGrundData().getSkapadAv());
-    assertEquals("", "TST12345678", utlatandeCopy.getGrundData().getSkapadAv().getPersonId());
+        utlatandeCopy.getGrundData().getPatient().getPersonId().getPersonnummer(),
+        "PatientId not equal");
+    assertNotNull( utlatandeCopy.getGrundData().getSkapadAv(),"SkapadAv not null");
+    assertEquals( "TST12345678", utlatandeCopy.getGrundData().getSkapadAv().getPersonId(),"");
     assertEquals(
-        "",
         "VårdenhetsId",
-        utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+        utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getEnhetsid(),
+        "");
     assertEquals(
-        "",
         "VårdgivarId",
-        utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-    assertNull("Signature is not null", utlatandeCopy.getSignature());
+        utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid(),
+        "");
+    assertNull( utlatandeCopy.getSignature(),"Signature is not null");
   }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testCreateCopyOfOtherType() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     final Vardenhet vardenhet = getVardenhet();
     final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
     final CreateDraftCopyHolder createDraftCopyHolder =
         new CreateDraftCopyHolder(INTYG_ID, hosPersonal);
 
     modelFactory.createCopy(createDraftCopyHolder, otherTypeOfUtlatande());
-  }
+  });
+    }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testCreateCopyWithoutId() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     TsTrk1062UtlatandeV1 utlatande =
         TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
 
@@ -147,7 +154,8 @@ public class WebCertModelFactoryImplTest {
     final CreateDraftCopyHolder createDraftCopyHolder = new CreateDraftCopyHolder("", hosPersonal);
 
     modelFactory.createCopy(createDraftCopyHolder, utlatande);
-  }
+  });
+    }
 
   private Utlatande otherTypeOfUtlatande() {
     return new Utlatande() {

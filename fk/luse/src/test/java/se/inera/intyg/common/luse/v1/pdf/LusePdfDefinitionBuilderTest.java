@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.luse.v1.pdf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.google.common.collect.Lists;
 import java.io.File;
@@ -27,12 +27,14 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
@@ -55,7 +57,8 @@ import tools.jackson.databind.ObjectMapper;
  *
  * @author marced
  */
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class LusePdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";
@@ -75,7 +78,7 @@ public class LusePdfDefinitionBuilderTest {
   @InjectMocks
   private LusePdfDefinitionBuilder lusePdfDefinitionBuilder = new LusePdfDefinitionBuilder();
 
-  @Before
+  @BeforeEach
   public void initTexts() throws IOException {
     intygTextsService = new IntygTextsServiceImpl();
     IntygTextsLuseRepositoryTestHelper intygsTextRepositoryHelper =

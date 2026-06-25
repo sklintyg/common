@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.lisjp.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -31,12 +31,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -62,7 +64,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 
   @InjectMocks InternalDraftValidatorImpl validator;
@@ -73,7 +76,7 @@ public class InternalDraftValidatorTest {
 
   @Mock WebcertModuleService moduleService;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     builderTemplate =
         LisjpUtlatandeV1.builder()
@@ -1079,10 +1082,10 @@ public class InternalDraftValidatorTest {
             .map(ValidationMessage::getMessage)
             .collect(Collectors.toList());
     assertEquals(2, res.getValidationErrors().size());
-    assertTrue("Expected too-many", errors.contains("lisjp.validation.atgarder.too-many"));
+    assertTrue( errors.contains("lisjp.validation.atgarder.too-many"),"Expected too-many");
     assertTrue(
-        "Expected invalid_combination",
-        errors.contains("lisjp.validation.atgarder.typ.invalid_combination"));
+        errors.contains("lisjp.validation.atgarder.typ.invalid_combination"),
+        "Expected invalid_combination");
   }
 
   @Test

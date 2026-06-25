@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
 import static se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator.PDF_PATH_PROPERTY_KEY;
 
@@ -29,10 +29,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -42,14 +44,15 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-10-18. */
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class DoiPdfGeneratorTest {
 
   protected IntygTexts intygTexts;
 
   private ObjectMapper objectMapper = new CustomObjectMapper();
 
-  @Before
+  @BeforeEach
   public void initTexts() throws IOException {
     Properties props = new Properties();
     props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
@@ -85,9 +88,9 @@ public class DoiPdfGeneratorTest {
     // compare expected field values with field values in generated PDF
     for (String fieldKey : generatedFields.getFields().keySet()) {
       assertEquals(
-          "Value for field " + fieldKey + " is not the expected",
           expectedFields.getField(fieldKey),
-          generatedFields.getField(fieldKey));
+          generatedFields.getField(fieldKey),
+          "Value for field " + fieldKey + " is not the expected");
     }
   }
 

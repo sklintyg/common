@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -30,13 +31,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import org.json.JSONException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
@@ -60,7 +63,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
@@ -78,14 +82,14 @@ public class WebcertModelFactoryTest {
 
   private CustomObjectMapper customObjectMapper = new CustomObjectMapper();
 
-  @Before
+  @BeforeEach
   public void setUpMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(Ag7804EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -158,15 +162,19 @@ public class WebcertModelFactoryTest {
     assertEquals(INTYG_TYPE_VERSION_1_1, draft.getTextVersion());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+        assertThrows(IllegalArgumentException.class, () -> {
     modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  }
+  });
+    }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+        assertThrows(ConverterException.class, () -> {
     modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
-  }
+  });
+    }
 
   @Test
   public void testUpdateSkapadAv() throws ConverterException {

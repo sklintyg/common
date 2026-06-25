@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
@@ -30,10 +31,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -42,7 +45,8 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 /** Created by marced on 2016-10-25. */
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class FkBasePdfDefinitionBuilderTest {
 
   private static final String KEY_MISSING_TEXT = "missingtext";
@@ -160,10 +164,12 @@ public class FkBasePdfDefinitionBuilderTest {
     assertEquals("text", text);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testGetTextMissingText() throws Exception {
+        assertThrows(IllegalArgumentException.class, () -> {
     builder.getText(KEY_MISSING_TEXT);
-  }
+  });
+    }
 
   @Test
   public void testGetTextMissingAllowed() {

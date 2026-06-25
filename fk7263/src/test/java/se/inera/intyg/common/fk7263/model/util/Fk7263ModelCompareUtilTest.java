@@ -18,20 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.model.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
 import java.io.IOException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -40,7 +42,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.databind.ObjectMapper;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class Fk7263ModelCompareUtilTest {
 
   public static final String CORRECT_DIAGNOSKOD_FROM_FILE = "S47";
@@ -52,7 +55,7 @@ public class Fk7263ModelCompareUtilTest {
 
   @InjectMocks private Fk7263ModelCompareUtil modelCompareUtil;
 
-  @Before
+  @BeforeEach
   public void setup() {
     Answer<Boolean> mockAnswer =
         new Answer<Boolean>() {

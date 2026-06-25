@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.ag7804.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
@@ -33,12 +33,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
@@ -63,7 +65,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+@ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 
   @Mock WebcertModuleService moduleService;
@@ -74,7 +77,7 @@ public class InternalDraftValidatorTest {
 
   Ag7804UtlatandeV1.Builder builderTemplate;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     builderTemplate =
         Ag7804UtlatandeV1.builder()
@@ -1094,10 +1097,10 @@ public class InternalDraftValidatorTest {
             .map(ValidationMessage::getMessage)
             .collect(Collectors.toList());
     assertEquals(2, res.getValidationErrors().size());
-    assertTrue("Expected too-many", errors.contains("ag7804.validation.atgarder.too-many"));
+    assertTrue( errors.contains("ag7804.validation.atgarder.too-many"),"Expected too-many");
     assertTrue(
-        "Expected invalid_combination",
-        errors.contains("ag7804.validation.atgarder.typ.invalid_combination"));
+        errors.contains("ag7804.validation.atgarder.typ.invalid_combination"),
+        "Expected invalid_combination");
   }
 
   @Test
