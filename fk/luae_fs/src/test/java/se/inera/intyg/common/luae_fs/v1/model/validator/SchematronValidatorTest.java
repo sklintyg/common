@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.luae_fs.v1.rest.LuaefsModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;

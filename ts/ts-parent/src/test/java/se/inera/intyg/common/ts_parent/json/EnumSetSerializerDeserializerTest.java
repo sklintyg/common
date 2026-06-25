@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.ONE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.THREE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.TWO;
 
 import java.util.EnumSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.annotation.JsonDeserialize;
 import tools.jackson.databind.annotation.JsonSerialize;

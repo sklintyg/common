@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.pdf;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -64,9 +64,9 @@ public class PDFGeneratorTest {
                 expectedUtkastStatus,
                 "footerAppName");
 
-    assertNotNull("PdfResponse should not be null", actualPdfResponse);
-    assertNotNull("Data should not be null", actualPdfResponse.getPdfData());
+    assertNotNull(actualPdfResponse, "PdfResponse should not be null");
+    assertNotNull(actualPdfResponse.getPdfData(), "Data should not be null");
     assertNotNull("Filename should not be null", actualPdfResponse.getFilename());
-    assertFalse("Filename should not be empty", actualPdfResponse.getFilename().isEmpty());
+    assertFalse(actualPdfResponse.getFilename().isEmpty(), "Filename should not be empty");
   }
 }

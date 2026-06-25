@@ -18,7 +18,8 @@
  */
 package se.inera.intyg.common.util.integration.integration.json;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -28,8 +29,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeParseException;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.util.integration.json.CustomLocalDateDeserializer;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
@@ -44,7 +45,7 @@ public final class CustomLocalDateDeserializerTest {
   private static CustomLocalDateDeserializer deserializer;
   private static JsonFactory factory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() {
     deserializer = new CustomLocalDateDeserializer();
     factory = new JsonFactory();
@@ -190,8 +191,9 @@ public final class CustomLocalDateDeserializerTest {
     assertLocalDate(ld);
   }
 
-  @Test(expected = DateTimeParseException.class)
+  @Test
   public void failWhenDeserializationIsOnlyTime() throws StreamReadException, IOException {
+        assertThrows(DateTimeParseException.class, () -> {
 
     String date = "01:01:01";
     String json = "{\"journalanteckningar\":\"" + date + "\"}";
@@ -213,7 +215,8 @@ public final class CustomLocalDateDeserializerTest {
 
     // Deserialize JSON string
     deserializer.deserialize(jp, ctxt);
-  }
+  });
+    }
 
   private void setJsonParserAtCorrectToken(JsonParser jp) throws IOException, StreamReadException {
     // loop over all fields in JSON object

@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -28,9 +29,9 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -58,12 +59,12 @@ public class WebcertModelFactoryTest {
 
   private WebcertModelFactoryImpl factory;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.factory = new WebcertModelFactoryImpl();
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -109,18 +110,20 @@ public class WebcertModelFactoryTest {
     assertNotNull(
         copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
 
-    assertNull("Signeringsdatum should be emtpy", copy.getGrundData().getSigneringsdatum());
+    assertNull(copy.getGrundData().getSigneringsdatum(), "Signeringsdatum should be emtpy");
   }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
     CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
 
     factory.createCopy(copyData, utlatande);
-  }
+  });
+    }
 
   @Test
   public void testCreateCopyWithNewPatientData() throws Exception {

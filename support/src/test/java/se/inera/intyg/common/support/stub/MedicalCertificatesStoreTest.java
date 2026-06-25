@@ -19,7 +19,7 @@
 package se.inera.intyg.common.support.stub;
 
 import static com.google.common.collect.Maps.newHashMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_JA;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
@@ -27,14 +27,14 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MEDDEL
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MedicalCertificatesStoreTest {
 
   private MedicalCertificatesStore store = null;
 
-  @Before
+  @BeforeEach
   public void before() {
     store = new MedicalCertificatesStore();
 

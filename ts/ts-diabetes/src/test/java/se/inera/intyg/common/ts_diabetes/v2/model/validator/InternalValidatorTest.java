@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.Collection;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -40,7 +40,7 @@ public class InternalValidatorTest {
   private static final int T3 = 3;
   private Validator validator;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     validator = new Validator();
   }
@@ -52,19 +52,19 @@ public class InternalValidatorTest {
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
       assertEquals(
+          ValidationStatus.VALID,
+          validationResponse.getStatus(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          ValidationStatus.VALID,
-          validationResponse.getStatus());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
 
       assertTrue(
+          validationResponse.getValidationErrors().isEmpty(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          validationResponse.getValidationErrors().isEmpty());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
     }
   }
 
@@ -79,9 +79,9 @@ public class InternalValidatorTest {
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
       assertEquals(
-          String.format("Error in test: %s", scenario.getName()),
           ValidationStatus.INVALID,
-          validationResponse.getStatus());
+          validationResponse.getStatus(),
+          String.format("Error in test: %s", scenario.getName()));
     }
   }
 

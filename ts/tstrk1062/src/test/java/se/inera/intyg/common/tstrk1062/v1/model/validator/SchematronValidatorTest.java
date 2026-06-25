@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.tstrk1062.v1.rest.TsTrk1062ModuleApiV1.SCHEMATRON_FILE;
 
 import com.google.common.base.Charsets;
@@ -29,7 +29,7 @@ import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
@@ -164,7 +164,7 @@ public class SchematronValidatorTest {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failRule6-7.xml");
 
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(validationErrors.get(0).contains("'Tidpunkt då läkemedelsbehandling avslutades'"));
     assertTrue(
@@ -176,7 +176,7 @@ public class SchematronValidatorTest {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failRule8-9.xml");
 
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(validationErrors.get(0).contains("'Uppfyller krav för behörighet'"));
     assertTrue(validationErrors.get(0).contains("VAR11"));
@@ -263,16 +263,17 @@ public class SchematronValidatorTest {
 
   private void assertOneError(List<String> validationErrors, String containsError)
       throws Exception {
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(
-        validationErrors.get(0) + "should contain: " + containsError,
-        validationErrors.get(0).contains(containsError));
+        validationErrors.get(0).contains(containsError),
+        validationErrors.get(0) + "should contain: " + containsError);
   }
 
   private void assertNoError(List<String> validationErrors) throws Exception {
     assertTrue(
-        validationErrors.stream().collect(Collectors.joining("\n")), validationErrors.isEmpty());
+        validationErrors.isEmpty(),
+        validationErrors.stream().collect(Collectors.joining("\n")));
   }
 
   private static URL getResource(String href) {

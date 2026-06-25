@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -31,8 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
@@ -59,7 +59,7 @@ public class PdfDefaultGeneratorTest {
 
   private ObjectMapper objectMapper = new CustomObjectMapper();
 
-  @BeforeClass
+  @BeforeAll
   public static void readFiles() throws IOException {
     fk7263Pdf = new ClassPathResource("PdfGeneratorTest/utlatande.pdf").getFile();
     fk7263Json = new ClassPathResource("PdfGeneratorTest/utlatande.json").getFile();
@@ -95,9 +95,9 @@ public class PdfDefaultGeneratorTest {
     // compare expected field values with field values in generated PDF
     for (String fieldKey : expectedFields.getFields().keySet()) {
       assertEquals(
-          "Value for field " + fieldKey + " is not the expected",
           pdfContent.get(fieldKey),
-          generatedFields.getField(fieldKey));
+          generatedFields.getField(fieldKey),
+          "Value for field " + fieldKey + " is not the expected");
     }
   }
 
@@ -128,9 +128,9 @@ public class PdfDefaultGeneratorTest {
     // compare expected field values with field values in generated PDF
     for (String fieldKey : expectedFields.getFields().keySet()) {
       assertEquals(
-          "Value for field " + fieldKey + " is not the expected",
           pdfContent.get(fieldKey),
-          generatedFields.getField(fieldKey));
+          generatedFields.getField(fieldKey),
+          "Value for field " + fieldKey + " is not the expected");
     }
   }
 
@@ -242,7 +242,7 @@ public class PdfDefaultGeneratorTest {
                   false,
                   MINA_INTYG_MARGIN_TEXT)
               .getBytes();
-      assertNotNull("Error in scenario " + scenario.getName(), pdf);
+      assertNotNull(pdf, "Error in scenario " + scenario.getName());
       writePdfToFile(pdf, scenario, ApplicationOrigin.WEBCERT);
     }
   }
@@ -263,7 +263,7 @@ public class PdfDefaultGeneratorTest {
                   false,
                   MINA_INTYG_MARGIN_TEXT)
               .getBytes();
-      assertNotNull("Error in scenario " + scenario.getName(), pdf);
+      assertNotNull(pdf, "Error in scenario " + scenario.getName());
       writePdfToFile(pdf, scenario, ApplicationOrigin.MINA_INTYG);
     }
   }

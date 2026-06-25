@@ -20,15 +20,15 @@ package se.inera.intyg.common.support.validate;
 
 import com.google.common.base.Joiner;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SimpleHsaIdValidatorTest {
 
   private SimpleHsaIdValidator validator;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     validator = new SimpleHsaIdValidator();
   }
@@ -59,6 +59,6 @@ public class SimpleHsaIdValidatorTest {
 
   private void assertListSize(int size, List<String> collection) {
     String validationMessage = Joiner.on(',').join(collection);
-    Assert.assertEquals(validationMessage, size, collection.size());
+    assertEquals(size, collection.size(), validationMessage);
   }
 }

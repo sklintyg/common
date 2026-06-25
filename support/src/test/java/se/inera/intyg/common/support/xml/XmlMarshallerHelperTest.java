@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.support.xml;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;

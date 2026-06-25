@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.matches;
@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -68,7 +68,7 @@ public class PrefillHandlerTest {
   @Mock private WebcertModuleService webcertModuleService;
   private PrefillHandler testee;
 
-  @Before
+  @BeforeEach
   public void setup() {
     webcertModuleService = mock(WebcertModuleService.class);
     when(webcertModuleService.getDescriptionFromDiagnosKod(anyString(), anyString()))

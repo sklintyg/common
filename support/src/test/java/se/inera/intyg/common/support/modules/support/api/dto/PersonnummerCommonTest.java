@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -37,13 +37,13 @@ import tools.jackson.databind.ObjectMapper;
  */
 public class PersonnummerCommonTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", false);
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDown() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);

@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link PersonnummerValidator}.
@@ -36,7 +36,7 @@ public class SamordningsnummerValidatorTest {
   /** The validator to test. */
   private SamordningsnummerValidator validator;
 
-  @Before
+  @BeforeEach
   public void setup() {
     validator = new SamordningsnummerValidator();
     // Set a fixed date for the validator so test don't break in the future.
@@ -56,6 +56,6 @@ public class SamordningsnummerValidatorTest {
 
   private void assertListSize(int size, List<String> collection) {
     String validationMessage = Joiner.on(',').join(collection);
-    assertEquals(validationMessage, size, collection.size());
+    assertEquals(size, collection.size(), validationMessage);
   }
 }

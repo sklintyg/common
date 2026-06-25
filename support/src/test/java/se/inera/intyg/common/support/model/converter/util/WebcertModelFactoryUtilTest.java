@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;

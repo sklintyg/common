@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
@@ -40,13 +41,15 @@ public class PrefillUtilsTest {
     assertFalse(PrefillUtils.getValidatedBoolean(delsvar));
   }
 
-  @Test(expected = PrefillWarningException.class)
+  @Test
   public void testGetValidatedBooleanFails() throws PrefillWarningException {
+        assertThrows(PrefillWarningException.class, () -> {
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
     delsvar.getContent().add("sant");
     PrefillUtils.getValidatedBoolean(delsvar);
-  }
+  });
+    }
 
   @Test
   public void testGetValidatedString() throws PrefillWarningException {
@@ -61,22 +64,26 @@ public class PrefillUtilsTest {
     assertEquals("", PrefillUtils.getValidatedString(delsvar, 100));
   }
 
-  @Test(expected = PrefillWarningException.class)
+  @Test
   public void testGetValidatedStringFailsForOtherType() throws PrefillWarningException {
+        assertThrows(PrefillWarningException.class, () -> {
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
     delsvar.getContent().add(new ObjectFactory().createSvarDelsvar());
     PrefillUtils.getValidatedString(delsvar, 100);
-  }
+  });
+    }
 
-  @Test(expected = PrefillWarningException.class)
+  @Test
   public void testGetValidatedStringFailsWhenExceedingMaxLength() throws PrefillWarningException {
+        assertThrows(PrefillWarningException.class, () -> {
     String expected = "Lite text";
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
     delsvar.getContent().add(expected);
     PrefillUtils.getValidatedString(delsvar, 2);
-  }
+  });
+    }
 
   @Test
   public void testGetValidatedDateString() throws PrefillWarningException {

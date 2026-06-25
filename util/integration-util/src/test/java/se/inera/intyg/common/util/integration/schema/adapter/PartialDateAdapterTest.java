@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.util.integration.schema.adapter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.temporal.Temporal;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author andreaskaltenbach

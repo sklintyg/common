@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -30,7 +30,7 @@ import jakarta.xml.bind.Marshaller;
 import java.io.IOException;
 import java.io.StringWriter;
 import javax.xml.namespace.QName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 import org.xmlunit.builder.DiffBuilder;
@@ -108,7 +108,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
@@ -146,7 +146,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
@@ -185,7 +185,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
@@ -223,7 +223,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
@@ -285,7 +285,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
@@ -325,7 +325,7 @@ public class InternalToTransportConverterTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test

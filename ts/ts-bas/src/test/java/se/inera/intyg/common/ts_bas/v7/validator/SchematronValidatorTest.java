@@ -19,13 +19,13 @@
 package se.inera.intyg.common.ts_bas.v7.validator;
 
 import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -122,9 +122,9 @@ public class SchematronValidatorTest {
         Resources.toString(getResource("v7/scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
@@ -134,9 +134,9 @@ public class SchematronValidatorTest {
             getResource("v7/scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
@@ -146,9 +146,9 @@ public class SchematronValidatorTest {
             getResource("v7/scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
@@ -157,9 +157,9 @@ public class SchematronValidatorTest {
         Resources.toString(getResource("v7/scenarios/rivtav3/invalid-rule34.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
@@ -169,9 +169,9 @@ public class SchematronValidatorTest {
             getResource("v7/scenarios/rivtav3/fail-synskarpa-skickas-separat.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
@@ -180,15 +180,15 @@ public class SchematronValidatorTest {
         Resources.toString(getResource("v7/scenarios/rivtav3/invalid-rule37.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         1,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   private void doTest(String inputXml) throws ModuleException {
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
-        response.getValidationErrors().isEmpty());
+        response.getValidationErrors().isEmpty(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 }

@@ -19,7 +19,7 @@
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -29,8 +29,8 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
@@ -60,7 +60,7 @@ public class TSBasTransportToV1TransformerTest {
 
   private static Schema v1Schema;
 
-  @BeforeClass
+  @BeforeAll
   public static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
@@ -69,7 +69,7 @@ public class TSBasTransportToV1TransformerTest {
     intygstjansterSchema = schemaValidatorBuilder.build(rootSource);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void initV1Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(v1_REGISTER_SCHEMA);

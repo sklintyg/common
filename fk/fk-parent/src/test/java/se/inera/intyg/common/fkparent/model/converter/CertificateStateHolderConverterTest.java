@@ -18,14 +18,15 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
@@ -83,13 +84,15 @@ public class CertificateStateHolderConverterTest {
     assertEquals(timestamp5, res.get(4).getTidpunkt());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testToIntygsStatusTypeInvalidStatus() {
+        assertThrows(IllegalArgumentException.class, () -> {
     List<CertificateStateHolder> source = new ArrayList<>();
     source.add(
         new CertificateStateHolder("FKASSA", CertificateState.UNHANDLED, LocalDateTime.now()));
     CertificateStateHolderConverter.toIntygsStatusType(source);
-  }
+  });
+    }
 
   @Test
   public void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfStatus() {

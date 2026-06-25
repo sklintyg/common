@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -42,8 +42,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
@@ -77,7 +77,7 @@ public class TsBasTransportToV3TransformerXpathTest {
 
   private static XslTransformer transformer;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() {
     transformer = new XslTransformer("xsl/transportToV3.xsl");
   }
@@ -120,109 +120,109 @@ public class TsBasTransportToV3TransformerXpathTest {
     XPathEvaluator xPath = createXPathEvaluator(transformed);
 
     // Check intyg against xpath
-    assertEquals("Intyg - typ", "TSTRK1007", xPath.evaluate(XPathExpressionsV3.TYP_AV_INTYG_XPATH));
+    assertEquals("TSTRK1007", xPath.evaluate(XPathExpressionsV3.TYP_AV_INTYG_XPATH), "Intyg - typ");
 
     assertEquals(
-        "Intyg - version",
         Integer.parseInt(utlatande.getVersion()) + "." + Integer.parseInt(utlatande.getUtgava()),
-        xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH));
+        xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH),
+        "Intyg - version");
 
     // Patient
     Patient patient = utlatande.getGrundData().getPatient();
 
     assertEquals(
-        "Patient - personnummer",
         patient.getPersonId().getExtension().replace("-", ""),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH),
+        "Patient - personnummer");
     assertEquals(
-        "Patient - förnamn",
         patient.getFornamn(),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_FORNAMN_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_FORNAMN_XPATH),
+        "Patient - förnamn");
     assertEquals(
-        "Patient - efternamn",
         patient.getEfternamn(),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_EFTERNAMN_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_EFTERNAMN_XPATH),
+        "Patient - efternamn");
     assertEquals(
-        "Patient - postadress",
         patient.getPostadress(),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTADRESS_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTADRESS_XPATH),
+        "Patient - postadress");
     assertEquals(
-        "Patient - postnummer",
         patient.getPostnummer(),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTNUMMER_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTNUMMER_XPATH),
+        "Patient - postnummer");
     assertEquals(
-        "Patient - postort",
         patient.getPostort(),
-        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTORT_XPATH));
+        xPath.evaluate(XPathExpressionsV3.PATIENT_POSTORT_XPATH),
+        "Patient - postort");
 
     // Signeringsdatum
     assertEquals(
-        "Signeringsdatum",
         utlatande.getGrundData().getSigneringsTidstampel(),
-        xPath.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH));
+        xPath.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH),
+        "Signeringsdatum");
 
     // Skapad Av
     SkapadAv skapadAv = utlatande.getGrundData().getSkapadAv();
 
     if (!skapadAv.getBefattningar().isEmpty()) {
       assertEquals(
-          "Skapad av - befattningar",
           skapadAv.getBefattningar().get(0),
-          xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_BEFATTNING_XPATH));
+          xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_BEFATTNING_XPATH),
+          "Skapad av - befattningar");
     }
 
     assertEquals(
-        "Skapad av - fullständigt namn",
         skapadAv.getFullstandigtNamn(),
-        xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
+        xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH),
+        "Skapad av - fullständigt namn");
     assertEquals(
-        "Skapad av - hsa-id",
         skapadAv.getPersonId().getExtension(),
-        xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH));
+        xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH),
+        "Skapad av - hsa-id");
 
     if (!skapadAv.getSpecialiteter().isEmpty()) {
       assertEquals(
-          "Skapad av - specialitet",
           skapadAv.getSpecialiteter().get(0),
-          xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH));
+          xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH),
+          "Skapad av - specialitet");
     }
 
     // Vardenhet
     Vardenhet vardenhet = skapadAv.getVardenhet();
     assertEquals(
-        "Enhet - enhetsid",
         vardenhet.getEnhetsId().getExtension(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_ID_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_ID_XPATH),
+        "Enhet - enhetsid");
     assertEquals(
-        "Enhet - enhetsnamn",
         vardenhet.getEnhetsnamn(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH),
+        "Enhet - enhetsnamn");
     assertEquals(
-        "Enhet - postadress",
         vardenhet.getPostadress(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH),
+        "Enhet - postadress");
     assertEquals(
-        "Enhet - postnummer",
         vardenhet.getPostnummer(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH),
+        "Enhet - postnummer");
     assertEquals(
-        "Enhet - postort",
         vardenhet.getPostort(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH),
+        "Enhet - postort");
     assertEquals(
-        "Enhet - postort",
         vardenhet.getTelefonnummer(),
-        xPath.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH));
+        xPath.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH),
+        "Enhet - postort");
 
     // Vardgivare
     assertEquals(
-        "Enhet - vardgivare - id",
         vardenhet.getVardgivare().getVardgivarid().getExtension(),
-        xPath.evaluate(XPathExpressionsV3.VARDGIVARE_ID_XPATH));
+        xPath.evaluate(XPathExpressionsV3.VARDGIVARE_ID_XPATH),
+        "Enhet - vardgivare - id");
     assertEquals(
-        "Enhet - vardgivare - id",
         vardenhet.getVardgivare().getVardgivarnamn(),
-        xPath.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH));
+        xPath.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH),
+        "Enhet - vardgivare - id");
 
     // IntygAvser
     for (KorkortsbehorighetTsBas t : utlatande.getIntygAvser().getKorkortstyp()) {
@@ -340,10 +340,14 @@ public class TsBasTransportToV3TransformerXpathTest {
     if (diabetes.isHarDiabetes()) {
       if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_1)) {
         assertEquals(
-            "Diabetes typ1", "E10", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH));
+            "E10",
+            xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH),
+            "Diabetes typ1");
       } else if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_2)) {
         assertEquals(
-            "Diabetes typ2", "E11", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH));
+            "E11",
+            xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH),
+            "Diabetes typ2");
       }
 
       if (diabetes.isHarBehandlingKost() != null) {
@@ -467,9 +471,9 @@ public class TsBasTransportToV3TransformerXpathTest {
     // Övrig kommentar
     if (utlatande.getOvrigKommentar() != null) {
       assertEquals(
-          "Övrig kommentar",
           utlatande.getOvrigKommentar(),
-          xPath.evaluate(XPathExpressionsV3.OVRIG_BESKRIVNING_XPATH));
+          xPath.evaluate(XPathExpressionsV3.OVRIG_BESKRIVNING_XPATH),
+          "Övrig kommentar");
     }
 
     // Bedömning
@@ -478,20 +482,20 @@ public class TsBasTransportToV3TransformerXpathTest {
     for (KorkortsbehorighetTsBas t : bedomning.getKorkortstyp()) {
       KorkortsbehorighetKod kod = KorkortsbehorighetKod.valueOf(t.value().value());
       assertTrue(
-          kod.getDescription(),
           xPath.evaluate(
               XPathExpressionsV3.booleanXPath(
-                  XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, kod.getCode())));
+                  XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, kod.getCode())),
+          kod.getDescription());
     }
 
     if (utlatande.getBedomning().isKanInteTaStallning() != null
         && utlatande.getBedomning().isKanInteTaStallning()) {
       assertTrue(
-          KorkortsbehorighetKod.KANINTETASTALLNING.getDescription(),
           xPath.evaluate(
               XPathExpressionsV3.booleanXPath(
                   XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE,
-                  KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
+                  KorkortsbehorighetKod.KANINTETASTALLNING.getCode())),
+          KorkortsbehorighetKod.KANINTETASTALLNING.getDescription());
     }
 
     if (bedomning.getBehovAvLakareSpecialistKompetens() != null) {

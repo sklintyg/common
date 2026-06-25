@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findAktivitetWithCode;
 import static se.inera.intyg.common.fk7263.validator.ProgrammaticTransportValidator.findFunktionsTillstandType;
 
@@ -27,7 +27,7 @@ import jakarta.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.BedomtTillstandType;

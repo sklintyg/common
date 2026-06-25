@@ -19,8 +19,8 @@
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
@@ -33,8 +33,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 import org.xmlunit.builder.DiffBuilder;
@@ -70,7 +70,7 @@ public class TSBasTransportToV3TransformerTest {
 
   private static Schema intygstjansterSchema;
 
-  @BeforeClass
+  @BeforeAll
   public static void initV3Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
@@ -83,7 +83,7 @@ public class TSBasTransportToV3TransformerTest {
     v3Schema = schemaValidatorBuilder.build(rootSource);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
@@ -141,7 +141,7 @@ public class TSBasTransportToV3TransformerTest {
               .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
               .withNodeFilter(node -> !node.getNodeName().equals("skickatTidpunkt"))
               .build();
-      assertFalse(diff.toString(), diff.hasDifferences());
+      assertFalse(diff.hasDifferences(), diff.toString());
     }
   }
 

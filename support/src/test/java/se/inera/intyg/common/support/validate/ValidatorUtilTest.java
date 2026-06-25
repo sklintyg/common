@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -85,7 +85,7 @@ public class ValidatorUtilTest {
     boolean valid = ValidatorUtil.validateDate(null, errors, "testcategory", "testfield", null);
     assertFalse(valid);
     assertEquals(1, errors.size());
-    assertEquals("testcategory", "testfield", errors.get(0).getField());
+    assertEquals("testfield", errors.get(0).getField(), "testcategory");
     assertEquals(ValidationMessageType.EMPTY, errors.get(0).getType());
   }
 

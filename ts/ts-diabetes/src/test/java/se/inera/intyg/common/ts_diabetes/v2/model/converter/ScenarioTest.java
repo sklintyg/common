@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
@@ -35,7 +35,7 @@ public class ScenarioTest {
   private List<Scenario> internalScenarios;
   private List<Scenario> transportScenarios;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     internalScenarios = ScenarioFinder.getInternalScenarios("diabetes-*");
     transportScenarios = ScenarioFinder.getTransportScenarios("diabetes-*");

@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InternalLocalDateIntervalTest {
 
@@ -35,9 +35,8 @@ public class InternalLocalDateIntervalTest {
     LocalDate tomDate = LocalDate.parse("2011-01-02");
 
     InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-    assertEquals(
-        "Constructed from date did not match expected", interval.fromAsLocalDate(), fromDate);
-    assertEquals("Constructed tom date did not match expected", interval.tomAsLocalDate(), tomDate);
+    assertEquals(interval.fromAsLocalDate(), fromDate, "Constructed from date did not match expected");
+    assertEquals(interval.tomAsLocalDate(), tomDate, "Constructed tom date did not match expected");
   }
 
   @Test

@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.util.integration.integration.json;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.util.integration.json.InternalDateDeserializer;
 import tools.jackson.core.JacksonException;
@@ -42,7 +42,7 @@ public final class InternalDateDeserializerTest {
   private static InternalDateDeserializer deserializer;
   private static JsonFactory factory;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() {
     deserializer = new InternalDateDeserializer();
     factory = new JsonFactory();

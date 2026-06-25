@@ -19,12 +19,12 @@
 package se.inera.intyg.common.db.v1.validator;
 
 import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.db.v1.rest.DbModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -40,7 +40,7 @@ public class SchematronValidatorTest {
     String inputXml = Resources.toString(getResource("v1/db.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
-        response.getValidationErrors().isEmpty());
+        response.getValidationErrors().isEmpty(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 }
