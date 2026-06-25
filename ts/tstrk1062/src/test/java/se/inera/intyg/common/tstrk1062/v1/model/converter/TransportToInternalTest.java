@@ -84,9 +84,7 @@ public class TransportToInternalTest {
     assertNotNull(utlatande, "Utlatande should not be null");
     assertNotNull(utlatande.getIntygAvser(), "IntygAvser should not be null");
     assertEquals(
-        1,
-        utlatande.getIntygAvser().getBehorigheter().size(),
-        "IntygAvser size not equal");
+        1, utlatande.getIntygAvser().getBehorigheter().size(), "IntygAvser size not equal");
     assertEquals(
         IntygAvser.BehorighetsTyp.IAV11,
         utlatande.getIntygAvser().getBehorigheter().iterator().next(),
@@ -182,9 +180,7 @@ public class TransportToInternalTest {
     assertNotNull(utlatande, "Utlatande should not be null");
     assertNotNull(utlatande.getLakemedelsbehandling(), "Lakemedelsbehandling should not be null");
     assertEquals(
-        Boolean.FALSE,
-        utlatande.getLakemedelsbehandling().getHarHaft(),
-        "HarHaft not equal");
+        Boolean.FALSE, utlatande.getLakemedelsbehandling().getHarHaft(), "HarHaft not equal");
     assertNull(utlatande.getLakemedelsbehandling().getPagar(), "Pagar is not null");
     assertNull(utlatande.getLakemedelsbehandling().getAktuell(), "Aktuell is not null");
     assertNull(utlatande.getLakemedelsbehandling().getPagatt(), "Pagatt is not null");
@@ -204,9 +200,7 @@ public class TransportToInternalTest {
     assertNotNull(utlatande, "Utlatande should not be null");
     assertNotNull(utlatande.getLakemedelsbehandling(), "Lakemedelsbehandling should not be null");
     assertEquals(
-        Boolean.TRUE,
-        utlatande.getLakemedelsbehandling().getHarHaft(),
-        "HarHaft not equal");
+        Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft(), "HarHaft not equal");
     assertEquals(Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagar(), "Pagar not equal");
     assertEquals(
         "Läkemedel a, b och c",
@@ -214,13 +208,9 @@ public class TransportToInternalTest {
         "Aktuell not equal");
     assertEquals(Boolean.TRUE, utlatande.getLakemedelsbehandling().getPagatt(), "Pagatt not equal");
     assertEquals(
-        Boolean.FALSE,
-        utlatande.getLakemedelsbehandling().getEffekt(),
-        "Effekt not equal");
+        Boolean.FALSE, utlatande.getLakemedelsbehandling().getEffekt(), "Effekt not equal");
     assertEquals(
-        Boolean.TRUE,
-        utlatande.getLakemedelsbehandling().getFoljsamhet(),
-        "Foljsamhet not equal");
+        Boolean.TRUE, utlatande.getLakemedelsbehandling().getFoljsamhet(), "Foljsamhet not equal");
     assertNull(
         utlatande.getLakemedelsbehandling().getAvslutadTidpunkt(), "AvslutadTidpunk is not null");
     assertNull(utlatande.getLakemedelsbehandling().getAvslutadOrsak(), "AvslutadOrsak is not null");
@@ -235,9 +225,7 @@ public class TransportToInternalTest {
     assertNotNull(utlatande, "Utlatande should not be null");
     assertNotNull(utlatande.getLakemedelsbehandling(), "Lakemedelsbehandling should not be null");
     assertEquals(
-        Boolean.TRUE,
-        utlatande.getLakemedelsbehandling().getHarHaft(),
-        "HarHaft not equal");
+        Boolean.TRUE, utlatande.getLakemedelsbehandling().getHarHaft(), "HarHaft not equal");
     assertEquals(Boolean.FALSE, utlatande.getLakemedelsbehandling().getPagar(), "Pagar not equal");
     assertNull(utlatande.getLakemedelsbehandling().getAktuell(), "Aktuell is not null");
     assertNull(utlatande.getLakemedelsbehandling().getPagatt(), "Pagatt is not null");

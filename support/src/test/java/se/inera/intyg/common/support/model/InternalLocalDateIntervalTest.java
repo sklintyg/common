@@ -35,7 +35,8 @@ public class InternalLocalDateIntervalTest {
     LocalDate tomDate = LocalDate.parse("2011-01-02");
 
     InternalLocalDateInterval interval = new InternalLocalDateInterval(fromString, tomString);
-    assertEquals(interval.fromAsLocalDate(), fromDate, "Constructed from date did not match expected");
+    assertEquals(
+        interval.fromAsLocalDate(), fromDate, "Constructed from date did not match expected");
     assertEquals(interval.tomAsLocalDate(), tomDate, "Constructed tom date did not match expected");
   }
 

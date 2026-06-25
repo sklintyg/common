@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.luae_na.v1.model.validator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getInternalValidationErrorString;
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getNumberOfInternalValidationErrors;
@@ -31,12 +33,20 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -50,17 +60,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
-import org.junit.jupiter.api.BeforeEach;
-import java.util.stream.Stream;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test
@@ -75,15 +74,12 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 
-
   private static final String CORRECT_DIAGNOSKODSYSTEM1 = "ICD_10_SE";
   private static final String CORRECT_DIAGNOSKODSYSTEM2 = "KSH_97_P";
   private static final String CORRECT_DIAGNOSKOD1 = "S666";
   private static final String CORRECT_DIAGNOSKOD2 = "Z731";
   private static final String CORRECT_DIAGNOSKOD3 = "A039";
   private static final String CORRECT_DIAGNOSKOD4 = "A00-";
-
-
 
   /*
    * Due to the existence of virtual intyg fields in Webcert, there is a discrepancy between the numbers of errors in
@@ -104,14 +100,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
-
   /**
    * Process test data and supply it to the test. The format for the test data needs to be: {name to
    * display for current test, the scenario to test, expected outcome of the test}.
    *
    * @return Collection<Object [ ]>
    */
-    static Stream<Arguments> data() throws ScenarioNotFoundException {
+  static Stream<Arguments> data() throws ScenarioNotFoundException {
     List<Arguments> retList =
         ScenarioFinder.getInternalScenarios("fail-*").stream()
             .map(u -> Arguments.of(u.getName(), u, true))
@@ -155,8 +150,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
    *
    * @param fail Whether the test should expect validation errors or not.
    */
-  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail)
-      throws Exception {
+  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
     LuaenaUtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
 
     ValidateDraftResponse internalValidationResponse =

@@ -20,8 +20,8 @@ package se.inera.intyg.common.support.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
@@ -84,25 +84,29 @@ public class InternalDateTest {
 
   @Test
   public void testInvalidAsLocalDate() {
-        assertThrows(ModelException.class, () -> {
-    InternalDate partialDate = new InternalDate("2001-");
-    partialDate.asLocalDate();
+    assertThrows(
+        ModelException.class,
+        () -> {
+          InternalDate partialDate = new InternalDate("2001-");
+          partialDate.asLocalDate();
 
-    InternalDate justText = new InternalDate("blörk");
-    justText.asLocalDate();
+          InternalDate justText = new InternalDate("blörk");
+          justText.asLocalDate();
 
-    InternalDate dateButIncorrect = new InternalDate("2011-13-32");
-    dateButIncorrect.asLocalDate();
-  });
-    }
+          InternalDate dateButIncorrect = new InternalDate("2011-13-32");
+          dateButIncorrect.asLocalDate();
+        });
+  }
 
   @Test
   public void testInvalidEmpty() {
-        assertThrows(ModelException.class, () -> {
-    InternalDate empty = new InternalDate("");
-    empty.asLocalDate();
-  });
-    }
+    assertThrows(
+        ModelException.class,
+        () -> {
+          InternalDate empty = new InternalDate("");
+          empty.asLocalDate();
+        });
+  }
 
   @Test
   public void testVagueDateInFutureYear0000() {

@@ -272,8 +272,7 @@ public class SchematronValidatorTest {
 
   private void assertNoError(List<String> validationErrors) throws Exception {
     assertTrue(
-        validationErrors.isEmpty(),
-        validationErrors.stream().collect(Collectors.joining("\n")));
+        validationErrors.isEmpty(), validationErrors.stream().collect(Collectors.joining("\n")));
   }
 
   private static URL getResource(String href) {

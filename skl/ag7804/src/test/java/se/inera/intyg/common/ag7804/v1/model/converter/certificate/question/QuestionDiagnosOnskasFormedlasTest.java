@@ -276,7 +276,8 @@ class QuestionDiagnosOnskasFormedlasTest {
       assertEquals(expectedValue, updatedCertificate.getOnskarFormedlaDiagnos());
     }
 
-    @Disabled("Previously inactive test (used @org.junit.Test in JUnit 5 class - never ran). Reveals production code bug: null input returns null instead of false. TODO: fix CertificateToInternal.")
+    @Disabled(
+        "Previously inactive test (used @org.junit.Test in JUnit 5 class - never ran). Reveals production code bug: null input returns null instead of false. TODO: fix CertificateToInternal.")
     @org.junit.jupiter.api.Test
     void shouldIncludePatientWantsDiagnosesIncludedNullValue() {
       final var index = 1;

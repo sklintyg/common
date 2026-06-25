@@ -29,8 +29,8 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,15 +115,17 @@ public class WebcertModelFactoryTest {
 
   @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    Fk7263Utlatande utlatande =
-        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          Fk7263Utlatande utlatande =
+              readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
 
-    CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
+          CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
 
-    factory.createCopy(copyData, utlatande);
-  });
-    }
+          factory.createCopy(copyData, utlatande);
+        });
+  }
 
   @Test
   public void testCreateCopyWithNewPatientData() throws Exception {

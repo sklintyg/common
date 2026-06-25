@@ -131,9 +131,7 @@ public class TsDiabetesTransformerXpathTest {
 
     // Check utlatande against xpath
     assertEquals(
-        "TSTRK1031",
-        xPath.evaluate(XPathExpressions.TYP_AV_UTLATANDE_XPATH),
-        "UtlatandeTyp");
+        "TSTRK1031", xPath.evaluate(XPathExpressions.TYP_AV_UTLATANDE_XPATH), "UtlatandeTyp");
 
     assertEquals(
         utlatande.getUtgava(),
@@ -214,9 +212,7 @@ public class TsDiabetesTransformerXpathTest {
     // Vardenhet
     Vardenhet vardenhet = skapadAv.getVardenhet();
     assertEquals(
-        vardenhet.getEnhetsId().getExtension(),
-        xPath.evaluate(ENHET_ID_XPATH),
-        "Enhet - enhetsid");
+        vardenhet.getEnhetsId().getExtension(), xPath.evaluate(ENHET_ID_XPATH), "Enhet - enhetsid");
 
     assertEquals(
         vardenhet.getEnhetsnamn(),
@@ -224,14 +220,10 @@ public class TsDiabetesTransformerXpathTest {
         "Enhet - enhetsnamn");
 
     assertEquals(
-        vardenhet.getPostadress(),
-        xPath.evaluate(ENHET_POSTADRESS_XPATH),
-        "Enhet - postadress");
+        vardenhet.getPostadress(), xPath.evaluate(ENHET_POSTADRESS_XPATH), "Enhet - postadress");
 
     assertEquals(
-        vardenhet.getPostnummer(),
-        xPath.evaluate(ENHET_POSTNUMMER_XPATH),
-        "Enhet - postnummer");
+        vardenhet.getPostnummer(), xPath.evaluate(ENHET_POSTNUMMER_XPATH), "Enhet - postnummer");
 
     assertEquals(
         vardenhet.getPostort(),

@@ -56,8 +56,7 @@ public class TransportValidatorTest {
       List<String> validationResponse = validator.validate(utlatande);
 
       assertTrue(
-          !validationResponse.isEmpty(),
-          "Expected validation error in test " + scenario.getName());
+          !validationResponse.isEmpty(), "Expected validation error in test " + scenario.getName());
     }
   }
 }

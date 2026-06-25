@@ -115,9 +115,7 @@ public class TsBasTransportToV1TransformerXpathTest {
 
     // Check utlatande against xpath
     assertEquals(
-        "TSTRK1007",
-        xPath.evaluate(XPathExpressionsV1.TYP_AV_UTLATANDE_XPATH),
-        "UtlatandeTyp");
+        "TSTRK1007", xPath.evaluate(XPathExpressionsV1.TYP_AV_UTLATANDE_XPATH), "UtlatandeTyp");
 
     assertEquals(
         utlatande.getUtgava(),

@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.model.converter.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;

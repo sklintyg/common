@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.google.common.base.Joiner;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

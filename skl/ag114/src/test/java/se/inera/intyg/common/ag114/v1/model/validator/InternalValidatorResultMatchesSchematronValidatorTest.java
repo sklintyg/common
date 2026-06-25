@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ag114.v1.model.validator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getInternalValidationErrorString;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getNumberOfInternalValidationErrors;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getNumberOfTransportValidationErrors;
@@ -30,10 +32,14 @@ import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.utils.Scenario;
@@ -45,13 +51,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.api.BeforeEach;
-import java.util.stream.Stream;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test
@@ -63,7 +62,6 @@ import java.util.stream.Stream;
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
-
 
   /*
    * Due to the existence of virtual intyg fields in Webcert, there is a discrepancy between the numbers of errors in
@@ -81,15 +79,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     ReflectionTestUtils.setField(internalValidator, "validatorUtilSKL", new ValidatorUtilSKL());
   }
 
-
-
   /**
    * Process test data and supply it to the test. The format for the test data needs to be: {name to
    * display for current test, the scenario to test, expected outcome of the test}.
    *
    * @return Collection<Object [ ]>
    */
-    static Stream<Arguments> data() throws ScenarioNotFoundException {
+  static Stream<Arguments> data() throws ScenarioNotFoundException {
     List<Arguments> retList =
         ScenarioFinder.getInternalScenarios("fail-*").stream()
             .map(u -> Arguments.of(u.getName(), u, true))
@@ -107,8 +103,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
    *
    * @param fail Whether the test should expect validation errors or not.
    */
-  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail)
-      throws Exception {
+  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
     Ag114UtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
 
     ValidateDraftResponse internalValidationResponse =
@@ -169,8 +164,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   }
 
   @BeforeEach
-  public void setUp() throws Exception {
-  }
+  public void setUp() throws Exception {}
 
   @ParameterizedTest(name = "{index}: Scenario: {0}")
   @MethodSource("data")

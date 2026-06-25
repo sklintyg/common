@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getInternalValidationErrorString;
 import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.sos_parent.validator.ValidatorTestUtil.getXmlFromModel;
@@ -27,10 +28,13 @@ import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.rest.DbModuleApiV1;
 import se.inera.intyg.common.db.v1.utils.Scenario;
@@ -41,17 +45,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.Arguments;
-import java.util.stream.Stream;
 
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
-
-
 
   private static InternalDraftValidatorImpl internalValidator = new InternalDraftValidatorImpl();
   private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
@@ -63,9 +60,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     GlobalDebug.setDebugModeDirect(false);
   }
 
-
-
-    static Stream<Arguments> data() throws ScenarioNotFoundException {
+  static Stream<Arguments> data() throws ScenarioNotFoundException {
     List<Arguments> ret =
         ScenarioFinder.getInternalScenarios("fail-*").stream()
             .map(u -> Arguments.of(u.getName(), u, true))
@@ -77,8 +72,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     return ret.stream();
   }
 
-  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail)
-      throws Exception {
+  private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
     DbUtlatandeV1 utlatandeFromJson =
         fail
             ? scenario.asInternalModel()

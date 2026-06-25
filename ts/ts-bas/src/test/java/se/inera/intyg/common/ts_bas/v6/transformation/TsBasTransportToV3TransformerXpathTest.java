@@ -340,14 +340,10 @@ public class TsBasTransportToV3TransformerXpathTest {
     if (diabetes.isHarDiabetes()) {
       if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_1)) {
         assertEquals(
-            "E10",
-            xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH),
-            "Diabetes typ1");
+            "E10", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH), "Diabetes typ1");
       } else if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_2)) {
         assertEquals(
-            "E11",
-            xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH),
-            "Diabetes typ2");
+            "E11", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH), "Diabetes typ2");
       }
 
       if (diabetes.isHarBehandlingKost() != null) {

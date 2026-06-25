@@ -193,30 +193,31 @@ public final class CustomLocalDateDeserializerTest {
 
   @Test
   public void failWhenDeserializationIsOnlyTime() throws StreamReadException, IOException {
-        assertThrows(DateTimeParseException.class, () -> {
+    assertThrows(
+        DateTimeParseException.class,
+        () -> {
+          String date = "01:01:01";
+          String json = "{\"journalanteckningar\":\"" + date + "\"}";
 
-    String date = "01:01:01";
-    String json = "{\"journalanteckningar\":\"" + date + "\"}";
+          JsonParser jp = factory.createParser(json);
+          setJsonParserAtCorrectToken(jp);
 
-    JsonParser jp = factory.createParser(json);
-    setJsonParserAtCorrectToken(jp);
+          DeserializationContext ctxt = mock(DeserializationContext.class);
+          when(ctxt.wrongTokenException(
+                  any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString()))
+              .thenReturn(
+                  DatabindException.from(
+                      jp,
+                      "Unexpected token ("
+                          + jp.currentToken()
+                          + "), expected "
+                          + JsonToken.START_ARRAY
+                          + ": expected JSON Array, Number or String")); // Mock implementation
 
-    DeserializationContext ctxt = mock(DeserializationContext.class);
-    when(ctxt.wrongTokenException(
-            any(JsonParser.class), any(Class.class), any(JsonToken.class), anyString()))
-        .thenReturn(
-            DatabindException.from(
-                jp,
-                "Unexpected token ("
-                    + jp.currentToken()
-                    + "), expected "
-                    + JsonToken.START_ARRAY
-                    + ": expected JSON Array, Number or String")); // Mock implementation
-
-    // Deserialize JSON string
-    deserializer.deserialize(jp, ctxt);
-  });
-    }
+          // Deserialize JSON string
+          deserializer.deserialize(jp, ctxt);
+        });
+  }
 
   private void setJsonParserAtCorrectToken(JsonParser jp) throws IOException, StreamReadException {
     // loop over all fields in JSON object

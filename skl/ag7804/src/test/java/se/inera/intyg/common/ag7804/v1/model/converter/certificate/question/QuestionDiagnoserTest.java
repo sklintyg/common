@@ -470,7 +470,8 @@ class QuestionDiagnoserTest {
       assertEquals(expectedValue, updatedCertificate.getDiagnoser());
     }
 
-    @Disabled("Previously inactive test (used @org.junit.Test in JUnit 5 class - never ran). Reveals production code bug: null diagnoskod not filtered. TODO: fix CertificateToInternal.")
+    @Disabled(
+        "Previously inactive test (used @org.junit.Test in JUnit 5 class - never ran). Reveals production code bug: null diagnoskod not filtered. TODO: fix CertificateToInternal.")
     @org.junit.jupiter.api.Test
     void shouldExcludeDiagnosKodNull() {
       final var index = 1;

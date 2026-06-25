@@ -101,9 +101,7 @@ public class TsBasV3ToV1TransformerXpathTest {
 
     // Check utlatande against xpath
     assertEquals(
-        "TSTRK1007",
-        xPathV1.evaluate(XPathExpressionsV1.TYP_AV_UTLATANDE_XPATH),
-        "UtlatandeTyp");
+        "TSTRK1007", xPathV1.evaluate(XPathExpressionsV1.TYP_AV_UTLATANDE_XPATH), "UtlatandeTyp");
 
     // assertEquals("Utlatande-utgåva", xPathV3.evaluate(XPathExpressionsV3.TS_VERSION_XPATH),
     // xPathV1.evaluate(XPathExpressionsV1.TS_VERSION_XPATH) + "." +
@@ -371,9 +369,7 @@ public class TsBasV3ToV1TransformerXpathTest {
         Boolean.valueOf(xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_VANSTER_XPATH)),
         xPathV1.evaluate(
             XPathExpressionsV1.booleanXPath(
-                XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET,
-                "285049007",
-                "7771000")),
+                XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET, "285049007", "7771000")),
         "Kontaktlinser vänster");
 
     // Hörsel & balans

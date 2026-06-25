@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.validator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.helger.base.debug.GlobalDebug;
@@ -29,11 +31,15 @@ import jakarta.xml.bind.Marshaller;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -46,21 +52,10 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.tstrk1009.v1.validator.internal.InternalValidatorInstance;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.api.BeforeEach;
-import java.util.stream.Stream;
 
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
-
-
-
-
 
   static {
     // avoid com.helger debug log
@@ -68,7 +63,6 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   }
 
   private static InternalValidatorInstance internalValidator;
-
 
   @BeforeEach
   public void setup() {
@@ -81,7 +75,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
    *
    * @return Collection<Object [ ]>
    */
-    static Stream<Arguments> data() throws ScenarioNotFoundException {
+  static Stream<Arguments> data() throws ScenarioNotFoundException {
 
     List<Arguments> retList = new ArrayList<>();
     // Failing tests
