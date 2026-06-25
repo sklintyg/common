@@ -42,8 +42,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.databind.ObjectMapper;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class Fk7263ModelCompareUtilTest {
 
   public static final String CORRECT_DIAGNOSKOD_FROM_FILE = "S47";

@@ -40,8 +40,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
@@ -58,7 +56,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 

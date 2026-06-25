@@ -37,7 +37,6 @@ import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -170,10 +169,12 @@ public class InternalToTransportTest {
 
   @Test
   public void testInternalToTransportSourceNull() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    InternalToTransport.convert(null);
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          InternalToTransport.convert(null);
+        });
+  }
 
   @Test
   public void convertDecorateSvarPaTest() throws Exception {

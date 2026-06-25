@@ -29,8 +29,6 @@ import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorI
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
@@ -40,7 +38,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class InternalValidatorTest {
 

@@ -33,8 +33,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -44,7 +42,6 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-10-18. */
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class DoiPdfGeneratorTest {
 

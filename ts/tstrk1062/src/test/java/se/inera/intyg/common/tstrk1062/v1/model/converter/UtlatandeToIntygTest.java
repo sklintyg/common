@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static se.inera.intyg.common.support.Constants.KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM;
@@ -134,7 +134,7 @@ class UtlatandeToIntygTest {
 
     final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
-    assertEquals("Intygsversion is not equal", utlatande.getTextVersion(), intyg.getVersion());
+    assertEquals(utlatande.getTextVersion(), intyg.getVersion(), "Intygsversion is not equal");
   }
 
   @Test
@@ -351,86 +351,86 @@ class UtlatandeToIntygTest {
     final Set<Bedomning.BehorighetsTyp> behorighetsTyper = bedomning.getUppfyllerBehorighetskrav();
 
     assertEquals(
-        "Number of UppfyllerBehorighetsKrav not equal",
         behorighetsTyper.size(),
-        delsvarList.size());
+        delsvarList.size(),
+        "Number of UppfyllerBehorighetsKrav not equal");
 
     int i = 0;
     for (Bedomning.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
       final Svar.Delsvar delsvar = delsvarList.get(i++);
       assertEquals(
-          "Behorighetstyp not equal",
           behorighetsTyp.toString(),
-          getCVSvarContent(delsvar).getCode());
+          getCVSvarContent(delsvar).getCode(),
+          "Behorighetstyp not equal");
     }
   }
 
   private void assertIntygsTyp(final TsTrk1062UtlatandeV1 utlatande, Intyg intyg) {
     assertEquals(
-        "Intygstyp.code is not equal",
         KvIntygstyp.TSTRK1062.getCodeValue(),
-        intyg.getTyp().getCode());
+        intyg.getTyp().getCode(),
+        "Intygstyp.code is not equal");
     assertEquals(
-        "Intygstyp.codeSystem is not equal",
         KvIntygstyp.TSTRK1062.getCodeSystem(),
-        intyg.getTyp().getCodeSystem());
+        intyg.getTyp().getCodeSystem(),
+        "Intygstyp.codeSystem is not equal");
     assertEquals(
-        "Intygstyp.displayName is not equal",
         KvIntygstyp.TSTRK1062.getDisplayName(),
-        intyg.getTyp().getDisplayName());
+        intyg.getTyp().getDisplayName(),
+        "Intygstyp.displayName is not equal");
   }
 
   private void assertOvrigaKommentarer(String ovrigaKommentarer, Svar.Delsvar delsvar) {
-    assertNotNull("ÖvrigaKommentarer should not be null", delsvar);
-    assertEquals("ÖvrigaKommentarer not equal", ovrigaKommentarer, getStringContent(delsvar));
+    assertNotNull(delsvar, "ÖvrigaKommentarer should not be null");
+    assertEquals(ovrigaKommentarer, getStringContent(delsvar), "ÖvrigaKommentarer not equal");
   }
 
   private void assertBedomningAvSymptom(String bedomningAvSymptom, Svar.Delsvar delsvar) {
-    assertNotNull("BedömningAvSymptom should not be null", delsvar);
-    assertEquals("BedömningAvSymptom not equal", bedomningAvSymptom, getStringContent(delsvar));
+    assertNotNull(delsvar, "BedömningAvSymptom should not be null");
+    assertEquals(bedomningAvSymptom, getStringContent(delsvar), "BedömningAvSymptom not equal");
   }
 
   private void assertPrognosTillstandAsBoolean(String prognosTillstand, Svar.Delsvar delsvar) {
-    assertNotNull("PrognosTillstand should not be null", delsvar);
-    assertEquals("PrognosTillstand not equal", prognosTillstand, getStringContent(delsvar));
+    assertNotNull(delsvar, "PrognosTillstand should not be null");
+    assertEquals(prognosTillstand, getStringContent(delsvar), "PrognosTillstand not equal");
   }
 
   private void assertPrognosTillstandAsCode(PrognosTillstand prognosTillstand, Svar.Delsvar delsvar)
       throws ConverterException {
-    assertNotNull("PrognosTillstand should not be null", delsvar);
+    assertNotNull(delsvar, "PrognosTillstand should not be null");
     assertEquals(
-        "PrognosTillstand.kod not equal",
         prognosTillstand.getTyp().getCode(),
-        getCVSvarContent(delsvar).getCode());
+        getCVSvarContent(delsvar).getCode(),
+        "PrognosTillstand.kod not equal");
     assertEquals(
-        "PrognosTillstand.kodsystem not equal",
         KV_V3_CODE_SYSTEM_NULLFLAVOR_CODE_SYSTEM,
-        getCVSvarContent(delsvar).getCodeSystem());
+        getCVSvarContent(delsvar).getCodeSystem(),
+        "PrognosTillstand.kodsystem not equal");
     assertEquals(
-        "PrognosTillstand.beskrivning not equal",
         prognosTillstand.getTyp().getDescription(),
-        getCVSvarContent(delsvar).getDisplayName());
+        getCVSvarContent(delsvar).getDisplayName(),
+        "PrognosTillstand.beskrivning not equal");
   }
 
   private void assertIdKontroll(IdKontroll idKontroll, Svar.Delsvar delsvar)
       throws ConverterException {
     assertEquals(
-        "Idkontroll not equal", idKontroll.getTyp().getCode(), getCVSvarContent(delsvar).getCode());
+        idKontroll.getTyp().getCode(), getCVSvarContent(delsvar).getCode(), "Idkontroll not equal");
   }
 
   private void assertIntygAvser(IntygAvser intygAvser, List<Svar.Delsvar> delsvarList)
       throws ConverterException {
     final Set<IntygAvser.BehorighetsTyp> behorighetsTyper = intygAvser.getBehorigheter();
 
-    assertEquals("Number of IntygAvser not equal", behorighetsTyper.size(), delsvarList.size());
+    assertEquals(behorighetsTyper.size(), delsvarList.size(), "Number of IntygAvser not equal");
 
     int i = 0;
     for (IntygAvser.BehorighetsTyp behorighetsTyp : behorighetsTyper) {
       final Svar.Delsvar delsvar = delsvarList.get(i++);
       assertEquals(
-          "Behorighetstyp not equal",
           behorighetsTyp.toString(),
-          getCVSvarContent(delsvar).getCode());
+          getCVSvarContent(delsvar).getCode(),
+          "Behorighetstyp not equal");
     }
   }
 
@@ -438,20 +438,20 @@ class UtlatandeToIntygTest {
       DiagnosFritext diagnosFritext, Svar.Delsvar delsvarFritext, Svar.Delsvar delsvarArtal)
       throws ConverterException {
     assertEquals(
-        "DiagnosFritext not equal",
         diagnosFritext.getDiagnosFritext(),
-        getStringContent(delsvarFritext));
+        getStringContent(delsvarFritext),
+        "DiagnosFritext not equal");
     assertEquals(
-        "DiagnosArtal not equal",
         diagnosFritext.getDiagnosArtal(),
-        getPartialDateContent(delsvarArtal).getValue().toString());
+        getPartialDateContent(delsvarArtal).getValue().toString(),
+        "DiagnosArtal not equal");
   }
 
   private void assertDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, SvarsWrapper svar)
       throws ConverterException {
     final List<Svar> svarList = svar.getSvarList(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID);
 
-    assertEquals("DiagnosKodad is not same length", diagnosKodad.size(), svarList.size());
+    assertEquals(diagnosKodad.size(), svarList.size(), "DiagnosKodad is not same length");
 
     for (int i = 0; i < svarList.size(); i++) {
       final Svar.Delsvar delsvarKod =
@@ -469,21 +469,21 @@ class UtlatandeToIntygTest {
               ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
 
       assertEquals(
-          "DiagnosKod not equal",
           diagnosKodad.get(i).getDiagnosKod(),
-          getCVSvarContent(delsvarKod).getCode());
+          getCVSvarContent(delsvarKod).getCode(),
+          "DiagnosKod not equal");
       assertEquals(
-          "KodSystem not equal",
           "1.2.752.116.1.1.1.1.3",
-          getCVSvarContent(delsvarKod).getCodeSystem());
+          getCVSvarContent(delsvarKod).getCodeSystem(),
+          "KodSystem not equal");
       assertEquals(
-          "Beskrivning not equal",
           diagnosKodad.get(i).getDiagnosBeskrivning(),
-          getStringContent(delsvarBeskrivning));
+          getStringContent(delsvarBeskrivning),
+          "Beskrivning not equal");
       assertEquals(
-          "Artal not equal",
           diagnosKodad.get(i).getDiagnosArtal(),
-          getPartialDateContent(delsvarArtal).getValue().toString());
+          getPartialDateContent(delsvarArtal).getValue().toString(),
+          "Artal not equal");
     }
   }
 
@@ -492,43 +492,43 @@ class UtlatandeToIntygTest {
     final Svar.Delsvar delsvarHarHaft =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertNotNull(delsvarHarHaft, "HarHaft should not be null");
     assertEquals(
-        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
+        lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft), "HarHaft not equal");
 
     final Svar.Delsvar delsvarPagar =
         svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-    assertNull("Pagar should be null", delsvarPagar);
+    assertNull(delsvarPagar, "Pagar should be null");
 
     final Svar.Delsvar delsvarAktuell =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-    assertNull("Aktuell should be null", delsvarAktuell);
+    assertNull(delsvarAktuell, "Aktuell should be null");
 
     final Svar.Delsvar delsvarPagatt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-    assertNull("Pagar should be null", delsvarPagatt);
+    assertNull(delsvarPagatt, "Pagar should be null");
 
     final Svar.Delsvar delsvarEffekt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-    assertNull("Effekt should be null", delsvarEffekt);
+    assertNull(delsvarEffekt, "Effekt should be null");
 
     final Svar.Delsvar delsvarFoljsamhet =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-    assertNull("Foljsamhet should be null", delsvarFoljsamhet);
+    assertNull(delsvarFoljsamhet, "Foljsamhet should be null");
 
     final Svar.Delsvar delsvarAvslutadTidpunkt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-    assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
+    assertNull(delsvarAvslutadTidpunkt, "AvslutadTidpunkt should be null");
 
     final Svar.Delsvar delsvarAvslutadOrsak =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-    assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
+    assertNull(delsvarAvslutadOrsak, "AvslutadOrsak should be null");
   }
 
   private void assertLakemedelsbehandlingJaPagar(
@@ -536,55 +536,55 @@ class UtlatandeToIntygTest {
     final Svar.Delsvar delsvarHarHaft =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertNotNull(delsvarHarHaft, "HarHaft should not be null");
     assertEquals(
-        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
+        lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft), "HarHaft not equal");
 
     final Svar.Delsvar delsvarPagar =
         svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-    assertNotNull("Pagar should not be null", delsvarPagar);
+    assertNotNull(delsvarPagar, "Pagar should not be null");
     assertEquals(
-        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
+        lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar), "Pagar not equal");
 
     final Svar.Delsvar delsvarAktuell =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-    assertNotNull("Aktuell should not be null", delsvarAktuell);
+    assertNotNull(delsvarAktuell, "Aktuell should not be null");
     assertEquals(
-        "Aktuell not equal", lakemedelsbehandling.getAktuell(), getStringContent(delsvarAktuell));
+        lakemedelsbehandling.getAktuell(), getStringContent(delsvarAktuell), "Aktuell not equal");
 
     final Svar.Delsvar delsvarPagatt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-    assertNotNull("Pagar should not be null", delsvarPagatt);
+    assertNotNull(delsvarPagatt, "Pagar should not be null");
     assertEquals(
-        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagatt));
+        lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagatt), "Pagar not equal");
 
     final Svar.Delsvar delsvarEffekt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-    assertNotNull("Effekt should not be null", delsvarEffekt);
+    assertNotNull(delsvarEffekt, "Effekt should not be null");
     assertEquals(
-        "Effekt not equal", lakemedelsbehandling.getEffekt(), getBooleanContent(delsvarEffekt));
+        lakemedelsbehandling.getEffekt(), getBooleanContent(delsvarEffekt), "Effekt not equal");
 
     final Svar.Delsvar delsvarFoljsamhet =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-    assertNotNull("Foljsamhet should not be null", delsvarFoljsamhet);
+    assertNotNull(delsvarFoljsamhet, "Foljsamhet should not be null");
     assertEquals(
-        "Foljsamhet not equal",
         lakemedelsbehandling.getFoljsamhet(),
-        getBooleanContent(delsvarFoljsamhet));
+        getBooleanContent(delsvarFoljsamhet),
+        "Foljsamhet not equal");
 
     final Svar.Delsvar delsvarAvslutadTidpunkt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-    assertNull("AvslutadTidpunkt should be null", delsvarAvslutadTidpunkt);
+    assertNull(delsvarAvslutadTidpunkt, "AvslutadTidpunkt should be null");
 
     final Svar.Delsvar delsvarAvslutadOrsak =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-    assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
+    assertNull(delsvarAvslutadOrsak, "AvslutadOrsak should be null");
   }
 
   private void assertLakemedelsbehandlingJaAvslutad(
@@ -592,53 +592,53 @@ class UtlatandeToIntygTest {
     final Svar.Delsvar delsvarHarHaft =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID, LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
-    assertNotNull("HarHaft should not be null", delsvarHarHaft);
+    assertNotNull(delsvarHarHaft, "HarHaft should not be null");
     assertEquals(
-        "HarHaft not equal", lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft));
+        lakemedelsbehandling.getHarHaft(), getBooleanContent(delsvarHarHaft), "HarHaft not equal");
 
     final Svar.Delsvar delsvarPagar =
         svar.getDelsvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID, LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
-    assertNotNull("Pagar should not be null", delsvarPagar);
+    assertNotNull(delsvarPagar, "Pagar should not be null");
     assertEquals(
-        "Pagar not equal", lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar));
+        lakemedelsbehandling.getPagar(), getBooleanContent(delsvarPagar), "Pagar not equal");
 
     final Svar.Delsvar delsvarAktuell =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID, LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
-    assertNull("Aktuell should be null", delsvarAktuell);
+    assertNull(delsvarAktuell, "Aktuell should be null");
 
     final Svar.Delsvar delsvarPagatt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID, LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
-    assertNull("Pagar should be null", delsvarPagatt);
+    assertNull(delsvarPagatt, "Pagar should be null");
 
     final Svar.Delsvar delsvarEffekt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID, LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
-    assertNull("Effekt should be null", delsvarEffekt);
+    assertNull(delsvarEffekt, "Effekt should be null");
 
     final Svar.Delsvar delsvarFoljsamhet =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID, LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
-    assertNull("Foljsamhet should be null", delsvarFoljsamhet);
+    assertNull(delsvarFoljsamhet, "Foljsamhet should be null");
 
     final Svar.Delsvar delsvarAvslutadTidpunkt =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
-    assertNotNull("AvslutadTidpunkt should not be null", delsvarAvslutadTidpunkt);
+    assertNotNull(delsvarAvslutadTidpunkt, "AvslutadTidpunkt should not be null");
     assertEquals(
-        "AvslutadTidpunkt not equal",
         lakemedelsbehandling.getAvslutadTidpunkt(),
-        getStringContent(delsvarAvslutadTidpunkt));
+        getStringContent(delsvarAvslutadTidpunkt),
+        "AvslutadTidpunkt not equal");
 
     final Svar.Delsvar delsvarAvslutadOrsak =
         svar.getDelsvar(
             LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID, LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
-    assertNotNull("AvslutadOrsak should not be null", delsvarAvslutadOrsak);
+    assertNotNull(delsvarAvslutadOrsak, "AvslutadOrsak should not be null");
     assertEquals(
-        "AvslutadOrsak not equal",
         lakemedelsbehandling.getAvslutadOrsak(),
-        getStringContent(delsvarAvslutadOrsak));
+        getStringContent(delsvarAvslutadOrsak),
+        "AvslutadOrsak not equal");
   }
 
   private GrundData buildGrundData(LocalDateTime timeStamp) {

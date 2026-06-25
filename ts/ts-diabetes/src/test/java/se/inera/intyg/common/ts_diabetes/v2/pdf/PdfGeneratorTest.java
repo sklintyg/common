@@ -83,7 +83,7 @@ public class PdfGeneratorTest {
               ApplicationOrigin.MINA_INTYG,
               UtkastStatus.SIGNED,
               MARGIN_TEXT);
-      assertNotNull( pdf,"Error in scenario " + scenario.getName());
+      assertNotNull(pdf, "Error in scenario " + scenario.getName());
       writePdfToFile(pdf, scenario);
     }
   }

@@ -37,8 +37,8 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -139,7 +139,7 @@ public class ConverterTest {
     SchematronOutputType result =
         validator.validateSchematron(
             new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-    assertEquals( 0, SVRLHelper.getAllFailedAssertions(result).size(),getErrorString(result));
+    assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size(), getErrorString(result));
 
     // Why not validate internal model as well?
     internalValidator.validateDraft(utlatandeFromJson);

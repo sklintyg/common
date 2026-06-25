@@ -74,7 +74,7 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
+    assertTrue(p.matcher(pdfResponse.getFilename()).matches(), "Filename must match regexp.");
   }
 
   @Test
@@ -102,6 +102,6 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^lakarintyg_transportstyrelsen_[\\d]{2}-[\\d]{2}-[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
+    assertTrue(p.matcher(pdfResponse.getFilename()).matches(), "Filename must match regexp.");
   }
 }

@@ -59,13 +59,10 @@ import com.google.common.collect.ImmutableSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -73,7 +70,6 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class InternalDraftValidatorTest {
 
@@ -144,8 +140,7 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     ValidationMessage error = res.getValidationErrors().get(0);
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    assertEquals(
-        ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
+    assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
   }
 

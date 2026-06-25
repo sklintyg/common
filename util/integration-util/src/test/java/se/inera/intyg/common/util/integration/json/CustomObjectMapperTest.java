@@ -26,15 +26,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author Magnus Ekstrand on 2017-11-24.
  */
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class CustomObjectMapperTest {
 

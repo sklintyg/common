@@ -20,15 +20,15 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,8 +53,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
@@ -102,17 +102,21 @@ public class WebcertModelFactoryTest {
 
   @Test
   public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(IllegalArgumentException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  });
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(null));
+        });
+  }
 
   @Test
   public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(ConverterException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+        });
+  }
 
   @Test
   public void testUpdateSkapadAv() throws ConverterException {

@@ -65,8 +65,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class InternalDraftValidatorTest {
 
   @Mock WebcertModuleService moduleService;
@@ -1097,7 +1097,7 @@ public class InternalDraftValidatorTest {
             .map(ValidationMessage::getMessage)
             .collect(Collectors.toList());
     assertEquals(2, res.getValidationErrors().size());
-    assertTrue( errors.contains("ag7804.validation.atgarder.too-many"),"Expected too-many");
+    assertTrue(errors.contains("ag7804.validation.atgarder.too-many"), "Expected too-many");
     assertTrue(
         errors.contains("ag7804.validation.atgarder.typ.invalid_combination"),
         "Expected invalid_combination");

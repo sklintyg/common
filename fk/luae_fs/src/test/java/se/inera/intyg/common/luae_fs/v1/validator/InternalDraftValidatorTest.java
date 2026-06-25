@@ -66,8 +66,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 /**
  * @author Magnus Ekstrand on 2016-04-20.
  */
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class InternalDraftValidatorTest {
 
   private static final String PATIENT_PERSON_ID = "19121212-1212";

@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -47,8 +47,8 @@ import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class WebCertModelFactoryImplTest {
 
   private static final String INTYG_ID = "intygsId";
@@ -78,18 +78,18 @@ public class WebCertModelFactoryImplTest {
 
     final TsTrk1062UtlatandeV1 utlatande = modelFactory.createNewWebcertDraft(createNewDraftHolder);
 
-    assertNotNull( utlatande,"Utlatande is null");
+    assertNotNull(utlatande, "Utlatande is null");
     final HoSPersonal skapadAv = utlatande.getGrundData().getSkapadAv();
-    assertNotNull( skapadAv,"SkapadAv is null");
+    assertNotNull(skapadAv, "SkapadAv is null");
     assertEquals(
         vardenhet.getVardgivare().getVardgivarid(),
         skapadAv.getVardenhet().getVardgivare().getVardgivarid(),
         "Vårdgivare not equal");
-    assertEquals( vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid(),
-        "Vårdenhet not equal");
-    assertEquals( hosPersonal.getPersonId(), skapadAv.getPersonId(),"PersonalId not equal");
+    assertEquals(
+        vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid(), "Vårdenhet not equal");
+    assertEquals(hosPersonal.getPersonId(), skapadAv.getPersonId(), "PersonalId not equal");
     final Patient actualPatient = utlatande.getGrundData().getPatient();
-    assertNotNull( actualPatient,"Patient is null");
+    assertNotNull(actualPatient, "Patient is null");
     assertEquals(
         patient.getPersonId().getPersonnummer(),
         actualPatient.getPersonId().getPersonnummer(),
@@ -110,16 +110,16 @@ public class WebCertModelFactoryImplTest {
     final TsTrk1062UtlatandeV1 utlatandeCopy =
         modelFactory.createCopy(createDraftCopyHolder, utlatande);
 
-    assertNotNull( utlatandeCopy,"UtlatandeCopy is null");
-    assertEquals( INTYG_ID, utlatandeCopy.getId(),"IntygsId not equal");
-    assertNotNull( utlatandeCopy.getGrundData(),"Grunddata not null");
-    assertNotNull( utlatandeCopy.getGrundData().getPatient(),"Patient not null");
+    assertNotNull(utlatandeCopy, "UtlatandeCopy is null");
+    assertEquals(INTYG_ID, utlatandeCopy.getId(), "IntygsId not equal");
+    assertNotNull(utlatandeCopy.getGrundData(), "Grunddata not null");
+    assertNotNull(utlatandeCopy.getGrundData().getPatient(), "Patient not null");
     assertEquals(
         "191212121212",
         utlatandeCopy.getGrundData().getPatient().getPersonId().getPersonnummer(),
         "PatientId not equal");
-    assertNotNull( utlatandeCopy.getGrundData().getSkapadAv(),"SkapadAv not null");
-    assertEquals( "TST12345678", utlatandeCopy.getGrundData().getSkapadAv().getPersonId(),"");
+    assertNotNull(utlatandeCopy.getGrundData().getSkapadAv(), "SkapadAv not null");
+    assertEquals("TST12345678", utlatandeCopy.getGrundData().getSkapadAv().getPersonId(), "");
     assertEquals(
         "VårdenhetsId",
         utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getEnhetsid(),
@@ -128,34 +128,41 @@ public class WebCertModelFactoryImplTest {
         "VårdgivarId",
         utlatandeCopy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid(),
         "");
-    assertNull( utlatandeCopy.getSignature(),"Signature is not null");
+    assertNull(utlatandeCopy.getSignature(), "Signature is not null");
   }
 
   @Test
   public void testCreateCopyOfOtherType() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    final Vardenhet vardenhet = getVardenhet();
-    final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
-    final CreateDraftCopyHolder createDraftCopyHolder =
-        new CreateDraftCopyHolder(INTYG_ID, hosPersonal);
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          final Vardenhet vardenhet = getVardenhet();
+          final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
+          final CreateDraftCopyHolder createDraftCopyHolder =
+              new CreateDraftCopyHolder(INTYG_ID, hosPersonal);
 
-    modelFactory.createCopy(createDraftCopyHolder, otherTypeOfUtlatande());
-  });
-    }
+          modelFactory.createCopy(createDraftCopyHolder, otherTypeOfUtlatande());
+        });
+  }
 
   @Test
   public void testCreateCopyWithoutId() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    TsTrk1062UtlatandeV1 utlatande =
-        TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          TsTrk1062UtlatandeV1 utlatande =
+              TsTrk1062UtlatandeV1.builder()
+                  .setGrundData(buildGrundData(LocalDateTime.now()))
+                  .build();
 
-    final Vardenhet vardenhet = getVardenhet();
-    final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
-    final CreateDraftCopyHolder createDraftCopyHolder = new CreateDraftCopyHolder("", hosPersonal);
+          final Vardenhet vardenhet = getVardenhet();
+          final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
+          final CreateDraftCopyHolder createDraftCopyHolder =
+              new CreateDraftCopyHolder("", hosPersonal);
 
-    modelFactory.createCopy(createDraftCopyHolder, utlatande);
-  });
-    }
+          modelFactory.createCopy(createDraftCopyHolder, utlatande);
+        });
+  }
 
   private Utlatande otherTypeOfUtlatande() {
     return new Utlatande() {

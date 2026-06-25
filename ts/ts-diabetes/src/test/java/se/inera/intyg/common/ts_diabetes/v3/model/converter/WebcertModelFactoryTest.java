@@ -18,18 +18,18 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -102,24 +102,27 @@ public class WebcertModelFactoryTest {
         "VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
     assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
     assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
-    assertEquals(
-        "191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+    assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
     assertEquals(INTYG_TYPE_VERSION_3_1, draft.getTextVersion());
   }
 
   @Test
   public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(IllegalArgumentException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  });
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(null));
+        });
+  }
 
   @Test
   public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(ConverterException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+        });
+  }
 
   @Test
   public void testUpdateSkapadAv() throws ConverterException {

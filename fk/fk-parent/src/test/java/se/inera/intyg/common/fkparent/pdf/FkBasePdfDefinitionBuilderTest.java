@@ -22,8 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
@@ -35,8 +35,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -45,7 +43,6 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 /** Created by marced on 2016-10-25. */
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class FkBasePdfDefinitionBuilderTest {
 
@@ -166,10 +163,12 @@ public class FkBasePdfDefinitionBuilderTest {
 
   @Test
   public void testGetTextMissingText() throws Exception {
-        assertThrows(IllegalArgumentException.class, () -> {
-    builder.getText(KEY_MISSING_TEXT);
-  });
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          builder.getText(KEY_MISSING_TEXT);
+        });
+  }
 
   @Test
   public void testGetTextMissingAllowed() {

@@ -87,6 +87,6 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^af_lakarintyg_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
+    assertTrue(p.matcher(pdfResponse.getFilename()).matches(), "Filename must match regexp.");
   }
 }

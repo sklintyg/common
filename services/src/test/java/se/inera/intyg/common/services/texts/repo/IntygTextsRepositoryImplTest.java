@@ -51,14 +51,14 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals( "1.1.0.1", result,"should return max version");
+    assertEquals("1.1.0.1", result, "should return max version");
   }
 
   @Test
   public void testGetLatestVersionNull() {
     repo.intygTexts = new HashSet<>();
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals( null, result,"should return null");
+    assertEquals(null, result, "should return null");
   }
 
   @Test
@@ -89,7 +89,7 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals( "1.1", result,"should return max version");
+    assertEquals("1.1", result, "should return max version");
   }
 
   @Test
@@ -155,7 +155,7 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals( "1.1", result,"should return max version");
+    assertEquals("1.1", result, "should return max version");
   }
 
   @Test
@@ -184,8 +184,8 @@ public class IntygTextsRepositoryImplTest {
             add(testData);
           }
         };
-    assertEquals( testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"),
-        "should return the IntygText in set");
+    assertEquals(
+        testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"), "should return the IntygText in set");
   }
 
   @Test

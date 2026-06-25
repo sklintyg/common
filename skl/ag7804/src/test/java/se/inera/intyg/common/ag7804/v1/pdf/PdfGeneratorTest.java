@@ -76,7 +76,7 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^" + CERTIFICATE_FILE_BASE_NAME + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
+    assertTrue(p.matcher(pdfResponse.getFilename()).matches(), "Filename must match regexp.");
   }
 
   @Test
@@ -106,6 +106,6 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^" + CERTIFICATE_FILE_BASE_NAME + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
+    assertTrue(p.matcher(pdfResponse.getFilename()).matches(), "Filename must match regexp.");
   }
 }

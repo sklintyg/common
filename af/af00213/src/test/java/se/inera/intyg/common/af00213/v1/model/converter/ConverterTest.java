@@ -133,7 +133,7 @@ public class ConverterTest {
     SchematronOutputType result =
         validator.validateSchematron(
             new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-    assertEquals( 0, SVRLHelper.getAllFailedAssertions(result).size(),getErrorString(result));
+    assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size(), getErrorString(result));
 
     // Why not validate internal model as well?
     internalValidator.validateDraft(utlatandeFromJson);

@@ -68,8 +68,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -90,7 +88,6 @@ import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class InternalValidatorInstanceImplTest {
 
@@ -128,7 +125,7 @@ public class InternalValidatorInstanceImplTest {
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
 
-    assertFalse( validateDraftResponse.hasErrorMessages(),"Shouldn't have error messages");
+    assertFalse(validateDraftResponse.hasErrorMessages(), "Shouldn't have error messages");
   }
 
   @Test
@@ -231,7 +228,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals( 2, validationMessages.size(),"Should have two error messages");
+    assertEquals(2, validationMessages.size(), "Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -263,7 +260,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals( 2, validationMessages.size(),"Should have two error messages");
+    assertEquals(2, validationMessages.size(), "Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -379,7 +376,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals( 3, validationMessages.size(),"Should have three error messages");
+    assertEquals(3, validationMessages.size(), "Should have three error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -426,7 +423,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals( 3, validationMessages.size(),"Should have three error messages");
+    assertEquals(3, validationMessages.size(), "Should have three error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -513,7 +510,7 @@ public class InternalValidatorInstanceImplTest {
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
     final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-    assertEquals( 2, validationMessages.size(),"Should have two error messages");
+    assertEquals(2, validationMessages.size(), "Should have two error messages");
 
     final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
@@ -935,7 +932,7 @@ public class InternalValidatorInstanceImplTest {
       String category,
       String field) {
     final ValidationMessage validationMessage = validationMessageMap.get(field);
-    assertNotNull( validationMessage,"Missing message for " + field);
+    assertNotNull(validationMessage, "Missing message for " + field);
     assertValidationMessage(validationMessage, validationMessageType, category, field);
   }
 
@@ -949,7 +946,7 @@ public class InternalValidatorInstanceImplTest {
       ValidationMessageType validationMessageType,
       String category,
       String field) {
-    assertEquals( 1, validationMessage.size(),"Should have error messages");
+    assertEquals(1, validationMessage.size(), "Should have error messages");
     assertValidationMessage(validationMessage.get(0), validationMessageType, category, field);
   }
 
@@ -958,10 +955,10 @@ public class InternalValidatorInstanceImplTest {
       ValidationMessageType validationMessageType,
       String category,
       String field) {
-    assertEquals( validationMessageType, validationMessage.getType(),
-        "Should have Empty message type");
-    assertEquals( category, validationMessage.getCategory(),"Should have category: " + category);
-    assertEquals( field, validationMessage.getField(),"Should have field: " + field);
+    assertEquals(
+        validationMessageType, validationMessage.getType(), "Should have Empty message type");
+    assertEquals(category, validationMessage.getCategory(), "Should have category: " + category);
+    assertEquals(field, validationMessage.getField(), "Should have field: " + field);
   }
 
   private GrundData buildGrundData(LocalDateTime timeStamp) {

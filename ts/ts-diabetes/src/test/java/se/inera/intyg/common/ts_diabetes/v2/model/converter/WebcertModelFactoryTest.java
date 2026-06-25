@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -32,8 +32,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -156,11 +156,13 @@ public class WebcertModelFactoryTest {
 
   @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    factory.createCopy(
-        new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatandeV2());
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          factory.createCopy(
+              new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatandeV2());
+        });
+  }
 
   @Test
   public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {

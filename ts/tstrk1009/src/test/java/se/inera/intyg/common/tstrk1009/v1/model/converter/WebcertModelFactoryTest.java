@@ -21,16 +21,16 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,8 +55,8 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class WebcertModelFactoryTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -119,11 +119,14 @@ public class WebcertModelFactoryTest {
 
   @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
-        assertThrows(ConverterException.class, () -> {
-    factory.createCopy(
-        new CreateDraftCopyHolder("", new HoSPersonal()), Tstrk1009UtlatandeV1.builder().build());
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          factory.createCopy(
+              new CreateDraftCopyHolder("", new HoSPersonal()),
+              Tstrk1009UtlatandeV1.builder().build());
+        });
+  }
 
   @Test
   public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {

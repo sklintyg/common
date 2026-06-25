@@ -20,16 +20,16 @@ package se.inera.intyg.common.af00251.v1.model.converter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,9 +53,9 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
-public class WebcertModelFactoryTest {
+@MockitoSettings(strictness = Strictness.LENIENT)
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -66,7 +66,7 @@ public class WebcertModelFactoryTest {
   @Mock private IntygTextsService intygTextsService;
 
   @BeforeEach
-  public void setUps() {
+  void setUps() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(AF00251EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_2);
@@ -103,17 +103,21 @@ public class WebcertModelFactoryTest {
 
   @Test
   public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(IllegalArgumentException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  });
-    }
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(null));
+        });
+  }
 
   @Test
   public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        assertThrows(ConverterException.class, () -> {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
-  });
-    }
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+        });
+  }
 
   @Test
   public void testUpdateSkapadAv() throws ConverterException {

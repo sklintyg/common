@@ -20,8 +20,8 @@ package se.inera.intyg.common.ts_diabetes.v2.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -36,8 +36,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
@@ -51,7 +49,6 @@ import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 public class RegisterTSDiabetesResponderImplTest {
 
@@ -132,12 +129,14 @@ public class RegisterTSDiabetesResponderImplTest {
 
   @Test
   public void testRegisterTSDiabetesJAXBException() throws Exception {
-        assertThrows(RuntimeException.class, () -> {
-    ReflectionTestUtils.setField(responder, "objectFactory", null);
-    RegisterTSDiabetesType request =
-        ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+    assertThrows(
+        RuntimeException.class,
+        () -> {
+          ReflectionTestUtils.setField(responder, "objectFactory", null);
+          RegisterTSDiabetesType request =
+              ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
-    responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
-  });
-    }
+          responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
+        });
+  }
 }

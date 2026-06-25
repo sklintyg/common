@@ -43,7 +43,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,8 +52,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -97,7 +94,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 import tools.jackson.core.JacksonException;
 
-@MockitoSettings(strictness = Strictness.LENIENT)
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class TsTrk1062ModuleApiV1Test {
@@ -186,8 +182,8 @@ public class TsTrk1062ModuleApiV1Test {
     final PdfResponse actualPdfResponse =
         moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
 
-    assertNotNull( actualPdfResponse,"PdfResponse is null");
-    assertEquals( expectedPdfResponse, actualPdfResponse,"PdfResponse is not equal");
+    assertNotNull(actualPdfResponse, "PdfResponse is null");
+    assertEquals(expectedPdfResponse, actualPdfResponse, "PdfResponse is not equal");
   }
 
   @Test
@@ -216,72 +212,84 @@ public class TsTrk1062ModuleApiV1Test {
 
   @Test
   public void testSendCertificateToRecipientXmlNull() throws Exception {
-        assertThrows(ModuleException.class, () -> {
-    final String xml = null;
-    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-  });
-    }
+    assertThrows(
+        ModuleException.class,
+        () -> {
+          final String xml = null;
+          moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testSendCertificateToRecipientXmlEmpty() throws Exception {
-        assertThrows(ModuleException.class, () -> {
-    final String xml = "";
-    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-  });
-    }
+    assertThrows(
+        ModuleException.class,
+        () -> {
+          final String xml = "";
+          moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testSendCertificateToRecipientLogicalAdressNull() throws Exception {
-        assertThrows(ModuleException.class, () -> {
-    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-    moduleApi.sendCertificateToRecipient(xml, null, RECIPIENT_ID);
-  });
-    }
+    assertThrows(
+        ModuleException.class,
+        () -> {
+          final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+          moduleApi.sendCertificateToRecipient(xml, null, RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testSendCertificateToRecipientLogicalAdressEmpty() throws Exception {
-        assertThrows(ModuleException.class, () -> {
-    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
-    moduleApi.sendCertificateToRecipient(xml, "", RECIPIENT_ID);
-  });
-    }
+    assertThrows(
+        ModuleException.class,
+        () -> {
+          final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+          moduleApi.sendCertificateToRecipient(xml, "", RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testSendCertificateToRecipientWithErrorResult() throws Exception {
-        assertThrows(ExternalServiceCallException.class, () -> {
-    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+    assertThrows(
+        ExternalServiceCallException.class,
+        () -> {
+          final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
 
-    final RegisterCertificateResponseType mockResponse =
-        mock(RegisterCertificateResponseType.class);
-    final ResultType mockResult = mock(ResultType.class);
+          final RegisterCertificateResponseType mockResponse =
+              mock(RegisterCertificateResponseType.class);
+          final ResultType mockResult = mock(ResultType.class);
 
-    doReturn(mockResponse)
-        .when(registerCertificateResponderInterface)
-        .registerCertificate(eq(LOGICAL_ADDRESS), any());
+          doReturn(mockResponse)
+              .when(registerCertificateResponderInterface)
+              .registerCertificate(eq(LOGICAL_ADDRESS), any());
 
-    doReturn(mockResult).when(mockResponse).getResult();
-    doReturn(ResultCodeType.ERROR).when(mockResult).getResultCode();
+          doReturn(mockResult).when(mockResponse).getResult();
+          doReturn(ResultCodeType.ERROR).when(mockResult).getResultCode();
 
-    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-  });
-    }
+          moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testSendCertificateToRecipientWithSOAPError() throws Exception {
-        assertThrows(ExternalServiceCallException.class, () -> {
-    final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
+    assertThrows(
+        ExternalServiceCallException.class,
+        () -> {
+          final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
 
-    final RegisterCertificateResponseType mockResponse =
-        mock(RegisterCertificateResponseType.class);
-    final SOAPFault mockFault = mock(SOAPFault.class);
+          final RegisterCertificateResponseType mockResponse =
+              mock(RegisterCertificateResponseType.class);
+          final SOAPFault mockFault = mock(SOAPFault.class);
 
-    doThrow(new SOAPFaultException(mockFault))
-        .when(registerCertificateResponderInterface)
-        .registerCertificate(eq(LOGICAL_ADDRESS), any());
+          doThrow(new SOAPFaultException(mockFault))
+              .when(registerCertificateResponderInterface)
+              .registerCertificate(eq(LOGICAL_ADDRESS), any());
 
-    moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
-  });
-    }
+          moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
+        });
+  }
 
   @Test
   public void testUtlatandeFromXml() throws Exception {
@@ -289,17 +297,19 @@ public class TsTrk1062ModuleApiV1Test {
 
     final TsTrk1062UtlatandeV1 utlatande = moduleApi.getUtlatandeFromXml(xml);
 
-    assertNotNull( utlatande,"Utlatande is null");
+    assertNotNull(utlatande, "Utlatande is null");
   }
 
   @Test
   public void testUtlatandeFromXmlIncorrectXml() throws Exception {
-        assertThrows(ModuleException.class, () -> {
-    final String xml = "INCORRECT XML";
+    assertThrows(
+        ModuleException.class,
+        () -> {
+          final String xml = "INCORRECT XML";
 
-    moduleApi.getUtlatandeFromXml(xml);
-  });
-    }
+          moduleApi.getUtlatandeFromXml(xml);
+        });
+  }
 
   @Test
   public void testConvertUtlatandeToIntyg() throws Exception {
@@ -308,7 +318,7 @@ public class TsTrk1062ModuleApiV1Test {
 
     final Intyg intyg = moduleApi.utlatandeToIntyg(utlatande);
 
-    assertNotNull( intyg,"Intyg is null");
+    assertNotNull(intyg, "Intyg is null");
   }
 
   @Test
@@ -316,7 +326,7 @@ public class TsTrk1062ModuleApiV1Test {
     final RegisterCertificateValidator actualRegisterCertificateValidator =
         moduleApi.getRegisterCertificateValidator();
 
-    assertNotNull( actualRegisterCertificateValidator,"RegisterCertificateValidator is null");
+    assertNotNull(actualRegisterCertificateValidator, "RegisterCertificateValidator is null");
   }
 
   @Test
@@ -327,7 +337,7 @@ public class TsTrk1062ModuleApiV1Test {
     final RegisterCertificateType actualRegisterCertificateType =
         moduleApi.internalToTransport(utlatande);
 
-    assertNotNull( actualRegisterCertificateType,"RegisterCertificateType");
+    assertNotNull(actualRegisterCertificateType, "RegisterCertificateType");
   }
 
   @Test
@@ -338,10 +348,10 @@ public class TsTrk1062ModuleApiV1Test {
     final PatientDetailResolveOrder actualPatientDetailResolveOrder =
         moduleApi.getPatientDetailResolveOrder();
 
-    assertNotNull( actualPatientDetailResolveOrder,"PatientDetailResolveOrder");
+    assertNotNull(actualPatientDetailResolveOrder, "PatientDetailResolveOrder");
     final List<PatientDetailResolveOrder.ResolveOrder> actualAdressOrder =
         actualPatientDetailResolveOrder.getAdressStrategy();
-    assertNotNull( actualAdressOrder,"AddressResolveOrder should not be null");
+    assertNotNull(actualAdressOrder, "AddressResolveOrder should not be null");
     assertEquals(
         expectedAddressOrder.size(),
         actualAdressOrder.size(),
@@ -362,12 +372,12 @@ public class TsTrk1062ModuleApiV1Test {
     final PatientDetailResolveOrder actualPatientDetailResolveOrder =
         moduleApi.getPatientDetailResolveOrder();
 
-    assertNotNull( actualPatientDetailResolveOrder,"PatientDetailResolveOrder");
+    assertNotNull(actualPatientDetailResolveOrder, "PatientDetailResolveOrder");
     final List<PatientDetailResolveOrder.ResolveOrder> actualOtherOrder =
         actualPatientDetailResolveOrder.getOtherStrategy();
-    assertNotNull( actualOtherOrder,"OtherResolveOrder should not be null");
-    assertEquals( expectedOtherOrder.size(), actualOtherOrder.size(),
-        "OtherResolveOrder not equal length ");
+    assertNotNull(actualOtherOrder, "OtherResolveOrder should not be null");
+    assertEquals(
+        expectedOtherOrder.size(), actualOtherOrder.size(), "OtherResolveOrder not equal length ");
     for (int i = 0; i < expectedOtherOrder.size(); i++) {
       assertEquals(
           expectedOtherOrder.get(i),
@@ -383,7 +393,7 @@ public class TsTrk1062ModuleApiV1Test {
 
     final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.transportToInternal(intyg);
 
-    assertNotNull( actualUtlatande,"Utlatande should not be null");
+    assertNotNull(actualUtlatande, "Utlatande should not be null");
   }
 
   @Test
@@ -412,9 +422,9 @@ public class TsTrk1062ModuleApiV1Test {
     final TsTrk1062UtlatandeV1 actualUtlatande =
         moduleApi.decorateDiagnoserWithDescriptions(utlatande);
 
-    assertNotNull( actualUtlatande,"Utlatande should not be null");
+    assertNotNull(actualUtlatande, "Utlatande should not be null");
     final List<DiagnosKodad> actualDiagnosKodadList = actualUtlatande.getDiagnosKodad();
-    assertNotNull( actualDiagnosKodadList,"DiagnosKodadList should not be null");
+    assertNotNull(actualDiagnosKodadList, "DiagnosKodadList should not be null");
     assertEquals(
         expectedDiagnosKodadList.size(),
         actualDiagnosKodadList.size(),
