@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,15 +27,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -49,7 +49,7 @@ import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.databind.ObjectMapper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
@@ -64,7 +64,7 @@ public class PdfGeneratorTest {
 
   private List<Status> defaultStatuses;
 
-  @Before
+  @BeforeEach
   public void setup() {
     ReflectionTestUtils.setField(pdfGen, "formFlattening", true);
   }
@@ -83,7 +83,7 @@ public class PdfGeneratorTest {
               ApplicationOrigin.MINA_INTYG,
               UtkastStatus.SIGNED,
               MARGIN_TEXT);
-      assertNotNull("Error in scenario " + scenario.getName(), pdf);
+      assertNotNull( pdf,"Error in scenario " + scenario.getName());
       writePdfToFile(pdf, scenario);
     }
   }

@@ -18,16 +18,18 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
@@ -41,7 +43,7 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
@@ -60,7 +62,7 @@ public class TransportToInternalTest {
     return utlatande.build();
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -83,6 +85,6 @@ public class TransportToInternalTest {
     RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
     TsDiabetesUtlatandeV3 convertedIntyg =
         TransportToInternal.convert(transportCertificate.getIntyg());
-    Assert.assertEquals(originalUtlatande, convertedIntyg);
+    assertEquals(originalUtlatande, convertedIntyg);
   }
 }

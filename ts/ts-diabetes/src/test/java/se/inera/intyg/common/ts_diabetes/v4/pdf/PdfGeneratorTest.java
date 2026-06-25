@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.pdf;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v4.pdf.PdfGenerator.CERTIFICATE_FILE_PREFIX;
 
 import java.io.IOException;
@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -42,7 +42,7 @@ import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
@@ -74,6 +74,6 @@ public class PdfGeneratorTest {
     Pattern p =
         Pattern.compile(
             "^" + CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
-    assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
+    assertTrue( p.matcher(pdfResponse.getFilename()).matches(),"Filename must match regexp.");
   }
 }

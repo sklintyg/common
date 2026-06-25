@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,12 +39,12 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.stream.Collectors;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.rest.AF00251ModuleApiV1;
 import se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl;
@@ -64,7 +64,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import tools.jackson.databind.ObjectMapper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class ConverterTest {
 
@@ -80,7 +80,7 @@ public class ConverterTest {
     MockitoAnnotations.initMocks(this);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -132,7 +132,7 @@ public class ConverterTest {
     SchematronOutputType result =
         validator.validateSchematron(
             new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-    assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
+    assertEquals( 0, SVRLHelper.getAllFailedAssertions(result).size(),getErrorString(result));
 
     // Why not validate internal model as well?
     internalValidator.validateDraft(utlatandeFromJson);

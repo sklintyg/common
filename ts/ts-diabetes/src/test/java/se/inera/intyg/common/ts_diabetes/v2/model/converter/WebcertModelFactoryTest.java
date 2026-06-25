@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -31,15 +32,15 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -58,7 +59,7 @@ import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class WebcertModelFactoryTest {
 
@@ -69,14 +70,14 @@ public class WebcertModelFactoryTest {
 
   @InjectMocks private WebcertModelFactoryImpl factory;
 
-  @Before
+  @BeforeEach
   public void setUpMocks() {
     when(intygTexts.getLatestVersionForSameMajorVersion(
             eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -153,11 +154,13 @@ public class WebcertModelFactoryTest {
     assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
   }
 
-  @Test(expected = ConverterException.class)
+  @Test
   public void testCreateCopyCertificateIdMissing() throws Exception {
+        assertThrows(ConverterException.class, () -> {
     factory.createCopy(
         new CreateDraftCopyHolder("", new HoSPersonal()), new TsDiabetesUtlatandeV2());
-  }
+  });
+    }
 
   @Test
   public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {

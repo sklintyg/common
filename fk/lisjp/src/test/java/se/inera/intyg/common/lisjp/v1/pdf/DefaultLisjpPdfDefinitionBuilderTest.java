@@ -18,17 +18,17 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
@@ -43,7 +43,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * manual visual inspection of the resulting pdf files, as we don't have any way of programmatically
  * assert the content of the pdf.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";

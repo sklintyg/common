@@ -35,12 +35,12 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af00213.v1.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.af_parent.model.converter.RegisterCertificateTestValidator;
@@ -58,7 +58,7 @@ import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(
     classes = {
       BefattningService.class,
@@ -109,7 +109,7 @@ public class InternalToTransportTest {
     return utlatande.build();
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
