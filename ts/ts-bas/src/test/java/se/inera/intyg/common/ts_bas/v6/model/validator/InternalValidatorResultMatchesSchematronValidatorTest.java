@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.helger.base.debug.GlobalDebug;
@@ -36,11 +34,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -53,6 +46,13 @@ import se.inera.intyg.common.ts_bas.v6.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_bas.v6.validator.internal.InternalValidatorInstance;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.api.BeforeEach;
+import java.util.stream.Stream;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test
@@ -61,15 +61,13 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
  *
  * @author erik
  */
-@RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
-  private Scenario scenario;
-
-  private boolean shouldFail;
-
-  // Used for labeling tests.
   private String name;
+
+
+
+
 
   static {
     // avoid com.helger debug log
@@ -78,14 +76,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private static InternalValidatorInstance internalValidator;
 
-  public InternalValidatorResultMatchesSchematronValidatorTest(
-      String name, Scenario scenario, boolean shouldFail) {
-    this.scenario = scenario;
-    this.shouldFail = shouldFail;
-    this.name = name;
-  }
 
-  @Before
+  @BeforeEach
   public void setup() {
     internalValidator = new InternalValidatorInstance();
   }
@@ -96,25 +88,26 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
    *
    * @return Collection<Object [ ]>
    */
-  @Parameters(name = "{index}: Scenario: {0}")
-  public static Collection<Object[]> data() throws ScenarioNotFoundException {
+    static Stream<Arguments> data() throws ScenarioNotFoundException {
 
-    List<Object[]> retList = new ArrayList<>();
+    List<Arguments> retList = new ArrayList<>();
     // Failing tests
     retList.addAll(
         ScenarioFinder.getInternalScenarios("fail-*").stream()
-            .map(u -> new Object[] {u.getName(), u, true})
+            .map(u -> Arguments.of(u.getName(), u, true))
             .collect(Collectors.toList()));
     // Passing tests
     retList.addAll(
         ScenarioFinder.getInternalScenarios("valid-*").stream()
-            .map(u -> new Object[] {u.getName(), u, false})
+            .map(u -> Arguments.of(u.getName(), u, false))
             .collect(Collectors.toList()));
-    return retList;
+    return retList.stream();
   }
 
-  @Test
-  public void testScenarios() throws Exception {
+  @ParameterizedTest(name = "{index}: Scenario: {0}")
+  @MethodSource("data")
+  public void testScenarios(String name, Scenario scenario, boolean shouldFail) throws Exception {
+    this.name = name;
     doInternalAndSchematronValidation(scenario, shouldFail);
   }
 
@@ -158,34 +151,34 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
       String transportValidationErrors) {
     if (fail) {
       assertEquals(
+          getNumberOfTransportValidationErrors(result),
+          getNumberOfInternalValidationErrors(internalValidationResponse),
           String.format(
               "Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
-              name, transportValidationErrors, internalValidationErrors),
-          getNumberOfTransportValidationErrors(result),
-          getNumberOfInternalValidationErrors(internalValidationResponse));
+              name, transportValidationErrors, internalValidationErrors));
 
       assertEquals(
-          String.format("File: %s, Internal validation, expected ValidationStatus.INVALID", name),
           ValidationStatus.INVALID,
-          internalValidationResponse.getStatus());
+          internalValidationResponse.getStatus(),
+          String.format("File: %s, Internal validation, expected ValidationStatus.INVALID", name));
 
       assertTrue(
-          String.format("File: %s, Schematronvalidation, expected errors > 0", name),
-          SVRLHelper.getAllFailedAssertions(result).size() > 0);
+          SVRLHelper.getAllFailedAssertions(result).size() > 0,
+          String.format("File: %s, Schematronvalidation, expected errors > 0", name));
     } else {
       assertEquals(
+          ValidationStatus.VALID,
+          internalValidationResponse.getStatus(),
           String.format(
               "File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-              name, internalValidationErrors),
-          ValidationStatus.VALID,
-          internalValidationResponse.getStatus());
+              name, internalValidationErrors));
 
       assertEquals(
+          0,
+          SVRLHelper.getAllFailedAssertions(result).size(),
           String.format(
               "File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-              name, transportValidationErrors),
-          0,
-          SVRLHelper.getAllFailedAssertions(result).size());
+              name, transportValidationErrors));
     }
   }
 

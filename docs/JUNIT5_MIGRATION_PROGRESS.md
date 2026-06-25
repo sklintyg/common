@@ -7,8 +7,8 @@
 | Batch 2 | @RunWith(MockitoJUnitRunner) | 59 | Done | 6a920adb2a |
 | Batch 3 | @RunWith(SpringJUnit4ClassRunner/SpringRunner) | 43 | Done | db3e846cb8 |
 | Step 0 | Fix assertion order + trim @MockitoSettings(LENIENT) | 59 | Done | — |
-| Batch 1 | Plain JUnit 4, no @RunWith | ~79 | **To do** | — |
-| Batch 4 | @RunWith(Parameterized) | 11 | **To do** | — |
+| Batch 1 | Plain JUnit 4, no @RunWith | 79 | Done | d927123aad |
+| Batch 4 | @RunWith(Parameterized) | 11 | Done | — |
 | Batch 5 | Remove JUnit 4 build deps | — | **To do** | — |
 
 Note: Batches were executed out of original plan order (2 and 3 before 1).
@@ -84,7 +84,7 @@ Two fixes applied to Batch 2 files, all tests pass:
 
 ---
 
-## Batch 1 — To do: Plain JUnit 4, no @RunWith (~79 files)
+## Batch 1 — Done (commit d927123aad): Plain JUnit 4, no @RunWith (79 files)
 
 Files identified (as of Batch 3 completion):
 
@@ -129,7 +129,7 @@ util         - CustomLocalDateDeserializerTest, InternalDateDeserializerTest,
 
 ---
 
-## Batch 4 — To do: Parameterized tests (11 files)
+## Batch 4 — Done: Parameterized tests (11 files)
 
 ```
 fk/lisjp    - InternalValidatorResultMatchesSchematronValidatorTest
@@ -144,6 +144,15 @@ ts/ts-bas   - InternalValidatorResultMatchesSchematronValidatorTest (v6)
 ts/ts-bas   - InternalValidatorResultMatchesSchematronValidatorTest (v7)
 ts/tstrk1009 - InternalValidatorResultMatchesSchematronValidatorTest
 ```
+
+Changes applied:
+- `@RunWith(Parameterized.class)` → `@ExtendWith(MockitoExtension.class)` (for fk/skl files)
+- `@Parameters static Collection<Object[]> data()` → `static Stream<Arguments> data()`
+- `new Object[] {a, b}` → `Arguments.of(a, b)`
+- Constructor removed; parameters passed directly to `@ParameterizedTest @MethodSource("data") testScenarios(String, Scenario, boolean)`
+- `this.name = name` set at start of test method; helper methods changed from static to instance
+- `MockitoAnnotations.initMocks(this)` removed (handled by MockitoExtension)
+- `@MockitoSettings(strictness = Strictness.LENIENT)` added to 5 fk/skl files that stub conditionally
 
 ---
 
