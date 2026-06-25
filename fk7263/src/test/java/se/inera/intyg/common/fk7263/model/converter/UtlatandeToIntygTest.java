@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.AKTIVITETSBEGRANSNING_SVAR_17;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SVAR_10006;

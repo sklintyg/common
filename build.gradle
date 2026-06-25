@@ -65,12 +65,9 @@ allprojects {
         implementation "jakarta.xml.ws:jakarta.xml.ws-api"
 
         testImplementation "com.sun.xml.messaging.saaj:saaj-impl"
-        testImplementation "junit:junit"
         testImplementation "org.glassfish.jaxb:jaxb-runtime"
         testImplementation "org.springframework.boot:spring-boot-starter-test"
         testImplementation "org.xmlunit:xmlunit-core"
-
-        testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
     }
 
     tasks.register('packageTests', Jar) {

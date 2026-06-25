@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,7 +57,7 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
 
   @Autowired IntygTextsRepositoryImpl repo;
 
-  @Before
+  @BeforeEach
   public void initIntyg() throws IOException {
 
     intygList.add(
