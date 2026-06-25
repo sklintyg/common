@@ -4,8 +4,8 @@ dependencies {
   implementation project(':common-support')
   implementation project(':logging-util')
 
-  implementation "com.fasterxml.jackson.core:jackson-core"
-  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "tools.jackson.core:jackson-core"
+  implementation "tools.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
   implementation "com.itextpdf:itext7-core:${itext7Version}"

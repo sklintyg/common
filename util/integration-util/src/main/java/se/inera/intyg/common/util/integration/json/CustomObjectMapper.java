@@ -19,16 +19,16 @@
 package se.inera.intyg.common.util.integration.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.model.InternalDate;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.ext.javatime.ser.LocalDateSerializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * Customized Jackson ObjectMapper for the inera-certificate projects.
@@ -39,21 +39,22 @@ import se.inera.intyg.common.support.model.InternalDate;
  * @author andreaskaltenbach
  */
 @Component("objectMapper")
-public class CustomObjectMapper extends ObjectMapper {
-
-  private static final long serialVersionUID = 1L;
+public class CustomObjectMapper extends JsonMapper {
 
   public CustomObjectMapper() {
-    // NON_NULL indicates that only properties with non-null values are to be included.
-    setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-    configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    registerModule(new CustomModule());
+    super(configure(JsonMapper.builder()));
+  }
+
+  private static JsonMapper.Builder configure(JsonMapper.Builder builder) {
+    return builder
+        // NON_NULL indicates that only properties with non-null values are to be included.
+        .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
+        .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .addModule(new CustomModule());
   }
 
   private static final class CustomModule extends SimpleModule {
-
-    private static final long serialVersionUID = 1L;
 
     private CustomModule() {
       addSerializer(Temporal.class, new TemporalSerializer());

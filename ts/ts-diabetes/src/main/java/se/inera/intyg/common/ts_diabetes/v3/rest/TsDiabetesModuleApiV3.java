@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_diabetes.v3.rest;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import jakarta.xml.bind.JAXB;
@@ -80,6 +79,8 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Component(value = "moduleapi.ts-diabetes.v3")
 public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatandeV3> {
@@ -325,7 +326,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV3.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV3);
       return tsDiabetesUtlatandeV3;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -338,7 +339,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV3.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV3, created);
       return tsDiabetesUtlatandeV3;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

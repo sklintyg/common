@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.support.facade.model.value;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 import lombok.With;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDateRange.CertificateDataValueDateRangeBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = CertificateDataValueDateRangeBuilder.class)
 @Value

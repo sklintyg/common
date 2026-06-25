@@ -37,7 +37,6 @@ import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPFault;
 import jakarta.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -94,6 +93,7 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
 
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -444,7 +444,7 @@ public class TsTrk1062ModuleApiV1Test {
   private String toJsonString(TsTrk1062UtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

@@ -20,7 +20,6 @@ package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,6 +47,7 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})

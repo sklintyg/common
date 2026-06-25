@@ -74,6 +74,7 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
 
 @Component(value = "moduleapi.ag7804.v1")
 public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
@@ -149,7 +150,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
       final var ag7804UtlatandeV1 = objectMapper.readValue(internalModel, Ag7804UtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(ag7804UtlatandeV1);
       return ag7804UtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -161,7 +162,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
       final var ag7804UtlatandeV1 = objectMapper.readValue(internalModel, Ag7804UtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(ag7804UtlatandeV1, created);
       return ag7804UtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

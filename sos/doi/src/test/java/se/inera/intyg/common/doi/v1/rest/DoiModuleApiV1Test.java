@@ -36,8 +36,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
@@ -110,6 +108,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
@@ -163,7 +163,7 @@ class DoiModuleApiV1Test {
 
   @Test
   void shouldDecorateWithMappedCareProvider()
-      throws ScenarioNotFoundException, ModuleException, JsonProcessingException {
+      throws ScenarioNotFoundException, ModuleException, JacksonException {
     final var json = "{}";
     when(objectMapper.readValue(json, DoiUtlatandeV1.class))
         .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
@@ -618,7 +618,7 @@ class DoiModuleApiV1Test {
   private String toJsonString(DoiUtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

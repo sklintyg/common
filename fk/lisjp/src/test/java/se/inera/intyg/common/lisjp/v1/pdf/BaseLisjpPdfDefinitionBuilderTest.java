@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,6 +39,7 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-03-08. */
 @ContextConfiguration(classes = {BaseLisjpPdfDefinitionBuilderTest.TestConfiguration.class})

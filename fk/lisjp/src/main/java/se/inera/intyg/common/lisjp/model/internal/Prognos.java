@@ -28,7 +28,7 @@ public abstract class Prognos {
 
   @JsonCreator
   public static Prognos create(
-      @JsonProperty("prognos") PrognosTyp typ,
+      @JsonProperty("typ") PrognosTyp typ,
       @JsonProperty("dagarTillArbete") PrognosDagarTillArbeteTyp dagarTillArbete) {
     return new AutoValue_Prognos(typ, dagarTillArbete);
   }

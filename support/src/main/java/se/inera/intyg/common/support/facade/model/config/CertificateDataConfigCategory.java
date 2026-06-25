@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.facade.model.config;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.config.CertificateDataConfigCategory.CertificateDataConfigCategoryBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = CertificateDataConfigCategoryBuilder.class)
 @Value

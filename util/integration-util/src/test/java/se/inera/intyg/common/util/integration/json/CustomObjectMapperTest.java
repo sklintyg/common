@@ -23,11 +23,11 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author Magnus Ekstrand on 2017-11-24.
@@ -37,10 +37,9 @@ public class CustomObjectMapperTest {
 
   @Test
   public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
-      throws JsonProcessingException {
+      throws JacksonException {
 
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    ObjectMapper mapper = new CustomObjectMapper();
     TestDto dtoObject = new TestDto();
 
     String dtoAsString = mapper.writeValueAsString(dtoObject);

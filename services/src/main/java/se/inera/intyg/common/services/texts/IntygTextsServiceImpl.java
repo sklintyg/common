@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.services.texts;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Component
 public class IntygTextsServiceImpl implements IntygTextsService {
@@ -51,7 +51,7 @@ public class IntygTextsServiceImpl implements IntygTextsService {
   public String getIntygTexts(String intygsTyp, String version) {
     try {
       return mapper.writeValueAsString(repo.getTexts(intygsTyp, version));
-    } catch (JsonProcessingException e) {
+    } catch (JacksonException e) {
       LOG.error(
           "Could not write texts as JSON for certificate of type {} with version {}",
           intygsTyp,

@@ -90,6 +90,7 @@ import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten,
@@ -268,7 +269,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
       final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6);
       return tsBasUtlatandeV6;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -280,7 +281,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
       final var tsBasUtlatandeV6 = objectMapper.readValue(internalModel, TsBasUtlatandeV6.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsBasUtlatandeV6, created);
       return tsBasUtlatandeV6;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

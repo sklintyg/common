@@ -71,6 +71,7 @@ import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
 
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
@@ -143,7 +144,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
       final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1);
       return luseUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -155,7 +156,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
       final var luseUtlatandeV1 = objectMapper.readValue(internalModel, LuseUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(luseUtlatandeV1, created);
       return luseUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

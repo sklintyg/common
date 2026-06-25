@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.facade.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
@@ -28,6 +26,8 @@ import se.inera.intyg.common.support.facade.model.config.CertificateDataConfig;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidation;
 import se.inera.intyg.common.support.facade.model.validation.ValidationError;
 import se.inera.intyg.common.support.facade.model.value.CertificateDataValue;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = CertificateDataElementBuilder.class)
 @Value

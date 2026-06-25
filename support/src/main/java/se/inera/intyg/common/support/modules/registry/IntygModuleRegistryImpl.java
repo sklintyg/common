@@ -18,11 +18,8 @@
  */
 package se.inera.intyg.common.support.modules.registry;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import jakarta.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,6 +34,9 @@ import org.springframework.context.ApplicationContextAware;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import tools.jackson.core.exc.StreamReadException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 public class IntygModuleRegistryImpl implements IntygModuleRegistry, ApplicationContextAware {
 
@@ -180,7 +180,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
       }
 
       return version;
-    } catch (IOException e) {
+    } catch (StreamReadException e) {
       throw new ModuleNotFoundException(
           "Could not extract version for " + intygType + " utlatande json model string", e);
     }

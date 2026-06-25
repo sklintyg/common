@@ -5,7 +5,7 @@ dependencies {
   implementation project(":common-support")
 
   implementation "com.fasterxml.jackson.core:jackson-annotations"
-  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "tools.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "commons-io:commons-io:${commonsIoVersion}"
   implementation "org.springframework:spring-beans"

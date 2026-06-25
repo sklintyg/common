@@ -20,7 +20,6 @@ package se.inera.intyg.common.af_parent.rest;
 
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.soap.SOAPFaultException;
@@ -80,6 +79,8 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /** Defines common traits for all Af intyg ModuleApi. */
 public abstract class AfParentModuleApi<T extends AfUtlatande> implements ModuleApi {
@@ -353,7 +354,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   protected T getInternal(String internalModel) throws ModuleException {
     try {
       return objectMapper.readValue(internalModel, type);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
@@ -362,7 +363,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   protected T getInternal(String internalModel, LocalDateTime created) throws ModuleException {
     try {
       return objectMapper.readValue(internalModel, type);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
@@ -371,7 +372,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   protected String toInternalModelResponse(T internalModel) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(internalModel);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleSystemException("Failed to serialize internal model", e);
     }
   }

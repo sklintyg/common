@@ -18,9 +18,6 @@
  */
 package se.inera.intyg.common.support.modules.converter.mapping;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,6 +28,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Component
@@ -46,7 +45,6 @@ public class UnitMappingConfigLoader {
   public void init() {
     unitMappings = new ArrayList<>();
     final var objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
     try (final var resourceAsStream = new FileInputStream(unitMappingConfigPath)) {
       unitMappings = objectMapper.readValue(resourceAsStream, new TypeReference<>() {});
       log.info("Unit mapping configuration was loaded successfully: {}", unitMappings);

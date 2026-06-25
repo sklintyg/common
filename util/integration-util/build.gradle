@@ -2,7 +2,7 @@ dependencies {
     implementation project(':common-support')
     implementation project(':logging-util')
 
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    implementation "tools.jackson.core:jackson-databind"
     implementation "org.apache.cxf:cxf-rt-frontend-jaxrs:${cxfVersion}"
     implementation "org.springframework:spring-context"
     implementation "org.springframework:spring-core"

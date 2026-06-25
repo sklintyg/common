@@ -32,12 +32,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
@@ -101,6 +99,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
@@ -314,7 +314,7 @@ class TsParentModuleApiTest {
 
   @Test
   public void testGetUtlatandeFromJsonInvalidJson() throws Exception {
-    assertThrows(IOException.class, () -> moduleApi.getUtlatandeFromJson("invalidJson"));
+    assertThrows(JacksonException.class, () -> moduleApi.getUtlatandeFromJson("invalidJson"));
   }
 
   @Test

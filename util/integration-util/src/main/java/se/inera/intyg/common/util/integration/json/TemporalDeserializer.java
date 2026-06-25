@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import static com.fasterxml.jackson.core.JsonToken.VALUE_STRING;
+import static tools.jackson.core.JsonToken.VALUE_STRING;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import java.time.temporal.Temporal;
 import se.inera.intyg.common.util.integration.schema.adapter.PartialDateAdapter;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * @author andreaskaltenbach
@@ -39,9 +38,9 @@ public class TemporalDeserializer extends StdDeserializer<Temporal> {
   }
 
   @Override
-  public Temporal deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+  public Temporal deserialize(JsonParser jp, DeserializationContext ctxt) {
 
-    if (jp.getCurrentToken() != VALUE_STRING) {
+    if (jp.currentToken() != VALUE_STRING) {
       throw ctxt.wrongTokenException(jp, Temporal.class, VALUE_STRING, "expected JSON String");
     }
 

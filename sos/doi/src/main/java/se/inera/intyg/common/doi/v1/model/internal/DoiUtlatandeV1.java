@@ -43,7 +43,6 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DO
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import jakarta.annotation.Nullable;
@@ -57,6 +56,7 @@ import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DoiUtlatandeV1.Builder.class)

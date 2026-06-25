@@ -45,7 +45,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
@@ -119,6 +118,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.databind.DatabindException;
 
 @ExtendWith(MockitoExtension.class)
 class LuseModuleApiV1Test {
@@ -359,7 +359,7 @@ class LuseModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
-      throws ScenarioNotFoundException, JsonProcessingException {
+      throws ScenarioNotFoundException, DatabindException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -378,7 +378,7 @@ class LuseModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnBadCertificate()
-      throws ScenarioNotFoundException, JsonProcessingException {
+      throws ScenarioNotFoundException, DatabindException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
 
@@ -727,7 +727,7 @@ class LuseModuleApiV1Test {
   private String toJsonString(LuseUtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (DatabindException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

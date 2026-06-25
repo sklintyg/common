@@ -27,8 +27,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -100,8 +98,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateEditableModel()
-      throws JsonParseException, JsonMappingException, IOException, ConverterException {
+  public void testCreateEditableModel() throws IOException, ConverterException {
     TsDiabetesUtlatandeV2 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
     assertNotNull(utlatande);

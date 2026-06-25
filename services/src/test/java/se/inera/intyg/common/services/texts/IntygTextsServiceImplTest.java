@@ -28,7 +28,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -36,6 +35,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.core.JacksonException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IntygTextsServiceImplTest {
@@ -63,7 +63,7 @@ public class IntygTextsServiceImplTest {
   }
 
   @Test
-  public void testGetTexts() throws JsonProcessingException {
+  public void testGetTexts() throws JacksonException {
     when(repo.getTexts(any(String.class), any(String.class))).thenReturn(null);
     when(mapper.writeValueAsString(any())).thenReturn("null");
     String result = service.getIntygTexts("LISJP", "0.9");

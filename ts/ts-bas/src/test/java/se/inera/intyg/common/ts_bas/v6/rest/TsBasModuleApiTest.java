@@ -35,8 +35,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
@@ -108,6 +106,8 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place
@@ -163,7 +163,7 @@ class TsBasModuleApiTest {
 
   @Test
   void shouldDecorateWithMappedCareProvider()
-      throws ScenarioNotFoundException, ModuleException, JsonProcessingException {
+      throws ScenarioNotFoundException, ModuleException, JacksonException {
     final var json = "{}";
     when(objectMapper.readValue(json, TsBasUtlatandeV6.class))
         .thenReturn(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
@@ -667,7 +667,7 @@ class TsBasModuleApiTest {
   private String toJsonString(TsBasUtlatandeV6 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

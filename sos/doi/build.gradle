@@ -5,7 +5,7 @@ dependencies {
   implementation project(':common-support')
 
   implementation "com.fasterxml.jackson.core:jackson-annotations"
-  implementation "com.fasterxml.jackson.core:jackson-databind"
+  implementation "tools.jackson.core:jackson-databind"
   implementation "com.google.guava:guava:${guavaVersion}"
   implementation "com.itextpdf:itextpdf:${itextVersion}"
   implementation "org.springframework:spring-context"

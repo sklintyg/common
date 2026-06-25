@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,6 +29,7 @@ import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Tests the {@link Personnummer} class in a context where test dependencies to common-support are

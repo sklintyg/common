@@ -83,6 +83,7 @@ import se.inera.intyg.common.support.modules.support.facade.FillType;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
 
 @Component(value = "moduleapi.lisjp.v1")
 public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
@@ -157,7 +158,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
       final var lisjpUtlatandeV1 = objectMapper.readValue(internalModel, LisjpUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(lisjpUtlatandeV1);
       return lisjpUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -169,7 +170,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
       final var lisjpUtlatandeV1 = objectMapper.readValue(internalModel, LisjpUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(lisjpUtlatandeV1, created);
       return lisjpUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

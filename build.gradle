@@ -8,12 +8,12 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchemasVersion = "1.1.0.1"
-    intygClinicalprocessSchematronVersion = "1.1.0.1"
-    intygTransportstyrelsenSchemasVersion = "1.1.0.1"
-    rivtaClinicalprocessSchemasVersion = "4.0.5.4"
-    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.3"
-    schemasContractVersion = "2.2.0.1"
+    intygClinicalprocessSchemasVersion = "1.2.0.1"
+    intygClinicalprocessSchematronVersion = "1.2.0.1"
+    intygTransportstyrelsenSchemasVersion = "1.2.0.1"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.5"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.4"
+    schemasContractVersion = "2.3.0.1"
 
     autovalueVersion = "1.11.1"
     cxfVersion = "4.1.4"
@@ -34,7 +34,7 @@ ext {
     saxonVersion = "12.9"
     spotbugsAnnotationVersion = "4.9.8"
 
-    springbootMavenBomVersion = "3.5.10"
+    springbootMavenBomVersion = "4.1.0"
 
     nvdMirror = 'https://vulnz-nvd-mirror-devtest.intyg.nordicmedtest.se'
 }

@@ -23,11 +23,11 @@ import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializer
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.THREE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.TWO;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.EnumSet;
 import org.junit.Test;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 public class EnumSetSerializerDeserializerTest {
 

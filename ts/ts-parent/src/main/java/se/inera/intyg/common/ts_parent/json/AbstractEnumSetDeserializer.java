@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
 
 /**
  * Helper class that instructs Jackson to parse JSON like below to {@link EnumSet}. <code>
@@ -48,7 +47,7 @@ import java.util.Map;
  * @param <E> An enum type.
  */
 public abstract class AbstractEnumSetDeserializer<E extends Enum<E>>
-    extends JsonDeserializer<EnumSet<E>> {
+    extends ValueDeserializer<EnumSet<E>> {
 
   private final Class<E> enumType;
 
@@ -63,14 +62,14 @@ public abstract class AbstractEnumSetDeserializer<E extends Enum<E>>
   }
 
   @Override
-  public EnumSet<E> deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+  public EnumSet<E> deserialize(JsonParser jp, DeserializationContext ctxt) {
     EnumSet<E> enumSet = EnumSet.noneOf(enumType);
 
     while (jp.nextToken() != JsonToken.END_ARRAY) {
       String enumName = null;
       Boolean enumIsSet = null;
       while (jp.nextToken() != JsonToken.END_OBJECT) {
-        String field = jp.getCurrentName();
+        String field = jp.currentName();
         jp.nextToken();
         if ("type".equals(field)) {
           enumName = jp.getValueAsString();

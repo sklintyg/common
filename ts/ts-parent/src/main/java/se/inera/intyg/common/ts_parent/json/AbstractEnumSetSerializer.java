@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import java.io.IOException;
 import java.util.EnumSet;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
 
 /**
  * Helper class that instructs Jackson to parse {@link EnumSet}s to JSON as follows. <code>
@@ -44,7 +43,7 @@ import java.util.EnumSet;
  * @param <E> An enum type.
  * @see com.fasterxml.jackson.databind.annotation.JsonSerialize
  */
-public class AbstractEnumSetSerializer<E extends Enum<E>> extends JsonSerializer<EnumSet<E>> {
+public class AbstractEnumSetSerializer<E extends Enum<E>> extends ValueSerializer<EnumSet<E>> {
 
   private final Class<E> enumType;
 
@@ -53,14 +52,13 @@ public class AbstractEnumSetSerializer<E extends Enum<E>> extends JsonSerializer
   }
 
   @Override
-  public void serialize(EnumSet<E> enumSet, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException {
+  public void serialize(EnumSet<E> enumSet, JsonGenerator jgen, SerializationContext provider) {
 
     jgen.writeStartArray();
     for (E enumValue : enumType.getEnumConstants()) {
       jgen.writeStartObject();
-      jgen.writeStringField("type", enumValue.name());
-      jgen.writeBooleanField("selected", enumSet.contains(enumValue));
+      jgen.writeStringProperty("type", enumValue.name());
+      jgen.writeBooleanProperty("selected", enumSet.contains(enumValue));
       jgen.writeEndObject();
     }
     jgen.writeEndArray();

@@ -18,15 +18,14 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * This class is based on the LocalDateDeserializer class. It's content was copied and slightly
@@ -78,9 +77,9 @@ public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
    * @return Deserializer value as LocalDate
    */
   @Override
-  public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+  public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt) {
 
-    switch (jp.getCurrentToken()) {
+    switch (jp.currentToken()) {
       case START_ARRAY:
         // [yyyy,MM,dd]
         jp.nextToken(); // VALUE_NUMBER_INT

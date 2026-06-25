@@ -37,7 +37,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
@@ -120,6 +119,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
@@ -457,7 +458,7 @@ class Ag114ModuleApiTest {
 
   @Test
   void testGetUtlatandeFromJsonInvalidJson() {
-    assertThrows(IOException.class, () -> moduleApi.getUtlatandeFromJson("{ invalidJson: }"));
+    assertThrows(JacksonException.class, () -> moduleApi.getUtlatandeFromJson("{ invalidJson: }"));
   }
 
   // Successful usage of getUtlatandeFromXml is used in a lot of other tests
@@ -603,7 +604,7 @@ class Ag114ModuleApiTest {
   private String toJsonString(Ag114UtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }
@@ -676,7 +677,7 @@ class Ag114ModuleApiTest {
   private Ag114UtlatandeV1 getUtlatandeFromFile() throws IOException {
     return new CustomObjectMapper()
         .readValue(
-            Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json"),
+            Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").openStream(),
             Ag114UtlatandeV1.class);
   }
 
