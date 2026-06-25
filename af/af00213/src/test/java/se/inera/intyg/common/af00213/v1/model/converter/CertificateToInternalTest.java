@@ -54,7 +54,7 @@ class CertificateToInternalTest {
   private Certificate certificate;
 
   @BeforeEach
-  private void setup() {
+  void setup() {
     final var grundData = new GrundData();
     final var hosPersonal = new HoSPersonal();
     final var vardenhet = new Vardenhet();

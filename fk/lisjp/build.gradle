@@ -21,5 +21,4 @@ dependencies {
     testImplementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
     testImplementation "org.apache.commons:commons-lang3"
     testImplementation "org.apache.cxf:cxf-core:${cxfVersion}"
-    testImplementation "org.assertj:assertj-core"
 }
