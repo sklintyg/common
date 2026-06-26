@@ -21,10 +21,10 @@ package se.inera.intyg.common.ts_bas.v6.transformation;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.Source;
@@ -104,7 +104,8 @@ class TSBasV3toV1TransformerTest {
 
     for (String xmlFile : testFiles) {
       String xmlContents =
-          Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("v6/scenarios/rivtav3/" + xmlFile), StandardCharsets.UTF_8);
       final var v3Result = validate(v3Schema, xmlContents);
       if (!v3Result.isEmpty()) {
         fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result);
@@ -121,7 +122,7 @@ class TSBasV3toV1TransformerTest {
 
   private static List<SAXParseException> validate(Schema schema, String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
     Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
     Validator validator = validatorObject.getLeft();

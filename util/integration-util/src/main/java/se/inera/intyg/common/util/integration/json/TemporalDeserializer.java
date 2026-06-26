@@ -44,6 +44,6 @@ public class TemporalDeserializer extends StdDeserializer<Temporal> {
       throw ctxt.wrongTokenException(jp, Temporal.class, VALUE_STRING, "expected JSON String");
     }
 
-    return PartialDateAdapter.parsePartialDate(jp.getText().trim());
+    return PartialDateAdapter.parsePartialDate(jp.getString().trim());
   }
 }

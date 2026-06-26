@@ -21,7 +21,6 @@ package se.inera.intyg.common.fk7263.model.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -29,10 +28,10 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import javax.xml.namespace.QName;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.xml.sax.SAXException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -74,8 +73,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionUtanFalt5()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionUtanFalt5() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -98,10 +96,10 @@ class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -112,7 +110,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionMaximal() throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMaximal() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -135,10 +133,10 @@ class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -149,8 +147,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionWithDiagnosisAsKSH97()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionWithDiagnosisAsKSH97() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -174,10 +171,10 @@ class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -188,7 +185,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionMinimal() throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMinimal() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -211,10 +208,10 @@ class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -225,8 +222,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionKommentar()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionKommentar() throws IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -247,8 +243,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionOrimligtDatum()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionOrimligtDatum() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -273,10 +268,10 @@ class InternalToTransportConverterTest {
             new ClassPathResource(
                     "InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -287,8 +282,7 @@ class InternalToTransportConverterTest {
   }
 
   @Test
-  void testConversionMinimalSmiL()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMinimalSmiL() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -313,10 +307,10 @@ class InternalToTransportConverterTest {
             new ClassPathResource(
                     "InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
@@ -367,17 +361,15 @@ class InternalToTransportConverterTest {
   }
 
   private Personnummer createPnr(String civicRegistrationNumber) {
-    return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
   }
 
   private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
-    JAXBElement<?> jaxbElement =
-        new JAXBElement<>(
-            new QName(
-                "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3",
-                "RegisterMedicalCertificate"),
-            RegisterMedicalCertificateType.class,
-            ws);
-    return jaxbElement;
+    return new JAXBElement<>(
+        new QName(
+            "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3",
+            "RegisterMedicalCertificate"),
+        RegisterMedicalCertificateType.class,
+        ws);
   }
 }

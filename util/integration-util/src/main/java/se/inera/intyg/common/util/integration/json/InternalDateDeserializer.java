@@ -57,8 +57,8 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
         return new InternalDate(
             Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate());
       case VALUE_STRING:
-        String str = jp.getText().trim();
-        if (str.length() == 0) { // [JACKSON-360]
+        String str = jp.getString().trim();
+        if (str.isEmpty()) { // [JACKSON-360]
           return null;
         }
 

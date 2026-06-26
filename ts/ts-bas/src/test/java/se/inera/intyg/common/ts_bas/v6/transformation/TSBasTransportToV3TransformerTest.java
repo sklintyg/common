@@ -22,10 +22,10 @@ import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.Source;
@@ -111,7 +111,8 @@ class TSBasTransportToV3TransformerTest {
     for (String xmlFile : testFiles) {
       System.out.println("xmlFile = " + xmlFile);
       String xmlContents =
-          Resources.toString(getResource("v6/scenarios/transport/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("v6/scenarios/transport/" + xmlFile), StandardCharsets.UTF_8);
       final var intygstjansterResult = validate(intygstjansterSchema, xmlContents);
       if (!intygstjansterResult.isEmpty()) {
         fail(
@@ -130,7 +131,8 @@ class TSBasTransportToV3TransformerTest {
 
       String expectedXmlContents =
           Resources.toString(
-              getResource("v6/scenarios/rivtav3/transportToV3xml/" + xmlFile), Charsets.UTF_8);
+              getResource("v6/scenarios/rivtav3/transportToV3xml/" + xmlFile),
+              StandardCharsets.UTF_8);
 
       Diff diff =
           DiffBuilder.compare(Input.fromString(expectedXmlContents))
@@ -147,7 +149,7 @@ class TSBasTransportToV3TransformerTest {
 
   private static List<SAXParseException> validate(Schema schema, String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
     Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
     Validator validator = validatorObject.getLeft();

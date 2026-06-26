@@ -316,7 +316,7 @@ public class PrefillHandler {
 
     // Fallback handling
     if (grundForMedicinsktUnderlagDatum == null
-        || StringUtils.isEmpty(grundForMedicinsktUnderlagDatum.getDate())) {
+        || !StringUtils.hasLength(grundForMedicinsktUnderlagDatum.getDate())) {
       grundForMedicinsktUnderlagDatum = new InternalDate(LocalDate.now());
 
       pr.addMessage(
@@ -717,7 +717,7 @@ public class PrefillHandler {
     // any diagnoseDescription needs fallback handling, we handle it now
 
     if (diagnosKod != null) {
-      if (StringUtils.isEmpty(diagnosBeskrivning)) {
+      if (!StringUtils.hasLength(diagnosBeskrivning)) {
         diagnosBeskrivning =
             handleDiagnoseLookup(
                 pr, diagnosKod, diagnoskodverk.name(), DIAGNOS_BESKRIVNING_DELSVAR_ID_6);
@@ -728,7 +728,7 @@ public class PrefillHandler {
       addIfNotPresentOrElseLog(diagnoser, diagnos, pr, svar);
     }
     if (bidiagnosKod1 != null) {
-      if (StringUtils.isEmpty(bidiagnosBeskrivning1)) {
+      if (!StringUtils.hasLength(bidiagnosBeskrivning1)) {
         bidiagnosBeskrivning1 =
             handleDiagnoseLookup(
                 pr, bidiagnosKod1, bidiagnoskodverk1.name(), BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6);
@@ -742,7 +742,7 @@ public class PrefillHandler {
       addIfNotPresentOrElseLog(diagnoser, diagnos, pr, svar);
     }
     if (bidiagnosKod2 != null) {
-      if (StringUtils.isEmpty(bidiagnosBeskrivning2)) {
+      if (!StringUtils.hasLength(bidiagnosBeskrivning2)) {
         bidiagnosBeskrivning2 =
             handleDiagnoseLookup(
                 pr, bidiagnosKod2, bidiagnoskodverk2.name(), BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6);

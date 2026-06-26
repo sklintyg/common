@@ -45,7 +45,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.lisjp.v1.model.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
@@ -221,7 +220,8 @@ class LisjpModuleApiTest {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+          Resources.toString(
+              Resources.getResource("v1/transport/lisjp.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
@@ -237,7 +237,7 @@ class LisjpModuleApiTest {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), StandardCharsets.UTF_8);
 
     assertThrows(
         ModuleException.class,
@@ -250,7 +250,8 @@ class LisjpModuleApiTest {
         .thenReturn(createReturnVal(ResultCodeType.INFO));
     try {
       String xmlContents =
-          Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+          Resources.toString(
+              Resources.getResource("v1/transport/lisjp.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     } catch (IOException e) {
       fail();
@@ -492,7 +493,7 @@ class LisjpModuleApiTest {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);

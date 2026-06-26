@@ -36,7 +36,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPException;
@@ -44,6 +43,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -172,7 +172,8 @@ class TsDiabetesModuleApiV4Test {
     try {
       final var xmlContents =
           Resources.toString(
-              Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+              Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+              StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
       verify(registerCertificateResponderInterface, times(1))
           .registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -187,7 +188,8 @@ class TsDiabetesModuleApiV4Test {
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
         Resources.toString(
-            Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+            Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+            StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -200,7 +202,8 @@ class TsDiabetesModuleApiV4Test {
     try {
       final var xmlContents =
           Resources.toString(
-              Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+              Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+              StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     } catch (IOException e) {
       fail();
@@ -410,7 +413,7 @@ class TsDiabetesModuleApiV4Test {
     final var xml =
         Resources.toString(
             Resources.getResource("v4/transport/ts-diabetes-invalid-xml-in-prod.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     assertDoesNotThrow(() -> JAXB.unmarshal(new StringReader(xml), RegisterTSDiabetesType.class));
   }
 
@@ -419,7 +422,7 @@ class TsDiabetesModuleApiV4Test {
     final var xml =
         Resources.toString(
             Resources.getResource("v4/transport/ts-diabetes-invalid-xml-in-prod.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     assertThrows(UnmarshallingFailureException.class, () -> XmlMarshallerHelper.unmarshal(xml));
   }
 
@@ -457,7 +460,7 @@ class TsDiabetesModuleApiV4Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v4/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v4/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
 
     returnVal.setResult(ResultTypeUtil.okResult());
@@ -470,7 +473,7 @@ class TsDiabetesModuleApiV4Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v4/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v4/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
 
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));

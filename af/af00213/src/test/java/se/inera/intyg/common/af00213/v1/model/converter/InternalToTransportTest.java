@@ -27,12 +27,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
@@ -144,7 +144,7 @@ class InternalToTransportTest {
   @Test
   void doSchematronValidationAf00213() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/af00213.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -153,7 +153,8 @@ class InternalToTransportTest {
         new RegisterCertificateValidator(Af00213ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
@@ -168,12 +169,8 @@ class InternalToTransportTest {
   }
 
   @Test
-  void testInternalToTransportSourceNull() throws Exception {
-    assertThrows(
-        ConverterException.class,
-        () -> {
-          InternalToTransport.convert(null);
-        });
+  void testInternalToTransportSourceNull() {
+    assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
   }
 
   @Test

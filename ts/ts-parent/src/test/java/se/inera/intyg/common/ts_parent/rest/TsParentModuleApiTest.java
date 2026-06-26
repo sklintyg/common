@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_parent.rest;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,12 +33,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -114,8 +115,8 @@ class TsParentModuleApiTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
-  private final String INTYG_ID = "test-id";
-  private final String LOGICAL_ADDRESS = "logicalAddress";
+  private static final String INTYG_ID = "test-id";
+  private static final String LOGICAL_ADDRESS = "logicalAddress";
 
   private static ClassPathResource getCertificateFile;
   private static ClassPathResource registerCertificateFile;
@@ -145,7 +146,9 @@ class TsParentModuleApiTest {
     getCertificateFile = new ClassPathResource("getCertificate.xml");
     registerCertificateFile = new ClassPathResource("registerCertificate.xml");
     revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
-    json = Resources.toString(new ClassPathResource("utlatande.json").getURL(), Charsets.UTF_8);
+    json =
+        Resources.toString(
+            new ClassPathResource("utlatande.json").getURL(), StandardCharsets.UTF_8);
     utlatande = new CustomObjectMapper().readValue(json, TestUtlatande.class);
   }
 
@@ -382,7 +385,7 @@ class TsParentModuleApiTest {
             eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
-    moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+    assertDoesNotThrow(() -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
   }
 
   @Test
@@ -523,7 +526,7 @@ class TsParentModuleApiTest {
 
   @Test
   void testRevokeCertificate() throws Exception {
-    String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    String xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
     revokeResponse.setResult(ResultTypeUtil.okResult());
     when(revokeCertificateClient.revokeCertificate(
@@ -541,7 +544,7 @@ class TsParentModuleApiTest {
 
   @Test
   void testRevokeCertificateResponseError() throws Exception {
-    String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    String xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
     revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
     when(revokeCertificateClient.revokeCertificate(
@@ -573,7 +576,7 @@ class TsParentModuleApiTest {
         createRegisterCertificateResponse(ResultCodeType.INFO);
     RegisterCertificateType request = new RegisterCertificateType();
 
-    moduleApi.handleResponse(response, request);
+    assertDoesNotThrow(() -> moduleApi.handleResponse(response, request));
   }
 
   @Test

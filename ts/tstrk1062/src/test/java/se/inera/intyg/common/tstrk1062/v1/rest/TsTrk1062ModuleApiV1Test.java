@@ -32,13 +32,13 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPFault;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.StringReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -481,7 +481,7 @@ class TsTrk1062ModuleApiV1Test {
   }
 
   private String getXml(String href) throws Exception {
-    return Resources.toString(getResource(href), Charsets.UTF_8);
+    return Resources.toString(getResource(href), StandardCharsets.UTF_8);
   }
 
   private static URL getResource(String href) {

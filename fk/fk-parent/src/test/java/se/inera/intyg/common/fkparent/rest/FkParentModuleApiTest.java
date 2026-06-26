@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -405,7 +406,7 @@ class FkParentModuleApiTest {
             eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
         .thenReturn(response);
 
-    moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+    assertDoesNotThrow(() -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
   }
 
   @Test
@@ -687,12 +688,12 @@ class FkParentModuleApiTest {
   }
 
   @Test
-  void testHandleResponseInfo() throws Exception {
+  void testHandleResponseInfo() {
     RegisterCertificateResponseType response =
         createRegisterCertificateResponse(ResultCodeType.INFO);
     RegisterCertificateType request = new RegisterCertificateType();
 
-    moduleApi.handleResponse(response, request);
+    assertDoesNotThrow(() -> moduleApi.handleResponse(response, request));
   }
 
   @Test
@@ -769,6 +770,10 @@ class FkParentModuleApiTest {
     @Override
     public GrundData getGrundData() {
       return grundData;
+    }
+
+    public void setGrundData(GrundData grundData) {
+      this.grundData = grundData;
     }
 
     @Override

@@ -128,14 +128,14 @@ class InternalToTransportTest {
 
       @Test
        void doSchematronValidationTsBas() throws Exception {
-          String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
+          String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), StandardCharsets.UTF_8);
 
           RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
           assertTrue(generalValidator.validateGeneral(xmlContents));
 
           RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
           SchematronOutputType result = validator
-                  .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+                  .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
           assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
       }

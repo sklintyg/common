@@ -29,14 +29,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +54,7 @@ import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -123,11 +124,11 @@ class InternalToTransportTest {
     utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
 
     utlatande.setSysselsattning(
-        Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)));
+        List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)));
     utlatande.setNuvarandeArbete("Smed");
 
     utlatande.setDiagnoser(
-        asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
+        List.of((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
 
     utlatande.setFunktionsnedsattning("Haltar när han dansar");
     utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
@@ -184,7 +185,8 @@ class InternalToTransportTest {
 
   @Test
   void doSchematronValidationLisjp() throws Exception {
-    String xmlContents = Resources.toString(getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+    String xmlContents =
+        Resources.toString(getResource("v1/transport/lisjp.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -193,7 +195,8 @@ class InternalToTransportTest {
         new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
@@ -208,7 +211,7 @@ class InternalToTransportTest {
   }
 
   @Test
-  void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }

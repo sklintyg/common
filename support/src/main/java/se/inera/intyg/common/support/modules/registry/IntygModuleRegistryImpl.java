@@ -168,7 +168,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
       final JsonNode utlatandeModelNode = new ObjectMapper().readTree(internalModel);
       final JsonNode textVersionNode =
           utlatandeModelNode.get(JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME);
-      String version = textVersionNode != null ? textVersionNode.asText() : null;
+      String version = textVersionNode != null ? textVersionNode.asString() : null;
       if (Strings.isNullOrEmpty(version)) {
         // Not found in json: look for default fallback version using the types entrypoint
         version = getModuleEntryPoint(intygType).getDefaultFallbackIntygTypeVersion();

@@ -45,12 +45,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -173,7 +173,7 @@ class LuseModuleApiV1Test {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/luse.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/luse.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
@@ -189,7 +189,7 @@ class LuseModuleApiV1Test {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/luse.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/luse.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -434,7 +434,7 @@ class LuseModuleApiV1Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -446,7 +446,7 @@ class LuseModuleApiV1Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);

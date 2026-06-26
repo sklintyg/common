@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -29,13 +28,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -113,7 +113,7 @@ class InternalToTransportTest {
     utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
 
     utlatande.setDiagnoser(
-        asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
+        List.of((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
 
     utlatande.setFunktionsnedsattningDebut("Skoldansen");
     utlatande.setFunktionsnedsattningPaverkan("Haltar när han dansar");
@@ -140,7 +140,7 @@ class InternalToTransportTest {
   @Test
   void doSchematronValidationLuaefs() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -149,7 +149,8 @@ class InternalToTransportTest {
         new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
@@ -164,7 +165,7 @@ class InternalToTransportTest {
   }
 
   @Test
-  void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }

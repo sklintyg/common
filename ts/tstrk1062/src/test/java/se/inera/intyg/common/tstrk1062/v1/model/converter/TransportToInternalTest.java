@@ -25,12 +25,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
@@ -324,7 +324,7 @@ class TransportToInternalTest {
   }
 
   private Intyg getIntyg(String href) throws IOException {
-    final String xml = Resources.toString(getResource(href), Charsets.UTF_8);
+    final String xml = Resources.toString(getResource(href), StandardCharsets.UTF_8);
     return JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg();
   }
 

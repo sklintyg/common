@@ -22,8 +22,8 @@ import static com.google.common.io.Resources.getResource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -40,14 +40,16 @@ class SchematronValidatorTest {
   @Test
   void validMinimalXmlPassesTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v1/scenarios/transport/valid-min.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v1/scenarios/transport/valid-min.xml"), StandardCharsets.UTF_8);
     doPassingTest(inputXml);
   }
 
   @Test
   void validMaximalXmlPassesTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v1/scenarios/transport/valid-max.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v1/scenarios/transport/valid-max.xml"), StandardCharsets.UTF_8);
     doPassingTest(inputXml);
   }
 
@@ -55,7 +57,8 @@ class SchematronValidatorTest {
   void validKanInteTaStallningXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
+            getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"),
+            StandardCharsets.UTF_8);
     doPassingTest(inputXml);
   }
 
@@ -65,7 +68,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("v1/scenarios/transport/invalid-kan-inte-ta-stallning.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     doFailingTest(inputXml, 2);
   }
 

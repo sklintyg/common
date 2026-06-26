@@ -29,7 +29,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLFailedAssert;
@@ -37,6 +36,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -162,7 +162,8 @@ class InternalToTransportTest {
 
   @Test
   void doSchematronValidationAF00251() throws Exception {
-    String xmlContents = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
+    String xmlContents =
+        Resources.toString(getResource("transport/af00251.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -171,7 +172,8 @@ class InternalToTransportTest {
         new RegisterCertificateValidator(AF00251ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     final List<SVRLFailedAssert> failedAssertions = SVRLHelper.getAllFailedAssertions(result);
     assertThat(

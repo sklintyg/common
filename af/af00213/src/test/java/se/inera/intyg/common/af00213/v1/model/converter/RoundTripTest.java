@@ -108,7 +108,7 @@ class RoundTripTest {
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
             .build();
-    assertFalse(diff.hasDifferences(), name + " " + diff.toString());
+    assertFalse(diff.hasDifferences(), name + " " + diff);
 
     JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
     JsonNode expectedTree =

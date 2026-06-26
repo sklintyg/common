@@ -33,7 +33,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPBody;
@@ -43,6 +42,7 @@ import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -484,7 +484,7 @@ class TsDiabetesModuleApiV2Test {
 
   @Test
   void testRevokeCertificate() throws Exception {
-    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     final var revokeResponse = new RevokeMedicalCertificateResponseType();
     revokeResponse.setResult(ResultOfCallUtil.okResult());
     when(revokeCertificateClient.revokeMedicalCertificate(
@@ -505,7 +505,7 @@ class TsDiabetesModuleApiV2Test {
 
   @Test
   void testRevokeCertificateResponseError() throws IOException {
-    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     final var revokeResponse = new RevokeMedicalCertificateResponseType();
     revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
     when(revokeCertificateClient.revokeMedicalCertificate(
@@ -666,7 +666,7 @@ class TsDiabetesModuleApiV2Test {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) {

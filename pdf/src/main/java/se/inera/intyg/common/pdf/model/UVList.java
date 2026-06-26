@@ -70,7 +70,7 @@ public class UVList extends UVComponent {
 
     if (results.isEmpty()) {
       String noValueText = renderer.getText((String) currentUvNode.get("noValue"));
-      if (!StringUtils.isEmpty(noValueText)) {
+      if (StringUtils.hasLength(noValueText)) {
         results.add(noValueText);
       }
     }

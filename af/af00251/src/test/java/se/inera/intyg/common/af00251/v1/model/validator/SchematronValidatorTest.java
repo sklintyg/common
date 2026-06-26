@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.af00251.v1.rest.AF00251ModuleApiV1;
@@ -50,7 +50,7 @@ class SchematronValidatorTest {
   @Test
   void brokenXmlFailsTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("transport/af00251_broken.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("transport/af00251_broken.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
 
     System.out.println("***************************");
@@ -64,7 +64,8 @@ class SchematronValidatorTest {
 
   @Test
   void validXmlPassesTest() throws Exception {
-    String inputXml = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
+    String inputXml =
+        Resources.toString(getResource("transport/af00251.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
         response.getValidationErrors().isEmpty(),
@@ -76,7 +77,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltidSaknas.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -92,7 +93,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltidFelEnhet.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -106,8 +107,7 @@ class SchematronValidatorTest {
   void failsOnInvalidOmfattningDeltid0() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("transport/scenarios/fail-omfattningDeltid0.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            getResource("transport/scenarios/fail-omfattningDeltid0.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -121,8 +121,7 @@ class SchematronValidatorTest {
   void failsOnInvalidOmfattningDeltid40() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("transport/scenarios/fail-omfattningDeltid40.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            getResource("transport/scenarios/fail-omfattningDeltid40.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -137,7 +136,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-sjukfranvaronivaFelEnhet.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -151,8 +150,7 @@ class SchematronValidatorTest {
   void failsOnSjukfranvaroniva0() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("transport/scenarios/fail-sjukfranvaroniva0.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            getResource("transport/scenarios/fail-sjukfranvaroniva0.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(
@@ -167,7 +165,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-sjukfranvaroniva101.xml"),
-            org.apache.commons.io.Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(1, response.getValidationErrors().size());
     assertTrue(

@@ -41,7 +41,6 @@ import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressio
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.dateXPath;
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.stringXPath;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.bind.JAXBContext;
@@ -50,6 +49,7 @@ import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -122,7 +122,7 @@ class TsDiabetesTransformerXpathTest {
           IOException,
           TransformerException,
           XPathExpressionException {
-    String xmlContent = Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    String xmlContent = Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
     TSDiabetesIntyg utlatande =
         JAXB.unmarshal(cpr.getFile(), RegisterTSDiabetesType.class).getIntyg();
     String transformed = transformer.transform(xmlContent);

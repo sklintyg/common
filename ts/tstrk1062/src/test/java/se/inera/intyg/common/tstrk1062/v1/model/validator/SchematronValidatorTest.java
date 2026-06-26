@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.tstrk1062.v1.rest.TsTrk1062ModuleApiV1.SCHEMATRON_FILE;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -256,7 +256,7 @@ class SchematronValidatorTest {
   }
 
   private List<String> validateXML(String href) throws Exception {
-    String inputXml = Resources.toString(getResource(href), Charsets.UTF_8);
+    String inputXml = Resources.toString(getResource(href), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     return response.getValidationErrors();
   }

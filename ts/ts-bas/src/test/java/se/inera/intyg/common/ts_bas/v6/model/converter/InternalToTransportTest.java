@@ -26,9 +26,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,10 +68,6 @@ import tools.jackson.databind.ObjectMapper;
       InternalConverterUtil.class
     })
 class InternalToTransportTest {
-
-  private static URL getResource(String href) {
-    return Thread.currentThread().getContextClassLoader().getResource(href);
-  }
 
   private static final String ENHETSNAMN = "enhetsnamn";
   private static final String ENHETSID = "enhetsid";
@@ -123,23 +119,6 @@ class InternalToTransportTest {
     new TransportConverterUtil(mapper).initialize();
   }
 
-  /*
-      Waiting for INTYG-6650
-
-      @Test
-       void doSchematronValidationTsBas() throws Exception {
-          String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
-
-          RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-          assertTrue(generalValidator.validateGeneral(xmlContents));
-
-          RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
-          SchematronOutputType result = validator
-                  .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
-
-          assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-      }
-  */
   @Test
   void testInternalToTransportConversion() throws Exception {
     TsBasUtlatandeV6 expected = getUtlatande();
@@ -153,7 +132,7 @@ class InternalToTransportTest {
   }
 
   @Test
-  void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
   }
 
@@ -198,7 +177,7 @@ class InternalToTransportTest {
     String specialistkompetens2 = "Allergi";
     TsBasUtlatandeV6 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-    utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
+    Objects.requireNonNull(utlatande.getGrundData()).getSkapadAv().getSpecialiteter().clear();
     utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens1);
     utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens2);
     RegisterCertificateType res = InternalToTransport.convert(utlatande);
@@ -215,13 +194,13 @@ class InternalToTransportTest {
     final String description = "Läkare legitimerad, specialiseringstjänstgöring";
     TsBasUtlatandeV6 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-    utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
+    Objects.requireNonNull(utlatande.getGrundData()).getSkapadAv().getBefattningar().clear();
     utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
     RegisterCertificateType res = InternalToTransport.convert(utlatande);
     HosPersonal skapadAv = res.getIntyg().getSkapadAv();
     assertEquals(1, skapadAv.getBefattning().size());
-    assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
-    assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
+    assertEquals(befattning, skapadAv.getBefattning().getFirst().getCode());
+    assertEquals(description, skapadAv.getBefattning().getFirst().getDisplayName());
   }
 
   @Test
@@ -230,12 +209,12 @@ class InternalToTransportTest {
     String befattningskod = "kod";
     TsBasUtlatandeV6 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-    utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
+    Objects.requireNonNull(utlatande.getGrundData()).getSkapadAv().getBefattningar().clear();
     utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
     RegisterCertificateType res = InternalToTransport.convert(utlatande);
     HosPersonal skapadAv = res.getIntyg().getSkapadAv();
     assertEquals(1, skapadAv.getBefattning().size());
-    assertEquals(befattningskod, skapadAv.getBefattning().get(0).getCode());
+    assertEquals(befattningskod, skapadAv.getBefattning().getFirst().getCode());
   }
 
   @Test

@@ -21,10 +21,10 @@ package se.inera.intyg.common.luae_na.v1.model.validator;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.luae_na.v1.rest.LuaenaModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -43,14 +43,15 @@ class SchematronValidatorTest {
 
   @Test
   void brokenXmlFailsTest() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/luae_na_broken.xml"), Charsets.UTF_8);
+    String inputXml =
+        Resources.toString(getResource("v1/luae_na_broken.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
 
   @Test
   void validXmlPassesTest() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/luae_na.xml"), Charsets.UTF_8);
+    String inputXml = Resources.toString(getResource("v1/luae_na.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(response.getValidationErrors().isEmpty());
   }

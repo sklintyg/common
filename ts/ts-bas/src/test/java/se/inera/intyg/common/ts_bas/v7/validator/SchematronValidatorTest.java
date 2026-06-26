@@ -22,8 +22,8 @@ import static com.google.common.io.Resources.getResource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -40,14 +40,16 @@ class SchematronValidatorTest {
   @Test
   void validMaximalXmlPassesTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/valid-maximal.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/valid-maximal.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
   @Test
   void validMinimalXmlPassesTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/valid-minimal.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -55,7 +57,7 @@ class SchematronValidatorTest {
   void validPersontransportXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/valid-persontransport.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/valid-persontransport.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -63,7 +65,7 @@ class SchematronValidatorTest {
   void validSamordningXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/valid-samordning.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/valid-samordning.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -71,7 +73,8 @@ class SchematronValidatorTest {
   void validDiabetesTyp2XmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/valid-diabetes-typ2-kost.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/valid-diabetes-typ2-kost.xml"),
+            StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -79,7 +82,8 @@ class SchematronValidatorTest {
   void validKorrigeradSynskarpaXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/valid-korrigerad-synskarpa.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/valid-korrigerad-synskarpa.xml"),
+            StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -87,7 +91,7 @@ class SchematronValidatorTest {
   void validSjukhusvardXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/valid-sjukhusvard.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/valid-sjukhusvard.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -96,14 +100,15 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("v7/scenarios/rivtav3/valid-utan-korrigerad-synskarpa.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
   @Test
   void validR34PassesTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/valid-rule34.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/valid-rule34.xml"), StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
@@ -112,14 +117,15 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("v7/scenarios/rivtav3/valid-synskarpa-skickas-separat.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     doTest(inputXml);
   }
 
   @Test
   void invalidMinimalTestFails() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/fail-minimal.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,
@@ -131,7 +137,8 @@ class SchematronValidatorTest {
   void invalidAnnatFelsynskarpaTestFails() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/fail-annat-felsynskarpa.xml"),
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,
@@ -143,7 +150,7 @@ class SchematronValidatorTest {
   void invalidMinimalR35TestFails() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/fail-minimal-r35.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,
@@ -154,7 +161,8 @@ class SchematronValidatorTest {
   @Test
   void invalidR34TestFails() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/invalid-rule34.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/invalid-rule34.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,
@@ -166,7 +174,8 @@ class SchematronValidatorTest {
   void invalidSynskarpaSkickasSeparatTestFails() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v7/scenarios/rivtav3/fail-synskarpa-skickas-separat.xml"), Charsets.UTF_8);
+            getResource("v7/scenarios/rivtav3/fail-synskarpa-skickas-separat.xml"),
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,
@@ -177,7 +186,8 @@ class SchematronValidatorTest {
   @Test
   void invalidR37TestFails() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v7/scenarios/rivtav3/invalid-rule37.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v7/scenarios/rivtav3/invalid-rule37.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertEquals(
         1,

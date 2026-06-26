@@ -21,10 +21,10 @@ package se.inera.intyg.common.luse.v1.model.validator;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.luse.v1.rest.LuseModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -43,7 +43,8 @@ class SchematronValidatorTest {
 
   @Test
   void brokenXmlFails() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/luse2_broken.xml"), Charsets.UTF_8);
+    String inputXml =
+        Resources.toString(getResource("v1/luse2_broken.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
@@ -52,14 +53,14 @@ class SchematronValidatorTest {
   void diagnosMedBidiagnos2UtanBidiagnos1Fails() throws Exception {
     String inputXml =
         Resources.toString(
-            getResource("v1/med-bidiagnos2-utan-bidiagnos1_broken.xml"), Charsets.UTF_8);
+            getResource("v1/med-bidiagnos2-utan-bidiagnos1_broken.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
 
   @Test
   void validXmlPasses() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/luse2.xml"), Charsets.UTF_8);
+    String inputXml = Resources.toString(getResource("v1/luse2.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
     assertTrue(response.getValidationErrors().isEmpty());
   }

@@ -26,9 +26,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -227,7 +227,7 @@ class WebcertModelFactoryTest {
     try {
       LOG.info("Reading test data from: {}", filePath);
       ClassPathResource resource = new ClassPathResource(filePath);
-      return Resources.toString(resource.getURL(), Charsets.UTF_8);
+      return Resources.toString(resource.getURL(), StandardCharsets.UTF_8);
     } catch (IOException e) {
       LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
       return null;

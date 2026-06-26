@@ -42,9 +42,9 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBST
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -150,7 +150,7 @@ class LuaenaModuleApiTest {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/luae_na.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
@@ -166,7 +166,7 @@ class LuaenaModuleApiTest {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/luae_na.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -202,7 +202,7 @@ class LuaenaModuleApiTest {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
 
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
@@ -215,7 +215,7 @@ class LuaenaModuleApiTest {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
 
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));

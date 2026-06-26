@@ -25,10 +25,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeAll;
@@ -69,7 +69,8 @@ class TransportToInternalTest {
 
   @Test
   void testConvert() throws Exception {
-    String xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+    String xmlContents =
+        Resources.toString(Resources.getResource("v1/doi.xml"), StandardCharsets.UTF_8);
     Intyg intyg =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
     DoiUtlatandeV1 res = TransportToInternal.convert(intyg);

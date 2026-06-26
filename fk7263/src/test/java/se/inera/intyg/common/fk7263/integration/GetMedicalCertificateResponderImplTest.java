@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -229,7 +229,7 @@ class GetMedicalCertificateResponderImplTest {
     String xmlFile =
         Resources.toString(
             new ClassPathResource("GetMedicalCertificateResponderImplTest/fk7263.xml").getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     certificate.setOriginalCertificate(xmlFile);
     return certificate;
   }

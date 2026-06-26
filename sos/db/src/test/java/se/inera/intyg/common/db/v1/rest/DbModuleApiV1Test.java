@@ -35,13 +35,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -298,7 +298,8 @@ class DbModuleApiV1Test {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
 
-    final var xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+    final var xmlContents =
+        Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -310,13 +311,13 @@ class DbModuleApiV1Test {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
           .registerCertificate(same(LOGICAL_ADDRESS), any());
 
-    } catch (ModuleException | IOException e) {
+    } catch (ModuleException | IOException _) {
       fail();
     }
   }
@@ -385,7 +386,7 @@ class DbModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
-      throws IOException, ScenarioNotFoundException {
+      throws ScenarioNotFoundException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -402,7 +403,7 @@ class DbModuleApiV1Test {
   }
 
   @Test
-  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws IOException {
+  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     when(objectMapper.readValue(internalModel, DbUtlatandeV1.class)).thenReturn(null);
@@ -426,7 +427,7 @@ class DbModuleApiV1Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -438,7 +439,7 @@ class DbModuleApiV1Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
 
@@ -457,8 +458,7 @@ class DbModuleApiV1Test {
     gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").orElseThrow());
     final var skapadAv = createHosPersonal();
     gd.setSkapadAv(skapadAv);
-    final var utlatande =
-        createUtlatande(); // DbUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
+    final var utlatande = createUtlatande();
     final var res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
     assertNotNull(res);
     assertNotEquals("", res);
@@ -476,12 +476,12 @@ class DbModuleApiV1Test {
   void testGetUtlatandeFromXml() {
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
       final var res = (DbUtlatandeV1) moduleApi.getUtlatandeFromXml(xmlContents);
       assertEquals("1234567", res.getId());
       assertEquals("körkort", res.getIdentitetStyrkt());
       assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
-    } catch (ModuleException | IOException e) {
+    } catch (ModuleException | IOException _) {
       fail();
     }
   }
@@ -550,7 +550,7 @@ class DbModuleApiV1Test {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   @Test

@@ -21,10 +21,10 @@ package se.inera.intyg.common.lisjp.v1.model.validator;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -44,14 +44,15 @@ class SchematronValidatorTest {
   @Test
   void brokenXmlFailsTest() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v1/transport/lisjp_broken.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/lisjp_broken.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
 
   @Test
   void validXmlPassesTest() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
+    String inputXml =
+        Resources.toString(getResource("v1/transport/lisjp.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(response.getValidationErrors().isEmpty());
   }
@@ -59,7 +60,8 @@ class SchematronValidatorTest {
   @Test
   void invalidAntalDiagnoser() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v1/transport/diagnosMaxTreDiagnoser.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v1/transport/diagnosMaxTreDiagnoser.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
@@ -68,7 +70,8 @@ class SchematronValidatorTest {
   // Since change request ID06 (INTYG-2286), Delfråga 39.2 is no longer in use.
   public void delfraga392IsNoLongerValid() throws Exception {
     String inputXml =
-        Resources.toString(getResource("v1/transport/prognosMedDelfraga39-2.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v1/transport/prognosMedDelfraga39-2.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
@@ -79,7 +82,7 @@ class SchematronValidatorTest {
         Resources.toString(
             getResource(
                 "v1/transport/failingSjukskrivningHeltNedsattOchOmArbetstidsforlaggning.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
         response.getValidationErrors().size() == 1,
@@ -91,7 +94,7 @@ class SchematronValidatorTest {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
         response.getValidationErrors().size() == 0,

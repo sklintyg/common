@@ -27,13 +27,13 @@ import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.helger.base.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -164,7 +164,8 @@ class InternalValidatorResultMatchesSchematronValidatorTest {
         new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(convertedXML.getBytes(StandardCharsets.UTF_8))));
 
     String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 

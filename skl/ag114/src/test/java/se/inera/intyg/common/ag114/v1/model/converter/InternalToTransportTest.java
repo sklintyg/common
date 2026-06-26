@@ -27,9 +27,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -126,7 +126,7 @@ class InternalToTransportTest {
   @Test
   void doSchematronValidationAg114() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/ag114-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/ag114-2.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -150,7 +150,7 @@ class InternalToTransportTest {
   }
 
   @Test
-  void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }

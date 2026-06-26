@@ -35,7 +35,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPBody;
@@ -45,6 +44,7 @@ import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
@@ -704,7 +704,7 @@ class TsBasModuleApiTest {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   private void setRegisterCertificateVersion() {

@@ -36,12 +36,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import org.apache.commons.lang3.StringUtils;
@@ -302,7 +302,8 @@ class DoiModuleApiV1Test {
   void testSendCertificateShouldFailWhenErrorIsReturned() throws IOException {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
-    final var xmlContents = Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+    final var xmlContents =
+        Resources.toString(Resources.getResource("v1/doi.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -314,9 +315,9 @@ class DoiModuleApiV1Test {
         .thenReturn(createReturnVal(ResultCodeType.INFO));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/doi.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
-    } catch (IOException e) {
+    } catch (IOException _) {
       fail();
     }
   }
@@ -327,11 +328,11 @@ class DoiModuleApiV1Test {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/doi.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
       verify(registerCertificateResponderInterface, times(1))
           .registerCertificate(same(LOGICAL_ADDRESS), any());
-    } catch (ModuleException | IOException e) {
+    } catch (ModuleException | IOException _) {
       fail();
     }
   }
@@ -400,7 +401,7 @@ class DoiModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
-      throws IOException, ScenarioNotFoundException {
+      throws ScenarioNotFoundException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -417,7 +418,7 @@ class DoiModuleApiV1Test {
   }
 
   @Test
-  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws IOException {
+  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     when(objectMapper.readValue(internalModel, DoiUtlatandeV1.class)).thenReturn(null);
@@ -441,7 +442,7 @@ class DoiModuleApiV1Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -450,10 +451,10 @@ class DoiModuleApiV1Test {
   }
 
   @Test
-  void testRevokeCertificateThrowsExternalServiceCallException() throws SOAPException, IOException {
+  void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -487,14 +488,14 @@ class DoiModuleApiV1Test {
   void tesGetUtlatandeFromXml() {
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/doi.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/doi.xml"), StandardCharsets.UTF_8);
       final var res = (DoiUtlatandeV1) moduleApi.getUtlatandeFromXml(xmlContents);
 
       assertEquals("1234567", res.getId());
       assertEquals("körkort", res.getIdentitetStyrkt());
       assertEquals("Sverige", res.getLand());
       assertEquals(DodsplatsBoende.SJUKHUS, res.getDodsplatsBoende());
-    } catch (ModuleException | IOException e) {
+    } catch (ModuleException | IOException _) {
       fail();
     }
   }
@@ -578,7 +579,7 @@ class DoiModuleApiV1Test {
   }
 
   @Test
-  void getCertficateMessagesProviderGetExistingKey() throws ModuleException {
+  void getCertficateMessagesProviderGetExistingKey() {
     final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
     assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
@@ -690,7 +691,7 @@ class DoiModuleApiV1Test {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   private static GrundData getGrundData() {
