@@ -63,6 +63,7 @@ allprojects {
         implementation "jakarta.annotation:jakarta.annotation-api"
         implementation "jakarta.jws:jakarta.jws-api:${jakartaJwsApiVersion}"
         implementation "jakarta.xml.ws:jakarta.xml.ws-api"
+        implementation "tools.jackson.core:jackson-databind"
 
         testImplementation "com.sun.xml.messaging.saaj:saaj-impl"
         testImplementation "org.glassfish.jaxb:jaxb-runtime"
