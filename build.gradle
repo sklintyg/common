@@ -174,10 +174,12 @@ subprojects {
             formatAnnotations()
         }
     }
-}
 
-subprojects.collect { subproject -> subproject.name }.each { subprojectName ->
-    dependencies { testReportAggregation project(":${subprojectName}") }
+    pluginManager.withPlugin('org.cyclonedx.bom') {
+        tasks.named('cyclonedxDirectBom').configure { t ->
+            t.includeConfigs = ['^runtimeClasspath$']
+        }
+    }
 }
 
 sonar {
@@ -200,31 +202,8 @@ dependencyCheck {
 
 reporting {
     dependencies {
-        testReportAggregation project(':logging-util')
-        testReportAggregation project(':common-support')
-        testReportAggregation project(':common-web')
-        testReportAggregation project(':integration-util')
-        testReportAggregation project(':common-schemas')
-        testReportAggregation project(':common-services')
-        testReportAggregation project(':common-pdf')
-        testReportAggregation project(':fk-parent')
-        testReportAggregation project(':luse')
-        testReportAggregation project(':lisjp')
-        testReportAggregation project(':luae_na')
-        testReportAggregation project(':luae_fs')
-        testReportAggregation project(':af-parent')
-        testReportAggregation project(':af00213')
-        testReportAggregation project(':af00251')
-        testReportAggregation project(':ts-parent')
-        testReportAggregation project(':ts-bas')
-        testReportAggregation project(':ts-diabetes')
-        testReportAggregation project(':tstrk1062')
-        testReportAggregation project(':tstrk1009')
-        testReportAggregation project(':sos_parent')
-        testReportAggregation project(':db')
-        testReportAggregation project(':doi')
-        testReportAggregation project(':ag-parent')
-        testReportAggregation project(':ag114')
-        testReportAggregation project(':ag7804')
+        subprojects.each { subproject ->
+            testReportAggregation project(":${subproject.name}")
+        }
     }
 }
