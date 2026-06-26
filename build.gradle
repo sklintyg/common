@@ -8,12 +8,12 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchemasVersion = "1.2.0.1"
-    intygClinicalprocessSchematronVersion = "1.2.0.1"
-    intygTransportstyrelsenSchemasVersion = "1.2.0.1"
-    rivtaClinicalprocessSchemasVersion = "4.0.5.5"
-    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.4"
-    schemasContractVersion = "2.3.0.1"
+    intygClinicalprocessSchemasVersion = "1.2.0.2"
+    intygClinicalprocessSchematronVersion = "1.2.0.2"
+    intygTransportstyrelsenSchemasVersion = "1.2.0.2"
+    rivtaClinicalprocessSchemasVersion = "4.0.5.6"
+    rivtaInsuranceprocessSchemasVersion = "3.1.0.5.5"
+    schemasContractVersion = "2.3.0.2"
 
     autovalueVersion = "1.11.1"
     cxfVersion = "4.2.2"
