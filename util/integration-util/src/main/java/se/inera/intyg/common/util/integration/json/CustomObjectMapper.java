@@ -51,6 +51,7 @@ public class CustomObjectMapper extends JsonMapper {
         .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_NULL))
         .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
         .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        .disable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES)
         .addModule(new CustomModule());
   }
 
