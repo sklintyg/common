@@ -58,10 +58,10 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * @author marced, andreaskaltenbach
  */
-public class InternalToTransportConverterTest {
+class InternalToTransportConverterTest {
 
   @Test
-  public void testConvertUtlatande() throws Exception {
+  void testConvertUtlatande() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       Fk7263Utlatande intUtlatande = scenario.asInternalModel();
 
@@ -74,7 +74,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionUtanFalt5()
+  void testConversionUtanFalt5()
       throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
@@ -112,8 +112,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionMaximal()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMaximal() throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -150,7 +149,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionWithDiagnosisAsKSH97()
+  void testConversionWithDiagnosisAsKSH97()
       throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
@@ -189,8 +188,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionMinimal()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMinimal() throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -227,7 +225,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionKommentar()
+  void testConversionKommentar()
       throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
@@ -249,7 +247,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionOrimligtDatum()
+  void testConversionOrimligtDatum()
       throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
@@ -289,7 +287,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionMinimalSmiL()
+  void testConversionMinimalSmiL()
       throws JAXBException, IOException, SAXException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
@@ -329,7 +327,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testPersonnummerRoot() throws Exception {
+  void testPersonnummerRoot() throws Exception {
     final String pnr = "19121212-1212";
     Fk7263Utlatande utlatande = new Fk7263Utlatande();
     GrundData grundData = new GrundData();
@@ -349,7 +347,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testSamordningRoot() throws Exception {
+  void testSamordningRoot() throws Exception {
     final String pnr = "19800191-0002";
     Fk7263Utlatande utlatande = new Fk7263Utlatande();
     GrundData grundData = new GrundData();

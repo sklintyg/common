@@ -25,15 +25,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.sch.SchematronResourceSCH;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -51,7 +52,7 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 @ExtendWith(MockitoExtension.class)
-public class Fk7263TransformerTest {
+class Fk7263TransformerTest {
 
   // CHECKSTYLE:OFF LineLength
   private static final String COMMON_UTLATANDE_SCHEMA = "core_components/MU7263-RIV_3.1.xsd";
@@ -79,7 +80,7 @@ public class Fk7263TransformerTest {
   @InjectMocks private Fk7263ModuleApi fk7263ModuleApi;
 
   @BeforeAll
-  public static void setup() throws Exception {
+  static void setup() throws Exception {
     // Initialize TransportConverterUtil and InternalConverterUtil
     final var mapper = mock(UnitMapperUtil.class);
 
@@ -117,12 +118,13 @@ public class Fk7263TransformerTest {
   }
 
   @Test
-  public void testTransformationFailsOnMissingFunktionstillstand() throws Exception {
-    List<String> testFiles = Arrays.asList("fk7263_utanfunktionstillstand.xml");
+  void testTransformationFailsOnMissingFunktionstillstand() throws Exception {
+    List<String> testFiles = List.of("fk7263_utanfunktionstillstand.xml");
 
     for (String xmlFile : testFiles) {
       String xmlContentsInput =
-          Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("Fk7263TransformerTest/" + xmlFile), StandardCharsets.UTF_8);
 
       if (!validateIntygstjansterXSD(xmlContentsInput)) {
         fail();
@@ -137,20 +139,19 @@ public class Fk7263TransformerTest {
 
       assertEquals(1, SVRLHelper.getAllFailedAssertions(output).size());
       assertTrue(
-          SVRLHelper.getAllFailedAssertions(output)
-              .get(0)
-              .getText()
+          Objects.requireNonNull(SVRLHelper.getAllFailedAssertions(output).getFirst().getText())
               .contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
     }
   }
 
   @Test
-  public void testTransformationFailsOnMissingArbetsbegransning() throws Exception {
-    List<String> testFiles = Arrays.asList("fk7263_utanarbetsbegransning.xml");
+  void testTransformationFailsOnMissingArbetsbegransning() throws Exception {
+    List<String> testFiles = List.of("fk7263_utanarbetsbegransning.xml");
 
     for (String xmlFile : testFiles) {
       String xmlContentsInput =
-          Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("Fk7263TransformerTest/" + xmlFile), StandardCharsets.UTF_8);
 
       if (!validateIntygstjansterXSD(xmlContentsInput)) {
         fail();
@@ -165,15 +166,13 @@ public class Fk7263TransformerTest {
 
       assertEquals(1, SVRLHelper.getAllFailedAssertions(output).size());
       assertTrue(
-          SVRLHelper.getAllFailedAssertions(output)
-              .get(0)
-              .getText()
+          Objects.requireNonNull(SVRLHelper.getAllFailedAssertions(output).getFirst().getText())
               .contains("Ett 'MU' måste ha minst ett 'Behov av sjukskrivning'"));
     }
   }
 
   @Test
-  public void testTransformationAccepted() throws Exception {
+  void testTransformationAccepted() throws Exception {
 
     List<String> testFiles =
         Arrays.asList(
@@ -188,7 +187,8 @@ public class Fk7263TransformerTest {
 
     for (String xmlFile : testFiles) {
       String xmlContentsInput =
-          Resources.toString(getResource("Fk7263TransformerTest/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("Fk7263TransformerTest/" + xmlFile), StandardCharsets.UTF_8);
 
       if (!validateIntygstjansterXSD(xmlContentsInput)) {
         fail();
@@ -207,7 +207,7 @@ public class Fk7263TransformerTest {
 
   private boolean validateFk7263OutputSchematron(String xml) throws Exception {
     SchematronOutputType result = getFk7263OutputSchematron(xml);
-    return SVRLHelper.getAllFailedAssertions(result).size() == 0;
+    return SVRLHelper.getAllFailedAssertions(result).isEmpty();
   }
 
   private SchematronOutputType getFk7263OutputSchematron(String xml) throws Exception {
@@ -216,12 +216,12 @@ public class Fk7263TransformerTest {
       throw new IllegalArgumentException("Invalid Schematron!");
     }
     return schematronResource.applySchematronValidationToSVRL(
-        (new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)))));
+        (new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)))));
   }
 
   private boolean validateIntygstjansterXSD(String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
     try {
       lakarutlatandeInputSchema.newValidator().validate(xmlSource);
       return true;
@@ -233,7 +233,7 @@ public class Fk7263TransformerTest {
 
   private boolean validateIntygstjansterOutputXSD(String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
     try {
       fk7263sitOutputSchema.newValidator().validate(xmlSource);
       return true;

@@ -45,7 +45,7 @@ import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSBasTransportToV3TransformerTest {
+class TSBasTransportToV3TransformerTest {
 
   private static final String V3_UTLATANDE_SCHEMA =
       "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
@@ -71,7 +71,7 @@ public class TSBasTransportToV3TransformerTest {
   private static Schema intygstjansterSchema;
 
   @BeforeAll
-  public static void initV3Schema() throws Exception {
+  static void initV3Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
@@ -84,7 +84,7 @@ public class TSBasTransportToV3TransformerTest {
   }
 
   @BeforeAll
-  public static void initIntygstjansterSchema() throws Exception {
+  static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(INTYGSTJANSTER_UTLATANDE_SCHEMA);
@@ -94,7 +94,7 @@ public class TSBasTransportToV3TransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles =
         asList(
             "valid-diabetes-typ2-kost.xml",

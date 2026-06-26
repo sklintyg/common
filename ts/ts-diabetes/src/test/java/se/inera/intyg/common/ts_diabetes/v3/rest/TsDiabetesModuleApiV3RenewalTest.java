@@ -44,7 +44,7 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class TsDiabetesModuleApiV3RenewalTest {
+class TsDiabetesModuleApiV3RenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "v3/TsDiabetesV3ModelCompareUtil/utlatande.json";
 

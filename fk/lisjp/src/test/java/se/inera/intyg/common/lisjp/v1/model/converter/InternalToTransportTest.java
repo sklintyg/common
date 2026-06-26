@@ -81,12 +81,12 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -183,7 +183,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationLisjp() throws Exception {
+  void doSchematronValidationLisjp() throws Exception {
     String xmlContents = Resources.toString(getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
@@ -199,7 +199,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     LisjpUtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     LisjpUtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -208,13 +208,13 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }
 
   @Test
-  public void convertDecorateSvarPaTest() throws Exception {
+  void convertDecorateSvarPaTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     final String referensId = "referensId";
     LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -226,7 +226,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
     RegisterCertificateType transport =
@@ -237,7 +237,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     LisjpUtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);
@@ -245,7 +245,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
     LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);

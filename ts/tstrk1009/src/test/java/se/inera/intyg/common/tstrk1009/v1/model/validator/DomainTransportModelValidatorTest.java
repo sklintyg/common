@@ -36,7 +36,7 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-public class DomainTransportModelValidatorTest {
+class DomainTransportModelValidatorTest {
 
   private static final String COMMON_UTLATANDE_SCHEMA =
       "/core_components/se_intygstjanster_services_1.0.xsd";
@@ -50,7 +50,7 @@ public class DomainTransportModelValidatorTest {
   private static Schema commonSchema;
 
   @BeforeAll
-  public static void initCommonSchema() throws Exception {
+  static void initCommonSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
@@ -71,7 +71,8 @@ public class DomainTransportModelValidatorTest {
       try {
         validateUtlatande(scenario);
         fail("Expected schema validation error in " + scenario.getName());
-      } catch (Exception ignore) {
+      } catch (Exception _) {
+        // Should end up here
       }
     }
   }

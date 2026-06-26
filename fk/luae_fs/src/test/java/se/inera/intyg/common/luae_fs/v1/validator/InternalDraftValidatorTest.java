@@ -68,7 +68,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class InternalDraftValidatorTest {
+class InternalDraftValidatorTest {
 
   private static final String PATIENT_PERSON_ID = "19121212-1212";
   private static final String SKAPADAV_PERSON_ID = "19010101-9801";
@@ -90,7 +90,7 @@ public class InternalDraftValidatorTest {
   @Mock WebcertModuleService moduleService;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     validationMessages = new ArrayList<>();
 
     builderTemplate =
@@ -111,7 +111,7 @@ public class InternalDraftValidatorTest {
   // Kategori 1 – Grund för medicinskt underlag
 
   @Test
-  public void validateGrundForMU_Ok() {
+  void validateGrundForMU_Ok() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
@@ -125,7 +125,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_IngenTypOchIngenKannedomOmPatient() {
+  void validateGrundForMU_IngenTypOchIngenKannedomOmPatient() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
     validator.validateGrundForMU(utlatande, validationMessages);
@@ -143,7 +143,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_IngenKannedomOmPatient() {
+  void validateGrundForMU_IngenKannedomOmPatient() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
@@ -161,7 +161,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_KannedomOmPatientEfterUndersokning() {
+  void validateGrundForMU_KannedomOmPatientEfterUndersokning() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUndersokningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
@@ -179,7 +179,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_KannedomOmPatientEfterAnhorigsBeskrivning() {
+  void validateGrundForMU_KannedomOmPatientEfterAnhorigsBeskrivning() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
@@ -198,7 +198,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_OmAnnanGrundBeskrivningOchInteAnnanGrundDatum() {
+  void validateGrundForMU_OmAnnanGrundBeskrivningOchInteAnnanGrundDatum() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMUBeskrivning("En beskrivning...")
@@ -219,7 +219,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMU_OmAnnanGrundKraverBeskrivning() {
+  void validateGrundForMU_OmAnnanGrundKraverBeskrivning() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(2)))
@@ -238,7 +238,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUKannedomOmPatientFramtidaDatum() {
+  void validateGrundForMUKannedomOmPatientFramtidaDatum() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
@@ -265,7 +265,7 @@ public class InternalDraftValidatorTest {
   // Kategori 2 - Andra medicinska utredningar och underlag
 
   @Test
-  public void validateUnderlag_UnderlagFinnsInte() {
+  void validateUnderlag_UnderlagFinnsInte() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
     validator.validateUnderlag(utlatande, validationMessages);
@@ -279,7 +279,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_UnderlagFinnsMenArTomt() {
+  void validateUnderlag_UnderlagFinnsMenArTomt() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.setUnderlagFinns(true).build();
 
     validator.validateUnderlag(utlatande, validationMessages);
@@ -293,7 +293,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_UnderlagFinnsInteMenArIfyllt() {
+  void validateUnderlag_UnderlagFinnsInteMenArIfyllt() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUnderlagFinns(false)
@@ -310,7 +310,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_GodkandaUnderlag() {
+  void validateUnderlag_GodkandaUnderlag() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUnderlagFinns(true)
@@ -323,7 +323,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_tooMany() {
+  void validateUnderlag_tooMany() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUnderlagFinns(true)
@@ -351,7 +351,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_EjGodkantUnderlag() {
+  void validateUnderlag_EjGodkantUnderlag() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUnderlagFinns(true)
@@ -368,7 +368,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUnderlag_UnderlagFinnsMenArFelaktigtIfyllt() {
+  void validateUnderlag_UnderlagFinnsMenArFelaktigtIfyllt() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setUnderlagFinns(true)
@@ -390,7 +390,7 @@ public class InternalDraftValidatorTest {
   // Kategori 3 - Diagnos
 
   @Test
-  public void validateDiagnos_IngenDiagnos() {
+  void validateDiagnos_IngenDiagnos() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.build();
 
     validator.validateDiagnose(utlatande, validationMessages);
@@ -402,7 +402,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDiagnos_GodkandDiagnosKod() {
+  void validateDiagnos_GodkandDiagnosKod() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate.setDiagnoser(buildDiagnoser("J22", "Z730", "F642")).build();
 
@@ -412,7 +412,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDiagnos_EjGodkandaDiagnosKoder() {
+  void validateDiagnos_EjGodkandaDiagnosKoder() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate.setDiagnoser(buildDiagnoser("J2", "Z73", "F6")).build();
 
@@ -429,7 +429,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDiagnos_GodkandDiagnosKodMenIngenBeskrivning() {
+  void validateDiagnos_GodkandDiagnosKodMenIngenBeskrivning() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setDiagnoser(List.of(Diagnos.create("J22", "ICD-10-SE", null, "Ett namn...")))
@@ -446,7 +446,7 @@ public class InternalDraftValidatorTest {
   // Kategori 4 - Funktionsnedsättning
 
   @Test
-  public void validateFunktionsnedsattning_DebutOchPaverkanFinns() {
+  void validateFunktionsnedsattning_DebutOchPaverkanFinns() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setFunktionsnedsattningDebut("Debut..")
@@ -459,7 +459,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateFunktionsnedsattning_DebutOchPaverkanEjGiltiga() {
+  void validateFunktionsnedsattning_DebutOchPaverkanEjGiltiga() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setFunktionsnedsattningDebut("")
@@ -484,7 +484,7 @@ public class InternalDraftValidatorTest {
   // Kategori 6 - Kontakt
 
   @Test
-  public void validateKontakt_KontaktOnskas() {
+  void validateKontakt_KontaktOnskas() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate.setKontaktMedFk(true).setAnledningTillKontakt("En anledning").build();
 
@@ -494,7 +494,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontakt_KontaktOnskasMenIngenAnledningIfylld() {
+  void validateKontakt_KontaktOnskasMenIngenAnledningIfylld() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.setKontaktMedFk(true).build();
 
     validator.validateKontakt(utlatande, validationMessages);
@@ -503,7 +503,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontakt_KontaktOnskasInteMenAnledningIfylld() {
+  void validateKontakt_KontaktOnskasInteMenAnledningIfylld() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate.setKontaktMedFk(false).setAnledningTillKontakt("En andledning...").build();
 
@@ -517,7 +517,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBlanksForAnledningKontakt() {
+  void validateBlanksForAnledningKontakt() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate.setKontaktMedFk(true).setAnledningTillKontakt(" ").build();
 
@@ -531,7 +531,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBlanksForAnnatBeskrivning() {
+  void validateBlanksForAnnatBeskrivning() {
     LuaefsUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMU(new InternalDate("2022-12-20"))
@@ -548,7 +548,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBlanksForOvrigt() {
+  void validateBlanksForOvrigt() {
     LuaefsUtlatandeV1 utlatande = builderTemplate.setOvrigt(" ").build();
 
     validator.validateBlanksForOptionalFields(utlatande, validationMessages);

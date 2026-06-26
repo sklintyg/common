@@ -44,12 +44,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private PdfGenerator testee = new PdfGenerator();
 
   @Test
-  public void testGeneratePdf() throws IOException, ModuleException {
+  void testGeneratePdf() throws IOException, ModuleException {
     IntygTextsTsDiabetesV3RepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsTsDiabetesV3RepositoryTestHelper();
     intygsTextRepositoryHelper.update();

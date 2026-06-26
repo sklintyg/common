@@ -70,7 +70,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class InternalValidatorResultMatchesSchematronValidatorTest {
+class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 
@@ -120,7 +120,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   }
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     // use reflection to set ValidatorUtilFK in InternalDraftValidator
     Field field = InternalDraftValidatorImpl.class.getDeclaredField("validatorUtilFK");
     field.setAccessible(true);

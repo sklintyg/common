@@ -30,19 +30,19 @@ import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-public class ScenarioTest {
+class ScenarioTest {
 
   private List<Scenario> internalScenarios;
   private List<Scenario> transportScenarios;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     internalScenarios = ScenarioFinder.getInternalScenarios("diabetes-*");
     transportScenarios = ScenarioFinder.getTransportScenarios("diabetes-*");
   }
 
   @Test
-  public void testInternalToTransport() throws ScenarioNotFoundException {
+  void testInternalToTransport() throws ScenarioNotFoundException {
     for (Scenario internalScenario : internalScenarios) {
       Scenario transportScenario =
           getScenarioByName(internalScenario.getName(), transportScenarios);
@@ -60,7 +60,7 @@ public class ScenarioTest {
   }
 
   @Test
-  public void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
+  void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
     for (Scenario scenario : transportScenarios) {
       Scenario internalScenario = getScenarioByName(scenario.getName(), internalScenarios);
 

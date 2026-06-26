@@ -29,14 +29,14 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 
-public class WebcertModelFactoryUtilTest {
+class WebcertModelFactoryUtilTest {
 
   private static final String TOLVAN = "19121212-1212";
   private static final String LILL_TOLVAN = "20121212-1212";
   private static final String SAMORDNINGSNUMMER = "19121272-1212";
 
   @Test
-  public void testPopulateGrunddataFromCreateDraftCopyHolderBaseCase() throws ConverterException {
+  void testPopulateGrunddataFromCreateDraftCopyHolderBaseCase() throws ConverterException {
     final String personId = "personId";
     final String enhetsId = "enhetsId";
     final String meddelandeId = "relationMeddelandeId";
@@ -66,7 +66,7 @@ public class WebcertModelFactoryUtilTest {
   }
 
   @Test
-  public void testPopulateGrunddataFromCreateDraftCopyHolderCopiesOverMissingInfo()
+  void testPopulateGrunddataFromCreateDraftCopyHolderCopiesOverMissingInfo()
       throws ConverterException {
     final String enhetsId = "enhetsId";
     final String postadress = "postadress";
@@ -102,7 +102,7 @@ public class WebcertModelFactoryUtilTest {
   }
 
   @Test
-  public void testPopulateGrunddataFromCreateDraftCopyHolderDoesntOverwriteHsaInfo()
+  void testPopulateGrunddataFromCreateDraftCopyHolderDoesntOverwriteHsaInfo()
       throws ConverterException {
     final String enhetsId = "enhetsId";
     final String postadress = "postadress";
@@ -142,7 +142,7 @@ public class WebcertModelFactoryUtilTest {
   }
 
   @Test
-  public void testPopulateGrunddataFromCreateDraftCopyHolderDifferentVardenhet()
+  void testPopulateGrunddataFromCreateDraftCopyHolderDifferentVardenhet()
       throws ConverterException {
     final String enhetsId = "enhetsId";
     GrundData target = new GrundData();

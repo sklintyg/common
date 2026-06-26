@@ -37,23 +37,21 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 
 /** Created by marced on 10/05/16. */
 @ExtendWith(MockitoExtension.class)
-public class Ag114EntryPointTest {
+class Ag114EntryPointTest {
 
   @Mock IntygTextsRepository repoMock;
 
   private Ag114EntryPoint entryPoint;
 
   @Test
-  public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet()
-      throws Exception {
+  void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() {
     entryPoint = new Ag114EntryPoint();
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
     assertNull(entryPoint.getDetailedModuleDescription());
   }
 
   @Test
-  public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet()
-      throws Exception {
+  void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() {
     when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
     SortedMap<String, String> map = new TreeMap<>();
     map.put(AgAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");

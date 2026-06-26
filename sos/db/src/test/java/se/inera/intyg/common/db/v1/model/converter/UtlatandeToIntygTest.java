@@ -71,7 +71,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @ExtendWith({SpringExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String intygsId = "intygsid";
   private final String textVersion = "textversion";
@@ -110,7 +110,7 @@ public class UtlatandeToIntygTest {
   private final Boolean polisanmalan = true;
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     DbUtlatandeV1 utlatande =
         DbUtlatandeV1.builder()
             .setId(intygsId)
@@ -280,7 +280,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testOsakertDodsdatum() throws Exception {
+  void testOsakertDodsdatum() throws Exception {
     InternalDate zeroFilledDodsdatum = new InternalDate("2017-01-00");
     DbUtlatandeV1 utlatande =
         DbUtlatandeV1.builder()

@@ -24,10 +24,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.JAXBException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,18 +50,18 @@ import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.inera.intygstjanster.ts.services.v1.Status;
 
 @ExtendWith(MockitoExtension.class)
-public class GetTSDiabetesResponderImplTest {
+class GetTSDiabetesResponderImplTest {
 
-  private final String LOGICAL_ADDRESS = "logicalAddress";
-  private final String PNR_FJORTON = "19141214-1414";
-  private final String PNR_TOLVAN = "19121212-1212";
+  private static final String LOGICAL_ADDRESS = "logicalAddress";
+  private static final String PNR_FJORTON = "19141214-1414";
+  private static final String PNR_TOLVAN = "19121212-1212";
 
   @Mock private ModuleContainerApi moduleContainer;
 
   @InjectMocks private GetTSDiabetesResponderImpl responder;
 
   @Test
-  public void testGetTSDiabetes() throws Exception {
+  void testGetTSDiabetes() throws Exception {
     final String intygId = "intygId";
     final String target = "target";
     final CertificateState state = CertificateState.RECEIVED;
@@ -78,8 +77,7 @@ public class GetTSDiabetesResponderImplTest {
     certificate.setType("ts-diabetes");
     certificate.setCareUnitId("hsa-id-enheten");
     certificate.setCivicRegistrationNumber(pnr);
-    certificate.setCertificateStates(
-        Arrays.asList(new CertificateStateHolder(target, state, timestamp)));
+    certificate.setCertificateStates(List.of(new CertificateStateHolder(target, state, timestamp)));
     certificate.setOriginalCertificate(xmlToString(originalCertificate));
     certificate.setAdditionalInfo(additionalInfo);
     certificate.setDeleted(false);
@@ -102,15 +100,15 @@ public class GetTSDiabetesResponderImplTest {
     assertEquals(additionalInfo, res.getMeta().getAdditionalInfo());
     assertEquals("true", res.getMeta().getAvailable());
     assertEquals(1, res.getMeta().getStatus().size());
-    assertEquals(target, res.getMeta().getStatus().get(0).getTarget());
+    assertEquals(target, res.getMeta().getStatus().getFirst().getTarget());
     assertEquals(
         timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-        res.getMeta().getStatus().get(0).getTimestamp());
-    assertEquals(Status.RECEIVED, res.getMeta().getStatus().get(0).getType());
+        res.getMeta().getStatus().getFirst().getTimestamp());
+    assertEquals(Status.RECEIVED, res.getMeta().getStatus().getFirst().getType());
   }
 
   @Test
-  public void testGetTSDiabetesDeleted() throws Exception {
+  void testGetTSDiabetesDeleted() throws Exception {
     final String intygId = "intygId";
 
     RegisterTSDiabetesType originalCertificate =
@@ -120,7 +118,7 @@ public class GetTSDiabetesResponderImplTest {
     CertificateHolder certificate = new CertificateHolder();
     certificate.setCivicRegistrationNumber(pnr);
     certificate.setCertificateStates(
-        Arrays.asList(
+        List.of(
             new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
     certificate.setOriginalCertificate(xmlToString(originalCertificate));
     certificate.setDeleted(true);
@@ -140,7 +138,7 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testGetTSDiabetesNoPersonId() throws Exception {
+  void testGetTSDiabetesNoPersonId() throws Exception {
     final String intygId = "intygId";
 
     RegisterTSDiabetesType originalCertificate =
@@ -148,7 +146,7 @@ public class GetTSDiabetesResponderImplTest {
 
     CertificateHolder certificate = new CertificateHolder();
     certificate.setCertificateStates(
-        Arrays.asList(
+        List.of(
             new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
     certificate.setOriginalCertificate(xmlToString(originalCertificate));
     when(moduleContainer.getCertificate(intygId, null, false)).thenReturn(certificate);
@@ -164,7 +162,7 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testGetTSDiabetesNoCertificateId() throws Exception {
+  void testGetTSDiabetesNoCertificateId() {
     GetTSDiabetesResponseType res =
         responder.getTSDiabetes(LOGICAL_ADDRESS, new GetTSDiabetesType());
 
@@ -175,7 +173,7 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testGetTSDiabetesPersonIdMismatch() throws Exception {
+  void testGetTSDiabetesPersonIdMismatch() throws Exception {
     final String intygId = "intygId";
 
     CertificateHolder certificate = new CertificateHolder();
@@ -197,7 +195,7 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testGetTSDiabetesDeletedByCareGiver() throws Exception {
+  void testGetTSDiabetesDeletedByCareGiver() throws Exception {
     final String intygId = "intygId";
 
     CertificateHolder certificate = new CertificateHolder();
@@ -217,7 +215,7 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testGetTSDiabetesRevoked() throws Exception {
+  void testGetTSDiabetesRevoked() throws Exception {
     final String intygId = "intygId";
     final String target = "target";
     final CertificateState state = CertificateState.RECEIVED;
@@ -230,8 +228,7 @@ public class GetTSDiabetesResponderImplTest {
 
     CertificateHolder certificate = new CertificateHolder();
     certificate.setCivicRegistrationNumber(pnr);
-    certificate.setCertificateStates(
-        Arrays.asList(new CertificateStateHolder(target, state, timestamp)));
+    certificate.setCertificateStates(List.of(new CertificateStateHolder(target, state, timestamp)));
     certificate.setOriginalCertificate(xmlToString(originalCertificate));
     certificate.setAdditionalInfo(additionalInfo);
     certificate.setDeleted(false);
@@ -254,15 +251,15 @@ public class GetTSDiabetesResponderImplTest {
     assertEquals(additionalInfo, res.getMeta().getAdditionalInfo());
     assertEquals("true", res.getMeta().getAvailable());
     assertEquals(1, res.getMeta().getStatus().size());
-    assertEquals(target, res.getMeta().getStatus().get(0).getTarget());
+    assertEquals(target, res.getMeta().getStatus().getFirst().getTarget());
     assertEquals(
         timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
-        res.getMeta().getStatus().get(0).getTimestamp());
-    assertEquals(Status.RECEIVED, res.getMeta().getStatus().get(0).getType());
+        res.getMeta().getStatus().getFirst().getTimestamp());
+    assertEquals(Status.RECEIVED, res.getMeta().getStatus().getFirst().getType());
   }
 
   @Test
-  public void testGetTSDiabetesInvalidCertificate() throws Exception {
+  void testGetTSDiabetesInvalidCertificate() throws Exception {
     final String intygId = "intygId";
 
     when(moduleContainer.getCertificate(intygId, null, false))
@@ -280,10 +277,10 @@ public class GetTSDiabetesResponderImplTest {
   }
 
   private Personnummer createPnr(String pnr) {
-    return Personnummer.createPersonnummer(pnr).get();
+    return Personnummer.createPersonnummer(pnr).orElseThrow();
   }
 
-  private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {
+  private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) {
     JAXBElement<RegisterTSDiabetesType> el =
         new ObjectFactory().createRegisterTSDiabetes(registerTsDiabetes);
     return XmlMarshallerHelper.marshal(el);

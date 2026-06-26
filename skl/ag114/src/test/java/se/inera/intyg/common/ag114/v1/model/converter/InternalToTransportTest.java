@@ -67,7 +67,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
@@ -88,7 +88,7 @@ public class InternalToTransportTest {
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -124,7 +124,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationAg114() throws Exception {
+  void doSchematronValidationAg114() throws Exception {
     String xmlContents =
         Resources.toString(getResource("v1/transport/ag114-2.xml"), Charsets.UTF_8);
 
@@ -141,7 +141,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Ag114UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     Ag114UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -150,13 +150,13 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     Ag114UtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);

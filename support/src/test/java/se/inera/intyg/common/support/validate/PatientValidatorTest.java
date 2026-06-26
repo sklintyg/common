@@ -28,10 +28,10 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
-public class PatientValidatorTest {
+class PatientValidatorTest {
 
   @Test
-  public void passPatientWithCorrectInfo() {
+  void passPatientWithCorrectInfo() {
     Patient patient = new Patient();
     patient.setPostadress("Testadress");
     patient.setPostort("Postort");
@@ -42,7 +42,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void failPatientMissingPostadress() {
+  void failPatientMissingPostadress() {
     Patient patient = new Patient();
     patient.setPostort("Postort");
     patient.setPostnummer("12345");
@@ -57,7 +57,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void failPatientMissingPostort() {
+  void failPatientMissingPostort() {
     Patient patient = new Patient();
     patient.setPostadress("Testadress");
     patient.setPostnummer("12345");
@@ -72,7 +72,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void failPatientMissingPostnummer() {
+  void failPatientMissingPostnummer() {
     Patient patient = new Patient();
     patient.setPostadress("Testadress");
     patient.setPostort("Postort");
@@ -89,7 +89,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void failPatientInvalidPostnummer() {
+  void failPatientInvalidPostnummer() {
     Patient patient = new Patient();
     patient.setPostadress("Testadress");
     patient.setPostnummer("123456");
@@ -109,7 +109,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void exceptionThrownWithNullPatient() {
+  void exceptionThrownWithNullPatient() {
     assertThrows(
         RuntimeException.class,
         () -> {

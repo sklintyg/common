@@ -25,18 +25,17 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class HsaIdValidatorTest {
+class HsaIdValidatorTest {
 
   private HsaIdValidator validator;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() {
     validator = new HsaIdValidator();
   }
 
   @Test
-  public void testHsaIdParser() {
-    /** This should work */
+  void testHsaIdParser() {
     assertListSize(0, validator.validateExtension("SE0000000000-1337"));
     assertListSize(0, validator.validateExtension("SE5565594230-1337"));
     assertListSize(0, validator.validateExtension("SE0000000000-012345678901234567"));
@@ -44,7 +43,6 @@ public class HsaIdValidatorTest {
     assertListSize(0, validator.validateExtension("SE0000000000- '()+,-./:=?"));
     assertListSize(0, validator.validateExtension("SE5565594230-YJ54"));
 
-    /** Expect errors */
     assertListSize(1, validator.validateExtension("DK000000000037"));
     assertListSize(1, validator.validateExtension("SE160000000000- '()+,-./:=?&"));
     assertListSize(1, validator.validateExtension("SE000000000037"));

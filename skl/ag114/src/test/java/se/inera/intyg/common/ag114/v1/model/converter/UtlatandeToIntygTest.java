@@ -59,14 +59,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String PNR_TOLVAN = "191212121212";
 
   @Mock private WebcertModuleService webcertModuleService;
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     final String intygsId = "intygsid";
     final String textVersion = "textversion";
     final String enhetsId = "enhetsid";
@@ -161,7 +161,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithRelation() throws Exception {
+  void testConvertWithRelation() throws Exception {
     RelationKod relationKod = RelationKod.FRLANG;
     String relationIntygsId = "relationIntygsId";
     Ag114UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -176,7 +176,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithSjukskrivningsGrad() throws Exception {
+  void testConvertWithSjukskrivningsGrad() throws Exception {
     final String expectedSjukskrivningsGrad = "80";
     final String expectedSjukskrivningsGradUnit = "%";
     final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
@@ -202,7 +202,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithSjukskrivningsGradNull() throws Exception {
+  void testConvertWithSjukskrivningsGradNull() throws Exception {
     final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
     sjukskrivningsPeriod.setFrom(new InternalDate("2019-01-01"));
     sjukskrivningsPeriod.setTom(new InternalDate("2019-01-31"));
@@ -221,7 +221,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithSjukskrivningsGradEmpty() throws Exception {
+  void testConvertWithSjukskrivningsGradEmpty() throws Exception {
     final String expectedSjukskrivningsGrad = " ";
     final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
     sjukskrivningsPeriod.setFrom(new InternalDate("2019-01-01"));

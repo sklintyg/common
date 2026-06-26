@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
 @ExtendWith(MockitoExtension.class)
-public class InternalValidatorTest {
+class InternalValidatorTest {
 
   private InternalDraftValidator internalValidator = new InternalDraftValidatorImpl();
 
@@ -41,7 +41,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
+  void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
     final int numErrors = 1;
     Af00213UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
@@ -54,7 +54,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
+  void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
     final int numErrors = 1;
     Af00213UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
@@ -67,7 +67,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
+  void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
     final int numErrors = 1;
     Af00213UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
@@ -80,7 +80,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testUtredningBehandlingSaknas() throws ScenarioNotFoundException {
+  void testUtredningBehandlingSaknas() throws ScenarioNotFoundException {
     final int numErrors = 1;
     Af00213UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-utredningBehandlingSaknas").asInternalModel();

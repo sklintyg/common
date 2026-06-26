@@ -50,7 +50,7 @@ import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 @ExtendWith(MockitoExtension.class)
-public class RegisterTSDiabetesResponderImplTest {
+class RegisterTSDiabetesResponderImplTest {
 
   private static final String LOGICAL_ADDRESS = "logicalAddress";
 
@@ -59,7 +59,7 @@ public class RegisterTSDiabetesResponderImplTest {
   @InjectMocks private RegisterTSDiabetesResponderImpl responder;
 
   @Test
-  public void testRegisterTSDiabetes() throws Exception {
+  void testRegisterTSDiabetes() throws Exception {
     RegisterTSDiabetesType request =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     RegisterTSDiabetesResponseType res = responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
@@ -76,7 +76,7 @@ public class RegisterTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testRegisterTSDiabetesCertificateAlreadyExists() throws Exception {
+  void testRegisterTSDiabetesCertificateAlreadyExists() throws Exception {
     RegisterTSDiabetesType request =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     doThrow(new CertificateAlreadyExistsException("intygId"))
@@ -92,7 +92,7 @@ public class RegisterTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testRegisterTSDiabetesInvalidCertificate() throws Exception {
+  void testRegisterTSDiabetesInvalidCertificate() throws Exception {
     RegisterTSDiabetesType request =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     doThrow(new InvalidCertificateException("intygId", null))
@@ -109,7 +109,7 @@ public class RegisterTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testRegisterTSDiabetesValidationError() throws Exception {
+  void testRegisterTSDiabetesValidationError() throws Exception {
     TransportValidatorInstance validatorMock = mock(TransportValidatorInstance.class);
     when(validatorMock.validate(any(TSDiabetesIntyg.class)))
         .thenReturn(Arrays.asList("validationerror1"));
@@ -128,7 +128,7 @@ public class RegisterTSDiabetesResponderImplTest {
   }
 
   @Test
-  public void testRegisterTSDiabetesJAXBException() throws Exception {
+  void testRegisterTSDiabetesJAXBException() throws Exception {
     assertThrows(
         RuntimeException.class,
         () -> {

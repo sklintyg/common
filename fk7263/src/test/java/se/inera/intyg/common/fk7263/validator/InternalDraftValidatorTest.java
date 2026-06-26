@@ -41,7 +41,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
 @ExtendWith(MockitoExtension.class)
-public class InternalDraftValidatorTest {
+class InternalDraftValidatorTest {
 
   @Mock private WebcertModuleService mockModuleService;
 
@@ -62,7 +62,7 @@ public class InternalDraftValidatorTest {
   }
 
   @BeforeEach
-  public void setUpModuleServiceExpectation() {
+  void setUpModuleServiceExpectation() {
     Mockito.when(
             mockModuleService.validateDiagnosisCode(
                 Mockito.argThat(new DiagnosKodArgmentMatcher()), Mockito.anyString()))
@@ -70,7 +70,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void testValidate() throws Exception {
+  void testValidate() throws Exception {
     for (se.inera.intyg.common.fk7263.utils.Scenario scenario :
         ScenarioFinder.getInternalScenarios("valid-*")) {
       Fk7263Utlatande utlatande = scenario.asInternalModel();
@@ -93,7 +93,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void testValidateWithErrors() throws Exception {
+  void testValidateWithErrors() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
       Fk7263Utlatande utlatande = scenario.asInternalModel();
@@ -112,9 +112,9 @@ public class InternalDraftValidatorTest {
    *
    * @author npet
    */
-  class DiagnosKodArgmentMatcher implements ArgumentMatcher<String> {
+  static class DiagnosKodArgmentMatcher implements ArgumentMatcher<String> {
 
-    private List<String> ALLOWED_CODES =
+    private static List<String> ALLOWED_CODES =
         Arrays.asList("S47", "TEST1", "TEST2", "TEST3", "Z233", "A000");
 
     @Override

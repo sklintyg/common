@@ -68,7 +68,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
@@ -89,7 +89,7 @@ public class InternalToTransportTest {
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -129,7 +129,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationag7804() throws Exception {
+  void doSchematronValidationag7804() throws Exception {
     String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
@@ -145,7 +145,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Ag7804UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     Ag7804UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -154,7 +154,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }

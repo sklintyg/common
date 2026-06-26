@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
-public class TransportToInternalUtilTest {
+class TransportToInternalUtilTest {
 
   @Test
-  public void handleDiagnosSvarTest() throws Exception {
+  void handleDiagnosSvarTest() throws Exception {
     final String diagnosKod1 = "S666";
     final String diagnosKodSystem1 = "1.2.752.116.1.1.1.1.3";
     final String diagnosBeskrivning1 =
@@ -76,7 +76,7 @@ public class TransportToInternalUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTwoDiagnoses() throws Exception {
+  void handleDiagnosSvarTwoDiagnoses() throws Exception {
     final String diagnosKod1 = "S666";
     final String diagnosKodSystem1 = "1.2.752.116.1.1.1.1.3";
     final String diagnosBeskrivning1 =
@@ -110,7 +110,7 @@ public class TransportToInternalUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarOneDiagnosis() throws Exception {
+  void handleDiagnosSvarOneDiagnosis() throws Exception {
     final String diagnosKod1 = "S666";
     final String diagnosKodSystem1 = "1.2.752.116.1.1.1.1.3";
     final String diagnosBeskrivning1 =
@@ -134,7 +134,7 @@ public class TransportToInternalUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarKSH97P() throws Exception {
+  void handleDiagnosSvarKSH97P() throws Exception {
     final String diagnosKod1 = "A00-";
     final String diagnosKodSystem1 = "1.2.752.116.1.3.1.4.1";
     final String diagnosBeskrivning1 = "Kolera";

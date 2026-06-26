@@ -39,7 +39,7 @@ class CategorySynfunktionerTest {
   @Mock CertificateTextProvider textProvider;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     when(textProvider.get(any(String.class))).thenReturn("test string");
   }
 

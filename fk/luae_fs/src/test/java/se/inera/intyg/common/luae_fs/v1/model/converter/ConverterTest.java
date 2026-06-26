@@ -25,8 +25,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import jakarta.xml.bind.JAXB;
@@ -34,11 +34,10 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +70,7 @@ import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class ConverterTest {
+class ConverterTest {
 
   @Spy private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
 
@@ -79,20 +78,20 @@ public class ConverterTest {
 
   @Mock private WebcertModuleService webcertModuleService;
 
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectMapper objectMapper = new CustomObjectMapper();
 
   public ConverterTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -109,9 +108,9 @@ public class ConverterTest {
   }
 
   @Test
-  public void doSchematronValidationLuaeFs() throws Exception {
+  void doSchematronValidationLuaeFs() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -120,16 +119,17 @@ public class ConverterTest {
         new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void outputJsonFromXml() throws Exception {
+  void outputJsonFromXml() throws Exception {
 
     String xmlContents =
-        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), StandardCharsets.UTF_8);
     RegisterCertificateType transport =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
 
@@ -145,7 +145,8 @@ public class ConverterTest {
         new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(convertedXML.getBytes(StandardCharsets.UTF_8))));
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size(), getErrorString(result));
 
     // Why not validate internal model as well?
@@ -155,9 +156,9 @@ public class ConverterTest {
   private String getErrorString(SchematronOutputType result) {
     StringBuilder errorMsg = new StringBuilder();
     SVRLHelper.getAllFailedAssertions(result).stream()
-        .map(e -> e.getText())
-        .collect(Collectors.toList())
-        .forEach(e -> errorMsg.append(e));
+        .map(AbstractSVRLMessage::getText)
+        .toList()
+        .forEach(errorMsg::append);
     return errorMsg.toString();
   }
 
@@ -165,8 +166,7 @@ public class ConverterTest {
     return Thread.currentThread().getContextClassLoader().getResource(href);
   }
 
-  private String getXmlFromModel(RegisterCertificateType transport)
-      throws IOException, JAXBException {
+  private String getXmlFromModel(RegisterCertificateType transport) throws JAXBException {
     StringWriter sw = new StringWriter();
     JAXBContext jaxbContext =
         JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);

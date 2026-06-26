@@ -46,7 +46,7 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of FK7263 where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class Fk7263ModuleApiRenewalTest {
+class Fk7263ModuleApiRenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
 
@@ -61,8 +61,7 @@ public class Fk7263ModuleApiRenewalTest {
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
     // This modifies the template for some bizarre reason.
     final var renewalFromTemplate =
         moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());

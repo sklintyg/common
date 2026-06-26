@@ -25,17 +25,17 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SimpleHsaIdValidatorTest {
+class SimpleHsaIdValidatorTest {
 
   private SimpleHsaIdValidator validator;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     validator = new SimpleHsaIdValidator();
   }
 
   @Test
-  public void testHsaIdParser() {
+  void testHsaIdParser() {
     /** This should work */
     assertListSize(0, validator.validateExtension("SE0000000000-1337"));
     assertListSize(0, validator.validateExtension("SE5565594230-1337"));

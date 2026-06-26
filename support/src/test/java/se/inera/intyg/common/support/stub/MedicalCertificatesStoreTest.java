@@ -30,12 +30,12 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class MedicalCertificatesStoreTest {
+class MedicalCertificatesStoreTest {
 
   private MedicalCertificatesStore store = null;
 
   @BeforeEach
-  public void before() {
+  void before() {
     store = new MedicalCertificatesStore();
 
     Map<String, String> properties = newHashMap();
@@ -50,25 +50,25 @@ public class MedicalCertificatesStoreTest {
   }
 
   @Test
-  public void testGetCount() throws Exception {
+  void testGetCount() throws Exception {
     assertEquals(2, store.getCount());
   }
 
   @Test
-  public void testGetAll() throws Exception {
+  void testGetAll() throws Exception {
     Map<String, Map<String, String>> all = store.getAll();
     assertEquals(2, all.size());
   }
 
   @Test
-  public void testMakulera() throws Exception {
+  void testMakulera() throws Exception {
     store.makulera("id-0001", "meddelande");
     assertEquals(MAKULERAD_JA, store.getAll().get("id-0001").get(MAKULERAD));
     assertEquals("meddelande", store.getAll().get("id-0001").get(MEDDELANDE));
   }
 
   @Test
-  public void testClear() throws Exception {
+  void testClear() throws Exception {
     store.clear();
     assertEquals(0, store.getCount());
   }

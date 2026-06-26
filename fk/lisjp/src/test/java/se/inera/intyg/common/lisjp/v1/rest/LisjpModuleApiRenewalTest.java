@@ -47,7 +47,7 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class LisjpModuleApiRenewalTest {
+class LisjpModuleApiRenewalTest {
 
   @Spy private WebcertModelFactoryImpl webcertModelFactory;
 
@@ -63,8 +63,7 @@ public class LisjpModuleApiRenewalTest {
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
     IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
     LisjpUtlatandeV1 original = getUtlatandeFromFile();
     String renewalFromTemplate =

@@ -57,7 +57,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
   private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
@@ -66,14 +66,14 @@ public class WebcertModelFactoryTest {
   @InjectMocks private WebcertModelFactoryImpl factory;
 
   @BeforeEach
-  public void setUpMocks() {
+  void setUpMocks() {
     when(intygTexts.getLatestVersionForSameMajorVersion(
             eq(Tstrk1009EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -90,7 +90,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateEditableModel() throws Exception {
+  void testCreateEditableModel() throws Exception {
 
     Tstrk1009UtlatandeV1 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
@@ -110,7 +110,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     Tstrk1009UtlatandeV1 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
@@ -118,7 +118,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyCertificateIdMissing() throws Exception {
+  void testCreateCopyCertificateIdMissing() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -129,7 +129,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+  void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
     // Given
     GrundData grundData = new GrundData();
     grundData.setSigneringsdatum(LocalDateTime.now());

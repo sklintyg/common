@@ -31,10 +31,10 @@ import se.inera.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
-public class CertificateStateHolderConverterTest {
+class CertificateStateHolderConverterTest {
 
   @Test
-  public void testToCertificateStatusTypeNull() {
+  void testToCertificateStatusTypeNull() {
     List<UtlatandeStatus> res = CertificateStateHolderConverter.toCertificateStatusType(null);
 
     assertNotNull(res);
@@ -42,7 +42,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToCertificateStatusTypeEmptyList() {
+  void testToCertificateStatusTypeEmptyList() {
     List<UtlatandeStatus> res =
         CertificateStateHolderConverter.toCertificateStatusType(new ArrayList<>());
 
@@ -51,7 +51,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToCertificateStatusType() {
+  void testToCertificateStatusType() {
     final String target1 = "target1";
     final String target2 = "target2";
     final String target3 = "target3";

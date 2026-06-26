@@ -41,7 +41,7 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class InternalToTransportConverterTest {
+class InternalToTransportConverterTest {
 
   private static final String ENHETSNAMN = "enhetsnamn";
   private static final String ENHETSID = "enhetsid";
@@ -56,7 +56,7 @@ public class InternalToTransportConverterTest {
   private static final String PERSONID = "personid";
 
   @Test
-  public void testConvert() throws ScenarioNotFoundException {
+  void testConvert() throws ScenarioNotFoundException {
     TsDiabetesUtlatandeV2 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
     utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
@@ -79,7 +79,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertWithMillisInTimestamp() throws ScenarioNotFoundException {
+  void testConvertWithMillisInTimestamp() throws ScenarioNotFoundException {
     TsDiabetesUtlatandeV2 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
     utlatande.getGrundData().setSigneringsdatum(LocalDateTime.of(2012, 8, 2, 10, 9, 0, 123));
@@ -93,7 +93,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertNullSpecialistkompetens() throws ScenarioNotFoundException {
+  void testConvertNullSpecialistkompetens() throws ScenarioNotFoundException {
     TsDiabetesUtlatandeV2 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
     utlatande.getGrundData().setSkapadAv(buildHosPersonal(null));
@@ -103,7 +103,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException {
+  void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException {
     String specialistkompetens1 = "Kirurgi";
     String specialistkompetens2 = "Allergi";
     TsDiabetesUtlatandeV2 utlatande =
@@ -119,8 +119,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertMapsBefattningCodeToDescriptionIfPossible()
-      throws ScenarioNotFoundException {
+  void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException {
     final String befattning = "203010";
     final String description = "Läkare legitimerad, specialiseringstjänstgöring";
     TsDiabetesUtlatandeV2 utlatande =
@@ -134,8 +133,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertKeepBefattningCodeIfDescriptionNotFound()
-      throws ScenarioNotFoundException {
+  void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException {
     String befattningskod = "kod";
     TsDiabetesUtlatandeV2 utlatande =
         ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
@@ -148,7 +146,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertSetsVersionAndUtgavaFromTextVersion()
+  void testConvertSetsVersionAndUtgavaFromTextVersion()
       throws ScenarioNotFoundException, ConverterException {
     final String version = "03";
     final String utgava = "07";
@@ -161,7 +159,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty()
+  void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty()
       throws ScenarioNotFoundException, ConverterException {
     final String defaultVersion = "02";
     final String defaultUtgava = "06";

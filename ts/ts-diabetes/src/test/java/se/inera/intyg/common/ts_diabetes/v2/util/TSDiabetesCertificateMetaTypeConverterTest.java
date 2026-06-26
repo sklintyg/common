@@ -39,10 +39,10 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
-public class TSDiabetesCertificateMetaTypeConverterTest {
+class TSDiabetesCertificateMetaTypeConverterTest {
 
   @Test
-  public void testToCertificateMetaData() {
+  void testToCertificateMetaData() {
     final String certificateId = "certificateId";
     final String certificateType = "certificateType";
     final String issuerName = "issuer name";
@@ -82,7 +82,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaDataNotAvailable() {
+  void testToCertificateMetaDataNotAvailable() {
     IntygMeta source = new IntygMeta();
     source.setAvailable("false");
     TSDiabetesIntyg intyg = new TSDiabetesIntyg();
@@ -100,7 +100,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatusList() {
+  void testToStatusList() {
     final String target1 = "target1";
     final String timestamp1 = "2016-10-11T10:10:00";
     final String target2 = "target2";
@@ -127,7 +127,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatusListNull() {
+  void testToStatusListNull() {
     List<Status> res = TSDiabetesCertificateMetaTypeConverter.toStatusList(null);
 
     assertNotNull(res);
@@ -135,7 +135,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatusListEmptyList() {
+  void testToStatusListEmptyList() {
     List<Status> res = TSDiabetesCertificateMetaTypeConverter.toStatusList(new ArrayList<>());
 
     assertNotNull(res);
@@ -143,7 +143,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatus() {
+  void testToStatus() {
     final String target = "target";
     final String timestamp = "2016-10-11T10:10:00";
     IntygStatus source = new IntygStatus();
@@ -159,7 +159,7 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testConvertFromKodverkValues() {
+  void testConvertFromKodverkValues() {
     final String timestamp = "2016-10-11T10:10:00";
     IntygMeta source = new IntygMeta();
 

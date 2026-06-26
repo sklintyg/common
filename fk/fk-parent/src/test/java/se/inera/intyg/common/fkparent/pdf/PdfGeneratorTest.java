@@ -38,7 +38,7 @@ import se.inera.intyg.common.support.services.BefattningService;
 /** Created 24/11-16 */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private static final String TITLE = "title";
 
@@ -55,7 +55,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdf() throws Exception {
+  void testGeneratePdf() throws Exception {
     FkPdfDefinition def = buildPdfDefinition();
     byte[] pdfFileBytes = PdfGenerator.generatePdf(def, TITLE);
     assertNotNull(pdfFileBytes);
@@ -63,7 +63,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdfName() throws Exception {
+  void testGeneratePdfName() throws Exception {
     final String PREFIX = "test";
     final LocalDateTime tidpunkt = LocalDateTime.now();
 

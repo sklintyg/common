@@ -28,10 +28,10 @@ import java.util.SortedMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class IntygTextsTest {
+class IntygTextsTest {
 
   @Test
-  public void testValidVersionNumber() {
+  void testValidVersionNumber() {
     IntygTexts test1 = new IntygTexts("1.0", null, null, null, null, null, null);
     Assertions.assertNotNull(test1);
     Assertions.assertEquals(test1.getVersion(), "1.0", "Version should be set to what is created");
@@ -42,7 +42,7 @@ public class IntygTextsTest {
   }
 
   @Test
-  public void testInvalidVersionNumber() {
+  void testInvalidVersionNumber() {
     IllegalArgumentException thrown =
         Assertions.assertThrows(
             IllegalArgumentException.class,
@@ -52,7 +52,7 @@ public class IntygTextsTest {
   }
 
   @Test
-  public void testInvalidVersionNumberNull() {
+  void testInvalidVersionNumberNull() {
     IllegalArgumentException thrown =
         Assertions.assertThrows(
             IllegalArgumentException.class,
@@ -62,7 +62,7 @@ public class IntygTextsTest {
   }
 
   @Test
-  public void testDeepCopy() {
+  void testDeepCopy() {
     SortedMap<String, String> texts = Maps.newTreeMap();
     texts.put("text1", "value1");
     texts.put("text2", "value2");

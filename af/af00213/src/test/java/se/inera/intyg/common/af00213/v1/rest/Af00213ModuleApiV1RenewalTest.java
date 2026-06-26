@@ -45,7 +45,7 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class Af00213ModuleApiV1RenewalTest {
+class Af00213ModuleApiV1RenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "v1/Af00213ModelCompareUtil/utlatande.json";
 
@@ -61,8 +61,7 @@ public class Af00213ModuleApiV1RenewalTest {
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
     IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
     final var original = getUtlatandeFromFile();
     final var renewalFromTemplate =

@@ -37,13 +37,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ class Ag114ModuleApiTest {
   }
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
     ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
     ReflectionTestUtils.setField(moduleApi, "internalDraftValidator", internalDraftValidator);
@@ -313,21 +313,23 @@ class Ag114ModuleApiTest {
   }
 
   @Test
-  void testCreateCompletionFromTemplate() {
+  void testCreateCompletionFromTemplate() throws IOException {
     final var draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
+    final var utlatandeFromFile = getUtlatandeFromFile();
     assertThrows(
         UnsupportedOperationException.class,
         () ->
             moduleApi.createCompletionFromTemplate(
-                draftCertificateHolder, getUtlatandeFromFile(), "No!"));
+                draftCertificateHolder, utlatandeFromFile, "No!"));
   }
 
   @Test
-  void testCreateRenewalFromTemplate() {
+  void testCreateRenewalFromTemplate() throws IOException {
     final var draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
+    final var utlatandeFromFile = getUtlatandeFromFile();
     assertThrows(
         UnsupportedOperationException.class,
-        () -> moduleApi.createRenewalFromTemplate(draftCertificateHolder, getUtlatandeFromFile()));
+        () -> moduleApi.createRenewalFromTemplate(draftCertificateHolder, utlatandeFromFile));
   }
 
   @Test
@@ -500,12 +502,12 @@ class Ag114ModuleApiTest {
   }
 
   @Test
-  void testGetModuleSpecificArendeParameters() {
+  void testGetModuleSpecificArendeParameters() throws IOException {
+    final var utlatandeFromFile = getUtlatandeFromFile();
+    final var list = Arrays.asList("1", "2");
     assertThrows(
         UnsupportedOperationException.class,
-        () ->
-            moduleApi.getModuleSpecificArendeParameters(
-                getUtlatandeFromFile(), Arrays.asList("1", "2")));
+        () -> moduleApi.getModuleSpecificArendeParameters(utlatandeFromFile, list));
   }
 
   @Test
@@ -684,7 +686,7 @@ class Ag114ModuleApiTest {
   private String getResourceAsString(String resourceName) throws IOException {
     return (resourceName == null)
         ? null
-        : Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
+        : Resources.toString(Resources.getResource(resourceName), StandardCharsets.UTF_8);
   }
 
   private static GrundData getGrundData() {

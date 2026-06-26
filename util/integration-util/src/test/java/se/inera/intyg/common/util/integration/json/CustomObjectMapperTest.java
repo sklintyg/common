@@ -33,10 +33,10 @@ import tools.jackson.databind.ObjectMapper;
  * @author Magnus Ekstrand on 2017-11-24.
  */
 @ExtendWith(MockitoExtension.class)
-public class CustomObjectMapperTest {
+class CustomObjectMapperTest {
 
   @Test
-  public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
+  void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
       throws JacksonException {
 
     ObjectMapper mapper = new CustomObjectMapper();

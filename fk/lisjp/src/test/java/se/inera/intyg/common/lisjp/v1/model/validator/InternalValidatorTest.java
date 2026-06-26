@@ -33,14 +33,14 @@ import se.inera.intyg.common.lisjp.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
 @ExtendWith(MockitoExtension.class)
-public class InternalValidatorTest {
+class InternalValidatorTest {
 
   @Spy private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
 
   @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
   @Test
-  public void test() throws ScenarioNotFoundException {
+  void test() throws ScenarioNotFoundException {
     final int numErrors = 3;
     LisjpUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("sjukskrivningOverlappandePerioder").asInternalModel();

@@ -49,7 +49,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class WebCertModelFactoryImplTest {
+class WebCertModelFactoryImplTest {
 
   private static final String INTYG_ID = "intygsId";
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -60,7 +60,7 @@ public class WebCertModelFactoryImplTest {
   private WebcertModelFactoryImpl modelFactory;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     intygTextsService = mock(IntygTextsService.class);
     modelFactory = new WebcertModelFactoryImpl(intygTextsService);
     when(intygTextsService.getLatestVersionForSameMajorVersion(
@@ -69,7 +69,7 @@ public class WebCertModelFactoryImplTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraft() throws Exception {
+  void testCreateNewWebcertDraft() throws Exception {
     final Vardenhet vardenhet = getVardenhet();
     final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
     final Patient patient = getPatient();
@@ -98,7 +98,7 @@ public class WebCertModelFactoryImplTest {
   }
 
   @Test
-  public void testCreateCopy() throws Exception {
+  void testCreateCopy() throws Exception {
     TsTrk1062UtlatandeV1 utlatande =
         TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
 
@@ -132,7 +132,7 @@ public class WebCertModelFactoryImplTest {
   }
 
   @Test
-  public void testCreateCopyOfOtherType() throws Exception {
+  void testCreateCopyOfOtherType() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -146,7 +146,7 @@ public class WebCertModelFactoryImplTest {
   }
 
   @Test
-  public void testCreateCopyWithoutId() throws Exception {
+  void testCreateCopyWithoutId() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {

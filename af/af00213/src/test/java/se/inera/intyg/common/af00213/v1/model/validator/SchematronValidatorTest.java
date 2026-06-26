@@ -32,7 +32,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(Af00213ModuleApiV1.SCHEMATRON_FILE);
@@ -43,7 +43,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void brokenXmlFailsTest() throws Exception {
+  void brokenXmlFailsTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/transport/af00213_broken.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -51,7 +51,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPassesTest() throws Exception {
+  void validXmlPassesTest() throws Exception {
     String inputXml = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(

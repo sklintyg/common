@@ -38,7 +38,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import tools.jackson.core.JacksonException;
 
 @ExtendWith(MockitoExtension.class)
-public class IntygTextsServiceImplTest {
+class IntygTextsServiceImplTest {
 
   @Mock private IntygTextsRepository repo;
 
@@ -47,7 +47,7 @@ public class IntygTextsServiceImplTest {
   @InjectMocks private final IntygTextsServiceImpl service = new IntygTextsServiceImpl();
 
   @Test
-  public void testGetVersion() {
+  void testGetVersion() {
     when(repo.getLatestVersion(any(String.class))).thenReturn("1.0");
     String result = service.getLatestVersion("LISJP");
     verify(repo, times(1)).getLatestVersion("LISJP");
@@ -55,7 +55,7 @@ public class IntygTextsServiceImplTest {
   }
 
   @Test
-  public void testGetVersionNull() {
+  void testGetVersionNull() {
     when(repo.getLatestVersion(any(String.class))).thenReturn(null);
     String result = service.getLatestVersion("LISJP");
     verify(repo, times(1)).getLatestVersion("LISJP");
@@ -63,7 +63,7 @@ public class IntygTextsServiceImplTest {
   }
 
   @Test
-  public void testGetTexts() throws JacksonException {
+  void testGetTexts() throws JacksonException {
     when(repo.getTexts(any(String.class), any(String.class))).thenReturn(null);
     when(mapper.writeValueAsString(any())).thenReturn("null");
     String result = service.getIntygTexts("LISJP", "0.9");
@@ -73,28 +73,28 @@ public class IntygTextsServiceImplTest {
   }
 
   @Test
-  public void shallReturnFalseIfNotLatestMajorVersion() {
+  void shallReturnFalseIfNotLatestMajorVersion() {
     doReturn("2.0").when(repo).getLatestVersion("LISJP");
     final var actual = service.isLatestMajorVersion("LISJP", "1.2");
     assertFalse(actual);
   }
 
   @Test
-  public void shallReturnTrueIfLatestMajorVersion() {
+  void shallReturnTrueIfLatestMajorVersion() {
     doReturn("2.0").when(repo).getLatestVersion("LISJP");
     final var actual = service.isLatestMajorVersion("LISJP", "2.0");
     assertTrue(actual);
   }
 
   @Test
-  public void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
+  void shallReturnTrueIfLatestMajorVersionButDifferentMinorVersion() {
     doReturn("2.1").when(repo).getLatestVersion("LISJP");
     final var actual = service.isLatestMajorVersion("LISJP", "2.0");
     assertTrue(actual);
   }
 
   @Test
-  public void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
+  void shallReturnTrueForIsLatestMajorVersionWhenGetLatestVersionReturnsNull() {
     doReturn(null).when(repo).getLatestVersion("fk7263");
     final var actual = service.isLatestMajorVersion("fk7263", "1.0");
     assertTrue(actual);

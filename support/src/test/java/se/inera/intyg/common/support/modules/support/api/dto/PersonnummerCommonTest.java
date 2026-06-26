@@ -35,22 +35,22 @@ import tools.jackson.databind.ObjectMapper;
  * Tests the {@link Personnummer} class in a context where test dependencies to common-support are
  * required.
  */
-public class PersonnummerCommonTest {
+class PersonnummerCommonTest {
 
   @BeforeAll
-  public static void setUp() throws Exception {
+  static void setUp() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", false);
   }
 
   @AfterAll
-  public static void tearDown() throws Exception {
+  static void tearDown() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);
   }
 
   @Test
-  public void testIsSamordningsNummer() throws Exception {
+  void testIsSamordningsNummer() throws Exception {
     assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000-0000")));
     assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("999999-9999")));
     assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("0000000000")));
@@ -61,7 +61,7 @@ public class PersonnummerCommonTest {
   }
 
   @Test
-  public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
+  void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
     // Given
     final ObjectMapper objectMapper = new ObjectMapper();
     final Personnummer originalPnr = createPnr("191212121212").get();

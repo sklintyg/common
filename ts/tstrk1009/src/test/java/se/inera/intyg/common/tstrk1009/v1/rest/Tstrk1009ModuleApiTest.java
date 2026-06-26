@@ -42,7 +42,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  * to verify that response headers and response statuses etc are correct.
  */
 // @RunWith(MockitoJUnitRunner.class)
-public class Tstrk1009ModuleApiTest {
+class Tstrk1009ModuleApiTest {
 
   private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
 
@@ -124,7 +124,7 @@ public class Tstrk1009ModuleApiTest {
 
   /*
   @Test
-  public void getAdditionalInfoFromUtlatandeTest() throws Exception {
+  void getAdditionalInfoFromUtlatandeTest() throws Exception {
      Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
       Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -133,7 +133,7 @@ public class Tstrk1009ModuleApiTest {
   }
 
   @Test
-  public void getAdditionalInfoOneResultTest() throws ModuleException {
+  void getAdditionalInfoOneResultTest() throws ModuleException {
       Intyg intyg = new Intyg();
       intyg.setIntygsId(new IntygId());
       intyg.getIntygsId().setExtension("intygId");
@@ -150,7 +150,7 @@ public class Tstrk1009ModuleApiTest {
   }
 
   @Test
-  public void getAdditionalInfoMultipleResultsTest() throws ModuleException {
+  void getAdditionalInfoMultipleResultsTest() throws ModuleException {
       Intyg intyg = new Intyg();
       intyg.setIntygsId(new IntygId());
       intyg.getIntygsId().setExtension("intygId");
@@ -181,7 +181,7 @@ public class Tstrk1009ModuleApiTest {
   }
 
   @Test
-  public void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
+  void getAdditionalInfoSvarNotFoundTest() throws ModuleException {
       Intyg intyg = new Intyg();
       intyg.setIntygsId(new IntygId());
       intyg.getIntygsId().setExtension("intygId");
@@ -198,7 +198,7 @@ public class Tstrk1009ModuleApiTest {
   }
 
   @Test
-  public void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
+  void getAdditionalInfoDelsvarNotFoundTest() throws ModuleException {
       Intyg intyg = new Intyg();
       intyg.setIntygsId(new IntygId());
       intyg.getIntygsId().setExtension("intygId");

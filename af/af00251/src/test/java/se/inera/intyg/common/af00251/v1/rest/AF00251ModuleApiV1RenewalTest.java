@@ -44,7 +44,7 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of AF00251 where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class AF00251ModuleApiV1RenewalTest {
+class AF00251ModuleApiV1RenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "renewal/utlatande.json";
 
@@ -59,8 +59,7 @@ public class AF00251ModuleApiV1RenewalTest {
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
 
     final var original = getUtlatandeFromFile();
     final var renewalFromTemplate =

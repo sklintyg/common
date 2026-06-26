@@ -39,7 +39,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   public static Af00213UtlatandeV1 getUtlatande() {
     Af00213UtlatandeV1.Builder utlatande = Af00213UtlatandeV1.builder();
@@ -63,7 +63,7 @@ public class TransportToInternalTest {
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -80,7 +80,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void endToEnd() throws Exception {
+  void endToEnd() throws Exception {
     Af00213UtlatandeV1 originalUtlatande = getUtlatande();
     RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
     Af00213UtlatandeV1 convertedIntyg =

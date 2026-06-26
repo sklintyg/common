@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Calendar;
 import org.junit.jupiter.api.Test;
 
-public class StringValidatorTest {
+class StringValidatorTest {
 
   @Test
-  public void testValidateStringIsYear() {
+  void testValidateStringIsYear() {
     final String nineteenEleven = "1911";
     final String twentyEleven = "2011";
     final String thirtyEleven = "3011";
@@ -59,7 +59,7 @@ public class StringValidatorTest {
   }
 
   @Test
-  public void testValidateNullStringGenerates() {
+  void testValidateNullStringGenerates() {
     StringValidator validator = new StringValidator();
     assertFalse(validator.validateStringIsYear(null));
   }

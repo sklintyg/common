@@ -25,7 +25,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
@@ -34,11 +33,10 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +69,7 @@ import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class ConverterTest {
+class ConverterTest {
 
   @Spy private ValidatorUtil validatorUtil = new ValidatorUtil();
 
@@ -86,17 +84,17 @@ public class ConverterTest {
   }
 
   public ConverterTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -113,8 +111,9 @@ public class ConverterTest {
   }
 
   @Test
-  public void doSchematronValidationAg7804() throws Exception {
-    String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
+  void doSchematronValidationAg7804() throws Exception {
+    String xmlContents =
+        Resources.toString(getResource("v1/transport/ag7804.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -123,15 +122,17 @@ public class ConverterTest {
         new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void outputJsonFromXml() throws Exception {
+  void outputJsonFromXml() throws Exception {
 
-    String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
+    String xmlContents =
+        Resources.toString(getResource("v1/transport/ag7804.xml"), StandardCharsets.UTF_8);
     RegisterCertificateType transport =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
 
@@ -147,7 +148,8 @@ public class ConverterTest {
         new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(convertedXML.getBytes(StandardCharsets.UTF_8))));
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size(), getErrorString(result));
 
     // Why not validate internal model as well?
@@ -158,13 +160,12 @@ public class ConverterTest {
     StringBuilder errorMsg = new StringBuilder();
     SVRLHelper.getAllFailedAssertions(result).stream()
         .map(e -> e.getText())
-        .collect(Collectors.toList())
-        .forEach(e -> errorMsg.append(e));
+        .toList()
+        .forEach(errorMsg::append);
     return errorMsg.toString();
   }
 
-  private String getXmlFromModel(RegisterCertificateType transport)
-      throws IOException, JAXBException {
+  private String getXmlFromModel(RegisterCertificateType transport) throws JAXBException {
     StringWriter sw = new StringWriter();
     JAXBContext jaxbContext =
         JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);

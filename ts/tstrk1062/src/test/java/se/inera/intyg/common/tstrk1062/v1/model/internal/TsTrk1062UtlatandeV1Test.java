@@ -18,4 +18,4 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.internal;
 
-public class TsTrk1062UtlatandeV1Test {}
+class TsTrk1062UtlatandeV1Test {}

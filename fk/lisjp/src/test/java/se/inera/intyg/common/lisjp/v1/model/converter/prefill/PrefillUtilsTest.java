@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-public class PrefillUtilsTest {
+class PrefillUtilsTest {
 
   @Test
-  public void testGetValidatedBoolean() throws PrefillWarningException {
+  void testGetValidatedBoolean() throws PrefillWarningException {
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
     delsvar.getContent().add("true");
@@ -42,7 +42,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedBooleanFails() throws PrefillWarningException {
+  void testGetValidatedBooleanFails() throws PrefillWarningException {
     assertThrows(
         PrefillWarningException.class,
         () -> {
@@ -54,7 +54,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedString() throws PrefillWarningException {
+  void testGetValidatedString() throws PrefillWarningException {
     String expected = "Lite text";
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
@@ -67,7 +67,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedStringFailsForOtherType() throws PrefillWarningException {
+  void testGetValidatedStringFailsForOtherType() throws PrefillWarningException {
     assertThrows(
         PrefillWarningException.class,
         () -> {
@@ -79,7 +79,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedStringFailsWhenExceedingMaxLength() throws PrefillWarningException {
+  void testGetValidatedStringFailsWhenExceedingMaxLength() throws PrefillWarningException {
     assertThrows(
         PrefillWarningException.class,
         () -> {
@@ -92,7 +92,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedDateString() throws PrefillWarningException {
+  void testGetValidatedDateString() throws PrefillWarningException {
     String expected = "2019-05-06";
     Delsvar delsvar = new ObjectFactory().createSvarDelsvar();
     delsvar.setId("1.1");
@@ -101,7 +101,7 @@ public class PrefillUtilsTest {
   }
 
   @Test
-  public void testGetValidatedDateStringFailsForFaultyDateStrings() {
+  void testGetValidatedDateStringFailsForFaultyDateStrings() {
 
     assertTrue(isValid("2019-02-02"));
 

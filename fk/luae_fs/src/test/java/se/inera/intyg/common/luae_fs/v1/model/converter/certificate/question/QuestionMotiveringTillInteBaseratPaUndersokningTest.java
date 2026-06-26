@@ -118,7 +118,7 @@ class QuestionMotiveringTillInteBaseratPaUndersokningTest {
     }
 
     @Test
-    public void shouldCallTextProviderForReplacementText() {
+    void shouldCallTextProviderForReplacementText() {
       final var question = getElement();
       assertTrue(question.getConfig().getText().trim().length() > 0, "Missing description");
       verify(getTextProviderMock(), atLeastOnce())

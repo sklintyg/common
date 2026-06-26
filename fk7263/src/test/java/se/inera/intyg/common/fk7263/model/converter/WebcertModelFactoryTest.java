@@ -50,7 +50,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
 
@@ -60,12 +60,12 @@ public class WebcertModelFactoryTest {
   private WebcertModelFactoryImpl factory;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     this.factory = new WebcertModelFactoryImpl();
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -82,7 +82,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopy() throws Exception {
+  void testCreateCopy() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -114,7 +114,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyCertificateIdMissing() throws Exception {
+  void testCreateCopyCertificateIdMissing() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -128,7 +128,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyWithNewPatientData() throws Exception {
+  void testCreateCopyWithNewPatientData() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -150,7 +150,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyWithNewPatientPersonId() throws Exception {
+  void testCreateCopyWithNewPatientPersonId() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -174,7 +174,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV3
     Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));

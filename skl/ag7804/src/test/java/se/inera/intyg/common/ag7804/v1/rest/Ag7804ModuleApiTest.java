@@ -34,12 +34,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -104,7 +104,7 @@ import tools.jackson.core.JacksonException;
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class Ag7804ModuleApiTest {
+class Ag7804ModuleApiTest {
 
   public static final String TESTFILE_UTLATANDE =
       "v1/internal/scenarios/pass-flera-sysselsattningar.json";
@@ -154,14 +154,14 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testSendCertificateShouldFail() {
+  void testSendCertificateShouldFail() {
     assertThrows(
         UnsupportedOperationException.class,
         () -> moduleApi.sendCertificateToRecipient("blaha", null, null));
   }
 
   @Test
-  public void testValidateShouldUseValidator() throws Exception {
+  void testValidateShouldUseValidator() throws Exception {
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
         .when(objectMapper)
         .readValue("internal model", Ag7804UtlatandeV1.class);
@@ -170,27 +170,27 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testCreateNewInternal() throws Exception {
+  void testCreateNewInternal() throws Exception {
     when(webcertModelFactory.createNewWebcertDraft(any())).thenReturn(null);
     moduleApi.createNewInternal(createDraftHolder());
     verify(webcertModelFactory, times(1)).createNewWebcertDraft(any());
   }
 
   @Test
-  public void testCreateNewInternalThrowsModuleException() throws ConverterException {
+  void testCreateNewInternalThrowsModuleException() throws ConverterException {
     when(webcertModelFactory.createNewWebcertDraft(any())).thenThrow(new ConverterException());
     assertThrows(ModuleException.class, () -> moduleApi.createNewInternal(createDraftHolder()));
   }
 
   @Test
-  public void testCreateNewInternalFromTemplate() throws Exception {
+  void testCreateNewInternalFromTemplate() throws Exception {
     when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
     moduleApi.createNewInternalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
     verify(webcertModelFactory, times(1)).createCopy(any(), any());
   }
 
   @Test
-  public void testCreateNewInternalFromTemplateThrowsModuleException() throws ConverterException {
+  void testCreateNewInternalFromTemplateThrowsModuleException() throws ConverterException {
     when(webcertModelFactory.createCopy(any(), any())).thenThrow(new ConverterException());
     assertThrows(
         ModuleException.class,
@@ -198,7 +198,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testGetCertificate() throws Exception {
+  void testGetCertificate() throws Exception {
     final var certificateId = "certificateId";
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
@@ -216,7 +216,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testGetCertificateThrowsModuleException() throws SOAPException {
+  void testGetCertificateThrowsModuleException() throws SOAPException {
     final var certificateId = "certificateId";
     final var logicalAddress = "logicalAddress";
     when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
@@ -228,7 +228,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRegisterCertificate() throws Exception {
+  void testRegisterCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -249,7 +249,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRegisterCertificateAlreadyExists() throws Exception {
+  void testRegisterCertificateAlreadyExists() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -271,7 +271,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRegisterCertificateGenericInfoResult() throws Exception {
+  void testRegisterCertificateGenericInfoResult() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -293,7 +293,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
+  void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
       throws ScenarioNotFoundException, JacksonException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
@@ -312,8 +312,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRegisterCertificateShouldThrowExceptionOnBadCertificate()
-      throws JacksonException {
+  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws JacksonException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     doReturn(null).when(objectMapper).readValue(internalModel, Ag7804UtlatandeV1.class);
@@ -324,7 +323,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testGetUtlatandeFromJson() throws Exception {
+  void testGetUtlatandeFromJson() throws Exception {
     final var utlatandeJson = "utlatandeJson";
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
         .when(objectMapper)
@@ -335,7 +334,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testUpdateBeforeSave() throws Exception {
+  void testUpdateBeforeSave() throws Exception {
     final var internalModel = "internal model";
     doReturn(internalModel).when(objectMapper).writeValueAsString(any());
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -349,7 +348,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testUpdateBeforeSigning() throws Exception {
+  void testUpdateBeforeSigning() throws Exception {
     final var internalModel = "internal model";
     doReturn(internalModel).when(objectMapper).writeValueAsString(any());
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -362,10 +361,10 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRevokeCertificate() throws Exception {
+  void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
 
@@ -375,10 +374,10 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
+  void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -389,7 +388,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void testCreateRevokeRequest() throws Exception {
+  void testCreateRevokeRequest() throws Exception {
     final var meddelande = "revokeMessage";
     final var intygId = "intygId";
     final var gd = new GrundData();
@@ -404,7 +403,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void getAdditionalInfoFromUtlatandeTest() throws Exception {
+  void getAdditionalInfoFromUtlatandeTest() throws Exception {
     Ag7804UtlatandeV1 utlatande = getUtlatandeFromFile();
     Intyg intyg = UtlatandeToIntyg.convert(utlatande, moduleService);
 
@@ -414,21 +413,21 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void getCertficateMessagesProviderGetExistingKey() {
+  void getCertficateMessagesProviderGetExistingKey() {
     final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
-    assertEquals(certificateMessagesProvider.get("common.continue"), "Fortsätt");
+    assertEquals("Fortsätt", certificateMessagesProvider.get("common.continue"));
   }
 
   @Test
-  public void getCertficateMessagesProviderGetMissingKey() {
+  void getCertficateMessagesProviderGetMissingKey() {
     final var certificateMessagesProvider = moduleApi.getMessagesProvider();
 
     assertNull(certificateMessagesProvider.get("not.existing"));
   }
 
   @Test
-  public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+  void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
       throws ModuleException, IOException {
     final var utlatande = getUtlatandeFromFile();
     final var expectedJsonString = toJsonString(utlatande);
@@ -438,7 +437,7 @@ public class Ag7804ModuleApiTest {
   }
 
   @Test
-  public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+  void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
     assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
   }
 

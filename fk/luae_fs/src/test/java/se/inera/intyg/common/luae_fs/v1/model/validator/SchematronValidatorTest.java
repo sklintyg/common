@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
@@ -42,7 +42,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPassesTest() throws Exception {
+  void validXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/transport/scenarios/pass-minimal.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -50,7 +50,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenDiagnosMissing() throws Exception {
+  void failsWhenDiagnosMissing() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-diagnos-saknas.xml"), Charsets.UTF_8);
@@ -59,7 +59,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenFunktionsnedsattningDebutMissing() throws Exception {
+  void failsWhenFunktionsnedsattningDebutMissing() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-funktionsnedsattning-debut-saknas.xml"),
@@ -69,7 +69,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenFunktionsnedsattningPaverkanMissing() throws Exception {
+  void failsWhenFunktionsnedsattningPaverkanMissing() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-funktionsnedsattning-paverkan-saknas.xml"),
@@ -79,7 +79,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenKannedomOmPatientMissing() throws Exception {
+  void failsWhenKannedomOmPatientMissing() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-baseratpa-kannedom-om-patient-saknas.xml"),
@@ -89,7 +89,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenFinnsUnderlagMissing() throws Exception {
+  void failsWhenFinnsUnderlagMissing() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-underlagfinnes-men-ej-angivet.xml"),
@@ -99,7 +99,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenJournaluppgiftHasInvalidDate() throws Exception {
+  void failsWhenJournaluppgiftHasInvalidDate() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -110,7 +110,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenBaseratPaUndersokningSenareAnKannedom() throws Exception {
+  void failsWhenBaseratPaUndersokningSenareAnKannedom() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -121,7 +121,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenBaseratPaAnhorigBeskrivningDatumSenareAnKannedom() throws Exception {
+  void failsWhenBaseratPaAnhorigBeskrivningDatumSenareAnKannedom() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -132,7 +132,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenBaseratPaSaknas() throws Exception {
+  void failsWhenBaseratPaSaknas() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-baseratpa-saknas.xml"), Charsets.UTF_8);
@@ -141,7 +141,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenAnnatDatumMissingButBeskrivningExists() throws Exception {
+  void failsWhenAnnatDatumMissingButBeskrivningExists() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -152,7 +152,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenUnderlagFinnesAndHamtasFranHasWhitespaces() throws Exception {
+  void failsWhenUnderlagFinnesAndHamtasFranHasWhitespaces() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-underlagfinnes-whitespace.xml"),
@@ -162,7 +162,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenUnderlagFinnesMenEjAngivet() throws Exception {
+  void failsWhenUnderlagFinnesMenEjAngivet() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-underlagfinnes-ej-men-angivet.xml"),
@@ -172,7 +172,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsDiagnosCodeLessThan3Chars() throws Exception {
+  void failsDiagnosCodeLessThan3Chars() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-diagnos-kod-med-mindre-an-tre-positioner.xml"),
@@ -182,7 +182,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsPshychatricDiagnosCodeLessThan4Chars() throws Exception {
+  void failsPshychatricDiagnosCodeLessThan4Chars() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -193,7 +193,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenKontaktWithFkIsFalseButReasonStated() throws Exception {
+  void failsWhenKontaktWithFkIsFalseButReasonStated() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-motiveringkontaktangivet-men-onskas-ej.xml"),
@@ -203,7 +203,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenGrundForMuIsRepeated() throws Exception {
+  void failsWhenGrundForMuIsRepeated() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/transport/fail-grundformuupprepas.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -211,7 +211,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsWhenFunktionsnedsattningHasOnlyWhitespaces() throws Exception {
+  void failsWhenFunktionsnedsattningHasOnlyWhitespaces() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-funktionsnedsattning-whitespace.xml"),

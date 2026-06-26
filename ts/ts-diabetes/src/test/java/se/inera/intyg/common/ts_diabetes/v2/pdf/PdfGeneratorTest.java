@@ -51,7 +51,7 @@ import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
   private static final String HSVARD_RECIPIENT_ID = "HSVARD";
@@ -65,7 +65,7 @@ public class PdfGeneratorTest {
   private List<Status> defaultStatuses;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     ReflectionTestUtils.setField(pdfGen, "formFlattening", true);
   }
 
@@ -74,7 +74,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdf() throws Exception {
+  void testGeneratePdf() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       byte[] pdf =
           pdfGen.generatePDF(
@@ -89,7 +89,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGenerateDraftPdf() throws Exception {
+  void testGenerateDraftPdf() throws Exception {
     final TsDiabetesUtlatandeV2 tsBasUtlatande =
         objectMapper.readValue(
             new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(),
@@ -105,7 +105,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGenerateLockedDraftPdf() throws Exception {
+  void testGenerateLockedDraftPdf() throws Exception {
     final TsDiabetesUtlatandeV2 tsBasUtlatande =
         objectMapper.readValue(
             new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(),
@@ -121,7 +121,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGenerateMakuleratPdf() throws Exception {
+  void testGenerateMakuleratPdf() throws Exception {
     final TsDiabetesUtlatandeV2 tsBasUtlatande =
         objectMapper.readValue(
             new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),

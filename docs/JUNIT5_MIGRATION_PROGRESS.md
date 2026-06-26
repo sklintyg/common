@@ -8,8 +8,9 @@
 | Batch 3 | @RunWith(SpringJUnit4ClassRunner/SpringRunner) | 43 | Done | db3e846cb8 |
 | Step 0 | Fix assertion order + trim @MockitoSettings(LENIENT) | 59 | Done | — |
 | Batch 1 | Plain JUnit 4, no @RunWith | 79 | Done | d927123aad |
-| Batch 4 | @RunWith(Parameterized) | 11 | Done | — |
-| Batch 5 | Remove JUnit 4 build deps | — | Done | — |
+| Batch 4 | @RunWith(Parameterized) | 11 | Done | d303b89aac |
+| Batch 5 | Remove JUnit 4 build deps | — | Done | f0f64971b6 |
+| Cleanup | Remove unnecessary `public` modifiers | 239 | Done | — |
 
 Note: Batches were executed out of original plan order (2 and 3 before 1).
 
@@ -156,8 +157,6 @@ Changes applied:
 
 ---
 
-## Batch 5 — To do: Remove JUnit 4 deps
-
 ## Batch 5 — Done: Remove JUnit 4 build dependencies
 
 Removed from root `build.gradle` allprojects block:
@@ -176,3 +175,16 @@ were activated and revealed pre-existing production code bugs. Marked `@Disabled
 - `QuestionDiagnosOnskasFormedlasTest.shouldIncludePatientWantsDiagnosesIncludedNullValue`: returns null instead of false
 
 **Result:** No JUnit Vintage deprecation warning. Migration complete.
+
+---
+
+## Cleanup — Done: Remove unnecessary `public` modifiers (239 files)
+
+JUnit 5 does not require `public` visibility on test classes or methods (unlike JUnit 4).
+
+Stripped `public` from:
+- **229 class declarations** (`public class FooTest` → `class FooTest`) across test files
+- **1703 method declarations** annotated with `@Test`, `@ParameterizedTest`, `@BeforeEach`,
+  `@AfterEach`, `@BeforeAll`, `@AfterAll`, `@Disabled`, `@RepeatedTest`
+
+Total: **1932 changes** in **239 files**. Compile and full test suite verified green.

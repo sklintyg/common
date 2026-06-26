@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-public class DiagnoskodverkTest {
+class DiagnoskodverkTest {
 
   @Test
-  public void testGetEnumByCodeSystem() {
+  void testGetEnumByCodeSystem() {
     assertEquals(
         Diagnoskodverk.ICD_10_SE,
         Diagnoskodverk.getEnumByCodeSystem(Diagnoskodverk.ICD_10_SE.getCodeSystem()));

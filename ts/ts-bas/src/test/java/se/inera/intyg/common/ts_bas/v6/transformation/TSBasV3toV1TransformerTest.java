@@ -39,7 +39,7 @@ import org.xml.sax.SAXParseException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSBasV3toV1TransformerTest {
+class TSBasV3toV1TransformerTest {
 
   private static final String V3_UTLATANDE_SCHEMA =
       "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
@@ -66,7 +66,7 @@ public class TSBasV3toV1TransformerTest {
   private static Schema v1Schema;
 
   @BeforeAll
-  public static void initV3Schema() throws Exception {
+  static void initV3Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
@@ -78,7 +78,7 @@ public class TSBasV3toV1TransformerTest {
   }
 
   @BeforeAll
-  public static void initV1Schema() throws Exception {
+  static void initV1Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V1_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
@@ -89,7 +89,7 @@ public class TSBasV3toV1TransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles =
         asList(
             "valid-diabetes-typ2-kost.xml",

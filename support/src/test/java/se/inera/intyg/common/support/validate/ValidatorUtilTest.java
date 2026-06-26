@@ -33,10 +33,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
 /** Created by eriklupander on 2016-11-24. */
-public class ValidatorUtilTest {
+class ValidatorUtilTest {
 
   @Test
-  public void testDateValidationForValidDate() {
+  void testDateValidationForValidDate() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDate(
@@ -46,7 +46,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForInvalidDateCorrectFormat() {
+  void testDateValidationForInvalidDateCorrectFormat() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDate(
@@ -57,7 +57,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForInvalidDate() {
+  void testDateValidationForInvalidDate() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDate(
@@ -68,7 +68,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForInvalidDateWithMessage() {
+  void testDateValidationForInvalidDateWithMessage() {
     List<ValidationMessage> errors = new ArrayList<>();
     final String message = "message";
     boolean valid =
@@ -80,7 +80,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForEmptyDate() {
+  void testDateValidationForEmptyDate() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid = ValidatorUtil.validateDate(null, errors, "testcategory", "testfield", null);
     assertFalse(valid);
@@ -90,7 +90,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForDateWhenBefore1900() {
+  void testDateValidationForDateWhenBefore1900() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDateAndCheckIfFuture(
@@ -105,7 +105,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForDateWhenOneHundredYearsInTheFuture() {
+  void testDateValidationForDateWhenOneHundredYearsInTheFuture() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDateAndCheckIfFuture(
@@ -119,7 +119,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testDateValidationForDateOnDayInTheFuture() {
+  void testDateValidationForDateOnDayInTheFuture() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDateAndCheckIfFuture(
@@ -134,7 +134,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testGarbageDateDoesNotReturnFutureMessage() {
+  void testGarbageDateDoesNotReturnFutureMessage() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateDateAndCheckIfFuture(
@@ -144,31 +144,31 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testTjansgoringsTidHeltalIsNotInvalid() {
+  void testTjansgoringsTidHeltalIsNotInvalid() {
     boolean result = ValidatorUtil.isInvalidTjanstgoringstid("40");
     assertFalse(result);
   }
 
   @Test
-  public void testTjansgoringsTidDecimaltalWithDotIsNotInvalid() {
+  void testTjansgoringsTidDecimaltalWithDotIsNotInvalid() {
     boolean result = ValidatorUtil.isInvalidTjanstgoringstid("37.5");
     assertFalse(result);
   }
 
   @Test
-  public void testTjansgoringsTidDecimaltalWithCommaIsInvalid() {
+  void testTjansgoringsTidDecimaltalWithCommaIsInvalid() {
     boolean result = ValidatorUtil.isInvalidTjanstgoringstid("37,5");
     assertTrue(result);
   }
 
   @Test
-  public void testTjansgoringsTidNonNumberIsInvalid() {
+  void testTjansgoringsTidNonNumberIsInvalid() {
     boolean result = ValidatorUtil.isInvalidTjanstgoringstid("trettiosjukommafem");
     assertTrue(result);
   }
 
   @Test
-  public void testValidateInternalDateIntervalInvalidDate() {
+  void testValidateInternalDateIntervalInvalidDate() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateInternalDateInterval(
@@ -195,7 +195,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testValidateInternalDateIntervalInvalidFormat() {
+  void testValidateInternalDateIntervalInvalidFormat() {
     List<ValidationMessage> errors = new ArrayList<>();
     boolean valid =
         ValidatorUtil.validateInternalDateInterval(
@@ -222,7 +222,7 @@ public class ValidatorUtilTest {
   }
 
   @Test
-  public void testValidateInternalDateIntervalInvalidFormatWithMessage() {
+  void testValidateInternalDateIntervalInvalidFormatWithMessage() {
     List<ValidationMessage> errors = new ArrayList<>();
     final String message = "message";
     boolean valid =

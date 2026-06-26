@@ -39,10 +39,10 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
 import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
-public class Tstrk1009MetaDataConverterTest {
+class Tstrk1009MetaDataConverterTest {
 
   @Test
-  public void testToCertificateMetaData() {
+  void testToCertificateMetaData() {
     final String certificateId = "certificateId";
     final String certificateType = "certificateType";
     final String issuerName = "issuer name";
@@ -81,7 +81,7 @@ public class Tstrk1009MetaDataConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaDataNotAvailable() {
+  void testToCertificateMetaDataNotAvailable() {
     IntygMeta source = new IntygMeta();
     source.setAvailable("false");
     TSBasIntyg intyg = new TSBasIntyg();
@@ -98,7 +98,7 @@ public class Tstrk1009MetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusList() {
+  void testToStatusList() {
     final String target1 = "target1";
     final String timestamp1 = "2016-10-11T10:10:00";
     final String target2 = "target2";
@@ -124,7 +124,7 @@ public class Tstrk1009MetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusListNull() {
+  void testToStatusListNull() {
     List<Status> res = Tstrk1009MetaDataConverter.toStatusList(null);
 
     assertNotNull(res);
@@ -132,7 +132,7 @@ public class Tstrk1009MetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusListEmptyList() {
+  void testToStatusListEmptyList() {
     List<Status> res = Tstrk1009MetaDataConverter.toStatusList(new ArrayList<>());
 
     assertNotNull(res);
@@ -140,7 +140,7 @@ public class Tstrk1009MetaDataConverterTest {
   }
 
   @Test
-  public void testToStatus() {
+  void testToStatus() {
     final String target = "target";
     final String timestamp = "2016-10-11T10:10:00";
     IntygStatus source = new IntygStatus();

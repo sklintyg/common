@@ -36,13 +36,13 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 
 @ExtendWith(MockitoExtension.class)
-public class SvarIdHelperTest {
+class SvarIdHelperTest {
 
   private final InternalDate INTERNAL_DATE = new InternalDate();
   private SvarIdHelperImpl svarIdHelper = new SvarIdHelperImpl();
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUNoValues() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUNoValues() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(buildUtlatande(null, null, null, null));
     assertNotNull(res);
@@ -51,8 +51,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUUndersokningAvPatienten()
-      throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUUndersokningAvPatienten() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(INTERNAL_DATE, null, null, null));
@@ -63,7 +62,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUJournalUppgifter() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUJournalUppgifter() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(null, INTERNAL_DATE, null, null));
@@ -74,7 +73,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUTelefonkontaktMedPatienten()
+  void testCalculateFrageIdHandleForGrundForMUTelefonkontaktMedPatienten()
       throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
@@ -86,7 +85,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUAnnatGrundForMU() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUAnnatGrundForMU() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(null, null, null, INTERNAL_DATE));
@@ -97,7 +96,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));

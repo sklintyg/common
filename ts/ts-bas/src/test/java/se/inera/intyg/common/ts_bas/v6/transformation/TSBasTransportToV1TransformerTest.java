@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSBasTransportToV1TransformerTest {
+class TSBasTransportToV1TransformerTest {
 
   private static final String INTYGSTJANSTER_UTLATANDE_SCHEMA =
       "core_components/se_intygstjanster_services_1.0.xsd";
@@ -61,7 +61,7 @@ public class TSBasTransportToV1TransformerTest {
   private static Schema v1Schema;
 
   @BeforeAll
-  public static void initIntygstjansterSchema() throws Exception {
+  static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(INTYGSTJANSTER_UTLATANDE_SCHEMA);
@@ -70,7 +70,7 @@ public class TSBasTransportToV1TransformerTest {
   }
 
   @BeforeAll
-  public static void initV1Schema() throws Exception {
+  static void initV1Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(v1_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
@@ -80,7 +80,7 @@ public class TSBasTransportToV1TransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles =
         asList(
             "xsl.xml",

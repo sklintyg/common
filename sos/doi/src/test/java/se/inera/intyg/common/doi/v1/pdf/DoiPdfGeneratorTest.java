@@ -43,21 +43,21 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-10-18. */
 @ExtendWith(MockitoExtension.class)
-public class DoiPdfGeneratorTest {
+class DoiPdfGeneratorTest {
 
   protected IntygTexts intygTexts;
 
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectMapper objectMapper = new CustomObjectMapper();
 
   @BeforeEach
-  public void initTexts() throws IOException {
+  void initTexts() {
     Properties props = new Properties();
     props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
     intygTexts = new IntygTexts("1.0", "", null, null, null, null, props);
   }
 
   @Test
-  public void testGenerate() throws Exception {
+  void testGenerate() throws Exception {
     testSingleScenario(
         "v1/DoiPdfGenerator/doiUtlatande-default.json", "default", UtkastStatus.SIGNED);
     testSingleScenario(
@@ -67,7 +67,7 @@ public class DoiPdfGeneratorTest {
   }
 
   @Test
-  public void testCompareAcroFields() throws Exception {
+  void testCompareAcroFields() throws Exception {
     final File jsonFile =
         new ClassPathResource("v1/DoiPdfGenerator/doiUtlatande-default.json").getFile();
     DoiUtlatandeV1 intyg = objectMapper.readValue(jsonFile, DoiUtlatandeV1.class);

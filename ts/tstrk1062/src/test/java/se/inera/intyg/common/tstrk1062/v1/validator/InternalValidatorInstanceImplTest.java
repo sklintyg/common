@@ -89,14 +89,14 @@ import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
-public class InternalValidatorInstanceImplTest {
+class InternalValidatorInstanceImplTest {
 
   @InjectMocks InternalValidatorInstanceImpl validator;
 
   private TsTrk1062UtlatandeV1.Builder builderTemplate;
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     builderTemplate =
         TsTrk1062UtlatandeV1.builder()
             .setId("intygsId")
@@ -120,7 +120,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateDraft() {
+  void validateDraft() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -129,7 +129,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullIntygAvser() {
+  void validateNullIntygAvser() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setIntygAvser(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -139,7 +139,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateMissingIntygAvser() {
+  void validateMissingIntygAvser() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)))
@@ -155,7 +155,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullIdKontroll() {
+  void validateNullIdKontroll() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setIdKontroll(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -168,7 +168,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnosRegistrering() {
+  void validateNullDiagnosRegistrering() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setDiagnosRegistrering(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -181,7 +181,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnosRegistreringTyp() {
+  void validateNullDiagnosRegistreringTyp() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate.setDiagnosRegistrering(DiagnosRegistrering.create(null)).build();
 
@@ -195,7 +195,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnosFritext() {
+  void validateNullDiagnosFritext() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -216,7 +216,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnosFritextValues() {
+  void validateNullDiagnosFritextValues() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -248,7 +248,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyDiagnosFritextValues() {
+  void validateEmptyDiagnosFritextValues() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -280,7 +280,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateInvalidDiagnosFritextYear() {
+  void validateInvalidDiagnosFritextYear() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -302,7 +302,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateFutureDiagnosFritextYear() {
+  void validateFutureDiagnosFritextYear() {
     final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
     final TsTrk1062UtlatandeV1 utlatande =
@@ -326,7 +326,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnosKodad() {
+  void validateNullDiagnosKodad() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -342,7 +342,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyDiagnosKodad() {
+  void validateEmptyDiagnosKodad() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setDiagnosRegistrering(
@@ -359,7 +359,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullDiagnos() {
+  void validateNullDiagnos() {
     final DiagnosKodad diagnosKodad = DiagnosKodad.create(null, null, null, null, null);
 
     final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
@@ -406,7 +406,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyDiagnos() {
+  void validateEmptyDiagnos() {
     final DiagnosKodad diagnosKodad = DiagnosKodad.create("", "", "", "", "");
 
     final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
@@ -453,7 +453,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateFirstDiagnosMissing() {
+  void validateFirstDiagnosMissing() {
     final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "", "", "", "");
 
     final DiagnosKodad diagnosKodadTwo =
@@ -488,7 +488,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateFirstDiagnosMissingAndSecondInvalid() {
+  void validateFirstDiagnosMissingAndSecondInvalid() {
     final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "", "", "", "");
 
     final DiagnosKodad diagnosKodadTwo =
@@ -534,7 +534,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateInvalidDiagnosArtal() {
+  void validateInvalidDiagnosArtal() {
     final DiagnosKodad diagnosKodad =
         DiagnosKodad.create(
             "A01", "ICD10", "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
@@ -564,7 +564,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateFutureDiagnosArtal() {
+  void validateFutureDiagnosArtal() {
     final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
     final DiagnosKodad diagnosKodad =
@@ -596,7 +596,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandling() {
+  void validateNullLakemedelsbehandling() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setLakemedelsbehandling(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -609,7 +609,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingHarHaft() {
+  void validateNullLakemedelsbehandlingHarHaft() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -626,7 +626,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingPagar() {
+  void validateNullLakemedelsbehandlingPagar() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -643,7 +643,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingAktuell() {
+  void validateNullLakemedelsbehandlingAktuell() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -660,7 +660,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyLakemedelsbehandlingAktuell() {
+  void validateEmptyLakemedelsbehandlingAktuell() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -677,7 +677,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingPagatt() {
+  void validateNullLakemedelsbehandlingPagatt() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -694,7 +694,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingEffekt() {
+  void validateNullLakemedelsbehandlingEffekt() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -711,7 +711,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingFoljsamhet() {
+  void validateNullLakemedelsbehandlingFoljsamhet() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -728,7 +728,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingAvslutadTidpunkt() {
+  void validateNullLakemedelsbehandlingAvslutadTidpunkt() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -745,7 +745,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() {
+  void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -762,7 +762,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullLakemedelsbehandlingAvslutadOrsak() {
+  void validateNullLakemedelsbehandlingAvslutadOrsak() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -780,7 +780,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyLakemedelsbehandlingAvslutadOrsak() {
+  void validateEmptyLakemedelsbehandlingAvslutadOrsak() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setLakemedelsbehandling(
@@ -797,7 +797,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullBedomningAvSymptom() {
+  void validateNullBedomningAvSymptom() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setBedomningAvSymptom(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -808,7 +808,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateEmptyBedomningAvSymptom() {
+  void validateEmptyBedomningAvSymptom() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setBedomningAvSymptom(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -819,7 +819,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullPrognos() {
+  void validateNullPrognos() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setPrognosTillstand(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -832,7 +832,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullPrognosType() {
+  void validateNullPrognosType() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate.setPrognosTillstand(PrognosTillstand.create(null)).build();
 
@@ -846,7 +846,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullBedomning() {
+  void validateNullBedomning() {
     final TsTrk1062UtlatandeV1 utlatande = builderTemplate.setBedomning(null).build();
 
     final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -859,7 +859,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateNullBedomningBehorighetsKrav() {
+  void validateNullBedomningBehorighetsKrav() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate.setBedomning(Bedomning.builder().build()).build();
 
@@ -873,7 +873,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateMissingBedomning() {
+  void validateMissingBedomning() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setBedomning(
@@ -892,7 +892,7 @@ public class InternalValidatorInstanceImplTest {
   }
 
   @Test
-  public void validateInvalidBedomning() {
+  void validateInvalidBedomning() {
     final TsTrk1062UtlatandeV1 utlatande =
         builderTemplate
             .setBedomning(

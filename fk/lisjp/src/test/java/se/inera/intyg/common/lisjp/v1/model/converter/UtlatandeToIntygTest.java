@@ -53,14 +53,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String PNR_TOLVAN = "191212121212";
 
   @Mock private WebcertModuleService webcertModuleService;
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     final String intygsId = "intygsid";
     final String textVersion = "textversion";
     final String enhetsId = "enhetsid";
@@ -154,7 +154,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithRelation() {
+  void testConvertWithRelation() {
     RelationKod relationKod = RelationKod.FRLANG;
     String relationIntygsId = "relationIntygsId";
     LisjpUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -169,7 +169,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
+  void testConvertDoesNotAddSvarForDiagnosWithoutCode() {
     Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
     LisjpUtlatandeV1 utlatande =
         buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
@@ -179,7 +179,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithConcatToOvrigt() {
+  void testConvertWithConcatToOvrigt() {
     LisjpUtlatandeV1 utlatande =
         buildUtlatande().toBuilder()
             .setMotiveringTillInteBaseratPaUndersokning("Motivering!")
@@ -192,7 +192,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithConcatToOvrigt2() {
+  void testConvertWithConcatToOvrigt2() {
     LisjpUtlatandeV1 utlatande =
         buildUtlatande().toBuilder()
             .setMotiveringTillInteBaseratPaUndersokning("Motivering!")
@@ -208,7 +208,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertDoesNotAddSvarForSysselsattningWithoutType() {
+  void testConvertDoesNotAddSvarForSysselsattningWithoutType() {
     Sysselsattning sysselsattning = Sysselsattning.create(null);
     LisjpUtlatandeV1 utlatande =
         buildUtlatande().toBuilder().setSysselsattning(Arrays.asList(sysselsattning)).build();

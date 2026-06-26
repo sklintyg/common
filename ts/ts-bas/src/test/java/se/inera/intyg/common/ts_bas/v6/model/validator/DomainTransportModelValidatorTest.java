@@ -36,7 +36,7 @@ import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 
-public class DomainTransportModelValidatorTest {
+class DomainTransportModelValidatorTest {
 
   private static final String COMMON_UTLATANDE_SCHEMA =
       "/core_components/se_intygstjanster_services_1.0.xsd";
@@ -50,7 +50,7 @@ public class DomainTransportModelValidatorTest {
   private static Schema commonSchema;
 
   @BeforeAll
-  public static void initCommonSchema() throws Exception {
+  static void initCommonSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
@@ -60,7 +60,7 @@ public class DomainTransportModelValidatorTest {
   }
 
   @Test
-  public void testValidateTransportXmlAgainstDomainModel() throws Exception {
+  void testValidateTransportXmlAgainstDomainModel() throws Exception {
     // Check that valid scenarios validates against the common domain model
     for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
       validateUtlatande(scenario);
@@ -71,7 +71,8 @@ public class DomainTransportModelValidatorTest {
       try {
         validateUtlatande(scenario);
         fail("Expected schema validation error in " + scenario.getName());
-      } catch (Exception ignore) {
+      } catch (Exception _) {
+        // Should end up here
       }
     }
   }
@@ -80,7 +81,7 @@ public class DomainTransportModelValidatorTest {
     try {
       ByteArrayOutputStream output = new ByteArrayOutputStream();
       JAXBElement<RegisterTSBasType> jaxbElement =
-          new JAXBElement<RegisterTSBasType>(
+          new JAXBElement<>(
               new QName("ns3:RegisterTSBas"), RegisterTSBasType.class, scenario.asTransportModel());
       JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
       context.createMarshaller().marshal(jaxbElement, output);

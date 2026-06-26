@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator LUSE_VALIDATOR =
       new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
@@ -42,14 +42,14 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void brokenXmlFails() throws Exception {
+  void brokenXmlFails() throws Exception {
     String inputXml = Resources.toString(getResource("v1/luse2_broken.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
     assertFalse(response.getValidationErrors().isEmpty());
   }
 
   @Test
-  public void diagnosMedBidiagnos2UtanBidiagnos1Fails() throws Exception {
+  void diagnosMedBidiagnos2UtanBidiagnos1Fails() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/med-bidiagnos2-utan-bidiagnos1_broken.xml"), Charsets.UTF_8);
@@ -58,7 +58,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPasses() throws Exception {
+  void validXmlPasses() throws Exception {
     String inputXml = Resources.toString(getResource("v1/luse2.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(LUSE_VALIDATOR, inputXml);
     assertTrue(response.getValidationErrors().isEmpty());

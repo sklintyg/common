@@ -78,7 +78,7 @@ class TransportConverterUtilTest {
       "Unexpected error while converting data type, mandatory data is missing";
 
   @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
-  public static class XmlRoot<T> {
+  static class XmlRoot<T> {
 
     @XmlElement private T data;
 

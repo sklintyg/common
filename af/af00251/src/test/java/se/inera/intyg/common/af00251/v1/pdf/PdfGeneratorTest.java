@@ -47,13 +47,13 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private static final String PDF_PATH = "build/pdf/";
   private PdfGenerator testee = new PdfGenerator();
 
   @Test
-  public void testGeneratePdf() throws IOException, ModuleException {
+  void testGeneratePdf() throws IOException, ModuleException {
     IntygTextsAF00251RepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsAF00251RepositoryTestHelper();
     intygsTextRepositoryHelper.update();

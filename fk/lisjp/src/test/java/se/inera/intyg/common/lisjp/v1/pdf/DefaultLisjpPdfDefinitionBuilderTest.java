@@ -44,7 +44,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * assert the content of the pdf.
  */
 @ExtendWith(SpringExtension.class)
-public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
+class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";
   protected static final String TEXT_VERSION_1_1 = "1.1";
@@ -55,7 +55,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
       new DefaultLisjpPdfDefinitionBuilder(electronicCopyWatermarkSubtitle);
 
   @Test
-  public void testGenerateNotSentToFK() throws Exception {
+  void testGenerateNotSentToFK() throws Exception {
     generate(
         "default-unsent",
         new ArrayList<>(),
@@ -95,7 +95,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
   }
 
   @Test
-  public void testGenerateAlreadySentTOFK() throws Exception {
+  void testGenerateAlreadySentTOFK() throws Exception {
     List<Status> statuses = new ArrayList<>();
     statuses.add(new Status(CertificateState.SENT, "FKASSA", LocalDateTime.now()));
 
@@ -148,7 +148,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
   }
 
   @Test
-  public void testGenerateLockedUtkastPdf() throws Exception {
+  void testGenerateLockedUtkastPdf() throws Exception {
     LisjpUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
@@ -178,7 +178,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
   }
 
   @Test
-  public void testGenerateUtkastPdf() throws Exception {
+  void testGenerateUtkastPdf() throws Exception {
     LisjpUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),

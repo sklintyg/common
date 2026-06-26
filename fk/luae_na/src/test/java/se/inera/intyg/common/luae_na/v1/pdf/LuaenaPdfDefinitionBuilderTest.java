@@ -55,7 +55,7 @@ import tools.jackson.databind.ObjectMapper;
  * @author marced
  */
 @ExtendWith(MockitoExtension.class)
-public class LuaenaPdfDefinitionBuilderTest {
+class LuaenaPdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";
   protected static final String TEXT_VERSION_1_1 = "1.1";
@@ -72,7 +72,7 @@ public class LuaenaPdfDefinitionBuilderTest {
   private LuaenaPdfDefinitionBuilder luaenaPdfDefinitionBuilder = new LuaenaPdfDefinitionBuilder();
 
   @BeforeEach
-  public void initTexts() throws IOException {
+  void initTexts() throws IOException {
     intygTextsService = new IntygTextsServiceImpl();
     IntygTextsLuaenaRepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsLuaenaRepositoryTestHelper();
@@ -94,7 +94,7 @@ public class LuaenaPdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateNotSentToFK() throws Exception {
+  void testGenerateNotSentToFK() throws Exception {
     generate(
         "unsent",
         new ArrayList<>(),
@@ -122,7 +122,7 @@ public class LuaenaPdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateAlreadySentTOFK() throws Exception {
+  void testGenerateAlreadySentTOFK() throws Exception {
     List<Status> statuses = new ArrayList<>();
     statuses.add(new Status(CertificateState.SENT, "FKASSA", LocalDateTime.now()));
 
@@ -149,7 +149,7 @@ public class LuaenaPdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForUtkast() throws Exception {
+  void testGeneratePdfForUtkast() throws Exception {
     LuaenaUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
@@ -172,7 +172,7 @@ public class LuaenaPdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForLockedUtkast() throws Exception {
+  void testGeneratePdfForLockedUtkast() throws Exception {
     LuaenaUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),

@@ -90,7 +90,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testHappyPath() throws ConverterException {
+  void testHappyPath() throws ConverterException {
     Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -102,7 +102,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
@@ -111,7 +111,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -120,13 +120,13 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testUpdateSkapadAv() throws ConverterException {
     Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());

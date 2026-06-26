@@ -56,7 +56,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -92,7 +92,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testHappyPath() throws ConverterException {
+  void testHappyPath() throws ConverterException {
     LisjpUtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -104,7 +104,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
@@ -113,7 +113,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -122,13 +122,13 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testUpdateSkapadAv() throws ConverterException {
     LisjpUtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     LisjpUtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

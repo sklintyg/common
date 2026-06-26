@@ -32,10 +32,10 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
-public class ModelConverterTest {
+class ModelConverterTest {
 
   @Test
-  public void testToCertificateMetaType() {
+  void testToCertificateMetaType() {
     String certificateId = "certificateId";
     String certificateType = "certificateType";
     String validFromDate = "2016-10-11";
@@ -75,7 +75,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDateMissing() {
+  void testToCertificateMetaTypeDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -95,7 +95,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDeleted() {
+  void testToCertificateMetaTypeDeleted() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -115,7 +115,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeSignedDateMissing() {
+  void testToCertificateMetaTypeSignedDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",

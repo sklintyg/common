@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
-import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,12 +37,12 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
@@ -111,7 +110,7 @@ import tools.jackson.core.JacksonException;
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class AF00251ModuleApiV1Test {
+class AF00251ModuleApiV1Test {
 
   public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-minimal.json";
   public static final String TESTFILE_COMPLETE_UTLATANDE = "internal/scenarios/pass-complete.json";
@@ -151,18 +150,19 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateShouldUseXml() {
+  void testSendCertificateShouldUseXml() {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("transport/af00251.xml"), Charsets.UTF_8);
+          Resources.toString(
+              Resources.getResource("transport/af00251.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
           .registerCertificate(same(LOGICAL_ADDRESS), any());
 
-    } catch (ModuleException | IOException e) {
+    } catch (ModuleException | IOException _) {
       fail();
     }
   }
@@ -172,7 +172,7 @@ public class AF00251ModuleApiV1Test {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
-        Resources.toString(Resources.getResource("transport/af00251.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("transport/af00251.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -198,7 +198,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testValidateShouldUseValidator() throws Exception {
+  void testValidateShouldUseValidator() throws Exception {
     Mockito.doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
         .when(objectMapper)
         .readValue("internal model", AF00251UtlatandeV1.class);
@@ -207,7 +207,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testCreateNewInternal() throws Exception {
+  void testCreateNewInternal() throws Exception {
     when(webcertModelFactory.createNewWebcertDraft(any())).thenReturn(null);
     moduleApi.createNewInternal(createDraftHolder());
     verify(webcertModelFactory, times(1)).createNewWebcertDraft(any());
@@ -220,7 +220,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testCreateNewInternalFromTemplate() throws Exception {
+  void testCreateNewInternalFromTemplate() throws Exception {
     when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
     moduleApi.createNewInternalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
     verify(webcertModelFactory, times(1)).createCopy(any(), any());
@@ -235,7 +235,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testGetCertificate() throws Exception {
+  void testGetCertificate() throws Exception {
     final var certificateId = "certificateId";
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
@@ -264,7 +264,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testRegisterCertificate() throws Exception {
+  void testRegisterCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -287,7 +287,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testRegisterCertificateAlreadyExists() throws Exception {
+  void testRegisterCertificateAlreadyExists() throws Exception {
     final String logicalAddress = "logicalAddress";
     final String internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -309,7 +309,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testRegisterCertificateGenericInfoResult() throws Exception {
+  void testRegisterCertificateGenericInfoResult() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -359,7 +359,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testGetUtlatandeFromJson() throws Exception {
+  void testGetUtlatandeFromJson() throws Exception {
     final var utlatandeJson = "utlatandeJson";
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
         .when(objectMapper)
@@ -370,7 +370,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testUpdateBeforeSave() throws Exception {
+  void testUpdateBeforeSave() throws Exception {
     final var internalModel = "internal model";
     doReturn(internalModel).when(objectMapper).writeValueAsString(any());
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -384,7 +384,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testUpdateBeforeSigning() throws Exception {
+  void testUpdateBeforeSigning() throws Exception {
     final var internalModel = "internal model";
     doReturn(internalModel).when(objectMapper).writeValueAsString(any());
     doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
@@ -397,13 +397,13 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testFilterUncheckedSjukfranvaro() throws Exception {
+  void testFilterUncheckedSjukfranvaro() throws Exception {
     final var utlatande = ScenarioFinder.getInternalScenario("pass-complete").asInternalModel();
     final var sjukfranvarosUnchecked =
         Objects.requireNonNull(utlatande.getSjukfranvaro()).stream()
             .map(Sjukfranvaro::toBuilder)
             .map(builder -> builder.setChecked(false).build())
-            .collect(toList());
+            .toList();
 
     final var utlatandeWithUncheckedSjukfranvaro =
         utlatande.toBuilder().setSjukfranvaro(sjukfranvarosUnchecked).build();
@@ -412,13 +412,13 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testFilterSjukfranvaroSetToNull() throws Exception {
+  void testFilterSjukfranvaroSetToNull() throws Exception {
     final var utlatande = ScenarioFinder.getInternalScenario("pass-complete").asInternalModel();
     final var sjukfranvarosUnchecked =
         Objects.requireNonNull(utlatande.getSjukfranvaro()).stream()
             .map(Sjukfranvaro::toBuilder)
             .map(builder -> builder.setChecked(null).build())
-            .collect(toList());
+            .toList();
 
     final var utlatandeWithUncheckedSjukfranvaro =
         utlatande.toBuilder().setSjukfranvaro(sjukfranvarosUnchecked).build();
@@ -427,10 +427,10 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testRevokeCertificate() throws Exception {
+  void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
 
@@ -444,7 +444,7 @@ public class AF00251ModuleApiV1Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
 
@@ -455,7 +455,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void testCreateRevokeRequest() throws Exception {
+  void testCreateRevokeRequest() throws Exception {
     final var meddelande = "revokeMessage";
     final var intygId = "intygId";
     final var gd = new GrundData();
@@ -472,7 +472,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void getAdditionalInfoFromUtlatandeTest() throws Exception {
+  void getAdditionalInfoFromUtlatandeTest() throws Exception {
     final var utlatande = getUtlatandeFromFile(TESTFILE_COMPLETE_UTLATANDE);
     final var intyg = UtlatandeToIntyg.convert(utlatande);
     final var result = moduleApi.getAdditionalInfo(intyg);
@@ -481,7 +481,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void getAdditionalInfoFromUtlatandeNoSjukfranvaroTest() throws Exception {
+  void getAdditionalInfoFromUtlatandeNoSjukfranvaroTest() throws Exception {
     final var utlatande = getUtlatandeFromFile(TESTFILE_UTLATANDE);
     final var intyg = UtlatandeToIntyg.convert(utlatande);
     final var result = moduleApi.getAdditionalInfo(intyg);
@@ -490,7 +490,7 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
+  void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
       throws ModuleException, IOException {
     final var utlatande = getUtlatandeFromFile();
     final var expectedJsonString = toJsonString(utlatande);
@@ -500,12 +500,12 @@ public class AF00251ModuleApiV1Test {
   }
 
   @Test
-  public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+  void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
     assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
   }
 
   @Test
-  public void shouldReturnPreambleText() {
+  void shouldReturnPreambleText() {
     final var expectedResponse = CertificateText.builder().text("").build();
     final var response = moduleApi.getPreambleForCitizens();
 

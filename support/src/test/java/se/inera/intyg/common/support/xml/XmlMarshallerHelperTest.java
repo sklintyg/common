@@ -28,10 +28,10 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
-public class XmlMarshallerHelperTest {
+class XmlMarshallerHelperTest {
 
   @Test
-  public void marshalTest() {
+  void marshalTest() {
 
     JAXBElement<RegisterCertificateType> e1 = new ObjectFactory().createRegisterCertificate(bean());
     String xml1 = XmlMarshallerHelper.marshal(e1);

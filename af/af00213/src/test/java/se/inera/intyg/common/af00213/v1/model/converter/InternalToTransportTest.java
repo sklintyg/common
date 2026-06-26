@@ -65,7 +65,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private static URL getResource(String href) {
     return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -109,7 +109,7 @@ public class InternalToTransportTest {
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -142,7 +142,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationAf00213() throws Exception {
+  void doSchematronValidationAf00213() throws Exception {
     String xmlContents =
         Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
 
@@ -159,7 +159,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Af00213UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected);
     Af00213UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -168,7 +168,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -177,7 +177,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaTest() throws Exception {
+  void convertDecorateSvarPaTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     final String referensId = "referensId";
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -188,7 +188,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -198,14 +198,14 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     Af00213UtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());
   }
 
   @Test
-  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());

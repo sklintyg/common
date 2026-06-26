@@ -46,10 +46,10 @@ import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -66,7 +66,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertIntygsTyp() throws Exception {
+  void convertIntygsTyp() throws Exception {
     final String href = "v1/transport/scenarios/convert/intygAvser.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -76,7 +76,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertIntygAvser() throws Exception {
+  void convertIntygAvser() throws Exception {
     final String href = "v1/transport/scenarios/convert/intygAvser.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -92,7 +92,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertIdKontroll() throws Exception {
+  void convertIdKontroll() throws Exception {
     final String href = "v1/transport/scenarios/convert/idKontroll.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -103,7 +103,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertDiagnosFritext() throws Exception {
+  void convertDiagnosFritext() throws Exception {
     final String href = "v1/transport/scenarios/convert/diagnosFritext.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -117,7 +117,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertDiagnosKodad() throws Exception {
+  void convertDiagnosKodad() throws Exception {
     final String href = "v1/transport/scenarios/convert/diagnosKodad.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -172,7 +172,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertLakemedelsbehandlingSaknas() throws Exception {
+  void convertLakemedelsbehandlingSaknas() throws Exception {
     final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingSaknas.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -192,7 +192,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertLakemedelsbehandlingPagar() throws Exception {
+  void convertLakemedelsbehandlingPagar() throws Exception {
     final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingPagar.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -217,7 +217,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertLakemedelsbehandlingAvslutad() throws Exception {
+  void convertLakemedelsbehandlingAvslutad() throws Exception {
     final String href = "v1/transport/scenarios/convert/lakemedelsbehandlingAvslutad.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -244,7 +244,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertSymptomBedomningTrue() throws Exception {
+  void convertSymptomBedomningTrue() throws Exception {
     final String href = "v1/transport/scenarios/convert/symptomBedomningTrue.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -261,7 +261,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertSymptomBedomningFalse() throws Exception {
+  void convertSymptomBedomningFalse() throws Exception {
     final String href = "v1/transport/scenarios/convert/symptomBedomningFalse.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -278,7 +278,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertSymptomBedomningNI() throws Exception {
+  void convertSymptomBedomningNI() throws Exception {
     final String href = "v1/transport/scenarios/convert/symptomBedomningNI.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -295,7 +295,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertOvrigt() throws Exception {
+  void convertOvrigt() throws Exception {
     final String href = "v1/transport/scenarios/convert/ovrigaKommentarer.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);
@@ -306,7 +306,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void convertBedomning() throws Exception {
+  void convertBedomning() throws Exception {
     final String href = "v1/transport/scenarios/convert/bedomning.xml";
     final Intyg intyg = getIntyg(href);
     final TsTrk1062UtlatandeV1 utlatande = TransportToInternal.convert(intyg);

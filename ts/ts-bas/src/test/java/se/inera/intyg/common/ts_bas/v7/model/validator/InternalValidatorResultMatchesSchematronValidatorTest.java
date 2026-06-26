@@ -60,7 +60,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
  *
  * @author erik
  */
-public class InternalValidatorResultMatchesSchematronValidatorTest {
+class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 
@@ -72,7 +72,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   private static InternalValidatorInstance internalValidator;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     internalValidator = new InternalValidatorInstance();
   }
 

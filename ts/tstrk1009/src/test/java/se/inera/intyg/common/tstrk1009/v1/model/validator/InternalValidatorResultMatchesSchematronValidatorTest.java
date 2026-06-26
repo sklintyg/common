@@ -53,7 +53,7 @@ import se.inera.intyg.common.tstrk1009.v1.validator.internal.InternalValidatorIn
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
-public class InternalValidatorResultMatchesSchematronValidatorTest {
+class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 
@@ -65,7 +65,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   private static InternalValidatorInstance internalValidator;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     internalValidator = new InternalValidatorInstance();
   }
 

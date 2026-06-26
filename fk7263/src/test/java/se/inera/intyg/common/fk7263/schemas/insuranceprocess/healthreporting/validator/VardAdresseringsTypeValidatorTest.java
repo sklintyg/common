@@ -31,10 +31,10 @@ import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
 import se.inera.intyg.common.support.Constants;
 
-public class VardAdresseringsTypeValidatorTest {
+class VardAdresseringsTypeValidatorTest {
 
   @Test
-  public void testValidateAndCorrectOk() {
+  void testValidateAndCorrectOk() {
     List<String> validationErrors = new ArrayList<>();
     new VardAdresseringsTypeValidator(buildVardAdresseringsType(), validationErrors)
         .validateAndCorrect();
@@ -43,7 +43,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectNoVardAdress() {
+  void testValidateAndCorrectNoVardAdress() {
     List<String> validationErrors = new ArrayList<>();
     new VardAdresseringsTypeValidator(null, validationErrors).validateAndCorrect();
 
@@ -52,7 +52,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectNoHosPersonal() {
+  void testValidateAndCorrectNoHosPersonal() {
     List<String> validationErrors = new ArrayList<>();
     new VardAdresseringsTypeValidator(new VardAdresseringsType(), validationErrors)
         .validateAndCorrect();
@@ -62,7 +62,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectPersonalIdMissing() {
+  void testValidateAndCorrectPersonalIdMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectPersonalIdRootMissing() {
+  void testValidateAndCorrectPersonalIdRootMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectPersonalIdRootWrong() {
+  void testValidateAndCorrectPersonalIdRootWrong() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -98,7 +98,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectHosPersonalFullstandigtNamnMissing() {
+  void testValidateAndCorrectHosPersonalFullstandigtNamnMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -110,7 +110,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetMissing() {
+  void testValidateAndCorrectEnhetMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetIIMissing() {
+  void testValidateAndCorrectEnhetIIMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetidMissing() {
+  void testValidateAndCorrectEnhetidMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -147,7 +147,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetidRootMissing() {
+  void testValidateAndCorrectEnhetidRootMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -159,7 +159,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetidRootWrong() {
+  void testValidateAndCorrectEnhetidRootWrong() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -171,7 +171,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectEnhetsnamnMissing() {
+  void testValidateAndCorrectEnhetsnamnMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -183,7 +183,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivareMissing() {
+  void testValidateAndCorrectVardgivareMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivareIIMissing() {
+  void testValidateAndCorrectVardgivareIIMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -208,7 +208,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivaridMissing() {
+  void testValidateAndCorrectVardgivaridMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -220,7 +220,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivaridRootMissing() {
+  void testValidateAndCorrectVardgivaridRootMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -232,7 +232,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivaridRootWrong() {
+  void testValidateAndCorrectVardgivaridRootWrong() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 
@@ -244,7 +244,7 @@ public class VardAdresseringsTypeValidatorTest {
   }
 
   @Test
-  public void testValidateAndCorrectVardgivarnamnMissing() {
+  void testValidateAndCorrectVardgivarnamnMissing() {
     VardAdresseringsType adressVard = buildVardAdresseringsType();
     List<String> validationErrors = new ArrayList<>();
 

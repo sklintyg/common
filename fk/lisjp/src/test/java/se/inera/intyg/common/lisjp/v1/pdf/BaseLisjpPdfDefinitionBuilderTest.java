@@ -47,7 +47,7 @@ import tools.jackson.databind.ObjectMapper;
     properties = {
       "texts.file.directory=classpath:v1/text",
     })
-public abstract class BaseLisjpPdfDefinitionBuilderTest {
+abstract class BaseLisjpPdfDefinitionBuilderTest {
 
   protected List<LisjpUtlatandeV1> intygList = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
   @Autowired IntygTextsRepositoryImpl repo;
 
   @BeforeEach
-  public void initIntyg() throws IOException {
+  void initIntyg() throws IOException {
 
     intygList.add(
         objectMapper.readValue(

@@ -32,27 +32,27 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
 
   @Test
-  public void validMinimalXmlPassesTest() throws Exception {
+  void validMinimalXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/scenarios/transport/valid-min.xml"), Charsets.UTF_8);
     doPassingTest(inputXml);
   }
 
   @Test
-  public void validMaximalXmlPassesTest() throws Exception {
+  void validMaximalXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/scenarios/transport/valid-max.xml"), Charsets.UTF_8);
     doPassingTest(inputXml);
   }
 
   @Test
-  public void validKanInteTaStallningXmlPassesTest() throws Exception {
+  void validKanInteTaStallningXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
@@ -61,7 +61,7 @@ public class SchematronValidatorTest {
 
   // R8 and R10
   @Test
-  public void invalidKanInteTaStallningXmlFailsTest() throws Exception {
+  void invalidKanInteTaStallningXmlFailsTest() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/scenarios/transport/invalid-kan-inte-ta-stallning.xml"),

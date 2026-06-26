@@ -96,7 +96,7 @@ import tools.jackson.core.JacksonException;
 
 @ExtendWith(MockitoExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TsTrk1062ModuleApiV1Test {
+class TsTrk1062ModuleApiV1Test {
 
   @Mock private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
@@ -129,7 +129,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @BeforeAll
-  public static void initUtils() {
+  static void initUtils() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -146,7 +146,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testPDF() throws Exception {
+  void testPDF() throws Exception {
     final GrundData grundData = buildGrundData(LocalDateTime.now());
 
     final TsTrk1062UtlatandeV1 mockUtlatande = mock(TsTrk1062UtlatandeV1.class);
@@ -187,7 +187,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipient() throws Exception {
+  void testSendCertificateToRecipient() throws Exception {
     final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
 
     final RegisterCertificateResponseType mockResponse =
@@ -211,7 +211,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientXmlNull() throws Exception {
+  void testSendCertificateToRecipientXmlNull() throws Exception {
     assertThrows(
         ModuleException.class,
         () -> {
@@ -221,7 +221,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientXmlEmpty() throws Exception {
+  void testSendCertificateToRecipientXmlEmpty() throws Exception {
     assertThrows(
         ModuleException.class,
         () -> {
@@ -231,7 +231,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientLogicalAdressNull() throws Exception {
+  void testSendCertificateToRecipientLogicalAdressNull() throws Exception {
     assertThrows(
         ModuleException.class,
         () -> {
@@ -241,7 +241,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientLogicalAdressEmpty() throws Exception {
+  void testSendCertificateToRecipientLogicalAdressEmpty() throws Exception {
     assertThrows(
         ModuleException.class,
         () -> {
@@ -251,7 +251,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientWithErrorResult() throws Exception {
+  void testSendCertificateToRecipientWithErrorResult() throws Exception {
     assertThrows(
         ExternalServiceCallException.class,
         () -> {
@@ -273,7 +273,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testSendCertificateToRecipientWithSOAPError() throws Exception {
+  void testSendCertificateToRecipientWithSOAPError() throws Exception {
     assertThrows(
         ExternalServiceCallException.class,
         () -> {
@@ -292,7 +292,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testUtlatandeFromXml() throws Exception {
+  void testUtlatandeFromXml() throws Exception {
     final String xml = getXml("v1/transport/scenarios/success/diagnosFritext.xml");
 
     final TsTrk1062UtlatandeV1 utlatande = moduleApi.getUtlatandeFromXml(xml);
@@ -301,7 +301,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testUtlatandeFromXmlIncorrectXml() throws Exception {
+  void testUtlatandeFromXmlIncorrectXml() throws Exception {
     assertThrows(
         ModuleException.class,
         () -> {
@@ -312,7 +312,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testConvertUtlatandeToIntyg() throws Exception {
+  void testConvertUtlatandeToIntyg() throws Exception {
     final TsTrk1062UtlatandeV1 utlatande =
         TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
 
@@ -322,7 +322,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testGetRegisterCertificateValidator() {
+  void testGetRegisterCertificateValidator() {
     final RegisterCertificateValidator actualRegisterCertificateValidator =
         moduleApi.getRegisterCertificateValidator();
 
@@ -330,7 +330,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testInternalToTransport() throws Exception {
+  void testInternalToTransport() throws Exception {
     final TsTrk1062UtlatandeV1 utlatande =
         TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
 
@@ -341,7 +341,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testGetPatientDetailResolveOrderAddress() {
+  void testGetPatientDetailResolveOrderAddress() {
     final List<PatientDetailResolveOrder.ResolveOrder> expectedAddressOrder =
         Arrays.asList(PARAMS, PU);
 
@@ -365,7 +365,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testGetPatientDetailResolveOrderOther() {
+  void testGetPatientDetailResolveOrderOther() {
     final List<PatientDetailResolveOrder.ResolveOrder> expectedOtherOrder =
         Arrays.asList(PU, PARAMS);
 
@@ -387,7 +387,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testTransportToInternal() throws Exception {
+  void testTransportToInternal() throws Exception {
     final String href = "v1/transport/scenarios/convert/intygAvser.xml";
     final Intyg intyg = getIntyg(href);
 
@@ -397,7 +397,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void testdecorateDiagnoserWithDescriptions() {
+  void testdecorateDiagnoserWithDescriptions() {
     final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
     final DiagnosKodad expectedDiagnosKodad =
         DiagnosKodad.create("A01", "ICD10", "Diagnosbeskrivning", null, "Årtal");
@@ -453,8 +453,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande()
-      throws ModuleException {
+  void getJsonFromUtlatandeshallReturnJsonRepresentationOfUtlatande() throws ModuleException {
     final var utlatande =
         TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now())).build();
     final var expectedJsonString = toJsonString(utlatande);
@@ -464,7 +463,7 @@ public class TsTrk1062ModuleApiV1Test {
   }
 
   @Test
-  public void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
+  void getJsonFromUtlatandeShallThrowIllegalArgumentExceptionIfUtlatandeIsNull() {
     assertThrows(IllegalArgumentException.class, () -> moduleApi.getJsonFromUtlatande(null));
   }
 

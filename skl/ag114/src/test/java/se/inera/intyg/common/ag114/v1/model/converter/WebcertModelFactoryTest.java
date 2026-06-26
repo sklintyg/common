@@ -64,13 +64,13 @@ class WebcertModelFactoryTest {
   @Mock private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setupMocks() {
+  void setupMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, "1.0"))
         .thenReturn("1.0");
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -87,7 +87,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testHappyPath() throws ConverterException {
+  void testHappyPath() throws ConverterException {
     Ag114UtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -98,7 +98,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
@@ -107,7 +107,7 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -116,13 +116,13 @@ class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testUpdateSkapadAv() throws ConverterException {
     Ag114UtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     Ag114UtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

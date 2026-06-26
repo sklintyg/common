@@ -53,7 +53,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
  *
  * @author erik
  */
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   private static final String ENHETSNAMN = "enhetsnamn";
   private static final String ENHETSID = "enhetsid";
@@ -80,7 +80,7 @@ public class TransportToInternalTest {
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -97,7 +97,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     RegisterCertificateType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     transportModel.getIntyg().setSkapadAv(buildHosPersonal());
@@ -124,8 +124,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvertMapsSpecialistkompetens()
-      throws ScenarioNotFoundException, ConverterException {
+  void testConvertMapsSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
     final Specialistkompetens specialistkompetens = new Specialistkompetens();
     specialistkompetens.setCode("kod");
     specialistkompetens.setDisplayName("Hörselrubbningar");
@@ -140,7 +139,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvertMapsBefattningDescriptionToCodeIfPossible()
+  void testConvertMapsBefattningDescriptionToCodeIfPossible()
       throws ScenarioNotFoundException, ConverterException {
     final Befattning befattning = new Befattning();
     befattning.setCode("203010");
@@ -156,7 +155,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvertKeepBefattningCodeIfDescriptionNotFound()
+  void testConvertKeepBefattningCodeIfDescriptionNotFound()
       throws ScenarioNotFoundException, ConverterException {
     final Befattning befattning = new Befattning();
     befattning.setCode("kod");

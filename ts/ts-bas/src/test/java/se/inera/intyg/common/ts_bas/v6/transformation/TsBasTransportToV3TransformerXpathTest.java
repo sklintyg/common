@@ -73,17 +73,17 @@ import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class TsBasTransportToV3TransformerXpathTest {
+class TsBasTransportToV3TransformerXpathTest {
 
   private static XslTransformer transformer;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     transformer = new XslTransformer("xsl/transportToV3.xsl");
   }
 
   @Test
-  public void testMaximaltIntyg()
+  void testMaximaltIntyg()
       throws IOException,
           ParserConfigurationException,
           JAXBException,
@@ -94,7 +94,7 @@ public class TsBasTransportToV3TransformerXpathTest {
   }
 
   @Test
-  public void testMinimaltIntyg()
+  void testMinimaltIntyg()
       throws IOException,
           ParserConfigurationException,
           JAXBException,

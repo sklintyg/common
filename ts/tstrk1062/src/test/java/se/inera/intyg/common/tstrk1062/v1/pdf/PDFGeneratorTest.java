@@ -35,10 +35,10 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-public class PDFGeneratorTest {
+class PDFGeneratorTest {
 
   @Test
-  public void testGeneratePdf() throws Exception {
+  void testGeneratePdf() throws Exception {
     final SortedMap<String, String> mockedTextMap = mock(SortedMap.class);
     doReturn("Text").when(mockedTextMap).get(any());
 

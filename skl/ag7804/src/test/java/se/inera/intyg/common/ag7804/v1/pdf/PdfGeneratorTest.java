@@ -45,12 +45,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
 /** Created by marced on 2018-11-02. */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private PdfGenerator testee = new PdfGenerator();
 
   @Test
-  public void testGeneratePdfV1_0() throws IOException, ModuleException {
+  void testGeneratePdfV1_0() throws IOException, ModuleException {
     IntygTextsAg7804RepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsAg7804RepositoryTestHelper();
     intygsTextRepositoryHelper.update();
@@ -80,7 +80,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdfV1_1() throws IOException, ModuleException {
+  void testGeneratePdfV1_1() throws IOException, ModuleException {
     IntygTextsAg7804RepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsAg7804RepositoryTestHelper();
     intygsTextRepositoryHelper.update();

@@ -24,10 +24,10 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-public class PatientDetailResolveOrderTest {
+class PatientDetailResolveOrderTest {
 
   @Test
-  public void constructorShouldThrowWhenGivenNullList() {
+  void constructorShouldThrowWhenGivenNullList() {
     List<PatientDetailResolveOrder.ResolveOrder> any = ImmutableList.of();
 
     assertThatThrownBy(() -> new PatientDetailResolveOrder("", null, any))
@@ -37,7 +37,7 @@ public class PatientDetailResolveOrderTest {
   }
 
   @Test
-  public void disallowUsingPredecessorStrategyWithoutPredecessor() {
+  void disallowUsingPredecessorStrategyWithoutPredecessor() {
     List<PatientDetailResolveOrder.ResolveOrder> predecessorStrat =
         ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
     List<PatientDetailResolveOrder.ResolveOrder> other =

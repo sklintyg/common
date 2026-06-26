@@ -37,17 +37,17 @@ import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalUtilTest {
+class TransportToInternalUtilTest {
 
   @Test
-  public void testGetTextVersion() {
+  void testGetTextVersion() {
     assertEquals("6.7", TransportToInternalUtil.getTextVersion("06", "07"));
     assertEquals("6.7", TransportToInternalUtil.getTextVersion("6", "7"));
     assertEquals("1.2", TransportToInternalUtil.getTextVersion("1", "2"));
   }
 
   @Test
-  public void testConvertDiabetesTyp() {
+  void testConvertDiabetesTyp() {
     DiabetesKod res1 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_1);
     DiabetesKod res2 = TransportToInternalUtil.convertDiabetesTyp(DiabetesTypVarden.TYP_2);
 
@@ -56,7 +56,7 @@ public class TransportToInternalUtilTest {
   }
 
   @Test
-  public void testBuildSkapadAvBefattningskodAndSpecialisering() {
+  void testBuildSkapadAvBefattningskodAndSpecialisering() {
     final String specialisering1 = "spec1";
     final String specialisering2 = "spec2";
     final String befattning1 = "befattning1";
@@ -93,7 +93,7 @@ public class TransportToInternalUtilTest {
   }
 
   @Test
-  public void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
+  void testBuildSkapadAvWithoutBefattningskodAndSpecialisering() {
     se.inera.intygstjanster.ts.services.v1.GrundData grundData =
         new se.inera.intygstjanster.ts.services.v1.GrundData();
     Patient patient = new Patient();

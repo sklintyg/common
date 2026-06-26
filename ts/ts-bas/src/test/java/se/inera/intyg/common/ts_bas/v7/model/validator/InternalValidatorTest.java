@@ -34,17 +34,17 @@ import se.inera.intyg.common.ts_bas.v7.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.v7.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_bas.v7.validator.TsBasValidator;
 
-public class InternalValidatorTest {
+class InternalValidatorTest {
 
   private TsBasValidator validator;
 
   @BeforeEach
-  public void setUp() throws Exception {
+  void setUp() throws Exception {
     validator = new TsBasValidator();
   }
 
   @Test
-  public void testValidate() throws Exception {
+  void testValidate() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       TsBasUtlatandeV7 utlatande = scenario.asInternalModel();
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
@@ -67,7 +67,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testValidateWithErrors() throws Exception {
+  void testValidateWithErrors() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
       TsBasUtlatandeV7 utlatande = scenario.asInternalModel();
@@ -78,7 +78,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
+  void testInvalidDiabetesTyp2MissingBehandling() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("invalid-diabetes-typ2-missing-behandling")
             .asInternalModel();
@@ -90,7 +90,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testInvalidSynskarpa() throws Exception {
+  void testInvalidSynskarpa() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("invalid-korrigerad-synskarpa").asInternalModel();
     ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
@@ -101,7 +101,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testFunktionshinderBeskrivningMissing() throws Exception {
+  void testFunktionshinderBeskrivningMissing() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("invalid-funktionshinder-beskrivning-missing")
             .asInternalModel();
@@ -113,7 +113,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testIdentitetMissing() throws Exception {
+  void testIdentitetMissing() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("invalid-missing-identitet").asInternalModel();
     ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
@@ -124,7 +124,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
+  void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
     Boolean sjukhusEllerLakar = utlatande.getSjukhusvard().getSjukhusEllerLakarkontakt();
@@ -144,7 +144,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testInvalidMinimalR35TestFails() throws Exception {
+  void testInvalidMinimalR35TestFails() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("fail-minimal-r35").asInternalModel();
     ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
@@ -161,7 +161,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testInvalidMinimalTestFails() throws Exception {
+  void testInvalidMinimalTestFails() throws Exception {
     TsBasUtlatandeV7 utlatande =
         ScenarioFinder.getInternalScenario("fail-annat-felsynskarpa").asInternalModel();
     ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);

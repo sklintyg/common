@@ -54,13 +54,13 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String PNR_TOLVAN = "19121212-1212";
   private final String PNR_TOLVAN_EXPECTED = "191212121212";
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -77,7 +77,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     final String intygsId = "intygsid";
     final String enhetsId = "enhetsid";
     final String enhetsnamn = "enhetsnamn";
@@ -169,7 +169,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithRelation() {
+  void testConvertWithRelation() {
     RelationKod relationKod = RelationKod.FRLANG;
     String relationIntygsId = "relationIntygsId";
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -185,7 +185,7 @@ public class UtlatandeToIntygTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testAddIntygAvserSvar() {
+  void testAddIntygAvserSvar() {
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
     EnumSet<KorkortBehorighetGrupp> intygAvserKategorier =
         EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR);
@@ -220,7 +220,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertComplementsArbetsplatskodIfNull() {
+  void testConvertComplementsArbetsplatskodIfNull() {
     final String arbetsplatskod = null;
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -229,7 +229,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertComplementsArbetsplatskodIfBlank() {
+  void testConvertComplementsArbetsplatskodIfBlank() {
     final String arbetsplatskod = " ";
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -238,7 +238,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertComplementsArbetsplatskodDoesNotOverride() {
+  void testConvertComplementsArbetsplatskodDoesNotOverride() {
     final String arbetsplatskod = "000000";
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande(arbetsplatskod);
 
@@ -247,7 +247,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertSetsVersionFromTextVersion() {
+  void testConvertSetsVersionFromTextVersion() {
     final String textVersion = "7.8";
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
     utlatande = utlatande.toBuilder().setTextVersion(textVersion).build();
@@ -257,7 +257,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
+  void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
     final String defaultVersion = "1.0";
     Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
     utlatande = utlatande.toBuilder().setTextVersion(null).build();

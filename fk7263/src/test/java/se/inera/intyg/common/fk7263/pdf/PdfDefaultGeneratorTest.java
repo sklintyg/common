@@ -48,7 +48,7 @@ import tools.jackson.databind.ObjectMapper;
 /**
  * @author andreaskaltenbach
  */
-public class PdfDefaultGeneratorTest {
+class PdfDefaultGeneratorTest {
 
   private static final String HSVARD_RECIPIENT_ID = "HSVARD";
   private static final String MINA_INTYG_MARGIN_TEXT = "minaIntygMarginText";
@@ -60,7 +60,7 @@ public class PdfDefaultGeneratorTest {
   private ObjectMapper objectMapper = new CustomObjectMapper();
 
   @BeforeAll
-  public static void readFiles() throws IOException {
+  static void readFiles() throws IOException {
     fk7263Pdf = new ClassPathResource("PdfGeneratorTest/utlatande.pdf").getFile();
     fk7263Json = new ClassPathResource("PdfGeneratorTest/utlatande.json").getFile();
     fk7263falt9bortaJson = new ClassPathResource("PdfGeneratorTest/falt9borta.json").getFile();
@@ -69,7 +69,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCFields() throws IOException, PdfGeneratorException {
+  void testWCFields() throws IOException, PdfGeneratorException {
 
     @SuppressWarnings("unchecked")
     Map<String, String> pdfContent = objectMapper.readValue(expectedPdfContent, Map.class);
@@ -102,7 +102,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testMIFields() throws IOException, PdfGeneratorException {
+  void testMIFields() throws IOException, PdfGeneratorException {
 
     @SuppressWarnings("unchecked")
     Map<String, String> pdfContent = objectMapper.readValue(expectedPdfContent, Map.class);
@@ -135,7 +135,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCWritePdf() throws Exception {
+  void testWCWritePdf() throws Exception {
 
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
     // generate PDF
@@ -152,7 +152,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCWriteUtkastPdf() throws Exception {
+  void testWCWriteUtkastPdf() throws Exception {
 
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
     intyg.getGrundData().setSigneringsdatum(null);
@@ -170,7 +170,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCWriteLockedUtkastPdf() throws Exception {
+  void testWCWriteLockedUtkastPdf() throws Exception {
 
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
     intyg.getGrundData().setSigneringsdatum(null);
@@ -188,7 +188,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCWriteMakuleradPdf() throws Exception {
+  void testWCWriteMakuleradPdf() throws Exception {
 
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
@@ -210,7 +210,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testMIWritePdf() throws Exception {
+  void testMIWritePdf() throws Exception {
 
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
     // generate PDF
@@ -231,7 +231,7 @@ public class PdfDefaultGeneratorTest {
    * target root.
    */
   @Test
-  public void testWCGenerateFromScenarios() throws Exception {
+  void testWCGenerateFromScenarios() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       byte[] pdf =
           new PdfDefaultGenerator(
@@ -252,7 +252,7 @@ public class PdfDefaultGeneratorTest {
    * target root.
    */
   @Test
-  public void testMIGenerateFromScenarios() throws Exception {
+  void testMIGenerateFromScenarios() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       byte[] pdf =
           new PdfDefaultGenerator(
@@ -269,7 +269,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testWCWithFalt9Borta() throws Exception {
+  void testWCWithFalt9Borta() throws Exception {
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263falt9bortaJson, Fk7263Utlatande.class);
     // generate PDF
     byte[] generatorResult =
@@ -285,7 +285,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void testMIWithFalt9Borta() throws Exception {
+  void testMIWithFalt9Borta() throws Exception {
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263falt9bortaJson, Fk7263Utlatande.class);
     // generate PDF
     byte[] generatorResult =
@@ -301,7 +301,7 @@ public class PdfDefaultGeneratorTest {
   }
 
   @Test
-  public void pdfGenerationRemovesFormFields() throws IOException, PdfGeneratorException {
+  void pdfGenerationRemovesFormFields() throws IOException, PdfGeneratorException {
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
     // Flatten the fields
     byte[] generatorResult =
@@ -326,7 +326,7 @@ public class PdfDefaultGeneratorTest {
    * of a Status object is anything but CertificateState.SENT
    */
   @Test
-  public void testWCIntygIsSignedButNotSentToFK() throws Exception {
+  void testWCIntygIsSignedButNotSentToFK() throws Exception {
     // Given
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
@@ -352,7 +352,7 @@ public class PdfDefaultGeneratorTest {
    * object is CertificateState.SENT
    */
   @Test
-  public void testWCIntygIsSignedAndSentToFK() throws Exception {
+  void testWCIntygIsSignedAndSentToFK() throws Exception {
     // Given
     Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 

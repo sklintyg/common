@@ -61,7 +61,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
   private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
@@ -71,14 +71,14 @@ public class WebcertModelFactoryTest {
   @InjectMocks private WebcertModelFactoryImpl factory;
 
   @BeforeEach
-  public void setUpMocks() {
+  void setUpMocks() {
     when(intygTexts.getLatestVersionForSameMajorVersion(
             eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -99,7 +99,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateEditableModel() throws IOException, ConverterException {
+  void testCreateEditableModel() throws IOException, ConverterException {
     TsDiabetesUtlatandeV2 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
     assertNotNull(utlatande);
@@ -118,7 +118,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() {
+  void testUpdateSkapadAv() {
     final String personId = "personid";
     final String fullstandigtName = "fullständigt namn";
     final String forskrivarKod = "förskrivarkod";
@@ -147,7 +147,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     TsDiabetesUtlatandeV2 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
@@ -155,7 +155,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyCertificateIdMissing() throws Exception {
+  void testCreateCopyCertificateIdMissing() throws Exception {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -165,7 +165,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+  void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
     // Given
     final TsDiabetesUtlatandeV2 tsDiabetesUtlatandeV2 = new TsDiabetesUtlatandeV2();
     tsDiabetesUtlatandeV2.getGrundData().setSigneringsdatum(LocalDateTime.now());

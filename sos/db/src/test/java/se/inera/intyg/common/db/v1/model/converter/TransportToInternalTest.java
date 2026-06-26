@@ -43,10 +43,10 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -63,7 +63,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
     Intyg intyg =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();

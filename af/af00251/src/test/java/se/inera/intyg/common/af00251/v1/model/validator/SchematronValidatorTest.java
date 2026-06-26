@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(AF00251ModuleApiV1.SCHEMATRON_FILE);
@@ -48,7 +48,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void brokenXmlFailsTest() throws Exception {
+  void brokenXmlFailsTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("transport/af00251_broken.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -63,7 +63,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPassesTest() throws Exception {
+  void validXmlPassesTest() throws Exception {
     String inputXml = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
@@ -72,7 +72,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnOmfattningDeltidSaknas() throws Exception {
+  void failsOnOmfattningDeltidSaknas() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltidSaknas.xml"),
@@ -88,7 +88,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnOmfattningDeltidFelEnhet() throws Exception {
+  void failsOnOmfattningDeltidFelEnhet() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltidFelEnhet.xml"),
@@ -103,7 +103,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnInvalidOmfattningDeltid0() throws Exception {
+  void failsOnInvalidOmfattningDeltid0() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltid0.xml"),
@@ -118,7 +118,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnInvalidOmfattningDeltid40() throws Exception {
+  void failsOnInvalidOmfattningDeltid40() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-omfattningDeltid40.xml"),
@@ -133,7 +133,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnSjukfranvaronivaFelEnhet() throws Exception {
+  void failsOnSjukfranvaronivaFelEnhet() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-sjukfranvaronivaFelEnhet.xml"),
@@ -148,7 +148,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnSjukfranvaroniva0() throws Exception {
+  void failsOnSjukfranvaroniva0() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-sjukfranvaroniva0.xml"),
@@ -163,7 +163,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnSjukfranvaroniva101() throws Exception {
+  void failsOnSjukfranvaroniva101() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("transport/scenarios/fail-sjukfranvaroniva101.xml"),

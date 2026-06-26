@@ -61,7 +61,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   private ObjectFactory objectFactory;
   private JAXBContext jaxbContext;
@@ -71,14 +71,14 @@ public class TransportToInternalTest {
   private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -142,13 +142,13 @@ public class TransportToInternalTest {
   }
 
   @BeforeEach
-  public void suitSetup() throws JAXBException {
+  void suitSetup() throws JAXBException {
     jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class);
     objectFactory = new ObjectFactory();
   }
 
   @Test
-  public void endToEnd() throws Exception {
+  void endToEnd() throws Exception {
     LuaenaUtlatandeV1 originalUtlatande = getUtlatande();
     RegisterCertificateType transportCertificate =
         InternalToTransport.convert(originalUtlatande, webcertModuleService);

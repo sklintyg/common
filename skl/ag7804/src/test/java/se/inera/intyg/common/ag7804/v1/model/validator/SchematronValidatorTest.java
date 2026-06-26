@@ -31,7 +31,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
@@ -46,7 +46,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void brokenXmlFailsTest() throws Exception {
+  void brokenXmlFailsTest() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/transport/ag7804_broken.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -54,14 +54,14 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPassesTest() throws Exception {
+  void validXmlPassesTest() throws Exception {
     String inputXml = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(response.getValidationErrors().isEmpty());
   }
 
   @Test
-  public void invalidAntalDiagnoser() throws Exception {
+  void invalidAntalDiagnoser() throws Exception {
     String inputXml =
         Resources.toString(getResource("v1/transport/diagnosMaxTreDiagnoser.xml"), Charsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -78,7 +78,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
+  void invalidHeltNedsattOchOmArbetstidsforlaggning() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -91,7 +91,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
+  void validFleraSjukskrivningarOchOmArbetstidsforlaggning() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/fleraSjukskrivningOchOmArbetstidsforlaggning.xml"),

@@ -59,7 +59,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  *
  * @author erik
  */
-public class InternalValidatorResultMatchesSchematronValidatorTest {
+class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 
@@ -164,7 +164,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
   }
 
   @BeforeEach
-  public void setUp() throws Exception {}
+  void setUp() throws Exception {}
 
   @ParameterizedTest(name = "{index}: Scenario: {0}")
   @MethodSource("data")

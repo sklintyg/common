@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author andreaskaltenbach
  */
-public class PartialDateAdapterTest {
+class PartialDateAdapterTest {
 
   private static final String YEAR = "2013";
   private static final String YEAR_MONTH = "2013-12";
@@ -40,37 +40,37 @@ public class PartialDateAdapterTest {
   private static final LocalDate YEAR_MONTH_DAY_PARTIAL = LocalDate.of(2013, 12, 24);
 
   @Test
-  public void testParseYear() {
+  void testParseYear() {
     Temporal partial = PartialDateAdapter.parsePartialDate(YEAR);
     assertEquals(YEAR_PARTIAL, partial);
   }
 
   @Test
-  public void testParseYearMonth() {
+  void testParseYearMonth() {
     Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH);
     assertEquals(YEAR_MONTH_PARTIAL, partial);
   }
 
   @Test
-  public void testParseYearMonthDay() {
+  void testParseYearMonthDay() {
     Temporal partial = PartialDateAdapter.parsePartialDate(YEAR_MONTH_DAY);
     assertEquals(YEAR_MONTH_DAY_PARTIAL, partial);
   }
 
   @Test
-  public void testPrintYear() {
+  void testPrintYear() {
     String date = PartialDateAdapter.printPartialDate(YEAR_PARTIAL);
     assertEquals(YEAR, date);
   }
 
   @Test
-  public void testPrintYearMonth() {
+  void testPrintYearMonth() {
     String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_PARTIAL);
     assertEquals(YEAR_MONTH, date);
   }
 
   @Test
-  public void testPrintYearMonthDay() {
+  void testPrintYearMonthDay() {
     String date = PartialDateAdapter.printPartialDate(YEAR_MONTH_DAY_PARTIAL);
     assertEquals(YEAR_MONTH_DAY, date);
   }

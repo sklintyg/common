@@ -28,10 +28,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class BefattningServiceTest {
+class BefattningServiceTest {
 
   @Test
-  public void getDescriptionFromCodeTest() {
+  void getDescriptionFromCodeTest() {
     assertEquals(
         "Läkare legitimerad, specialiseringstjänstgöring",
         BefattningService.getDescriptionFromCode("203010").get());
@@ -53,7 +53,7 @@ public class BefattningServiceTest {
   }
 
   @Test
-  public void getCodeFromDescriptionTest() {
+  void getCodeFromDescriptionTest() {
     assertEquals(
         "203010",
         BefattningService.getCodeFromDescription("Läkare legitimerad, specialiseringstjänstgöring")

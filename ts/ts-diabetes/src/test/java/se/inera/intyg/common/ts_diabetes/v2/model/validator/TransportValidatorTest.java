@@ -29,12 +29,12 @@ import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_diabetes.v2.validator.transport.TransportValidatorInstance;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-public class TransportValidatorTest {
+class TransportValidatorTest {
 
   private TransportValidatorInstance validator = new TransportValidatorInstance();
 
   @Test
-  public void testValidate() throws ScenarioNotFoundException {
+  void testValidate() throws ScenarioNotFoundException {
     for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
       TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
       List<String> validationResponse = validator.validate(utlatande);
@@ -49,7 +49,7 @@ public class TransportValidatorTest {
   }
 
   @Test
-  public void testValidateWithErrors() throws Exception {
+  void testValidateWithErrors() throws Exception {
     for (Scenario scenario : ScenarioFinder.getTransportScenarios("programmatic-invalid-*")) {
 
       TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();

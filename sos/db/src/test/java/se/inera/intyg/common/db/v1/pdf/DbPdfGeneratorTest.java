@@ -43,21 +43,21 @@ import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-10-11. */
 @ExtendWith(MockitoExtension.class)
-public class DbPdfGeneratorTest {
+class DbPdfGeneratorTest {
 
   protected IntygTexts intygTexts;
 
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectMapper objectMapper = new CustomObjectMapper();
 
   @BeforeEach
-  public void initTexts() throws IOException {
+  void initTexts() {
     Properties props = new Properties();
     props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
     intygTexts = new IntygTexts("1.0", "", null, null, null, null, props);
   }
 
   @Test
-  public void testGenerate() throws Exception {
+  void testGenerate() throws Exception {
     testSingleScenario(
         "v1/DbPdfGenerator/dbUtlatande-all-true.json", "all-true", UtkastStatus.SIGNED);
     testSingleScenario(
@@ -69,7 +69,7 @@ public class DbPdfGeneratorTest {
   }
 
   @Test
-  public void testCompareAcroFields() throws Exception {
+  void testCompareAcroFields() throws Exception {
     final File jsonFile =
         new ClassPathResource("v1/DbPdfGenerator/dbUtlatande-all-true.json").getFile();
     DbUtlatandeV1 intyg = objectMapper.readValue(jsonFile, DbUtlatandeV1.class);

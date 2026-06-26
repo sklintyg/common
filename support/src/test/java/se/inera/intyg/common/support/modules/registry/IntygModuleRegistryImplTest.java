@@ -45,7 +45,7 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class IntygModuleRegistryImplTest {
+class IntygModuleRegistryImplTest {
 
   private static final ApplicationOrigin ORIGIN = ApplicationOrigin.WEBCERT;
   private static final String MODULE_ID_1 = "moduleId1";
@@ -82,7 +82,7 @@ public class IntygModuleRegistryImplTest {
   private IntygModuleRegistryImpl registry;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     when(entryPointMock1.getModuleId()).thenReturn(MODULE_ID_1);
     when(entryPointMock1.getExternalId()).thenReturn(EXTERNAL_ID_1);
     when(entryPointMock1.getModuleName()).thenReturn(MODULE_NAME_1);
@@ -118,7 +118,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testListAllModules() throws Exception {
+  void testListAllModules() throws Exception {
     List<IntygModule> res = registry.listAllModules();
 
     assertNotNull(res);
@@ -140,7 +140,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleApi() throws Exception {
+  void testGetModuleApi() throws Exception {
 
     ModuleApi res = registry.getModuleApi(MODULE_ID_1, INTYG_VERSION);
 
@@ -148,7 +148,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleApiNotFound() throws Exception {
+  void testGetModuleApiNotFound() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -157,7 +157,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleApiNotFoundMissingIntygTypeParameter() throws Exception {
+  void testGetModuleApiNotFoundMissingIntygTypeParameter() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -166,7 +166,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleApiNotFoundMissingIntygTypeVersionParameter() throws Exception {
+  void testGetModuleApiNotFoundMissingIntygTypeVersionParameter() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -175,7 +175,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleApiNotFoundBeanNotFoundInAppContext() throws Exception {
+  void testGetModuleApiNotFoundBeanNotFoundInAppContext() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -186,14 +186,14 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleEntryPoint() throws Exception {
+  void testGetModuleEntryPoint() throws Exception {
     ModuleEntryPoint res = registry.getModuleEntryPoint(MODULE_ID_1);
 
     assertEquals(MODULE_ID_1, res.getModuleId());
   }
 
   @Test
-  public void testGetModuleEntryPointNotFound() throws Exception {
+  void testGetModuleEntryPointNotFound() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -202,14 +202,14 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetIntygModule() throws Exception {
+  void testGetIntygModule() throws Exception {
     IntygModule res = registry.getIntygModule(MODULE_ID_1);
 
     assertEquals(MODULE_ID_1, res.getId());
   }
 
   @Test
-  public void testGetIntygModuleNotFound() throws Exception {
+  void testGetIntygModuleNotFound() throws Exception {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {
@@ -218,13 +218,13 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleEntryPoints() {
+  void testGetModuleEntryPoints() {
     List<ModuleEntryPoint> res = registry.getModuleEntryPoints();
     assertEquals(2, res.size());
   }
 
   @Test
-  public void testModuleExists() {
+  void testModuleExists() {
     boolean res1 = registry.moduleExists(MODULE_ID_1);
     boolean res2 = registry.moduleExists("nonExistentModule");
     assertTrue(res1);
@@ -232,7 +232,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testGetModuleIdFromExternalId() {
+  void testGetModuleIdFromExternalId() {
     String res1 = registry.getModuleIdFromExternalId(EXTERNAL_ID_1);
     String res2 = registry.getModuleIdFromExternalId(EXTERNAL_ID_2);
     String res3 = registry.getModuleIdFromExternalId("nonExistentModule");
@@ -242,8 +242,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testResolveVersionFromUtlatandeJsonWhenTextVersionExists()
-      throws ModuleNotFoundException {
+  void testResolveVersionFromUtlatandeJsonWhenTextVersionExists() throws ModuleNotFoundException {
     String version =
         registry.resolveVersionFromUtlatandeJson(
             MODULE_ID_1, buildUtlatandeJson(MODULE_ID_1, "2.1"));
@@ -252,7 +251,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testResolveVersionFromUtlatandeJsonViaTypeWhenNoTextVersionPropertyExists()
+  void testResolveVersionFromUtlatandeJsonViaTypeWhenNoTextVersionPropertyExists()
       throws ModuleNotFoundException {
     String version =
         registry.resolveVersionFromUtlatandeJson(MODULE_ID_2, buildUtlatandeJson(MODULE_ID_2, ""));
@@ -261,7 +260,7 @@ public class IntygModuleRegistryImplTest {
   }
 
   @Test
-  public void testResolveVersionFail() throws ModuleNotFoundException {
+  void testResolveVersionFail() throws ModuleNotFoundException {
     assertThrows(
         ModuleNotFoundException.class,
         () -> {

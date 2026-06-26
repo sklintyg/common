@@ -113,7 +113,7 @@ import tools.jackson.core.JacksonException;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = {BefattningService.class})
-public class TsDiabetesModuleApiV3Test {
+class TsDiabetesModuleApiV3Test {
 
   public static final String TESTFILE_UTLATANDE = "v3/internal/scenarios/pass-minimal.json";
   private static final String LOGICAL_ADDRESS = "logical address";

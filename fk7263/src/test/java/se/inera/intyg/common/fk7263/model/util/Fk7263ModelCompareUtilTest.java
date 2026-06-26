@@ -30,7 +30,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
@@ -44,7 +43,7 @@ import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class Fk7263ModelCompareUtilTest {
+class Fk7263ModelCompareUtilTest {
 
   public static final String CORRECT_DIAGNOSKOD_FROM_FILE = "S47";
   public static final String CORRECT_DIAGNOSKOD2 = "B88";
@@ -56,28 +55,25 @@ public class Fk7263ModelCompareUtilTest {
   @InjectMocks private Fk7263ModelCompareUtil modelCompareUtil;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     Answer<Boolean> mockAnswer =
-        new Answer<Boolean>() {
-          @Override
-          public Boolean answer(InvocationOnMock invocation) {
-            String codeFragment = (String) invocation.getArguments()[0];
-            return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment)
-                || CORRECT_DIAGNOSKOD2.equals(codeFragment);
-          }
+        invocation -> {
+          String codeFragment = (String) invocation.getArguments()[0];
+          return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment)
+              || CORRECT_DIAGNOSKOD2.equals(codeFragment);
         };
     doAnswer(mockAnswer).when(moduleService).validateDiagnosisCode(anyString(), anyString());
   }
 
   @Test
-  public void testModelIsNotChanged() throws Exception {
+  void testModelIsNotChanged() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = utlatandeOld;
     assertFalse(modelCompareUtil.modelDiffers(utlatandeOld, utlatandeNew));
   }
 
   @Test
-  public void testModelIsChangedNedsattningsgradNull() throws Exception {
+  void testModelIsChangedNedsattningsgradNull() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
     utlatandeNew.setNedsattMed100(null);
@@ -86,7 +82,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedNedsattningsgradDate() throws Exception {
+  void testModelIsChangedNedsattningsgradDate() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -97,7 +93,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsNotChangedIfInvalidInterval() throws Exception {
+  void testModelIsNotChangedIfInvalidInterval() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -109,7 +105,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsNotChangedBetweenTwoInvalidIntervals() throws Exception {
+  void testModelIsNotChangedBetweenTwoInvalidIntervals() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -121,7 +117,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedWhenIntervalIsValid() throws Exception {
+  void testModelIsChangedWhenIntervalIsValid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -133,7 +129,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedWhenIntervalBecomesValid() throws Exception {
+  void testModelIsChangedWhenIntervalBecomesValid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -145,7 +141,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedWhenIntervalBecomesInvalid() throws Exception {
+  void testModelIsChangedWhenIntervalBecomesInvalid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -156,7 +152,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedDiagnoskod() throws Exception {
+  void testModelIsChangedDiagnoskod() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -167,7 +163,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsNotChangedOnOtherDiagnoskod() throws Exception {
+  void testModelIsNotChangedOnOtherDiagnoskod() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -179,7 +175,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsChangedDiagnosbeskrivning1() throws Exception {
+  void testModelIsChangedDiagnosbeskrivning1() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -190,7 +186,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsNotChangedOnOtherDiagnosbeskrivning() throws Exception {
+  void testModelIsNotChangedOnOtherDiagnosbeskrivning() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -204,7 +200,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsUnchangedDiagnosFromEmptyToInvalid() throws Exception {
+  void testModelIsUnchangedDiagnosFromEmptyToInvalid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -215,7 +211,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsUnchangedDiagnosFromInvalidToInvalid() throws Exception {
+  void testModelIsUnchangedDiagnosFromInvalidToInvalid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 
@@ -226,7 +222,7 @@ public class Fk7263ModelCompareUtilTest {
   }
 
   @Test
-  public void testModelIsUnchangedDiagnosFromOneInvalidToOtherInvalid() throws Exception {
+  void testModelIsUnchangedDiagnosFromOneInvalidToOtherInvalid() throws Exception {
     Fk7263Utlatande utlatandeOld = getUtlatandeFromFile();
     Fk7263Utlatande utlatandeNew = getUtlatandeFromFile();
 

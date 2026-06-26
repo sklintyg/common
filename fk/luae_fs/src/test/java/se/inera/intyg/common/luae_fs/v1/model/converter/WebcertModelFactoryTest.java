@@ -56,7 +56,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 /** Created by eriklupander on 2016-04-20. */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   @Mock private IntygTextsService intygTextsService;
@@ -66,13 +66,13 @@ public class WebcertModelFactoryTest {
   @InjectMocks WebcertModelFactoryImpl testee;
 
   @BeforeEach
-  public void setupMocks() {
+  void setupMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(LuaefsEntryPoint.MODULE_ID, "1.0"))
         .thenReturn("1.0");
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -89,7 +89,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testHappyPath() throws ConverterException {
+  void testHappyPath() throws ConverterException {
     LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -100,7 +100,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
@@ -109,7 +109,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -118,13 +118,13 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testUpdateSkapadAv() throws ConverterException {
     LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     LuaefsUtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

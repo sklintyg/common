@@ -65,7 +65,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -83,14 +83,14 @@ public class WebcertModelFactoryTest {
   private CustomObjectMapper customObjectMapper = new CustomObjectMapper();
 
   @BeforeEach
-  public void setUpMocks() {
+  void setUpMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(Ag7804EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
   @BeforeAll
-  public static void setUp() {
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -107,7 +107,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNormalCopy() throws ConverterException {
+  void testNormalCopy() throws ConverterException {
     HoSPersonal newHosPersonal = buildHosPersonal();
     newHosPersonal.setPersonId("3333");
     CreateDraftCopyHolder copyHolder = new CreateDraftCopyHolder("123", newHosPersonal);
@@ -125,7 +125,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCopyFromLisjpTemplate() throws ConverterException, IOException, JSONException {
+  void testCopyFromLisjpTemplate() throws ConverterException, IOException, JSONException {
     HoSPersonal newHosPersonal = buildHosPersonal();
     Patient patient = buildPatient();
 
@@ -151,7 +151,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewDraftHappyPath() throws ConverterException {
+  void testCreateNewDraftHappyPath() throws ConverterException {
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -163,7 +163,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
@@ -172,7 +172,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
     assertThrows(
         ConverterException.class,
         () -> {
@@ -181,13 +181,13 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testUpdateSkapadAv() throws ConverterException {
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

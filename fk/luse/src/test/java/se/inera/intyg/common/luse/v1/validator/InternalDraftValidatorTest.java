@@ -27,19 +27,17 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
-import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 
 /** Created by eriklupander on 2016-11-29. */
-public class InternalDraftValidatorTest {
+class InternalDraftValidatorTest {
 
   private InternalDraftValidatorImpl testee = new InternalDraftValidatorImpl();
 
   @Test
-  public void testUnderlagWithEmptyStringOnFranVardgivareHamtasTriggersError()
-      throws ScenarioNotFoundException {
+  void testUnderlagWithEmptyStringOnFranVardgivareHamtasTriggersError() {
     LuseUtlatandeV1 utlatande =
         LuseUtlatandeV1.builder()
             .setId("123")
@@ -57,9 +55,7 @@ public class InternalDraftValidatorTest {
   }
 
   private GrundData buildGrundData() {
-    GrundData grundData = new GrundData();
-
-    return grundData;
+    return new GrundData();
   }
 
   private List<Underlag> buildUnderlagList() {
@@ -67,11 +63,7 @@ public class InternalDraftValidatorTest {
   }
 
   private Underlag buildUnderlag() {
-    Underlag underlag =
-        Underlag.create(
-            Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE,
-            new InternalDate(LocalDate.now()),
-            "");
-    return underlag;
+    return Underlag.create(
+        Underlag.UnderlagsTyp.NEUROPSYKIATRISKT_UTLATANDE, new InternalDate(LocalDate.now()), "");
   }
 }

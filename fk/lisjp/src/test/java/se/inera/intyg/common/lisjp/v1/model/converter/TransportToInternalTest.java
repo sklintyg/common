@@ -49,12 +49,12 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -94,7 +94,7 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void endToEnd() throws Exception {
+  void endToEnd() throws Exception {
     LisjpUtlatandeV1 originalUtlatande = getUtlatande();
     RegisterCertificateType transportCertificate =
         InternalToTransport.convert(originalUtlatande, webcertModuleService);

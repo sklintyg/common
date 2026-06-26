@@ -43,10 +43,10 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToRevokeTest {
+class InternalToRevokeTest {
 
   @Test
-  public void convertRevokeCertificateRequest() throws Exception {
+  void convertRevokeCertificateRequest() throws Exception {
     String meddelande = "meddelande";
     Utlatande utlatande = IntygTestDataBuilder.getUtlatande();
     HoSPersonal skapatAv = utlatande.getGrundData().getSkapadAv();

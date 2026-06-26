@@ -42,7 +42,7 @@ import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalConverterTest {
+class TransportToInternalConverterTest {
 
   private static final String ENHETSNAMN = "enhetsnamn";
   private static final String ENHETSID = "enhetsid";
@@ -57,7 +57,7 @@ public class TransportToInternalConverterTest {
   private static final String PERSONID = "personid";
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(SPECIALIST_KOMPETENS));
@@ -78,7 +78,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertNullSpecialistkompetens() throws Exception {
+  void testConvertNullSpecialistkompetens() throws Exception {
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(null));
@@ -88,8 +88,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertMapsSpecialistkompetens()
-      throws ScenarioNotFoundException, ConverterException {
+  void testConvertMapsSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
     final String specialistkompetens = "Hörselrubbningar";
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
@@ -107,7 +106,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertMapsBefattningDescriptionToCodeIfPossible()
+  void testConvertMapsBefattningDescriptionToCodeIfPossible()
       throws ScenarioNotFoundException, ConverterException {
     final String befattning = "Läkare legitimerad, specialiseringstjänstgöring";
     final String code = "203010";
@@ -122,7 +121,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertKeepBefattningCodeIfDescriptionNotFound()
+  void testConvertKeepBefattningCodeIfDescriptionNotFound()
       throws ScenarioNotFoundException, ConverterException {
     String befattningskod = "kod";
     RegisterTSDiabetesType transportModel =

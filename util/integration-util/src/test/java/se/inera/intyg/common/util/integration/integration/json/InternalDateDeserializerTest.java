@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -32,29 +32,31 @@ import se.inera.intyg.common.util.integration.json.InternalDateDeserializer;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonParser;
 import tools.jackson.core.JsonToken;
+import tools.jackson.core.ObjectReadContext;
 import tools.jackson.core.exc.StreamReadException;
 import tools.jackson.core.json.JsonFactory;
 import tools.jackson.databind.DatabindException;
 import tools.jackson.databind.DeserializationContext;
 
-public final class InternalDateDeserializerTest {
+final class InternalDateDeserializerTest {
 
   private static InternalDateDeserializer deserializer;
   private static JsonFactory factory;
 
   @BeforeAll
-  public static void setup() {
+  static void setup() {
     deserializer = new InternalDateDeserializer();
     factory = new JsonFactory();
   }
 
   @Test
-  public void deserializeWhenDateTimeIsUTC() throws StreamReadException, IOException {
+  void deserializeWhenDateTimeIsUTC() throws StreamReadException {
 
     String date = "2014-09-22T00:00:00.000Z";
     String json = "{\"journalanteckningar\":\"" + date + "\"}";
 
-    JsonParser jp = factory.createParser(json);
+    JsonParser jp =
+        factory.createParser(ObjectReadContext.empty(), json.getBytes(StandardCharsets.UTF_8));
     setJsonParserAtCorrectToken(jp);
 
     DeserializationContext ctxt = mock(DeserializationContext.class);
@@ -77,12 +79,13 @@ public final class InternalDateDeserializerTest {
   }
 
   @Test
-  public void deserializeWhenDateTimeIsLocal() throws StreamReadException, IOException {
+  void deserializeWhenDateTimeIsLocal() throws StreamReadException {
 
     String date = "2014-09-22T00:00:00.000";
     String json = "{\"journalanteckningar\":\"" + date + "\"}";
 
-    JsonParser jp = factory.createParser(json);
+    JsonParser jp =
+        factory.createParser(ObjectReadContext.empty(), json.getBytes(StandardCharsets.UTF_8));
     setJsonParserAtCorrectToken(jp);
 
     DeserializationContext ctxt = mock(DeserializationContext.class);
@@ -105,12 +108,13 @@ public final class InternalDateDeserializerTest {
   }
 
   @Test
-  public void deserializeWhenOnlyDate() throws StreamReadException, IOException {
+  void deserializeWhenOnlyDate() throws StreamReadException {
 
     String date = "2014-09-22";
     String json = "{\"journalanteckningar\":\"" + date + "\"}";
 
-    JsonParser jp = factory.createParser(json);
+    JsonParser jp =
+        factory.createParser(ObjectReadContext.empty(), json.getBytes(StandardCharsets.UTF_8));
     setJsonParserAtCorrectToken(jp);
 
     DeserializationContext ctxt = mock(DeserializationContext.class);
@@ -133,12 +137,13 @@ public final class InternalDateDeserializerTest {
   }
 
   @Test
-  public void deserializeWhenDateTimeIsJsonArray() throws StreamReadException, IOException {
+  void deserializeWhenDateTimeIsJsonArray() throws StreamReadException {
 
     String date = "[2014,9,22,00,00,00,000]";
     String json = "{\"journalanteckningar\":" + date + "}";
 
-    JsonParser jp = factory.createParser(json);
+    JsonParser jp =
+        factory.createParser(ObjectReadContext.empty(), json.getBytes(StandardCharsets.UTF_8));
     setJsonParserAtCorrectToken(jp);
 
     DeserializationContext ctxt = mock(DeserializationContext.class);
@@ -161,12 +166,13 @@ public final class InternalDateDeserializerTest {
   }
 
   @Test
-  public void deserializeWhenDateTimeIsLong() throws StreamReadException, IOException {
+  void deserializeWhenDateTimeIsLong() throws StreamReadException {
 
     String date = "1411391603828";
     String json = "{\"journalanteckningar\":" + date + "}";
 
-    JsonParser jp = factory.createParser(json);
+    JsonParser jp =
+        factory.createParser(ObjectReadContext.empty(), json.getBytes(StandardCharsets.UTF_8));
     setJsonParserAtCorrectToken(jp);
 
     DeserializationContext ctxt = mock(DeserializationContext.class);
@@ -188,7 +194,7 @@ public final class InternalDateDeserializerTest {
     assertInternalDate(ld);
   }
 
-  private void setJsonParserAtCorrectToken(JsonParser jp) throws IOException, StreamReadException {
+  private void setJsonParserAtCorrectToken(JsonParser jp) throws StreamReadException {
     // loop over all fields in JSON object
     while (jp.nextToken() != JsonToken.END_OBJECT) {
       String field = jp.currentName();
@@ -200,7 +206,7 @@ public final class InternalDateDeserializerTest {
     }
   }
 
-  private void assertInternalDate(InternalDate localDate) throws IOException, JacksonException {
+  private void assertInternalDate(InternalDate localDate) throws JacksonException {
     assertEquals("2014-09-22", localDate.getDate());
   }
 }

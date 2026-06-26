@@ -39,7 +39,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class FkAbstractModuleEntryPointTest {
+class FkAbstractModuleEntryPointTest {
 
   private static final String MODULE_ID = "moduleId";
 
@@ -49,14 +49,14 @@ public class FkAbstractModuleEntryPointTest {
   private FkAbstractModuleEntryPoint entryPoint = mock(FkAbstractModuleEntryPoint.class);
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
     when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();
     when(entryPoint.getModuleId()).thenReturn(MODULE_ID);
   }
 
   @Test
-  public void testGetDetailedModuleDescription() {
+  void testGetDetailedModuleDescription() {
     final String version = "1.0";
     final String detailedText = "detailed text";
     when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
@@ -80,7 +80,7 @@ public class FkAbstractModuleEntryPointTest {
   }
 
   @Test
-  public void testGetDetailedModuleDescriptionNoRepo() {
+  void testGetDetailedModuleDescriptionNoRepo() {
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
 
     String res = entryPoint.getDetailedModuleDescription();

@@ -31,13 +31,13 @@ import org.junit.jupiter.api.Test;
  *
  * @author Gustav Norbäcker, R2M
  */
-public class SamordningsnummerValidatorTest {
+class SamordningsnummerValidatorTest {
 
   /** The validator to test. */
   private SamordningsnummerValidator validator;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     validator = new SamordningsnummerValidator();
     // Set a fixed date for the validator so test don't break in the future.
     validator.setReferenceDate(LocalDate.parse("2013-08-22"));
@@ -45,7 +45,7 @@ public class SamordningsnummerValidatorTest {
 
   /** Test that only dates in the samordningsnummer series are supported. */
   @Test
-  public void testPersonnummerDate() throws Exception {
+  void testPersonnummerDate() throws Exception {
     assertListSize(0, validator.validateExtension("19800191-0002"));
     assertListSize(0, validator.validateExtension("19800289-0005"));
 

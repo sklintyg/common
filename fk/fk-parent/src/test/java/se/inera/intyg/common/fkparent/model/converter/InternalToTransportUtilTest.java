@@ -42,7 +42,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
-public class InternalToTransportUtilTest {
+class InternalToTransportUtilTest {
 
   private static final String DIAGNOSIS_CODE_S666 = "S666";
   private static final String DIAGNOSIS_CODE_Z731 = "Z731";
@@ -54,7 +54,7 @@ public class InternalToTransportUtilTest {
   @Mock private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_S666), anyString()))
         .thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_S666)).thenReturn(true);
@@ -75,7 +75,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTest() throws Exception {
+  void handleDiagnosSvarTest() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -135,7 +135,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTwoDiagnoses() throws Exception {
+  void handleDiagnosSvarTwoDiagnoses() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -180,7 +180,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarOneDiagnosis() throws Exception {
+  void handleDiagnosSvarOneDiagnosis() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -210,7 +210,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarKSH97P() throws Exception {
+  void handleDiagnosSvarKSH97P() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_A00DASH;
     final String diagnosKodSystem1 = "KSH_97_P";
     final String diagnosBeskrivning1 = "Kolera";
@@ -239,7 +239,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarEmpty() {
+  void handleDiagnosSvarEmpty() {
     List<Svar> res = new ArrayList<>();
     List<Diagnos> internal = new ArrayList<>();
 
@@ -249,7 +249,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarInvalidDiagnose() {
+  void handleDiagnosSvarInvalidDiagnose() {
     final String diagnosKod1 = DIAGNOSIS_CODE_INVALID;
     final String diagnosKodSystem1 = "KSH_97_P";
     final String diagnosBeskrivning1 = "Kolera";
@@ -266,7 +266,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTwoDiagnosesOneInvalid() throws Exception {
+  void handleDiagnosSvarTwoDiagnosesOneInvalid() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =

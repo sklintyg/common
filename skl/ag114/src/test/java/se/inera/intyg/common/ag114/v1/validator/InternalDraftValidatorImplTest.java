@@ -62,7 +62,7 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestConfiguration.class)
-public class InternalDraftValidatorImplTest {
+class InternalDraftValidatorImplTest {
 
   @Autowired private InternalDraftValidator<Ag114UtlatandeV1> internalValidator;
 
@@ -72,19 +72,19 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testSuccessMinimalUtlatande() throws ScenarioNotFoundException {
+  void testSuccessMinimalUtlatande() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("pass-minimal");
     assertEquals(0, getNumberOfInternalValidationErrors(res));
   }
 
   @Test
-  public void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
+  void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("pass-maxed");
     assertEquals(0, getNumberOfInternalValidationErrors(res));
   }
 
   @Test
-  public void testFailsWhenMissingGrundForMU() throws ScenarioNotFoundException {
+  void testFailsWhenMissingGrundForMU() throws ScenarioNotFoundException {
     Ag114UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-missing-grundformu").asInternalModel();
 
@@ -98,7 +98,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingSysselsattning() throws ScenarioNotFoundException {
+  void testFailsWhenMissingSysselsattning() throws ScenarioNotFoundException {
     Ag114UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-missing-sysselsattning").asInternalModel();
 
@@ -112,7 +112,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingNuvarandeArbete() throws ScenarioNotFoundException {
+  void testFailsWhenMissingNuvarandeArbete() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-nuvarandearbete");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -124,7 +124,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingFormedlaDiagnos() throws ScenarioNotFoundException {
+  void testFailsWhenMissingFormedlaDiagnos() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnosformedling");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -136,8 +136,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingDiagnoserButOnskarFormedla_R14()
-      throws ScenarioNotFoundException {
+  void testFailsWhenMissingDiagnoserButOnskarFormedla_R14() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnoser");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -149,8 +148,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingDiagnosKod1ButOnskarFormedla_R14()
-      throws ScenarioNotFoundException {
+  void testFailsWhenMissingDiagnosKod1ButOnskarFormedla_R14() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-diagnos1");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -162,7 +160,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingNedsattArbetsformaga() throws ScenarioNotFoundException {
+  void testFailsWhenMissingNedsattArbetsformaga() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-arbetsformaga");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -174,7 +172,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingSjukskrivningsgrad() throws ScenarioNotFoundException {
+  void testFailsWhenMissingSjukskrivningsgrad() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-sjukskrivningsgrad");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -186,7 +184,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenInvalidSjukskrivningsgrad() throws ScenarioNotFoundException {
+  void testFailsWhenInvalidSjukskrivningsgrad() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsgrad");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -199,7 +197,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenInvalidSjukskrivningsperiod() throws ScenarioNotFoundException {
+  void testFailsWhenInvalidSjukskrivningsperiod() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsperiod");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));
@@ -212,7 +210,7 @@ public class InternalDraftValidatorImplTest {
   }
 
   @Test
-  public void testFailsWhenMissingAnledningTillKontakt() throws ScenarioNotFoundException {
+  void testFailsWhenMissingAnledningTillKontakt() throws ScenarioNotFoundException {
     ValidateDraftResponse res = validateScenarioFile("fail-missing-kontaktanledning");
 
     assertEquals(1, getNumberOfInternalValidationErrors(res));

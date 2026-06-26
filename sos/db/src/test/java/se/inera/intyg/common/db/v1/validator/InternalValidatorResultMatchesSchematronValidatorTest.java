@@ -46,7 +46,7 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-public class InternalValidatorResultMatchesSchematronValidatorTest {
+class InternalValidatorResultMatchesSchematronValidatorTest {
 
   private String name;
 

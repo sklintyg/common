@@ -32,7 +32,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RepoTestConfig.class})
-public class IntygTextsRepositoryImplTest {
+class IntygTextsRepositoryImplTest {
 
   private static final String DEFAULT_INTYGSTYP = "test";
   private static final String DEFAULT_VERSION = "1.0";
@@ -40,7 +40,7 @@ public class IntygTextsRepositoryImplTest {
   @Autowired private IntygTextsRepositoryImpl repo;
 
   @Test
-  public void testGetLatestVersion() {
+  void testGetLatestVersion() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -55,14 +55,14 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetLatestVersionNull() {
+  void testGetLatestVersionNull() {
     repo.intygTexts = new HashSet<>();
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
     assertEquals(null, result, "should return null");
   }
 
   @Test
-  public void testGetLatestVersionValidFromFilter() {
+  void testGetLatestVersionValidFromFilter() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -93,7 +93,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetLatestVersionWithingMajorVersion() {
+  void testGetLatestVersionWithingMajorVersion() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -143,7 +143,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetLatestVersionTypeFilter() {
+  void testGetLatestVersionTypeFilter() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -159,7 +159,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetTextsSuccessful() {
+  void testGetTextsSuccessful() {
     IntygTexts testData =
         new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
     repo.intygTexts =
@@ -175,7 +175,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetTextsZeroPaddingDoesntMatter() {
+  void testGetTextsZeroPaddingDoesntMatter() {
     IntygTexts testData =
         new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
     repo.intygTexts =
@@ -189,7 +189,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetTextsNull() {
+  void testGetTextsNull() {
     repo.intygTexts = new HashSet<>();
     assertNull(
         repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION),
@@ -197,7 +197,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetTextsNotCareAboutValidFrom() {
+  void testGetTextsNotCareAboutValidFrom() {
     IntygTexts testData =
         new IntygTexts(
             DEFAULT_VERSION,

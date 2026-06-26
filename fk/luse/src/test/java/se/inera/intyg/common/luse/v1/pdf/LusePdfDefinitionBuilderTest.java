@@ -56,7 +56,7 @@ import tools.jackson.databind.ObjectMapper;
  * @author marced
  */
 @ExtendWith(MockitoExtension.class)
-public class LusePdfDefinitionBuilderTest {
+class LusePdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";
   protected static final String TEXT_VERSION_1_1 = "1.1";
@@ -76,7 +76,7 @@ public class LusePdfDefinitionBuilderTest {
   private LusePdfDefinitionBuilder lusePdfDefinitionBuilder = new LusePdfDefinitionBuilder();
 
   @BeforeEach
-  public void initTexts() throws IOException {
+  void initTexts() throws IOException {
     intygTextsService = new IntygTextsServiceImpl();
     IntygTextsLuseRepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsLuseRepositoryTestHelper();
@@ -103,7 +103,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateNotSentToFK() throws Exception {
+  void testGenerateNotSentToFK() throws Exception {
     generate(
         "unsent",
         new ArrayList<>(),
@@ -143,7 +143,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateAlreadySentTOFK() throws Exception {
+  void testGenerateAlreadySentTOFK() throws Exception {
     List<Status> statuses = new ArrayList<>();
     statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
 
@@ -178,7 +178,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForUtkast() throws Exception {
+  void testGeneratePdfForUtkast() throws Exception {
     LuseUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
@@ -208,7 +208,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForLockedUtkast() throws Exception {
+  void testGeneratePdfForLockedUtkast() throws Exception {
     LuseUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),

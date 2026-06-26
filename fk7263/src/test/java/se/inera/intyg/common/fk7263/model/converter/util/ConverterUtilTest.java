@@ -20,23 +20,24 @@ package se.inera.intyg.common.fk7263.model.converter.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-public class ConverterUtilTest {
+class ConverterUtilTest {
 
-  private static CustomObjectMapper objectMapper = new CustomObjectMapper();
+  private static final CustomObjectMapper objectMapper = new CustomObjectMapper();
 
-  private String json = readRequestFromFile("/ConverterUtilTest/minimalt-fk7263-internal.json");
+  private final String json =
+      readRequestFromFile("/ConverterUtilTest/minimalt-fk7263-internal.json");
 
   @Test
-  public void testConvertFromUtlatande() throws Exception {
+  void testConvertFromUtlatande() throws Exception {
     Fk7263Utlatande utlatande = objectMapper.readValue(json, Fk7263Utlatande.class);
     CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
     assertEquals("id", holder.getId());
@@ -46,8 +47,8 @@ public class ConverterUtilTest {
 
   private static String readRequestFromFile(String filePath) {
     try {
-      return Resources.toString(new ClassPathResource(filePath).getURL(), Charsets.UTF_8);
-    } catch (IOException e) {
+      return Resources.toString(new ClassPathResource(filePath).getURL(), StandardCharsets.UTF_8);
+    } catch (IOException _) {
       return null;
     }
   }

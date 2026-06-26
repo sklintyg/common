@@ -33,14 +33,14 @@ import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
 @ExtendWith(MockitoExtension.class)
-public class InternalValidatorTest {
+class InternalValidatorTest {
 
   @Spy private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
 
   @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
   @Test
-  public void testValidateMinimaltUtkast() throws ScenarioNotFoundException {
+  void testValidateMinimaltUtkast() throws ScenarioNotFoundException {
     final int numErrors = 0;
     LuseUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
@@ -53,7 +53,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testUnderlagSkolhalsovardGerFel() throws ScenarioNotFoundException {
+  void testUnderlagSkolhalsovardGerFel() throws ScenarioNotFoundException {
     final int numErrors = 1;
     LuseUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("underlagSkolhalsovard").asInternalModel();

@@ -45,10 +45,10 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-public class ModelConverterTest {
+class ModelConverterTest {
 
   @Test
-  public void testToCertificateMetaType() {
+  void testToCertificateMetaType() {
     String certificateId = "certificateId";
     String certificateType = "certificateType";
     String validFromDate = "2016-10-11";
@@ -85,7 +85,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDateMissing() {
+  void testToCertificateMetaTypeDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -104,7 +104,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDeleted() {
+  void testToCertificateMetaTypeDeleted() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -123,7 +123,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeSignedDateMissing() {
+  void testToCertificateMetaTypeSignedDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -142,7 +142,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToVardAdresseringsType() {
+  void testToVardAdresseringsType() {
     final String enhetsId = "enhetsId";
     final String enhetsnamn = "enhetsnamn";
     final String arbetsplatskod = "arbetsplatskod";
@@ -182,7 +182,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToVardAdresseringsTypeNoArbetsplatskod() {
+  void testToVardAdresseringsTypeNoArbetsplatskod() {
     GrundData source =
         buildGrundData(
             "enhetsId",
@@ -200,7 +200,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testBuildRevokeTypeFromUtlatande() {
+  void testBuildRevokeTypeFromUtlatande() {
     final String certificateId = "certificateId";
     final String personId = "191212121212";
     final String personalId = "personalId";
@@ -242,7 +242,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testBuildRevokeTypeFromUtlatandeRevokeMessageNull() {
+  void testBuildRevokeTypeFromUtlatandeRevokeMessageNull() {
     final String revokeMessage = null;
     Utlatande source =
         buildUtlatande("certificateId", LocalDateTime.now(), "191212121212", "fullstandigt namn");
@@ -266,7 +266,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testVardreferensId() {
+  void testVardreferensId() {
     String intygId = "INTYGID";
     LocalDateTime time = LocalDateTime.of(2011, 01, 02, 23, 59, 01, 1);
     String res = ModelConverter.buildVardReferensId(intygId, time);
@@ -274,7 +274,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToLakarutlatandeEnkelType() {
+  void testToLakarutlatandeEnkelType() {
     final String certificateId = "certificateId";
     final LocalDateTime signedDate = LocalDateTime.now();
     final String personId = "191212121212";
@@ -295,7 +295,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToLakarutlatandeEnkelTypeSamordningsnummer() {
+  void testToLakarutlatandeEnkelTypeSamordningsnummer() {
     final String personId = "999999-9999";
     Utlatande source =
         buildUtlatande("certificateId", LocalDateTime.now(), personId, "fullstandigt namn");
