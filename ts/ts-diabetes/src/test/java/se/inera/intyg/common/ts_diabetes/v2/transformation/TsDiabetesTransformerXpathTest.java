@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.AKTIVITET_FOREKOMST_TEMPLATE;
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.ENHET_ID_XPATH;
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.ENHET_POSTADRESS_XPATH;
@@ -41,7 +41,6 @@ import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressio
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.dateXPath;
 import static se.inera.intyg.common.ts_diabetes.v2.transformation.XPathExpressions.stringXPath;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.bind.JAXBContext;
@@ -50,6 +49,7 @@ import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -58,8 +58,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
@@ -84,17 +84,17 @@ import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
-public class TsDiabetesTransformerXpathTest {
+class TsDiabetesTransformerXpathTest {
 
   private static XslTransformer transformer;
 
-  @BeforeClass
-  public static void setup() {
+  @BeforeAll
+  static void setup() {
     transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
   }
 
   @Test
-  public void testMaximaltIntyg()
+  void testMaximaltIntyg()
       throws IOException,
           ParserConfigurationException,
           JAXBException,
@@ -105,7 +105,7 @@ public class TsDiabetesTransformerXpathTest {
   }
 
   @Test
-  public void testMinimaltIntyg()
+  void testMinimaltIntyg()
       throws IOException,
           ParserConfigurationException,
           JAXBException,
@@ -122,7 +122,7 @@ public class TsDiabetesTransformerXpathTest {
           IOException,
           TransformerException,
           XPathExpressionException {
-    String xmlContent = Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    String xmlContent = Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
     TSDiabetesIntyg utlatande =
         JAXB.unmarshal(cpr.getFile(), RegisterTSDiabetesType.class).getIntyg();
     String transformed = transformer.transform(xmlContent);
@@ -131,120 +131,120 @@ public class TsDiabetesTransformerXpathTest {
 
     // Check utlatande against xpath
     assertEquals(
-        "UtlatandeTyp", "TSTRK1031", xPath.evaluate(XPathExpressions.TYP_AV_UTLATANDE_XPATH));
+        "TSTRK1031", xPath.evaluate(XPathExpressions.TYP_AV_UTLATANDE_XPATH), "UtlatandeTyp");
 
     assertEquals(
-        "Utlatande-utgåva",
         utlatande.getUtgava(),
-        xPath.evaluate(XPathExpressions.TS_UTGAVA_XPATH));
+        xPath.evaluate(XPathExpressions.TS_UTGAVA_XPATH),
+        "Utlatande-utgåva");
 
     assertEquals(
-        "Utlatande-version",
         utlatande.getVersion(),
-        xPath.evaluate(XPathExpressions.TS_VERSION_XPATH));
+        xPath.evaluate(XPathExpressions.TS_VERSION_XPATH),
+        "Utlatande-version");
 
     // Patient
     Patient patient = utlatande.getGrundData().getPatient();
 
     assertEquals(
-        "Patient förnamn",
         patient.getFornamn(),
-        xPath.evaluate(XPathExpressions.INVANARE_FORNAMN_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_FORNAMN_XPATH),
+        "Patient förnamn");
 
     assertEquals(
-        "Patient efternamn",
         patient.getEfternamn(),
-        xPath.evaluate(XPathExpressions.INVANARE_EFTERNAMN_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_EFTERNAMN_XPATH),
+        "Patient efternamn");
 
     assertEquals(
-        "Patient personnummer",
         patient.getPersonId().getExtension(),
-        xPath.evaluate(XPathExpressions.INVANARE_PERSONNUMMER_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_PERSONNUMMER_XPATH),
+        "Patient personnummer");
 
     assertEquals(
-        "Patient postadress",
         patient.getPostadress(),
-        xPath.evaluate(XPathExpressions.INVANARE_POSTADRESS_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_POSTADRESS_XPATH),
+        "Patient postadress");
 
     assertEquals(
-        "Patient postnummer",
         patient.getPostnummer(),
-        xPath.evaluate(XPathExpressions.INVANARE_POSTNUMMER_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_POSTNUMMER_XPATH),
+        "Patient postnummer");
 
     assertEquals(
-        "Patient postnummer",
         patient.getPostort(),
-        xPath.evaluate(XPathExpressions.INVANARE_POSTORT_XPATH));
+        xPath.evaluate(XPathExpressions.INVANARE_POSTORT_XPATH),
+        "Patient postnummer");
 
     // Signeringsdatum
     assertEquals(
-        "Signeringsdatum",
         utlatande.getGrundData().getSigneringsTidstampel(),
-        xPath.evaluate(XPathExpressions.SIGNERINGSDATUM_XPATH));
+        xPath.evaluate(XPathExpressions.SIGNERINGSDATUM_XPATH),
+        "Signeringsdatum");
 
     // Skapad Av
     SkapadAv skapadAv = utlatande.getGrundData().getSkapadAv();
 
     if (!skapadAv.getBefattningar().isEmpty()) {
       assertEquals(
-          "Skapad av - befattningar",
           skapadAv.getBefattningar().get(0),
-          xPath.evaluate(XPathExpressions.SKAPAD_AV_BEFATTNING_XPATH));
+          xPath.evaluate(XPathExpressions.SKAPAD_AV_BEFATTNING_XPATH),
+          "Skapad av - befattningar");
     }
 
     assertEquals(
-        "Skapad av - fullständigt namn",
         skapadAv.getFullstandigtNamn(),
-        xPath.evaluate(XPathExpressions.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
+        xPath.evaluate(XPathExpressions.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH),
+        "Skapad av - fullständigt namn");
 
     assertEquals(
-        "Skapad av - hsa-id",
         skapadAv.getPersonId().getExtension(),
-        xPath.evaluate(XPathExpressions.SKAPAD_AV_HSAID_XPATH));
+        xPath.evaluate(XPathExpressions.SKAPAD_AV_HSAID_XPATH),
+        "Skapad av - hsa-id");
 
     if (!skapadAv.getSpecialiteter().isEmpty()) {
       assertEquals(
-          "Skapad av - specialitet",
           skapadAv.getSpecialiteter().get(0),
-          xPath.evaluate(XPathExpressions.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH));
+          xPath.evaluate(XPathExpressions.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH),
+          "Skapad av - specialitet");
     }
 
     // Vardenhet
     Vardenhet vardenhet = skapadAv.getVardenhet();
     assertEquals(
-        "Enhet - enhetsid", vardenhet.getEnhetsId().getExtension(), xPath.evaluate(ENHET_ID_XPATH));
+        vardenhet.getEnhetsId().getExtension(), xPath.evaluate(ENHET_ID_XPATH), "Enhet - enhetsid");
 
     assertEquals(
-        "Enhet - enhetsnamn",
         vardenhet.getEnhetsnamn(),
-        xPath.evaluate(ENHET_VARDINRATTNINGENS_NAMN_XPATH));
+        xPath.evaluate(ENHET_VARDINRATTNINGENS_NAMN_XPATH),
+        "Enhet - enhetsnamn");
 
     assertEquals(
-        "Enhet - postadress", vardenhet.getPostadress(), xPath.evaluate(ENHET_POSTADRESS_XPATH));
+        vardenhet.getPostadress(), xPath.evaluate(ENHET_POSTADRESS_XPATH), "Enhet - postadress");
 
     assertEquals(
-        "Enhet - postnummer", vardenhet.getPostnummer(), xPath.evaluate(ENHET_POSTNUMMER_XPATH));
+        vardenhet.getPostnummer(), xPath.evaluate(ENHET_POSTNUMMER_XPATH), "Enhet - postnummer");
 
     assertEquals(
-        "Enhet - postort",
         vardenhet.getPostort(),
-        xPath.evaluate(XPathExpressions.ENHET_POSTORT_XPATH));
+        xPath.evaluate(XPathExpressions.ENHET_POSTORT_XPATH),
+        "Enhet - postort");
 
     assertEquals(
-        "Enhet - postort",
         vardenhet.getTelefonnummer(),
-        xPath.evaluate(XPathExpressions.ENHET_TELEFONNUMMER_XPATH));
+        xPath.evaluate(XPathExpressions.ENHET_TELEFONNUMMER_XPATH),
+        "Enhet - postort");
 
     // Vardgivare
     assertEquals(
-        "Enhet - vardgivare - id",
         vardenhet.getVardgivare().getVardgivarid().getExtension(),
-        xPath.evaluate(VARDGIVARE_ID_XPATH));
+        xPath.evaluate(VARDGIVARE_ID_XPATH),
+        "Enhet - vardgivare - id");
 
     assertEquals(
-        "Enhet - vardgivare - id",
         vardenhet.getVardgivare().getVardgivarnamn(),
-        xPath.evaluate(VARDGIVARE_NAMN_XPATH));
+        xPath.evaluate(VARDGIVARE_NAMN_XPATH),
+        "Enhet - vardgivare - id");
 
     // IntygAvser
     for (KorkortsbehorighetTsDiabetes t : utlatande.getIntygAvser().getKorkortstyp()) {
@@ -264,268 +264,268 @@ public class TsDiabetesTransformerXpathTest {
     if (utlatande.getHypoglykemier() != null
         && utlatande.getHypoglykemier().isGenomforEgenkontrollBlodsocker() != null) {
       assertTrue(
-          "Egenkontroll av blodsocker",
           xPath.evaluate(
               booleanXPath(
                   AKTIVITET_FOREKOMST_TEMPLATE,
                   "308113006",
-                  utlatande.getHypoglykemier().isGenomforEgenkontrollBlodsocker())));
+                  utlatande.getHypoglykemier().isGenomforEgenkontrollBlodsocker())),
+          "Egenkontroll av blodsocker");
     }
 
     SynfunktionDiabetes synfunktion = utlatande.getSynfunktion();
     if (synfunktion != null) {
       assertTrue(
-          "Synfältsprövning",
           xPath.evaluate(
               booleanXPath(
                   "utlatande/p:aktivitet/p:aktivitetskod/@code='86944008'",
-                  synfunktion.isFinnsSynfaltsprovning())));
+                  synfunktion.isFinnsSynfaltsprovning())),
+          "Synfältsprövning");
 
       assertTrue(
-          "Prövning av ögats rörlighet",
           xPath.evaluate(
               booleanXPath(
                   "utlatande/p:aktivitet/p:aktivitetskod/@code='AKT18'",
-                  synfunktion.isFinnsProvningOgatsRorlighet())));
+                  synfunktion.isFinnsProvningOgatsRorlighet())),
+          "Prövning av ögats rörlighet");
     }
     // Observationer
     // Hypoglykemier
     Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
 
     assertTrue(
-        "Kunskap om åtgärder",
         xPath.evaluate(
             booleanXPath(
-                OBSERVATION_FOREKOMST_TEMPLATE, "OBS19", hypoglykemier.isHarKunskapOmAtgarder())));
+                OBSERVATION_FOREKOMST_TEMPLATE, "OBS19", hypoglykemier.isHarKunskapOmAtgarder())),
+        "Kunskap om åtgärder");
 
     assertTrue(
-        "Hypoglykemi nedsatt hjärnfunktion",
         xPath.evaluate(
             booleanXPath(
                 OBSERVATION_FOREKOMST_TEMPLATE,
                 "OBS20",
-                hypoglykemier.isHarTeckenNedsattHjarnfunktion())));
+                hypoglykemier.isHarTeckenNedsattHjarnfunktion())),
+        "Hypoglykemi nedsatt hjärnfunktion");
 
     if (hypoglykemier.isHarTeckenNedsattHjarnfunktion()) {
       assertTrue(
-          "Saknar känna förmåga varningstecken",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "OBS21",
-                  hypoglykemier.isSaknarFormagaKannaVarningstecken())));
+                  hypoglykemier.isSaknarFormagaKannaVarningstecken())),
+          "Saknar känna förmåga varningstecken");
 
       assertTrue(
-          "Allvarlig hypoglykemi senaste året",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "OBS22",
-                  hypoglykemier.isHarAllvarligForekomst())));
+                  hypoglykemier.isHarAllvarligForekomst())),
+          "Allvarlig hypoglykemi senaste året");
       assertEquals(
-          "Allvarlig hypoglykemi senaste året - beskrivning",
           hypoglykemier.getAllvarligForekomstBeskrivning() == null
               ? ""
               : hypoglykemier.getAllvarligForekomstBeskrivning(),
-          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS22")));
+          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS22")),
+          "Allvarlig hypoglykemi senaste året - beskrivning");
 
       assertTrue(
-          "Allvarlig förekomst i trafiken senaste året",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "OBS23",
-                  hypoglykemier.isHarAllvarligForekomstTrafiken())));
+                  hypoglykemier.isHarAllvarligForekomstTrafiken())),
+          "Allvarlig förekomst i trafiken senaste året");
       assertEquals(
-          "Allvarlig förekomst trafiken senaste året - beskrivning",
           hypoglykemier.getAllvarligForekomstTrafikBeskrivning() == null
               ? ""
               : hypoglykemier.getAllvarligForekomstTrafikBeskrivning(),
-          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS23")));
+          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS23")),
+          "Allvarlig förekomst trafiken senaste året - beskrivning");
     }
 
     if (hypoglykemier.isHarAllvarligForekomstVakenTid() != null) {
       assertTrue(
-          "Allvarlig förekomst vaken tid senaste året",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "OBS24",
-                  hypoglykemier.isHarAllvarligForekomstVakenTid())));
+                  hypoglykemier.isHarAllvarligForekomstVakenTid())),
+          "Allvarlig förekomst vaken tid senaste året");
       assertEquals(
-          "Allvarlig förekomst vaken tid senaste året - observationstid",
           hypoglykemier.getAllvarligForekomstVakenTidAr() == null
               ? ""
               : hypoglykemier.getAllvarligForekomstVakenTidAr(),
-          xPath.evaluate(dateXPath(OBSERVATION_TID_TEMPLATE, "yyyy-MM-dd", "OBS24")));
+          xPath.evaluate(dateXPath(OBSERVATION_TID_TEMPLATE, "yyyy-MM-dd", "OBS24")),
+          "Allvarlig förekomst vaken tid senaste året - observationstid");
     }
     // Syn
     if (synfunktion != null) {
       assertTrue(
-          "Synfältsprovning utan anmärkning",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "OBS25",
-                  synfunktion.isSynfaltsprovningUtanAnmarkning())));
+                  synfunktion.isSynfaltsprovningUtanAnmarkning())),
+          "Synfältsprovning utan anmärkning");
 
       assertTrue(
-          "Diplopi",
           xPath.evaluate(
-              booleanXPath(OBSERVATION_FOREKOMST_TEMPLATE, "H53.2", synfunktion.isHarDiplopi())));
+              booleanXPath(OBSERVATION_FOREKOMST_TEMPLATE, "H53.2", synfunktion.isHarDiplopi())),
+          "Diplopi");
 
       SynskarpaUtanKorrektion utanKorr = synfunktion.getSynskarpaUtanKorrektion();
 
       SynskarpaMedKorrektion medKorr = synfunktion.getSynskarpaMedKorrektion();
 
       assertEquals(
-          "Ej korrigerad synskärpa höger",
           String.valueOf(utanKorr.getHogerOga()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "24028007")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "24028007")),
+          "Ej korrigerad synskärpa höger");
 
       assertEquals(
-          "Korrigerad synskärpa höger",
           String.valueOf(medKorr.getHogerOga()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "24028007")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "24028007")),
+          "Korrigerad synskärpa höger");
 
       assertEquals(
-          "Ej korrigerad synskärpa vänster",
           String.valueOf(utanKorr.getVansterOga()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "7771000")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "7771000")),
+          "Ej korrigerad synskärpa vänster");
 
       assertEquals(
-          "Korrigerad synskärpa vänster",
           String.valueOf(medKorr.getVansterOga()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "7771000")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "7771000")),
+          "Korrigerad synskärpa vänster");
 
       assertEquals(
-          "Ej korrigerad synskärpa binokulärt",
           String.valueOf(utanKorr.getBinokulart()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "51440002")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "420050001", "51440002")),
+          "Ej korrigerad synskärpa binokulärt");
 
       assertEquals(
-          "Korrigerad synskärpa binokulärt",
           String.valueOf(medKorr.getBinokulart()),
-          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "51440002")));
+          xPath.evaluate(stringXPath(OBSERVATION_VARDE_CODE_LATERALITET, "397535007", "51440002")),
+          "Korrigerad synskärpa binokulärt");
     }
     // Diabetes
     Diabetes diabetes = utlatande.getDiabetes();
 
     if (diabetes.getDiabetesTyp().get(0).equals("TYP1")) {
       assertTrue(
-          "Diabetes typ1",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "E10",
-                  diabetes.getDiabetesTyp().get(0).equals("TYP1"))));
+                  diabetes.getDiabetesTyp().get(0).equals("TYP1"))),
+          "Diabetes typ1");
     } else if (diabetes.getDiabetesTyp().get(0).equals("TYP2")) {
       assertTrue(
-          "Diabetes typ2",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_TEMPLATE,
                   "E11",
-                  diabetes.getDiabetesTyp().get(0).equals("TYP2"))));
+                  diabetes.getDiabetesTyp().get(0).equals("TYP2"))),
+          "Diabetes typ2");
       assertEquals(
-          "Diabetes typ2 från år",
           diabetes.getDebutArDiabetes(),
           xPath.evaluate(
               new StringXPathExpression(
-                  "utlatande/p:observation/p:observationsperiod[(parent::p:observation/p:observationskod/@code='E11')]")));
+                  "utlatande/p:observation/p:observationsperiod[(parent::p:observation/p:observationskod/@code='E11')]")),
+          "Diabetes typ2 från år");
     }
 
     if (diabetes.isHarBehandlingKost() != null) {
       assertTrue(
-          "Diabetes kostbehandling",
           xPath.evaluate(
               booleanXPath(
-                  OBSERVATION_FOREKOMST_TEMPLATE, "170745003", diabetes.isHarBehandlingKost())));
+                  OBSERVATION_FOREKOMST_TEMPLATE, "170745003", diabetes.isHarBehandlingKost())),
+          "Diabetes kostbehandling");
     }
 
     if (diabetes.isHarBehandlingInsulin() != null) {
       assertTrue(
-          "Diabetes insulinbehandling",
           xPath.evaluate(
               booleanXPath(
-                  OBSERVATION_FOREKOMST_TEMPLATE, "170747006", diabetes.isHarBehandlingInsulin())));
+                  OBSERVATION_FOREKOMST_TEMPLATE, "170747006", diabetes.isHarBehandlingInsulin())),
+          "Diabetes insulinbehandling");
 
       if (diabetes.getInsulinBehandlingSedanAr() != null) {
         assertEquals(
-            "Insulin sedan år",
             diabetes.getInsulinBehandlingSedanAr(),
             xPath.evaluate(
                 new StringXPathExpression(
-                    "utlatande/p:observation/p:observationsperiod[(parent::p:observation/p:observationskod/@code='170747006')]")));
+                    "utlatande/p:observation/p:observationsperiod[(parent::p:observation/p:observationskod/@code='170747006')]")),
+            "Insulin sedan år");
       }
     }
 
     if (diabetes.isHarBehandlingTabletter() != null) {
       assertTrue(
-          "Diabetes tablettbehandling",
           xPath.evaluate(
               booleanXPath(
                   OBSERVATION_FOREKOMST_VARDE_TEMPLATE,
                   "170746002",
-                  diabetes.isHarBehandlingTabletter())));
+                  diabetes.isHarBehandlingTabletter())),
+          "Diabetes tablettbehandling");
     }
 
     if (diabetes.getAnnanBehandlingBeskrivning() != null) {
       assertEquals(
-          "Diabetes annan behandling beskrivning",
           diabetes.getAnnanBehandlingBeskrivning(),
-          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS10")));
+          xPath.evaluate(stringXPath(OBSERVATION_BESKRIVNING_TEMPLATE, "OBS10")),
+          "Diabetes annan behandling beskrivning");
     }
 
     // Rekommendationer
     assertTrue(
-        "Rekommendation REK8",
         xPath.evaluate(
             new BooleanXPathExpression(
-                "utlatande/p:rekommendation/p:rekommendationskod/@code = 'REK8'")));
+                "utlatande/p:rekommendation/p:rekommendationskod/@code = 'REK8'")),
+        "Rekommendation REK8");
 
     for (KorkortsbehorighetTsDiabetes t : utlatande.getBedomning().getKorkortstyp()) {
       KorkortsbehorighetKod k = KorkortsbehorighetKod.valueOf(t.value().value());
       assertTrue(
-          String.format("Rekommendationsvärde %s", k.getCode()),
-          xPath.evaluate(booleanXPath(REKOMMENDATION_VARDE_CODE_TEMPLATE, k.getCode())));
+          xPath.evaluate(booleanXPath(REKOMMENDATION_VARDE_CODE_TEMPLATE, k.getCode())),
+          String.format("Rekommendationsvärde %s", k.getCode()));
     }
     if (utlatande.getBedomning().isKanInteTaStallning() != null) {
       assertTrue(
-          "Rekommendationsvärde Kan inte ta ställning (VAR11)",
           xPath.evaluate(
               booleanXPath(
                   REKOMMENDATION_VARDE_CODE_TEMPLATE,
-                  KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
+                  KorkortsbehorighetKod.KANINTETASTALLNING.getCode())),
+          "Rekommendationsvärde Kan inte ta ställning (VAR11)");
     }
 
     if (utlatande.getBedomning().getBehovAvLakareSpecialistKompetens() != null) {
       assertEquals(
+          utlatande.getBedomning().getBehovAvLakareSpecialistKompetens(),
+          xPath.evaluate(stringXPath(REKOMMENDATION_BESKRIVNING_TEMPLATE, "REK9")),
           String.format(
               "REK9 med beskrivning  %s",
-              utlatande.getBedomning().getBehovAvLakareSpecialistKompetens()),
-          utlatande.getBedomning().getBehovAvLakareSpecialistKompetens(),
-          xPath.evaluate(stringXPath(REKOMMENDATION_BESKRIVNING_TEMPLATE, "REK9")));
+              utlatande.getBedomning().getBehovAvLakareSpecialistKompetens()));
     }
 
     if (utlatande.getBedomning().isLamplighetInnehaBehorighetSpecial() != null) {
       assertTrue(
-          "Rekommendation lämplighet inneha behörighet",
           xPath.evaluate(
               booleanXPath(
                   REKOMMENDATION_VARDE_BOOL_TEMPLATE,
                   "REK10",
-                  utlatande.getBedomning().isLamplighetInnehaBehorighetSpecial())));
+                  utlatande.getBedomning().isLamplighetInnehaBehorighetSpecial())),
+          "Rekommendation lämplighet inneha behörighet");
     }
 
     // Bilaga
     assertTrue(
-        "Bilaga",
         xPath.evaluate(
             new BooleanXPathExpression(
                 String.format(
                     "utlatande/p2:bilaga/p:forekomst='%s'",
-                    utlatande.isSeparatOgonLakarintygKommerSkickas()))));
+                    utlatande.isSeparatOgonLakarintygKommerSkickas()))),
+        "Bilaga");
   }
 
   private XPathEvaluator createXPathEvaluator(String xml)

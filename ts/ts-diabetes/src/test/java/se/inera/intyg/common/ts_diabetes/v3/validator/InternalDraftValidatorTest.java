@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
@@ -58,12 +58,11 @@ import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValida
 import com.google.common.collect.ImmutableSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.util.Objects;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -71,17 +70,18 @@ import se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalDraftValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalDraftValidatorTest {
 
   @InjectMocks InternalDraftValidatorImpl validator;
 
-  private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
+  private static final InternalValidatorHelper internalValidatorHelper =
+      new InternalValidatorHelper();
 
   public static TsDiabetesUtlatandeV3 setupPassingHypoglykemierDates(
       TsDiabetesUtlatandeV3 utlatande) {
     internalValidatorHelper.setNowMinusDays(
-        utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt(), 10);
+        Objects.requireNonNull(utlatande.getHypoglykemier()).getAterkommandeSenasteTidpunkt(), 10);
     internalValidatorHelper.setNowMinusDays(
         utlatande.getHypoglykemier().getForekomstTrafikTidpunkt(), 10);
     internalValidatorHelper.setNowMinusDays(
@@ -90,7 +90,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMinimalValidUtkast() throws Exception {
+  void validateMinimalValidUtkast() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
 
@@ -101,7 +101,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateCompleteValidUtkast() throws Exception {
+  void validateCompleteValidUtkast() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("pass-complete").asInternalModel());
@@ -113,7 +113,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule1() throws Exception {
+  void failureDueToRule1() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R1").asInternalModel();
 
@@ -122,15 +122,15 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
-    Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-    Assert.assertEquals(
+    ValidationMessage error = res.getValidationErrors().getFirst();
+    assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+    assertEquals(
         BEDOMNING_JSON_ID + "." + BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID, error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule2() throws Exception {
+  void failureDueToRule2() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R2").asInternalModel();
 
@@ -139,15 +139,14 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
-        ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
+    assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
   }
 
   @Test
-  public void failureDueToRule3() throws Exception {
+  void failureDueToRule3() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
 
@@ -156,16 +155,16 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule4() throws Exception {
+  void failureDueToRule4() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R4").asInternalModel();
 
@@ -174,14 +173,14 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
+    assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule5() throws Exception {
+  void failureDueToRule5() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("fail-R5").asInternalModel());
@@ -191,9 +190,9 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -204,7 +203,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule6() throws Exception {
+  void failureDueToRule6() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R6").asInternalModel();
 
@@ -227,7 +226,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule7() throws Exception {
+  void failureDueToRule7() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("fail-R7a").asInternalModel());
@@ -237,9 +236,9 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -257,9 +256,9 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    error = res.getValidationErrors().get(0);
+    error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -270,7 +269,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule8() throws Exception {
+  void failureDueToRule8() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("fail-R8").asInternalModel());
@@ -280,42 +279,44 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule9() throws Exception {
+  void failureDueToRule9() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R9").asInternalModel();
     // Test json can't have dynamic dates som we override it here.
     // Maybe we should allow getInternalScenario to have arguments that replaces tfeilds in the json
     // file when reading?
-    final String lastMonth =
-        LocalDate.now().minus(1, ChronoUnit.MONTHS).format(DateTimeFormatter.ISO_DATE);
+    final String lastMonth = LocalDate.now().minusMonths(1).format(DateTimeFormatter.ISO_DATE);
 
-    utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt().setDate(lastMonth);
-    utlatande.getHypoglykemier().getForekomstTrafikTidpunkt().setDate(lastMonth);
+    Objects.requireNonNull(
+            Objects.requireNonNull(utlatande.getHypoglykemier()).getAterkommandeSenasteTidpunkt())
+        .setDate(lastMonth);
+    Objects.requireNonNull(utlatande.getHypoglykemier().getForekomstTrafikTidpunkt())
+        .setDate(lastMonth);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule10() throws Exception {
+  void failureDueToRule10() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("fail-R10").asInternalModel());
@@ -325,16 +326,16 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 
   @Test
-  public void failureDueToRule12() throws Exception {
+  void failureDueToRule12() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R12").asInternalModel();
 
@@ -373,7 +374,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule13() throws Exception {
+  void failureDueToRule13() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R13").asInternalModel();
 
@@ -412,7 +413,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule14() throws Exception {
+  void failureDueToRule14() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R14").asInternalModel();
 
@@ -451,7 +452,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule15() throws Exception {
+  void failureDueToRule15() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R15").asInternalModel();
 
@@ -490,7 +491,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule16() throws Exception {
+  void failureDueToRule16() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R16").asInternalModel();
 
@@ -499,7 +500,7 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
     ImmutableSet<ValidationMessage> expectedErrors =
         ImmutableSet.of(
@@ -511,7 +512,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule17() throws Exception {
+  void failureDueToRule17() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R17").asInternalModel();
 
@@ -520,7 +521,7 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(2, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     ImmutableSet<ValidationMessage> expectedErrors =
         ImmutableSet.of(
@@ -536,7 +537,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule18() throws Exception {
+  void failureDueToRule18() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R18").asInternalModel();
 
@@ -545,9 +546,9 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_ALLMANT, error.getCategory());
-    Assert.assertEquals(
+    assertEquals(
         ALLMANT_JSON_ID
             + "."
             + ALLMANT_BEHANDLING_JSON_ID
@@ -558,7 +559,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule19() throws Exception {
+  void failureDueToRule19() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         setupPassingHypoglykemierDates(
             ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
@@ -618,7 +619,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRule20() throws Exception {
+  void failureDueToRule20() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R20a").asInternalModel();
 
@@ -627,13 +628,13 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-11");
+    assertEquals("common.validation.d-11", error.getMessage());
 
     utlatande = ScenarioFinder.getInternalScenario("fail-R20b").asInternalModel();
 
@@ -642,17 +643,17 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    error = res.getValidationErrors().get(0);
+    error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-08");
+    assertEquals("common.validation.d-08", error.getMessage());
   }
 
   @Test
-  public void failureDueToRules21() throws Exception {
+  void failureDueToRules21() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R21a").asInternalModel();
 
@@ -661,13 +662,13 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-11");
+    assertEquals("common.validation.d-11", error.getMessage());
 
     utlatande = ScenarioFinder.getInternalScenario("fail-R21b").asInternalModel();
 
@@ -676,17 +677,17 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    error = res.getValidationErrors().get(0);
+    error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-08");
+    assertEquals("common.validation.d-08", error.getMessage());
   }
 
   @Test
-  public void failureDueToRules22() throws Exception {
+  void failureDueToRules22() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R22a").asInternalModel();
 
@@ -695,13 +696,13 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-11");
+    assertEquals("common.validation.d-11", error.getMessage());
 
     utlatande = ScenarioFinder.getInternalScenario("fail-R22b").asInternalModel();
 
@@ -710,17 +711,17 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    error = res.getValidationErrors().get(0);
+    error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
     assertEquals(
         HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
         error.getField());
     assertEquals(ValidationMessageType.OTHER, error.getType());
-    assertEquals(error.getMessage(), "common.validation.d-08");
+    assertEquals("common.validation.d-08", error.getMessage());
   }
 
   @Test
-  public void failureDueToRules23_24() throws Exception {
+  void failureDueToRules23_24() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R23").asInternalModel();
 
@@ -729,7 +730,7 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_BEDOMNING, error.getCategory());
     assertEquals(
         BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID, error.getField());
@@ -737,7 +738,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRules25() throws Exception {
+  void failureDueToRules25() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R25").asInternalModel();
 
@@ -777,7 +778,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToRules26() throws Exception {
+  void failureDueToRules26() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-R26").asInternalModel();
 
@@ -786,7 +787,7 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals(CATEGORY_SYNFUNKTION, error.getCategory());
     assertEquals(
         SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_SKICKAS_SEPARAT_JSON_ID,
@@ -795,7 +796,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void failureDueToMissingVardenhetPostnummer() throws Exception {
+  void failureDueToMissingVardenhetPostnummer() throws Exception {
     TsDiabetesUtlatandeV3 utlatande =
         ScenarioFinder.getInternalScenario("fail-vardenhetensPostNummerSaknas").asInternalModel();
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -803,9 +804,9 @@ public class InternalDraftValidatorTest {
     assertTrue(res.hasErrorMessages());
     assertFalse(res.hasWarningMessages());
     assertEquals(1, res.getValidationErrors().size());
-    ValidationMessage error = res.getValidationErrors().get(0);
+    ValidationMessage error = res.getValidationErrors().getFirst();
     assertEquals("vardenhet", error.getCategory());
-    Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer", error.getField());
+    assertEquals("grunddata.skapadAv.vardenhet.postnummer", error.getField());
     assertEquals(ValidationMessageType.EMPTY, error.getType());
   }
 }

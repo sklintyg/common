@@ -18,9 +18,8 @@
  */
 package se.inera.intyg.common.luse.v1.pdf;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,12 +27,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
@@ -47,6 +46,7 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Generate variants of a LUSE pdf, partly to see that make sure no exceptions occur but mainly for
@@ -55,8 +55,8 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
  *
  * @author marced
  */
-@RunWith(MockitoJUnitRunner.class)
-public class LusePdfDefinitionBuilderTest {
+@ExtendWith(MockitoExtension.class)
+class LusePdfDefinitionBuilderTest {
 
   protected static final String TEXT_VERSION_1_0 = "1.0";
   protected static final String TEXT_VERSION_1_1 = "1.1";
@@ -75,8 +75,8 @@ public class LusePdfDefinitionBuilderTest {
   @InjectMocks
   private LusePdfDefinitionBuilder lusePdfDefinitionBuilder = new LusePdfDefinitionBuilder();
 
-  @Before
-  public void initTexts() throws IOException {
+  @BeforeEach
+  void initTexts() throws IOException {
     intygTextsService = new IntygTextsServiceImpl();
     IntygTextsLuseRepositoryTestHelper intygsTextRepositoryHelper =
         new IntygTextsLuseRepositoryTestHelper();
@@ -103,7 +103,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateNotSentToFK() throws Exception {
+  void testGenerateNotSentToFK() throws Exception {
     generate(
         "unsent",
         new ArrayList<>(),
@@ -143,7 +143,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGenerateAlreadySentTOFK() throws Exception {
+  void testGenerateAlreadySentTOFK() throws Exception {
     List<Status> statuses = new ArrayList<>();
     statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
 
@@ -178,7 +178,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForUtkast() throws Exception {
+  void testGeneratePdfForUtkast() throws Exception {
     LuseUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),
@@ -208,7 +208,7 @@ public class LusePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGeneratePdfForLockedUtkast() throws Exception {
+  void testGeneratePdfForLockedUtkast() throws Exception {
     LuseUtlatandeV1 utkast =
         objectMapper.readValue(
             new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(),

@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
 import se.inera.intyg.common.ag7804.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -27,6 +25,8 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.mapper.Mapper;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author Magnus Ekstrand on 2019-09-02.
@@ -61,7 +61,7 @@ public class FK7804ToAG7804Mapper implements Mapper {
   public String json() throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize model", e);
     }
   }

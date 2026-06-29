@@ -18,11 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -30,10 +28,10 @@ import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Marshaller;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import javax.xml.namespace.QName;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
-import org.xml.sax.SAXException;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -54,14 +52,15 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author marced, andreaskaltenbach
  */
-public class InternalToTransportConverterTest {
+class InternalToTransportConverterTest {
 
   @Test
-  public void testConvertUtlatande() throws Exception {
+  void testConvertUtlatande() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
       Fk7263Utlatande intUtlatande = scenario.asInternalModel();
 
@@ -74,8 +73,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionUtanFalt5()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionUtanFalt5() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -98,22 +96,21 @@ public class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testConversionMaximal()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMaximal() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -136,22 +133,21 @@ public class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testConversionWithDiagnosisAsKSH97()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionWithDiagnosisAsKSH97() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande internalFormat =
@@ -175,22 +171,21 @@ public class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testConversionMinimal()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMinimal() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -213,22 +208,21 @@ public class InternalToTransportConverterTest {
         Resources.toString(
             new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testConversionKommentar()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionKommentar() throws IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -249,8 +243,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testConversionOrimligtDatum()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionOrimligtDatum() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -275,22 +268,21 @@ public class InternalToTransportConverterTest {
             new ClassPathResource(
                     "InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testConversionMinimalSmiL()
-      throws JAXBException, IOException, SAXException, ConverterException {
+  void testConversionMinimalSmiL() throws JAXBException, IOException, ConverterException {
 
     ObjectMapper objectMapper = new CustomObjectMapper();
     Fk7263Utlatande externalFormat =
@@ -315,21 +307,21 @@ public class InternalToTransportConverterTest {
             new ClassPathResource(
                     "InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     Diff diff =
-        DiffBuilder.compare(Input.fromString(expectation.toString()))
+        DiffBuilder.compare(Input.fromString(expectation))
             .withTest(Input.fromString(stringWriter.toString()))
             .ignoreComments()
             .ignoreWhitespace()
             .checkForSimilar()
             .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
             .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertFalse(diff.hasDifferences(), diff.toString());
   }
 
   @Test
-  public void testPersonnummerRoot() throws Exception {
+  void testPersonnummerRoot() throws Exception {
     final String pnr = "19121212-1212";
     Fk7263Utlatande utlatande = new Fk7263Utlatande();
     GrundData grundData = new GrundData();
@@ -349,7 +341,7 @@ public class InternalToTransportConverterTest {
   }
 
   @Test
-  public void testSamordningRoot() throws Exception {
+  void testSamordningRoot() throws Exception {
     final String pnr = "19800191-0002";
     Fk7263Utlatande utlatande = new Fk7263Utlatande();
     GrundData grundData = new GrundData();
@@ -369,17 +361,15 @@ public class InternalToTransportConverterTest {
   }
 
   private Personnummer createPnr(String civicRegistrationNumber) {
-    return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
   }
 
   private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
-    JAXBElement<?> jaxbElement =
-        new JAXBElement<>(
-            new QName(
-                "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3",
-                "RegisterMedicalCertificate"),
-            RegisterMedicalCertificateType.class,
-            ws);
-    return jaxbElement;
+    return new JAXBElement<>(
+        new QName(
+            "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3",
+            "RegisterMedicalCertificate"),
+        RegisterMedicalCertificateType.class,
+        ws);
   }
 }

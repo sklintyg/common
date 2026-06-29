@@ -34,9 +34,6 @@ import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPBody;
 import jakarta.xml.soap.SOAPEnvelope;
@@ -44,6 +41,7 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeAll;
@@ -102,6 +100,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place
@@ -152,7 +152,7 @@ class TsBasModuleApiTest {
 
   @Test
   void shouldDecorateWithMappedCareProvider()
-      throws ScenarioNotFoundException, ModuleException, JsonProcessingException {
+      throws ScenarioNotFoundException, ModuleException, JacksonException {
     final var json = "{}";
     when(objectMapper.readValue(json, TsBasUtlatandeV7.class))
         .thenReturn(ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel());
@@ -513,7 +513,7 @@ class TsBasModuleApiTest {
   private String toJsonString(TsBasUtlatandeV7 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }
@@ -550,7 +550,7 @@ class TsBasModuleApiTest {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   private static GrundData getGrundData() {

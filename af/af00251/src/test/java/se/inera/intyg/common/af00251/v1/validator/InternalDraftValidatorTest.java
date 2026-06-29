@@ -36,10 +36,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
@@ -56,15 +56,15 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalDraftValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalDraftValidatorTest {
 
   InternalDraftValidatorImpl validator = new InternalDraftValidatorImpl();
 
   AF00251UtlatandeV1.Builder builderTemplate;
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
     builderTemplate =
         AF00251UtlatandeV1.builder()
             .setId("intygsId")
@@ -104,7 +104,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDraft() {
+  void validateDraft() {
     AF00251UtlatandeV1 utlatande = builderTemplate.build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -114,7 +114,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMedicinskUnderlagNull() {
+  void validateMedicinskUnderlagNull() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setUndersokningsDatum(null)
@@ -134,7 +134,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMedicinskUnderlagInvalidDate() {
+  void validateMedicinskUnderlagInvalidDate() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setUndersokningsDatum(new InternalDate("123123123321321")).build();
 
@@ -150,7 +150,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMedicinskUnderlagInvalidInstanceAnnatWithNoDescription() {
+  void validateMedicinskUnderlagInvalidInstanceAnnatWithNoDescription() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setAnnatBeskrivning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -166,7 +166,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMedicinskUnderlagFutureAnnatDatum() {
+  void validateMedicinskUnderlagFutureAnnatDatum() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setAnnatDatum(new InternalDate(LocalDate.now().plusDays(5))).build();
 
@@ -184,7 +184,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateMedicinskUnderlagFutureUndersokningsDatum() {
+  void validateMedicinskUnderlagFutureUndersokningsDatum() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setUndersokningsDatum(new InternalDate(LocalDate.now().plusDays(5)))
@@ -204,7 +204,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramNull() {
+  void validateArbetsmarknadspolitisktProgramNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setArbetsmarknadspolitisktProgram(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -214,7 +214,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceEmpty() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceEmpty() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setArbetsmarknadspolitisktProgram(builder().build()).build();
 
@@ -225,7 +225,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoOmfattning() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceNoOmfattning() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setArbetsmarknadspolitisktProgram(builder().setMedicinskBedomning("bedömning").build())
@@ -238,7 +238,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoBedomning() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceNoBedomning() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setArbetsmarknadspolitisktProgram(builder().setOmfattning(Omfattning.HELTID).build())
@@ -251,7 +251,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidNoHours() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidNoHours() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setArbetsmarknadspolitisktProgram(builder().setOmfattning(Omfattning.DELTID).build())
@@ -275,7 +275,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setArbetsmarknadspolitisktProgram(
@@ -300,7 +300,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMax() {
+  void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMax() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setArbetsmarknadspolitisktProgram(
@@ -325,7 +325,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateFunktionsnedsattningNull() {
+  void validateFunktionsnedsattningNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -340,7 +340,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateFunktionsnedsattningEmtpy() {
+  void validateFunktionsnedsattningEmtpy() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning("").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -355,7 +355,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateAktivitetsbegransningNull() {
+  void validateAktivitetsbegransningNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -370,7 +370,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateAktivitetsbegransningEmtpy() {
+  void validateAktivitetsbegransningEmtpy() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning("").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -385,7 +385,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateHarForhinderNull() {
+  void validateHarForhinderNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setHarForhinder(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -400,7 +400,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateHarForhinderTrueWithNullSjukfranvaro() {
+  void validateHarForhinderTrueWithNullSjukfranvaro() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setHarForhinder(true).setSjukfranvaro(null).build();
 
@@ -417,7 +417,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateHarForhinderFalseWithSjukfranvaro() {
+  void validateHarForhinderFalseWithSjukfranvaro() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setHarForhinder(false).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -433,7 +433,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroNull() {
+  void validateSjukfranvaroNull() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setHarForhinder(false).setSjukfranvaro(null).build();
 
@@ -444,7 +444,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroEmty() {
+  void validateSjukfranvaroEmty() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setHarForhinder(false).setSjukfranvaro(new ArrayList<>()).build();
 
@@ -455,7 +455,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroTooMany() {
+  void validateSjukfranvaroTooMany() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -502,7 +502,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroNivaMin() {
+  void validateSjukfranvaroNivaMin() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -528,7 +528,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroNivaMax() {
+  void validateSjukfranvaroNivaMax() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -554,7 +554,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroPeriodInvalidInterval() {
+  void validateSjukfranvaroPeriodInvalidInterval() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -580,7 +580,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroPeriodIntervalOverlap() {
+  void validateSjukfranvaroPeriodIntervalOverlap() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -617,7 +617,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
+  void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -649,7 +649,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukfranvaroPeriodIntervalOverlapSameStart() {
+  void validateSjukfranvaroPeriodIntervalOverlapSameStart() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setHarForhinder(true)
@@ -696,7 +696,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBegransningSjukfranvaroNull() {
+  void validateBegransningSjukfranvaroNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setBegransningSjukfranvaro(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -712,7 +712,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBegransningSjukfranvaroBooleanNull() {
+  void validateBegransningSjukfranvaroBooleanNull() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder().build())
@@ -731,7 +731,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
+  void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setBegransningSjukfranvaro(
@@ -751,7 +751,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
+  void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setBegransningSjukfranvaro(
@@ -768,7 +768,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBegransningSjukfranvaroBooleanFalse() {
+  void validateBegransningSjukfranvaroBooleanFalse() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setBegransningSjukfranvaro(
@@ -782,7 +782,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validatePrognosAtergangNull() {
+  void validatePrognosAtergangNull() {
     AF00251UtlatandeV1 utlatande = builderTemplate.setPrognosAtergang(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -798,7 +798,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validatePrognosAtergangEmpty() {
+  void validatePrognosAtergangEmpty() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate.setPrognosAtergang(PrognosAtergang.builder().build()).build();
 
@@ -815,7 +815,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validatePrognosAtergangOk() {
+  void validatePrognosAtergangOk() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setPrognosAtergang(
@@ -831,7 +831,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validatePrognosAtergangMedAnpassningNoText() {
+  void validatePrognosAtergangMedAnpassningNoText() {
     AF00251UtlatandeV1 utlatande =
         builderTemplate
             .setPrognosAtergang(

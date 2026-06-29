@@ -18,45 +18,45 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.validator;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Joiner;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_diabetes.v2.validator.transport.TransportValidatorInstance;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-public class TransportValidatorTest {
+class TransportValidatorTest {
 
   private TransportValidatorInstance validator = new TransportValidatorInstance();
 
   @Test
-  public void testValidate() throws ScenarioNotFoundException {
+  void testValidate() throws ScenarioNotFoundException {
     for (Scenario scenario : ScenarioFinder.getTransportScenarios("valid-*")) {
       TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
       List<String> validationResponse = validator.validate(utlatande);
 
       assertTrue(
+          validationResponse.isEmpty(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse),
-          validationResponse.isEmpty());
+              + Joiner.on(", ").join(validationResponse));
     }
   }
 
   @Test
-  public void testValidateWithErrors() throws Exception {
+  void testValidateWithErrors() throws Exception {
     for (Scenario scenario : ScenarioFinder.getTransportScenarios("programmatic-invalid-*")) {
 
       TSDiabetesIntyg utlatande = scenario.asTransportModel().getIntyg();
       List<String> validationResponse = validator.validate(utlatande);
 
       assertTrue(
-          "Expected validation error in test " + scenario.getName(), !validationResponse.isEmpty());
+          !validationResponse.isEmpty(), "Expected validation error in test " + scenario.getName());
     }
   }
 }

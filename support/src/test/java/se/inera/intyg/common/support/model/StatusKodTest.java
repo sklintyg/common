@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.support.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class StatusKodTest {
+class StatusKodTest {
 
   @Test
-  public void testToCertificateState() {
+  void testToCertificateState() {
     assertEquals(CertificateState.CANCELLED, StatusKod.CANCEL.toCertificateState());
     assertEquals(CertificateState.DELETED, StatusKod.DELETE.toCertificateState());
     assertEquals(CertificateState.RECEIVED, StatusKod.RECEIV.toCertificateState());

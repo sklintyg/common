@@ -18,17 +18,18 @@
  */
 package se.inera.intyg.common.support.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class InternalDateTest {
+class InternalDateTest {
 
   @Test
-  public void testInternaDateIsValid() {
+  void testInternaDateIsValid() {
     String dateString = "2011-01-01";
 
     InternalDate date1 = new InternalDate(dateString);
@@ -36,7 +37,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testInternalDateIsNotValid() {
+  void testInternalDateIsNotValid() {
     String bogusString = "blahonga";
     String yearString = "2001";
 
@@ -49,19 +50,19 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testAsLocalDate() {
+  void testAsLocalDate() {
     String valid = "2014-12-30";
     InternalDate internalDate = new InternalDate(valid);
     LocalDate localDate = internalDate.asLocalDate();
 
     assertEquals(
-        String.format("LocalDate %s did not match %s", localDate.toString(), valid),
+        valid,
         localDate.toString(),
-        valid);
+        String.format("LocalDate %s did not match %s", localDate, valid));
   }
 
   @Test
-  public void testIsDateInFuture() {
+  void testIsDateInFuture() {
     InternalDate validNotFuture = new InternalDate(LocalDate.now().minusMonths(6));
     InternalDate validOneYearInFuture = new InternalDate(LocalDate.now().plusYears(1));
     InternalDate validOneDayInFuture = new InternalDate(LocalDate.now().plusDays(1));
@@ -81,32 +82,32 @@ public class InternalDateTest {
     assertTrue(invalidDate.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
   }
 
-  @Test(expected = ModelException.class)
-  public void testInvalidAsLocalDate() {
+  @Test
+  void testInvalidAsLocalDate() {
     InternalDate partialDate = new InternalDate("2001-");
-    partialDate.asLocalDate();
-
     InternalDate justText = new InternalDate("blörk");
-    justText.asLocalDate();
-
     InternalDate dateButIncorrect = new InternalDate("2011-13-32");
-    dateButIncorrect.asLocalDate();
-  }
+    assertThrows(ModelException.class, partialDate::asLocalDate);
 
-  @Test(expected = ModelException.class)
-  public void testInvalidEmpty() {
-    InternalDate empty = new InternalDate("");
-    empty.asLocalDate();
+    assertThrows(ModelException.class, justText::asLocalDate);
+
+    assertThrows(ModelException.class, dateButIncorrect::asLocalDate);
   }
 
   @Test
-  public void testVagueDateInFutureYear0000() {
+  void testInvalidEmpty() {
+    InternalDate empty = new InternalDate("");
+    assertThrows(ModelException.class, empty::asLocalDate);
+  }
+
+  @Test
+  void testVagueDateInFutureYear0000() {
     InternalDate date = new InternalDate("0000-00-00");
     assertFalse(date.vagueDateInFuture());
   }
 
   @Test
-  public void testVagueDateInFutureEarlierYearFalse() {
+  void testVagueDateInFutureEarlierYearFalse() {
     int currentYear = LocalDate.now().getYear();
 
     InternalDate date = new InternalDate((currentYear - 1) + "-00-00");
@@ -114,7 +115,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testVagueDateInFutureSameYearFalse() {
+  void testVagueDateInFutureSameYearFalse() {
     int currentYear = LocalDate.now().getYear();
 
     InternalDate date = new InternalDate(currentYear + "-00-00");
@@ -122,7 +123,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testVagueDateInFutureYearTrue() {
+  void testVagueDateInFutureYearTrue() {
     int currentYear = LocalDate.now().getYear();
 
     InternalDate date = new InternalDate((currentYear + 1) + "-00-00");
@@ -130,7 +131,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testVagueDateInFutureMonthFalse() {
+  void testVagueDateInFutureMonthFalse() {
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
@@ -140,7 +141,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void testVagueDateInFutureMonthTrue() {
+  void testVagueDateInFutureMonthTrue() {
     int currentYear = LocalDate.now().getYear();
     int currentMonth = LocalDate.now().getMonthValue();
 
@@ -150,35 +151,35 @@ public class InternalDateTest {
   }
 
   private String addLeadingZeros(int digits, int expectedNumberOfDigits) {
-    String number = String.valueOf(digits);
+    StringBuilder number = new StringBuilder(String.valueOf(digits));
 
     int diff = expectedNumberOfDigits - number.length();
 
     if (diff > 0) {
       for (int i = 0; i < diff; i++) {
-        number = "0" + number;
+        number.insert(0, "0");
       }
     }
 
-    return number;
+    return number.toString();
   }
 
   @Test
-  public void testIsBeforeBeginningOfLastYearTrue() {
+  void testIsBeforeBeginningOfLastYearTrue() {
     int year = LocalDate.now().getYear() - 2;
     InternalDate date = new InternalDate(year + "-12-31");
     assertTrue(date.isBeforeBeginningOfLastYear());
   }
 
   @Test
-  public void testIsBeforeBeginningOfLastYearFalse() {
+  void testIsBeforeBeginningOfLastYearFalse() {
     int year = LocalDate.now().getYear() - 1;
     InternalDate date = new InternalDate(year + "-01-01");
     assertFalse(date.isBeforeBeginningOfLastYear());
   }
 
   @Test
-  public void shouldReturnTrueIfDateIsBeforePatientBirthDate() {
+  void shouldReturnTrueIfDateIsBeforePatientBirthDate() {
     final var localDate = LocalDate.now().minusYears(2).minusDays(1);
     final var patientBirthDate = LocalDate.now().minusYears(2);
     InternalDate date = new InternalDate(localDate);
@@ -186,7 +187,7 @@ public class InternalDateTest {
   }
 
   @Test
-  public void shouldReturnFalseIfDateIsAfterPatientBirthDate() {
+  void shouldReturnFalseIfDateIsAfterPatientBirthDate() {
     final var localDate = LocalDate.now().minusYears(2).plusDays(1);
     final var patientBirthDate = LocalDate.now().minusYears(2);
     InternalDate date = new InternalDate(localDate);

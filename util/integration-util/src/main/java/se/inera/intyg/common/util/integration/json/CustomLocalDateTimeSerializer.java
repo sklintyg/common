@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 public class CustomLocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
 
@@ -37,8 +36,7 @@ public class CustomLocalDateTimeSerializer extends StdSerializer<LocalDateTime> 
   }
 
   @Override
-  public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider)
-      throws IOException {
+  public void serialize(LocalDateTime value, JsonGenerator jgen, SerializationContext provider) {
     jgen.writeString(value.format(CUSTOM_LOCALDATETIME_FORMATTER));
   }
 }

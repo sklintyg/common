@@ -18,17 +18,17 @@
  */
 package se.inera.intyg.common.ts_bas.v7.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -39,10 +39,10 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
 import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
-public class TsBasMetaDataConverterTest {
+class TsBasMetaDataConverterTest {
 
   @Test
-  public void testToCertificateMetaData() {
+  void testToCertificateMetaData() {
     final String certificateId = "certificateId";
     final String certificateType = "certificateType";
     final String issuerName = "issuer name";
@@ -81,7 +81,7 @@ public class TsBasMetaDataConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaDataNotAvailable() {
+  void testToCertificateMetaDataNotAvailable() {
     IntygMeta source = new IntygMeta();
     source.setAvailable("false");
     TSBasIntyg intyg = new TSBasIntyg();
@@ -98,7 +98,7 @@ public class TsBasMetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusList() {
+  void testToStatusList() {
     final String target1 = "target1";
     final String timestamp1 = "2016-10-11T10:10:00";
     final String target2 = "target2";
@@ -124,7 +124,7 @@ public class TsBasMetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusListNull() {
+  void testToStatusListNull() {
     List<Status> res = TsBasMetaDataConverter.toStatusList(null);
 
     assertNotNull(res);
@@ -132,7 +132,7 @@ public class TsBasMetaDataConverterTest {
   }
 
   @Test
-  public void testToStatusListEmptyList() {
+  void testToStatusListEmptyList() {
     List<Status> res = TsBasMetaDataConverter.toStatusList(new ArrayList<>());
 
     assertNotNull(res);
@@ -140,7 +140,7 @@ public class TsBasMetaDataConverterTest {
   }
 
   @Test
-  public void testToStatus() {
+  void testToStatus() {
     final String target = "target";
     final String timestamp = "2016-10-11T10:10:00";
     IntygStatus source = new IntygStatus();

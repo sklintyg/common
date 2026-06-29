@@ -18,23 +18,23 @@
  */
 package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateStatusType;
 import se.inera.ifv.insuranceprocess.certificate.v1.StatusType;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
-public class CertificateStateHolderConverterTest {
+class CertificateStateHolderConverterTest {
 
   @Test
-  public void testToCertificateStatusTypeNull() {
+  void testToCertificateStatusTypeNull() {
     List<CertificateStatusType> res = CertificateStateHolderConverter.toCertificateStatusType(null);
 
     assertNotNull(res);
@@ -42,7 +42,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToCertificateStatusTypeEmptyList() {
+  void testToCertificateStatusTypeEmptyList() {
     List<CertificateStatusType> res =
         CertificateStateHolderConverter.toCertificateStatusType(new ArrayList<>());
 
@@ -51,7 +51,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToCertificateStatusType() {
+  void testToCertificateStatusType() {
     final String target1 = "target1";
     final LocalDateTime timestamp1 = LocalDateTime.now();
     final String target2 = "target2";
@@ -79,7 +79,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToCertificateStatusTypeFiltersInvalidStates() {
+  void testToCertificateStatusTypeFiltersInvalidStates() {
     final String target = "target";
     final LocalDateTime timestamp = LocalDateTime.now().minusDays(2);
     List<CertificateStateHolder> source = new ArrayList<>();

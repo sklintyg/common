@@ -57,7 +57,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private static URL getResource(String href) {
     return Thread.currentThread().getContextClassLoader().getResource(href);

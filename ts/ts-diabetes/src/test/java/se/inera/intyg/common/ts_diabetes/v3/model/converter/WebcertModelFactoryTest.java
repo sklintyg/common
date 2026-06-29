@@ -18,24 +18,25 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -53,9 +54,9 @@ import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   private static final String INTYG_TYPE_VERSION_3 = "3.0";
@@ -65,15 +66,15 @@ public class WebcertModelFactoryTest {
 
   @Mock private IntygTextsService intygTextsService;
 
-  @Before
-  public void setUpMocks() {
+  @BeforeEach
+  void setUpMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_3)))
         .thenReturn(INTYG_TYPE_VERSION_3_1);
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -94,36 +95,43 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testHappyPath() throws ConverterException {
+  void testHappyPath() throws ConverterException {
     TsDiabetesUtlatandeV3 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
-    Assert.assertEquals(
+    assertEquals(
         "VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
-    Assert.assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
-    Assert.assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
-    Assert.assertEquals(
-        "191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
-    Assert.assertEquals(INTYG_TYPE_VERSION_3_1, draft.getTextVersion());
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  }
-
-  @Test(expected = ConverterException.class)
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+    assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+    assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
+    assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+    assertEquals(INTYG_TYPE_VERSION_3_1, draft.getTextVersion());
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(null));
+        });
+  }
+
+  @Test
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+        });
+  }
+
+  @Test
+  void testUpdateSkapadAv() throws ConverterException {
     TsDiabetesUtlatandeV3 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     TsDiabetesUtlatandeV3 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());

@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLFailedAssert;
@@ -37,6 +36,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,7 +78,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private static URL getResource(String href) {
     return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -161,8 +161,9 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationAF00251() throws Exception {
-    String xmlContents = Resources.toString(getResource("transport/af00251.xml"), Charsets.UTF_8);
+  void doSchematronValidationAF00251() throws Exception {
+    String xmlContents =
+        Resources.toString(getResource("transport/af00251.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -171,7 +172,8 @@ public class InternalToTransportTest {
         new RegisterCertificateValidator(AF00251ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     final List<SVRLFailedAssert> failedAssertions = SVRLHelper.getAllFailedAssertions(result);
     assertThat(
@@ -181,7 +183,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     AF00251UtlatandeV1 expected = getUtlatande().build();
     RegisterCertificateType transport = InternalToTransport.convert(expected);
     AF00251UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -190,12 +192,12 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
   }
 
   @Test
-  public void convertDecorateSvarPaTest() throws Exception {
+  void convertDecorateSvarPaTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     final String referensId = "referensId";
     AF00251UtlatandeV1 utlatande =
@@ -207,7 +209,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null).build();
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -217,14 +219,14 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     AF00251UtlatandeV1 utlatande = getUtlatande().build();
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());
   }
 
   @Test
-  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
     AF00251UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null).build();
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());

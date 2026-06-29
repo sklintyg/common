@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.af00213.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -37,15 +37,15 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalDraftValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalDraftValidatorTest {
 
   InternalDraftValidatorImpl validator = new InternalDraftValidatorImpl();
 
   Af00213UtlatandeV1.Builder builderTemplate;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() {
     builderTemplate =
         Af00213UtlatandeV1.builder()
             .setId("intygsId")
@@ -63,7 +63,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDraft() throws Exception {
+  void validateDraft() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -73,100 +73,99 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateFunktionsnedsattningJaNejNotSpecified() throws Exception {
+  void validateFunktionsnedsattningJaNejNotSpecified() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setHarFunktionsnedsattning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("harFunktionsnedsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("harFunktionsnedsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateFunktionsnedsattningMissing() throws Exception {
+  void validateFunktionsnedsattningMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateFunktionsnedsattningBlank() throws Exception {
+  void validateFunktionsnedsattningBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAktivitetsbegransningMissing() throws Exception {
+  void validateAktivitetsbegransningMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAktivitetsbegransningBlank() throws Exception {
+  void validateAktivitetsbegransningBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAktivitetsbegransningUnspecifiedWhenHarFunktionsnedsattning()
-      throws Exception {
+  void validateAktivitetsbegransningUnspecifiedWhenHarFunktionsnedsattning() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setHarAktivitetsbegransning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("harAktivitetsbegransning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("harAktivitetsbegransning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateUtredningBehandlingJaNejNotSpecified() throws Exception {
+  void validateUtredningBehandlingJaNejNotSpecified() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setHarUtredningBehandling(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("harUtredningBehandling", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("harUtredningBehandling", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateUtredningBehandlingMissingText() throws Exception {
+  void validateUtredningBehandlingMissingText() {
     Af00213UtlatandeV1 utlatande =
         builderTemplate.setHarUtredningBehandling(true).setUtredningBehandling(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("utredningBehandling", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("utredningBehandling", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateUtredningBehandlingDoesNotRequireTextWhenNej() throws Exception {
+  void validateUtredningBehandlingDoesNotRequireTextWhenNej() {
     Af00213UtlatandeV1 utlatande =
         builderTemplate.setHarUtredningBehandling(false).setUtredningBehandling(null).build();
 
@@ -176,7 +175,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateUtredningBehandlingJaRequiresText() throws Exception {
+  void validateUtredningBehandlingJaRequiresText() {
     Af00213UtlatandeV1 utlatande =
         builderTemplate
             .setHarAktivitetsbegransning(false)
@@ -189,155 +188,159 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegPlaneradBehandling() throws Exception {
+  void validateBlankstegPlaneradBehandling() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setUtredningBehandling(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegOvrigt() throws Exception {
+  void validateBlankstegOvrigt() {
     Af00213UtlatandeV1 utlatande = builderTemplate.setOvrigt(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "af00213.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "af00213.validation.blanksteg.otillatet",
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostadressMissing() throws Exception {
+  void validateEnhetPostadressMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostadressBlank() throws Exception {
+  void validateEnhetPostadressBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerMissing() throws Exception {
+  void validateEnhetPostnummerMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerBlank() throws Exception {
+  void validateEnhetPostnummerBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerInvalid() throws Exception {
+  void validateEnhetPostnummerInvalid() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer("invalid");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostortMissing() throws Exception {
+  void validateEnhetPostortMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostortBlank() throws Exception {
+  void validateEnhetPostortBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetTelefonnummerMissing() throws Exception {
+  void validateEnhetTelefonnummerMissing() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.telefonnummer",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetTelefonnummerBlank() throws Exception {
+  void validateEnhetTelefonnummerBlank() {
     Af00213UtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.telefonnummer",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   private GrundData buildGrundData(LocalDateTime timeStamp) {
@@ -360,7 +363,7 @@ public class InternalDraftValidatorTest {
     skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
     Patient patient = new Patient();
-    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
     patient.setPostadress("postadress");
     patient.setPostnummer("11111");
     patient.setPostort("postort");

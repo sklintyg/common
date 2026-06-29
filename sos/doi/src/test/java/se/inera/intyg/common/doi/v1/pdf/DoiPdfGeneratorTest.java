@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
 import static se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator.PDF_PATH_PROPERTY_KEY;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import java.io.File;
@@ -30,34 +29,35 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-10-18. */
-@RunWith(MockitoJUnitRunner.class)
-public class DoiPdfGeneratorTest {
+@ExtendWith(MockitoExtension.class)
+class DoiPdfGeneratorTest {
 
   protected IntygTexts intygTexts;
 
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectMapper objectMapper = new CustomObjectMapper();
 
-  @Before
-  public void initTexts() throws IOException {
+  @BeforeEach
+  void initTexts() {
     Properties props = new Properties();
     props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
     intygTexts = new IntygTexts("1.0", "", null, null, null, null, props);
   }
 
   @Test
-  public void testGenerate() throws Exception {
+  void testGenerate() throws Exception {
     testSingleScenario(
         "v1/DoiPdfGenerator/doiUtlatande-default.json", "default", UtkastStatus.SIGNED);
     testSingleScenario(
@@ -67,7 +67,7 @@ public class DoiPdfGeneratorTest {
   }
 
   @Test
-  public void testCompareAcroFields() throws Exception {
+  void testCompareAcroFields() throws Exception {
     final File jsonFile =
         new ClassPathResource("v1/DoiPdfGenerator/doiUtlatande-default.json").getFile();
     DoiUtlatandeV1 intyg = objectMapper.readValue(jsonFile, DoiUtlatandeV1.class);
@@ -85,9 +85,9 @@ public class DoiPdfGeneratorTest {
     // compare expected field values with field values in generated PDF
     for (String fieldKey : generatedFields.getFields().keySet()) {
       assertEquals(
-          "Value for field " + fieldKey + " is not the expected",
           expectedFields.getField(fieldKey),
-          generatedFields.getField(fieldKey));
+          generatedFields.getField(fieldKey),
+          "Value for field " + fieldKey + " is not the expected");
     }
   }
 

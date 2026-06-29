@@ -18,23 +18,24 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 
-public class CertificateStateHolderConverterTest {
+class CertificateStateHolderConverterTest {
 
   @Test
-  public void testToIntygsStatusTypeNull() {
+  void testToIntygsStatusTypeNull() {
     List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(null);
 
     assertNotNull(res);
@@ -42,7 +43,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToIntygsStatusTypeEmptyList() {
+  void testToIntygsStatusTypeEmptyList() {
     List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(new ArrayList<>());
 
     assertNotNull(res);
@@ -50,7 +51,7 @@ public class CertificateStateHolderConverterTest {
   }
 
   @Test
-  public void testToIntygsStatusType() {
+  void testToIntygsStatusType() {
     final LocalDateTime timestamp1 = LocalDateTime.now();
     final LocalDateTime timestamp2 = LocalDateTime.now().minusDays(2);
     final LocalDateTime timestamp3 = LocalDateTime.now().minusDays(1);
@@ -66,7 +67,7 @@ public class CertificateStateHolderConverterTest {
 
     assertNotNull(res);
     assertEquals(5, res.size());
-    assertEquals("FKASSA", res.get(0).getPart().getCode());
+    assertEquals("FKASSA", res.getFirst().getPart().getCode());
     assertEquals(StatusKod.CANCEL.name(), res.get(0).getStatus().getCode());
     assertEquals(timestamp1, res.get(0).getTidpunkt());
     assertEquals("TRANSP", res.get(1).getPart().getCode());
@@ -83,34 +84,38 @@ public class CertificateStateHolderConverterTest {
     assertEquals(timestamp5, res.get(4).getTidpunkt());
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testToIntygsStatusTypeInvalidStatus() {
+  @Test
+  void testToIntygsStatusTypeInvalidStatus() {
     List<CertificateStateHolder> source = new ArrayList<>();
     source.add(
         new CertificateStateHolder("FKASSA", CertificateState.UNHANDLED, LocalDateTime.now()));
-    CertificateStateHolderConverter.toIntygsStatusType(source);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> CertificateStateHolderConverter.toIntygsStatusType(source));
   }
 
   @Test
-  public void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfStatus() {
+  void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfStatus() {
     List<CertificateStateHolder> source = new ArrayList<>();
     source.add(new CertificateStateHolder("FKASSA", CertificateState.SENT, LocalDateTime.now()));
     List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(source);
 
     assertNotNull(res);
-    assertEquals(StatusKod.SENTTO.name(), res.get(0).getStatus().getCode());
-    assertEquals("9871cd17-8755-4ed9-b894-ff3729e775a4", res.get(0).getStatus().getCodeSystem());
-    assertEquals("SENT", res.get(0).getStatus().getDisplayName());
+    assertEquals(StatusKod.SENTTO.name(), res.getFirst().getStatus().getCode());
+    assertEquals(
+        "9871cd17-8755-4ed9-b894-ff3729e775a4", res.getFirst().getStatus().getCodeSystem());
+    assertEquals("SENT", res.getFirst().getStatus().getDisplayName());
   }
 
   @Test
-  public void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfPart() {
+  void testToIntygsStatusTypeSetsCodeSystemAndDisplayNameOfPart() {
     List<CertificateStateHolder> source = new ArrayList<>();
     source.add(new CertificateStateHolder("FKASSA", CertificateState.SENT, LocalDateTime.now()));
     List<IntygsStatus> res = CertificateStateHolderConverter.toIntygsStatusType(source);
 
     assertNotNull(res);
-    assertEquals("FKASSA", res.get(0).getPart().getCode());
-    assertEquals("769bb12b-bd9f-4203-a5cd-fd14f2eb3b80", res.get(0).getPart().getCodeSystem());
+    assertEquals("FKASSA", res.getFirst().getPart().getCode());
+    assertEquals("769bb12b-bd9f-4203-a5cd-fd14f2eb3b80", res.getFirst().getPart().getCodeSystem());
   }
 }

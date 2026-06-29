@@ -18,17 +18,17 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
 import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
@@ -36,9 +36,9 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.support.services.BefattningService;
 
 /** Created 24/11-16 */
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class PdfGeneratorTest {
+class PdfGeneratorTest {
 
   private static final String TITLE = "title";
 
@@ -55,7 +55,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdf() throws Exception {
+  void testGeneratePdf() throws Exception {
     FkPdfDefinition def = buildPdfDefinition();
     byte[] pdfFileBytes = PdfGenerator.generatePdf(def, TITLE);
     assertNotNull(pdfFileBytes);
@@ -63,7 +63,7 @@ public class PdfGeneratorTest {
   }
 
   @Test
-  public void testGeneratePdfName() throws Exception {
+  void testGeneratePdfName() throws Exception {
     final String PREFIX = "test";
     final LocalDateTime tidpunkt = LocalDateTime.now();
 

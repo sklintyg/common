@@ -19,8 +19,8 @@
 package se.inera.intyg.common.luse.v1.model.converter;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -35,13 +35,13 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
@@ -59,9 +59,9 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   private ObjectFactory objectFactory;
   private JAXBContext jaxbContext;
@@ -70,15 +70,15 @@ public class TransportToInternalTest {
 
   private WebcertModuleService webcertModuleService;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -141,14 +141,14 @@ public class TransportToInternalTest {
     return utlatande.build();
   }
 
-  @Before
-  public void suitSetup() throws JAXBException {
+  @BeforeEach
+  void suitSetup() throws JAXBException {
     jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class);
     objectFactory = new ObjectFactory();
   }
 
   @Test
-  public void endToEnd() throws Exception {
+  void endToEnd() throws Exception {
     LuseUtlatandeV1 originalUtlatande = getUtlatande();
     RegisterCertificateType transportCertificate =
         InternalToTransport.convert(originalUtlatande, webcertModuleService);

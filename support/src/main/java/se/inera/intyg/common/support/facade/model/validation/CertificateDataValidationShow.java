@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.facade.model.validation;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.validation.CertificateDataValidationShow.CertificateDataValidationShowBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = CertificateDataValidationShowBuilder.class)
 @Value

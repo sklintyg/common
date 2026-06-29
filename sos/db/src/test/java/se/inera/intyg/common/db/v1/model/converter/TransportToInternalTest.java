@@ -18,20 +18,20 @@
  */
 package se.inera.intyg.common.db.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
@@ -43,10 +43,10 @@ import se.inera.intyg.common.support.modules.converter.mapping.UnitMapperUtil;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -63,8 +63,9 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void testConvert() throws Exception {
-    String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
+  void testConvert() throws Exception {
+    String xmlContents =
+        Resources.toString(Resources.getResource("v1/db.xml"), StandardCharsets.UTF_8);
     Intyg intyg =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class).getIntyg();
     DbUtlatandeV1 res = TransportToInternal.convert(intyg);

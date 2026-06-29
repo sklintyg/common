@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,10 +40,11 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class TsDiabetesModuleApiV3RenewalTest {
+class TsDiabetesModuleApiV3RenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "v3/TsDiabetesV3ModelCompareUtil/utlatande.json";
 

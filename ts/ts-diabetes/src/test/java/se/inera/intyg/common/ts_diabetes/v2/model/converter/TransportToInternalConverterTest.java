@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
@@ -40,9 +40,9 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.inera.intygstjanster.ts.services.v1.Vardgivare;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalConverterTest {
+class TransportToInternalConverterTest {
 
   private static final String ENHETSNAMN = "enhetsnamn";
   private static final String ENHETSID = "enhetsid";
@@ -57,7 +57,7 @@ public class TransportToInternalConverterTest {
   private static final String PERSONID = "personid";
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(SPECIALIST_KOMPETENS));
@@ -78,7 +78,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertNullSpecialistkompetens() throws Exception {
+  void testConvertNullSpecialistkompetens() throws Exception {
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
     transportModel.getIntyg().getGrundData().setSkapadAv(buildSkapadAv(null));
@@ -88,8 +88,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertMapsSpecialistkompetens()
-      throws ScenarioNotFoundException, ConverterException {
+  void testConvertMapsSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
     final String specialistkompetens = "Hörselrubbningar";
     RegisterTSDiabetesType transportModel =
         ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
@@ -107,7 +106,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertMapsBefattningDescriptionToCodeIfPossible()
+  void testConvertMapsBefattningDescriptionToCodeIfPossible()
       throws ScenarioNotFoundException, ConverterException {
     final String befattning = "Läkare legitimerad, specialiseringstjänstgöring";
     final String code = "203010";
@@ -122,7 +121,7 @@ public class TransportToInternalConverterTest {
   }
 
   @Test
-  public void testConvertKeepBefattningCodeIfDescriptionNotFound()
+  void testConvertKeepBefattningCodeIfDescriptionNotFound()
       throws ScenarioNotFoundException, ConverterException {
     String befattningskod = "kod";
     RegisterTSDiabetesType transportModel =

@@ -18,24 +18,24 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,12 +72,12 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -113,7 +113,7 @@ public class InternalToTransportTest {
     utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
 
     utlatande.setDiagnoser(
-        asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
+        List.of((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra"))));
 
     utlatande.setFunktionsnedsattningDebut("Skoldansen");
     utlatande.setFunktionsnedsattningPaverkan("Haltar när han dansar");
@@ -138,9 +138,9 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationLuaefs() throws Exception {
+  void doSchematronValidationLuaefs() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/luae_fs-2.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -149,13 +149,14 @@ public class InternalToTransportTest {
         new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     LuaefsUtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     LuaefsUtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -164,13 +165,13 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }
 
   @Test
-  public void convertDecorateSvarPaTest() throws Exception {
+  void convertDecorateSvarPaTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     final String referensId = "referensId";
     LuaefsUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -182,7 +183,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     LuaefsUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
     RegisterCertificateType transport =
@@ -193,7 +194,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     LuaefsUtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);
@@ -201,7 +202,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
     LuaefsUtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);

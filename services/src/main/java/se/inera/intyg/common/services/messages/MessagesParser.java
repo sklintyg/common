@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.services.messages;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +32,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.json.JsonReadFeature;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 public final class MessagesParser {
 
@@ -140,12 +141,14 @@ public final class MessagesParser {
 
   private Map<String, String> jsonToMap(String json) {
     try {
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
-      mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+      ObjectMapper mapper =
+          JsonMapper.builder()
+              .enable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
+              .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
+              .build();
       TypeReference<HashMap<String, String>> typeRef = new TypeReference<>() {};
       return mapper.readValue(json, typeRef);
-    } catch (JsonProcessingException exception) {
+    } catch (JacksonException exception) {
       LOG.error("Could not convert json to map");
       throw new RuntimeException("Could not convert json to map", exception);
     }

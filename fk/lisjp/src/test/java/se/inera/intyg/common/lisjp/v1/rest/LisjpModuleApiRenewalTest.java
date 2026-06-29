@@ -23,8 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.util.Objects;
 import org.apache.cxf.helpers.IOUtils;
@@ -45,10 +43,11 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of LISJP where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class LisjpModuleApiRenewalTest {
+class LisjpModuleApiRenewalTest {
 
   @Spy private WebcertModelFactoryImpl webcertModelFactory;
 
@@ -61,12 +60,10 @@ public class LisjpModuleApiRenewalTest {
   @BeforeEach
   void init() {
     ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
-    objectMapper.registerModule(new JavaTimeModule());
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
     IOUtils.toString(new ClassPathResource(TESTFILE_UTLATANDE).getInputStream());
     LisjpUtlatandeV1 original = getUtlatandeFromFile();
     String renewalFromTemplate =

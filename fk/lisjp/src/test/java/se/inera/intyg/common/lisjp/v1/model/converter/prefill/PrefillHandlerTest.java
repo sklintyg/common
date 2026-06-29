@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter.prefill;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.matches;
@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -58,7 +58,7 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
-public class PrefillHandlerTest {
+class PrefillHandlerTest {
 
   protected static final String UPPSLAGEN_DIAGNOSKODBESKRIVNING = "uppslagen-diagnoskodbeskrivning";
 
@@ -68,8 +68,8 @@ public class PrefillHandlerTest {
   @Mock private WebcertModuleService webcertModuleService;
   private PrefillHandler testee;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     webcertModuleService = mock(WebcertModuleService.class);
     when(webcertModuleService.getDescriptionFromDiagnosKod(anyString(), anyString()))
         .thenReturn(UPPSLAGEN_DIAGNOSKODBESKRIVNING);
@@ -83,7 +83,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void testPrefillNoFields() {
+  void testPrefillNoFields() {
     PrefillScenario scenario = new PrefillScenario("lisjp-empty");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
 
@@ -94,7 +94,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void testPrefillAllFields() {
+  void testPrefillAllFields() {
     PrefillScenario scenario = new PrefillScenario("lisjp-full");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
 
@@ -109,7 +109,7 @@ public class PrefillHandlerTest {
    * startdate is set as todays date and that a INFO message is returned.
    */
   @Test
-  public void testPrefillSjukskrivningStartDateDefaultValue() {
+  void testPrefillSjukskrivningStartDateDefaultValue() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-defaulting-sjukskrivning-startdate");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -137,7 +137,7 @@ public class PrefillHandlerTest {
    * warning message
    */
   @Test
-  public void testPrefillHandlesMaxStringLength() {
+  void testPrefillHandlesMaxStringLength() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-freetext-maxlength");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -158,7 +158,7 @@ public class PrefillHandlerTest {
    * is set as todays date and that a INFO message of the fallback handling is returned.
    */
   @Test
-  public void testPrefillGrundForMUDateDefaultValue() {
+  void testPrefillGrundForMUDateDefaultValue() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-defaulting-grundformu-date");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -197,7 +197,7 @@ public class PrefillHandlerTest {
    * INFO message is returned.
    */
   @Test
-  public void testPrefillDiagnosDescriptionDefaultValue() {
+  void testPrefillDiagnosDescriptionDefaultValue() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-defaulting-diagnose-beskrivning");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -222,7 +222,7 @@ public class PrefillHandlerTest {
    * will be ignored
    */
   @Test
-  public void testPrefillDiagnosInvalidIcd10Code() {
+  void testPrefillDiagnosInvalidIcd10Code() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-ignored-diagnose-code");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -243,7 +243,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void testPrefillDiagnosInvalidIcd10CodeFormat() {
+  void testPrefillDiagnosInvalidIcd10CodeFormat() {
 
     PrefillScenario scenario = new PrefillScenario("lisjp-ignored-diagnose-code-invalid-format");
     LisjpUtlatandeV1.Builder template = getEmptyUtlatande();
@@ -262,7 +262,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void shouldIgnoreDuplicatedPrefillValuesForSysselsattning() {
+  void shouldIgnoreDuplicatedPrefillValuesForSysselsattning() {
     final var scenario = new PrefillScenario("lisjp-duplicated-values");
     final var template = getEmptyUtlatande();
     testee.prefill(template, scenario.getForifyllnad());
@@ -278,7 +278,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void shouldIgnoreDuplicatedPrefillValuesForDiagnos() {
+  void shouldIgnoreDuplicatedPrefillValuesForDiagnos() {
     final var scenario = new PrefillScenario("lisjp-duplicated-values");
     final var template = getEmptyUtlatande();
     testee.prefill(template, scenario.getForifyllnad());
@@ -295,7 +295,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void shouldIgnoreDuplicatedPrefillValuesForSjukskrivningar() {
+  void shouldIgnoreDuplicatedPrefillValuesForSjukskrivningar() {
     final var scenario = new PrefillScenario("lisjp-duplicated-values");
     final var template = getEmptyUtlatande();
     testee.prefill(template, scenario.getForifyllnad());
@@ -311,7 +311,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void shouldIgnoreDuplicatedPrefillValuesForAktivitetskategorier() {
+  void shouldIgnoreDuplicatedPrefillValuesForAktivitetskategorier() {
     final var scenario = new PrefillScenario("lisjp-duplicated-values");
     final var template = getEmptyUtlatande();
     testee.prefill(template, scenario.getForifyllnad());
@@ -327,7 +327,7 @@ public class PrefillHandlerTest {
   }
 
   @Test
-  public void shouldLogIgnoredDuplicatedPrefillValues() {
+  void shouldLogIgnoredDuplicatedPrefillValues() {
     final var expectedSvarId = List.of("28", "32", "40");
     final var scenario = new PrefillScenario("lisjp-duplicated-values");
     final var template = getEmptyUtlatande();

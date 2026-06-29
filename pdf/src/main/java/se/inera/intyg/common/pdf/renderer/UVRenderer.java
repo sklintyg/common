@@ -45,7 +45,6 @@ import com.itextpdf.layout.properties.AreaBreakType;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -182,7 +181,7 @@ public class UVRenderer {
       // Load unified print JS model
       InputStreamReader inputStreamReader =
           new InputStreamReader(
-              IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
+              IOUtils.toInputStream(printConfig.getUpJsModel(), StandardCharsets.UTF_8));
       engine.eval(inputStreamReader);
       ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
       engine.put("viewConfig", viewConfig);

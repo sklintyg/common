@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
-import com.google.common.base.Charsets;
 import jakarta.annotation.Nonnull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -64,7 +64,7 @@ public class RegisterCertificateTestValidator {
       throws IOException, SAXException {
     initGeneralSchema();
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xmlContent.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xmlContent.getBytes(StandardCharsets.UTF_8)));
     try {
       generalSchema.newValidator().validate(xmlSource);
       return true;

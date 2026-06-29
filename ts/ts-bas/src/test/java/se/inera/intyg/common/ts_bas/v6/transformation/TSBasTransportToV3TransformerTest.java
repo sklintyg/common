@@ -19,13 +19,13 @@
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.Source;
@@ -33,8 +33,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 import org.xmlunit.builder.DiffBuilder;
@@ -45,7 +45,7 @@ import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSBasTransportToV3TransformerTest {
+class TSBasTransportToV3TransformerTest {
 
   private static final String V3_UTLATANDE_SCHEMA =
       "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
@@ -70,8 +70,8 @@ public class TSBasTransportToV3TransformerTest {
 
   private static Schema intygstjansterSchema;
 
-  @BeforeClass
-  public static void initV3Schema() throws Exception {
+  @BeforeAll
+  static void initV3Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
@@ -83,8 +83,8 @@ public class TSBasTransportToV3TransformerTest {
     v3Schema = schemaValidatorBuilder.build(rootSource);
   }
 
-  @BeforeClass
-  public static void initIntygstjansterSchema() throws Exception {
+  @BeforeAll
+  static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(INTYGSTJANSTER_UTLATANDE_SCHEMA);
@@ -94,7 +94,7 @@ public class TSBasTransportToV3TransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles =
         asList(
             "valid-diabetes-typ2-kost.xml",
@@ -111,7 +111,8 @@ public class TSBasTransportToV3TransformerTest {
     for (String xmlFile : testFiles) {
       System.out.println("xmlFile = " + xmlFile);
       String xmlContents =
-          Resources.toString(getResource("v6/scenarios/transport/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("v6/scenarios/transport/" + xmlFile), StandardCharsets.UTF_8);
       final var intygstjansterResult = validate(intygstjansterSchema, xmlContents);
       if (!intygstjansterResult.isEmpty()) {
         fail(
@@ -130,7 +131,8 @@ public class TSBasTransportToV3TransformerTest {
 
       String expectedXmlContents =
           Resources.toString(
-              getResource("v6/scenarios/rivtav3/transportToV3xml/" + xmlFile), Charsets.UTF_8);
+              getResource("v6/scenarios/rivtav3/transportToV3xml/" + xmlFile),
+              StandardCharsets.UTF_8);
 
       Diff diff =
           DiffBuilder.compare(Input.fromString(expectedXmlContents))
@@ -141,13 +143,13 @@ public class TSBasTransportToV3TransformerTest {
               .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
               .withNodeFilter(node -> !node.getNodeName().equals("skickatTidpunkt"))
               .build();
-      assertFalse(diff.toString(), diff.hasDifferences());
+      assertFalse(diff.hasDifferences(), diff.toString());
     }
   }
 
   private static List<SAXParseException> validate(Schema schema, String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
     Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
     Validator validator = validatorObject.getLeft();

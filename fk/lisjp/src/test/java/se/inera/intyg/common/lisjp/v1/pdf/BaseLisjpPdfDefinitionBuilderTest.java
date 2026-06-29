@@ -18,13 +18,12 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +39,7 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Created by marced on 2017-03-08. */
 @ContextConfiguration(classes = {BaseLisjpPdfDefinitionBuilderTest.TestConfiguration.class})
@@ -47,7 +47,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
     properties = {
       "texts.file.directory=classpath:v1/text",
     })
-public abstract class BaseLisjpPdfDefinitionBuilderTest {
+abstract class BaseLisjpPdfDefinitionBuilderTest {
 
   protected List<LisjpUtlatandeV1> intygList = new ArrayList<>();
 
@@ -57,8 +57,8 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
 
   @Autowired IntygTextsRepositoryImpl repo;
 
-  @Before
-  public void initIntyg() throws IOException {
+  @BeforeEach
+  void initIntyg() throws IOException {
 
     intygList.add(
         objectMapper.readValue(

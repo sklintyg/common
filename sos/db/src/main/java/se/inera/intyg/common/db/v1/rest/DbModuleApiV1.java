@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
 
 @Component(value = "moduleapi.db.v1")
 public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
@@ -237,7 +238,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
       final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1);
       return dbUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -249,7 +250,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
       final var dbUtlatandeV1 = objectMapper.readValue(internalModel, DbUtlatandeV1.class);
       unitMapperUtil.decorateWithMappedCareProvider(dbUtlatandeV1, created);
       return dbUtlatandeV1;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

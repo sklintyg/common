@@ -22,9 +22,9 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Class encapsulating the values for synskarpa for a single eye.

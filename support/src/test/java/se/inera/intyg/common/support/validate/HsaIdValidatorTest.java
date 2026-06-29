@@ -18,24 +18,24 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.google.common.base.Joiner;
 import java.util.List;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class HsaIdValidatorTest {
+class HsaIdValidatorTest {
 
   private HsaIdValidator validator;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() {
     validator = new HsaIdValidator();
   }
 
   @Test
-  public void testHsaIdParser() {
-    /** This should work */
+  void testHsaIdParser() {
     assertListSize(0, validator.validateExtension("SE0000000000-1337"));
     assertListSize(0, validator.validateExtension("SE5565594230-1337"));
     assertListSize(0, validator.validateExtension("SE0000000000-012345678901234567"));
@@ -43,7 +43,6 @@ public class HsaIdValidatorTest {
     assertListSize(0, validator.validateExtension("SE0000000000- '()+,-./:=?"));
     assertListSize(0, validator.validateExtension("SE5565594230-YJ54"));
 
-    /** Expect errors */
     assertListSize(1, validator.validateExtension("DK000000000037"));
     assertListSize(1, validator.validateExtension("SE160000000000- '()+,-./:=?&"));
     assertListSize(1, validator.validateExtension("SE000000000037"));
@@ -54,6 +53,6 @@ public class HsaIdValidatorTest {
 
   private void assertListSize(int size, List<String> collection) {
     String validationMessage = Joiner.on(',').join(collection);
-    Assert.assertEquals(validationMessage, size, collection.size());
+    assertEquals(size, collection.size(), validationMessage);
   }
 }

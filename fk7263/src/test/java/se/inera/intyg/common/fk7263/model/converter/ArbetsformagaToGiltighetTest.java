@@ -18,22 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
 
 /** Created by eriklupander on 15-04-08. */
-@RunWith(MockitoJUnitRunner.class)
-public class ArbetsformagaToGiltighetTest {
+@ExtendWith(MockitoExtension.class)
+class ArbetsformagaToGiltighetTest {
 
   private LocalDate fromDate1;
   private LocalDate toDate1;
@@ -42,8 +42,8 @@ public class ArbetsformagaToGiltighetTest {
   private LocalDate fromDate3;
   private LocalDate toDate3;
 
-  @Before
-  public void setupDates() {
+  @BeforeEach
+  void setupDates() {
     fromDate1 = LocalDate.parse("2015-04-08");
     toDate1 = LocalDate.parse("2015-04-18");
     fromDate2 = LocalDate.parse("2015-04-19");
@@ -53,23 +53,25 @@ public class ArbetsformagaToGiltighetTest {
   }
 
   @Test
-  public void testReadIntervalFromOneArbetsformaga() {
+  void testReadIntervalFromOneArbetsformaga() {
     LocalDateInterval giltighet =
         ArbetsformagaToGiltighet.getGiltighetFromUtlatande(getUtlatandeWithSingleNedsattning());
-    assertTrue(giltighet.getFrom().compareTo(fromDate1) == 0);
-    assertTrue(giltighet.getTom().compareTo(toDate1) == 0);
+    assert giltighet != null;
+    assertEquals(0, giltighet.getFrom().compareTo(fromDate1));
+    assertEquals(0, giltighet.getTom().compareTo(toDate1));
   }
 
   @Test
-  public void testReadIntervalFromSeveralArbetsformagor() {
+  void testReadIntervalFromSeveralArbetsformagor() {
     LocalDateInterval giltighet =
         ArbetsformagaToGiltighet.getGiltighetFromUtlatande(getUtlatandeWithMultipleNedsattningar());
-    assertTrue(giltighet.getFrom().compareTo(fromDate1) == 0);
-    assertTrue(giltighet.getTom().compareTo(toDate3) == 0);
+    assert giltighet != null;
+    assertEquals(0, giltighet.getFrom().compareTo(fromDate1));
+    assertEquals(0, giltighet.getTom().compareTo(toDate3));
   }
 
   @Test
-  public void testReadIntervalReturnsNullOnInvalidDatePresent() {
+  void testReadIntervalReturnsNullOnInvalidDatePresent() {
     LocalDateInterval giltighet =
         ArbetsformagaToGiltighet.getGiltighetFromUtlatande(getUtlatandeWithInvalidDate());
     assertNull(giltighet);

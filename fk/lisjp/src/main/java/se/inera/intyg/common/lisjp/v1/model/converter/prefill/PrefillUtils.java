@@ -37,6 +37,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import se.inera.intyg.common.lisjp.v1.model.converter.prefill.PrefillResult.PrefillEventType;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -122,7 +123,7 @@ final class PrefillUtils {
       if (!validCodeSystems.contains(cv.getCodeSystem())) {
         throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODESYSTEM);
       }
-      if (StringUtils.isEmpty(cv.getCode())) {
+      if (!StringUtils.hasLength(cv.getCode())) {
         throw new PrefillWarningException(delsvar, WARNING_INVALID_CVTYPE_CODE_VALUE);
       }
 
@@ -168,7 +169,7 @@ final class PrefillUtils {
                 return tempPeriod;
               });
       // Default startdate handling
-      if (StringUtils.isEmpty(datePeriodType.getStart())) {
+      if (ObjectUtils.isEmpty(datePeriodType.getStart())) {
         pr.addMessage(
             PrefillEventType.INFO,
             delsvar,

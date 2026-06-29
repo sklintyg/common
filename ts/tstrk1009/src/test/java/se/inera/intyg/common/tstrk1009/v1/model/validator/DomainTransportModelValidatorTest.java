@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.validator;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -29,14 +29,14 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-public class DomainTransportModelValidatorTest {
+class DomainTransportModelValidatorTest {
 
   private static final String COMMON_UTLATANDE_SCHEMA =
       "/core_components/se_intygstjanster_services_1.0.xsd";
@@ -49,8 +49,8 @@ public class DomainTransportModelValidatorTest {
 
   private static Schema commonSchema;
 
-  @BeforeClass
-  public static void initCommonSchema() throws Exception {
+  @BeforeAll
+  static void initCommonSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_TYPES_SCHEMA);
@@ -71,7 +71,8 @@ public class DomainTransportModelValidatorTest {
       try {
         validateUtlatande(scenario);
         fail("Expected schema validation error in " + scenario.getName());
-      } catch (Exception ignore) {
+      } catch (Exception _) {
+        // Should end up here
       }
     }
   }

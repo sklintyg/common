@@ -64,7 +64,9 @@ public class BefattningService {
       final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 
       CSVFormat.DEFAULT
-          .withDelimiter(CSV_DELIMITER)
+          .builder()
+          .setDelimiter(CSV_DELIMITER)
+          .get()
           .parse(reader)
           .forEach(
               r -> {

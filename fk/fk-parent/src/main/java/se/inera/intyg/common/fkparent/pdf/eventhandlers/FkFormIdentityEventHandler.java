@@ -61,7 +61,7 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
   @Override
   public void onEndPage(PdfWriter writer, Document document) {
     PdfContentByte canvas = writer.getDirectContentUnder();
-    boolean is2Rows = !StringUtils.isEmpty(formIdRow2);
+    boolean is2Rows = StringUtils.hasLength(formIdRow2);
     float firstRowX = is2Rows ? formidXWith2Rows : formidX;
 
     ColumnText.showTextAligned(

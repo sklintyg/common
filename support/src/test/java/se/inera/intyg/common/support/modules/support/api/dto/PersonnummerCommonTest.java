@@ -18,39 +18,39 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Tests the {@link Personnummer} class in a context where test dependencies to common-support are
  * required.
  */
-public class PersonnummerCommonTest {
+class PersonnummerCommonTest {
 
-  @BeforeClass
-  public static void setUp() throws Exception {
+  @BeforeAll
+  static void setUp() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", false);
   }
 
-  @AfterClass
-  public static void tearDown() throws Exception {
+  @AfterAll
+  static void tearDown() throws Exception {
     ClassLoader.getSystemClassLoader()
         .setClassAssertionStatus("se.inera.intyg.schemas.contract.Personnummer", true);
   }
 
   @Test
-  public void testIsSamordningsNummer() throws Exception {
+  void testIsSamordningsNummer() throws Exception {
     assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000-0000")));
     assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("999999-9999")));
     assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("0000000000")));
@@ -61,7 +61,7 @@ public class PersonnummerCommonTest {
   }
 
   @Test
-  public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
+  void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
     // Given
     final ObjectMapper objectMapper = new ObjectMapper();
     final Personnummer originalPnr = createPnr("191212121212").get();

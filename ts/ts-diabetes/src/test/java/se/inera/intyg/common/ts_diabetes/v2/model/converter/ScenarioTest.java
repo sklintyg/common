@@ -21,8 +21,8 @@ package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
@@ -30,19 +30,19 @@ import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
-public class ScenarioTest {
+class ScenarioTest {
 
   private List<Scenario> internalScenarios;
   private List<Scenario> transportScenarios;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     internalScenarios = ScenarioFinder.getInternalScenarios("diabetes-*");
     transportScenarios = ScenarioFinder.getTransportScenarios("diabetes-*");
   }
 
   @Test
-  public void testInternalToTransport() throws ScenarioNotFoundException {
+  void testInternalToTransport() throws ScenarioNotFoundException {
     for (Scenario internalScenario : internalScenarios) {
       Scenario transportScenario =
           getScenarioByName(internalScenario.getName(), transportScenarios);
@@ -60,7 +60,7 @@ public class ScenarioTest {
   }
 
   @Test
-  public void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
+  void testTransportToInternal() throws ScenarioNotFoundException, ConverterException {
     for (Scenario scenario : transportScenarios) {
       Scenario internalScenario = getScenarioByName(scenario.getName(), internalScenarios);
 

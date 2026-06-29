@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.fkparent.support;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,18 +28,18 @@ import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.TreeMap;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
-@RunWith(MockitoJUnitRunner.class)
-public class FkAbstractModuleEntryPointTest {
+@ExtendWith(MockitoExtension.class)
+class FkAbstractModuleEntryPointTest {
 
   private static final String MODULE_ID = "moduleId";
 
@@ -48,15 +48,15 @@ public class FkAbstractModuleEntryPointTest {
   @InjectMocks
   private FkAbstractModuleEntryPoint entryPoint = mock(FkAbstractModuleEntryPoint.class);
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.of(repo));
     when(entryPoint.getDetailedModuleDescription()).thenCallRealMethod();
     when(entryPoint.getModuleId()).thenReturn(MODULE_ID);
   }
 
   @Test
-  public void testGetDetailedModuleDescription() {
+  void testGetDetailedModuleDescription() {
     final String version = "1.0";
     final String detailedText = "detailed text";
     when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
@@ -80,7 +80,7 @@ public class FkAbstractModuleEntryPointTest {
   }
 
   @Test
-  public void testGetDetailedModuleDescriptionNoRepo() {
+  void testGetDetailedModuleDescriptionNoRepo() {
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
 
     String res = entryPoint.getDetailedModuleDescription();

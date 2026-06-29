@@ -19,22 +19,22 @@
 package se.inera.intyg.common.ts_diabetes.v2.transformation;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSDiabetesTransformerTest {
+class TSDiabetesTransformerTest {
 
   private static final String COMMON_UTLATANDE_SCHEMA =
       "core_components/se_intygstjanster_services_1.0.xsd";
@@ -61,8 +61,8 @@ public class TSDiabetesTransformerTest {
 
   private static Schema clinicalSchema;
 
-  @BeforeClass
-  public static void initIntygstjansterSchema() throws Exception {
+  @BeforeAll
+  static void initIntygstjansterSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(COMMON_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(COMMON_UTLATANDE_SCHEMA);
@@ -70,8 +70,8 @@ public class TSDiabetesTransformerTest {
     intygstjansterSchema = schemaValidatorBuilder.build(rootSource);
   }
 
-  @BeforeClass
-  public static void initClinicalSchema() throws Exception {
+  @BeforeAll
+  static void initClinicalSchema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(CLINIAL_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(CLINICAL_CORE_SCHEMA);
@@ -81,14 +81,15 @@ public class TSDiabetesTransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles = asList("xsl.xml", "xsl-kan-inte-ta-stallning.xml");
 
     XslTransformer transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
 
     for (String xmlFile : testFiles) {
       String xmlContents =
-          Resources.toString(getResource("v2/scenarios/transport/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("v2/scenarios/transport/" + xmlFile), StandardCharsets.UTF_8);
 
       if (!validateIntygstjansterXSD(xmlContents)) {
         fail();
@@ -104,7 +105,7 @@ public class TSDiabetesTransformerTest {
 
   private static boolean validateIntygstjansterXSD(String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
     try {
       intygstjansterSchema.newValidator().validate(xmlSource);
       return true;
@@ -116,7 +117,7 @@ public class TSDiabetesTransformerTest {
 
   private static boolean validateClinicalXSD(String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
     try {
       clinicalSchema.newValidator().validate(xmlSource);
       return true;

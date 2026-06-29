@@ -3,7 +3,6 @@ dependencies {
     implementation project(":common-support")
     implementation project(":common-web")
 
-    implementation "com.fasterxml.jackson.core:jackson-databind"
     implementation "com.google.guava:guava:${guavaVersion}"
     implementation "com.helger.schematron:ph-schematron-xslt:${phSchematronVersion}"
     implementation "org.springframework:spring-beans"

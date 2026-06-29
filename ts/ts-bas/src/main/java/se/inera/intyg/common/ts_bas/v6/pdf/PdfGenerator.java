@@ -21,8 +21,6 @@ package se.inera.intyg.common.ts_bas.v6.pdf;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -46,6 +44,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 @Component("ts-bas.v6.PdfGenerator")
 public class PdfGenerator {

@@ -22,9 +22,9 @@ import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConsta
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 /** */
 @AutoValue

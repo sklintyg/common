@@ -18,28 +18,28 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.ONE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.THREE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.TWO;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.EnumSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
-public class EnumSetSerializerDeserializerTest {
+class EnumSetSerializerDeserializerTest {
 
   /** A simple enum for testing. */
-  public static enum TestEnum {
+  public enum TestEnum {
     ONE,
     TWO,
     THREE
-  };
+  }
 
   /** A simple test class with an <code>EnumSet</code> of the <code>TestEnum</code>. */
-  public static class TestClass {
+  static class TestClass {
 
     @JsonSerialize(using = EnumSetSerializer.class)
     @JsonDeserialize(using = EnumSetDeserializer.class)
@@ -71,13 +71,8 @@ public class EnumSetSerializerDeserializerTest {
       }
       TestClass other = (TestClass) obj;
       if (field == null) {
-        if (other.field != null) {
-          return false;
-        }
-      } else if (!field.equals(other.field)) {
-        return false;
-      }
-      return true;
+        return other.field == null;
+      } else return field.equals(other.field);
     }
 
     // Implementing toString for a meaningful assertion message.
@@ -97,7 +92,7 @@ public class EnumSetSerializerDeserializerTest {
 
   /** Test that EnumSets are serialized as expected. */
   @Test
-  public void testEnumSetSerializer() throws Exception {
+  void testEnumSetSerializer() {
     ObjectMapper mapper = new ObjectMapper();
     {
       String result = mapper.writeValueAsString(new TestClass());
@@ -135,7 +130,7 @@ public class EnumSetSerializerDeserializerTest {
 
   /** Test that EnumSets are deserialized as expected. */
   @Test
-  public void testEnumSetDeserializer() throws Exception {
+  void testEnumSetDeserializer() {
     ObjectMapper mapper = new ObjectMapper();
     {
       TestClass result =
@@ -179,14 +174,14 @@ public class EnumSetSerializerDeserializerTest {
     }
   }
 
-  public static class EnumSetSerializer extends AbstractEnumSetSerializer<TestEnum> {
+  static class EnumSetSerializer extends AbstractEnumSetSerializer<TestEnum> {
 
     protected EnumSetSerializer() {
       super(TestEnum.class);
     }
   }
 
-  public static class EnumSetDeserializer extends AbstractEnumSetDeserializer<TestEnum> {
+  static class EnumSetDeserializer extends AbstractEnumSetDeserializer<TestEnum> {
 
     protected EnumSetDeserializer() {
       super(TestEnum.class);

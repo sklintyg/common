@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.support.persistence.dao.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.peristence.dao.util.DaoUtil;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-public class DaoUtilTest {
+class DaoUtilTest {
 
   @Test
-  public void testPnrWithAndWithoutDashYieldsSameResult() {
+  void testPnrWithAndWithoutDashYieldsSameResult() {
     Personnummer pnr1 = Personnummer.createPersonnummer("191212121212").get();
     Personnummer pnr2 = Personnummer.createPersonnummer("19121212-1212").get();
 

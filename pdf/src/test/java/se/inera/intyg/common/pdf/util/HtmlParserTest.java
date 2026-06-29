@@ -21,23 +21,24 @@ package se.inera.intyg.common.pdf.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class HtmlParserTest {
+class HtmlParserTest {
 
   @Test
-  public void testParserTextContainingHtmlRemoveAllPTags() {
+  void testParserTextContainingHtmlRemoveAllPTags() {
 
     final var text =
-        "<!DOCTYPE html>\n"
-            + "<html>\n"
-            + "    <head>\n"
-            + "        <!-- head definitions go here -->\n"
-            + "    </head>\n"
-            + "    <body>\n"
-            + "        <!-- the content goes here -->\n"
-            + "       <p>Hello World!</p>\n"
-            + "       <p>Hello World!</p>\n"
-            + "    </body>\n"
-            + "</html>";
+        """
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <!-- head definitions go here -->
+            </head>
+            <body>
+                <!-- the content goes here -->
+               <p>Hello World!</p>
+               <p>Hello World!</p>
+            </body>
+        </html>""";
 
     final var result = HtmlParser.toTextExcludeElement(text, "p");
 
@@ -45,19 +46,20 @@ public class HtmlParserTest {
   }
 
   @Test
-  public void testParserTextContainingHtmlNoPTag() {
+  void testParserTextContainingHtmlNoPTag() {
 
     final var text =
-        "<!DOCTYPE html>\n"
-            + "<html>\n"
-            + "    <head>\n"
-            + "        <!-- head definitions go here -->\n"
-            + "    </head>\n"
-            + "    <body>\n"
-            + "        <!-- the content goes here -->\n"
-            + "        Hello World!\n"
-            + "    </body>\n"
-            + "</html>";
+        """
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <!-- head definitions go here -->
+            </head>
+            <body>
+                <!-- the content goes here -->
+                Hello World!
+            </body>
+        </html>""";
 
     final var result = HtmlParser.toTextExcludeElement(text, "p");
 
@@ -65,7 +67,7 @@ public class HtmlParserTest {
   }
 
   @Test
-  public void testParserTextContainingNoHtml() {
+  void testParserTextContainingNoHtml() {
 
     final var text = "Just a regular string";
 
@@ -75,7 +77,7 @@ public class HtmlParserTest {
   }
 
   @Test
-  public void testParserTextContainingNotCompleteHtmlRemoveAllPTags() {
+  void testParserTextContainingNotCompleteHtmlRemoveAllPTags() {
 
     final var text = "<p>Hello World!</p>Hello World!";
 

@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -28,13 +28,13 @@ import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ER
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
@@ -51,13 +51,13 @@ import se.inera.intyg.schemas.contract.Personnummer;
 /**
  * @author andreaskaltenbach
  */
-@RunWith(MockitoJUnitRunner.class)
-public class GetCertificateResponderImplTest {
+@ExtendWith(MockitoExtension.class)
+class GetCertificateResponderImplTest {
 
-  private static final String civicRegistrationNumber = "19350108-1234";
-  private static final String certificateId = "123456";
+  private static final String CIVIC_REGISTRATION_NUMBER = "19350108-1234";
+  private static final String CERTIFICATE_ID = "123456";
 
-  private CustomObjectMapper objectMapper = new CustomObjectMapper();
+  private final CustomObjectMapper objectMapper = new CustomObjectMapper();
 
   @InjectMocks private GetCertificateResponderImpl responder;
 
@@ -66,29 +66,30 @@ public class GetCertificateResponderImplTest {
   @Mock private Fk7263ModuleApi moduleRestApi;
 
   @Test
-  public void getCertificate() throws Exception {
+  void getCertificate() throws Exception {
     String document =
         Resources.toString(
             new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
     CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
     String xmlFile =
         Resources.toString(
             new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     certificate.setOriginalCertificate(xmlFile);
 
-    when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true))
+    when(moduleContainer.getCertificate(CERTIFICATE_ID, createPnr(CIVIC_REGISTRATION_NUMBER), true))
         .thenReturn(certificate);
 
     GetCertificateRequestType parameters =
-        createGetCertificateRequest(civicRegistrationNumber, certificateId);
+        createGetCertificateRequest(CIVIC_REGISTRATION_NUMBER, CERTIFICATE_ID);
 
     GetCertificateResponseType response = responder.getCertificate(null, parameters);
 
-    verify(moduleContainer).getCertificate(certificateId, createPnr(civicRegistrationNumber), true);
+    verify(moduleContainer)
+        .getCertificate(CERTIFICATE_ID, createPnr(CIVIC_REGISTRATION_NUMBER), true);
     verify(moduleContainer)
         .logCertificateRetrieved(
             certificate.getId(), certificate.getType(), certificate.getCareUnitId(), null);
@@ -97,13 +98,13 @@ public class GetCertificateResponderImplTest {
   }
 
   @Test
-  public void getCertificateWithUnknownCertificateId() throws Exception {
+  void getCertificateWithUnknownCertificateId() throws Exception {
 
-    when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true))
+    when(moduleContainer.getCertificate(CERTIFICATE_ID, createPnr(CIVIC_REGISTRATION_NUMBER), true))
         .thenThrow(new InvalidCertificateException("123456", null));
 
     GetCertificateRequestType parameters =
-        createGetCertificateRequest(civicRegistrationNumber, certificateId);
+        createGetCertificateRequest(CIVIC_REGISTRATION_NUMBER, CERTIFICATE_ID);
 
     GetCertificateResponseType response = responder.getCertificate(null, parameters);
 
@@ -115,21 +116,21 @@ public class GetCertificateResponderImplTest {
   }
 
   @Test
-  public void getRevokedCertificate() throws Exception {
+  void getRevokedCertificate() throws Exception {
     String document =
         Resources.toString(
             new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json")
                 .getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
     CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
     certificate.setRevoked(true);
 
-    when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true))
+    when(moduleContainer.getCertificate(CERTIFICATE_ID, createPnr(CIVIC_REGISTRATION_NUMBER), true))
         .thenReturn(certificate);
 
     GetCertificateRequestType parameters =
-        createGetCertificateRequest(civicRegistrationNumber, certificateId);
+        createGetCertificateRequest(CIVIC_REGISTRATION_NUMBER, CERTIFICATE_ID);
 
     GetCertificateResponseType response = responder.getCertificate(null, parameters);
 
@@ -140,34 +141,34 @@ public class GetCertificateResponderImplTest {
   }
 
   @Test
-  public void getCertificateWithNullCertificateId() {
+  void getCertificateWithNullCertificateId() {
     GetCertificateRequestType request = createGetCertificateRequest("", null);
     GetCertificateResponseType response = responder.getCertificate(null, request);
-    assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
+    assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
     verifyNoInteractions(moduleRestApi);
   }
 
   @Test
-  public void getCertificateWithBlankCertificateId() {
+  void getCertificateWithBlankCertificateId() {
     GetCertificateRequestType request = createGetCertificateRequest("", "");
     GetCertificateResponseType response = responder.getCertificate(null, request);
-    assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
+    assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
     verifyNoInteractions(moduleRestApi);
   }
 
   @Test
-  public void getCertificateWithNullIdentityNumber() {
-    GetCertificateRequestType request = createGetCertificateRequest(null, certificateId);
+  void getCertificateWithNullIdentityNumber() {
+    GetCertificateRequestType request = createGetCertificateRequest(null, CERTIFICATE_ID);
     GetCertificateResponseType response = responder.getCertificate(null, request);
-    assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
+    assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
     verifyNoInteractions(moduleRestApi);
   }
 
   @Test
-  public void getCertificateWithBlankIdentityNumber() {
-    GetCertificateRequestType request = createGetCertificateRequest("", certificateId);
+  void getCertificateWithBlankIdentityNumber() {
+    GetCertificateRequestType request = createGetCertificateRequest("", CERTIFICATE_ID);
     GetCertificateResponseType response = responder.getCertificate(null, request);
-    assertEquals(response.getResult().getErrorId(), ErrorIdEnum.VALIDATION_ERROR);
+    assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
     verifyNoInteractions(moduleRestApi);
   }
 
@@ -176,7 +177,7 @@ public class GetCertificateResponderImplTest {
     GetCertificateRequestType parameters = new GetCertificateRequestType();
     if (civicRegistrationNumber == null) {
       parameters.setNationalIdentityNumber(null);
-    } else if (civicRegistrationNumber.length() == 0) {
+    } else if (civicRegistrationNumber.isEmpty()) {
       parameters.setNationalIdentityNumber("");
     } else {
       parameters.setNationalIdentityNumber(createPnr(civicRegistrationNumber).getPersonnummer());
@@ -186,6 +187,6 @@ public class GetCertificateResponderImplTest {
   }
 
   private Personnummer createPnr(String civicRegistrationNumber) {
-    return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    return Personnummer.createPersonnummer(civicRegistrationNumber).orElseThrow();
   }
 }

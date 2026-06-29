@@ -18,12 +18,12 @@
  */
 package se.inera.intyg.common.support.facade.model.icf;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import lombok.Builder;
 import lombok.Value;
 import se.inera.intyg.common.support.facade.model.icf.AvailableIcfCodes.AvailableIcfCodesBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = AvailableIcfCodesBuilder.class)
 @Value

@@ -783,7 +783,7 @@ class ValueToolkitTest {
     private Vardenhet vardenhet = new Vardenhet();
 
     @BeforeEach
-    public void setup() {
+    void setup() {
       grundData = spy(new GrundData());
       grundData.setPatient(new se.inera.intyg.common.support.model.common.internal.Patient());
       hoSPersonal = spy(new HoSPersonal());

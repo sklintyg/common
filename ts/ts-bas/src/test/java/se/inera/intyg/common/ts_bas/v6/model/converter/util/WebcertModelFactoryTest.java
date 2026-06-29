@@ -18,23 +18,26 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.converter.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -54,8 +57,9 @@ import se.inera.intyg.common.ts_bas.v6.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class WebcertModelFactoryTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class WebcertModelFactoryTest {
 
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
   private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
@@ -63,15 +67,15 @@ public class WebcertModelFactoryTest {
 
   @InjectMocks private WebcertModelFactoryImpl factory;
 
-  @Before
-  public void setUpMocks() {
+  @BeforeEach
+  void setUpMocks() {
     when(intygTexts.getLatestVersionForSameMajorVersion(
             eq(TsBasEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -88,7 +92,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateEditableModel() throws Exception {
+  void testCreateEditableModel() throws Exception {
 
     TsBasUtlatandeV6 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
@@ -108,21 +112,25 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     TsBasUtlatandeV6 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
     assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
   }
 
-  @Test(expected = ConverterException.class)
-  public void testCreateCopyCertificateIdMissing() throws Exception {
-    factory.createCopy(
-        new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatandeV6.builder().build());
+  @Test
+  void testCreateCopyCertificateIdMissing() throws Exception {
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          factory.createCopy(
+              new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatandeV6.builder().build());
+        });
   }
 
   @Test
-  public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
+  void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
     // Given
     GrundData grundData = new GrundData();
     grundData.setSigneringsdatum(LocalDateTime.now());

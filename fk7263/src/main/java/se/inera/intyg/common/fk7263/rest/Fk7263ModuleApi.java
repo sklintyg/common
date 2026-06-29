@@ -22,7 +22,6 @@ import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificat
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import iso.v21090.dt.v1.CD;
 import jakarta.xml.bind.JAXBElement;
@@ -118,6 +117,8 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author andreaskaltenbach, marced
@@ -408,7 +409,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     try {
       oldUtlatande = objectMapper.readValue(persistedState, Fk7263Utlatande.class);
       newUtlatande = objectMapper.readValue(currentState, Fk7263Utlatande.class);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException(e);
     }
 
@@ -625,7 +626,7 @@ public class Fk7263ModuleApi implements ModuleApi {
       utlatande.setGiltighet(ArbetsformagaToGiltighet.getGiltighetFromUtlatande(utlatande));
       return utlatande;
 
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -642,7 +643,7 @@ public class Fk7263ModuleApi implements ModuleApi {
       unitMapperUtil.decorateWithMappedCareProvider(utlatande, created);
       return utlatande;
 
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -675,7 +676,7 @@ public class Fk7263ModuleApi implements ModuleApi {
       StringWriter writer = new StringWriter();
       objectMapper.writeValue(writer, internalModel);
       return writer.toString();
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleSystemException("Failed to serialize internal model", e);
     }
   }

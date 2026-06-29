@@ -33,9 +33,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPBody;
@@ -45,6 +42,7 @@ import jakarta.xml.soap.SOAPMessage;
 import jakarta.xml.soap.SOAPPart;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -124,6 +122,8 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place
@@ -361,8 +361,7 @@ class TsDiabetesModuleApiV2Test {
   }
 
   @Test
-  void testRegisterCertificateErrorResult()
-      throws ScenarioNotFoundException, JsonProcessingException {
+  void testRegisterCertificateErrorResult() throws ScenarioNotFoundException, JacksonException {
     final var logicalAddress = "logicalAddress";
     final var registerResponse = new RegisterTSDiabetesResponseType();
     final var internalModel =
@@ -485,7 +484,7 @@ class TsDiabetesModuleApiV2Test {
 
   @Test
   void testRevokeCertificate() throws Exception {
-    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     final var revokeResponse = new RevokeMedicalCertificateResponseType();
     revokeResponse.setResult(ResultOfCallUtil.okResult());
     when(revokeCertificateClient.revokeMedicalCertificate(
@@ -506,7 +505,7 @@ class TsDiabetesModuleApiV2Test {
 
   @Test
   void testRevokeCertificateResponseError() throws IOException {
-    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+    final var xmlBody = Resources.toString(revokeCertificateFile.getURL(), StandardCharsets.UTF_8);
     final var revokeResponse = new RevokeMedicalCertificateResponseType();
     revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
     when(revokeCertificateClient.revokeMedicalCertificate(
@@ -623,7 +622,7 @@ class TsDiabetesModuleApiV2Test {
   private String toJsonString(TsDiabetesUtlatandeV2 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }
@@ -667,7 +666,7 @@ class TsDiabetesModuleApiV2Test {
   }
 
   private String getResourceAsString(ClassPathResource cpr) throws IOException {
-    return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    return Resources.toString(cpr.getURL(), StandardCharsets.UTF_8);
   }
 
   private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) {

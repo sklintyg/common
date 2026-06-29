@@ -36,7 +36,6 @@ import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConsta
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.TEXTVERSION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import jakarta.annotation.Nullable;
@@ -45,6 +44,7 @@ import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 // CHECKSTYLE:ON LineLength
 

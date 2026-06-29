@@ -65,7 +65,7 @@ class WebcertModelFactoryImplTest {
   @InjectMocks private WebcertModelFactoryImpl webcertModelFactoryImpl;
 
   @Test
-  public void shouldCreateTsDiabetesUtlatandeV4() throws Exception {
+  void shouldCreateTsDiabetesUtlatandeV4() throws Exception {
     final var newDraftHolder =
         new CreateNewDraftHolder(
             CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
@@ -106,7 +106,7 @@ class WebcertModelFactoryImplTest {
   }
 
   @Test
-  public void shouldDefaultToLatestMinorVersion() throws Exception {
+  void shouldDefaultToLatestMinorVersion() throws Exception {
     final var newDraftHolder =
         new CreateNewDraftHolder(
             CERTIFICATE_ID, INTYG_TYPE_VERSION_4_0, createHosPersonal(), createPatient());
@@ -123,7 +123,7 @@ class WebcertModelFactoryImplTest {
   }
 
   @Test
-  public void shouldThrowConversionExceptionIfNotVersion4() throws Exception {
+  void shouldThrowConversionExceptionIfNotVersion4() throws Exception {
     final var copyDraftHolder = new CreateDraftCopyHolder("", new HoSPersonal());
     final var wrongVersionUtlatande = createWrongVersionUtlatande();
 
@@ -136,7 +136,7 @@ class WebcertModelFactoryImplTest {
   }
 
   @Test
-  public void shouldCreateDraftCopyWithAnswersFromCertificate() throws ConverterException {
+  void shouldCreateDraftCopyWithAnswersFromCertificate() throws ConverterException {
     final var utlatande = createTsDiabetesUtlatandeV4();
     final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
 
@@ -153,7 +153,7 @@ class WebcertModelFactoryImplTest {
   }
 
   @Test
-  public void shouldRemoveSignatureDateFromCertificateInCopy() throws ConverterException {
+  void shouldRemoveSignatureDateFromCertificateInCopy() throws ConverterException {
     final var utlatande = createTsDiabetesUtlatandeV4();
     final var createDraftCopyHolder = new CreateDraftCopyHolder(DRAFT_COPY_ID, createHosPersonal());
 

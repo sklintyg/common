@@ -45,13 +45,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -119,6 +118,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.databind.DatabindException;
 
 @ExtendWith(MockitoExtension.class)
 class LuseModuleApiV1Test {
@@ -173,7 +173,7 @@ class LuseModuleApiV1Test {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       final var xmlContents =
-          Resources.toString(Resources.getResource("v1/luse.xml"), Charsets.UTF_8);
+          Resources.toString(Resources.getResource("v1/luse.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
@@ -189,7 +189,7 @@ class LuseModuleApiV1Test {
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/luse.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/luse.xml"), StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -359,7 +359,7 @@ class LuseModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
-      throws ScenarioNotFoundException, JsonProcessingException {
+      throws ScenarioNotFoundException, DatabindException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -378,7 +378,7 @@ class LuseModuleApiV1Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnBadCertificate()
-      throws ScenarioNotFoundException, JsonProcessingException {
+      throws ScenarioNotFoundException, DatabindException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
 
@@ -434,7 +434,7 @@ class LuseModuleApiV1Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -446,7 +446,7 @@ class LuseModuleApiV1Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -727,7 +727,7 @@ class LuseModuleApiV1Test {
   private String toJsonString(LuseUtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (DatabindException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

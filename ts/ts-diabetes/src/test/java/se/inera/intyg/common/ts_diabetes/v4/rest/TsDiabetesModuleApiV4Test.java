@@ -36,8 +36,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.bind.JAXB;
 import jakarta.xml.soap.SOAPException;
@@ -45,6 +43,7 @@ import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -111,10 +110,11 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = {BefattningService.class})
-public class TsDiabetesModuleApiV4Test {
+class TsDiabetesModuleApiV4Test {
 
   public static final String TESTFILE_UTLATANDE = "v4/internal/scenarios/pass-minimal.json";
   private static final String LOGICAL_ADDRESS = "logical address";
@@ -172,7 +172,8 @@ public class TsDiabetesModuleApiV4Test {
     try {
       final var xmlContents =
           Resources.toString(
-              Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+              Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+              StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
       verify(registerCertificateResponderInterface, times(1))
           .registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -187,7 +188,8 @@ public class TsDiabetesModuleApiV4Test {
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     final var xmlContents =
         Resources.toString(
-            Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+            Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+            StandardCharsets.UTF_8);
     assertThrows(
         ModuleException.class,
         () -> moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null));
@@ -200,7 +202,8 @@ public class TsDiabetesModuleApiV4Test {
     try {
       final var xmlContents =
           Resources.toString(
-              Resources.getResource("v4/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+              Resources.getResource("v4/transport/scenarios/pass-complete.xml"),
+              StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     } catch (IOException e) {
       fail();
@@ -365,7 +368,7 @@ public class TsDiabetesModuleApiV4Test {
 
   @Test
   void testRegisterCertificateShouldThrowExceptionOnFailedCallToIT()
-      throws ScenarioNotFoundException, JsonProcessingException {
+      throws ScenarioNotFoundException, JacksonException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
     final var response = new RegisterCertificateResponseType();
@@ -383,8 +386,7 @@ public class TsDiabetesModuleApiV4Test {
   }
 
   @Test
-  void testRegisterCertificateShouldThrowExceptionOnBadCertificate()
-      throws JsonProcessingException {
+  void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws JacksonException {
     final var logicalAddress = "logicalAddress";
     final var internalModel = "internal model";
 
@@ -411,7 +413,7 @@ public class TsDiabetesModuleApiV4Test {
     final var xml =
         Resources.toString(
             Resources.getResource("v4/transport/ts-diabetes-invalid-xml-in-prod.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     assertDoesNotThrow(() -> JAXB.unmarshal(new StringReader(xml), RegisterTSDiabetesType.class));
   }
 
@@ -420,7 +422,7 @@ public class TsDiabetesModuleApiV4Test {
     final var xml =
         Resources.toString(
             Resources.getResource("v4/transport/ts-diabetes-invalid-xml-in-prod.xml"),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     assertThrows(UnmarshallingFailureException.class, () -> XmlMarshallerHelper.unmarshal(xml));
   }
 
@@ -458,7 +460,7 @@ public class TsDiabetesModuleApiV4Test {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v4/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v4/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
 
     returnVal.setResult(ResultTypeUtil.okResult());
@@ -471,7 +473,7 @@ public class TsDiabetesModuleApiV4Test {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v4/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v4/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
 
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
@@ -591,7 +593,7 @@ public class TsDiabetesModuleApiV4Test {
   private String toJsonString(TsDiabetesUtlatandeV4 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }

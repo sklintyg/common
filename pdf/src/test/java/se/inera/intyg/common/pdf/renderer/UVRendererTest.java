@@ -21,8 +21,6 @@ package se.inera.intyg.common.pdf.renderer;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,11 +34,11 @@ import java.util.TreeMap;
 import java.util.UUID;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -48,10 +46,12 @@ import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.services.BefattningService;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class UVRendererTest {
+class UVRendererTest {
 
   private static final String PNR = "19121212-1212";
 
@@ -68,7 +68,7 @@ public class UVRendererTest {
   private static final String TITLE = "title";
 
   @Test
-  public void testMinimalAg7804() throws IOException {
+  void testMinimalAg7804() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag7804/ag7804-minimal.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -107,7 +107,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testMaximalAg7804() throws IOException {
+  void testMaximalAg7804() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag7804/ag7804-maximal.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -146,7 +146,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testMaximalOptionalfieldsAg7804() throws IOException {
+  void testMaximalOptionalfieldsAg7804() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag7804/ag7804-maximal.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -191,7 +191,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAg114TomtUtkast() throws IOException {
+  void testAg114TomtUtkast() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf-utkast.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -231,7 +231,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAg114() throws IOException {
+  void testAg114() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -270,7 +270,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAg114EmployerPdfWithoutDiagnose() throws IOException {
+  void testAg114EmployerPdfWithoutDiagnose() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -314,7 +314,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testTsDiabetes() throws IOException {
+  void testTsDiabetes() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("tsdiabetes/intyg.tsdiabetes.v3.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -352,7 +352,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testEmptyTsDiabetes() throws IOException {
+  void testEmptyTsDiabetes() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("tsdiabetes/empty.tsdiabetes.v3.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -388,7 +388,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testTsBas() throws IOException {
+  void testTsBas() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("tsbas/intyg.tsbas.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -423,7 +423,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testEmptyTsBasUtkast() throws IOException {
+  void testEmptyTsBasUtkast() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("tsbas/empty.tsbas.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -458,7 +458,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testLisjp() throws IOException {
+  void testLisjp() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("lisjp/intyg.lisjp.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -498,7 +498,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213() throws IOException {
+  void testAf00213() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -533,7 +533,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213WithoutSummaryPage() throws IOException {
+  void testAf00213WithoutSummaryPage() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -566,7 +566,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213OvrigtEjAngivet() throws IOException {
+  void testAf00213OvrigtEjAngivet() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213-noovrigt.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -601,7 +601,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213Tecken() throws IOException {
+  void testAf00213Tecken() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213-tecken.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -636,7 +636,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213LangaSvar() throws IOException {
+  void testAf00213LangaSvar() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213-langasvar.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -671,7 +671,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testAf00213Makulerad() throws IOException {
+  void testAf00213Makulerad() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
@@ -705,7 +705,7 @@ public class UVRendererTest {
   }
 
   @Test
-  public void testTstrk1009() throws IOException {
+  void testTstrk1009() throws IOException {
     JsonNode intygJsonNode = loadAndCleanIntygJson("tstrk1009/tstrk1009.v1.json");
     String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 

@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -30,13 +31,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import org.json.JSONException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
@@ -60,8 +63,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class WebcertModelFactoryTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class WebcertModelFactoryTest {
 
   private static final String INTYG_ID = "intyg-123";
   private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -78,15 +82,15 @@ public class WebcertModelFactoryTest {
 
   private CustomObjectMapper customObjectMapper = new CustomObjectMapper();
 
-  @Before
-  public void setUpMocks() {
+  @BeforeEach
+  void setUpMocks() {
     when(intygTextsService.getLatestVersionForSameMajorVersion(
             eq(Ag7804EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
         .thenReturn(INTYG_TYPE_VERSION_1_1);
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -103,7 +107,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testNormalCopy() throws ConverterException {
+  void testNormalCopy() throws ConverterException {
     HoSPersonal newHosPersonal = buildHosPersonal();
     newHosPersonal.setPersonId("3333");
     CreateDraftCopyHolder copyHolder = new CreateDraftCopyHolder("123", newHosPersonal);
@@ -121,7 +125,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCopyFromLisjpTemplate() throws ConverterException, IOException, JSONException {
+  void testCopyFromLisjpTemplate() throws ConverterException, IOException, JSONException {
     HoSPersonal newHosPersonal = buildHosPersonal();
     Patient patient = buildPatient();
 
@@ -147,7 +151,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewDraftHappyPath() throws ConverterException {
+  void testCreateNewDraftHappyPath() throws ConverterException {
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     assertNotNull(draft);
     assertEquals(
@@ -158,24 +162,32 @@ public class WebcertModelFactoryTest {
     assertEquals(INTYG_TYPE_VERSION_1_1, draft.getTextVersion());
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(null));
-  }
-
-  @Test(expected = ConverterException.class)
-  public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-    modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+  @Test
+  void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(null));
+        });
   }
 
   @Test
-  public void testUpdateSkapadAv() throws ConverterException {
+  void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
+        });
+  }
+
+  @Test
+  void testUpdateSkapadAv() throws ConverterException {
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
     WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV2
     Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

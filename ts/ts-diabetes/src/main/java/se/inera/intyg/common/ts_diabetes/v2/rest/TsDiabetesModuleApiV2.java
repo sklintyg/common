@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_diabetes.v2.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import jakarta.ws.rs.NotSupportedException;
 import jakarta.xml.bind.JAXB;
@@ -102,6 +101,8 @@ import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.Regist
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten and
@@ -443,7 +444,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2);
       return tsDiabetesUtlatandeV2;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -456,7 +457,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV2.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV2, created);
       return tsDiabetesUtlatandeV2;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

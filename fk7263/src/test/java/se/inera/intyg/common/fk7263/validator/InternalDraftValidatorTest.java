@@ -18,21 +18,21 @@
  */
 package se.inera.intyg.common.fk7263.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.base.Joiner;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
@@ -40,8 +40,8 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalDraftValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalDraftValidatorTest {
 
   @Mock private WebcertModuleService mockModuleService;
 
@@ -61,8 +61,8 @@ public class InternalDraftValidatorTest {
     return collection.iterator().next();
   }
 
-  @Before
-  public void setUpModuleServiceExpectation() {
+  @BeforeEach
+  void setUpModuleServiceExpectation() {
     Mockito.when(
             mockModuleService.validateDiagnosisCode(
                 Mockito.argThat(new DiagnosKodArgmentMatcher()), Mockito.anyString()))
@@ -70,39 +70,39 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void testValidate() throws Exception {
+  void testValidate() throws Exception {
     for (se.inera.intyg.common.fk7263.utils.Scenario scenario :
         ScenarioFinder.getInternalScenarios("valid-*")) {
       Fk7263Utlatande utlatande = scenario.asInternalModel();
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
       assertEquals(
+          ValidationStatus.VALID,
+          validationResponse.getStatus(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          ValidationStatus.VALID,
-          validationResponse.getStatus());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
 
       assertTrue(
+          validationResponse.getValidationErrors().isEmpty(),
           "Error in scenario "
               + scenario.getName()
               + "\n"
-              + Joiner.on(", ").join(validationResponse.getValidationErrors()),
-          validationResponse.getValidationErrors().isEmpty());
+              + Joiner.on(", ").join(validationResponse.getValidationErrors()));
     }
   }
 
   @Test
-  public void testValidateWithErrors() throws Exception {
+  void testValidateWithErrors() throws Exception {
     for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
       Fk7263Utlatande utlatande = scenario.asInternalModel();
       ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
       assertEquals(
-          "Error in scenario " + scenario.getName() + "\n",
           ValidationStatus.INVALID,
-          validationResponse.getStatus());
+          validationResponse.getStatus(),
+          "Error in scenario " + scenario.getName() + "\n");
     }
   }
 
@@ -112,9 +112,9 @@ public class InternalDraftValidatorTest {
    *
    * @author npet
    */
-  class DiagnosKodArgmentMatcher implements ArgumentMatcher<String> {
+  static class DiagnosKodArgmentMatcher implements ArgumentMatcher<String> {
 
-    private List<String> ALLOWED_CODES =
+    private static List<String> ALLOWED_CODES =
         Arrays.asList("S47", "TEST1", "TEST2", "TEST3", "Z233", "A000");
 
     @Override

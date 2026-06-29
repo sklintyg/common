@@ -18,19 +18,20 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -49,7 +50,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-public class WebcertModelFactoryTest {
+class WebcertModelFactoryTest {
 
   private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryTest.class);
 
@@ -58,13 +59,13 @@ public class WebcertModelFactoryTest {
 
   private WebcertModelFactoryImpl factory;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     this.factory = new WebcertModelFactoryImpl();
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -81,7 +82,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopy() throws Exception {
+  void testCreateCopy() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -109,21 +110,25 @@ public class WebcertModelFactoryTest {
     assertNotNull(
         copy.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarnamn());
 
-    assertNull("Signeringsdatum should be emtpy", copy.getGrundData().getSigneringsdatum());
-  }
-
-  @Test(expected = ConverterException.class)
-  public void testCreateCopyCertificateIdMissing() throws Exception {
-    Fk7263Utlatande utlatande =
-        readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
-
-    CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
-
-    factory.createCopy(copyData, utlatande);
+    assertNull(copy.getGrundData().getSigneringsdatum(), "Signeringsdatum should be emtpy");
   }
 
   @Test
-  public void testCreateCopyWithNewPatientData() throws Exception {
+  void testCreateCopyCertificateIdMissing() throws Exception {
+    assertThrows(
+        ConverterException.class,
+        () -> {
+          Fk7263Utlatande utlatande =
+              readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
+
+          CreateDraftCopyHolder copyData = createDraftCopyHolder("", false, false);
+
+          factory.createCopy(copyData, utlatande);
+        });
+  }
+
+  @Test
+  void testCreateCopyWithNewPatientData() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -145,7 +150,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateCopyWithNewPatientPersonId() throws Exception {
+  void testCreateCopyWithNewPatientPersonId() throws Exception {
 
     Fk7263Utlatande utlatande =
         readUtlatandeFromFile("WebcertModelFactoryTest/utlatande-intyg-1.json");
@@ -169,7 +174,7 @@ public class WebcertModelFactoryTest {
   }
 
   @Test
-  public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
+  void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format()
       throws ConverterException {
     // this to follow schema during CertificateStatusUpdateForCareV3
     Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
@@ -222,7 +227,7 @@ public class WebcertModelFactoryTest {
     try {
       LOG.info("Reading test data from: {}", filePath);
       ClassPathResource resource = new ClassPathResource(filePath);
-      return Resources.toString(resource.getURL(), Charsets.UTF_8);
+      return Resources.toString(resource.getURL(), StandardCharsets.UTF_8);
     } catch (IOException e) {
       LOG.error("Could not read test data from: {}, error {}", filePath, e.getMessage());
       return null;

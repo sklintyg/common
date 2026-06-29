@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.ts_diabetes.v4.model.converter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.converter.mapping.MappedUnit;
@@ -41,9 +41,9 @@ import se.inera.intyg.common.ts_diabetes.v4.model.internal.Ovrigt;
 import se.inera.intyg.common.ts_diabetes.v4.model.internal.TsDiabetesUtlatandeV4;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class TransportToInternalTest {
+class TransportToInternalTest {
 
   public static TsDiabetesUtlatandeV4 getUtlatande() {
     TsDiabetesUtlatandeV4.Builder utlatande = TsDiabetesUtlatandeV4.builder();
@@ -59,8 +59,8 @@ public class TransportToInternalTest {
     return utlatande.build();
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -77,11 +77,11 @@ public class TransportToInternalTest {
   }
 
   @Test
-  public void endToEnd() throws Exception {
+  void endToEnd() throws Exception {
     TsDiabetesUtlatandeV4 originalUtlatande = getUtlatande();
     RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
     TsDiabetesUtlatandeV4 convertedIntyg =
         TransportToInternal.convert(transportCertificate.getIntyg());
-    Assert.assertEquals(originalUtlatande, convertedIntyg);
+    assertEquals(originalUtlatande, convertedIntyg);
   }
 }

@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.support.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,10 +43,10 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToRevokeTest {
+class InternalToRevokeTest {
 
   @Test
-  public void convertRevokeCertificateRequest() throws Exception {
+  void convertRevokeCertificateRequest() throws Exception {
     String meddelande = "meddelande";
     Utlatande utlatande = IntygTestDataBuilder.getUtlatande();
     HoSPersonal skapatAv = utlatande.getGrundData().getSkapadAv();

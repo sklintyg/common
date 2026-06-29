@@ -18,20 +18,20 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
 import org.junit.jupiter.api.BeforeAll;
@@ -68,7 +68,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
@@ -89,7 +89,7 @@ public class InternalToTransportTest {
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -129,8 +129,9 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationag7804() throws Exception {
-    String xmlContents = Resources.toString(getResource("v1/transport/ag7804.xml"), Charsets.UTF_8);
+  void doSchematronValidationag7804() throws Exception {
+    String xmlContents =
+        Resources.toString(getResource("v1/transport/ag7804.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -139,13 +140,14 @@ public class InternalToTransportTest {
         new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Ag7804UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     Ag7804UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -154,7 +156,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() throws Exception {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }

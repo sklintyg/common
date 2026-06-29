@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
@@ -27,22 +27,22 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 
 import java.util.List;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SvarIdHelperTest {
+@ExtendWith(MockitoExtension.class)
+class SvarIdHelperTest {
 
   private final InternalDate INTERNAL_DATE = new InternalDate();
   private SvarIdHelperImpl svarIdHelper = new SvarIdHelperImpl();
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUNoValues() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUNoValues() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(buildUtlatande(null, null, null, null));
     assertNotNull(res);
@@ -51,8 +51,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUUndersokningAvPatienten()
-      throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUUndersokningAvPatienten() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(INTERNAL_DATE, null, null, null));
@@ -63,7 +62,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUJournalUppgifter() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUJournalUppgifter() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(null, INTERNAL_DATE, null, null));
@@ -74,7 +73,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUAnhorigsBeskrivningAvPatienten()
+  void testCalculateFrageIdHandleForGrundForMUAnhorigsBeskrivningAvPatienten()
       throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
@@ -86,7 +85,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUAnnatGrundForMU() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUAnnatGrundForMU() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(null, null, null, INTERNAL_DATE));
@@ -97,7 +96,7 @@ public class SvarIdHelperTest {
   }
 
   @Test
-  public void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
+  void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
     List<String> res =
         svarIdHelper.calculateFrageIdHandleForGrundForMU(
             buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));

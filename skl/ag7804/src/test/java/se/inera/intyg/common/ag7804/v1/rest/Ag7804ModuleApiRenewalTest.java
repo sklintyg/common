@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,10 +40,11 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 /** Specifically tests the renewal of ag7804 where certain fields are nulled out. */
 @ExtendWith(MockitoExtension.class)
-public class Ag7804ModuleApiRenewalTest {
+class Ag7804ModuleApiRenewalTest {
 
   public static final String TESTFILE_UTLATANDE = "v1/Ag7804ModelCompareUtil/utlatande.json";
 
@@ -59,8 +59,7 @@ public class Ag7804ModuleApiRenewalTest {
   }
 
   @Test
-  public void testRenewalTransfersAppropriateFieldsToNewDraft()
-      throws ModuleException, IOException {
+  void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
 
     final var original = getUtlatandeFromFile();
     final var renewalFromTemplate =

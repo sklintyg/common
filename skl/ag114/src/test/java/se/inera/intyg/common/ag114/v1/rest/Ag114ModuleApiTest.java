@@ -37,14 +37,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -120,6 +119,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
@@ -171,7 +172,7 @@ class Ag114ModuleApiTest {
   }
 
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
     ReflectionTestUtils.setField(moduleApi, "webcertModelFactory", webcertModelFactory);
     ReflectionTestUtils.setField(moduleApi, "internalDraftValidator", internalDraftValidator);
@@ -312,21 +313,23 @@ class Ag114ModuleApiTest {
   }
 
   @Test
-  void testCreateCompletionFromTemplate() {
+  void testCreateCompletionFromTemplate() throws IOException {
     final var draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
+    final var utlatandeFromFile = getUtlatandeFromFile();
     assertThrows(
         UnsupportedOperationException.class,
         () ->
             moduleApi.createCompletionFromTemplate(
-                draftCertificateHolder, getUtlatandeFromFile(), "No!"));
+                draftCertificateHolder, utlatandeFromFile, "No!"));
   }
 
   @Test
-  void testCreateRenewalFromTemplate() {
+  void testCreateRenewalFromTemplate() throws IOException {
     final var draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
+    final var utlatandeFromFile = getUtlatandeFromFile();
     assertThrows(
         UnsupportedOperationException.class,
-        () -> moduleApi.createRenewalFromTemplate(draftCertificateHolder, getUtlatandeFromFile()));
+        () -> moduleApi.createRenewalFromTemplate(draftCertificateHolder, utlatandeFromFile));
   }
 
   @Test
@@ -457,7 +460,7 @@ class Ag114ModuleApiTest {
 
   @Test
   void testGetUtlatandeFromJsonInvalidJson() {
-    assertThrows(IOException.class, () -> moduleApi.getUtlatandeFromJson("{ invalidJson: }"));
+    assertThrows(JacksonException.class, () -> moduleApi.getUtlatandeFromJson("{ invalidJson: }"));
   }
 
   // Successful usage of getUtlatandeFromXml is used in a lot of other tests
@@ -499,12 +502,12 @@ class Ag114ModuleApiTest {
   }
 
   @Test
-  void testGetModuleSpecificArendeParameters() {
+  void testGetModuleSpecificArendeParameters() throws IOException {
+    final var utlatandeFromFile = getUtlatandeFromFile();
+    final var list = Arrays.asList("1", "2");
     assertThrows(
         UnsupportedOperationException.class,
-        () ->
-            moduleApi.getModuleSpecificArendeParameters(
-                getUtlatandeFromFile(), Arrays.asList("1", "2")));
+        () -> moduleApi.getModuleSpecificArendeParameters(utlatandeFromFile, list));
   }
 
   @Test
@@ -603,7 +606,7 @@ class Ag114ModuleApiTest {
   private String toJsonString(Ag114UtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }
@@ -676,14 +679,14 @@ class Ag114ModuleApiTest {
   private Ag114UtlatandeV1 getUtlatandeFromFile() throws IOException {
     return new CustomObjectMapper()
         .readValue(
-            Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json"),
+            Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").openStream(),
             Ag114UtlatandeV1.class);
   }
 
   private String getResourceAsString(String resourceName) throws IOException {
     return (resourceName == null)
         ? null
-        : Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
+        : Resources.toString(Resources.getResource(resourceName), StandardCharsets.UTF_8);
   }
 
   private static GrundData getGrundData() {

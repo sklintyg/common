@@ -1045,7 +1045,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     // GDPRInfo (Optional)
     String gdprInfoText = getPropertyValue(PROPERTY_KEY_BLANKETT_LABEL_GDPR_INFO);
     float gdprOffset = 0;
-    if (!StringUtils.isEmpty(gdprInfoText)) {
+    if (StringUtils.hasLength(gdprInfoText)) {
       gdprOffset = 5f;
       fraga13.addChild(
           new FkLabel(gdprInfoText)

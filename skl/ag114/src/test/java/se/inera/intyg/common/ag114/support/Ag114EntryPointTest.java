@@ -18,42 +18,40 @@
  */
 package se.inera.intyg.common.ag114.support;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 
 /** Created by marced on 10/05/16. */
-@RunWith(MockitoJUnitRunner.class)
-public class Ag114EntryPointTest {
+@ExtendWith(MockitoExtension.class)
+class Ag114EntryPointTest {
 
   @Mock IntygTextsRepository repoMock;
 
   private Ag114EntryPoint entryPoint;
 
   @Test
-  public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet()
-      throws Exception {
+  void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() {
     entryPoint = new Ag114EntryPoint();
     ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
     assertNull(entryPoint.getDetailedModuleDescription());
   }
 
   @Test
-  public void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet()
-      throws Exception {
+  void testGetDetailedModuleDescriptionReturnStringWhenIntygTextsRepositorySet() {
     when(repoMock.getLatestVersion(anyString())).thenReturn("1.0");
     SortedMap<String, String> map = new TreeMap<>();
     map.put(AgAbstractModuleEntryPoint.DESCRIPTION_TEXT_KEY, "hello");

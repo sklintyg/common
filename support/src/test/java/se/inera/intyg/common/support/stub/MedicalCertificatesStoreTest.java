@@ -19,7 +19,7 @@
 package se.inera.intyg.common.support.stub;
 
 import static com.google.common.collect.Maps.newHashMap;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_JA;
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
@@ -27,15 +27,15 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MEDDEL
 import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
 
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class MedicalCertificatesStoreTest {
+class MedicalCertificatesStoreTest {
 
   private MedicalCertificatesStore store = null;
 
-  @Before
-  public void before() {
+  @BeforeEach
+  void before() {
     store = new MedicalCertificatesStore();
 
     Map<String, String> properties = newHashMap();
@@ -50,25 +50,25 @@ public class MedicalCertificatesStoreTest {
   }
 
   @Test
-  public void testGetCount() throws Exception {
+  void testGetCount() throws Exception {
     assertEquals(2, store.getCount());
   }
 
   @Test
-  public void testGetAll() throws Exception {
+  void testGetAll() throws Exception {
     Map<String, Map<String, String>> all = store.getAll();
     assertEquals(2, all.size());
   }
 
   @Test
-  public void testMakulera() throws Exception {
+  void testMakulera() throws Exception {
     store.makulera("id-0001", "meddelande");
     assertEquals(MAKULERAD_JA, store.getAll().get("id-0001").get(MAKULERAD));
     assertEquals("meddelande", store.getAll().get("id-0001").get(MEDDELANDE));
   }
 
   @Test
-  public void testClear() throws Exception {
+  void testClear() throws Exception {
     store.clear();
     assertEquals(0, store.getCount());
   }

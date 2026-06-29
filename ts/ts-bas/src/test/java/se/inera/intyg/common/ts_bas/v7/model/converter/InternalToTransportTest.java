@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +52,7 @@ import se.inera.intyg.common.ts_bas.v7.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Unit test for InternalToExternalConverter.
@@ -128,14 +128,14 @@ class InternalToTransportTest {
 
       @Test
        void doSchematronValidationTsBas() throws Exception {
-          String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
+          String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), StandardCharsets.UTF_8);
 
           RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
           assertTrue(generalValidator.validateGeneral(xmlContents));
 
           RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
           SchematronOutputType result = validator
-                  .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+                  .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
           assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
       }

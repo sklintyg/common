@@ -18,23 +18,23 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.tstrk1062.v1.rest.TsTrk1062ModuleApiV1.SCHEMATRON_FILE;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(SCHEMATRON_FILE);
@@ -45,7 +45,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosFritext() throws Exception {
+  void validXmlDiagnosFritext() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosFritext.xml");
 
@@ -53,7 +53,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodad() throws Exception {
+  void validXmlDiagnosKodad() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodad.xml");
 
@@ -61,7 +61,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadWithoutDescription() throws Exception {
+  void validXmlDiagnosKodadWithoutDescription() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadUtanBeskrivning.xml");
 
@@ -69,7 +69,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadBehandlingAvslutad() throws Exception {
+  void validXmlDiagnosKodadBehandlingAvslutad() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadBehandlingAvslutad.xml");
 
@@ -77,7 +77,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadBehandlingPagar() throws Exception {
+  void validXmlDiagnosKodadBehandlingPagar() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadBehandlingPagar.xml");
 
@@ -85,7 +85,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadBehandlingSaknas() throws Exception {
+  void validXmlDiagnosKodadBehandlingSaknas() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadBehandlingSaknas.xml");
 
@@ -93,7 +93,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadMedOvrigt() throws Exception {
+  void validXmlDiagnosKodadMedOvrigt() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadMedOvrigt.xml");
 
@@ -101,7 +101,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlDiagnosKodadUtanOvrigt() throws Exception {
+  void validXmlDiagnosKodadUtanOvrigt() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/success/diagnosKodadUtanOvrigt.xml");
 
@@ -109,7 +109,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnRule1() throws Exception {
+  void failOnRule1() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule1.xml");
 
     assertOneError(
@@ -117,21 +117,21 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnRule2() throws Exception {
+  void failOnRule2() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule2.xml");
 
     assertOneError(validationErrors, "'Aktuell läkemedelsbehandling' besvaras.");
   }
 
   @Test
-  public void failOnRule3() throws Exception {
+  void failOnRule3() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule3.xml");
 
     assertOneError(validationErrors, "'Läkemedelsbehandling i mer än tre år' besvaras.");
   }
 
   @Test
-  public void failOnRule4() throws Exception {
+  void failOnRule4() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule4.xml");
 
     assertOneError(
@@ -139,32 +139,32 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnRule5() throws Exception {
+  void failOnRule5() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule5.xml");
 
     assertOneError(validationErrors, "'Behandlingsföljsamheten är god' besvaras.");
   }
 
   @Test
-  public void failOnRule6() throws Exception {
+  void failOnRule6() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule6.xml");
 
     assertOneError(validationErrors, "'Tidpunkt då läkemedelsbehandling avslutades'");
   }
 
   @Test
-  public void failOnRule7() throws Exception {
+  void failOnRule7() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule7.xml");
 
     assertOneError(validationErrors, "'Orsak till att läkemedelsbehandling avslutades'");
   }
 
   @Test
-  public void failOnRule6And7() throws Exception {
+  void failOnRule6And7() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failRule6-7.xml");
 
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(validationErrors.get(0).contains("'Tidpunkt då läkemedelsbehandling avslutades'"));
     assertTrue(
@@ -172,25 +172,25 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnRule8And9() throws Exception {
+  void failOnRule8And9() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failRule8-9.xml");
 
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(validationErrors.get(0).contains("'Uppfyller krav för behörighet'"));
     assertTrue(validationErrors.get(0).contains("VAR11"));
   }
 
   @Test
-  public void failOnRule10() throws Exception {
+  void failOnRule10() throws Exception {
     final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule10.xml");
 
     assertOneError(validationErrors, "'Årtal för diagnos'");
   }
 
   @Test
-  public void failOnRule12And13() throws Exception {
+  void failOnRule12And13() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failRule12-13.xml");
 
@@ -198,7 +198,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ1() throws Exception {
+  void failOnMissingQ1() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ1.xml");
 
@@ -206,7 +206,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ2() throws Exception {
+  void failOnMissingQ2() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ2.xml");
 
@@ -214,7 +214,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ33() throws Exception {
+  void failOnMissingQ33() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ33.xml");
 
@@ -222,7 +222,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ53() throws Exception {
+  void failOnMissingQ53() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ53.xml");
 
@@ -230,7 +230,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ60() throws Exception {
+  void failOnMissingQ60() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ60.xml");
 
@@ -240,7 +240,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnMissingQ61() throws Exception {
+  void failOnMissingQ61() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failMissingQ61.xml");
 
@@ -248,7 +248,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failOnUnexpectedCodeForQ61() throws Exception {
+  void failOnUnexpectedCodeForQ61() throws Exception {
     final List<String> validationErrors =
         validateXML("v1/transport/scenarios/fail/failUnexpectedCodeForQ61.xml");
 
@@ -256,23 +256,23 @@ public class SchematronValidatorTest {
   }
 
   private List<String> validateXML(String href) throws Exception {
-    String inputXml = Resources.toString(getResource(href), Charsets.UTF_8);
+    String inputXml = Resources.toString(getResource(href), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     return response.getValidationErrors();
   }
 
   private void assertOneError(List<String> validationErrors, String containsError)
       throws Exception {
-    assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
+    assertFalse(validationErrors.isEmpty(), String.join("\n", validationErrors));
     assertEquals(1, validationErrors.size());
     assertTrue(
-        validationErrors.get(0) + "should contain: " + containsError,
-        validationErrors.get(0).contains(containsError));
+        validationErrors.get(0).contains(containsError),
+        validationErrors.get(0) + "should contain: " + containsError);
   }
 
   private void assertNoError(List<String> validationErrors) throws Exception {
     assertTrue(
-        validationErrors.stream().collect(Collectors.joining("\n")), validationErrors.isEmpty());
+        validationErrors.isEmpty(), validationErrors.stream().collect(Collectors.joining("\n")));
   }
 
   private static URL getResource(String href) {

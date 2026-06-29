@@ -80,6 +80,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import tools.jackson.core.JacksonException;
 
 @Component(value = "moduleapi.ts-diabetes.v4")
 public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatandeV4> {
@@ -332,7 +333,7 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV4.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV4);
       return tsDiabetesUtlatandeV4;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }
@@ -345,7 +346,7 @@ public class TsDiabetesModuleApiV4 extends TsParentModuleApi<TsDiabetesUtlatande
           objectMapper.readValue(internalModel, TsDiabetesUtlatandeV4.class);
       unitMapperUtil.decorateWithMappedCareProvider(tsDiabetesUtlatandeV4, created);
       return tsDiabetesUtlatandeV4;
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Could not read internal model", e);
     }
   }

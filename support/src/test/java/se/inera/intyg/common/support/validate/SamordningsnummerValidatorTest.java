@@ -18,26 +18,26 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link PersonnummerValidator}.
  *
  * @author Gustav Norbäcker, R2M
  */
-public class SamordningsnummerValidatorTest {
+class SamordningsnummerValidatorTest {
 
   /** The validator to test. */
   private SamordningsnummerValidator validator;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     validator = new SamordningsnummerValidator();
     // Set a fixed date for the validator so test don't break in the future.
     validator.setReferenceDate(LocalDate.parse("2013-08-22"));
@@ -45,7 +45,7 @@ public class SamordningsnummerValidatorTest {
 
   /** Test that only dates in the samordningsnummer series are supported. */
   @Test
-  public void testPersonnummerDate() throws Exception {
+  void testPersonnummerDate() throws Exception {
     assertListSize(0, validator.validateExtension("19800191-0002"));
     assertListSize(0, validator.validateExtension("19800289-0005"));
 
@@ -56,6 +56,6 @@ public class SamordningsnummerValidatorTest {
 
   private void assertListSize(int size, List<String> collection) {
     String validationMessage = Joiner.on(',').join(collection);
-    assertEquals(validationMessage, size, collection.size());
+    assertEquals(size, collection.size(), validationMessage);
   }
 }

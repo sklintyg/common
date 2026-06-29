@@ -19,12 +19,12 @@
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.transform.Source;
@@ -32,14 +32,14 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
-public class TSBasV3toV1TransformerTest {
+class TSBasV3toV1TransformerTest {
 
   private static final String V3_UTLATANDE_SCHEMA =
       "core_components/clinicalprocess_healthcond_certificate_3.3.xsd";
@@ -65,8 +65,8 @@ public class TSBasV3toV1TransformerTest {
 
   private static Schema v1Schema;
 
-  @BeforeClass
-  public static void initV3Schema() throws Exception {
+  @BeforeAll
+  static void initV3Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V3_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V3_UTLATANDE_SCHEMA);
@@ -77,8 +77,8 @@ public class TSBasV3toV1TransformerTest {
     v3Schema = schemaValidatorBuilder.build(rootSource);
   }
 
-  @BeforeClass
-  public static void initV1Schema() throws Exception {
+  @BeforeAll
+  static void initV1Schema() throws Exception {
     SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
     Source rootSource = schemaValidatorBuilder.registerResource(V1_REGISTER_SCHEMA);
     schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
@@ -89,7 +89,7 @@ public class TSBasV3toV1TransformerTest {
   }
 
   @Test
-  public void testTransformation() throws Exception {
+  void testTransformation() throws Exception {
     List<String> testFiles =
         asList(
             "valid-diabetes-typ2-kost.xml",
@@ -104,7 +104,8 @@ public class TSBasV3toV1TransformerTest {
 
     for (String xmlFile : testFiles) {
       String xmlContents =
-          Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+          Resources.toString(
+              getResource("v6/scenarios/rivtav3/" + xmlFile), StandardCharsets.UTF_8);
       final var v3Result = validate(v3Schema, xmlContents);
       if (!v3Result.isEmpty()) {
         fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result);
@@ -121,7 +122,7 @@ public class TSBasV3toV1TransformerTest {
 
   private static List<SAXParseException> validate(Schema schema, String xml) {
     StreamSource xmlSource =
-        new StreamSource(new ByteArrayInputStream(xml.getBytes(Charsets.UTF_8)));
+        new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
 
     Pair<Validator, ArrayList<SAXParseException>> validatorObject = setupValidator(schema);
     Validator validator = validatorObject.getLeft();

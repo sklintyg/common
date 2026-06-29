@@ -19,24 +19,24 @@
 package se.inera.intyg.common.doi.v1.validator;
 
 import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.junit.Test;
+import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.doi.v1.rest.DoiModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(DoiModuleApiV1.SCHEMATRON_FILE);
 
   @Test
-  public void validXmlPassesTest() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/doi.xml"), Charsets.UTF_8);
+  void validXmlPassesTest() throws Exception {
+    String inputXml = Resources.toString(getResource("v1/doi.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     response.getValidationErrors().stream().forEach(System.out::println);
     assertTrue(response.getValidationErrors().isEmpty());

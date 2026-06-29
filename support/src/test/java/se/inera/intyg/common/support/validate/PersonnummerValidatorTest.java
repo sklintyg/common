@@ -18,26 +18,26 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link PersonnummerValidator}.
  *
  * @author Gustav Norbäcker, R2M
  */
-public class PersonnummerValidatorTest {
+class PersonnummerValidatorTest {
 
   /** The validator to test. */
   private PersonnummerValidator validator;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     validator = new PersonnummerValidator();
     // Set a fixed date for the validator so test don't break in the future.
     validator.setReferenceDate(LocalDate.parse("2013-08-22"));
@@ -45,7 +45,7 @@ public class PersonnummerValidatorTest {
 
   /** Test that only personnummer on the form <code>yyyyMMdd-nnnn</code> are accepted. */
   @Test
-  public void testPersonnummerParser() throws Exception {
+  void testPersonnummerParser() throws Exception {
     assertListSize(0, validator.validateExtension("19800131-0005"));
 
     assertListSize(1, validator.validateExtension("800131-0005"));
@@ -55,7 +55,7 @@ public class PersonnummerValidatorTest {
 
   /** Test that only valid dates are accepted by the validator. */
   @Test
-  public void testPersonnummerDate() throws Exception {
+  void testPersonnummerDate() throws Exception {
     assertListSize(0, validator.validateExtension("19800131-0005"));
     assertListSize(0, validator.validateExtension("19800229-0008"));
 
@@ -64,7 +64,7 @@ public class PersonnummerValidatorTest {
 
   /** Test that only dates in the supported range are ok. */
   @Test
-  public void testPersonnummerDateRange() throws Exception {
+  void testPersonnummerDateRange() throws Exception {
     assertListSize(0, validator.validateExtension("20130822-0001"));
     assertListSize(0, validator.validateExtension("18400506+0001"));
 
@@ -74,7 +74,7 @@ public class PersonnummerValidatorTest {
 
   /** Test that the separator is validated correctly. */
   @Test
-  public void testPersonnummerSeparator() throws Exception {
+  void testPersonnummerSeparator() throws Exception {
     assertListSize(0, validator.validateExtension("19090228+9818"));
     assertListSize(0, validator.validateExtension("19231213-9195"));
 
@@ -84,7 +84,7 @@ public class PersonnummerValidatorTest {
 
   /** Test that the checksum is validated correctly. */
   @Test
-  public void testPersonnummerChecksum() throws Exception {
+  void testPersonnummerChecksum() throws Exception {
     assertListSize(1, validator.validateExtension("19800131-0000"));
     assertListSize(1, validator.validateExtension("19800131-0001"));
     assertListSize(1, validator.validateExtension("19800131-0002"));
@@ -99,6 +99,6 @@ public class PersonnummerValidatorTest {
 
   private void assertListSize(int size, List<String> collection) {
     String validationMessage = Joiner.on(',').join(collection);
-    assertEquals(validationMessage, size, collection.size());
+    assertEquals(size, collection.size(), validationMessage);
   }
 }

@@ -18,22 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import iso.v21090.dt.v1.II;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
 
-public class PatientValidatorTest {
+class PatientValidatorTest {
 
   private PatientType patient;
   private II patientId;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     patient = new PatientType();
     patientId = new II();
     patientId.setRoot("1.2.752.129.2.1.3.1");
@@ -43,19 +43,19 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void testNullPatient() {
+  void testNullPatient() {
     patient = null;
     assertTrue(validatePatient().contains("No Patient element found!"));
   }
 
   @Test
-  public void testNullPatientId() {
+  void testNullPatientId() {
     patient.setPersonId(null);
     assertTrue(validatePatient().contains("No Patient Id found!"));
   }
 
   @Test
-  public void testEmtpyPatientIdRoot() {
+  void testEmtpyPatientIdRoot() {
     patientId.setRoot(null);
     assertTrue(
         validatePatient()
@@ -68,7 +68,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void testIncorrectPatientIdRoot() {
+  void testIncorrectPatientIdRoot() {
     patientId.setRoot("incorrect");
     assertTrue(
         validatePatient()
@@ -77,13 +77,13 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void testEmtpyPatientIdExtension() {
+  void testEmtpyPatientIdExtension() {
     patientId.setExtension(null);
     assertTrue(validatePatient().contains("No Patient Id found!"));
   }
 
   @Test
-  public void testInvalidPatientIdExtension() {
+  void testInvalidPatientIdExtension() {
     patientId.setExtension("19121212-121X");
     assertTrue(
         validatePatient()
@@ -92,7 +92,7 @@ public class PatientValidatorTest {
   }
 
   @Test
-  public void testDashInPatientIdExtensionIsCorrected() {
+  void testDashInPatientIdExtensionIsCorrected() {
     patientId.setExtension("191212121212");
     assertTrue(validatePatient().isEmpty());
     assertEquals("19121212-1212", patientId.getExtension());

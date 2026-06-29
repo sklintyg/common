@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import iso.v21090.dt.v1.CD;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.Optional;
 import javax.xml.transform.stream.StreamSource;
@@ -98,7 +98,7 @@ class RegisterMedicalCertificateResponderImplTest {
                 new StreamSource(file.getInputStream()), RegisterMedicalCertificateType.class);
     request = registerMedicalCertificate.getValue();
 
-    xml = Resources.toString(file.getURL(), Charsets.UTF_8);
+    xml = Resources.toString(file.getURL(), StandardCharsets.UTF_8);
     utlatande = TransportToInternal.convert(request.getLakarutlatande());
     certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
     certificateHolder.setOriginalCertificate(xml);

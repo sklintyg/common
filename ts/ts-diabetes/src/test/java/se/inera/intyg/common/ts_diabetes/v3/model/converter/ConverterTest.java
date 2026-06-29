@@ -18,14 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.AbstractSVRLMessage;
 import com.helger.schematron.svrl.SVRLHelper;
@@ -35,19 +33,18 @@ import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -63,21 +60,22 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Obje
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import tools.jackson.databind.ObjectMapper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {BefattningService.class})
-public class ConverterTest {
+class ConverterTest {
 
   @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
-  private ObjectMapper objectMapper = new CustomObjectMapper();
+  private final ObjectMapper objectMapper = new CustomObjectMapper();
 
   public ConverterTest() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -94,9 +92,10 @@ public class ConverterTest {
   }
 
   @Test
-  public void doSchematronValidationTsDiabetesV3() throws Exception {
+  void doSchematronValidationTsDiabetesV3() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v3/transport/scenarios/pass-complete.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -105,16 +104,18 @@ public class ConverterTest {
         new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void outputJsonFromXml() throws Exception {
+  void outputJsonFromXml() throws Exception {
 
     String xmlContents =
-        Resources.toString(getResource("v3/transport/scenarios/pass-complete.xml"), Charsets.UTF_8);
+        Resources.toString(
+            getResource("v3/transport/scenarios/pass-complete.xml"), StandardCharsets.UTF_8);
     RegisterCertificateType transport =
         JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
 
@@ -130,8 +131,9 @@ public class ConverterTest {
         new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
-    assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
+            new StreamSource(
+                new ByteArrayInputStream(convertedXML.getBytes(StandardCharsets.UTF_8))));
+    assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size(), getErrorString(result));
 
     // Why not validate internal model as well?
     internalValidator.validateDraft(utlatandeFromJson);
@@ -141,7 +143,7 @@ public class ConverterTest {
     StringBuilder errorMsg = new StringBuilder();
     SVRLHelper.getAllFailedAssertions(result).stream()
         .map(AbstractSVRLMessage::getText)
-        .collect(Collectors.toList())
+        .toList()
         .forEach(errorMsg::append);
     return errorMsg.toString();
   }
@@ -150,8 +152,7 @@ public class ConverterTest {
     return Thread.currentThread().getContextClassLoader().getResource(href);
   }
 
-  private String getXmlFromModel(RegisterCertificateType transport)
-      throws IOException, JAXBException {
+  private String getXmlFromModel(RegisterCertificateType transport) throws JAXBException {
     StringWriter sw = new StringWriter();
     JAXBContext jaxbContext =
         JAXBContext.newInstance(

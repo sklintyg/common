@@ -19,28 +19,28 @@
 package se.inera.intyg.common.db.v1.validator;
 
 import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.db.v1.rest.DbModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator(DbModuleApiV1.SCHEMATRON_FILE);
 
   @Test
-  public void validXmlPassesTest() throws Exception {
-    String inputXml = Resources.toString(getResource("v1/db.xml"), Charsets.UTF_8);
+  void validXmlPassesTest() throws Exception {
+    String inputXml = Resources.toString(getResource("v1/db.xml"), StandardCharsets.UTF_8);
     ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
     assertTrue(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
-        response.getValidationErrors().isEmpty());
+        response.getValidationErrors().isEmpty(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 }

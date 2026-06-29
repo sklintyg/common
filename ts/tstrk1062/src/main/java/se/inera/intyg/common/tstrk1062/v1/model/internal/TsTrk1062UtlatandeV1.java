@@ -35,7 +35,6 @@ import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Consta
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.TEXT_VERSION_JSON_ID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import jakarta.annotation.Nullable;
@@ -43,6 +42,7 @@ import java.util.List;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsTrk1062UtlatandeV1.Builder.class)

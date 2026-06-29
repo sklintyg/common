@@ -18,24 +18,24 @@
  */
 package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.StatusType;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 
-public class ModelConverterTest {
+class ModelConverterTest {
 
   @Test
-  public void testToCertificateMetaType() {
+  void testToCertificateMetaType() {
     String certificateId = "certificateId";
     String certificateType = "certificateType";
     String validFromDate = "2016-10-11";
@@ -75,7 +75,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDateMissing() {
+  void testToCertificateMetaTypeDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -95,7 +95,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeDeleted() {
+  void testToCertificateMetaTypeDeleted() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",
@@ -115,7 +115,7 @@ public class ModelConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaTypeSignedDateMissing() {
+  void testToCertificateMetaTypeSignedDateMissing() {
     CertificateHolder source =
         buildCertificateHolder(
             "certificateId",

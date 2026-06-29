@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioFinder;
@@ -32,24 +32,24 @@ import se.inera.intyg.common.lisjp.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.lisjp.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalValidatorTest {
 
   @Spy private ValidatorUtilFK validatorUtil = new ValidatorUtilFK();
 
   @InjectMocks private InternalDraftValidatorImpl internalValidator;
 
   @Test
-  public void test() throws ScenarioNotFoundException {
+  void test() throws ScenarioNotFoundException {
     final int numErrors = 3;
     LisjpUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("sjukskrivningOverlappandePerioder").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
         internalValidator.validateDraft(utlatandeFromJson);
     assertEquals(
-        String.format("Expected %s validation errors", numErrors),
         numErrors,
-        getNumberOfInternalValidationErrors(internalValidationResponse));
+        getNumberOfInternalValidationErrors(internalValidationResponse),
+        String.format("Expected %s validation errors", numErrors));
   }
 
   private static int getNumberOfInternalValidationErrors(

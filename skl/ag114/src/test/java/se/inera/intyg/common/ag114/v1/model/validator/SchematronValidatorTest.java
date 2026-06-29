@@ -18,19 +18,19 @@
  */
 package se.inera.intyg.common.ag114.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.io.Resources;
 import com.helger.base.debug.GlobalDebug;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
-public class SchematronValidatorTest {
+class SchematronValidatorTest {
 
   private static final RegisterCertificateValidator VALIDATOR =
       new RegisterCertificateValidator("ag114.v1.sch");
@@ -45,7 +45,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void validXmlPassesTest() throws Exception {
+  void validXmlPassesTest() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/pass-minimal.xml"), StandardCharsets.UTF_8);
@@ -54,7 +54,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnInvalidSjukskrivningsgrad() throws Exception {
+  void failsOnInvalidSjukskrivningsgrad() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"),
@@ -70,7 +70,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnInvalidSjukskrivningsPeriod() throws Exception {
+  void failsOnInvalidSjukskrivningsPeriod() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsperiod.xml"),
@@ -85,7 +85,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingArbetsformaga() throws Exception {
+  void failsOnMissingArbetsformaga() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-arbetsformaga.xml"),
@@ -101,7 +101,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingDiagnoses() throws Exception {
+  void failsOnMissingDiagnoses() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-diagnoser.xml"),
@@ -117,7 +117,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingDiagnosBeskrivning() throws Exception {
+  void failsOnMissingDiagnosBeskrivning() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-diagnos1.xml"),
@@ -128,7 +128,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingOnskarFormedlaDiagnos() throws Exception {
+  void failsOnMissingOnskarFormedlaDiagnos() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-diagnosformedling.xml"),
@@ -143,7 +143,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
+  void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"),
@@ -158,7 +158,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingKontaktanledning() throws Exception {
+  void failsOnMissingKontaktanledning() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"),
@@ -174,7 +174,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingNuvarandeArbete() throws Exception {
+  void failsOnMissingNuvarandeArbete() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-nuvarandearbete.xml"),
@@ -185,7 +185,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
+  void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
     String inputXml =
         Resources.toString(
             getResource(
@@ -202,7 +202,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingSjukskrivningsgrad() throws Exception {
+  void failsOnMissingSjukskrivningsgrad() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"),
@@ -218,7 +218,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingSjukskrivningsperiod() throws Exception {
+  void failsOnMissingSjukskrivningsperiod() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"),
@@ -234,7 +234,7 @@ public class SchematronValidatorTest {
   }
 
   @Test
-  public void failsOnMissingSysselsattning() throws Exception {
+  void failsOnMissingSysselsattning() throws Exception {
     String inputXml =
         Resources.toString(
             getResource("v1/transport/scenarios/fail-missing-sysselsattning.xml"),

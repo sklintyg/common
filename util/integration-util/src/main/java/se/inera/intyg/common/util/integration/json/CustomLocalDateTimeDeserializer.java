@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.JsonTokenId;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,6 +25,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.core.JsonTokenId;
+import tools.jackson.databind.DatabindException;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
 
@@ -42,20 +41,19 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
   private static final long serialVersionUID = 1L;
 
   public CustomLocalDateTimeDeserializer() {
-    this(null);
+    super(LocalDateTime.class);
   }
 
   public CustomLocalDateTimeDeserializer(Class<?> vc) {
-    super(vc);
+    super(vc != null ? vc : LocalDateTime.class);
   }
 
   @Override
-  public LocalDateTime deserialize(JsonParser parser, DeserializationContext context)
-      throws IOException {
+  public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) {
 
     if (parser.hasTokenId(JsonTokenId.ID_STRING)) {
-      String string = parser.getText().trim();
-      if (string.length() == 0) {
+      String string = parser.getString().trim();
+      if (string.isEmpty()) {
         return null;
       }
 
@@ -68,7 +66,7 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
               return LocalDateTime.parse(string, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             }
           } else {
-            throw JsonMappingException.from(
+            throw DatabindException.from(
                 parser, String.format("Failed to deserialize %s as LocalDateTime", string));
           }
         } else {
@@ -95,7 +93,7 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
         if (parser.nextToken() != JsonToken.END_ARRAY) {
           int partialSecond = parser.getIntValue();
           if (partialSecond < MAX_MILLIS
-              && !context.isEnabled(DeserializationFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)) {
+              && !context.isEnabled(DateTimeFeature.READ_DATE_TIMESTAMPS_AS_NANOSECONDS)) {
             partialSecond *= MILLI_TO_NANO; // value is milliseconds, convert it to nanoseconds
           }
 
@@ -118,14 +116,14 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
 
   private void rethrowDateTimeException(
       JsonParser p, DeserializationContext context, DateTimeException e0, String value)
-      throws JsonMappingException {
-    JsonMappingException e;
+      throws DatabindException {
+    DatabindException e;
     if (e0 instanceof DateTimeParseException) {
       e = context.weirdStringException(value, handledType(), e0.getMessage());
       e.initCause(e0);
     } else {
       e =
-          JsonMappingException.from(
+          DatabindException.from(
               p,
               String.format(
                   "Failed to deserialize %s: (%s) %s",

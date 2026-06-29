@@ -35,12 +35,12 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import jakarta.annotation.Nullable;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 // CHECKSTYLE:ON LineLength
 

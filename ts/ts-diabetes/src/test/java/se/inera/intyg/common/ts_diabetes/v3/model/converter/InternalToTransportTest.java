@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -120,7 +120,7 @@ class InternalToTransportTest {
     RegisterCertificateType transport = InternalToTransport.convert(expected);
     TsDiabetesUtlatandeV3 actual = TransportToInternal.convert(transport.getIntyg());
 
-    Assert.assertEquals(expected, actual);
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test

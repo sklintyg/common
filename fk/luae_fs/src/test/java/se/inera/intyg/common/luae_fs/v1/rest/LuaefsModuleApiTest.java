@@ -48,13 +48,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDIC
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPFactory;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -124,6 +123,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(classes = {BefattningService.class})
@@ -188,7 +189,8 @@ class LuaefsModuleApiTest {
         .thenReturn(createReturnVal(ResultCodeType.OK));
     try {
       String xmlContents =
-          Resources.toString(Resources.getResource("v1/luae_fs-simple-valid.xml"), Charsets.UTF_8);
+          Resources.toString(
+              Resources.getResource("v1/luae_fs-simple-valid.xml"), StandardCharsets.UTF_8);
       moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
       verify(registerCertificateResponderInterface, times(1))
@@ -209,7 +211,8 @@ class LuaefsModuleApiTest {
   @Test
   void testSendCertificateToRecipientFailsForNonOkResponse() throws IOException {
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/luae_fs-simple-valid.xml"), Charsets.UTF_8);
+        Resources.toString(
+            Resources.getResource("v1/luae_fs-simple-valid.xml"), StandardCharsets.UTF_8);
     when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
         .thenReturn(createReturnVal(ResultCodeType.ERROR));
     assertThrows(
@@ -248,7 +251,7 @@ class LuaefsModuleApiTest {
     final var json =
         Resources.toString(
             new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     final var utlatande = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(json);
     when(objectMapper.readValue(json, LuaefsUtlatandeV1.class)).thenReturn(utlatande);
@@ -353,7 +356,7 @@ class LuaefsModuleApiTest {
     final var json =
         Resources.toString(
             new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
     assertThrows(
         ExternalServiceCallException.class,
         () -> moduleApi.registerCertificate(json, LOGICAL_ADDRESS));
@@ -365,7 +368,7 @@ class LuaefsModuleApiTest {
     final var json =
         Resources.toString(
             new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(),
-            Charsets.UTF_8);
+            StandardCharsets.UTF_8);
 
     final var utlatandeBeforeSave = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(json);
     assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
@@ -383,7 +386,7 @@ class LuaefsModuleApiTest {
   void testRevokeCertificate() throws Exception {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.okResult());
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -395,7 +398,7 @@ class LuaefsModuleApiTest {
   void testRevokeCertificateThrowsExternalServiceCallException() throws IOException {
     final var logicalAddress = "logicalAddress";
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
+        Resources.toString(Resources.getResource("v1/revokerequest.xml"), StandardCharsets.UTF_8);
     final var returnVal = new RevokeCertificateResponseType();
     returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
     when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
@@ -659,7 +662,7 @@ class LuaefsModuleApiTest {
   private String toJsonString(LuaefsUtlatandeV1 utlatande) throws ModuleException {
     try {
       return objectMapper.writeValueAsString(utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
   }
@@ -668,7 +671,8 @@ class LuaefsModuleApiTest {
       throws IOException, ModuleException {
     final var response = new GetCertificateResponseType();
     final var xmlContents =
-        Resources.toString(Resources.getResource("v1/luae_fs-simple-valid.xml"), Charsets.UTF_8);
+        Resources.toString(
+            Resources.getResource("v1/luae_fs-simple-valid.xml"), StandardCharsets.UTF_8);
     final var utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
     final var intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
     intyg.getStatus().add(createStatus(statusKod.name()));

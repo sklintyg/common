@@ -18,20 +18,20 @@
  */
 package se.inera.intyg.common.support.xml;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
-public class XmlMarshallerHelperTest {
+class XmlMarshallerHelperTest {
 
   @Test
-  public void marshalTest() {
+  void marshalTest() {
 
     JAXBElement<RegisterCertificateType> e1 = new ObjectFactory().createRegisterCertificate(bean());
     String xml1 = XmlMarshallerHelper.marshal(e1);

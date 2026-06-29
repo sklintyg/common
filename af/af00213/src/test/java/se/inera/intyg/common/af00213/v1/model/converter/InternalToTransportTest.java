@@ -18,28 +18,28 @@
  */
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 import com.helger.schematron.svrl.jaxb.SchematronOutputType;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import javax.xml.transform.stream.StreamSource;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af00213.v1.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.af_parent.model.converter.RegisterCertificateTestValidator;
@@ -57,7 +57,7 @@ import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(
     classes = {
       BefattningService.class,
@@ -65,7 +65,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private static URL getResource(String href) {
     return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -108,8 +108,8 @@ public class InternalToTransportTest {
     return utlatande.build();
   }
 
-  @BeforeClass
-  public static void setUp() {
+  @BeforeAll
+  static void setUp() {
     final var mapper = mock(UnitMapperUtil.class);
 
     when(mapper.getMappedUnit(any(), any(), any(), any(), any()))
@@ -142,9 +142,9 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationAf00213() throws Exception {
+  void doSchematronValidationAf00213() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/af00213.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -153,13 +153,14 @@ public class InternalToTransportTest {
         new RegisterCertificateValidator(Af00213ModuleApiV1.SCHEMATRON_FILE);
     SchematronOutputType result =
         validator.validateSchematron(
-            new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            new StreamSource(
+                new ByteArrayInputStream(xmlContents.getBytes(StandardCharsets.UTF_8))));
 
     assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Af00213UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected);
     Af00213UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -167,13 +168,13 @@ public class InternalToTransportTest {
     assertEquals(expected, actual);
   }
 
-  @Test(expected = ConverterException.class)
-  public void testInternalToTransportSourceNull() throws Exception {
-    InternalToTransport.convert(null);
+  @Test
+  void testInternalToTransportSourceNull() {
+    assertThrows(ConverterException.class, () -> InternalToTransport.convert(null));
   }
 
   @Test
-  public void convertDecorateSvarPaTest() throws Exception {
+  void convertDecorateSvarPaTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     final String referensId = "referensId";
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
@@ -184,7 +185,7 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+  void convertDecorateSvarPaReferensIdNullTest() throws Exception {
     final String meddelandeId = "meddelandeId";
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
@@ -194,14 +195,14 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     Af00213UtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());
   }
 
   @Test
-  public void convertDecorateSvarPaNotKompltTest() throws Exception {
+  void convertDecorateSvarPaNotKompltTest() throws Exception {
     Af00213UtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
     RegisterCertificateType transport = InternalToTransport.convert(utlatande);
     assertNull(transport.getSvarPa());

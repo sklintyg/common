@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.AKTIVITETSBEGRANSNING_SVAR_17;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37;
 import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SVAR_10006;
@@ -78,13 +78,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 @ExtendWith({SpringExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private static final String PNR_TOLVAN = "19121212-1212";
   private static final String PNR_TOLVAN_EXPECTED = "191212121212";
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     final String intygsId = "intygsid";
     final String enhetsId = "enhetsid";
     final String enhetsnamn = "enhetsnamn";
@@ -176,7 +176,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithRelation() {
+  void testConvertWithRelation() {
     RelationKod relationKod = RelationKod.FRLANG;
     String relationIntygsId = "relationIntygsId";
     Fk7263Utlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -191,7 +191,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testSvar() {
+  void testSvar() {
 
     Fk7263Utlatande utlatande = buildFullUtlatande();
 
@@ -503,7 +503,7 @@ public class UtlatandeToIntygTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void testAddBehovAvSjukskrivningSvar() {
+  void testAddBehovAvSjukskrivningSvar() {
     InternalDate from25 = new InternalDate("2015-01-01");
     InternalDate to25 = new InternalDate("2015-01-02");
     InternalDate from50 = new InternalDate("2015-01-03");

@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
@@ -49,14 +49,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String PNR_TOLVAN = "191212121212";
 
   @Mock private WebcertModuleService webcertModuleService;
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     final String intygsId = "intygsid";
     final String textVersion = "textversion";
     final String enhetsId = "enhetsid";
@@ -150,7 +150,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertWithRelation() {
+  void testConvertWithRelation() {
     RelationKod relationKod = RelationKod.FRLANG;
     String relationIntygsId = "relationIntygsId";
     Ag7804UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);

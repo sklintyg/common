@@ -18,21 +18,21 @@
  */
 package se.inera.intyg.common.services.texts.repo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RepoTestConfig.class})
-public class IntygTextsRepositoryImplTest {
+class IntygTextsRepositoryImplTest {
 
   private static final String DEFAULT_INTYGSTYP = "test";
   private static final String DEFAULT_VERSION = "1.0";
@@ -40,7 +40,7 @@ public class IntygTextsRepositoryImplTest {
   @Autowired private IntygTextsRepositoryImpl repo;
 
   @Test
-  public void testGetLatestVersion() {
+  void testGetLatestVersion() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -51,18 +51,18 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals("should return max version", "1.1.0.1", result);
+    assertEquals("1.1.0.1", result, "should return max version");
   }
 
   @Test
-  public void testGetLatestVersionNull() {
+  void testGetLatestVersionNull() {
     repo.intygTexts = new HashSet<>();
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals("should return null", null, result);
+    assertEquals(null, result, "should return null");
   }
 
   @Test
-  public void testGetLatestVersionValidFromFilter() {
+  void testGetLatestVersionValidFromFilter() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -89,11 +89,11 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals("should return max version", "1.1", result);
+    assertEquals("1.1", result, "should return max version");
   }
 
   @Test
-  public void testGetLatestVersionWithingMajorVersion() {
+  void testGetLatestVersionWithingMajorVersion() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -143,7 +143,7 @@ public class IntygTextsRepositoryImplTest {
   }
 
   @Test
-  public void testGetLatestVersionTypeFilter() {
+  void testGetLatestVersionTypeFilter() {
     repo.intygTexts =
         new HashSet<IntygTexts>() {
           {
@@ -155,11 +155,11 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     String result = repo.getLatestVersion(DEFAULT_INTYGSTYP);
-    assertEquals("should return max version", "1.1", result);
+    assertEquals("1.1", result, "should return max version");
   }
 
   @Test
-  public void testGetTextsSuccessful() {
+  void testGetTextsSuccessful() {
     IntygTexts testData =
         new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
     repo.intygTexts =
@@ -169,13 +169,13 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     assertEquals(
-        "should return the IntygText in set",
         testData,
-        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION),
+        "should return the IntygText in set");
   }
 
   @Test
-  public void testGetTextsZeroPaddingDoesntMatter() {
+  void testGetTextsZeroPaddingDoesntMatter() {
     IntygTexts testData =
         new IntygTexts(DEFAULT_VERSION, DEFAULT_INTYGSTYP, null, null, null, null, null);
     repo.intygTexts =
@@ -185,19 +185,19 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     assertEquals(
-        "should return the IntygText in set", testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"));
+        testData, repo.getTexts(DEFAULT_INTYGSTYP, "01.000"), "should return the IntygText in set");
   }
 
   @Test
-  public void testGetTextsNull() {
+  void testGetTextsNull() {
     repo.intygTexts = new HashSet<>();
     assertNull(
-        "if no version of specified type exists it should return null",
-        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION),
+        "if no version of specified type exists it should return null");
   }
 
   @Test
-  public void testGetTextsNotCareAboutValidFrom() {
+  void testGetTextsNotCareAboutValidFrom() {
     IntygTexts testData =
         new IntygTexts(
             DEFAULT_VERSION,
@@ -214,8 +214,8 @@ public class IntygTextsRepositoryImplTest {
           }
         };
     assertEquals(
-        "should return the IntygText in set",
         testData,
-        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION));
+        repo.getTexts(DEFAULT_INTYGSTYP, DEFAULT_VERSION),
+        "should return the IntygText in set");
   }
 }

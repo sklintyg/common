@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.ImmutableList;
 import java.time.LocalDateTime;
@@ -30,10 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
@@ -42,8 +43,8 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
 /** Created by marced on 2016-10-25. */
-@RunWith(MockitoJUnitRunner.class)
-public class FkBasePdfDefinitionBuilderTest {
+@ExtendWith(MockitoExtension.class)
+class FkBasePdfDefinitionBuilderTest {
 
   private static final String KEY_MISSING_TEXT = "missingtext";
   private static final String KEY_TEXT_FOUND_BASE = "textfound";
@@ -51,9 +52,9 @@ public class FkBasePdfDefinitionBuilderTest {
 
   private static final String FKASSA_RECIPIENT_ID = "FKASSA";
 
-  private IntygTexts intygTexts = getIntygTexts();
+  private final IntygTexts intygTexts = getIntygTexts();
 
-  private class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
+  private static class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
 
     public FkBasePdfDefinitionBuilderForTest(IntygTexts intygTexts) {
       this.intygTexts = intygTexts;
@@ -64,7 +65,7 @@ public class FkBasePdfDefinitionBuilderTest {
   private FkBasePdfDefinitionBuilder builder = new FkBasePdfDefinitionBuilderForTest(intygTexts);
 
   @Test
-  public void testIsSentToFk() throws Exception {
+  void testIsSentToFk() {
 
     assertFalse(builder.isSentToFk(null));
 
@@ -83,7 +84,7 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testIsMakulerad() throws Exception {
+  void testIsMakulerad() {
 
     assertFalse(builder.isMakulerad(null));
 
@@ -102,7 +103,7 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testNullSafeString() throws Exception {
+  void testNullSafeString() {
     InternalDate date = null;
     assertEquals("", builder.nullSafeString(date));
 
@@ -117,14 +118,14 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void buildTillagsfragorPageNull() {
+  void buildTillagsfragorPageNull() {
     FkPage page = builder.buildTillagsfragorPage(null);
 
     assertNull(page);
   }
 
   @Test
-  public void buildTillagsfragorPageEmptyList() {
+  void buildTillagsfragorPageEmptyList() {
     ImmutableList<Tillaggsfraga> tillaggsfragas = ImmutableList.of();
     FkPage page = builder.buildTillagsfragorPage(tillaggsfragas);
 
@@ -132,7 +133,7 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void buildTillagsfragorPageMissingText() {
+  void buildTillagsfragorPageMissingText() {
 
     Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_MISSING_TEXT, "");
 
@@ -143,7 +144,7 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void buildTillagsfragorPage() {
+  void buildTillagsfragorPage() {
 
     Tillaggsfraga tillaggsfraga = Tillaggsfraga.create(KEY_TEXT_FOUND_BASE, "svar");
 
@@ -154,19 +155,19 @@ public class FkBasePdfDefinitionBuilderTest {
   }
 
   @Test
-  public void testGetText() {
+  void testGetText() {
     String text = builder.getText(KEY_TEXT_FOUND);
 
     assertEquals("text", text);
   }
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetTextMissingText() throws Exception {
-    builder.getText(KEY_MISSING_TEXT);
+  @Test
+  void testGetTextMissingText() {
+    assertThrows(IllegalArgumentException.class, () -> builder.getText(KEY_MISSING_TEXT));
   }
 
   @Test
-  public void testGetTextMissingAllowed() {
+  void testGetTextMissingAllowed() {
     String text = builder.getText(KEY_MISSING_TEXT, true);
 
     assertNull(text);

@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.doi.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_SVAR_ID;
@@ -94,7 +94,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @ExtendWith({SpringExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class UtlatandeToIntygTest {
+class UtlatandeToIntygTest {
 
   private final String intygsId = "intygsid";
   private final String textVersion = "textversion";
@@ -149,7 +149,7 @@ public class UtlatandeToIntygTest {
   private final String land = "land";
 
   @Test
-  public void testConvert() throws Exception {
+  void testConvert() throws Exception {
     DoiUtlatandeV1 utlatande = createBaseUtlatande();
 
     Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -353,7 +353,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void testConvertOsakertDodsdatum() throws Exception {
+  void testConvertOsakertDodsdatum() throws Exception {
     InternalDate zeroFilledDodsdatum = new InternalDate("2017-01-00");
 
     DoiUtlatandeV1 utlatande =
@@ -430,7 +430,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void shouldTruncatePatientPostalAddressIfLongerThanFiftyChars() {
+  void shouldTruncatePatientPostalAddressIfLongerThanFiftyChars() {
     final var patientPostalAddressOf51 = "This test address consists of exactly 51 characters";
 
     DoiUtlatandeV1 utlatande = createBaseUtlatande();
@@ -442,7 +442,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void shouldNotTruncatePatientPostalAddressIsFiftyChars() {
+  void shouldNotTruncatePatientPostalAddressIsFiftyChars() {
     final var patientPostalAddressOf50 = "This testaddress consists of exactly 50 characters";
 
     DoiUtlatandeV1 utlatande = createBaseUtlatande();
@@ -454,7 +454,7 @@ public class UtlatandeToIntygTest {
   }
 
   @Test
-  public void shouldNotTruncatePatientPostalAddressIfShorterThanFiftyChars() {
+  void shouldNotTruncatePatientPostalAddressIfShorterThanFiftyChars() {
     final var patientPostalAddressOf49 = "This test address consists of only 049 characters";
 
     DoiUtlatandeV1 utlatande = createBaseUtlatande();

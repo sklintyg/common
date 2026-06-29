@@ -19,16 +19,16 @@
 package se.inera.intyg.common.af00251.v1.model.validator;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
@@ -38,8 +38,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalValidatorTest {
 
   private static final String DOT = ".";
   private static final String FIRST_ELEMENT_IN_ARRAY = "[0]";
@@ -51,7 +51,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
+  void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -65,7 +65,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testArbetsMarknadsPolitisktProgramSaknas() throws ScenarioNotFoundException {
+  void testArbetsMarknadsPolitisktProgramSaknas() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-arbetsMarknadsPolititisktProgramSaknas")
             .asInternalModel();
@@ -80,7 +80,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
+  void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -89,7 +89,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
+  void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-begransningSjukfranvaroSaknas").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -98,20 +98,20 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testMedicinsktUnderlagSaknas() throws ScenarioNotFoundException {
+  void testMedicinsktUnderlagSaknas() throws ScenarioNotFoundException {
     final int numErrors = 1;
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-medicinsktUnderlagSaknas").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
         internalValidator.validateDraft(utlatandeFromJson);
     assertEquals(
-        String.format("Expected %s validation errors", numErrors),
         numErrors,
-        getNumberOfInternalValidationErrors(internalValidationResponse));
+        getNumberOfInternalValidationErrors(internalValidationResponse),
+        String.format("Expected %s validation errors", numErrors));
   }
 
   @Test
-  public void testOmfattningDeltidSaknas() throws ScenarioNotFoundException {
+  void testOmfattningDeltidSaknas() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-omfattningDeltidSaknas").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -128,7 +128,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testOmfattningDeltid0() throws ScenarioNotFoundException {
+  void testOmfattningDeltid0() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-omfattningDeltid0").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -145,7 +145,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testOmfattningDeltid40() throws ScenarioNotFoundException {
+  void testOmfattningDeltid40() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-omfattningDeltid40").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -162,7 +162,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testSjukfranvaroniva0() throws ScenarioNotFoundException {
+  void testSjukfranvaroniva0() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-sjukfranvaroniva0").asInternalModel();
     ValidateDraftResponse internalValidationResponse =
@@ -180,7 +180,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testSjukfranvaroniva101() throws ScenarioNotFoundException {
+  void testSjukfranvaroniva101() throws ScenarioNotFoundException {
     AF00251UtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-sjukfranvaroniva101").asInternalModel();
     ValidateDraftResponse internalValidationResponse =

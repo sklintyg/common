@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.lisjp.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -30,13 +30,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -62,8 +63,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalDraftValidatorTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class InternalDraftValidatorTest {
 
   @InjectMocks InternalDraftValidatorImpl validator;
 
@@ -73,28 +75,27 @@ public class InternalDraftValidatorTest {
 
   @Mock WebcertModuleService moduleService;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  void setUp() throws Exception {
     builderTemplate =
         LisjpUtlatandeV1.builder()
             .setId("intygsId")
             .setGrundData(buildGrundData(LocalDateTime.now()))
             .setUndersokningAvPatienten(new InternalDate(LocalDate.now()))
-            .setSysselsattning(
-                Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
             .setDiagnoser(buildDiagnoser("J22"))
             .setFunktionsnedsattning("funktionsnedsattning")
             .setAktivitetsbegransning("aktivitetsbegransning")
             .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null))
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(
                             new InternalDate(LocalDate.now()),
                             new InternalDate(LocalDate.now().plusDays(7))))))
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(
+                List.of(
                     ArbetslivsinriktadeAtgarder.create(
                         ArbetslivsinriktadeAtgarderVal.ARBETSTRANING)))
             .setArbetslivsinriktadeAtgarderBeskrivning(
@@ -111,7 +112,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateDraft() throws Exception {
+  void validateDraft() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -121,20 +122,20 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUMissing() throws Exception {
+  void validateGrundForMUMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setUndersokningAvPatienten(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
 
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("baseratPa", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUUndersokningAvPatienten() throws Exception {
+  void validateGrundForMUUndersokningAvPatienten() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setUndersokningAvPatienten(new InternalDate(LocalDate.now())).build();
 
@@ -144,7 +145,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUUndersokningAvPatientenInvalidDate() throws Exception {
+  void validateGrundForMUUndersokningAvPatientenInvalidDate() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setUndersokningAvPatienten(new InternalDate("invalid")).build();
 
@@ -152,13 +153,14 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
 
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("undersokningAvPatienten", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("undersokningAvPatienten", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUTelefonkontaktMedPatienten() throws Exception {
+  void validateGrundForMUTelefonkontaktMedPatienten() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now())).build();
 
@@ -168,7 +170,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUTelefonkontaktMedPatientenInvalidDate() throws Exception {
+  void validateGrundForMUTelefonkontaktMedPatientenInvalidDate() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setTelefonkontaktMedPatienten(new InternalDate("invalid")).build();
 
@@ -176,13 +178,14 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
 
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("telefonkontaktMedPatienten", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("telefonkontaktMedPatienten", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUJournaluppgifter() throws Exception {
+  void validateGrundForMUJournaluppgifter() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setJournaluppgifter(new InternalDate(LocalDate.now())).build();
 
@@ -192,7 +195,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUJournaluppgifterInvalidDate() throws Exception {
+  void validateGrundForMUJournaluppgifterInvalidDate() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setJournaluppgifter(new InternalDate("invalid")).build();
 
@@ -200,13 +203,14 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
 
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("journaluppgifter", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUAnnatGrundForMU() throws Exception {
+  void validateGrundForMUAnnatGrundForMU() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
@@ -219,7 +223,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateGrundForMUAnnatGrundForMUInvalidDate() throws Exception {
+  void validateGrundForMUAnnatGrundForMUInvalidDate() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMU(new InternalDate("invalid"))
@@ -230,26 +234,27 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
 
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("annatGrundForMU", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("annatGrundForMU", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUAnnatGrundForMUBeskrivingMissing() throws Exception {
+  void validateGrundForMUAnnatGrundForMUBeskrivingMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setAnnatGrundForMU(new InternalDate(LocalDate.now())).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUAnnatGrundForMUBeskrivingOnly() throws Exception {
+  void validateGrundForMUAnnatGrundForMUBeskrivingOnly() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setAnnatGrundForMUBeskrivning("annatGrundForMUBeskrivning").build();
 
@@ -258,12 +263,12 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateGrundForMUDatumIFramtidenWarning() throws Exception {
+  void validateGrundForMUDatumIFramtidenWarning() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
@@ -273,39 +278,38 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("common.validation.c-06", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
+    assertEquals("common.validation.c-06", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSysselsattningMissing() throws Exception {
+  void validateSysselsattningMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setSysselsattning(new ArrayList<>()).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("sysselsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSysselsattningTypMissing() throws Exception {
+  void validateSysselsattningTypMissing() {
     LisjpUtlatandeV1 utlatande =
-        builderTemplate.setSysselsattning(Arrays.asList(Sysselsattning.create(null))).build();
+        builderTemplate.setSysselsattning(List.of(Sysselsattning.create(null))).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("sysselsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("sysselsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSysselsattningNuvarandeArbete() throws Exception {
+  void validateSysselsattningNuvarandeArbete() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
-            .setSysselsattning(
-                Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
@@ -315,27 +319,25 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSysselsattningNuvarandeArbeteBeskrivingMissing() throws Exception {
+  void validateSysselsattningNuvarandeArbeteBeskrivingMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
-            .setSysselsattning(
-                Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE)))
             .build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("sysselsattning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("nuvarandeArbete", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("sysselsattning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("nuvarandeArbete", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSysselsattningNuvarandeArbeteBeskrivingOnly() throws Exception {
+  void validateSysselsattningNuvarandeArbeteBeskrivingOnly() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
-            .setSysselsattning(
-                Arrays.asList(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
+            .setSysselsattning(List.of(Sysselsattning.create(SysselsattningsTyp.ARBETSSOKANDE)))
             .setNuvarandeArbete("nuvarandeArbete")
             .build();
 
@@ -344,12 +346,12 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.sysselsattning.nuvarandearbete.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSysselsattningTooMany() throws Exception {
+  void validateSysselsattningTooMany() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSysselsattning(
@@ -366,23 +368,23 @@ public class InternalDraftValidatorTest {
 
     assertEquals(2, res.getValidationErrors().size());
     List<String> errorMessages =
-        res.getValidationErrors().stream().map(it -> it.getMessage()).collect(Collectors.toList());
+        res.getValidationErrors().stream().map(ValidationMessage::getMessage).toList();
 
     assertTrue(errorMessages.contains("lisjp.validation.sysselsattning.too-many"));
     assertTrue(errorMessages.contains("lisjp.validation.sysselsattning.invalid_combination"));
   }
 
   @Test
-  public void validateDiagnosis() throws Exception {
+  void validateDiagnosis() {
     LisjpUtlatandeV1 utlatande =
-        builderTemplate.setDiagnoser(Arrays.asList(Diagnos.create(null, null, null, null))).build();
+        builderTemplate.setDiagnoser(List.of(Diagnos.create(null, null, null, null))).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(2, res.getValidationErrors().size());
     assertEquals(
-        "common.validation.diagnos.codemissing", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "common.validation.diagnos.codemissing", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
     assertEquals(
         "common.validation.diagnos.description.missing",
         res.getValidationErrors().get(1).getMessage());
@@ -390,53 +392,53 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateFunktionsnedsattningMissing() throws Exception {
+  void validateFunktionsnedsattningMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateFunktionsnedsattningBlank() throws Exception {
+  void validateFunktionsnedsattningBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setFunktionsnedsattning(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAktivitetsbegransningMissing() throws Exception {
+  void validateAktivitetsbegransningMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAktivitetsbegransningBlank() throws Exception {
+  void validateAktivitetsbegransningBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setAktivitetsbegransning(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("funktionsnedsattning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("aktivitetsbegransning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningarEmpty() throws Exception {
+  void validateSjukskrivningarEmpty() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setSjukskrivningar(new ArrayList<>()).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -444,16 +446,16 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.missing",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningSjukskrivingsgradMissing() throws Exception {
+  void validateSjukskrivningSjukskrivingsgradMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         null,
                         new InternalLocalDateInterval(
@@ -466,12 +468,12 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.missing",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() throws Exception {
+  void validateSjukskrivningSjukskrivingsgradSameCodeNotAllowed() {
     InternalLocalDateInterval date1 =
         new InternalLocalDateInterval(
             new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now().plusDays(2)));
@@ -492,15 +494,15 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.sjukskrivningsgrad.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
+        res.getValidationErrors().getFirst().getMessage());
   }
 
   @Test
-  public void validateSjukskrivningPeriodMissing() throws Exception {
+  void validateSjukskrivningPeriodMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
+                List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, null)))
             .build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -508,12 +510,12 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.periodHELT_NEDSATT.missing",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningPeriodInvalidAvoidsNullpointer() throws Exception {
+  void validateSjukskrivningPeriodInvalidAvoidsNullpointer() {
     InternalLocalDateInterval intervalMissingTom =
         new InternalLocalDateInterval(new InternalDate(LocalDate.now()), new InternalDate());
     // work-around for constructor not allowing null values (but might exist in json)
@@ -521,25 +523,24 @@ public class InternalDraftValidatorTest {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
-                    Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
+                List.of(Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT, intervalMissingTom)))
             .build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningPeriodFromDateOutOfRange() throws Exception {
+  void validateSjukskrivningPeriodFromDateOutOfRange() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(
@@ -551,16 +552,17 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+        "common.validation.date_out_of_range", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningPeriodTomDateOutOfRange() throws Exception {
+  void validateSjukskrivningPeriodTomDateOutOfRange() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(
@@ -572,12 +574,13 @@ public class InternalDraftValidatorTest {
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "common.validation.date_out_of_range", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+        "common.validation.date_out_of_range", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningPeriodNoOverlap() throws Exception {
+  void validateSjukskrivningPeriodNoOverlap() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
@@ -601,7 +604,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() throws Exception {
+  void validateSjukskrivningPeriodOverlapHeltNedsattBeforeNedsattHalften() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
@@ -622,10 +625,11 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(2, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+        "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().getFirst().getType());
     assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
     assertEquals(
         "sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
@@ -633,7 +637,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() throws Exception {
+  void validateSjukskrivningPeriodOverlapHeltNedsattAfterNedsattHalften() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
@@ -654,17 +658,19 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(2, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+        "sjukskrivningar.period.HELT_NEDSATT.from",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().getFirst().getType());
     assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
     assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
     assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
   }
 
   @Test
-  public void validateSjukskrivningPeriodOverlapSameStartDate() throws Exception {
+  void validateSjukskrivningPeriodOverlapSameStartDate() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
@@ -685,10 +691,12 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(4, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
+        "sjukskrivningar.period.HELT_NEDSATT.from",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().getFirst().getType());
     assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
     assertEquals(
         "sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
@@ -703,11 +711,11 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningFalse() throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningFalse() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.NEDSATT_HALFTEN,
                         new InternalLocalDateInterval(
@@ -722,11 +730,11 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningTrue() throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningTrue() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.NEDSATT_HALFTEN,
                         new InternalLocalDateInterval(
@@ -742,11 +750,11 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningMissing() throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.NEDSATT_HALFTEN,
                         new InternalLocalDateInterval(
@@ -759,16 +767,16 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningMotiveringMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.NEDSATT_HALFTEN,
                         new InternalLocalDateInterval(
@@ -780,17 +788,18 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("arbetstidsforlaggningMotivering", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals(
+        "arbetstidsforlaggningMotivering", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningMotiveringOnly() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.NEDSATT_HALFTEN,
                         new InternalLocalDateInterval(
@@ -805,17 +814,16 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt()
-      throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningMotiveringWhenHeltNedsatt() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(
@@ -829,17 +837,16 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering()
-      throws Exception {
+  void validateSjukskrivningArbetstidsforlaggningWhenHeltNedsattWithoutMotivering() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setSjukskrivningar(
-                Arrays.asList(
+                List.of(
                     Sjukskrivning.create(
                         SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(
@@ -854,7 +861,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBedomningFMB() throws Exception {
+  void validateBedomningFMB() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setForsakringsmedicinsktBeslutsstod("forskningsmedicinsktBeslutsstod")
@@ -866,7 +873,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBedomningFMBNull() throws Exception {
+  void validateBedomningFMBNull() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setForsakringsmedicinsktBeslutsstod(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -875,43 +882,43 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBedomningFMBBlank() throws Exception {
+  void validateBedomningFMBBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setForsakringsmedicinsktBeslutsstod(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBedomningPrognosMissing() throws Exception {
+  void validateBedomningPrognosMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setPrognos(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("prognos", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("prognos", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBedomningPrognosTypMissing() throws Exception {
+  void validateBedomningPrognosTypMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setPrognos(Prognos.create(null, null)).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("prognos", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("prognos", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBedomningPrognosAterXAntalDagar() throws Exception {
+  void validateBedomningPrognosAterXAntalDagar() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setPrognos(
@@ -924,21 +931,20 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateBedomningPrognosAterXAntalDagarPrognosDagarTillArbeteMissing()
-      throws Exception {
+  void validateBedomningPrognosAterXAntalDagarPrognosDagarTillArbeteMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, null)).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
-    assertEquals("prognos.dagarTillArbete", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("bedomning", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("prognos.dagarTillArbete", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBedomningPrognosPrognosDagarTillArbeteOnly() throws Exception {
+  void validateBedomningPrognosPrognosDagarTillArbeteOnly() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setPrognos(
@@ -950,29 +956,29 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.bedomning.prognos.dagarTillArbete.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAtgarderMissing() throws Exception {
+  void validateAtgarderMissing() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate.setArbetslivsinriktadeAtgarder(new ArrayList<>()).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("atgarder", res.getValidationErrors().get(0).getCategory());
-    assertEquals("arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("atgarder", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("arbetslivsinriktadeAtgarder", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAtgarderInteAktuell() throws Exception {
+  void validateAtgarderInteAktuell() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(
+                List.of(
                     ArbetslivsinriktadeAtgarder.create(
                         ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning(null)
@@ -984,7 +990,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateAtgarderInteAktuellCombined() throws Exception {
+  void validateAtgarderInteAktuellCombined() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
@@ -1000,8 +1006,8 @@ public class InternalDraftValidatorTest {
     assertEquals(2, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.atgarder.inte_aktuellt_no_combine",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
     assertEquals(
         "lisjp.validation.atgarder.invalid_combination",
         res.getValidationErrors().get(1).getMessage());
@@ -1009,11 +1015,11 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateAtgarderInteAktuellBeskrivning() throws Exception {
+  void validateAtgarderInteAktuellBeskrivning() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(
+                List.of(
                     ArbetslivsinriktadeAtgarder.create(
                         ArbetslivsinriktadeAtgarderVal.INTE_AKTUELLT)))
             .setArbetslivsinriktadeAtgarderBeskrivning("beskrivning")
@@ -1024,16 +1030,16 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.atgarder.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateAtgarderAktuell() throws Exception {
+  void validateAtgarderAktuell() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
-                Arrays.asList(
+                List.of(
                     ArbetslivsinriktadeAtgarder.create(
                         ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)))
             .setArbetslivsinriktadeAtgarderBeskrivning("Beskrivning arbetsanpassning")
@@ -1045,7 +1051,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateAtgarderTooMany() throws Exception {
+  void validateAtgarderTooMany() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
@@ -1075,18 +1081,16 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     List<String> errors =
-        res.getValidationErrors().stream()
-            .map(ValidationMessage::getMessage)
-            .collect(Collectors.toList());
+        res.getValidationErrors().stream().map(ValidationMessage::getMessage).toList();
     assertEquals(2, res.getValidationErrors().size());
-    assertTrue("Expected too-many", errors.contains("lisjp.validation.atgarder.too-many"));
+    assertTrue(errors.contains("lisjp.validation.atgarder.too-many"), "Expected too-many");
     assertTrue(
-        "Expected invalid_combination",
-        errors.contains("lisjp.validation.atgarder.typ.invalid_combination"));
+        errors.contains("lisjp.validation.atgarder.typ.invalid_combination"),
+        "Expected invalid_combination");
   }
 
   @Test
-  public void validateAtgarderTypSameCodeNotAllowed() throws Exception {
+  void validateAtgarderTypSameCodeNotAllowed() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setArbetslivsinriktadeAtgarder(
@@ -1100,11 +1104,11 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.atgarder.typ.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
+        res.getValidationErrors().getFirst().getMessage());
   }
 
   @Test
-  public void validateKontaktNull() throws Exception {
+  void validateKontaktNull() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setKontaktMedFk(null).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1113,7 +1117,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontaktTrue() throws Exception {
+  void validateKontaktTrue() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setKontaktMedFk(true)
@@ -1126,7 +1130,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontaktTrueNoAnledning() throws Exception {
+  void validateKontaktTrueNoAnledning() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setKontaktMedFk(true).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1135,7 +1139,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontaktFalse() throws Exception {
+  void validateKontaktFalse() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setKontaktMedFk(false).build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1144,7 +1148,7 @@ public class InternalDraftValidatorTest {
   }
 
   @Test
-  public void validateKontaktFalseAndAnledning() throws Exception {
+  void validateKontaktFalseAndAnledning() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setKontaktMedFk(false)
@@ -1156,24 +1160,24 @@ public class InternalDraftValidatorTest {
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
         "lisjp.validation.kontakt.invalid_combination",
-        res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegAnledningTillKontakt() throws Exception {
+  void validateBlankstegAnledningTillKontakt() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setAnledningTillKontakt(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegAnnatGrundForMUBeskrivning() throws Exception {
+  void validateBlankstegAnnatGrundForMUBeskrivning() {
     LisjpUtlatandeV1 utlatande =
         builderTemplate
             .setAnnatGrundForMU(new InternalDate(LocalDate.now()))
@@ -1183,174 +1187,177 @@ public class InternalDraftValidatorTest {
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(2, res.getValidationErrors().size());
-    assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
-    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    assertEquals("grundformu", res.getValidationErrors().getFirst().getCategory());
+    assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
     assertEquals(
         "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(1).getMessage());
     assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
   }
 
   @Test
-  public void validateBlankstegPagaendeBehandling() throws Exception {
+  void validateBlankstegPagaendeBehandling() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setPagaendeBehandling(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegPlaneradBehandling() throws Exception {
+  void validateBlankstegPlaneradBehandling() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setPlaneradBehandling(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateBlankstegOvrigt() throws Exception {
+  void validateBlankstegOvrigt() {
     LisjpUtlatandeV1 utlatande = builderTemplate.setOvrigt(" ").build();
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
     assertEquals(
-        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "lisjp.validation.blanksteg.otillatet", res.getValidationErrors().getFirst().getMessage());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostadressMissing() throws Exception {
+  void validateEnhetPostadressMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostadressBlank() throws Exception {
+  void validateEnhetPostadressBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostadress(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerMissing() throws Exception {
+  void validateEnhetPostnummerMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerBlank() throws Exception {
+  void validateEnhetPostnummerBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostnummerInvalid() throws Exception {
+  void validateEnhetPostnummerInvalid() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostnummer("invalid");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().getFirst().getField());
+    assertEquals(
+        ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostortMissing() throws Exception {
+  void validateEnhetPostortMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetPostortBlank() throws Exception {
+  void validateEnhetPostortBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setPostort(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetTelefonnummerMissing() throws Exception {
+  void validateEnhetTelefonnummerMissing() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(null);
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.telefonnummer",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   @Test
-  public void validateEnhetTelefonnummerBlank() throws Exception {
+  void validateEnhetTelefonnummerBlank() {
     LisjpUtlatandeV1 utlatande = builderTemplate.build();
     utlatande.getGrundData().getSkapadAv().getVardenhet().setTelefonnummer(" ");
 
     ValidateDraftResponse res = validator.validateDraft(utlatande);
 
     assertEquals(1, res.getValidationErrors().size());
-    assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+    assertEquals("vardenhet", res.getValidationErrors().getFirst().getCategory());
     assertEquals(
-        "grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
-    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        "grunddata.skapadAv.vardenhet.telefonnummer",
+        res.getValidationErrors().getFirst().getField());
+    assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().getFirst().getType());
   }
 
   private List<Diagnos> buildDiagnoser(String... diagnosKoder) {
@@ -1383,7 +1390,7 @@ public class InternalDraftValidatorTest {
     skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
     Patient patient = new Patient();
-    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+    patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").orElseThrow());
     patient.setPostadress("postadress");
     patient.setPostnummer("11111");
     patient.setPostort("postort");

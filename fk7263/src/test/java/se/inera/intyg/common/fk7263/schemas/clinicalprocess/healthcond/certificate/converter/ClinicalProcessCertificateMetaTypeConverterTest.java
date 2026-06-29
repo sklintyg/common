@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import se.inera.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.StatusType;
 import se.inera.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
@@ -35,10 +35,10 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 
-public class ClinicalProcessCertificateMetaTypeConverterTest {
+class ClinicalProcessCertificateMetaTypeConverterTest {
 
   @Test
-  public void testToCertificateMetaData() {
+  void testToCertificateMetaData() {
     final String certificateId = "certificateId";
     final String certificateType = "certificateType";
     final LocalDate validFrom = LocalDate.now().minusDays(2);
@@ -76,7 +76,7 @@ public class ClinicalProcessCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToCertificateMetaDataAvailableFalse() {
+  void testToCertificateMetaDataAvailableFalse() {
     CertificateMetaType source = new CertificateMetaType();
     source.setAvailable("false");
     CertificateMetaData res =
@@ -88,7 +88,7 @@ public class ClinicalProcessCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatusList() {
+  void testToStatusList() {
     final String target1 = "target1";
     final String target2 = "target2";
     final String target3 = "target3";
@@ -115,7 +115,7 @@ public class ClinicalProcessCertificateMetaTypeConverterTest {
   }
 
   @Test
-  public void testToStatus() {
+  void testToStatus() {
     final String target = "target";
     final LocalDateTime timestamp = LocalDateTime.now();
     UtlatandeStatus source = buildStatus(target, StatusType.DELETED, timestamp);

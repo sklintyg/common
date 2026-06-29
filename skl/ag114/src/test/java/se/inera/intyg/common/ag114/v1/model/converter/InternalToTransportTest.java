@@ -18,18 +18,18 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -67,7 +67,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
       UnitMapperUtil.class,
       InternalConverterUtil.class
     })
-public class InternalToTransportTest {
+class InternalToTransportTest {
 
   private WebcertModuleService webcertModuleService;
 
@@ -88,7 +88,7 @@ public class InternalToTransportTest {
   }
 
   @BeforeEach
-  public void setup() {
+  void setup() {
     webcertModuleService = Mockito.mock(WebcertModuleService.class);
     when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(anyString())).thenReturn(true);
@@ -124,9 +124,9 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void doSchematronValidationAg114() throws Exception {
+  void doSchematronValidationAg114() throws Exception {
     String xmlContents =
-        Resources.toString(getResource("v1/transport/ag114-2.xml"), Charsets.UTF_8);
+        Resources.toString(getResource("v1/transport/ag114-2.xml"), StandardCharsets.UTF_8);
 
     RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
     assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -135,13 +135,13 @@ public class InternalToTransportTest {
     ValidateXmlResponse response = XmlValidator.validate(validator, xmlContents);
 
     assertEquals(
-        response.getValidationErrors().stream().collect(Collectors.joining(", ")),
         0,
-        response.getValidationErrors().size());
+        response.getValidationErrors().size(),
+        response.getValidationErrors().stream().collect(Collectors.joining(", ")));
   }
 
   @Test
-  public void testInternalToTransportConversion() throws Exception {
+  void testInternalToTransportConversion() throws Exception {
     Ag114UtlatandeV1 expected = getUtlatande();
     RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
     Ag114UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
@@ -150,13 +150,13 @@ public class InternalToTransportTest {
   }
 
   @Test
-  public void testInternalToTransportSourceNull() throws Exception {
+  void testInternalToTransportSourceNull() {
     assertThrows(
         ConverterException.class, () -> InternalToTransport.convert(null, webcertModuleService));
   }
 
   @Test
-  public void convertDecorateSvarPaNoRelationTest() throws Exception {
+  void convertDecorateSvarPaNoRelationTest() throws Exception {
     Ag114UtlatandeV1 utlatande = getUtlatande();
     RegisterCertificateType transport =
         InternalToTransport.convert(utlatande, webcertModuleService);

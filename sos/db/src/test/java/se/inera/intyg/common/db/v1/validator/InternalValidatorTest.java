@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -31,12 +31,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.db.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
@@ -46,8 +46,8 @@ import se.inera.intyg.common.support.modules.support.facade.TypeAheadEnum;
 import se.inera.intyg.common.support.modules.support.facade.TypeAheadProvider;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalValidatorTest {
+@ExtendWith(MockitoExtension.class)
+class InternalValidatorTest {
 
   @Mock private TypeAheadProvider typeAheadProvider;
 
@@ -80,14 +80,14 @@ public class InternalValidatorTest {
     return utlatande;
   }
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     when(typeAheadProvider.getValues(TypeAheadEnum.MUNICIPALITIES))
         .thenReturn(List.of("kommun", "NACKA", "sdf"));
   }
 
   @Test
-  public void testValidateUtkast() throws ScenarioNotFoundException {
+  void testValidateUtkast() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupUtlatandeDates(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
     ValidateDraftResponse internalValidationResponse =
@@ -96,7 +96,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR1() throws ScenarioNotFoundException {
+  void testR1() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-R1").asInternalModel();
     internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
@@ -117,7 +117,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR2() throws ScenarioNotFoundException {
+  void testR2() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R2").asInternalModel();
     internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
@@ -140,7 +140,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR3() throws ScenarioNotFoundException {
+  void testR3() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupUtlatandeDates(ScenarioFinder.getInternalScenario("fail-R3").asInternalModel());
     ValidateDraftResponse internalValidationResponse =
@@ -163,7 +163,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR3_1() throws ScenarioNotFoundException {
+  void testR3_1() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R3-1").asInternalModel();
     internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getUndersokningDatum(), 4);
@@ -187,7 +187,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR3_2() throws ScenarioNotFoundException {
+  void testR3_2() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
     internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
@@ -213,7 +213,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR3_4() throws ScenarioNotFoundException {
+  void testR3_4() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R3-4").asInternalModel();
     internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getDodsdatum(), 3);
@@ -235,7 +235,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR5_1() throws ScenarioNotFoundException {
+  void testR5_1() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupUtlatandeDates(ScenarioFinder.getInternalScenario("fail-R5-1").asInternalModel());
     ValidateDraftResponse internalValidationResponse =
@@ -254,7 +254,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR5_2() throws ScenarioNotFoundException {
+  void testR5_2() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupUtlatandeDates(ScenarioFinder.getInternalScenario("fail-R5-2").asInternalModel());
     ValidateDraftResponse internalValidationResponse =
@@ -273,7 +273,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR7() throws ScenarioNotFoundException {
+  void testR7() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-R7").asInternalModel();
     internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
@@ -294,7 +294,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR7_2() throws ScenarioNotFoundException {
+  void testR7_2() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-R7-2").asInternalModel();
     internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
@@ -319,7 +319,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR7_3() throws ScenarioNotFoundException {
+  void testR7_3() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R7-3").asInternalModel();
     internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getUndersokningDatum(), 1);
@@ -343,7 +343,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR7_4() throws ScenarioNotFoundException {
+  void testR7_4() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R7-4").asInternalModel();
     LocalDate antraffatDatum = LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 3);
@@ -375,7 +375,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR7_5() throws ScenarioNotFoundException {
+  void testR7_5() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("validation-fail-R7-5").asInternalModel();
     internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getDodsdatum(), 0);
@@ -399,7 +399,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR19() throws ScenarioNotFoundException {
+  void testR19() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         ScenarioFinder.getInternalScenario("fail-R19").asInternalModel();
     internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
@@ -420,7 +420,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR20_1() throws ScenarioNotFoundException {
+  void testR20_1() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel(), 29);
@@ -438,7 +438,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR20_2() throws ScenarioNotFoundException {
+  void testR20_2() throws ScenarioNotFoundException {
     DbUtlatandeV1 utlatandeFromJson =
         setupBarnSomAvliditDates(
             ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel(), 10);
@@ -456,7 +456,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR20_3() throws ScenarioNotFoundException {
+  void testR20_3() throws ScenarioNotFoundException {
     // Same as R20_1 but with samordningsnummer
     DbUtlatandeV1 utlatandeFromJson =
         setupBarnSomAvliditDates(
@@ -475,7 +475,7 @@ public class InternalValidatorTest {
   }
 
   @Test
-  public void testR20_4() throws ScenarioNotFoundException {
+  void testR20_4() throws ScenarioNotFoundException {
     // Same as R20_2 but with samordningsnummer
     DbUtlatandeV1 utlatandeFromJson =
         setupBarnSomAvliditDates(

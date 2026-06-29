@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.facade.model.user;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
@@ -27,6 +25,8 @@ import lombok.Value;
 import se.inera.intyg.common.support.facade.model.CareProvider;
 import se.inera.intyg.common.support.facade.model.metadata.Unit;
 import se.inera.intyg.common.support.facade.model.user.User.UserBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
 
 @JsonDeserialize(builder = UserBuilder.class)
 @Value

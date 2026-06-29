@@ -18,28 +18,31 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
-@RunWith(MockitoJUnitRunner.class)
-public class InternalToTransportUtilTest {
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
+class InternalToTransportUtilTest {
 
   private static final String DIAGNOSIS_CODE_S666 = "S666";
   private static final String DIAGNOSIS_CODE_Z731 = "Z731";
@@ -50,8 +53,8 @@ public class InternalToTransportUtilTest {
 
   @Mock private WebcertModuleService webcertModuleService;
 
-  @Before
-  public void setup() {
+  @BeforeEach
+  void setup() {
     when(webcertModuleService.validateDiagnosisCode(eq(DIAGNOSIS_CODE_S666), anyString()))
         .thenReturn(true);
     when(webcertModuleService.validateDiagnosisCodeFormat(DIAGNOSIS_CODE_S666)).thenReturn(true);
@@ -72,7 +75,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTest() throws Exception {
+  void handleDiagnosSvarTest() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -132,7 +135,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTwoDiagnoses() throws Exception {
+  void handleDiagnosSvarTwoDiagnoses() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -177,7 +180,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarOneDiagnosis() throws Exception {
+  void handleDiagnosSvarOneDiagnosis() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =
@@ -207,7 +210,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarKSH97P() throws Exception {
+  void handleDiagnosSvarKSH97P() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_A00DASH;
     final String diagnosKodSystem1 = "KSH_97_P";
     final String diagnosBeskrivning1 = "Kolera";
@@ -236,7 +239,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarEmpty() {
+  void handleDiagnosSvarEmpty() {
     List<Svar> res = new ArrayList<>();
     List<Diagnos> internal = new ArrayList<>();
 
@@ -246,7 +249,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarInvalidDiagnose() {
+  void handleDiagnosSvarInvalidDiagnose() {
     final String diagnosKod1 = DIAGNOSIS_CODE_INVALID;
     final String diagnosKodSystem1 = "KSH_97_P";
     final String diagnosBeskrivning1 = "Kolera";
@@ -263,7 +266,7 @@ public class InternalToTransportUtilTest {
   }
 
   @Test
-  public void handleDiagnosSvarTwoDiagnosesOneInvalid() throws Exception {
+  void handleDiagnosSvarTwoDiagnosesOneInvalid() throws Exception {
     final String diagnosKod1 = DIAGNOSIS_CODE_S666;
     final String diagnosKodSystem1 = "ICD_10_SE";
     final String diagnosBeskrivning1 =

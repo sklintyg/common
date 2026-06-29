@@ -29,11 +29,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,6 +79,8 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * @author andreaskaltenbach
@@ -87,7 +88,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 @ExtendWith({MockitoExtension.class, SpringExtension.class})
 @ContextConfiguration(
     classes = {UnitMappingConfigLoader.class, UnitMapperUtil.class, InternalConverterUtil.class})
-public class Fk7263ModuleApiTest {
+class Fk7263ModuleApiTest {
 
   public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
   public static final String TESTFILE_UTLATANDE_MINIMAL =
@@ -220,7 +221,8 @@ public class Fk7263ModuleApiTest {
   void testSendCertificateWhenRecipientIsOtherThanFk() throws Exception {
     final var xml =
         marshall(
-            Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+            Resources.toString(
+                new ClassPathResource(TESTFILE_UTLATANDE).getURL(), StandardCharsets.UTF_8));
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
 
@@ -241,7 +243,8 @@ public class Fk7263ModuleApiTest {
   void testSendFullCertificateWhenRecipientIsFk() throws Exception {
     final var xml =
         marshall(
-            Resources.toString(new ClassPathResource(TESTFILE_UTLATANDE).getURL(), Charsets.UTF_8));
+            Resources.toString(
+                new ClassPathResource(TESTFILE_UTLATANDE).getURL(), StandardCharsets.UTF_8));
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
 
@@ -263,7 +266,8 @@ public class Fk7263ModuleApiTest {
     final var xml =
         marshall(
             Resources.toString(
-                new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8));
+                new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(),
+                StandardCharsets.UTF_8));
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
@@ -448,7 +452,7 @@ public class Fk7263ModuleApiTest {
   void testRegisterCertificateAlreadyExists() throws Exception {
     final var json =
         Resources.toString(
-            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
+            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), StandardCharsets.UTF_8);
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
@@ -476,7 +480,7 @@ public class Fk7263ModuleApiTest {
   void testRegisterCertificateGenericInfoResult() throws Exception {
     final var json =
         Resources.toString(
-            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), Charsets.UTF_8);
+            new ClassPathResource(TESTFILE_UTLATANDE_MINIMAL).getURL(), StandardCharsets.UTF_8);
 
     final var address = new AttributedURIType();
     address.setValue("logicalAddress");
@@ -563,7 +567,7 @@ public class Fk7263ModuleApiTest {
     final var writer = new StringWriter();
     try {
       objectMapper.writeValue(writer, utlatande);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new ModuleException("Failed to serialize internal model", e);
     }
     return writer.toString();
