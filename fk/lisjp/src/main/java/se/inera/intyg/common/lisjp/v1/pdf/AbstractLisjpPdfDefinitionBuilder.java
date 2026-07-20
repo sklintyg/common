@@ -920,7 +920,16 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     if (!Strings.nullToEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
       ovrigt
           .append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
-          .append(intyg.getMotiveringTillInteBaseratPaUndersokning());
+          .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
+          .append("\n\n");
+    }
+
+    if (!Strings.nullToEmpty(intyg.getMotiveringTillTidigtStartdatumForSjukskrivning())
+        .trim()
+        .isEmpty()) {
+      ovrigt
+          .append("Orsak för att starta perioden mer än 7 dagar bakåt i tiden: ")
+          .append(intyg.getMotiveringTillTidigtStartdatumForSjukskrivning());
     }
 
     // OBS: Övrigt fältet skall behålla radbytformattering eftersom detta kan vara sammanslaget med
