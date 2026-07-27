@@ -23,8 +23,7 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import com.google.common.base.Strings;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -173,7 +172,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   }
 
   @Override
-  public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
+  public boolean shouldNotify(String persistedState, String currentState) {
     return true;
   }
 
@@ -250,13 +249,13 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   }
 
   @Override
-  public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
+  public Utlatande getUtlatandeFromJson(String utlatandeJson) {
     return objectMapper.readValue(utlatandeJson, type);
   }
 
   @Override
   public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     return getInternal(utlatandeJson, created);
   }
 
@@ -282,7 +281,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   }
 
   @Override
-  public String transformToStatisticsService(String inputXml) throws ModuleException {
+  public String transformToStatisticsService(String inputXml) {
     return inputXml;
   }
 
@@ -331,7 +330,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
       return jsonModel;
     }
     String base64EncodedSignatureXml =
-        Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        Base64.getEncoder().encodeToString(signatureXml.getBytes(StandardCharsets.UTF_8));
     return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
   }
 
@@ -355,7 +354,6 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     try {
       return objectMapper.readValue(internalModel, type);
     } catch (JacksonException e) {
-      e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -364,7 +362,6 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     try {
       return objectMapper.readValue(internalModel, type);
     } catch (JacksonException e) {
-      e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -471,14 +468,14 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
   @Override
   public Certificate getCertificateFromJson(
       String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     throw new UnsupportedOperationException();
   }
 
   @Override
   public String getJsonFromCertificate(
       Certificate certificate, String certificateAsJson, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     throw new UnsupportedOperationException();
   }
 
