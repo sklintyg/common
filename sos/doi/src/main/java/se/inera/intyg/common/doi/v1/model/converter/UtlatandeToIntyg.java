@@ -153,11 +153,13 @@ public final class UtlatandeToIntyg {
     // Svar 10
     if (utlatande.getBidragandeSjukdomar() != null
         && !utlatande.getBidragandeSjukdomar().isEmpty()) {
+      int bidragandeSjukdomInstans = 1;
       for (Dodsorsak bidragandeSjukdom : utlatande.getBidragandeSjukdomar()) {
         if (bidragandeSjukdom.getBeskrivning() != null
             || bidragandeSjukdom.getDatum() != null
             || bidragandeSjukdom.getSpecifikation() != null) {
-          InternalConverterUtil.SvarBuilder sjukdomSvar = aSvar(BIDRAGANDE_SJUKDOM_SVAR_ID);
+          InternalConverterUtil.SvarBuilder sjukdomSvar =
+              aSvar(BIDRAGANDE_SJUKDOM_SVAR_ID, bidragandeSjukdomInstans++);
           if (bidragandeSjukdom.getBeskrivning() != null) {
             sjukdomSvar.withDelsvar(
                 BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
@@ -245,9 +247,10 @@ public final class UtlatandeToIntyg {
 
     // Svar 13
     if (utlatande.getGrunder() != null && !utlatande.getGrunder().isEmpty()) {
+      int grundInstans = 1;
       for (Dodsorsaksgrund grund : utlatande.getGrunder()) {
         svar.add(
-            aSvar(GRUNDER_SVAR_ID)
+            aSvar(GRUNDER_SVAR_ID, grundInstans++)
                 .withDelsvar(
                     GRUNDER_DELSVAR_ID,
                     aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))

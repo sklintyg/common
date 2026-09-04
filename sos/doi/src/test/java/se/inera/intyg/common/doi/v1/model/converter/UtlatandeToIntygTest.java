@@ -274,6 +274,7 @@ class UtlatandeToIntygTest {
           }
           break;
         case BIDRAGANDE_SJUKDOM_SVAR_ID:
+          assertEquals(1, svar.getInstans());
           for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
               case BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID:
@@ -335,6 +336,7 @@ class UtlatandeToIntygTest {
           }
           break;
         case GRUNDER_SVAR_ID:
+          assertEquals(1, svar.getInstans());
           assertEquals(1, svar.getDelsvar().size());
           assertEquals(GRUNDER_DELSVAR_ID, svar.getDelsvar().get(0).getId());
           assertEquals(
