@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_diabetes.v3.testability;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.EnumSet;
 import se.inera.intyg.common.support.facade.util.TestabilityUtlatandeTestDataProvider;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -46,8 +47,10 @@ public class TsDiabetesV3TestabilityTestDataProvider
         .setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.PASS))
         .setAllmant(
             Allmant.builder()
-                .setDiabetesDiagnosAr(String.valueOf(LocalDate.now()))
-                .setTypAvDiabetes(KvTypAvDiabetes.TYP1)
+                .setDiabetesDiagnosAr(
+                    String.valueOf(LocalDate.now(ZoneId.systemDefault()).minusYears(2).getYear()))
+                .setTypAvDiabetes(KvTypAvDiabetes.TYP2)
+                .setBehandling(Behandling.builder().setEndastKost(true).build())
                 .build())
         .setSynfunktion(
             Synfunktion.builder()
@@ -90,14 +93,17 @@ public class TsDiabetesV3TestabilityTestDataProvider
         .setIdentitetStyrktGenom(IdKontroll.create(KvIdKontroll.PASS))
         .setAllmant(
             Allmant.builder()
-                .setDiabetesDiagnosAr(String.valueOf(LocalDate.now()))
+                .setDiabetesDiagnosAr(
+                    String.valueOf(LocalDate.now(ZoneId.systemDefault()).minusYears(2).getYear()))
                 .setTypAvDiabetes(KvTypAvDiabetes.ANNAN)
                 .setBeskrivningAnnanTypAvDiabetes("Annan typ av diabetes")
                 .setBehandling(
                     Behandling.builder()
                         .setEndastKost(true)
                         .setInsulin(true)
-                        .setInsulinSedanAr(String.valueOf(LocalDate.now()))
+                        .setInsulinSedanAr(
+                            String.valueOf(
+                                LocalDate.now(ZoneId.systemDefault()).minusYears(2).getYear()))
                         .setTabletter(true)
                         .setAnnanBehandling(true)
                         .setAnnanBehandlingBeskrivning("Annan behandling beskrivning")
@@ -111,11 +117,12 @@ public class TsDiabetesV3TestabilityTestDataProvider
                 .setSjukdomenUnderKontroll(true)
                 .setFormagaVarningstecken(true)
                 .setAterkommandeSenasteAret(true)
-                .setAterkommandeSenasteTidpunkt(new InternalDate(LocalDate.now()))
+                .setAterkommandeSenasteTidpunkt(
+                    new InternalDate(LocalDate.now(ZoneId.systemDefault())))
                 .setForekomstTrafik(true)
-                .setForekomstTrafikTidpunkt(new InternalDate(LocalDate.now()))
+                .setForekomstTrafikTidpunkt(new InternalDate(LocalDate.now(ZoneId.systemDefault())))
                 .setAterkommandeSenasteKvartalet(true)
-                .setSenasteTidpunktVaken(new InternalDate(LocalDate.now()))
+                .setSenasteTidpunktVaken(new InternalDate(LocalDate.now(ZoneId.systemDefault())))
                 .build())
         .setSynfunktion(
             Synfunktion.builder()
@@ -126,7 +133,7 @@ public class TsDiabetesV3TestabilityTestDataProvider
                 .setVanster(
                     Synskarpevarden.builder().setMedKorrektion(1.0).setUtanKorrektion(1.0).build())
                 .setMisstankeOgonsjukdom(true)
-                .setSkickasSeparat(true)
+                .setSkickasSeparat(false)
                 .build())
         .setOvrigt("Övrigt")
         .setBedomning(
@@ -142,7 +149,6 @@ public class TsDiabetesV3TestabilityTestDataProvider
                         BedomningKorkortstyp.VAR6,
                         BedomningKorkortstyp.VAR7,
                         BedomningKorkortstyp.VAR8,
-                        BedomningKorkortstyp.VAR11,
                         BedomningKorkortstyp.VAR12,
                         BedomningKorkortstyp.VAR13,
                         BedomningKorkortstyp.VAR14))

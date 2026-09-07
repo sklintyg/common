@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_diabetes.v2.testability;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import se.inera.intyg.common.support.facade.util.TestabilityUtlatandeTestDataProvider;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
@@ -36,7 +37,9 @@ public class TsDiabetesV2TestabilityTestDataProvider
     utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1E);
     utlatande.setVardkontakt(new Vardkontakt());
     utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
-    utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
+    utlatande
+        .getDiabetes()
+        .setObservationsperiod(String.valueOf(LocalDate.now(ZoneId.systemDefault()).getYear()));
     utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_1.name());
     utlatande.getDiabetes().setTabletter(true);
 
@@ -76,12 +79,17 @@ public class TsDiabetesV2TestabilityTestDataProvider
     utlatande.setVardkontakt(new Vardkontakt());
     utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.KORKORT.name());
 
-    utlatande.getDiabetes().setObservationsperiod(String.valueOf(LocalDate.now()));
+    utlatande
+        .getDiabetes()
+        .setObservationsperiod(String.valueOf(LocalDate.now(ZoneId.systemDefault()).getYear()));
     utlatande.getDiabetes().setDiabetestyp(DiabetesKod.DIABETES_TYP_2.name());
     utlatande.getDiabetes().setInsulin(true);
     utlatande.getDiabetes().setEndastKost(true);
     utlatande.getDiabetes().setTabletter(true);
-    utlatande.getDiabetes().setInsulinBehandlingsperiod("insulin behandling period");
+    utlatande
+        .getDiabetes()
+        .setInsulinBehandlingsperiod(
+            String.valueOf(LocalDate.now(ZoneId.systemDefault()).minusYears(2).getYear()));
     utlatande.getDiabetes().setAnnanBehandlingBeskrivning("annan behandling beskrivning");
 
     utlatande.getHypoglykemier().setKunskapOmAtgarder(true);
@@ -97,7 +105,8 @@ public class TsDiabetesV2TestabilityTestDataProvider
     utlatande.getHypoglykemier().setAllvarligForekomstVakenTid(true);
     utlatande
         .getHypoglykemier()
-        .setAllvarligForekomstVakenTidObservationstid(new InternalDate(LocalDate.now()));
+        .setAllvarligForekomstVakenTidObservationstid(
+            new InternalDate(LocalDate.now(ZoneId.systemDefault())));
 
     utlatande.getSyn().setSeparatOgonlakarintyg(false);
     utlatande.getSyn().setSynfaltsprovningUtanAnmarkning(true);
