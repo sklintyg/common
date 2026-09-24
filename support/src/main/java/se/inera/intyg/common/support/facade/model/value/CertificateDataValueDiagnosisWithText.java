@@ -18,33 +18,25 @@
  */
 package se.inera.intyg.common.support.facade.model.value;
 
-public enum CertificateDataValueType {
-  BOOLEAN,
-  TEXT,
-  DATE,
-  DATE_LIST,
-  DATE_RANGE,
-  DATE_RANGE_LIST,
-  CODE_LIST,
-  CODE,
-  DIAGNOSIS_LIST,
-  DIAGNOSIS,
-  ICF,
-  UNKOWN,
-  UNCERTAIN_DATE,
-  CAUSE_OF_DEATH_LIST,
-  MEDICAL_INVESTIGATION_LIST,
-  MEDICAL_INVESTIGATION,
-  VISUAL_ACUITIES,
-  DOUBLE,
-  VISUAL_ACUITY,
-  VIEW_TEXT,
-  VIEW_LIST,
-  VIEW_TABLE,
-  VIEW_ROW,
-  YEAR,
-  INTEGER,
-  CAUSE_OF_DEATH,
-  DIAGNOSIS_WITH_TEXT_LIST,
-  DIAGNOSIS_WITH_TEXT
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Value;
+import se.inera.intyg.common.support.facade.model.value.CertificateDataValueDiagnosisWithText.CertificateDataValueDiagnosisWithTextBuilder;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = CertificateDataValueDiagnosisWithTextBuilder.class)
+@Value
+@Builder
+public class CertificateDataValueDiagnosisWithText implements CertificateDataValue {
+
+  @Getter(onMethod = @__(@Override))
+  CertificateDataValueType type = CertificateDataValueType.DIAGNOSIS_WITH_TEXT;
+
+  String id;
+  CertificateDataValueDiagnosis diagnosis;
+  CertificateDataValueText text;
+
+  @JsonPOJOBuilder(withPrefix = "")
+  public static class CertificateDataValueDiagnosisWithTextBuilder {}
 }
