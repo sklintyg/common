@@ -24,8 +24,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import com.google.common.base.Strings;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collections;
@@ -121,7 +120,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
   /** {@inheritDoc} */
   @Override
-  public ValidateDraftResponse validateDraft(String internalModel) throws ModuleException {
+  public ValidateDraftResponse validateDraft(String internalModel) {
     throw new UnsupportedOperationException("Not supported, use function with TypeaheadProvider.");
   }
 
@@ -183,7 +182,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
   }
 
   @Override
-  public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
+  public boolean shouldNotify(String persistedState, String currentState) {
     return true;
   }
 
@@ -284,13 +283,13 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
   }
 
   @Override
-  public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
+  public Utlatande getUtlatandeFromJson(String utlatandeJson) {
     return objectMapper.readValue(utlatandeJson, type);
   }
 
   @Override
   public Utlatande getUtlatandeFromJson(String utlatandeJson, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     return getInternal(utlatandeJson, created);
   }
 
@@ -316,7 +315,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
   }
 
   @Override
-  public String transformToStatisticsService(String inputXml) throws ModuleException {
+  public String transformToStatisticsService(String inputXml) {
     return inputXml;
   }
 
@@ -362,7 +361,7 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
       return jsonModel;
     }
     String base64EncodedSignatureXml =
-        Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        Base64.getEncoder().encodeToString(signatureXml.getBytes(StandardCharsets.UTF_8));
     return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
   }
 
@@ -399,7 +398,6 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     try {
       return objectMapper.readValue(internalModel, type);
     } catch (JacksonException e) {
-      e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -408,7 +406,6 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     try {
       return objectMapper.readValue(internalModel, type);
     } catch (JacksonException e) {
-      e.printStackTrace(); // We need to see the cause
       throw new ModuleSystemException("Failed to deserialize internal model", e);
     }
   }
@@ -515,14 +512,14 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
   @Override
   public Certificate getCertificateFromJson(
       String certificateAsJson, TypeAheadProvider typeAheadProvider, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     throw new UnsupportedOperationException();
   }
 
   @Override
   public String getJsonFromCertificate(
       Certificate certificate, String certificateAsJson, LocalDateTime created)
-      throws ModuleException, IOException {
+      throws ModuleException {
     throw new UnsupportedOperationException();
   }
 

@@ -22,3 +22,7 @@ typings.json
 web/yarn.lock
 yarn.lock
 out
+# BEGIN ai-resources synced (auto-generated, do not edit) ###
+/.github/copilot-instructions.md
+/.github/skills/caveman/
+# END ai-resources synced ###
