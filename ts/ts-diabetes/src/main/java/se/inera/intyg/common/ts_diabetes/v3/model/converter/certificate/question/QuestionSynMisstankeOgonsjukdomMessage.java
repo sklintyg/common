@@ -45,7 +45,7 @@ public class QuestionSynMisstankeOgonsjukdomMessage {
                 .message(
                     Message.builder()
                         .content(textProvider.get(SYN_VARDEN_MISSTANKE_OGONSJUKDOM_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .build();

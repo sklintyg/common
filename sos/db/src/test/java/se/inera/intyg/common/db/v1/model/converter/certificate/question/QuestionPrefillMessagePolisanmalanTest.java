@@ -99,7 +99,7 @@ class QuestionPrefillMessagePolisanmalanTest {
     void shouldIncludeConfigLevelInfo() {
       final var question = QuestionPrefillMessagePolisanmalan.toCertificate(0, texts);
       final var config = (CertificateDataConfigMessage) question.getConfig();
-      assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
+      assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
     }
 
     @Nested

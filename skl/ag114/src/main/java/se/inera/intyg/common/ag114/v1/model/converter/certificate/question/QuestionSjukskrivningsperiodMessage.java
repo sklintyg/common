@@ -56,7 +56,7 @@ public class QuestionSjukskrivningsperiodMessage {
                 .message(
                     Message.builder()
                         .content(textProvider.get(SJUKSKRIVNINGSGRAD_PERIOD_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .validation(

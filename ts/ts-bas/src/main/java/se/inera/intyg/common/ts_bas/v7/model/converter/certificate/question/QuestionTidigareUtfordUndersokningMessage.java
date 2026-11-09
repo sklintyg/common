@@ -41,7 +41,7 @@ public class QuestionTidigareUtfordUndersokningMessage {
                 .message(
                     Message.builder()
                         .content(texts.get(TIDIGARE_UTFORD_UNDERSOKNING_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.OBSERVE)
+                        .level(MessageLevel.INFO)
                         .build())
                 .build())
         .build();

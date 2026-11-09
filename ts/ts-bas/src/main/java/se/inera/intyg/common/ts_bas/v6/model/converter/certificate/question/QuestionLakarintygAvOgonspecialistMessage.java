@@ -43,7 +43,7 @@ public class QuestionLakarintygAvOgonspecialistMessage {
                 .message(
                     Message.builder()
                         .content(texts.get(LAKARINTYG_AV_OGONSPECIALIST_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .build();

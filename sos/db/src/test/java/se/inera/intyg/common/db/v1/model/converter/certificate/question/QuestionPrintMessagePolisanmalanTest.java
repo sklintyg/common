@@ -102,7 +102,7 @@ class QuestionPrintMessagePolisanmalanTest {
     void shouldIncludeConfigLevelInfo() {
       final var question = QuestionPrintMessagePolisanmalan.toCertificate(null, 0, texts);
       final var config = (CertificateDataConfigMessage) question.getConfig();
-      assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
+      assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
     }
 
     @Nested

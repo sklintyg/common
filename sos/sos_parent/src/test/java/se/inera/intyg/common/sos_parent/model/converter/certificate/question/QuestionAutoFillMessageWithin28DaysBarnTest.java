@@ -108,7 +108,7 @@ class QuestionAutoFillMessageWithin28DaysBarnTest {
       final var question =
           QuestionAutoFillMessageWithin28DaysBarn.toCertificate(personId, 0, texts);
       final var config = (CertificateDataConfigMessage) question.getConfig();
-      assertEquals(MessageLevel.OBSERVE, config.getMessage().getLevel());
+      assertEquals(MessageLevel.INFO, config.getMessage().getLevel());
     }
 
     @Nested

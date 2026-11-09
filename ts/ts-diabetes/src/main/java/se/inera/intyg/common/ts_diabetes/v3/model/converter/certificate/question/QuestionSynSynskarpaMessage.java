@@ -43,7 +43,7 @@ public class QuestionSynSynskarpaMessage {
                 .message(
                     Message.builder()
                         .content(textProvider.get(SYN_VARDEN_SYNSKARPA_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.OBSERVE)
+                        .level(MessageLevel.INFO)
                         .build())
                 .build())
         .build();

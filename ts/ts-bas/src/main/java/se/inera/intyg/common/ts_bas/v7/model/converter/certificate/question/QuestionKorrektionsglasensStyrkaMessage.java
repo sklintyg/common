@@ -50,7 +50,7 @@ public class QuestionKorrektionsglasensStyrkaMessage {
                     Message.builder()
                         .content(
                             texts.get(UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .validation(

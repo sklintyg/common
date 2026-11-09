@@ -46,7 +46,7 @@ public class QuestionPrefillMessagePolisanmalan {
                 .message(
                     Message.builder()
                         .content(texts.get(POLISANMALAN_PREFILL_MESSAGE_ID))
-                        .level(MessageLevel.OBSERVE)
+                        .level(MessageLevel.INFO)
                         .build())
                 .build())
         .validation(

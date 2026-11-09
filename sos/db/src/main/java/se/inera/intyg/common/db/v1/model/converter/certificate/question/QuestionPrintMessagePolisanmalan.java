@@ -47,7 +47,7 @@ public class QuestionPrintMessagePolisanmalan {
                 .message(
                     Message.builder()
                         .content(texts.get(POLISANMALAN_PRINT_MESSAGE_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .validation(

@@ -49,7 +49,7 @@ public class QuestionTablettEllerInsulinMessage {
                 .message(
                     Message.builder()
                         .content(textProvider.get(INSULIN_ELLER_TABLETT_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .validation(

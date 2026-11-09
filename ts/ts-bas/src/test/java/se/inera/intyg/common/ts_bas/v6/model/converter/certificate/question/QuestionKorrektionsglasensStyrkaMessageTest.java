@@ -83,7 +83,7 @@ class QuestionKorrektionsglasensStyrkaMessageTest {
 
     @Override
     protected MessageLevel getMessageLevel() {
-      return MessageLevel.INFO;
+      return MessageLevel.OBSERVE;
     }
 
     @Override

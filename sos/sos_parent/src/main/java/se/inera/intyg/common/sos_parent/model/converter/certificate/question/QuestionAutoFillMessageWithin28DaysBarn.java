@@ -53,7 +53,7 @@ public class QuestionAutoFillMessageWithin28DaysBarn {
                 .message(
                     Message.builder()
                         .content(texts.get(BARN_AUTO_FILL_WITHIN_MESSAGE_ID))
-                        .level(MessageLevel.OBSERVE)
+                        .level(MessageLevel.INFO)
                         .build())
                 .build())
         .validation(

@@ -80,7 +80,7 @@ class QuestionSynSynskarpaMessageTest {
 
     @Override
     protected MessageLevel getMessageLevel() {
-      return MessageLevel.OBSERVE;
+      return MessageLevel.INFO;
     }
 
     @Override

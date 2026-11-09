@@ -105,7 +105,7 @@ class QuestionLakarintygAvOgonspecialistMessageTest {
 
     @Override
     protected MessageLevel getMessageLevel() {
-      return MessageLevel.INFO;
+      return MessageLevel.OBSERVE;
     }
 
     @Override

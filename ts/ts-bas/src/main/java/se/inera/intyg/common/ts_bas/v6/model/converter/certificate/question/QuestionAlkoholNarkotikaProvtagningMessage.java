@@ -43,7 +43,7 @@ public class QuestionAlkoholNarkotikaProvtagningMessage {
                 .message(
                     Message.builder()
                         .content(texts.get(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_MESSAGE_TEXT_ID))
-                        .level(MessageLevel.INFO)
+                        .level(MessageLevel.OBSERVE)
                         .build())
                 .build())
         .build();
