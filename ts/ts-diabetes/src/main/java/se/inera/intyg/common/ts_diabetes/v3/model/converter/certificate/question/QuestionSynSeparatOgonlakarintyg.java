@@ -21,7 +21,7 @@ package se.inera.intyg.common.ts_diabetes.v3.model.converter.certificate.questio
 import static se.inera.intyg.common.support.facade.util.ViewTextToolkit.booleanValue;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_UTAN_ANMARKNING_SVAR_ID;
 
 import se.inera.intyg.common.services.texts.CertificateTextProvider;
 import se.inera.intyg.common.support.facade.model.CertificateDataElement;
@@ -36,7 +36,7 @@ public class QuestionSynSeparatOgonlakarintyg {
     final var skickasSeparat = synfunktion != null ? synfunktion.getSkickasSeparat() : null;
     return CertificateDataElement.builder()
         .id(SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID)
-        .parent(SYN_VARDEN_SYNSKARPA_MESSAGE_ID)
+        .parent(SYN_UTAN_ANMARKNING_SVAR_ID)
         .index(index)
         .config(
             CertificateDataConfigViewText.builder()
