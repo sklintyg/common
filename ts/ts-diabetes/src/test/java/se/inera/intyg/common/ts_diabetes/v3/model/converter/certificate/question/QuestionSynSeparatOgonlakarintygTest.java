@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_SEPARAT_OGONLAKARINTYG_SVAR_TEXT_ID;
-import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYN_UTAN_ANMARKNING_SVAR_ID;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ class QuestionSynSeparatOgonlakarintygTest {
 
     @Override
     protected String getParent() {
-      return SYN_VARDEN_SYNSKARPA_MESSAGE_ID;
+      return SYN_UTAN_ANMARKNING_SVAR_ID;
     }
 
     @Override
