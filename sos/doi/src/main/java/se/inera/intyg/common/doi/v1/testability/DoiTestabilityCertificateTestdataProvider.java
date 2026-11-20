@@ -88,7 +88,7 @@ public class DoiTestabilityCertificateTestdataProvider
 
   private static final String DESCRIPTION_ID = "description";
   private static final String DEBUT_ID = "debut";
-  private final String kommun = "Östersund";
+  private final String kommun = "ÖSTERSUND";
   private final String identitetStyrktText = "Körkort";
 
   @Override
@@ -158,7 +158,7 @@ public class DoiTestabilityCertificateTestdataProvider
     values.put(DODSDATUM_OSAKERT_DELSVAR_ID, osakertDatum);
 
     final var antraffadDod =
-        getDataValueDate(ANTRAFFAT_DOD_DATUM_JSON_ID, LocalDate.now().minusDays(10));
+        getDataValueDate(ANTRAFFAT_DOD_DATUM_JSON_ID, LocalDate.now());
     values.put(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, antraffadDod);
 
     final var dodsplatsKommun = getDataValueText(DODSPLATS_KOMMUN_JSON_ID, kommun);
