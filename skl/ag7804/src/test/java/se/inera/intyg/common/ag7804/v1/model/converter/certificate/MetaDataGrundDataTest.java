@@ -100,6 +100,13 @@ class MetaDataGrundDataTest {
       }
 
       @Test
+      void shouldIncludeCertificateTypeName() {
+        final var certificate = InternalToCertificate.convert(internalCertificate, texts);
+
+        assertEquals(Ag7804EntryPoint.ISSUER_TYPE_ID, certificate.getMetadata().getTypeName());
+      }
+
+      @Test
       void shouldIncludeCertificateTypeVersion() {
         final var certificate = InternalToCertificate.convert(internalCertificate, texts);
 
