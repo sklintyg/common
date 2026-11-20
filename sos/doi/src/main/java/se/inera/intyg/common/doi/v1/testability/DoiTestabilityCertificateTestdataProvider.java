@@ -157,8 +157,7 @@ public class DoiTestabilityCertificateTestdataProvider
         getDataUncertainDateValue(DODSDATUM_JSON_ID, LocalDate.now().toString());
     values.put(DODSDATUM_OSAKERT_DELSVAR_ID, osakertDatum);
 
-    final var antraffadDod =
-        getDataValueDate(ANTRAFFAT_DOD_DATUM_JSON_ID, LocalDate.now());
+    final var antraffadDod = getDataValueDate(ANTRAFFAT_DOD_DATUM_JSON_ID, LocalDate.now());
     values.put(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, antraffadDod);
 
     final var dodsplatsKommun = getDataValueText(DODSPLATS_KOMMUN_JSON_ID, kommun);
