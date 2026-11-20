@@ -38,6 +38,7 @@ public class MetaDataGrundData {
     return CertificateMetadata.builder()
         .id(internalCertificate.getId())
         .type(internalCertificate.getTyp())
+        .typeName(Ag7804EntryPoint.ISSUER_TYPE_ID)
         .typeVersion(internalCertificate.getTextVersion())
         .name(Ag7804EntryPoint.MODULE_NAME)
         .description(texts.get(DESCRIPTION))
